@@ -1,0 +1,51 @@
+- region "Room admission for AC Spirit Flare":
+  - region "Execution compatibility":
+    - status: Partially automated
+    - paragraph: Prism runs the parts listed below. The rest is yours or the GM's to play.
+    - paragraph: Prism runs
+    - list:
+      - listitem: Spirited (Spirit +2) · For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted)
+      - listitem: "Cooldown: 1 strictly upcoming caster-turn start. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it."
+      - listitem: "Price: 1 AP, 2 mana"
+      - listitem: "Target: one creature, range 30 ft (any)"
+    - paragraph: Still confirmed by people
+    - list:
+      - listitem: The owner approves the exact price, target and roll before anything is applied.
+      - listitem: The GM confirms success and any final amount.
+    - paragraph: Played by hand
+    - list:
+      - listitem: "Ending the effect: expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted) (authored duration: For 3 turn ends). This needs active authenticated turn tracking with the target in the combat roster; without it the GM's confirmation of the cast is refused and nothing is spent (it never falls back to GM removal)."
+    - group: Authored sections kept in this spell (2)
+    - paragraph: What to do
+    - list:
+      - listitem: Use "Admit this saved version" below, then cast from the action bar. Changing the spell later needs a new admission.
+    - paragraph: "This is a structural check only, against the same rules the server applies. It does not grant admission and does not say you can cast it now: the GM's room admission, your ownership, your current resources and the chosen target are checked when you cast."
+  - status: Admitted for Spirited (Spirit +2) · For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted) · version 1. The installed version is immutable.
+  - status: Admission accepted · admitted live-only. Editing this library copy needs explicit new admission.
+  - paragraph: "Spirited (Spirit +2) · For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted). Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount. Structured expiry needs active authenticated turn tracking."
+  - text: Existing class binding
+  - combobox "Existing class binding":
+    - option "arcanoneer" [selected]
+    - option "berserker"
+    - option "shaper"
+    - option "harbinger"
+    - option "chronarch"
+    - option "inquisitor"
+    - option "revenant"
+    - option "false_prophet"
+    - option "gambit"
+    - option "apex"
+    - option "animist"
+    - option "lunarch"
+    - option "martyr"
+    - option "minstrel"
+    - option "plaguebringer"
+    - option "pyrofiend"
+    - option "spellguard"
+    - option "toxicologist"
+    - option "warden"
+    - option "augur"
+    - option "crusader"
+  - button "Admit this saved version"
+  - button "Check original admission"
+  - button "Refresh room admission"

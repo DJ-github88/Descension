@@ -38,3 +38,34 @@ export function retainConditionResolution(context, approvalId, resolution) {
   if (saved.status !== 'OK') throw Error(`Condition resolution device custody unavailable (${saved.reason || saved.status}); nothing emitted.`);
   return resolution;
 }
+/** Safe pruning of definitively confirmed periodic-tick history only; never mutates server state, receipts or pending commands. */
+export function clearRetainedPeriodicEntries(context, keys) {
+  if (!context.current()) throw Error('Retired condition principal/room.');
+  const previous = loadConditionCustody(context);
+  if (!previous?.entries) return previous;
+  const keyList = Array.isArray(keys) ? keys : [keys];
+  const nextEntries = { ...previous.entries };
+  let changed = false;
+  for (const key of keyList) {
+    const entry = nextEntries[key];
+    if (!entry) continue;
+    if (entry.kind !== 'periodic-tick') {
+      throw Error('Only periodic tick recovery history can be cleared.');
+    }
+    if (entry.command?.roomId !== context.roomId || (Array.isArray(entry.ref) && entry.ref[1] !== context.roomId)) {
+      throw Error('Cannot clear periodic tick history from another room.');
+    }
+    if (entry.phase !== 'accepted' || ['tick_already_resolved', 'tick_not_found'].includes(entry.result?.code)) {
+      throw Error('Unconfirmed or pending periodic tick cannot be cleared.');
+    }
+    delete nextEntries[key];
+    changed = true;
+  }
+  if (!changed) return previous;
+  const record = { ...previous, version: 1, origin: DEFENDING.origin, uid: context.uid, roomId: context.roomId, entries: nextEntries };
+  const saved = storage.save(record, [context.roomId]);
+  if (saved.status !== 'OK') throw Error(`Condition device custody unavailable (${saved.reason || saved.status}); history not cleared.`);
+  return record;
+}
+export const clearRetainedPeriodicEntry = (context, key) => clearRetainedPeriodicEntries(context, [key]);
+

@@ -1,0 +1,449 @@
+{
+  "status": {
+    "success": true,
+    "receipt": {
+      "version": 1,
+      "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+      "commandId": "76c08d4d-2b25-43a3-9bc0-2c373a7feadb",
+      "submitterUid": "app-owner",
+      "contentHash": "27e2288397e26d062c8064f5048787eaccccb75b16c5e5992b92c64d3f187fe5",
+      "admissionEpoch": "0a2adf35-ed2f-40f4-ad71-969db8fc1669",
+      "commitSequence": 2,
+      "acceptedAt": 1794230802859,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "controller",
+        "authorizerUid": "app-owner"
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "60ac1460-944c-4baa-b802-307f7e6a2891",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 1,
+          "afterRevision": 2,
+          "finalResources": {
+            "hp": {
+              "current": 25,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 10,
+              "temp": 3,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 1,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "buff_1794230802857_0.9094487910449843",
+              "recordId": "buff_1794230802857_0.9094487910449843",
+              "conditionKey": "potion of vigor",
+              "originalName": "Potion of Vigor",
+              "name": "Potion of Vigor",
+              "type": "buff",
+              "kind": "effect",
+              "target": {
+                "kind": "character",
+                "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "60ac1460-944c-4baa-b802-307f7e6a2891",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "targetId": "pc",
+              "targetType": "character",
+              "source": "consumable",
+              "color": "#00ff00",
+              "description": "Ordinary-App consumable witness",
+              "effects": {
+                "armor": 2
+              },
+              "duration": 300,
+              "durationType": "seconds",
+              "startTime": 1794230802857,
+              "endTime": 1794231102857,
+              "stackable": false,
+              "sharedTiming": "manual"
+            }
+          ]
+        }
+      ]
+    },
+    "actorSnapshot": {
+      "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+      "actorProjection": {
+        "version": 1,
+        "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+        "epoch": "0a2adf35-ed2f-40f4-ad71-969db8fc1669",
+        "cut": 9
+      },
+      "maps": {
+        "default": {
+          "id": "default",
+          "name": "Default Map",
+          "tokens": {},
+          "characterTokens": {},
+          "creatures": {},
+          "actorProjection": {
+            "version": 1,
+            "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+            "epoch": "0a2adf35-ed2f-40f4-ad71-969db8fc1669",
+            "cut": 9
+          }
+        },
+        "app-hall": {
+          "id": "app-hall",
+          "name": "Integration Hall",
+          "tokens": {
+            "A": {
+              "id": "A",
+              "name": "A",
+              "position": {
+                "x": 400,
+                "y": 300
+              },
+              "state": {
+                "actorContract": {
+                  "version": 1,
+                  "kind": "creature",
+                  "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+                  "mapId": "app-hall",
+                  "tokenId": "A",
+                  "instanceId": "5f971453-27d7-44ba-9888-5d95d892394a",
+                  "revision": 0
+                },
+                "maxHp": 250,
+                "maxMana": 30,
+                "maxAP": 5,
+                "maxActionPoints": 5,
+                "currentHp": 30,
+                "currentMana": 0,
+                "currentActionPoints": 2,
+                "tempHealth": 4,
+                "tempMana": 0,
+                "tempActionPoints": 0,
+                "customName": "A",
+                "conditions": []
+              },
+              "creatureId": "grimmstalk",
+              "mapId": "app-hall"
+            },
+            "B": {
+              "id": "B",
+              "name": "B",
+              "position": {
+                "x": 500,
+                "y": 300
+              },
+              "state": {
+                "actorContract": {
+                  "version": 1,
+                  "kind": "creature",
+                  "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+                  "mapId": "app-hall",
+                  "tokenId": "B",
+                  "instanceId": "ea971c6d-5f1f-4bc1-9c11-20ac95990e89",
+                  "revision": 0
+                },
+                "maxHp": 250,
+                "maxMana": 30,
+                "maxAP": 5,
+                "maxActionPoints": 5,
+                "currentHp": 30,
+                "currentMana": 0,
+                "currentActionPoints": 2,
+                "tempHealth": 4,
+                "tempMana": 0,
+                "tempActionPoints": 0,
+                "customName": "B",
+                "conditions": []
+              },
+              "creatureId": "grimmstalk",
+              "mapId": "app-hall"
+            }
+          },
+          "characterTokens": {
+            "pc": {
+              "id": "pc",
+              "name": "Ilse",
+              "position": {
+                "x": 600,
+                "y": 300
+              },
+              "state": {
+                "actorContract": {
+                  "version": 1,
+                  "kind": "character",
+                  "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+                  "mapId": "app-hall",
+                  "tokenId": "pc",
+                  "instanceId": "60ac1460-944c-4baa-b802-307f7e6a2891",
+                  "ownerUid": "app-owner",
+                  "characterId": "ilse",
+                  "revision": 2,
+                  "primary": true
+                },
+                "conditions": [
+                  {
+                    "version": 1,
+                    "id": "buff_1794230802857_0.9094487910449843",
+                    "recordId": "buff_1794230802857_0.9094487910449843",
+                    "conditionKey": "potion of vigor",
+                    "originalName": "Potion of Vigor",
+                    "name": "Potion of Vigor",
+                    "type": "buff",
+                    "kind": "effect",
+                    "target": {
+                      "kind": "character",
+                      "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+                      "mapId": "app-hall",
+                      "tokenId": "pc",
+                      "instanceId": "60ac1460-944c-4baa-b802-307f7e6a2891",
+                      "ownerUid": "app-owner",
+                      "characterId": "ilse"
+                    },
+                    "targetId": "pc",
+                    "targetType": "character",
+                    "source": "consumable",
+                    "color": "#00ff00",
+                    "description": "Ordinary-App consumable witness",
+                    "effects": {
+                      "armor": 2
+                    },
+                    "duration": 300,
+                    "durationType": "seconds",
+                    "startTime": 1794230802857,
+                    "endTime": 1794231102857,
+                    "stackable": false,
+                    "sharedTiming": "manual"
+                  }
+                ]
+              },
+              "character": {
+                "id": "ilse",
+                "name": "Ilse",
+                "class": "Arcanoneer",
+                "race": "",
+                "subrace": "",
+                "raceDisplayName": "",
+                "level": 3,
+                "health": {
+                  "current": 25,
+                  "max": 40
+                },
+                "mana": {
+                  "current": 10,
+                  "max": 30
+                },
+                "actionPoints": {
+                  "current": 2,
+                  "max": 5
+                },
+                "tempHealth": 0,
+                "tempMana": 3,
+                "tempActionPoints": 1,
+                "exhaustionLevel": 0,
+                "classResource": {
+                  "type": "elementalSpheres",
+                  "current": 0,
+                  "max": 12,
+                  "phase": null,
+                  "threshold": 0,
+                  "charges": 0,
+                  "strain": 0,
+                  "risk": 0,
+                  "lastUpdate": 1794230791285
+                },
+                "stats": {
+                  "strength": 10,
+                  "agility": 10,
+                  "constitution": 10,
+                  "intelligence": 16,
+                  "spirit": 10,
+                  "charisma": 10
+                },
+                "equipment": {
+                  "head": null,
+                  "neck": null,
+                  "shoulders": null,
+                  "back": null,
+                  "chest": null,
+                  "shirt": null,
+                  "tabard": null,
+                  "wrists": null,
+                  "mainHand": null,
+                  "offHand": null,
+                  "ranged": null,
+                  "trinket1": null,
+                  "trinket2": null,
+                  "ring1": null,
+                  "ring2": null,
+                  "feet": null,
+                  "legs": null,
+                  "waist": null,
+                  "gloves": null
+                },
+                "alignment": "Neutral Good",
+                "background": "",
+                "damageReduction": 0,
+                "durability": 0,
+                "movementSpeed": 30,
+                "resistances": {
+                  "fire": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "frost": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "lightning": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "force": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "necrotic": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "radiant": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "poison": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "psychic": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "bludgeoning": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "piercing": {
+                    "level": 100,
+                    "multiplier": 1
+                  },
+                  "slashing": {
+                    "level": 100,
+                    "multiplier": 1
+                  }
+                },
+                "immunities": [],
+                "racialTraits": [],
+                "tokenSettings": {
+                  "borderColor": "#506e30"
+                },
+                "playerId": "SZ_DXkN94Qbm-ZHuAAAF"
+              },
+              "mapId": "app-hall",
+              "ownerUserId": "app-owner"
+            }
+          },
+          "creatures": {},
+          "actorProjection": {
+            "version": 1,
+            "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+            "epoch": "0a2adf35-ed2f-40f4-ad71-969db8fc1669",
+            "cut": 9
+          }
+        }
+      }
+    },
+    "combat": {
+      "isActive": false,
+      "currentTurn": null,
+      "turnOrder": [],
+      "round": 0
+    },
+    "combatHash": "5c75c45f2a59d9410dfeb810dcea41282ecf6c96338eb90d2e1f137906a76fda",
+    "status": "accepted-live",
+    "durability": "live-only",
+    "delivery": "sent",
+    "commandId": "76c08d4d-2b25-43a3-9bc0-2c373a7feadb"
+  },
+  "items": [
+    {
+      "id": "witness-family",
+      "name": "Potion of Insight",
+      "quantity": 2,
+      "combatStats": {
+        "intelligence": 2,
+        "healthRestore": {
+          "value": 5
+        }
+      }
+    },
+    {
+      "id": "witness-regen",
+      "name": "Potion of Vigor",
+      "quantity": 1,
+      "combatStats": {
+        "armor": 2,
+        "healthRestore": {
+          "value": 5
+        }
+      }
+    }
+  ],
+  "combat": [
+    "🍷 Ilse used Potion of Vigor (+5 HP, ✨ Potion of Vigor (300s))."
+  ],
+  "health": {
+    "current": 25,
+    "max": 40
+  },
+  "currentCharacterId": "ilse",
+  "isInMultiplayer": true,
+  "uid": "app-owner",
+  "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+  "projection": {
+    "health": {
+      "current": 25,
+      "max": 40
+    },
+    "mana": {
+      "current": 10,
+      "max": 30
+    },
+    "actionPoints": {
+      "current": 2,
+      "max": 5
+    },
+    "tempHealth": 0,
+    "tempMana": 3,
+    "tempActionPoints": 1,
+    "roomActorProjection": {
+      "ref": {
+        "kind": "character",
+        "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "60ac1460-944c-4baa-b802-307f7e6a2891",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "revision": 2,
+      "accountGeneration": 4
+    }
+  }
+}

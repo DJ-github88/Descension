@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect, useSyncExternalStore } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useSyncExternalStore } from 'react';
 import { getBootstrapGateState, subscribeBootstrapGate } from '../../../persistence/bootstrapPrivacyGate';
 import {
   saveLibraryToStorage,
@@ -99,6 +99,8 @@ function spellLibraryReducer(state, action) {
           ? {
               ...spell,
               ...updates,
+              id: spell.id,
+              dateCreated: spell.dateCreated || updates.dateCreated || new Date().toISOString(),
               lastModified: new Date().toISOString()
             }
           : spell
@@ -141,17 +143,31 @@ function spellLibraryReducer(state, action) {
         return state;
       }
 
-      // Determine appropriate categories for the duplicated spell
-      const spellCategories = spellToDuplicate.categoryIds || categorizeSpell(spellToDuplicate);
+      // Copy the whole saved record so neither library identity can mutate the other's nested
+      // definition data. authoredDefinitionId/catalogueSource are deliberately retained: the
+      // approved cooldown identity is exact actor + authoredDefinitionId, so keeping it lets
+      // copies/versions share the existing cooldown instead of silently resetting it.
+      const source = JSON.parse(JSON.stringify(spellToDuplicate));
+      const spellCategories = source.categoryIds || categorizeSpell(source);
+      // A catalogue-bound record's name is part of its pinned whole-record projection, so keep
+      // it unchanged. Wizard-authored drafts are local definitions; rename both the record and
+      // its draft so the usual record/draft admission invariant stays satisfied.
+      const copyName = source.catalogueSource ? source.name : `${source.name} (Copy)`;
 
       const newSpell = {
-        ...spellToDuplicate,
+        ...source,
         id: generateUniqueId(),
-        name: `${spellToDuplicate.name} (Copy)`,
+        name: copyName,
         dateCreated: new Date().toISOString(),
         lastModified: new Date().toISOString(),
-        categoryIds: spellCategories
+        categoryIds: Array.isArray(spellCategories) ? [...spellCategories] : spellCategories
       };
+
+      if (!source.catalogueSource && source.authoredDraft && typeof source.authoredDraft === 'object') {
+        const copyDraft = { ...source.authoredDraft, name: copyName };
+        newSpell.authoredDraft = copyDraft;
+        newSpell.serializedData = JSON.stringify(copyDraft, null, 2);
+      }
 
       return {
         ...state,
@@ -380,46 +396,63 @@ function SpellLibraryProvider({ children }) {
   // App already owns this account's library. Nested book/item windows must share its state and
   // dispatch, otherwise a newly saved Wizard definition is invisible to the Creature selector.
   const parent = useContext(SpellLibraryStateContext);
-  // The library is verified-owner scoped. The owned provider reads storage once at mount, so it is re-created whenever the active
-  // principal changes (signed-out -> sign-in, A -> B, sign-out). Without this an instance mounted before auth initialised keeps its
-  // empty state and the next edit overwrites the principal's saved library, and A's in-memory library could be saved into B.
-  // The same principal re-activating (token refresh) keeps the key and therefore its in-memory edits.
-  const gate = useSyncExternalStore(subscribeBootstrapGate, getBootstrapGateState, getBootstrapGateState);
-  const principalKey = principalKeyOf(gate);
-  return parent === undefined ? <OwnedSpellLibraryProvider key={principalKey} principalKey={principalKey}>{children}</OwnedSpellLibraryProvider> : <>{children}</>;
+  return parent === undefined ? <OwnedSpellLibraryProvider>{children}</OwnedSpellLibraryProvider> : <>{children}</>;
 }
 
-const principalKeyOf = (gate) => (gate && gate.scope ? `${gate.scope.scopeKind}:${gate.scope.scopeId}` : 'signed-out');
+// The library is verified-owner scoped. Hydration key of the bootstrap gate:
+//  - `kind:id`      scope ACTIVE: that principal's saved library is readable
+//  - `unavailable`  a scope is retained but the gate is not active (LOADING / RETIRING / HOLD): nothing readable, nothing writable
+//  - `signed-out`   no scope: default library, writes are refused by the scoped storage
+const hydrationKeyOf = (gate) => {
+  if (!gate || !gate.scope) return 'signed-out';
+  return gate.phase === 'active' ? `${gate.scope.scopeKind}:${gate.scope.scopeId}` : 'unavailable';
+};
 
-function OwnedSpellLibraryProvider({ children, principalKey }) {
-  // Initialize state from local storage, falling back to initialState
-  const [state, dispatch] = useReducer(
-    spellLibraryReducer,
-    null,
-    () => {
-      const storedLibrary = loadLibraryFromStorage();
+const loadHydrated = () => {
+  const storedLibrary = loadLibraryFromStorage();
+  return storedLibrary ? validateLibraryIntegrity(storedLibrary) : initialState;
+};
 
-      if (!storedLibrary) {
-        return initialState;
-      }
+// State is `{ key, library }`: the library is only ever the library of `key`. Actions carry the key they were dispatched for, so
+// work issued for an older principal (a stale closure, a pending callback) is dropped instead of landing in the newer scope.
+function scopedLibraryReducer(state, action) {
+  if (action.type === '@@HYDRATE') return { key: action.key, library: action.library };
+  if (action.type === '@@SCOPED') {
+    if (action.key !== state.key) return state;
+    const library = spellLibraryReducer(state.library, action.action);
+    return library === state.library ? state : { key: state.key, library };
+  }
+  return state;
+}
 
-      return validateLibraryIntegrity(storedLibrary);
-    }
-  );
+function OwnedSpellLibraryProvider({ children }) {
+  const gate = useSyncExternalStore(subscribeBootstrapGate, getBootstrapGateState, getBootstrapGateState);
+  const targetKey = hydrationKeyOf(gate);
+  const [scoped, rawDispatch] = useReducer(scopedLibraryReducer, null, () => ({ key: targetKey, library: loadHydrated() }));
 
-  // Save to local storage whenever state changes
+  // Principal / phase changed: re-hydrate in place during render so the previous principal's library is never committed for
+  // the new one. The provider (and the App tree under it) stays mounted; same-principal re-activation keeps its key and edits.
+  if (scoped.key !== targetKey) {
+    rawDispatch({ type: '@@HYDRATE', key: targetKey, library: loadHydrated() });
+  }
+
+  const dispatch = useCallback((action) => rawDispatch({ type: '@@SCOPED', key: scoped.key, action }), [scoped.key]);
+
+  // Save to scoped storage whenever the library changes.
   useEffect(() => {
-    // This instance hydrated for `principalKey`. If the active principal has since changed (or activated after this instance
-    // read an empty signed-out library) its state is not that principal's library and must never be written into the new scope.
-    if (principalKeyOf(getBootstrapGateState()) !== principalKey) return;
-    const saved = saveLibraryToStorage(state);
+    // Only persist a library that was hydrated for the principal that is still active. An edit committed just before a switch is
+    // intentionally not written (a pre-switch flush belongs to the handoff coordinator's retirement step), and an unhydrated
+    // empty library can never overwrite a principal's saved one.
+    if (scoped.key === 'unavailable') return;
+    if (hydrationKeyOf(getBootstrapGateState()) !== scoped.key) return;
+    const saved = saveLibraryToStorage(scoped.library);
     if (!saved) {
       console.error('Failed to save library to storage');
     }
-  }, [state, principalKey]);
+  }, [scoped]);
 
   return (
-    <SpellLibraryStateContext.Provider value={state}>
+    <SpellLibraryStateContext.Provider value={scoped.library}>
       <SpellLibraryDispatchContext.Provider value={dispatch}>
         {children}
       </SpellLibraryDispatchContext.Provider>

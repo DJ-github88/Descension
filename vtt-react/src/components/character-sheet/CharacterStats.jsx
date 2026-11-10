@@ -692,6 +692,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
             'initiative': ['initiative'],
 
             'carrying capacity': ['carryingCapacity'],
+            'damage reduction (dr)': ['damageReduction', 'damage_reduction', 'dr'],
         };
 
         const alternativeKeys = [

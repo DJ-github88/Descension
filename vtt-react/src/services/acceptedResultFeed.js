@@ -8,6 +8,7 @@ import { acceptedText } from './weaponStrike';
 import { acceptedBlockText } from './equipmentBlocking';
 import { DEFINITION_HASH as RIPOSTE, riposteAcceptedText } from './riposteExecution';
 import { conditionLabel, POLICY_TEXT, policyText } from './authoredEffect';
+import { saveLabel } from './saveBranch';
 
 const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'];
 const POOLS = { hp: ['currentHp', 'health', 'tempHealth'], mana: ['currentMana', 'mana', 'tempMana'], ap: ['currentActionPoints', 'actionPoints', 'tempActionPoints'] };
@@ -83,7 +84,9 @@ export function capabilityOf(receipt) {
   if (hashId.startsWith('class-effect:v1/')) return { kind: 'class-effect', label: chosen.spellName, damage: chosen.direct?.kind === 'damage', branch: chosen.branch,
     effect: chosen.rider ? `${chosen.rider.label} (movement −${Math.abs(chosen.rider.feet)} ft)` : 'its rider', riderApplied: chosen.riderApplied === true, refreshed: chosen.combination?.outcome === 'refreshed' };
   if (hashId.startsWith('authored-effect:v1/')) return { kind: 'effect', label: chosen.spellName, damage: chosen.direct?.kind === 'damage',
-    effect: conditionLabel(chosen.condition), expiry: (POLICY_TEXT[chosen.expiryPolicy] && policyText(chosen.expiryPolicy, chosen.occurrences)) || 'GM removes', refreshed: chosen.combination?.outcome === 'refreshed' };
+    effect: conditionLabel(chosen.condition), expiry: (POLICY_TEXT[chosen.expiryPolicy] && policyText(chosen.expiryPolicy, chosen.occurrences)) || 'GM removes', refreshed: chosen.combination?.outcome === 'refreshed',
+    // Shared GM-recorded save branch: the recorded branch decides whether the effect was applied (never inferred client-side).
+    ...(chosen.save ? { branch: chosen.branch, saveText: `${saveLabel(chosen.save)}, GM recorded`, conditionApplied: chosen.conditionApplied === true } : {}) };
   if (hashId.startsWith('authored-area:v1/')) return { kind: 'area-spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
   if (hashId.startsWith(SPELL_PREFIX) || /^authored-immediate:v[1234]\//.test(hashId)) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
   return { kind: 'none' };
@@ -151,6 +154,8 @@ export function buildFeed({ result, before = {}, viewer, live }) {
          : capability.kind === 'condition' ? `${src} applies Stunned to ${tgt} with ${label}`
          : capability.kind === 'class-effect' ? `${src} uses ${label} on ${tgt}; ${capability.branch === 'saved' ? `${tgt} saves (GM recorded): no new ${capability.effect}`
            : `${capability.branch === 'failed' ? `${tgt} fails the save (GM recorded): ` : ''}${capability.refreshed ? `refreshing ${capability.effect}, value not stacked` : `applying ${capability.effect}`} (GM removes)`}. Partially automated — the GM applies the rest`
+         : capability.kind === 'effect' && capability.branch === 'saved' ? `${src} uses ${label} on ${tgt}; ${tgt} saves (${capability.saveText}): no ${capability.effect}`
+         : capability.kind === 'effect' && capability.branch === 'failed' ? `${src} uses ${label} on ${tgt}; ${tgt} fails the save (${capability.saveText}): ${capability.refreshed ? `refreshing ${capability.effect}, value not stacked` : `applying ${capability.effect}`} (${capability.expiry})`
          : capability.kind === 'effect' ? (capability.refreshed ? `${src} uses ${label} on ${tgt}, refreshing ${capability.effect}: duration restarts, value not stacked (${capability.expiry})`
            : `${src} uses ${label} on ${tgt}, applying ${capability.effect} (${capability.expiry})`)
          : capability.kind === 'area-spell' ? `${src} casts ${label} on ${(receipt.targets || []).map(t => nameOf(t) || 'a creature').join(', ')}`

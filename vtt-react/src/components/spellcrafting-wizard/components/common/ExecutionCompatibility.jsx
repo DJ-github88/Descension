@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import useGameStore from '../../../../store/gameStore';
-import { explainExecution, STATES } from '../../utils/executionCompatibility';
+import { explainExecution, draftSubject, STATES } from '../../utils/executionCompatibility';
 import './ExecutionCompatibility.css';
 
 const ICON = { [STATES.EXECUTABLE]: 'fa-check', [STATES.PARTIAL]: 'fa-adjust', [STATES.BLOCKED]: 'fa-hourglass-half', [STATES.UNSUPPORTED]: 'fa-hand-paper' };
@@ -17,11 +17,12 @@ export default function ExecutionCompatibility({ record, draft, context, variant
   // Display context only (read-only selectors). Callers may override each value.
   const storeShared = useGameStore(s => s.isInMultiplayer), storeGm = useGameStore(s => s.isGMMode), storeRoom = useGameStore(s => s.multiplayerRoom?.id);
   const roomId = context?.roomId ?? storeRoom, classId = context?.classId, shared = context?.shared ?? storeShared === true, gm = context?.gm ?? storeGm === true, definitionVersion = context?.definitionVersion;
+  const sourceRef = context?.sourceRef, route = context?.route, sourceKind = context?.sourceKind;
   const view = useMemo(() => {
-    // An unsaved Wizard state is wrapped exactly as the save path wraps it: authoredDraft is a plain copy of the state.
-    const subject = record || (draft ? { ...draft, authoredDraft: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(draft).filter(([key]) => key !== 'authoredDraft')))) } : null);
-    return explainExecution(subject, { roomId, classId, shared, gm, definitionVersion });
-  }, [record, draft, roomId, classId, shared, gm, definitionVersion]);
+    // An unsaved Wizard state is wrapped exactly as the save path wraps it (Wizard-only keys removed, authoredDraft a plain copy).
+    const subject = record || draftSubject(draft);
+    return explainExecution(subject, { roomId, classId, shared, gm, definitionVersion, sourceRef, route, sourceKind });
+  }, [record, draft, roomId, classId, shared, gm, definitionVersion, sourceRef, route, sourceKind]);
   return <section className={`exec-compat exec-compat-${view.state}`} aria-label="Execution compatibility" data-state={view.state}>
     <p className="exec-compat-title" role="status"><i className={`fas ${ICON[view.state]}`} aria-hidden="true" /> {view.title}</p>
     <p>{view.summary}</p>

@@ -47,7 +47,7 @@ function SimpleCompactForm({ association, onKeep, onCancel, subject = 'item', in
 }
 export default function ItemAbilityEditor({ itemData, updateItemData, onEditingChange }) {
   const { spells = [] } = useSpellLibrary();
-  const [editing, setEditing] = useState(null), [selected, setSelected] = useState('');
+  const [editing, setEditing] = useState(null), [selected, setSelected] = useState(''), [confirmRemove, setConfirmRemove] = useState(false);
   const launcher = useRef(null), wasEditing = useRef(false);
   useEffect(() => { if (wasEditing.current && !editing) launcher.current?.focus(); wasEditing.current = !!editing; }, [editing]);
   const association = itemData.authoredAbility, support = itemAbilitySupport(association);
@@ -60,6 +60,10 @@ export default function ItemAbilityEditor({ itemData, updateItemData, onEditingC
     {editing ? <CompactForm association={editing} onKeep={a => { updateItemData({ authoredAbility: a }); edit(null); }} onCancel={() => edit(null)} /> : <>
       {!association && <button ref={launcher} type="button" onClick={() => edit(newItemAbility(crypto.randomUUID()))}>Add activated ability</button>}
       {support.ok && <button ref={launcher} type="button" onClick={() => edit(association)}>Edit activated ability</button>}
+      {association && !confirmRemove && <button type="button" onClick={() => setConfirmRemove(true)}>Remove activated ability</button>}
+      {association && confirmRemove && <span role="group" aria-label="Confirm ability removal"><span>Remove this ability association? Other item data is kept. Owned copies already made keep their own saved copy.</span>
+        <button type="button" onClick={() => { updateItemData({ authoredAbility: null }); setConfirmRemove(false); }}>Confirm remove activated ability</button>
+        <button type="button" onClick={() => setConfirmRemove(false)}>Keep activated ability</button></span>}
       {!association && <><label>Compatible Spell Library definition<select value={selected} onChange={e => setSelected(e.target.value)}><option value="">Choose a saved definition</option>{compatible.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select></label>
         <button type="button" disabled={!selected} onClick={() => { const s = compatible.find(s => s.id === selected); if (s) updateItemData({ authoredAbility: snapshotAbility(s, s.id) }); }}>Associate library snapshot</button></>}
     </>}

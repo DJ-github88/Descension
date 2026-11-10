@@ -311,18 +311,21 @@ describe('P14-M5 composition + M4A attribute formula in the immediate part — r
     await refused('actor_consequence', { ...c, adjudication: { ...c.adjudication, finalAmount: 1, adjustmentReason: 'changed' } }, 'command_id_conflict');
   });
 
-  it('bounded scope: plain-dice composition is unchanged; missing-health, deterministic, non-periodic bundles, mixed kinds and creature casters stay manual', async() => {
+  it('bounded scope: plain-dice composition is unchanged; missing-health, deterministic, attribute/DR-rider bundles, mixed kinds and creature casters stay manual', async() => {
     const opts = { roomId: room.id, definitionVersion: 1, classId: 'arcanoneer' };
     const plain = pure.definitionFromWizard(actors.clone(formulaRecord({ nowFormula: '1d6+2' })), opts).definition;
     assert.equal(definitions.compileDefinition(plain).descriptor.compilerVersion, 'p14-m5-composition-1', 'plain-dice composition keeps its compiler identity');
     for (const [name, rec] of Object.entries({
       missingHealth: formulaRecord({ nowFormula: '2d8 + caster_missing_health/4' }), deterministic: formulaRecord({ nowFormula: 'intelligence/3' }), spacedPlain: formulaRecord({ nowFormula: '2d8 + 3' }),
       mixed: formulaRecord({ extra: d => { d.controlConfig.authoredCondition.periodicKind = 'healing'; delete d.controlConfig.authoredCondition.periodicDamageType; } }),
-      stunnedBundle: wizardRecord({ direct: 'damage', extra: d => { d.damageConfig.formula = '2d8 + intelligence/3'; } }) })) {
+      attributeBundle: wizardRecord({ direct: 'damage', extra: d => { d.damageConfig.formula = '2d8 + intelligence/3'; d.controlConfig.authoredCondition = { ...d.controlConfig.authoredCondition, effect: 'attribute', attribute: 'agility', attributeAmount: -2, label: 'Leaden' }; } }) })) {
       const r = pure.definitionFromWizard(actors.clone(rec), opts); assert.equal(r.ok, false, `${name} must stay manual: ${JSON.stringify(r)}`);
     }
+    // Formula riders (2026-11-08): a scaled immediate part next to a Stunned effect is now its own route (p14RiderFormula.production.test.js).
+    const stunned = pure.definitionFromWizard(actors.clone(wizardRecord({ direct: 'damage', extra: d => { d.damageConfig.formula = '2d8 + intelligence/3'; } })), opts);
+    assert.equal(stunned.ok, true, JSON.stringify(stunned)); assert.equal(definitions.compileDefinition(stunned.definition).descriptor.compilerVersion, 'p14-a10-effect-formula-1');
     const ok = pure.definitionFromWizard(actors.clone(formulaRecord()), opts).definition;
-    for (const tamper of [d => { d.effects.condition = { kind: 'stunned' }; d.timing.expiryPolicy = 'target-next-end'; delete d.timing.occurrences; }, d => { d.effects.direct.formula = '2d8 + caster_missing_health/4'; }, d => { d.effects.direct.formula = 'intelligence/3'; }]) {
+    for (const tamper of [d => { d.effects.condition = { kind: 'attribute', attribute: 'agility', amount: -2, label: 'Leaden' }; d.timing.expiryPolicy = 'target-next-end'; delete d.timing.occurrences; }, d => { d.effects.direct.formula = '2d8 + caster_missing_health/4'; }, d => { d.effects.direct.formula = 'intelligence/3'; }]) {
       const d = actors.clone(ok); tamper(d); assert.equal(definitions.compileDefinition(d).ok, false, JSON.stringify(d.effects));
     }
     await startCombat([pc, source, target]); await adopt();

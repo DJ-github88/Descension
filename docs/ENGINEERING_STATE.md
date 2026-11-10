@@ -1,5 +1,119 @@
 # Mythrill / Prism — engineering state
 
+## HEADQ bounded evidence & candidate coordination — 2026-11-10
+
+### Shared trigger foundation v1.1 — INSTALLED & DIAGNOSTICALLY VERIFIED (2026-11-10)
+- **Status:** Installed `handoff/shared-trigger-foundation-v2/` (10 delivered candidate paths + 17 read-only dependency guards match `FINAL.sha256` with 0 drift). Exact-byte delta ACCEPT issued for F1–F3 repairs. Backup captured at `installed-backup-1794299049284`.
+- **Classification:** **INSTALLED + DIAGNOSTICALLY VERIFIED** (distinct from APP VERIFIED playable triggers). Executes nothing: zero HP, resource, condition, payment or approval is produced. No playable triggers, authoring eligibility, or gameplay timing changes. Server-only change; no client production build required or performed.
+- **F1–F3 Delta Review & Independent Checks:**
+  - **F1 (Guarded rollback privacy):** Offline scrub tool (`triggerRollbackScrub.js`, `rollback.cjs`, `verify-old-projection.cjs`) removes entire `triggerLedger`, redacts dismissal receipt `contentHash` to null, preserves unrelated receipts, updates checkpoint manifest/root hashes, refuses incomplete/unattested plans. Restored old projection regression verified: unscrubbed control leaks private reason and markers; scrubbed projection leaks nothing (`PASS`).
+  - **F2 (Authoritative room events & named rate limits):** `actor_trigger_list` (60/min, 5/s), `actor_trigger_register` (30/min, 3/s), `actor_trigger_revoke` (30/min, 3/s), `actor_trigger_dismiss` (30/min, 3/s) registered in `AUTHORITATIVE_ROOM_EVENTS` in `socketHandlers.js` and `rateLimitService.js`. Cross-room calls refuse with `room_target_mismatch` before reaching handlers; non-GM registration fails `forbidden`.
+  - **F3 (Diagnostic disclosure):** Register and revoke ACKs return top-level `capability: "committed-trigger-diagnostic:v1"` and `mode: "diagnostic"`. Typed evidence `proposedTotal` recorded in occurrence evidence but rejected as selectable trigger predicate (`unsupported_trigger_predicate`).
+- **Production Stack Acceptance Checklist (7/7 Checks PASS):**
+  1. *Register:* GM registers diagnostic listener (`immediate-damage`, `source`, `baseHpLost`); ACK returns `capability: "committed-trigger-diagnostic:v1"` and `mode: "diagnostic"`.
+  2. *Qualifying / Nonqualifying Cast:* Nonqualifying healing cast generates 0 obligations; qualifying damage cast generates 1 pending obligation with exact typed evidence (`baseHpLost: 6`, `role: 'source'`). Self-generated damage excluded.
+  3. *Viewer-Specific List:* GM sees 1 with full details; bound PC owner sees 1 in limited diagnostic view; observer sees 0 obligations and 0 listeners; client `gameState` projection completely omits `triggerLedger`.
+  4. *Dismiss:* GM dismisses obligation atomically; public receipt redacts `contentHash` and private reason; zero execution on character/creature pools and conditions.
+  5. *Replay:* Exact replay is idempotent (returns original receipt); conflicting bytes refuse `command_id_conflict`; attempt to dismiss closed obligation refuses `trigger_obligation_not_open`.
+  6. *Revocation:* GM revokes listener; subsequent casts generate 0 obligations; existing closed obligations and receipts preserved.
+  7. *Checkpoint Restoration:* Canonical checkpoint build and decode via `roomCheckpoint` roundtrips cleanly; restored room preserves listeners, pending obligations, and closed history.
+- **Suite Results:** `triggerRollback.production.test.js` (4 passing), `committedTriggers.production.test.js` (16 passing), adjacent production suites (`p14c4Lifecycle`, `p14m6aAreaExecution`, `p14AttributeModifiers`) 34 passing.
+- **Explicit Boundaries & Limits:** MAX_LISTENERS: 32, MAX_OPEN: 64, MAX_CLOSED: 256, MAX_REQUESTS: 256. Rollback prohibited on ledger-bearing rooms without running the guarded scrub and attesting all retained copies. All test sockets and servers terminated.
+
+## HEADQ bounded evidence & candidate coordination — 2026-11-09
+
+### Attribute cooldowns release — INSTALLED, verified-build App witness PASS & ACCEPTED (2026-11-09)
+- **Status:** Installed `handoff/attribute-cooldowns/` (12 candidates + 12 dependency guards match `FINAL.sha256` with 0 drift), verified on identified production build (`d:\VTT\vtt-react\build`, `asset-manifest.json` SHA-256 `e85803fb378bb0cac1aeaf2046da51ea20e81cafb92fef7757e11b62ebae4d62`, `main.7bad4111.js` SHA-256 `5eeb2a179f516c1762f808b2da0860bb677ac51297146d779dfcf0b537068bae`, `main.f075bedb.css` SHA-256 `2785b96de0524042914bf2c2941bd7334980e6beb665bcc45f319e3b81beae93`).
+- **Ordinary-App Acceptance Witness (16/16 Checks PASS):**
+  - Witness: `vtt-react/verification/p14/attribute-cooldown-app-browser.cjs` (Playwright against port 4581): `passed: true`, 0 errors, 22 public ledger receipts in `result.json` (`vtt-react/verification/p14/attribute-cooldown-evidence/`).
+  - All 5 stages of `APP_CHECKLIST.md` verified:
+    1. Preflight: wizard excludes STR/CON/CHA and attribute+save combinations.
+    2. Author/save/reopen/admit: D1 (Dulling Charm, INT −2, cooldown 2), D2 (Mire Twist, AGI −2, target-next-start, cooldown 2), D3 (Spirit Flare, SPI +2, count 3, cooldown 1), D4 (Agility Strike, damage 1d6+2 + AGI −2, cooldown 2).
+    3. Stage 1 (D1): Atomic payment (1 AP, 2 mana) + condition + cooldown due seq 6; dropped-ACK recovery via "Check same command" with 1 receipt; blocked reuse notice verified; GM manual removal removes condition while cooldown remains active; sequence 3 advance leaves 1 start remaining; sequence 6 boundary releases cooldown.
+    4. Stage 2 (D2): Timed Agility −2 expires at seq 8 (target start) while cooldown stays blocked; seq 12 boundary releases cooldown.
+    5. Stage 3 (D3): Cooldown releases at seq 15 while counted condition remains active; same-attribute recast on A refused (`already changes Spirit on this target`) without spend or cooldown.
+    6. Stage 4 (D4): Rolled 1d6+2 applies 6 damage, Agility −2 condition, and cooldown 2 in one receipt.
+    7. Stage 5: Protected consumers & pools check (INT pool derivation, formula reapproval, stored pool protection).
+- **Preserved Boundaries & Exclusions:**
+  - Technical scope fence strictly held: STR/CON/CHA excluded from wizard and definitions; Save + attribute combination refused; PC targets refused on cooldown route; catalogue/potion routes excluded.
+  - Consumable runtime and Wizard explanations remain 100% frozen.
+  - Background processes, ports (4581), and test contexts fully terminated and released.
+
+### Consumable acceptance closeout — INSTALLED canonical-r2, verified-build App witness PASS & ACCEPTED (2026-11-09)
+- **Status:** Installed canonical-r2 (11/11 files match `FINAL.sha256`), verified on retained production build artifact (`asset-manifest.json` SHA-256 `C8A376BE...`, `main.41df5371.js` SHA-256 `AFD5061BE...`). Product bytes remain 100% frozen; zero runtime modifications.
+- **Ordinary-App Acceptance Witness (7/7 Checks PASS):**
+  - Baseline journeys (retained in `vtt-react/verification/p14/consumable-evidence-r2/`): Refusal atomicity and single deduction + mixed condition verified across Action Bar, SpellActionBar, and Inventory.
+  - Extended checks (verified in `vtt-react/verification/p14/consumable-evidence-closeout/`):
+    1. Overheal Cancel before effects: manuscript `Overheal Detected` modal displayed; Cancel keeps server HP at 20, local HP at 20, pack qty at 2, and releases lock.
+    2. Duplicate click / replay protection: double-click rejected by `withConsumeLock`; exactly 1 command sent; server HP healed once (+5 to 25); inventory decremented once (2 -> 1).
+    3. Character switch and return: active switch isolates Character B (HP 15/50 untouched); server receipt journaled under `ilse`; return and click reconciles Character A's HP to 25 and pack qty to 1.
+    4. Same-device reload recovery: localStorage journal survives page reload; clicking slot reconciles via `reconcileUnresolved` without duplicate condition or revision bump, inventory decrements once (2 -> 1).
+- **Separation of Evidence:** Ordinary-App proofs separated from component/production handler proofs (Web Locks engine, strict schema validation, 10-case storage failure permutations in `consumablePersistenceBoundary.ds.test.js`).
+- **SpellActionBar Witness Limitation Disclosed:** Intercepting `removeItem` call assertion is narrower than persisted storage reduction (due to character-view route hydration); durable persistence is verified in component tests.
+- **Preserved Boundaries (No Universal Exactly-Once):** Storage-failure under-debit window, cross-device exclusion, post-submit journal-failure limitation.
+- **Coordination Status:** Consumable runtime frozen. Wizard explanations closed. Attribute-cooldown queue corrected: package `handoff/attribute-cooldowns/`, independent DS verdict ACCEPT on sealed FINAL bytes, proceeding with release per `APP_CHECKLIST.md`.
+
+### Spell-cast refusal clarity — INSTALLED, verified-build App witness PASS & ACCEPTED (2026-11-09)
+- **Status:** Installed and accepted. All 3 patch files in `vtt-react/src` match `handoff/spell-cast-clarity/FINAL.sha256` byte-for-byte; host `SpellConsequencePanel.jsx` preserved against `BASE.sha256` (`0bf3d03c…`).
+- **Tests (PASS):** Focused suite `SpellConsequenceRefusalClarity.headq.test.jsx` (14/14 PASS); all 9 neighbor `SpellConsequence*` suites (44/44 PASS); movement combination (6/6 PASS); scoped ESLint 0 errors.
+- **Identified Production Build:** Repository-runner build at `D:\AppData\Temp\opencode\spell-cast-clarity-build-20261109\build` (capture `3900da4f…`, asset manifest SHA256 `e52a91b46170c65453aafe4dc4187e0c50b8363738007b1448041e737585bd54`, entrypoints `main.0e9740c1.js`, `services.33d8032d.js`).
+- **Production App Acceptance Witness:** `vtt-react/verification/p14/spell-cast-clarity-app-browser.cjs` (Playwright against port 4180): **10/10 checks PASS**, `result.json` at `D:\AppData\Temp\opencode\spell-cast-clarity-acceptance-20261109/result.json`.
+- **Ordinary Controls Verified:**
+  1. Server refusal reasons: cooldown caster-turn starts remaining and authenticated boundary; GM structured expiry requiring active authenticated turn tracking; exact-attachment guidance.
+  2. Accurate nothing-spent wording: "No payment was recorded" on confirmed first-attempt refusal; "Nothing was applied or charged" / "Nothing was applied or spent".
+  3. Uncertain recovery truth: re-checks stay `unresolved` and never falsely claim no payment or nothing applied.
+  4. Visible retired-context feedback: `retired_principal` surfaces feedback directing to the same command in the original room without foreign completion.
+  5. Recovery through original command: "Check this same approval", "Check same command", and retained-dice reapproval; fresh automatic retry is never issued.
+  6. Non-GM privacy separation: observer cannot access or render GM adjudication controls.
+- **Integration Queue & Ownership Status:**
+  - `wizard-composition-explanations` is frozen and closed.
+  - Formula/save compositions remain closed with recorded acceptance.
+  - M6A activation remains gated until explicit creator roll approval.
+  - Consumable transaction WIP: DeepSeek (DS) owns isolated consumable implementation following Argon's released WIP handover. Not installable until DS publishes matching frozen identities and independent verification accepts them.
+  - All compiler, port (4180), and browser resources are explicitly released.
+
+### Spell-cast refusal clarity candidate queued for guarded integration
+- **Base identities verified:** Verified `spellConsequence.js` (`7ac5e0d5…`), `spellConsequenceService.js` (`a61c0724…`), and host `SpellConsequencePanel.jsx` (`0bf3d03c…`) against `handoff/spell-cast-clarity/BASE.sha256`. Host panel behavior is strictly preserved.
+- **Focused checks verified (PASS):** `SpellConsequenceRefusalClarity.headq.test.jsx` 14/14 PASS; all 9 `SpellConsequence*` suites (25 component + 19 service = 44/44 PASS); `a11MovementCombination` 6/6 PASS; scoped ESLint clean.
+- **Queued for next compatible build (no isolated build):** Short acceptance checks queued for the next compatible build:
+  1. Meaningful refusal reason (owner cooldown remaining starts/release boundary, GM structured expiry reason, exact-attachment guidance).
+  2. Accurate nothing-spent wording ("No payment was recorded" on first submission; "Nothing was applied or charged" / "Nothing was applied or spent"; no false no-spend claims on re-checks).
+  3. Visible retired-principal result (same-room retired context visible instead of silent return).
+  4. Unknown delivery directs recovery through the original command ("Check this same approval" / "Check same command").
+- **Consumables & Argon boundary:** Argon's candidate is not edited; awaiting explicit handover. Once released, the new exact-path owner will be recorded before continuing.
+
+### M6A activation candidate preservation & guarded acceptance slot
+- **Candidate preserved:** The M6A activation candidate (`handoff/m6a-activation/`, candidate `SpellConsequencePanel.jsx` SHA256 `a19c48e78fdbbdfe8118561e87436ce777d66a690de12527895ecde0b654db7b`, mounted tests 5/5, witness `m6a-selection-app-browser.cjs`) is preserved untouched.
+- **Ordinary gate closed:** Ordinary casting remains strictly gated (`AREA_ROLL_POLICY.creatorApproval: null` in both `authoredAbility.js` mirrors) until the creator explicitly chooses the roll procedure (one shared owner roll per cast vs. independent dice per target).
+- **Guarded integration & compatible acceptance slot:** Flash retains sole compiler/build coordination ownership. The guarded integration slot is prepared for one compatible frozen capture and acceptance run (`m6a-selection-app-browser.cjs`) without opening the ordinary gate yet.
+
+### Consumable reconciled delivery — bounded evidence
+Recorded bounded evidence for Flash delivery (`handoff/consumable-reconciled-delivery/`, build `72345fff…`, `main.9d4d288f.js`):
+- **Refusal protection verified:** Family / primary attribute potions (GM-only) refused by shared room; item not consumed, condition not applied, HP untouched, refusal notice displayed.
+- **Condition-only use verified:** Non-family potions consumed exactly once with exactly one shared condition across Action Bar, SpellActionBar, and Inventory.
+- **Shared-room instant healing NOT verified:** Instant heal is not part of the room condition command; HP stayed 20 across all three entry points. Instant local healing is an observed boundary, not verified in shared room.
+- **Reload-safe item/effect reconciliation NOT established:** Unresolved command recovery is session memory only; command IDs are cleared on reload. Reload-safe item/effect reconciliation is not established.
+
+### Mixed healing+condition potions & Argon coordination boundary
+- **No partial success presentation:** A mixed healing+condition potion must NEVER be presented as successfully executed when only its condition lands.
+- **Argon coordination:** Coordinate with Argon (who owns reload recovery and mixed healing+condition transactions) on either a complete implementation (atomic `[finalResources + conditions]` delivery/reconciliation) or explicit pre-execution refusal of that unsupported shape.
+
+### Later transaction-lane bytes require separate acceptance
+- Later bytes from the transaction-boundary lane (`handoff/consumable-transaction-boundary/`, modifying `ActionBar.jsx`, `consumableCondition.js`, `actorConsequenceService.js`, etc.) require their own exact test coverage and acceptance build.
+- Later transaction-lane bytes do NOT inherit the older build's PASS (`build` `72345fff…`, `main.9d4d288f.js`).
+
+## HEADQ release reconciliation — 2026-11-08
+
+Current bounded installation/release truth is in [`MYTHRILL_COMBAT_CHECKPOINT.md`](MYTHRILL_COMBAT_CHECKPOINT.md).
+Owner-PC self-healing is installed/reviewed/App-accepted and its historical concurrent-DR hold is closed:
+released DR identities, subsequent reviewed timed-save merge and current mirrors were verified. Final
+worn-item cast/reload PASS and corrected presentation capture/Arcane facts are recorded there. Earlier
+candidate-only summaries below are historical for those lanes. No runtime overwrite or new build was needed.
+
+### Owner-PC explicit self-healing — isolated candidate (NOT installed), review ACCEPT, identified build + ordinary-App PASS (2026-11-07)
+
+Bounded self-target route for Wizard-authored immediate healing (`restriction === 'self'`, `rangeFeet === 0`, existing AP/mana costs, plain-dice `v1` / attribute-scaled `v2` / deterministic `v4` without missing-health scaling) on an owner's own primary PC. One P7 command and receipt (`actors.length === 1`, `afterRevision === beforeRevision + 1`) combines temp-first AP/mana debit and capped HP restoration (`tempHealth` unchanged) with `targetConsent(approval) === 'none'` when `source === target` (no duplicate consent prompt) and fresh canonical ownership verification (`confirmPcBundleOwners`). Independent review + delta rechecks ACCEPT (`77b860db-ee9d-4198-85c9-2a6260541312`); 7/7 new production tests (`p14OwnerPcSelfHeal.production.test.js`), 210/210 server regressions, and 30/30 client unit tests pass; identified production build (`captureHash: 1fb5cf85cfd7acb12bd55ca4188b75cf6f94fe6df279d47ad2f8ca68b60a7477`, `assetManifestSha256: a0b1802cf4b9ce387f303fa63aa55388b4964c271d96b7e2b43caf7fa652f9ee`, `exit: 0`, `frozenDrift: []`) and ordinary-App Playwright witness (`verification/p14/owner-pc-self-heal-app-browser.cjs`, `result.json` `c1e7ee5b07ad00ffda9870e4ac8d511e393f1f41605c628c57a72c3390da07d2`, `errors: []`) pass. **Not installed** into live `D:/VTT` because Sol's `composition-integration-20261107` installed into 8 overlapping runtime files while this candidate was built; complete guarded package and reversible 3-way patch delivered at [`handoff/owner-pc-self-healing/HANDOFF.md`](../handoff/owner-pc-self-healing/HANDOFF.md).
+
 ### Player→PC composed-effect casting — installed, review ACCEPT, final ordinary-App PASS (2026-11-04)
 
 Existing cast interface connects the installed A9/M3A/flat-Agility PC routes with exact primary-PC
@@ -1684,3 +1798,36 @@ unchanged. Full frontend retains one identical starting-source Pyrofiend SVG
 assertion failure (2,731 tests pass); unrelated whole-worktree whitespace remains.
 Scoped P7 diff check is clean. These results are implementation evidence, not
 independent P7 acceptance or closure of the nine environment gates.
+### Released saves + library/Bestiary integration — INSTALLED / combined build + both App journeys PASS (2026-11-07)
+
+Fresh measured guards passed: 16/16 save bases, five new paths absent; current Sonnet Bestiary/library manifest matched live.
+Installed 21/21 exact reviewed save-owner finals, preserving the released library scope repair and creature-source helper.
+No merge or behavior change: save r1 → repaired r2 review and Sonnet's library delta review carry forward.
+Combined verification: server136/136; client20 suites132/132; shared mirrors clean. Single detached build exit0,
+capture `55a92bf9…37cd9`, assets `db239208…48707`, frozen drift[]. Save `save-r2` PASS errors[]: real author/save/reopen/admit,
+saved/failed, direct/payment both branches, rider failed only, dropped ACK + GM reload exact-command one-receipt recovery.
+Bestiary `bestiary-r9` PASS errors[]: real scope/picker/assignment/reopen/native drag/admit/cast, Agility−2, AP6→5/mana50→48;
+template removal/reload leaves the exact placed server copy and GM-only Inspect JSON. Public token stays redacted.
+Harness-only repairs and explicit creature-cloud mock have bounded delta-review ACCEPT; failures retained. No injected picker
+or association fallback. Final37 selected paths match captured/frozen/live; four unrelated concurrent M5 recovery live paths
+are excluded from this artifact and recorded as live drift. Exact evidence: `handoff/save-bestiary-integration/HANDOFF.md`.
+Class-payment bridge remains isolated/uninstalled:13 fixture tests,76 server regressions,15 client tests and mirrors PASS;
+source review + repair-delta ACCEPT; exact9-file pre-save patch/manifests at `handoff/composed-class-payments/STATUS.md`.
+No new production catalogue pin or complete real spell authorized. Build/ports/file claims released.
+
+### Class payments + composed cooldowns + released M5 recovery — INSTALLED / delta ACCEPT / one build + 3 App journeys PASS (2026-11-07)
+
+Reconciled the reviewed class-payment bridge onto the installed save bytes and the released composed-cooldown candidate; the
+latest released M5 retained-history files remain byte-exact. Guarded install of 17 files (12 changed, 5 new), pre-change backups
+kept (`handoff/composition-integration/`). Explicit gates: class payment requires the pin pair; class payment + save refuses at
+admission, approval and bind; class payment + caster-start cooldown refuses at admission and via
+`unsupported_cooldown_route`. Save-only/cooldown-only routes unchanged. Reconciliation-delta review ACCEPT
+(`ses_e4a735fd9ffe1vu8gtoY3OXma5`); save r1/r2, cooldown F1–F8/delta, M1/M4B/M5 and library reviews carried forward.
+Verification: class-payment 15/15, focused combined 78/78, full server 1135 passing (same two pre-existing evidence-folder
+hooks), client 74/74 in 11 affected suites, mirrors clean. One identified build: capture `b73a4eea…67f8`, assets
+`55e01289…c8b5`, `main.9206473d.js`, exit0, **frozenDrift[] and liveDrift[]**; M5 recovery 5/5 exact. App journeys PASS with no
+page errors: save branches (`save-app`), composed cooldown (`cooldown-app`), M5 retained capacity/clear/recovery (`recovery-app`;
+cleared only confirmed history, preserved the unresolved entry, recovered one original receipt without reapplication). One
+recovery setup run failed with a harness boot race (`retired_principal`) before any product action and is retained; the identical
+rerun passed. The class-payment bridge is installed/tested but has **no authorized complete real ability and no production pin**, so
+it remains unavailable in ordinary play; no class-paid save/cooldown route is enabled. Build/port/profiles/file claims released.

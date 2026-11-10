@@ -6,8 +6,10 @@ import { refreshAuthoredAbilities, routeSpellCast, useSpellConsequenceStore } fr
 import AuthoredAdmission from '../spellcrafting-wizard/components/library/AuthoredAdmission';
 import './ItemAbility.css';
 
-/** Saved snapshot only; opens the incumbent P9 panel. No item-based authorization. */
-export default function ItemAbilityAccess({ item }) {
+/** Saved snapshot only; opens the incumbent P9 panel. No item-based authorization.
+ *  `template` marks an unowned item-library entry: it may be admitted by the GM but never used from here —
+ *  use belongs to a concrete owned inventory instance. */
+export default function ItemAbilityAccess({ item, template = false }) {
   const roomId = useGameStore(s => s.multiplayerRoom?.id);
   const entries = useSpellConsequenceStore(s => s.authoredRoomId === roomId ? s.authoredEntries : null) || [];
   const [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [selected, setSelected] = useState('');
@@ -20,9 +22,10 @@ export default function ItemAbilityAccess({ item }) {
       <p>Item association only. The GM checks requirements, range and legality. No equipment, charges, consumption or automatic item effects are applied. Admission and owner approval spend nothing; accepted execution pays and applies the admitted result once.</p>
       {association.librarySpellId && <p>Preserved library snapshot; later library edits or deletion do not replace this content.</p>}
       {support.ok && <AuthoredAdmission spell={association.record} />}
+      {template && <p>Library template. Use this ability from an owned copy in a character inventory; the template itself cannot cast.</p>}
       <button type="button" disabled={busy} onClick={async () => { setBusy(true); try { const r = await refreshAuthoredAbilities(); setMessage(r.success ? 'Admission refreshed. Select an exact saved version below.' : `Admission unavailable (${r.code}).`); } catch (e) { setMessage(e.message); } finally { setBusy(false); } }}>Refresh item ability admission</button>
-      {!matches.length && <p>Not loaded or changed since admission. Refresh; the GM must admit this exact saved definition before use.</p>}
-      {!!matches.length && <><label>Saved ability version<select value={selected} onChange={e => setSelected(e.target.value)}><option value="">Choose version and class binding</option>{matches.map(e => <option key={actionId(e.definitionRef)} value={actionId(e.definitionRef)} disabled={e.revoked}>Version {e.definitionRef.definitionVersion} · {e.canonicalDefinition.binding.classId} · {e.revoked ? 'Revoked' : 'Admitted'}</option>)}</select></label>
+      {!template && !matches.length && <p>Not loaded or changed since admission. Refresh; the GM must admit this exact saved definition before use.</p>}
+      {!template && !!matches.length && <><label>Saved ability version<select value={selected} onChange={e => setSelected(e.target.value)}><option value="">Choose version and class binding</option>{matches.map(e => <option key={actionId(e.definitionRef)} value={actionId(e.definitionRef)} disabled={e.revoked}>Version {e.definitionRef.definitionVersion} · {e.canonicalDefinition.binding.classId} · {e.revoked ? 'Revoked' : 'Admitted'}</option>)}</select></label>
         <button type="button" disabled={busy || !matches.some(e => !e.revoked && actionId(e.definitionRef) === selected)} onClick={() => {
           if (!routeSpellCast({ id: selected }, { producer: `item: ${item.customName || item.name}` })) setMessage('Unavailable for your current owner PC/class binding. Select your primary attachment and check admission. Nothing was spent.');
         }}>Use item ability</button></>}

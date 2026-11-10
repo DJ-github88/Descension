@@ -1,0 +1,77 @@
+- text: 
+- heading "Assign to Slot 2" [level=3]
+- button ""
+- tablist "Spell categories":
+  - tab "All (34)" [selected]: "34"
+  - tab "Arcanoneer (32)":  32
+  - tab "Consumables (2)":  2
+- text: 
+- textbox "Search spells or items by name, type, school, or effect..."
+- img "Dodge"
+- text: Dodge REACTION Arcanoneer 2 AP +
+- img "Parry"
+- text: Parry REACTION Arcanoneer 1 AP +
+- img "Raise Shield"
+- text: Raise Shield REACTION Arcanoneer 1 AP +
+- img "Help"
+- text: Help REACTION Arcanoneer 1 AP +
+- img "Defend"
+- text: Defend ACTION Arcanoneer 1 AP +
+- img "Opportunity Attack"
+- text: Opportunity Attack REACTION Arcanoneer 1 AP • weapon_die +
+- img "Interpose"
+- text: Interpose REACTION Arcanoneer 1 AP +
+- img "Riposte"
+- text: Riposte REACTION Arcanoneer 1 AP • weapon_die +
+- img "Shield Bash"
+- text: Shield Bash REACTION Arcanoneer 1 AP +
+- img "Spell Reaction"
+- text: Spell Reaction REACTION Arcanoneer 2 AP +
+- img "Move"
+- text: Move ACTION Arcanoneer 1 AP +
+- img "Dash"
+- text: Dash ACTION Arcanoneer 2 AP +
+- img "Disengage"
+- text: Disengage ACTION Arcanoneer 1 AP +
+- img "Use an Item"
+- text: Use an Item ACTION Arcanoneer 1 AP +
+- img "Hide"
+- text: Hide ACTION Arcanoneer 1 AP +
+- img "Help (Action)"
+- text: Help (Action) ACTION Arcanoneer 1 AP +
+- img "Ready an Action"
+- text: Ready an Action ACTION Arcanoneer 1 AP +
+- img "Aetheric Projection Lantern"
+- text: Aetheric Projection Lantern ACTION Arcanoneer 4 MP • 1 AP +
+- img "Marrow-Piercing Slug"
+- text: Marrow-Piercing Slug ACTION Arcanoneer 2 Arcane • 4 MP • 1 AP • 1d8 + intelligence/4 +
+- img "Rime-Iron Clasp"
+- text: Rime-Iron Clasp ACTION Arcanoneer 2 Rime • 4 MP • 1 AP • 1d8 + intelligence/4 +
+- img "Back-Blast Spark Shield"
+- text: "Back-Blast Spark Shield ACTION Arcanoneer 2 Arcane • 4 MP • 1 AP • Heal: 2d8 +"
+- img "Storm-Shard Barrage"
+- text: Storm-Shard Barrage ACTION Arcanoneer 1 Arcane • 1 Ember • 4 MP • 1 AP • 1d8 + intelligence/4 +
+- img "Barbed Overgrowth"
+- text: Barbed Overgrowth ACTION Arcanoneer 2 Primal • 4 MP • 1 AP • 1d8 + intelligence/4 +
+- img "Superheated Steam Vent"
+- text: Superheated Steam Vent ACTION Arcanoneer 1 Ember • 1 Rime • 7 MP • 1 AP • 1d8 + intelligence/4 +
+- img "Vampiric Slug"
+- text: Vampiric Slug ACTION Arcanoneer 2 Blight • 7 MP • 1 AP • 1d8 + intelligence/4 +
+- img "Aetheric Lance"
+- text: Aetheric Lance ACTION Arcanoneer 1 Arcane • 1 Ember • 7 MP • 1 AP • 1d8 + intelligence/4 +
+- img "Flame Burst Shell"
+- text: Flame Burst Shell ACTION Arcanoneer 2 Ember • 10 MP • 1 AP • 2d8 + intelligence/3 +
+- img "Shatter-Frost Dart"
+- text: Shatter-Frost Dart ACTION Arcanoneer 2 Rime • 10 MP • 1 AP • 2d8 + intelligence/3 +
+- img "Marrow-Shatter Concussion"
+- text: Marrow-Shatter Concussion ACTION Arcanoneer 2 Arcane • 10 MP • 1 AP • 2d8 + intelligence/3 +
+- img "Concussive Resonance"
+- text: Concussive Resonance ACTION Arcanoneer 1 Storm • 1 Arcane • 8 MP • 1 AP • 2d6 + intelligence +
+- img "Galvanic Overload"
+- text: Galvanic Overload ACTION Arcanoneer 1 Storm • 1 Ember • 12 MP • 1 AP • 3d8 + intelligence +
+- img "Sphere Exhaustion"
+- text: Sphere Exhaustion PASSIVE Arcanoneer If you end your turn with 0 spheres banked, you take -1 to all spell damage on your next turn. Going all-out has a cost - conserve or suffer. +
+- img "Potion of Insight"
+- text: Potion of Insight Slot 1 CONSUMABLE 2 in bag • COMMON Ordinary-App consumable witness +
+- img "Potion of Vigor"
+- text: Potion of Vigor CONSUMABLE 2 in bag • COMMON Ordinary-App consumable witness +

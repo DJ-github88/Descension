@@ -1,0 +1,7 @@
+{
+  "overhealCancel": true,
+  "duplicateClick": true,
+  "characterSwitchAndReturn": true,
+  "sameDeviceReload": true,
+  "passed": true
+}

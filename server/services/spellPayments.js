@@ -52,6 +52,7 @@ const approvals = new WeakMap();
 const condition = require('../shared/services/authoredCondition');
 const effect = require('../shared/services/authoredEffect');
 const classEffect = require('../shared/services/classEffect');
+const saveBranch = require('../shared/services/saveBranch');
 // Closed (withdrawn/declined/re-approval) IDs are never silently re-registered.
 const closedApprovals = new WeakMap();
 const int = (value, min = 0, max = Number.MAX_SAFE_INTEGER) => Number.isSafeInteger(value) && value >= min && value <= max;
@@ -244,8 +245,16 @@ function validateApprovalShape(approval, creature = false) {
     checkClassEffectTerms(approval);
   } else if (bundle) {
     // A10: whole-bundle terms; exact equality with the installed definition is checked against the room.
-    keys(approval.effectTerms, ['direct', 'condition', 'timing']);
-    if (approval.classPayment !== null || (approval.effectTerms.direct === null) !== (approval.roll === null) || !approval.effectTerms.condition || !approval.effectTerms.timing) fail('invalid_spell_approval');
+    const saved = approval.effectTerms && Object.hasOwn(approval.effectTerms, 'save');
+    keys(approval.effectTerms, ['direct', 'condition', 'timing', ...(saved ? ['save'] : [])]);
+    // Reconciliation gate: the reviewed class-paid composition route never combines with the reviewed save branch.
+    if (saved && approval.classPayment !== null) fail('unsupported_class_payment_route', 'A typed class payment with a GM-recorded save branch is not a reviewed combination; nothing was registered.');
+    if ((approval.classPayment !== null && (creature || approval.target.kind !== 'creature')) || (approval.effectTerms.direct === null) !== (approval.roll === null) || !approval.effectTerms.condition || !approval.effectTerms.timing) fail('invalid_spell_approval');
+    // Shared GM-recorded save branch: one rider-local "negates" save, owner PC → one creature, with a direct part.
+    // Timing is the installed definition's own (manual or a structured target-turn expiry; termsFor equality and the registry check it).
+    if (saved && (!saveBranch.validSave(approval.effectTerms.save, ['condition']) || approval.effectTerms.direct === null || ['periodic', 'damageReduction'].includes(approval.effectTerms.condition?.kind))) { fail('invalid_spell_approval'); }
+    if (saved && creature) fail('unsupported_source_route', 'A GM-recorded save branch currently requires a primary owner PC source.');
+    if (saved && approval.target.kind !== 'creature') fail('pc_target_save_unsupported', effect.PC_REFUSALS.pc_target_save_unsupported);
     if (approval.roll !== null) validateRoll(approval.roll);
     // M5 composition + M4A: an attribute-reading immediate part carries the M4A input disclosure and caster-snapshot binding (owner PC only).
     if (authored.isFormulaBundle(approval) && (creature || !int(approval.formulaSourceRevision) || !/^[0-9a-f]{64}$/.test(approval.formulaSourceHash || '') ||
@@ -264,6 +273,13 @@ function validateApprovalShape(approval, creature = false) {
   if (approval.classPayment !== null) {
     keys(approval.classPayment, ['domain', 'before', 'after', 'price']);
     conserve(approval.classPayment.domain, approval.classPayment.before, approval.classPayment.after, approval.classPayment.price);
+    if (bundle) {
+      // Bounded bridge refuses a lossy gain. It does not choose an overflow policy for any domain.
+      const { domain, before, after, price } = approval.classPayment;
+      const count = value => domain === 'elementalSpheres' ? value.spheres.length : domain === 'musicalNotes' ? value.notes.reduce((a, n) => a + n, 0) : value.current;
+      const delta = domain === 'devotionGauge' ? price.gain - price.cost : price.gains.length - price.costs.length;
+      if (count(after) - count(before) !== delta) fail('class_payment_capacity', 'The complete gain does not fit; this composed payment stays manual. Nothing was applied.');
+    }
   }
   if (!creature && !condition.isCondition(approval) && !bundle && !composed && !area &&
       (approval.classPayment?.domain === 'musicalNotes' || approval.spell.definitionId.startsWith('minstrel_'))) {
@@ -356,6 +372,7 @@ function checkAgainstRoom(room, approval) {
     if (approval.price[key] > 0) {if (approval.source.kind === 'creature') validPool(pools[pool]); tempFirst(pools[pool].current, pools[pool].temp, approval.price[key]);}
   }
   if (approval.source.kind === 'creature') { validPool(pools.ap); if (!condition.isCondition(approval)) validPool(actors.resources(target.token, approval.target.kind).hp); }
+  else if (hash(approval.source) === hash(approval.target) && !condition.isCondition(approval)) { validPool(actors.resources(target.token, approval.target.kind).hp); }
   if (approval.source.kind === 'character' && source.token?.character?.class === 'Minstrel' && approval.spell.definitionHash.startsWith(`${CAPABILITY}/`)) {
     validateMinstrelSpellApproval(approval);
   }
@@ -465,12 +482,12 @@ function bindCommand(room, player, command, authorization) {
     if (actors.locate(room, actor.ref).contract.revision !== actor.expectedRevision) {fail('stale_actor_revision');}
   }
   if (approval.classPayment && hash(home(source.token)) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) {fail('owner_reapproval_required');}
+  const self = hash(approval.source) === hash(approval.target);
   if (require('../shared/services/authoredAbility').isFormula(approval)) require('./installedAuthoredAbilities').checkApproval(room, approval);
-  if (require('../shared/services/authoredAbility').isFormula(approval) && approval.target.kind === 'character') {
+  if (require('../shared/services/authoredAbility').isFormula(approval) && approval.target.kind === 'character' && !self) {
     checkTargetAcceptance(room, entry);
     if (amount !== approval.roll.total) fail('owner_reapproval_required', 'The accepted healing amount changed; the target owner must accept the exact amount again. Nothing was applied.');
   }
-  const self = hash(approval.source) === hash(approval.target);
   const pools = sourcePools(source.token, approval.source.kind);
   const expectedSource = {};
   for (const pool of ['ap', 'mana']) {
@@ -484,7 +501,9 @@ function bindCommand(room, player, command, authorization) {
     const fromTemp = Math.min(targetPools.hp.temp, amount);
     return { current: Math.max(0, targetPools.hp.current - (amount - fromTemp)), temp: targetPools.hp.temp - fromTemp };
   })() : { current: Math.min(targetPools.hp.max, targetPools.hp.current + amount), temp: targetPools.hp.temp };
-  if (((self && approval.source.kind === 'creature') || (require('../shared/services/authoredAbility').isFormula(approval) && approval.target.kind === 'character')) &&
+  const explicitSelfHeal = authoredImmediate && self && approval.source.kind === 'character' &&
+    authored.ownerSelfHealing(require('./installedAuthoredAbilities').lookup(room, approval.spell)?.canonicalDefinition);
+  if (((self && approval.source.kind === 'creature') || explicitSelfHeal || (authored.isFormula(approval) && approval.target.kind === 'character') || chosen.actualHealing !== undefined) &&
     approval.spell.kind === 'healing' && chosen.actualHealing !== hp.current - targetPools.hp.current) fail('approval_mismatch');
   const expected = [{ ref: approval.source, finalResources: self ? { ...expectedSource, hp } : expectedSource,
     ...(approval.classPayment ? { classPayment: { mode: 'spell', domain: approval.classPayment.domain, approvalHash: entry.contentHash } } : {}) }];
@@ -585,6 +604,7 @@ function bindCondition(room, player, command, authorization, entry) {
 // structured C4 schedule, installed by the P7 stage) — or nothing. Terms are bound to the installed definition.
 function bindEffect(room, player, command, authorization, entry) {
   const a = entry.approval, pc = a.source.kind === 'character';
+  if (a.classPayment && hash(home(actors.locate(room, a.source).token)) !== hash({ domain: a.classPayment.domain, value: a.classPayment.before })) fail('owner_reapproval_required');
   (pc ? validateApproval : validateCreatureApproval)(a); checkAgainstRoom(room, a);
   if (authorization.authorizerUid !== room.gmId) fail('forbidden');
   if (pc) {
@@ -601,9 +621,27 @@ function bindEffect(room, player, command, authorization, entry) {
   validateConditionResolution(resolution);
   // Changed timing terms are never silently substituted for the owner-approved/admitted ones.
   if (hash(resolution.timing) !== hash(a.effectTerms.timing)) fail(pc ? 'owner_reapproval_required' : 'approval_mismatch');
+  // Shared GM-recorded save branch: the GM records one of the owner-approved branches; the negated effect installs only on "failed".
+  // The VTT never rolls or checks the save. The branch, like everything else in the result, is bound to the approved terms below.
+  const save = effect.saveOf(a.effectTerms), branch = save ? chosen?.branch : undefined;
+  if (save && a.classPayment) fail('unsupported_class_payment_route', 'A typed class payment with a GM-recorded save branch is not a reviewed combination; nothing was registered.');
+  if (save && (!pc || a.target.kind !== 'creature')) fail('save_branch_route_unsupported', 'A GM-recorded save branch is supported for a primary owner PC source and one creature target only.');
+  if (save && !effect.branchesFor(a.effectTerms).includes(branch)) fail('save_branch_unbound', 'Only an outcome the owner approved (saved or failed) can be recorded; nothing was applied.');
+  // Timed save branch: the owner approved a structured expiry for the rider. Whichever branch the GM records, that approved schedule must be
+  // installable now (live authenticated clock, target in the exact roster, capacity) — checked here with the P7 stage's own rules, before
+  // any combination planning, so "saved" can never commit where "failed" could not. Never downgraded to manual expiry.
+  if (save && effect.TIMINGS[a.effectTerms.timing.expiryPolicy] !== 'manual') {
+    // Review F1 (timed): computed from the rider's own plan whatever the branch, so a refresh that frees its prior slot counts alike for both.
+    const prior = effect.conditionPlan(a, actors.locate(room, a.target).token.state?.conditions || []);
+    const removed = (prior.ops || []).filter(op => op.op === 'remove').map(op => op.recordId);
+    if (!require('./sharedEffectLifecycle').schedulable(room, a.target, effect.recordFor(a), removed)) {
+      fail('effect_schedule_unavailable', 'Structured expiry needs active authenticated turn tracking with this target in the exact roster (and schedule capacity). This applies to both recorded outcomes. Nothing was applied or charged.');
+    }
+  }
   // A11: add / refresh / refuse is derived here from the target's current authoritative conditions,
   // never taken from the client; the P7 stage re-derives it independently before installing anything.
-  const target = actors.locate(room, a.target), plan = effect.conditionPlan(a, target.token.state?.conditions || []);
+  const target = actors.locate(room, a.target), applies = effect.conditionApplies(a.effectTerms, branch);
+  const plan = applies ? effect.conditionPlan(a, target.token.state?.conditions || []) : { ops: null, combination: null };
   if (plan.refused) fail(plan.refused.code, plan.refused.message);
   if (a.target.kind === 'character') {
     // M3A: the consent boundary is derived from the admitted terms here, never from the client. A creature's direct part uses A5's offer route instead.
@@ -615,7 +653,7 @@ function bindEffect(room, player, command, authorization, entry) {
     // An accepted healing amount is the amount the owner was shown; any other amount needs a fresh acceptance (A5's rule).
     if (a.effectTerms.direct?.kind === 'healing' && adj.finalAmount !== a.roll.total) fail('owner_reapproval_required', 'The healing amount differs from the accepted proposal; the target\'s owner must accept again.');
   }
-  if (hash(chosen) !== hash(effect.resultFor(a, resolution, plan.combination))) fail(plan.combination ? 'modifier_combination_changed' : 'approval_mismatch');
+  if (hash(chosen) !== hash(effect.resultFor(a, resolution, plan.combination, branch))) fail(plan.combination ? 'modifier_combination_changed' : 'approval_mismatch');
   const direct = a.effectTerms.direct, amount = adj.finalAmount;
   if (direct) {
     if (!int(amount, 0, 100000)) fail('invalid_final_amount');
@@ -626,14 +664,15 @@ function bindEffect(room, player, command, authorization, entry) {
   const pools = sourcePools(source.token, a.source.kind), payment = {};
   for (const pool of ['ap', 'mana']) if (a.price[pool] > 0) payment[pool] = tempFirst(pools[pool].current, pools[pool].temp, a.price[pool]);
   if (!Object.keys(payment).length) payment.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);
-  const targetEntry = { ref: a.target, expectedRevision: target.contract.revision, conditions: plan.ops };
+  const targetEntry = { ref: a.target, expectedRevision: target.contract.revision, ...(applies ? { conditions: plan.ops } : {}) };
   if (direct) {
     const hp = actors.resources(target.token, a.target.kind).hp;
     validPool(hp);
     const fromTemp = Math.min(hp.temp, amount);
     targetEntry.finalResources = { hp: direct.kind === 'damage' ? { current: Math.max(0, hp.current - (amount - fromTemp)), temp: hp.temp - fromTemp } : { current: Math.min(hp.max, hp.current + amount), temp: hp.temp } };
   }
-  const expected = [{ ref: a.source, expectedRevision: source.contract.revision, finalResources: payment }, targetEntry];
+  const expected = [{ ref: a.source, expectedRevision: source.contract.revision, finalResources: payment,
+    ...(a.classPayment ? { classPayment: { mode: 'spell', domain: a.classPayment.domain, approvalHash: entry.contentHash } } : {}) }, targetEntry];
   if (hash(command.actors) !== hash(expected)) fail('approval_mismatch');
   return entry;
 }
@@ -718,7 +757,7 @@ function targetProposal(entry) {
   if (t.healing) return { ...base, healing: clone(t.healing), consent: 'required' };
   if (t.bundle) {
     const c = t.bundle.condition;
-    return { ...base, conditionKey: c.kind === 'stunned' ? 'stunned' : c.kind === 'attribute' ? 'attribute' : 'movement', durationText: t.bundle.timing.durationText, expiryPolicy: t.bundle.timing.expiryPolicy,
+    return { ...base, conditionKey: c.kind === 'stunned' ? 'stunned' : c.kind === 'attribute' ? 'attribute' : c.kind === 'damageReduction' ? 'damage-reduction' : 'movement', durationText: t.bundle.timing.durationText, expiryPolicy: t.bundle.timing.expiryPolicy,
       ...(t.bundle.timing.occurrences !== undefined ? { occurrences: t.bundle.timing.occurrences } : {}),
       bundle: { ...t.bundle, timing: { durationText: t.bundle.timing.durationText, expiryPolicy: t.bundle.timing.expiryPolicy, ...(t.bundle.timing.occurrences !== undefined ? { occurrences: t.bundle.timing.occurrences } : {}) } },
       consent: effect.pcConsent(entry.approval.effectTerms, entry.approval.source.kind) };
@@ -727,7 +766,7 @@ function targetProposal(entry) {
 }
 /** What target consent an approval aimed at a PC needs: 'none' (hostile default), 'designatable' (GM may ask), 'required' (always asked). */
 function targetConsent(approval) {
-  if (approval.target?.kind !== 'character') return 'none';
+  if (approval.target?.kind !== 'character' || hash(approval.source) === hash(approval.target)) return 'none';
   if (condition.isCondition(approval)) return 'designatable';
   if (!effect.isEffect(approval)) {
     // M4B: direct formula healing aimed at a primary PC always needs that owner's

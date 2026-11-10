@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, ACTION_TYPES } from '../../context/spellWizardContext';
 import { triggerCategories } from '../../core/data/triggerData';
 
@@ -14,13 +14,8 @@ export default function useTriggerConfig() {
   const [triggerConfig, setTriggerConfig] = useState(() => {
     const global = state.triggerConfig?.global || {
       logicType: 'AND',
-      compoundTriggers: [],
-      enabled: true
+      compoundTriggers: []
     };
-    // Ensure enabled is set if not present
-    if (global.enabled === undefined) {
-      global.enabled = true;
-    }
     return global;
   });
 
@@ -62,6 +57,7 @@ export default function useTriggerConfig() {
 
     // For each effect type, initialize with base formulas and settings from effect configs
     state.effectTypes.forEach(effectType => {
+      if (!Object.prototype.hasOwnProperty.call(existingConditionalEffects, effectType)) return;
       // Get base formula from the appropriate effect config
       let baseFormula = '';
       let baseSettings = {};
@@ -157,28 +153,11 @@ export default function useTriggerConfig() {
       }
 
       // If there's an existing config, use it, otherwise create a new one
-      initializedEffects[effectType] = existingConditionalEffects[effectType] || {
-        isConditional: false,
-        defaultEnabled: true,
-        baseFormula: baseFormula,
-        baseSettings: baseSettings,
-        conditionalFormulas: {
-          'default': baseFormula
-        },
-        conditionalSettings: {}
-      };
-
-      // Ensure the default formula is set if it doesn't exist
-      if (!initializedEffects[effectType].conditionalFormulas?.default) {
-        initializedEffects[effectType].conditionalFormulas = {
-          ...initializedEffects[effectType].conditionalFormulas,
-          'default': baseFormula
-        };
-      }
+      initializedEffects[effectType] = { ...existingConditionalEffects[effectType] };
 
       // Store the base formula and settings for reference
-      initializedEffects[effectType].baseFormula = baseFormula;
-      initializedEffects[effectType].baseSettings = baseSettings;
+      initializedEffects[effectType].baseFormula = initializedEffects[effectType].baseFormula || baseFormula;
+      initializedEffects[effectType].baseSettings = initializedEffects[effectType].baseSettings || baseSettings;
     });
 
     return initializedEffects;
@@ -1077,20 +1056,29 @@ export default function useTriggerConfig() {
   };
 
   // Effect to update context when configuration changes
+  const hasSyncedTriggerConfig = useRef(false);
   useEffect(() => {
+    if (!hasSyncedTriggerConfig.current) {
+      hasSyncedTriggerConfig.current = true;
+      return;
+    }
     dispatch({
       type: ACTION_TYPES.UPDATE_TRIGGER_CONFIG,
       payload: {
         global: triggerConfig,
         effectTriggers: effectTriggers,
-        buffDebuffTriggers: {}, // Remove buffDebuffTriggers - no longer used
         requiredConditions: requiredConditions
       }
     });
   }, [triggerConfig, effectTriggers, requiredConditions, dispatch]);
 
   // Effect to update trigger role in context - Always CONDITIONAL mode
+  const hasSyncedTriggerRole = useRef(false);
   useEffect(() => {
+    if (!hasSyncedTriggerRole.current) {
+      hasSyncedTriggerRole.current = true;
+      return;
+    }
     dispatch({
       type: ACTION_TYPES.UPDATE_TRIGGER_ROLE,
       payload: {
@@ -1100,7 +1088,12 @@ export default function useTriggerConfig() {
   }, [dispatch]);
 
   // Effect to update context when conditional effects change
+  const hasSyncedConditionalEffects = useRef(false);
   useEffect(() => {
+    if (!hasSyncedConditionalEffects.current) {
+      hasSyncedConditionalEffects.current = true;
+      return;
+    }
     // Update the context with conditional effects
     Object.entries(conditionalEffects).forEach(([effectType, config]) => {
       dispatch({

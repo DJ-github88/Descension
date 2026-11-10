@@ -1,5 +1,5 @@
 /** Entitled server lookup cache, scoped to the exact current connection by its caller. */
-import { actionId, CAPABILITY, FORMULA_CAPABILITY, AREA_CAPABILITY, CONDITION_CAPABILITY, EFFECT_CAPABILITY, AREA_ROLL_UNAPPROVED_REASON, isAreaRollProcedureApproved, readFormula, readScaledFormula, formulaAttributes } from './authoredAbility';
+import { actionId, CAPABILITY, FORMULA_CAPABILITY, AREA_CAPABILITY, CONDITION_CAPABILITY, EFFECT_CAPABILITY, AREA_ROLL_UNAPPROVED_REASON, isAreaRollProcedureApproved, readFormula, readScaledFormula, formulaAttributes, ownerSelfHealing } from './authoredAbility';
 import { termsFor } from './authoredEffect';
 import { HEALTH_CAPABILITY, readHealthFormula, DETERMINISTIC_CAPABILITY, readDeterministicFormula } from './authoredAbility';
 let roomId = null, entries = [];
@@ -44,10 +44,15 @@ export function authoredSupport(id, room, className, stats = {}, health) {
       rollAttributes: Object.fromEntries(formulaAttributes(raw.effect.formula).map(name => [name, stats[name]])),
       ...(dynamic ? { rollHealth: { current: health.current, max: health.max } } : {}),
       classPaymentSpec: raw.classPayment || null, targetRoute: raw.targetRoute || 'creature',
+      selfHealing: ownerSelfHealing(raw),
       catalogueSource: raw.catalogueSource || null,
       name: raw.name, definitionId: id, definitionHash: `${descriptor.capabilityId}/${entry.definitionRef.definitionHash}` };
   }
   if (descriptor.capabilityId === EFFECT_CAPABILITY) {
+    if (entry.catalogueEligibility?.eligible === false) return { supported: false, reason: entry.catalogueEligibility.reason || 'This catalogue profile is no longer eligible; manual play only.' };
+    if ((raw.classPayment || raw.catalogueSource) && !(raw.classPayment && raw.catalogueSource)) return { supported: false, reason: 'A typed class payment requires a pinned catalogue source.' };
+    // Reconciliation gate: class-paid compositions never combine with the save or caster-start cooldown routes.
+    if (raw.classPayment && (raw.cooldown || raw.effects?.save)) return { supported: false, reason: 'Class payments with a save branch or cooldown are not a reviewed combination; manual play only.' };
     // A10 bundle: exact terms the owner approves (direct part, canonical effect and duration).
     const direct = raw.effects.direct;
     // M5 composition + M4A: an attribute-reading immediate part uses the shared scaled reader with this owner's effective (sheet) scores.
@@ -56,12 +61,15 @@ export function authoredSupport(id, room, className, stats = {}, health) {
     if (reading && reading.supported === false) return reading;
     return { supported: true, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },
       kind: 'effect', effectTerms: termsFor(raw), formula: direct?.formula || null, damageTypes: direct?.damageTypes || [], price: descriptor.price, timing: raw.timing,
-      cooldown: { type: 'none', value: 0 }, payment: { affordable: true, classPayment: null }, reading,
+      classPaymentSpec: raw.classPayment || null, catalogueSource: raw.catalogueSource || null,
+      // Composed cooldowns: an immediate + periodic bundle may carry the installed authenticated caster-start cooldown (server-authoritative).
+      cooldown: raw.cooldown ? { type: raw.cooldown.cooldownType, value: raw.cooldown.cooldownValue, definitionId: raw.definitionId } : { type: 'none', value: 0 }, payment: { affordable: true, classPayment: null }, reading,
       ...(names.length ? { rollAttributes: Object.fromEntries(names.map(name => [name, stats[name]])) } : {}),
       name: raw.name, definitionId: id, definitionHash: `${EFFECT_CAPABILITY}/${entry.definitionRef.definitionHash}` };
   }
   return { supported: true, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },
     kind: raw.effect.kind, formula: raw.effect.formula, damageTypes: descriptor.effect.damageTypes || [], price: descriptor.price, timing: raw.timing,
     cooldown: { type: 'none', value: 0 }, payment: { affordable: true, classPayment: null }, reading: raw.effect.kind === 'condition' ? null : readFormula(raw.effect.formula),
+    selfHealing: ownerSelfHealing(raw),
     name: raw.name, definitionId: id, definitionHash: `${raw.effect.kind === 'condition' ? CONDITION_CAPABILITY : CAPABILITY}/${entry.definitionRef.definitionHash}` };
 }

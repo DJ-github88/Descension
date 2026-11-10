@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "actionBar": {
+      "familyRefused": true,
+      "itemKept": true,
+      "health": 20,
+      "conditions": 0
+    }
+  },
+  "errors": [
+    {
+      "role": "action-bar",
+      "error": "Failed to fetch"
+    }
+  ],
+  "limits": [
+    "Optimized production App and registered backend run; identity/provider login, canonical ownership, lease and cloud persistence are fixture boundaries.",
+    "Inventory contents, the local character roster and the room health pool are seeded/reset through the existing webpack store exports. Every use itself is an ordinary App control (slot click, Drink / Consume, Inventory Use).",
+    "Same-device fixture room; no deployment, Firebase/production auth, physical second device or human-player claim."
+  ],
+  "failure": "Error: Timed out waiting for action-bar regen consumption\n    at waitFor (D:\\VTT\\vtt-react\\verification\\p14\\consumable-entry-points-app-browser.cjs:81:9)\n    at async actionBarEntry (D:\\VTT\\vtt-react\\verification\\p14\\consumable-entry-points-app-browser.cjs:115:3)\n    at async main (D:\\VTT\\vtt-react\\verification\\p14\\consumable-entry-points-app-browser.cjs:238:11)"
+}

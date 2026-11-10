@@ -54,3 +54,25 @@ html body .authored-effect-fields input:hover,
 html body .authored-effect-fields select:hover,
 html body .authored-effect-fields textarea:hover { border-color: var(--cr-accent, #7b5a2a); }
 html body .authored-effect-fields :focus-visible { outline: 2px solid var(--cr-accent, #7b5a2a); outline-offset: 1px; }
+/* Shared GM-recorded save: a nested hairline box, same paper, no stripe or tint. */
+html body .authored-effect-fields .authored-effect-save {
+  border: 1px solid var(--cr-rule, #d3c8ae);
+  border-radius: var(--cr-r-md, 4px);
+  padding: 8px 12px;
+  margin: 12px 0;
+  min-width: 0;
+}
+html body .authored-effect-fields .authored-effect-save legend {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+html body .authored-effect-fields label.authored-effect-check {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-weight: 400;
+}
+html body .authored-effect-fields label.authored-effect-check input {
+  width: auto;
+  flex: none;
+}

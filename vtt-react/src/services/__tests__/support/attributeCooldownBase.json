@@ -1,0 +1,88 @@
+{
+  "definition": {
+    "schemaVersion": 3,
+    "capability": "authored-effect:v1",
+    "scope": {
+      "roomId": "r"
+    },
+    "definitionId": "70000000-0000-4000-8000-0000000000c1",
+    "definitionVersion": 1,
+    "name": "Attribute Charm",
+    "description": "Disposable fixture",
+    "binding": {
+      "rulesetId": "prism",
+      "rulesetVersion": "cr-a1a-pilot-1",
+      "classId": "arcanoneer"
+    },
+    "spellType": "ACTION",
+    "castTimeType": "IMMEDIATE",
+    "targeting": {
+      "kind": "single",
+      "maxTargets": 1,
+      "rangeFeet": 30,
+      "restriction": "any"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "mana": 2
+    },
+    "effects": {
+      "direct": null,
+      "condition": {
+        "kind": "attribute",
+        "attribute": "intelligence",
+        "amount": -2,
+        "label": "Attribute Charm"
+      }
+    },
+    "timing": {
+      "expiryPolicy": "gm-manual",
+      "durationText": "While the charm holds",
+      "authoredDuration": null,
+      "gmNote": "GM confirms range."
+    }
+  },
+  "definitionHash": "342ecce60b77fbc07005f5cf818efadda2b619024bb8edc28585fb8b47975723",
+  "descriptor": {
+    "schemaVersion": 3,
+    "capabilityId": "authored-effect:v1",
+    "compilerVersion": "p14-a10-effect-1",
+    "definitionRef": {
+      "roomId": "r",
+      "definitionId": "70000000-0000-4000-8000-0000000000c1",
+      "definitionVersion": 1,
+      "definitionHash": "342ecce60b77fbc07005f5cf818efadda2b619024bb8edc28585fb8b47975723"
+    },
+    "binding": {
+      "rulesetId": "prism",
+      "rulesetVersion": "cr-a1a-pilot-1",
+      "classId": "arcanoneer"
+    },
+    "price": {
+      "ap": 1,
+      "mana": 2
+    },
+    "targeting": {
+      "kind": "single",
+      "maxTargets": 1,
+      "rangeFeet": 30,
+      "restriction": "any"
+    },
+    "effects": {
+      "direct": null,
+      "condition": {
+        "kind": "attribute",
+        "attribute": "intelligence",
+        "amount": -2,
+        "label": "Attribute Charm"
+      }
+    },
+    "timing": {
+      "expiryPolicy": "gm-manual",
+      "durationText": "While the charm holds",
+      "authoredDuration": null,
+      "gmNote": "GM confirms range."
+    },
+    "executionEnabled": false
+  }
+}

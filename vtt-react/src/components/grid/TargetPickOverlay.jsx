@@ -11,7 +11,7 @@ import useLevelEditorStore, { WALL_TYPES } from '../../store/levelEditorStore';
 import { AIM_MANUAL, queryAimObstruction } from '../../services/aimObstruction';
 import { PROFESSIONAL_OBJECTS } from '../level-editor/objects/ObjectSystem';
 import { useCombatFeedStore, actorKey } from '../../services/acceptedResultFeed';
-import { refOfToken, sameRef, pickKey, planarFeet, ringPoints, tokenAt, rangeText, formatFeet } from '../../services/targetPick';
+import { refOfToken, sameRef, pickKey, planarFeet, ringPoints, tokenAt, rangeText, formatFeet, targetOptionLabel } from '../../services/targetPick';
 import './TargetPickOverlay.css';
 
 /**
@@ -109,7 +109,7 @@ const TargetPickOverlay = ({ gridSystem, feetPerTile = 5, gridSize = 50, current
     setSelected(pickKey(hit.entry.ref)); setCursor(null); setNotice('');
   };
   const onContext = event => { event.preventDefault(); cancelTargetPick(); };
-  const status = hover ? (hover.candidate ? `${hover.entry.name}: ${rangeText(feet, session.rangeFeet, session.rangeLabel)}` : `${hover.entry.name}: ${hover.reason}`)
+  const status = hover ? (hover.candidate ? `${targetOptionLabel(hover.entry)}: ${rangeText(feet, session.rangeFeet, session.rangeLabel)}` : `${targetOptionLabel(hover.entry)}: ${hover.reason}`)
     : notice || `Pick a target for ${session.label}. Esc or right-click cancels.`;
   const candidateEntries = entries.filter(entry => visible(entry.ref) && (session.candidates || []).some(ref => sameRef(ref, entry.ref)));
   const drawableSource = hasPosition(source) ? source : null;
@@ -129,7 +129,7 @@ const TargetPickOverlay = ({ gridSystem, feetPerTile = 5, gridSize = 50, current
         <label className="tpo-picker">Preview target
           <select ref={targetControl} value={chosen ? selected : ''} onKeyDown={event => event.stopPropagation()} onChange={event => { setSelected(event.target.value); setCursor(null); setNotice(''); }}>
             <option value="">Choose a target or tap its token</option>
-            {candidateEntries.map(entry => <option key={pickKey(entry.ref)} value={pickKey(entry.ref)}>{entry.name}</option>)}
+            {candidateEntries.map(entry => <option key={pickKey(entry.ref)} value={pickKey(entry.ref)}>{targetOptionLabel(entry)}</option>)}
           </select>
         </label>
         <div role="status" aria-live="polite" className="tpo-feedback">

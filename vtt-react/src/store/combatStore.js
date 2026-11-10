@@ -67,41 +67,48 @@ const useCombatStore = create((set, get) => ({
     }),
 
     // Start combat with selected tokens
-    startCombat: (tokens, creatures, addCombatNotification) => {
+    startCombat: (tokens, creatures, addCombatNotification, customInitiatives = {}) => {
         const boundary = require('../services/actorConsequenceService');
         const shared = boundary.inSharedRoom();
         const combatants = tokens.map(token => {
             let creature = creatures.find(c => c.id === token.creatureId);
             let isCharacterToken = false;
 
-            // CRITICAL FIX: Handle character tokens (have playerId OR isPlayerToken flag)
-            // Local player tokens have isPlayerToken=true but no playerId
-            // Multiplayer player tokens have playerId
-            if (!creature && (token.playerId || token.isPlayerToken)) {
+            // Handle character tokens across single-player, legacy and shared rooms
+            const isCharToken = !creature && (token.playerId || token.isPlayerToken || token.character || token.ownerUserId || token.state?.actorContract?.kind === 'character' || token.isCharacterToken);
+            if (isCharToken) {
                 isCharacterToken = true;
                 const useCharacterStore = getStore('characterStore');
-                const char = shared ? token.character || {} : useCharacterStore.getState();
-                // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
+                const char = (shared && token.character) ? token.character : (token.character || useCharacterStore.getState());
                 const characterSpeed = char.derivedStats?.moveSpeed || 30;
+                const charStats = char.stats || {};
+                const agility = charStats.agility !== undefined ? charStats.agility : 10;
+                const initiativeMod = charStats.initiativeMod !== undefined ? charStats.initiativeMod : Math.floor((agility - 10) / 2);
                 creature = {
-                    id: token.playerId ? `character_${token.playerId}` : 'character_local',
-                    name: char.name || 'Character',
+                    id: token.playerId ? `character_${token.playerId}` : (token.ownerUserId ? `character_${token.ownerUserId}` : (token.id ? `character_${token.id}` : 'character_local')),
+                    name: char.name || token.name || 'Character',
                     stats: {
-                        agility: char.stats?.agility || 10,
-                        initiativeMod: Math.floor(((char.stats?.agility || 10) - 10) / 2),
+                        agility,
+                        initiativeMod,
                         speed: characterSpeed
                     },
-                    tokenIcon: char.tokenSettings?.customIcon || char.lore?.characterImage || 'inv_misc_questionmark',
-                    tokenBorder: char.tokenSettings?.borderColor || '#506e30'
+                    tokenIcon: char.tokenSettings?.customIcon || char.lore?.characterImage || token.tokenIcon || 'inv_misc_questionmark',
+                    tokenBorder: char.tokenSettings?.borderColor || token.tokenBorder || '#506e30'
                 };
             }
 
             if (!creature) return null;
 
-            // Roll initiative (d20 + initiative modifier)
-            const d20Roll = Math.floor(Math.random() * 20) + 1;
-            const initiativeMod = creature.stats.initiativeMod || Math.floor((creature.stats.agility - 10) / 2);
-            const initiative = d20Roll + initiativeMod;
+            // Roll initiative or use supplied initiative through existing procedure
+            const initiativeMod = creature.stats.initiativeMod !== undefined ? creature.stats.initiativeMod : Math.floor(((creature.stats.agility || 10) - 10) / 2);
+            let initiative, d20Roll;
+            if (customInitiatives && Number.isFinite(Number(customInitiatives[token.id]))) {
+                initiative = Number(customInitiatives[token.id]);
+                d20Roll = initiative - initiativeMod;
+            } else {
+                d20Roll = Math.floor(Math.random() * 20) + 1;
+                initiative = d20Roll + initiativeMod;
+            }
 
             // Log initiative roll to chat
             if (addCombatNotification) {
@@ -145,7 +152,7 @@ const useCombatStore = create((set, get) => ({
                 initiativeMod,
                 tokenIcon: creature.tokenIcon,
                 tokenBorder: creature.tokenBorder,
-                currentActionPoints: shared ? (isCharacterToken ? token.character?.actionPoints?.current : token.state?.currentActionPoints) : currentActionPoints,
+                currentActionPoints: shared ? (isCharacterToken ? (token.character?.actionPoints?.current !== undefined ? token.character.actionPoints.current : currentActionPoints) : (token.state?.currentActionPoints !== undefined ? token.state.currentActionPoints : currentActionPoints)) : currentActionPoints,
                 maxActionPoints,
                 isCharacterToken
             };
@@ -237,11 +244,6 @@ const useCombatStore = create((set, get) => ({
                     timestamp: Date.now()
                 });
                 console.log('âš”ï¸  Emitted combat_started to server');
-                sortedCombatants.forEach(combatant => {
-                    const token = boundary.findActor(combatant.actorRef || combatant.tokenId);
-                    if (token && combatant.actorRef) boundary.submitActorEntries([{ ref: combatant.actorRef, expectedRevision: token.state.actorContract.revision,
-                        finalResources: combatant.pendingResourceResult }]);
-                });
             }
         } catch (error) {
             console.warn('Failed to emit combat_started:', error);

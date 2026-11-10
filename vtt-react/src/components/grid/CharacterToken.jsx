@@ -849,6 +849,12 @@ const CharacterToken = ({
     // CRITICAL FIX: Ensure event is properly stopped to prevent grid click handling
     e.stopPropagation();
     e.preventDefault(); // Prevent text selection during drag
+    // If in selection mode, toggle selection instead of dragging
+    if (isSelectionMode) {
+      toggleTokenSelection(tokenId);
+      setShowTooltip(false);
+      return;
+    }
 
     // CRITICAL FIX: Check token ownership - players can only move their own tokens, GM can move any
     if (isInMultiplayer && !isGMMode) {

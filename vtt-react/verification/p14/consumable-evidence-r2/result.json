@@ -1,0 +1,70 @@
+{
+  "checks": {
+    "actionBar": {
+      "familyRefused": true,
+      "itemKept": true,
+      "health": 20,
+      "conditions": 0,
+      "regenUsed": {
+        "quantity": 1,
+        "conditions": 1,
+        "localHealth": 25,
+        "serverHealth": 25,
+        "note": "instant local healing is not part of the room condition command; HP is not claimed as reconciled"
+      }
+    },
+    "spellBar": {
+      "familyRefused": true,
+      "itemNotRemoved": true,
+      "health": 20,
+      "conditions": 0,
+      "note": "the character view rehydrates its scoped inventory during this check; removal calls are recorded directly",
+      "regenUsed": {
+        "removals": [
+          [
+            "witness-regen",
+            1
+          ]
+        ],
+        "conditions": 1,
+        "localHealth": 25,
+        "serverHealth": 25,
+        "note": "instant local healing is not part of the room condition command; HP is not claimed as reconciled"
+      }
+    },
+    "inventory": {
+      "familyRefused": true,
+      "itemKept": true,
+      "health": 20,
+      "conditions": 0,
+      "regenUsed": {
+        "quantity": 1,
+        "conditions": 1,
+        "localHealth": 25,
+        "serverHealth": 25,
+        "note": "instant local healing is not part of the room condition command; HP is not claimed as reconciled"
+      }
+    }
+  },
+  "errors": [],
+  "limits": [
+    "Optimized production App and registered backend run; identity/provider login, canonical ownership, lease and cloud persistence are fixture boundaries.",
+    "Inventory contents, the local character roster and the room health pool are seeded/reset through the existing webpack store exports. Every use itself is an ordinary App control (slot click, Drink / Consume, Inventory Use).",
+    "Same-device fixture room; no deployment, Firebase/production auth, physical second device or human-player claim."
+  ],
+  "environmentErrors": [
+    {
+      "role": "action-bar",
+      "error": "Failed to fetch"
+    },
+    {
+      "role": "spell-bar",
+      "error": "Failed to fetch"
+    },
+    {
+      "role": "inventory",
+      "error": "Failed to fetch"
+    }
+  ],
+  "passed": true
+}

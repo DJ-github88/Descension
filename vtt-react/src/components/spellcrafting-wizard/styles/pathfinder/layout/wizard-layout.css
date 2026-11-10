@@ -332,6 +332,58 @@
   border-bottom: 2px solid var(--my-warning-light);
 }
 
+/* ===== EMBEDDED HEADER (SPELLBOOK WINDOW) ===== */
+
+.app-header.embedded-header {
+  padding: var(--my-space-2) var(--my-space-4);
+  min-height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--my-space-2);
+}
+
+.embedded-header-spacer {
+  flex: 1;
+}
+
+.app-global-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--my-space-2);
+  flex-wrap: wrap;
+}
+
+.edit-mode-indicator-embedded {
+  display: flex;
+  align-items: center;
+  gap: var(--my-space-2);
+  background: var(--my-warning);
+  color: var(--my-text-on-dark);
+  padding: var(--my-space-1) var(--my-space-3);
+  border-radius: var(--my-radius-md);
+  font-family: var(--my-font-display);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-sm);
+  border: 1px solid var(--my-warning-light);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.edit-mode-indicator-embedded .edit-mode-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.embedded-header .edit-mode-indicator {
+  position: static;
+  box-shadow: none;
+  border-bottom: none;
+  text-align: left;
+}
+
 /* ===== LOADING WRAPPER ===== */
 
 .loading-wrapper {
@@ -359,6 +411,29 @@
     flex-direction: column;
     gap: var(--my-space-3);
     padding: var(--my-space-3);
+  }
+
+  .app-header.embedded-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    gap: 8px;
+  }
+
+  .app-header.embedded-header .embedded-header-spacer {
+    display: none;
+  }
+
+  .app-header.embedded-header .app-global-controls {
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  .app-header.embedded-header .edit-mode-indicator-embedded {
+    font-size: var(--my-text-xs);
+    padding: 2px 8px;
+    max-width: 100%;
   }
 
   .app-title h1 {
@@ -389,6 +464,33 @@
 }
 
 @media (max-width: 480px) {
+  .app-header.embedded-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 4px 6px;
+    gap: 6px;
+  }
+
+  .app-header.embedded-header .edit-mode-indicator-embedded {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .app-header.embedded-header .app-global-controls {
+    width: 100%;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .app-header.embedded-header .app-control-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 4px 6px;
+    font-size: 11px;
+    min-width: 0;
+  }
+
   .app-title h1 {
     font-size: var(--my-text-xl);
   }

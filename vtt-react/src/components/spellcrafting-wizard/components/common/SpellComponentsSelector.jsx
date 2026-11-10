@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHandSparkles, faComment, faFlask, faSearch, faTimes, faEdit, faBookOpen } from '@fortawesome/free-solid-svg-icons';
-import { createPortal } from 'react-dom';
+import { faHandSparkles, faComment, faFlask, faTimes, faEdit, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import useItemStore from '../../../../store/itemStore';
 import ItemSelectionModal from '../../../quest-log/ItemSelectionModal';
 
 
-const SpellComponentsSelector = ({ components, materialComponents, onChange, verbalText, somaticText }) => {
+const SpellComponentsSelector = ({ components, materialComponents, materialText, onChange, verbalText, somaticText }) => {
   const [showItemLibrary, setShowItemLibrary] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
 
   // State for custom component text
   const [customVerbalText, setCustomVerbalText] = useState(verbalText || '');
   const [customSomaticText, setCustomSomaticText] = useState(somaticText || '');
+  const [customMaterialText, setCustomMaterialText] = useState(materialText || (typeof materialComponents === 'string' && !selectedItems.length ? materialComponents : '') || '');
   const [showVerbalInput, setShowVerbalInput] = useState(false);
   const [showSomaticInput, setShowSomaticInput] = useState(false);
+  const [showMaterialInput, setShowMaterialInput] = useState(false);
 
   // Get items from the actual item store
   const { items } = useItemStore();
@@ -40,7 +41,12 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
   useEffect(() => {
     setCustomVerbalText(verbalText || '');
     setCustomSomaticText(somaticText || '');
-  }, [verbalText, somaticText]);
+    if (materialText !== undefined) {
+      setCustomMaterialText(materialText || '');
+    } else if (typeof materialComponents === 'string' && materialComponents) {
+      setCustomMaterialText(materialComponents);
+    }
+  }, [verbalText, somaticText, materialText, materialComponents]);
 
   // Handle component toggle
   const handleComponentToggle = (component) => {
@@ -51,6 +57,7 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
     onChange({
       components: newComponents,
       materialComponents,
+      materialText: customMaterialText,
       verbalText: customVerbalText,
       somaticText: customSomaticText
     });
@@ -74,6 +81,7 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
     onChange({
       components,
       materialComponents: newMaterialComponents,
+      materialText: customMaterialText,
       verbalText: customVerbalText,
       somaticText: customSomaticText
     });
@@ -89,6 +97,7 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
     onChange({
       components,
       materialComponents: newMaterialComponents,
+      materialText: customMaterialText,
       verbalText: customVerbalText,
       somaticText: customSomaticText
     });
@@ -101,6 +110,7 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
     onChange({
       components,
       materialComponents,
+      materialText: customMaterialText,
       verbalText: text,
       somaticText: customSomaticText
     });
@@ -113,8 +123,22 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
     onChange({
       components,
       materialComponents,
+      materialText: customMaterialText,
       verbalText: customVerbalText,
       somaticText: text
+    });
+  };
+
+  // Handle material text change
+  const handleMaterialTextChange = (e) => {
+    const text = e.target.value;
+    setCustomMaterialText(text);
+    onChange({
+      components,
+      materialComponents,
+      materialText: text,
+      verbalText: customVerbalText,
+      somaticText: customSomaticText
     });
   };
 
@@ -206,7 +230,31 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
             <div className="component-name">Material (M)</div>
             <div className="component-description">Requires specific materials</div>
           </div>
+          {components.includes('material') && (
+            <button
+              className="edit-component-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMaterialInput(!showMaterialInput);
+              }}
+              title="Edit material component description"
+            >
+              <FontAwesomeIcon icon={faEdit} />
+            </button>
+          )}
         </div>
+
+        {components.includes('material') && showMaterialInput && (
+          <div className="component-text-input-container">
+            <textarea
+              className="component-text-input"
+              value={customMaterialText}
+              onChange={handleMaterialTextChange}
+              placeholder="Describe the material requirement (e.g., 'A ruby worth 100gp' or 'A pinch of powdered diamond')"
+              rows={3}
+            />
+          </div>
+        )}
       </div>
 
       {components.includes('material') && (

@@ -1,3 +1,150 @@
+**HEADQ — M6A Bounded Shared-Roll Area Casting: CREATOR APPROVED, production-build verified & ordinary-App acceptance closeout COMPLETE (2026-11-10):**
+- **Explicit Creator Decision Recorded (10 November 2026):**
+  - Decision: Approve one shared owner roll per cast for the first M6A ranged-circle creature-target profile, with per-target GM final amounts under existing payment, refusal, and exact-command recovery contracts.
+  - Policy activated: `AREA_ROLL_POLICY.creatorApproval` activated with reference `'creator-approval-20261110-m6a-shared-roll'` and scope `'first-ranged-circle-creature-targets'` in `vtt-react/src/services/authoredAbility.js` and `server/shared/services/authoredAbility.js`.
+  - Shared mirror: `server/scripts/sync-shared.js --check` confirmed `server/shared is up to date` (0 drift).
+- **Independent DS Substantive Review:**
+  - Independent DS subagent review completed -> **VERDICT: ACCEPT** recorded in `handoff/m6a-approved-activation/REVIEW.md`.
+  - Verified schema compliance, exact scope bounds (circle 5–60 ft, range 1–300 ft, max 8 creature targets, DICE resolution), unapproved refusal defaults preserved, and incarnation-aware selection repair (`pickKey`) intact.
+- **Installed File Identities:**
+  - `vtt-react/src/services/authoredAbility.js`: `bb25e78f0d55a759f8b1900aa2dd1a2877e5ebc3eeab582914ed02cf234664ec`
+  - `server/shared/services/authoredAbility.js`: `bb25e78f0d55a759f8b1900aa2dd1a2877e5ebc3eeab582914ed02cf234664ec`
+  - `vtt-react/src/components/hud/SpellConsequencePanel.jsx`: `d1d95f66876b854f596a1331d2e3f89090e884feb0df65e521183139135e16a2`
+  - `vtt-react/src/services/spellConsequence.js`: `9c4bc06bf3fce59da93a28dc6fb488066b5498d6e58242a131e4b5db081f37c5`
+  - `server/tests/p14m6aAreaExecution.production.test.js`: `3c43c05de7b3f04d84f7201c6483a94fbc828795345182ec7892c49be29c91df`
+  - `vtt-react/src/services/__tests__/m6aAreaExecution.test.js`: `650a5cf00ace862c87188c9178f6725184c8e86e1323705eedfe236a0e041e82`
+  - `server/tests/m6aApprovedActivation.test.js`: `a818416a2071b484894fcd89f385f67a3f202a31e008cefc88f3cc5dfb483d4f`
+- **Compatible Production Build:**
+  - Executed detached production Webpack build per `AGENTS.md` rules (`D:\AppData\Temp\opencode\build.exit` code 0).
+  - Build Manifest: `vtt-react/build/asset-manifest.json` (SHA-256 `ff2ef56474b18e543887ba62f1c6a0210083f2841b62758ea638c5615fb86543`).
+- **Ordinary-App Browser Acceptance Witness (ALL CHECKS PASSED, 0 ERRORS):**
+  - Witness: `handoff/m6a-app-acceptance-readiness/m6a-ordinary-app-browser.cjs` (SHA-256 `2aa2e981dcd753dda0f3b9626219d0d8f86b38ee18a0e0c9da221f376f2064d2`) executed in `M6A_MODE=approved`.
+  - Evidence: `handoff/m6a-activation-integration/evidence/result.json` (`passed: true`, 0 errors, build manifest verified).
+  - Verified Gameplay Journey:
+    1. *Spell Wizard author/save/reopen/admit:* Admitted authentic version under production policy without test flags.
+    2. *Exact Actor Incarnations:* Selection bound to canonical `pickKey(ref)` across tokens A, B, and C.
+    3. *Missing/Replaced Target Blocks Approval:* Unavailable target B disables approval without silent substitution.
+    4. *Explicit Correction Retains Dice:* Removing unavailable targets preserves physical roll `[4, 5] + 8 = 17`.
+    5. *Approval Spends Nothing & Withdrawal Restores Targets:* Zero mutation on approval; withdrawal cleanly restores target draft.
+    6. *One Shared Roll & Separate GM Amounts:* Proposed roll (17) applied to A; separate adjudicated amount (8) and note recorded for C.
+    7. *Stale Confirmation Refuses Without Spending:* Stale actor revision refuses confirmation with zero charges or state modifications.
+    8. *Lost-ACK Recovery:* Dropped ACK recovers through `Check same command` after page reload using identical original command.
+    9. *Atomic Payment & Damage:* PC spends 1 AP and 2 mana; A takes 17 damage; C takes 8 damage; B untouched; 1 ledger receipt.
+    10. *Zero Browser Errors:* Errors array strictly clean (`report.errors: []`).
+- **Status:** **APP VERIFIED**
+- **Resources Released:** All background tasks, test servers, ports (4180), and Chrome browser contexts are released.
+
+**HEADQ — Shared trigger foundation v1.1: DIAGNOSTIC-ONLY successor review, guarded integration & acceptance closeout COMPLETE (2026-11-10):**
+- **Exact Installed & Build Coverage:**
+  - Package: `handoff/shared-trigger-foundation-v2/` installed cleanly via `install.cjs --install` (backup `installed-backup-1794299049284`).
+  - Integrity verified: `install.cjs` confirms `already-final` across all 27 guarded paths (10 candidates + 17 dependency guards).
+  - Shared mirror: `server/scripts/sync-shared.js --check` confirmed `server/shared is up to date`.
+  - Server-only change: no client production build required or performed.
+- **Classification:** **INSTALLED + DIAGNOSTICALLY VERIFIED** (explicitly separate from APP VERIFIED playable triggers). Executes nothing: zero HP, resource, condition, payment or approval is produced. No playable triggers, authoring eligibility, or gameplay timing changes.
+- **Independent F1–F3 Delta Review & Checks:**
+  - **F1 (Guarded rollback privacy):** Offline scrub tool (`server/services/triggerRollbackScrub.js`, `rollback.cjs`, `rollback/verify-old-projection.cjs`) removes entire `triggerLedger`, redacts dismissal receipt `contentHash` to null, preserves unrelated receipts, updates checkpoint manifest/root hashes, refuses incomplete/unattested plans. Restored old projection regression verified: unscrubbed control leaks private reason and markers; scrubbed projection leaks nothing (`PASS`).
+  - **F2 (Authoritative room events & named rate limits):** `actor_trigger_list` (60/min, 5/s), `actor_trigger_register` (30/min, 3/s), `actor_trigger_revoke` (30/min, 3/s), `actor_trigger_dismiss` (30/min, 3/s) registered in `AUTHORITATIVE_ROOM_EVENTS` in `socketHandlers.js` and `rateLimitService.js`. Cross-room calls refuse with `room_target_mismatch` before reaching handlers; non-GM registration fails `forbidden`.
+  - **F3 (Diagnostic disclosure):** Register and revoke ACKs return top-level `capability: "committed-trigger-diagnostic:v1"` and `mode: "diagnostic"`. Typed evidence `proposedTotal` recorded in occurrence evidence but rejected as selectable trigger predicate (`unsupported_trigger_predicate`).
+  - **Decision:** Exact-byte delta ACCEPT issued. DS remains repair author.
+- **Production Stack Acceptance Checklist (7/7 Checks PASS):**
+  1. *Register:* GM registers diagnostic listener (`immediate-damage`, `source`, `baseHpLost`); ACK returns `capability: "committed-trigger-diagnostic:v1"` and `mode: "diagnostic"`.
+  2. *Qualifying / Nonqualifying Cast:* Nonqualifying healing cast generates 0 obligations; qualifying damage cast generates 1 pending obligation with exact typed evidence (`baseHpLost: 6`, `role: 'source'`). Self-generated damage excluded.
+  3. *Viewer-Specific List:* GM sees 1 with full details; bound PC owner sees 1 in limited diagnostic view; observer sees 0 obligations and 0 listeners; client `gameState` projection completely omits `triggerLedger`.
+  4. *Dismiss:* GM dismisses obligation atomically; public receipt redacts `contentHash` and private reason; zero execution on character/creature pools and conditions.
+  5. *Replay:* Exact replay is idempotent (returns original receipt); conflicting bytes refuse `command_id_conflict`; attempt to dismiss closed obligation refuses `trigger_obligation_not_open`.
+  6. *Revocation:* GM revokes listener; subsequent casts generate 0 obligations; existing closed obligations and receipts preserved.
+  7. *Checkpoint Restoration:* Canonical checkpoint build and decode via `roomCheckpoint` roundtrips cleanly; restored room preserves listeners, pending obligations, and closed history.
+- **Test Suites Verified:**
+  - `triggerRollback.production.test.js`: 4 passing (12ms)
+  - `committedTriggers.production.test.js`: 16 passing (926ms)
+  - Adjacent production suites (`p14c4Lifecycle`, `p14m6aAreaExecution`, `p14AttributeModifiers`): 34 passing (3s)
+- **Explicit Limits & Boundaries:**
+  - Max limits: `MAX_LISTENERS: 32`, `MAX_OPEN: 64`, `MAX_CLOSED: 256`, `MAX_REQUESTS: 256`.
+  - Mandatory rollback constraint: Rollback of a room that ever had a `triggerLedger` or a trigger dismissal receipt is PROHIBITED until the guarded scrub is executed against live state and all retained checkpoint copies, with `--attest-all-retained-copies`.
+  - Background test processes, servers, and sockets terminated and released.
+
+**HEADQ — Shared trigger foundation v1: DIAGNOSTIC-ONLY candidate frozen / review requested from Sol / NOT INSTALLED / NOT BUILT (2026-11-09, Fable):**
+- **Claim (candidate-only, no live source writes):** edits `server/services/actorConsequences.js` (one `finishStage` hook + server-owned key guards), `server/handlers/actorConsequenceHandlers.js` (one registration call), `server/services/roomAccessService.js` (projection delete); new `server/services/committedTriggers.js`, `server/handlers/committedTriggerHandlers.js`, `server/tests/committedTriggers.production.test.js`. 18 read-only dependency guards. No client, Wizard, compiler-mirror or catalogue change.
+- **Scope:** committed occurrences of binder-approved single-target immediate damage/healing → GM-registered diagnostic listeners → durable pending obligations in the same P7 snapshot → GM dismissal. Executes nothing. Evidence fields are separate (`proposedTotal`, `adjudicatedAmount`, `baseHpLost`, `tempHpAbsorbed`, `hpRestored`); no hit semantics.
+- **Stage:** specified + implemented as an isolated candidate; NOT installed, NOT reviewed, NOT built, no ordinary-App verification, NOT released. Isolated-stage evidence: trigger suite 15 passing; all 55 production suites 557 passing / 1 pending; 12 guard mutants (10 caught, 2 documented equivalents).
+- **Open:** Sol review ([REVIEW_REQUEST](../handoff/shared-trigger-foundation/REVIEW_REQUEST.md)); one creator decision T1–T6 ([DECISION_BRIEF](../handoff/shared-trigger-foundation/DECISION_BRIEF.md)); DS preservation lane unaffected (non-default `triggerConfig` still refused whole). Gemini: nothing to build until review and install. Packet: [HANDOFF](../handoff/shared-trigger-foundation/HANDOFF.md), [CONTRACT](../handoff/shared-trigger-foundation/CONTRACT.md).
+
+**HEADQ — Positive flat DR + authenticated cooldowns acceptance closeout COMPLETE / verified-build App witness PASS / RELEASED (2026-11-09):**
+- **Exact Installed & Build Coverage:**
+  - Package: `handoff/flat-dr-cooldowns/` verified `already-final` across all 29 paths (13 delivered candidate paths + 16 read-only dependency guards).
+  - Installer backup: `installed-backup-1794249490509`.
+  - Installer sandbox checks PASS: 5 (`check-installer.cjs`).
+  - Frozen stage and packet verified: 13 delivered; 16 guards; 59 packet files (`release.cjs --seal`).
+  - Shared mirror: `server/scripts/sync-shared.js --check` confirmed `server/shared is up to date`.
+  - Save-disclosure and copy-identity file integrity verified: all 11 files in `handoff/combined-spell-save-copy-identity-integration/IDENTITIES.sha256` match exactly.
+  - Identified production build captured at `D:\AppData\Temp\opencode\flat-dr-cooldowns-build-20261109\build`:
+    - Asset Manifest SHA-256: `e7427b4c0c6e59c92ce146b2d8863f5cfba6c31046e885c68ea12d934770a570`
+    - Capture Hash: `5139fb925bec63c95bcc298b9db59580640b4dafb973f547b7d1c7f2b613102f`
+    - Main JS: `static/js/main.cb1fdd4a.js` (SHA-256 `31c93b699284aeb1b986ebc8cca6c2a6aba55516c060405cefdf30c340a50493`)
+    - Main CSS: `static/css/main.8beac67c.css` (SHA-256 `233ee66ca53b24113b260f945e7f924cedf367b4e3138a1e8d163ce9a9c822b5`)
+    - Explanatory chunk `4362.2426f207.chunk.js` contains `Positive flat DR (+1 to +20, whole number)`
+  - Source test suites verified:
+    - Server: 11 suites, 121 passing (10s), exit 0 (`p14FlatDrCooldown.production.test.js`, `p14FlatDamageReduction.production.test.js`, `p14AttributeCooldown.production.test.js`, `p14EffectCooldown.production.test.js`, `p14m5CompositionCooldown.production.test.js`, `p14RiderFormulaCooldown.production.test.js`, `p14RiderSaveCooldown.production.test.js`, `p14FormulaRiderSaveCooldown.production.test.js`, `p12aWeaponStrike.production.test.js`, `p12bBlockWear.production.test.js`, `p14c4Lifecycle.production.test.js`).
+    - Client: 6 suites, 36 passed (14s), exit 0 (`flatDrCooldown.test.js`, `flatDamageReduction.test.js`, `attributeCooldown.test.js`, `effectCooldown.test.js`, `SpellConsequenceCooldownTarget.test.jsx`, `Step6Cooldown.test.jsx`).
+- **APP_CHECKLIST.md Full Ordinary-App Witness Execution (ALL 18 STAGES PASSED):**
+  - Witness: `vtt-react/verification/p14/flat-dr-cooldown-app-browser.cjs` executed against the identified build (port 5281). Evidence captured at `vtt-react/verification/p14/flat-dr-cooldown-evidence/` (`result.json`, aria snapshots, definition JSONs). Result: `passed: true`, 0 errors, 18 stages completed.
+  - Core Checklist Requirements Verified:
+    1. *Pre-flight excluded combinations:* Negative DR, zero DR, >20 DR, and DR + save combination refused by pure `definitionFromWizard`.
+    2. *Author/save/reopen/admit:* Verified across D1 (Ward Manual, +3 flat DR, manual expiry, cooldown 2), D2 (Ward Timed, +3 flat DR, target-next-start, cooldown 2), D3 (Ward Counted, +3 flat DR, target-end-count 3, cooldown 1), and D4 (Ward Strike, 1d6+2 damage + 3 flat DR, target-next-end, cooldown 1). Wizard and room admission contracts survive roundtrips.
+    3. *Combat initiation [PC, B, A] & baseline strike:* Authenticated turn expiry enabled at seq 0; baseline weapon strike on creature A demonstrates full unreduced damage (8 damage).
+    4. *Atomic commit (D1 cast):* Cast on creature A: 1 AP + 2 mana deducted temporary-first (`poolBefore` AP 5, mana 20+5 temp -> `poolAfter` AP 4, mana 20+3 temp; HP 20/40 untouched). Condition `Ward Manual (Flat DR +3)` installed on A; cooldown recorded on PC due sequence 6 (2 caster starts from sequence 0); 1 ledger receipt (`9a5acc07-8da1-4e20-b3ad-5975bf690604`).
+    5. *Reduced strike on A:* Lone defense noncritical Witness Bow strike (faces 5, Agility 16 +3 = 8 proposed) shows `Flat DR 3: 8 → 5 (Laws rounding)` on GM card, applying exactly 5 damage (full − 3). Strike does not consume or edit the DR effect.
+    6. *Blocked reuse spends nothing:* Casting D1 while cooldown is active displays `Cooldown active: 2 of 2 caster-turn starts remaining; releases at authenticated boundary 6` and refuses without deducting resources or mutating room state.
+    7. *Lost-ACK / reload recovery:* D1 cast tested under simulated dropped ACK. GM reload and execution of "Check same command" re-submits exact original command ID, producing 1 ledger receipt and 0 duplicate consequences.
+    8. *GM removal before release:* Exact GM removal of A's DR condition leaves cooldown active and blocked through sequence 5; advance to boundary 6 releases cooldown cleanly.
+    9. *Expiry before release:* D2 (+3 DR target-next-start, cooldown 2 due seq 12) expires at sequence 8 (target A's start), leaving cooldown active; boundary 12 releases cooldown.
+    10. *Release before expiry:* D3 (+3 DR target-end-count 3, cooldown 1 due seq 15) releases cooldown at sequence 15 (PC start) while counted DR condition remains active on A.
+    11. *Recast combination refusal:* After D3 cooldown release at sequence 15, recasting D3 on A is refused by same-mechanic flat DR policy (`already changes flat Damage Reduction on this target`), spending 0 AP/mana and starting no cooldown.
+    12. *Coincident boundary:* D4 (direct damage 1d6+2 + DR target-next-end, cooldown 1 due seq 18) cast at seq 15. At coincident boundary 18 (A turn end + PC start), DR expires and cooldown releases cleanly in one boundary transition.
+    13. *Legal reuse:* Once both conditions permit (no active cooldown and no active DR condition), recast of D1 succeeds once.
+- **Preserved Boundaries & Exclusions:**
+  - Positive flat DR bounds (+1 to +20, whole number) strictly held; no negative DR, no saving throws, no class payments, no catalogue pins.
+  - Stacking refusal preserved: multiple flat DR instances on the same target remain refused for GM manual resolution (D-DR-1).
+  - Cooldown route restriction preserved: caster-start cooldown route restricted to one placed creature target (PC target refused).
+  - Save-disclosure, copy-identity, attribute-cooldown, and consumable finals fully preserved without reopening.
+  - Mitigation order, negative DR, and critical hit rules remain strictly unchanged.
+- **Resource Release:**
+  - Background processes, temporary witness runner scripts, test ports, and persistent Chrome contexts are fully terminated and released.
+
+**HEADQ — Spell Library explicit copy identity repaired / focused tests PASS / bounded review ACCEPT / NOT BUILT (2026-11-09):**
+- **Gap found:** the only copy machinery (`DUPLICATE_SPELL` reducer/action, `handleDuplicateSpell`, `SpellContextMenu.onDuplicate`) was unreachable in the ordinary library; the reducer also shallow-copied nested definition data and renamed only the record name (which would break `definitionFromWizard`'s record/draft name equality for draft-backed spells).
+- **Bounded repair:** wired `Duplicate Spell` into the existing library context menu and selected-spell overlay; deep-cloned the saved record; new library id/dateCreated; copy name kept consistent in record + `authoredDraft` + `serializedData` for non-catalogue drafts; catalogue-bound copies keep their exact pinned source names/binding; `authoredDefinitionId`/`cooldownConfig` retained so copies share the approved exact-actor+definition cooldown identity instead of resetting it. Update/header/Review/live-preview paths untouched.
+- **Exact final identities (SHA-256):** `SpellLibraryContext.js` `602e4775c2927d01693c0c7ee041e98d92c945fa4ca4757df35f433333f37d1b`; `SpellLibrary.jsx` `540115b2bbce3e9377d757b78009489cc15885e66c6964e74c75182b59dde587`; `SpellContextMenu.jsx` `2dd3b7cdb60bdb050ee37ff84895bc967b5de7843df74e4a2c7b9c41b502a587`; new tests `spellLibraryCopyIdentity.test.jsx` `a5a162157dcc425cf72643fc967387ebd8c07e59d6c9f17b26b50fa0c3f65d65`, `spellLibraryCopyCancel.test.jsx` `cce4eec8691a8f58bbb4574a5121d97d35323ece6dedd8305fec4d913a0bcf74`. `SpellLibraryContext.js` already carried the accepted UPDATE_SPELL/dateCreated + scoped-hydration working-tree changes; only the `DUPLICATE_SPELL` block is this lane.
+- **Evidence:** 7 focused suites / **45 tests PASS** (copy identity, copy cancel, embedded update controls, composed preservation, scoped transitions, library UI); scoped ESLint clean; bounded independent review **ACCEPT** after the admission-invariant repair. No `UnifiedSpellCard`/`SpellCardWithProcs` (DS spell-card lane) edits, no build, no compiler/port/profile, no catalogue pins, no commits.
+- **For Gemini:** run the ordinary-App checklist in `handoff/spell-library-copy-identity/HANDOFF.md` on the next compatible identified build. Adjacent Wizard `Load` create-from-existing ambiguity (new id, retained `authoredDefinitionId`, category metadata lost) is published there as a gap/proposal, not repurposed or silently changed.
+
+**HEADQ — Attribute cooldowns acceptance closeout COMPLETE / verified-build App witness PASS / RELEASED (2026-11-09):**
+- **Exact Installed & Build Coverage:**
+  - Package: `handoff/attribute-cooldowns/` installed cleanly via `install.cjs --install` (backup `installed-backup-1794232782263`).
+  - Integrity verified: `install.cjs --check` confirms `already-final` across all 24 guarded paths (12 candidates + 12 dependency guards).
+  - Shared mirror: `server/scripts/sync-shared.js --check` confirmed `server/shared is up to date`.
+  - Retained compatible production build artifact at `d:/VTT/vtt-react/build`:
+    - Asset Manifest SHA-256: `e85803fb378bb0cac1aeaf2046da51ea20e81cafb92fef7757e11b62ebae4d62`
+    - Main JS: `main.7bad4111.js` (SHA-256 `5eeb2a179f516c1762f808b2da0860bb677ac51297146d779dfcf0b537068bae`)
+    - Main CSS: `main.f075bedb.css` (SHA-256 `2785b96de0524042914bf2c2941bd7334980e6beb665bcc45f319e3b81beae93`)
+- **APP_CHECKLIST.md Full Witness Execution (ALL 16 CHECKS PASSED):**
+  - Witness: `vtt-react/verification/p14/attribute-cooldown-app-browser.cjs` against identified build (port 4581). Evidence captured at `vtt-react/verification/p14/attribute-cooldown-evidence/` (`result.json`, aria snapshots, definition JSONs). Result: `passed: true`, 0 errors, 22 public ledger receipts.
+  - Core Checklist Requirements Verified:
+    1. *Author/save/reopen/admit:* Verified across D1 (Intelligence −2, manual expiry, cooldown 2), D2 (Agility −2, target-next-start expiry, cooldown 2), D3 (Spirit +2, target-end count 3, cooldown 1), and D4 (Agility −2 + plain damage 1d6+2, cooldown 2). Wizard and room admission contracts survive roundtrips.
+    2. *Atomic payment + attribute effect + cooldown:* D1 cast on creature A: 1 AP + 2 mana deducted temporary-first (`poolBefore` AP 5+2 temp, mana 20+5 temp -> `poolAfter` AP 5+1 temp, mana 20+3 temp; HP 20/40 untouched). Condition `Intelligence −2` installed on A; cooldown recorded on PC due sequence 6 (2 caster starts from sequence 0).
+    3. *Blocked reuse spends nothing:* Casting D1 while cooldown is active displays remaining caster starts and refuses without deducting resources or mutating room state.
+    4. *Independent expiry/removal and cooldown release:*
+       - D1: Exact GM manual removal of A's record leaves cooldown blocked through sequence 5; sequence 6 authenticated boundary releases cooldown cleanly.
+       - D2: Timed Agility −2 expires at sequence 8 (target A's start), restoring effective Agility, while cooldown remains blocked until sequence 12 (caster PC's 2nd start).
+       - D3: Cooldown releases at sequence 15 (PC start) while 3-count Spirit condition remains active.
+    5. *Refusal of conflicting same-attribute recast:* After D3 cooldown release at sequence 15, recasting D3 on A is refused by same-attribute policy (`already changes Spirit on this target`), spending 0 AP/mana and starting no cooldown.
+    6. *Lost-ACK / reload exact-command recovery:* D1 confirmation tested under simulated dropped ACK. GM reload and execution of "Check same command" re-submits exact original command ID (`26166485-4e93-42fe-82a1-8b14227a6038`), yielding 1 ledger receipt and 0 duplicate consequences.
+- **Preserved Boundaries & Exclusions:**
+  - Technical scope fence strictly held: STR/CON/CHA excluded from wizard and definitions; Save + attribute combination refused; PC targets refused on cooldown route ("PC targets unavailable: an ability with a caster-start cooldown applies to one placed creature only; a player character target stays manual."); catalogue/potion routes excluded.
+  - INT room pool derivation and formula/strike reapproval protections remain verified and intact.
+- **Resource Release:**
+  - Background processes, temporary witness runner scripts, test ports (5081, 5181), and persistent Chrome contexts are fully terminated and released.
+
 **Opus — shared GM-recorded save outcomes CLAIMED, isolated candidate, 2026-11-07:**
 Reusable save-branch module (`services/saveBranch.js` + server mirror) used by M1 `classEffect.js` and the Wizard
 `authored-effect:v1` bundle (primary owner PC → one creature; rider-local "negates" only). Candidate-only work in the cloud

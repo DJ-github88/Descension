@@ -35,9 +35,10 @@ function registerActorConsequenceHandlers(ctx) {
   // PC bundles must not carry either owner's authority across a canonical ownership change.
   // Reuse binding's resolver; room token ownership alone can lag the character record.
   const confirmPcBundleOwners = async(captured, approval) => {
-    if (!require('../shared/services/authoredEffect').isEffect(approval) || approval.source.kind !== 'character' || approval.target.kind !== 'character') return;
+    const self = approval?.source?.kind === 'character' && approval?.target?.kind === 'character' && actors.hash(approval.source) === actors.hash(approval.target);
+    if ((!require('../shared/services/authoredEffect').isEffect(approval) && !self) || approval.source.kind !== 'character' || approval.target.kind !== 'character') return;
     try {
-      for (const ref of [approval.source, approval.target]) {
+      for (const ref of self ? [approval.source] : [approval.source, approval.target]) {
         actors.locate(captured.room, ref);
         const owner = await firebaseService.getCharacterOwner(ref.characterId, { fresh: true });
         current(captured);
@@ -406,6 +407,8 @@ function registerActorConsequenceHandlers(ctx) {
     if (entry.targetPolicy) toUid(room, entry.approval.target.ownerUid, 'actor_spell_closed', payload);
     return true;
   };
+  // Shared trigger foundation v1 (diagnostic): same session fence, writer admission and receipt publication as above.
+  require('./committedTriggerHandlers').registerCommittedTriggerHandlers({ run, context, current, confirm, confirmed, liveOnly, admit, resultFor, respond, respondInstalled, publishInstalled, toUid, toGm });
   // P9 owner approval: the owner authorizes their own price/typed result; the GM
   // later adjudicates the cross-actor outcome through one strict actor_consequence.
   for (const event of ['actor_spell_approve', 'actor_spell_prepare_creature']) run(event, async(approval, ack) => {

@@ -4,6 +4,7 @@ import {
   AREA_ROLL_POLICY,
   isAreaRollProcedureApproved,
   setAreaRollProposalForTest,
+  setAreaRollApprovalForTest,
   definitionFromWizard,
   definitionSummary,
   isArea
@@ -27,6 +28,7 @@ describe('M6A client authoring, geometry, multi-target command planning & observ
   });
 
   afterEach(() => {
+    setAreaRollApprovalForTest(undefined);
     setAreaRollProposalForTest(false);
   });
 
@@ -63,13 +65,19 @@ describe('M6A client authoring, geometry, multi-target command planning & observ
     const draft = makeWizardDraft();
     const saved = { ...draft, authoredDefinitionId: '11111111-2222-4333-8444-555555555555', authoredDraft: JSON.parse(JSON.stringify(draft)) };
 
-    // Shipped default gate: creatorApproval is null, so ordinary use refuses before admission/execution
+    // Approved gate: creatorApproval is active, admitting the bounded profile
+    expect(AREA_ROLL_POLICY.creatorApproval.reference).toBe('creator-approval-20261110-m6a-shared-roll');
+    expect(AREA_ROLL_POLICY.creatorApproval.scope).toBe('first-ranged-circle-creature-targets');
+    expect(isAreaRollProcedureApproved()).toBe(true);
+
+    // Absent approval still strictly refuses before payment:
     setAreaRollProposalForTest(false);
-    expect(AREA_ROLL_POLICY.creatorApproval).toBeNull();
+    setAreaRollApprovalForTest(null);
     expect(isAreaRollProcedureApproved()).toBe(false);
     const defaultRefused = definitionFromWizard(saved, { roomId, classId: 'arcanoneer', definitionVersion: 1 });
     expect(defaultRefused.ok).toBe(false);
     expect(defaultRefused.reason).toMatch(/awaits creator confirmation/);
+    setAreaRollApprovalForTest(undefined);
 
     // Disclosed test-only enablement:
     setAreaRollProposalForTest(true);

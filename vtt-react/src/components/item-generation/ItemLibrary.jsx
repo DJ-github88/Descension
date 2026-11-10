@@ -1314,7 +1314,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                                 onDrop={handleItemDrop}
                                 viewMode={viewMode}
                             />
-                            {items.find(i => i.id === selectedItem)?.authoredAbility && <ItemAbilityAccess key={selectedItem} item={items.find(i => i.id === selectedItem)} />}
+                            {items.find(i => i.id === selectedItem)?.authoredAbility && <ItemAbilityAccess template key={selectedItem} item={items.find(i => i.id === selectedItem)} />}
                         </div>
                 ) : activeTab === 'designer' ? (
                     <div className="item-designer-container">

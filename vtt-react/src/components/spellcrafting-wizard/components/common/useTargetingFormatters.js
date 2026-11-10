@@ -1,4 +1,5 @@
 import { formatAoeShape, formatDurationText } from './spellFormatterUtils';
+import { extractPeriodicTiming, formatPeriodicDuration, formatCombatCooldown } from './spellTimingPresentation';
 
 const useTargetingFormatters = ({ spell }) => {
   const formatCastTime = () => {
@@ -670,6 +671,20 @@ const useTargetingFormatters = ({ spell }) => {
       }
     }
 
+    // Check supported periodic effects first
+    const periodicInfo = extractPeriodicTiming(spell);
+    if (periodicInfo) {
+      return formatPeriodicDuration(periodicInfo);
+    }
+
+    if (spell.timing?.durationText) {
+      return spell.timing.durationText;
+    }
+
+    if (spell.controlConfig?.authoredCondition?.durationText) {
+      return spell.controlConfig.authoredCondition.durationText;
+    }
+
     // Handle different duration formats
     if (spell.durationType === 'instant') return 'Instant';
     if (spell.durationType === 'permanent') {
@@ -690,6 +705,7 @@ const useTargetingFormatters = ({ spell }) => {
       return `${zoneDuration} ${unit}`;
     }
 
+
     // Check durationConfig
     if (spell.durationConfig?.durationType && spell.durationConfig.durationType !== 'instant') {
       const dv = spell.durationConfig.durationValue || spell.durationConfig.duration || 1;
@@ -704,27 +720,27 @@ const useTargetingFormatters = ({ spell }) => {
     return duration;
   };
 
-  // Format cooldown from wizard cooldownConfig
+  // Format cooldown from wizard cooldownConfig or definition cooldown
   const formatCooldown = () => {
-    if (!spell?.cooldownConfig) return null;
+    const config = spell?.cooldownConfig || (spell?.cooldown && typeof spell.cooldown === 'object' ? spell.cooldown : null);
+    if (!config) return null;
 
-    const config = spell.cooldownConfig;
     const cooldownType = config.cooldownType || config.type;
     const cooldownValue = config.cooldownValue ?? config.value;
 
     switch (cooldownType) {
       case 'authenticated_caster_start':
-        return `${cooldownValue} upcoming caster-turn starts (authenticated combat; no end/restart reset)`;
+        return formatCombatCooldown(cooldownValue);
       case 'turn_based':
-        if (!cooldownValue || cooldownValue === 0) return 'No cooldown';
+        if (!cooldownValue || cooldownValue === 0) return null;
         return `${cooldownValue} turn${cooldownValue > 1 ? 's' : ''}`;
 
       case 'short_rest':
-        if (!cooldownValue || cooldownValue === 0) return 'No uses';
+        if (!cooldownValue || cooldownValue === 0) return null;
         return `${cooldownValue} use${cooldownValue > 1 ? 's' : ''}/short rest`;
 
       case 'long_rest':
-        if (!cooldownValue || cooldownValue === 0) return 'No uses';
+        if (!cooldownValue || cooldownValue === 0) return null;
         return `${cooldownValue} use${cooldownValue > 1 ? 's' : ''}/long rest`;
 
       case 'charge_based':
@@ -738,7 +754,7 @@ const useTargetingFormatters = ({ spell }) => {
       default:
         if (cooldownType === 'none' || !cooldownType) {
           if (cooldownValue && cooldownValue > 0) return `${cooldownValue} turn${cooldownValue > 1 ? 's' : ''}`;
-          return 'No cooldown';
+          return null;
         }
         return null;
     }

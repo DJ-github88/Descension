@@ -1,9 +1,10 @@
 import React from 'react';
 import './AuthoredConditionFields.css';
-import { occurrenceText, ATTRIBUTE, ATTRIBUTE_NAMES, PERIODIC, tickScheduleText } from '../../../../services/sharedConditionProfile';
+import { occurrenceText, ATTRIBUTE, ATTRIBUTE_NAMES, DAMAGE_REDUCTION, PERIODIC, tickScheduleText } from '../../../../services/sharedConditionProfile';
+import { ABILITIES as SAVE_ABILITIES, ABILITY_NAMES as SAVE_ABILITY_NAMES, MIN_DC, MAX_DC } from '../../../../services/saveBranch';
 
 export const newAuthoredCondition = () => ({ profile: 'authored-condition:v1', conditionKey: 'stunned', expiryPolicy: 'gm-manual', durationText: '', gmNote: '' });
-/** A10: composable authored effect — one canonical effect (Stunned, one movement change or one attribute change), optionally
+/** A10: composable authored effect — one canonical effect (Stunned, one movement change, one attribute change or one flat DR change), optionally
  * combined with this definition's direct damage or healing, and an explicit structured expiry. */
 export const newAuthoredEffect = () => ({ profile: 'authored-effect:v1', effect: 'stunned', expiryPolicy: 'target-next-end', durationText: '', gmNote: '' });
 const EXPIRY = [
@@ -27,21 +28,23 @@ const TIMING_POLICY = { 'target-next-start': 'authored-target-next-start', 'targ
 function AuthoredEffectFields({ value, onChange }) {
   const set = patch => onChange({ ...value, ...patch });
   const chooseEffect = effect => {
-    const { movementFeet, label, attribute, attributeAmount, ...kept } = value; // eslint-disable-line no-unused-vars
-    const rest = Object.fromEntries(Object.entries(kept).filter(([k]) => !PERIODIC_FIELDS.includes(k)));
+    const { movementFeet, label, attribute, attributeAmount, drAmount, ...kept } = value; // eslint-disable-line no-unused-vars
+    const rest = Object.fromEntries(Object.entries(kept).filter(([k]) => !PERIODIC_FIELDS.includes(k) && !(['periodic', 'damageReduction'].includes(effect) && k === 'save')));
     onChange(effect === 'movement' ? { ...rest, effect, movementFeet: -10, label: '' }
       : effect === 'attribute' ? { ...rest, effect, attribute: ATTRIBUTE.attributes[0], attributeAmount: -2, label: '' }
+      : effect === 'damageReduction' ? { ...rest, effect, drAmount: 3, label: '' }
         : effect === 'periodic' ? { ...rest, effect, periodicKind: 'damage', periodicFormula: '1d6', periodicDamageType: PERIODIC.damageTypes[2], tickRoll: 'each-tick', label: '',
           expiryPolicy: rest.expiryPolicy === 'gm-manual' ? 'target-next-start' : rest.expiryPolicy } : { ...rest, effect });
   };
   const periodic = value.effect === 'periodic';
   return <fieldset className="item-ability-fields authored-effect-fields"><legend>Composed effect · structured expiry</legend>
     <p>{value.effect === 'periodic' ? 'One periodic damage or healing effect on one distinct creature. You may add Damage (for damage ticks) or Healing (for healing ticks) as a second effect type for one immediate part rolled at cast (player character casters only; a creature caster keeps the combined ability manual); the payment, the immediate HP change and this periodic effect install together or not at all.'
-      : 'One canonical effect on one distinct creature. Add Damage or Healing as a second effect type to apply it in the same accepted result; the payment, any HP change and this effect install together or not at all.'}</p>
+      : 'One canonical effect on one distinct creature (or player character with explicit target-owner consent). Add Damage or Healing as a second effect type to apply it in the same accepted result; the payment, any HP change and this effect install together or not at all.'}</p>
     <label>Canonical effect<select value={value.effect} onChange={e => chooseEffect(e.target.value)}>
       <option value="stunned">Stunned — no actions, reactions or voluntary movement</option>
       <option value="movement">Movement change — feet per movement AP</option>
       <option value="attribute">Attribute change — flat change to one attribute score</option>
+      <option value="damageReduction">Flat damage reduction — +1 to +20 flat DR</option>
       <option value="periodic">Periodic damage or healing — ticks at the target's turns</option>
     </select></label>
     {periodic && <>
@@ -81,8 +84,17 @@ function AuthoredEffectFields({ value, onChange }) {
       <p>Changes: the target owner's supported spell formulas that name this attribute. Agility also reaches the basic weapon strike that uses it; Intelligence and Spirit do not add weapon damage. Not changed automatically: initiative and turn order, sheet-only derived figures, saves, maximum HP or mana, or any refill of HP, mana or AP.</p>
       <p>Only one change to the same attribute can be active on a target. How two changes combine (adding, highest only or refreshing) is not decided yet, so a second one is refused for the GM to resolve. Only {ATTRIBUTE.attributes.map(id => ATTRIBUTE_NAMES[id]).join(', ')} is supported in this version.</p>
     </>}
+    {value.effect === 'damageReduction' && <>
+      <label>Effect name shown on the target<input maxLength={60} value={value.label || ''} onChange={e => set({ label: e.target.value })} /></label>
+      <label>Flat damage reduction (whole number, +{DAMAGE_REDUCTION.minAmount} to +{DAMAGE_REDUCTION.maxAmount})<input type="number" min={DAMAGE_REDUCTION.minAmount} max={DAMAGE_REDUCTION.maxAmount} step={1} value={value.drAmount ?? ''}
+        onChange={e => set({ drAmount: e.target.value === '' ? '' : Number(e.target.value) })} /></label>
+      <p>Temporary positive flat DR (+{DAMAGE_REDUCTION.minAmount} to +{DAMAGE_REDUCTION.maxAmount}) on one exact actor. It never rewrites base equipment or character stats, and exact GM removal or turn expiry restores the prior value. On a player character target, this beneficial effect requires the target owner's explicit acceptance.</p>
+      <p>{DAMAGE_REDUCTION.notAutomated}</p>
+      <p>{DAMAGE_REDUCTION.combinationPolicy}</p>
+    </>}
     <label>{periodic ? 'Ticks' : 'Expiry'}<select value={value.expiryPolicy} onChange={e => {
       const expiryPolicy = e.target.value, { occurrences, ...rest } = value; // eslint-disable-line no-unused-vars
+      // A save keeps the chosen expiry: manual or a structured target-turn expiry (both recorded outcomes then need turn tracking).
       onChange(COUNTED.includes(expiryPolicy) ? { ...rest, expiryPolicy, occurrences: Number.isInteger(occurrences) && occurrences >= 2 ? occurrences : 2 } : { ...rest, expiryPolicy });
     }}>
       {(periodic ? TICKS : EXPIRY).map(([id, text]) => <option key={id} value={id}>{text}</option>)}
@@ -95,9 +107,26 @@ function AuthoredEffectFields({ value, onChange }) {
       : value.expiryPolicy === 'gm-manual' ? 'The GM removes it with the shared condition controls.'
       : COUNTED.includes(value.expiryPolicy) ? `Expires automatically at the ${Number.isInteger(value.occurrences) && value.occurrences >= 2 ? occurrenceText(value.expiryPolicy === 'target-start-count' ? 'start' : 'end', value.occurrences) : 'chosen turn boundary (enter a count)'}. Each GM-confirmed turn advance is counted once; the effect stays until the last one. Needs active authenticated turn tracking with the target in the roster; if the roster changes the effect becomes GM-managed. Without tracking the action is refused and nothing is charged.`
       : 'Expires automatically at that GM-confirmed turn boundary while authenticated turn tracking is active. Without it, the action is refused and nothing is charged.'} “One round”, seconds or other prose are not converted.</p>
+    {!periodic && value.effect !== 'damageReduction' && <fieldset className="authored-effect-save"><legend>Saving throw (optional)</legend>
+      <label className="authored-effect-check"><input type="checkbox" checked={!!value.save} onChange={e => {
+        const { save, ...rest } = value; // eslint-disable-line no-unused-vars
+        onChange(e.target.checked ? { ...rest, save: { ability: 'constitution', dc: 12, outcome: 'negates' } } : rest);
+      }} /> The target may save to negate this effect</label>
+      {value.save && <>
+        <label>Saving ability<select value={value.save.ability} onChange={e => set({ save: { ...value.save, ability: e.target.value } })}>
+          {SAVE_ABILITIES.map(id => <option key={id} value={id}>{SAVE_ABILITY_NAMES[id]}</option>)}
+        </select></label>
+        <label>Difficulty (DC, whole number {MIN_DC} to {MAX_DC})<input type="number" min={MIN_DC} max={MAX_DC} step={1} value={value.save.dc ?? ''}
+          onChange={e => set({ save: { ...value.save, dc: e.target.value === '' ? '' : Number(e.target.value) } })} /></label>
+        <label>On a successful save<select value={value.save.outcome} onChange={e => set({ save: { ...value.save, outcome: e.target.value } })}>
+          <option value="negates">This effect is not applied (negates it)</option>
+        </select></label>
+        <p>The table rolls the save and the GM records saved or failed; the VTT does not roll, calculate or check it. The direct damage or healing applies on both outcomes, so this needs a Damage or Healing effect type as well. One creature target and a player character caster only. {value.expiryPolicy === 'gm-manual' ? 'With manual expiry the GM removes the instance.' : 'With this turn-boundary expiry, both outcomes need active authenticated turn tracking with the target in the roster: without it, recording either outcome is refused and nothing is charged. A save installs nothing and leaves earlier effects as they are; a failed save installs the effect with this expiry.'} A save on the damage itself, half damage and repeated saves are not automated.</p>
+      </>}
+    </fieldset>}
     <label>Source-authored duration text<input maxLength={300} value={value.durationText} onChange={e => set({ durationText: e.target.value })} /></label>
     <label>Required GM adjudication note<textarea maxLength={1000} value={value.gmNote} onChange={e => set({ gmNote: e.target.value })} /></label>
-    <p>Eligibility, range, saves, immunity and success stay GM-resolved; only a confirmed success is automated. Conditional-on-hit, critical-only or save-dependent parts are not inferred and keep a definition manual.</p>
+    <p>Eligibility, range, immunity and success stay GM-resolved. A save is automated only as entered above (the GM records the table's result); conditional-on-hit, critical-only or other save-dependent parts are not inferred and keep a definition manual.</p>
   </fieldset>;
 }
 /** Shared explicit authoring fields; names/icons/prose never confer mechanics. */

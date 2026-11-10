@@ -1,0 +1,112 @@
+- text: A B Ilse Camera
+- button "Minimize camera controls": 
+- group "Camera projection mode":
+  - button "2D"
+  - button "2.5D"
+- button ""
+- button "N 0°"
+- button ""
+- text: Heading
+- spinbutton "Camera heading in degrees": "0"
+- text: °
+- slider "Camera heading": "0"
+- button " Collapse Walls"
+- text: "[ ] rotate 5° · Shift snap"
+- button " Camera" [expanded]
+- button "Hide combat adjudication" [expanded]: Hide ▾
+- region "Actor attachment and consequences":
+  - paragraph: "Shared conditions: manual timing · overtime paused."
+  - text: Exact room attachment
+  - combobox "Exact room attachment":
+    - option "Select a token" [selected]
+    - option "Ilse · pc"
+    - option "A · A"
+    - option "B · B"
+  - status: accepted-live
+  - paragraph: "Temporary room: live-only, nonpersistent. No checkpoint confirmation or crash durability."
+- group: Admitted abilities
+- 'button "Blocking: not declared"'
+- button "Enlarge portrait of Ilse (click to zoom)":
+  - img
+- text: Ilse Level 3 Arcanoneer, Neutral Good
+- button "Exhaustion Level 0 (Click to adjust)": Exhaustion 0
+- 'img "Arcanoneer Calibrated Iron Sleeve. Spheres banked: 0 of 12."': CHAMBER 0/12 ROLL 4d8 MATRIX ARC·1 SAC·2 BLI·3 EMB·4 RIM·5 PRI·6 STO·7 WYR·8
+- 'img "Ilse Health: 25 of 40"'
+- 'img "Ilse Mana: 10 of 30"'
+- 'img "Ilse Action Points: 2 of 5"'
+- img "Potion of Vigor"
+- text: GM manages timing.
+- img "mainHand"
+- text: "5"
+- button "Empty action slot 1": "1"
+- button "Empty action slot 2": "2"
+- button "Empty action slot 3": "3"
+- button "Empty action slot 4": "4"
+- button "Empty action slot 5": "5"
+- button "Empty action slot 6": "6"
+- button "Empty action slot 7": "7"
+- button "Empty action slot 8": "8"
+- button "Empty action slot 9": "9"
+- button "Empty action slot 10": "0"
+- img "offHand"
+- text: "2"
+- img "ranged"
+- text: 1 0 / 300 XP
+- button "Character (4)":
+  - img
+  - text: Character
+- button "Adventure":
+  - img
+  - text: Adventure
+- button "Tools":
+  - img
+  - text: Tools
+- button "Settings (G)":
+  - img
+- button "Return to Main Menu (ESC)":
+  - img
+- button "Minimize navigation"
+- text: " X: 0.0 | Y: 0.0 "
+- button ""
+- region "Selected character save status":
+  - status:
+    - strong: "Canonical character:"
+    - text: Cloud save pending · Device draft retained
+    - button "Retry character save"
+    - strong: "Personal runtime:"
+    - text: Cloud save pending · Device draft retained
+    - button "Retry runtime save"
+  - button "Download selected draft"
+  - text: Import selected draft
+  - button "Import selected draft"
+- region "Accepted combat results":
+  - status: Accepted result. Ilse +5 HP.
+  - article:
+    - paragraph: Accepted result
+    - paragraph: Ilse +5 HP.
+    - button "Dismiss"
+  - group: Result history (1)
+- dialog "Inventory":
+  - button "Inventory"
+  - button ""
+  - button "Close": ×
+  - button "Share inventory with GM (read-only)"
+  - text:  Normal  Encumbered  Overencumbered
+  - img "Potion of Insight"
+  - text: "2"
+  - img "Potion of Vigor"
+  - text: 
+  - heading "Inventory Inspector" [level=4]
+  - paragraph: Select any item in your bags to view detailed stats, rotate orientation, or equip gear.
+  - img "Platinum"
+  - text: "0"
+  - img "Gold"
+  - text: "0"
+  - img "Silver"
+  - text: "0"
+  - img "Copper"
+  - text: "0  Bag:"
+  - strong: "2"
+  - text: " Weight:"
+  - strong: 2.0 / 75 lbs
+  - text: " Encumbrance: NORMAL"

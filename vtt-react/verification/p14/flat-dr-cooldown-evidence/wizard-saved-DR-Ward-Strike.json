@@ -1,0 +1,461 @@
+{
+  "name": "DR Ward Strike",
+  "description": "Disposable flat DR witness (DR Ward Strike).",
+  "level": "",
+  "school": "",
+  "icon": "inv_misc_questionmark",
+  "spellType": "ACTION",
+  "typeConfig": {
+    "school": "arcane",
+    "castTimeType": "IMMEDIATE"
+  },
+  "effectTypes": [
+    "damage",
+    "control"
+  ],
+  "effectsMap": {
+    "damage": true,
+    "control": true
+  },
+  "damageConfig": {
+    "formula": "1d6+2",
+    "damageType": "direct",
+    "elementType": "arcane",
+    "secondaryElementType": null,
+    "canCrit": false,
+    "critMultiplier": 2,
+    "critDiceOnly": false,
+    "dotConfig": {
+      "duration": 3,
+      "tickFrequency": "round",
+      "scalingType": "flat",
+      "dotFormula": "1d4 + INT/2",
+      "dotFormulas": [
+        {
+          "round": 1,
+          "formula": "1d4"
+        }
+      ]
+    },
+    "resolution": "DICE",
+    "hasDotEffect": false,
+    "criticalConfig": {
+      "enabled": false,
+      "critType": "dice",
+      "critMultiplier": 2,
+      "critDiceOnly": false,
+      "extraDice": "",
+      "explodingDice": false,
+      "explodingDiceType": "reroll_add",
+      "critEffects": [],
+      "cardCritRule": "face_cards",
+      "cardCritResolution": "draw_add",
+      "extraCardDraw": 2,
+      "coinCritRule": "all_heads",
+      "coinCritResolution": "flip_add",
+      "extraCoinFlips": 3,
+      "coinCount": 3,
+      "critSuit": "hearts",
+      "spellEffect": null,
+      "critOnlyEffect": false,
+      "useRollableTable": false
+    },
+    "chanceOnHitConfig": {
+      "enabled": false,
+      "procType": "dice",
+      "procChance": 15,
+      "diceThreshold": 18,
+      "cardProcRule": "face_cards",
+      "coinProcRule": "all_heads",
+      "coinCount": 3,
+      "procSuit": "hearts",
+      "spellEffect": null,
+      "customEffects": [],
+      "useRollableTable": false
+    },
+    "savingThrow": null,
+    "difficultyClass": 15,
+    "partialEffect": false,
+    "partialEffectFormula": "damage/2"
+  },
+  "healingConfig": null,
+  "buffConfig": null,
+  "debuffConfig": null,
+  "utilityConfig": null,
+  "controlConfig": {
+    "authoredCondition": {
+      "profile": "authored-effect:v1",
+      "effect": "damageReduction",
+      "expiryPolicy": "target-next-end",
+      "durationText": "Until turn end",
+      "gmNote": "GM resolves eligibility and range.",
+      "drAmount": 3,
+      "label": "Ward Strike"
+    }
+  },
+  "summoningConfig": null,
+  "transformationConfig": null,
+  "purificationConfig": null,
+  "restorationConfig": null,
+  "rollableTable": null,
+  "effectResolutions": {},
+  "effectMechanicsConfigs": {},
+  "mechanicsAvailableEffects": [],
+  "combinedEffects": [],
+  "mechanicsAvailableCombinedEffects": [],
+  "targetingConfig": {
+    "rangeType": "ranged",
+    "rangeDistance": 30,
+    "targetingType": "single",
+    "maxTargets": 1,
+    "selectionMethod": "manual",
+    "aoeShape": "",
+    "aoeParameters": {},
+    "movementBehavior": "static",
+    "targetSelectionMethod": "manual",
+    "targetRestrictions": [
+      "any"
+    ],
+    "aoeType": "sphere"
+  },
+  "targetingMode": "unified",
+  "targetingTags": {},
+  "effectTargeting": {},
+  "durationConfig": {},
+  "persistentConfig": {},
+  "propagation": null,
+  "resourceCost": {
+    "components": [],
+    "materialComponents": "",
+    "actionPoints": 1,
+    "actionPointsSelected": true,
+    "resourceTypes": [
+      "mana",
+      "actionPoints"
+    ],
+    "resourceValues": {
+      "mana": 2
+    },
+    "resourceFormulas": {},
+    "useFormulas": {},
+    "primaryResourceType": "mana"
+  },
+  "mechanicsConfig": {
+    "cards": null,
+    "combos": null,
+    "coins": null,
+    "stateRequirements": [],
+    "stateOptions": {
+      "thresholds": []
+    }
+  },
+  "prophecyOptions": null,
+  "cooldownConfig": {
+    "cooldownType": "authenticated_caster_start",
+    "cooldownValue": 1
+  },
+  "triggerConfig": {},
+  "trapConfig": {},
+  "channelingConfig": {},
+  "errors": {},
+  "warnings": {},
+  "currentStep": 6,
+  "completedSteps": [
+    1,
+    2
+  ],
+  "wizardFlow": [
+    {
+      "id": 1,
+      "name": "Basic Info",
+      "required": true
+    },
+    {
+      "id": 2,
+      "name": "Spell Type",
+      "required": true
+    },
+    {
+      "id": 3,
+      "name": "Effects",
+      "required": true
+    },
+    {
+      "id": "triggers",
+      "name": "Triggers",
+      "required": false
+    },
+    {
+      "id": 4,
+      "name": "Targeting & Propagation",
+      "required": true
+    },
+    {
+      "id": 5,
+      "name": "Resources",
+      "required": true
+    },
+    {
+      "id": 6,
+      "name": "Cooldown",
+      "required": true
+    },
+    {
+      "id": "rollable-table",
+      "name": "Rollable Table",
+      "required": false
+    },
+    {
+      "id": "mechanics",
+      "name": "Mechanics",
+      "required": false
+    },
+    {
+      "id": 10,
+      "name": "Review",
+      "required": true
+    }
+  ],
+  "lastModified": "2026-11-09T19:12:18.126Z",
+  "isValid": true,
+  "categoryIds": [
+    "uncategorized"
+  ],
+  "categories": [
+    "all"
+  ],
+  "source": "wizard",
+  "isCustom": true,
+  "authoredDraft": {
+    "name": "DR Ward Strike",
+    "description": "Disposable flat DR witness (DR Ward Strike).",
+    "level": "",
+    "school": "",
+    "icon": "",
+    "spellType": "ACTION",
+    "typeConfig": {
+      "school": "arcane",
+      "castTimeType": "IMMEDIATE"
+    },
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "effectsMap": {
+      "damage": true,
+      "control": true
+    },
+    "damageConfig": {
+      "formula": "1d6+2",
+      "damageType": "direct",
+      "elementType": "arcane",
+      "secondaryElementType": null,
+      "canCrit": false,
+      "critMultiplier": 2,
+      "critDiceOnly": false,
+      "dotConfig": {
+        "duration": 3,
+        "tickFrequency": "round",
+        "scalingType": "flat",
+        "dotFormula": "1d4 + INT/2",
+        "dotFormulas": [
+          {
+            "round": 1,
+            "formula": "1d4"
+          }
+        ]
+      },
+      "resolution": "DICE",
+      "hasDotEffect": false,
+      "criticalConfig": {
+        "enabled": false,
+        "critType": "dice",
+        "critMultiplier": 2,
+        "critDiceOnly": false,
+        "extraDice": "",
+        "explodingDice": false,
+        "explodingDiceType": "reroll_add",
+        "critEffects": [],
+        "cardCritRule": "face_cards",
+        "cardCritResolution": "draw_add",
+        "extraCardDraw": 2,
+        "coinCritRule": "all_heads",
+        "coinCritResolution": "flip_add",
+        "extraCoinFlips": 3,
+        "coinCount": 3,
+        "critSuit": "hearts",
+        "spellEffect": null,
+        "critOnlyEffect": false,
+        "useRollableTable": false
+      },
+      "chanceOnHitConfig": {
+        "enabled": false,
+        "procType": "dice",
+        "procChance": 15,
+        "diceThreshold": 18,
+        "cardProcRule": "face_cards",
+        "coinProcRule": "all_heads",
+        "coinCount": 3,
+        "procSuit": "hearts",
+        "spellEffect": null,
+        "customEffects": [],
+        "useRollableTable": false
+      },
+      "savingThrow": null,
+      "difficultyClass": 15,
+      "partialEffect": false,
+      "partialEffectFormula": "damage/2"
+    },
+    "healingConfig": null,
+    "buffConfig": null,
+    "debuffConfig": null,
+    "utilityConfig": null,
+    "controlConfig": {
+      "authoredCondition": {
+        "profile": "authored-effect:v1",
+        "effect": "damageReduction",
+        "expiryPolicy": "target-next-end",
+        "durationText": "Until turn end",
+        "gmNote": "GM resolves eligibility and range.",
+        "drAmount": 3,
+        "label": "Ward Strike"
+      }
+    },
+    "summoningConfig": null,
+    "transformationConfig": null,
+    "purificationConfig": null,
+    "restorationConfig": null,
+    "rollableTable": null,
+    "effectResolutions": {},
+    "effectMechanicsConfigs": {},
+    "mechanicsAvailableEffects": [],
+    "combinedEffects": [],
+    "mechanicsAvailableCombinedEffects": [],
+    "targetingConfig": {
+      "rangeType": "ranged",
+      "rangeDistance": 30,
+      "targetingType": "single",
+      "maxTargets": 1,
+      "selectionMethod": "manual",
+      "aoeShape": "",
+      "aoeParameters": {},
+      "movementBehavior": "static",
+      "targetSelectionMethod": "manual",
+      "targetRestrictions": [
+        "any"
+      ]
+    },
+    "targetingMode": "unified",
+    "targetingTags": {},
+    "effectTargeting": {},
+    "durationConfig": {},
+    "persistentConfig": {},
+    "propagation": null,
+    "resourceCost": {
+      "components": [],
+      "materialComponents": "",
+      "actionPoints": 1,
+      "actionPointsSelected": true,
+      "resourceTypes": [
+        "mana",
+        "actionPoints"
+      ],
+      "resourceValues": {
+        "mana": 2
+      },
+      "resourceFormulas": {},
+      "useFormulas": {},
+      "primaryResourceType": "mana"
+    },
+    "mechanicsConfig": {
+      "cards": null,
+      "combos": null,
+      "coins": null,
+      "stateRequirements": [],
+      "stateOptions": {
+        "thresholds": []
+      }
+    },
+    "prophecyOptions": null,
+    "cooldownConfig": {
+      "cooldownType": "authenticated_caster_start",
+      "cooldownValue": 1
+    },
+    "triggerConfig": {},
+    "trapConfig": {},
+    "channelingConfig": {},
+    "errors": {},
+    "warnings": {},
+    "currentStep": 6,
+    "completedSteps": [
+      1,
+      2
+    ],
+    "wizardFlow": [
+      {
+        "id": 1,
+        "name": "Basic Info",
+        "required": true
+      },
+      {
+        "id": 2,
+        "name": "Spell Type",
+        "required": true
+      },
+      {
+        "id": 3,
+        "name": "Effects",
+        "required": true
+      },
+      {
+        "id": "triggers",
+        "name": "Triggers",
+        "required": false
+      },
+      {
+        "id": 4,
+        "name": "Targeting & Propagation",
+        "required": true
+      },
+      {
+        "id": 5,
+        "name": "Resources",
+        "required": true
+      },
+      {
+        "id": 6,
+        "name": "Cooldown",
+        "required": true
+      },
+      {
+        "id": "rollable-table",
+        "name": "Rollable Table",
+        "required": false
+      },
+      {
+        "id": "mechanics",
+        "name": "Mechanics",
+        "required": false
+      },
+      {
+        "id": 10,
+        "name": "Review",
+        "required": true
+      }
+    ],
+    "lastModified": "2026-11-09T19:12:18.010Z",
+    "isValid": true
+  },
+  "authoredDefinitionId": "05c4f575-3dca-4185-be5a-7881d402e32a",
+  "id": "custom-1794251538125-heydv58e3",
+  "dateCreated": "2026-11-09T19:12:18.125Z",
+  "effectType": "damage",
+  "damageTypes": [
+    "arcane"
+  ],
+  "tags": [
+    "damage",
+    "control",
+    "custom"
+  ]
+}

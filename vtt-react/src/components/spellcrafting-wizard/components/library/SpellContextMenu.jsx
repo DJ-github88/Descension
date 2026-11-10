@@ -49,6 +49,18 @@ const SpellContextMenu = ({
     });
   }
 
+  // Explicit copy: new library identity, same definition/authority identity.
+  if (onDuplicate && isCustomSpell) {
+    menuItems.push({
+      icon: <i className="fas fa-copy"></i>,
+      label: 'Duplicate Spell',
+      onClick: () => {
+        onDuplicate(spell.id);
+        onClose();
+      }
+    });
+  }
+
   if (inCollection) {
     // Remove from collection option
     menuItems.push({

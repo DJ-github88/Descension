@@ -1,5 +1,6 @@
 import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
+import { formatComponentName } from './spellFormatterUtils';
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
@@ -13,6 +14,7 @@ const SpellComponentPill = ({
   name,
   icon,
   fullText,
+  hasAuthoredText = false,
   isOpen,
   onMouseEnter,
   onMouseLeave,
@@ -114,7 +116,10 @@ const SpellComponentPill = ({
             <span>{name}</span>
           </div>
           <div className="pf-component-popover-body">
-            “{cleanText}”
+            {hasAuthoredText ? `“${cleanText}”` : cleanText}
+          </div>
+          <div className="pf-component-popover-meta" style={{ marginTop: '6px', fontSize: '11px', color: '#8c7d6b', fontStyle: 'italic', borderTop: '1px solid rgba(0,0,0,0.1)', paddingTop: '4px' }}>
+            {compKey === 'material' ? 'Tabletop requirement · not automatically consumed; GM/tabletop-managed' : 'Tabletop / GM-managed check · not automatically enforced'}
           </div>
         </div>
       )}
@@ -367,28 +372,28 @@ const SpellCardHeader = ({
                       name: 'Verbal Component',
                       key: 'verbalText',
                       icon: 'fa-comment',
-                      defaultText: 'Requires spoken incantations or words of power.'
+                      defaultText: 'Verbal component required (no specific incantation authored; GM/tabletop-managed).'
                     },
                     somatic: {
                       label: 'S',
                       name: 'Somatic Component',
                       key: 'somaticText',
                       icon: 'fa-hand-sparkles',
-                      defaultText: 'Requires forceful, precise gestures and body movements.'
+                      defaultText: 'Somatic component required (no specific gestures authored; GM/tabletop-managed).'
                     },
                     material: {
                       label: 'M',
                       name: 'Material Component',
                       key: 'materialComponents',
                       icon: 'fa-flask',
-                      defaultText: 'Requires physical reagents or an arcane focus.'
+                      defaultText: 'Material component required (no specific materials authored; GM/tabletop-managed).'
                     },
                     concentration: {
                       label: 'C',
                       name: 'Concentration',
                       key: 'concentrationText',
                       icon: 'fa-brain',
-                      defaultText: 'Requires active mental focus. Taking damage or casting another concentration spell may break it.'
+                      defaultText: 'Requires active concentration; GM/tabletop-managed.'
                     }
                   };
 
@@ -397,15 +402,23 @@ const SpellCardHeader = ({
                     componentsList = [...spell.resourceCost.components];
                   } else if (Array.isArray(spell?.components)) {
                     componentsList = [...spell.components];
+                  } else if (spell?.resourceCost?.components && typeof spell.resourceCost.components === 'object') {
+                    componentsList = Object.entries(spell.resourceCost.components).filter(([_, v]) => Boolean(v)).map(([k]) => k);
+                  } else if (spell?.components && typeof spell.components === 'object') {
+                    componentsList = Object.entries(spell.components).filter(([_, v]) => Boolean(v)).map(([k]) => k);
                   }
 
-                  if (spell?.resourceCost?.verbalText && !componentsList.includes('verbal')) {
+                  const verbalVal = spell?.resourceCost?.verbalText ?? spell?.verbalText;
+                  if (verbalVal && !componentsList.includes('verbal')) {
                     componentsList.push('verbal');
                   }
-                  if (spell?.resourceCost?.somaticText && !componentsList.includes('somatic')) {
+                  const somaticVal = spell?.resourceCost?.somaticText ?? spell?.somaticText;
+                  if (somaticVal && !componentsList.includes('somatic')) {
                     componentsList.push('somatic');
                   }
-                  if ((spell?.resourceCost?.materialComponents || spell?.materialComponents) && !componentsList.includes('material')) {
+                  const materialCompVal = spell?.resourceCost?.materialComponents ?? spell?.materialComponents;
+                  const materialTextVal = spell?.resourceCost?.materialText ?? spell?.materialText;
+                  if ((materialCompVal || materialTextVal) && !componentsList.includes('material')) {
                     componentsList.push('material');
                   }
                   const hasConcentration = componentsList.includes('concentration') ||
@@ -419,13 +432,29 @@ const SpellCardHeader = ({
                   }
 
                   const pills = componentsList
-                    .filter(c => compMap[c])
                     .map((c, i) => {
-                      const { label, name, key, icon, defaultText } = compMap[c];
-                      const fullText = (spell?.resourceCost && spell.resourceCost[key]) ||
-                        spell?.[key] ||
-                        (c === 'material' ? (spell?.resourceCost?.materialComponents || spell?.materialComponents) : null) ||
-                        defaultText;
+                      const isKnown = Boolean(compMap[c]);
+                      const { label, name, key, icon, defaultText } = isKnown
+                        ? compMap[c]
+                        : {
+                            label: c.length > 2 ? c.substring(0, 2).toUpperCase() : c.toUpperCase(),
+                            name: `${formatComponentName(c)} Component`,
+                            key: `${c}Text`,
+                            icon: 'fa-scroll',
+                            defaultText: `Requires ${formatComponentName(c)}.`
+                          };
+                      let authoredVal = (spell?.resourceCost && spell.resourceCost[key]) || spell?.[key];
+                      if (c === 'material') {
+                        authoredVal = materialTextVal || (typeof materialCompVal === 'string' && materialCompVal ? materialCompVal : null) || authoredVal;
+                      } else if (c === 'verbal') {
+                        authoredVal = verbalVal || authoredVal;
+                      } else if (c === 'somatic') {
+                        authoredVal = somaticVal || authoredVal;
+                      } else if (!isKnown) {
+                        authoredVal = spell?.resourceCost?.[c] || spell?.[c] || authoredVal;
+                      }
+                      const hasAuthoredText = Boolean(authoredVal && String(authoredVal).trim());
+                      const fullText = hasAuthoredText ? authoredVal : defaultText;
                       const isOpen = activeComponentTooltip === c;
 
                       return (
@@ -436,6 +465,7 @@ const SpellCardHeader = ({
                           name={name}
                           icon={icon}
                           fullText={fullText}
+                          hasAuthoredText={hasAuthoredText}
                           isOpen={isOpen}
                           onMouseEnter={() => {
                             if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: hover)').matches) {

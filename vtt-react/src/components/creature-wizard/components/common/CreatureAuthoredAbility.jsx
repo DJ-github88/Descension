@@ -3,6 +3,7 @@ import { CompactForm } from '../../../item-generation/ItemAbilityEditor';
 import { clone, newItemAbility, snapshotAbility, itemAbilitySupport } from '../../../../services/itemAuthoredAbility';
 import { useSpellLibrary } from '../../../spellcrafting-wizard/context/SpellLibraryContext';
 import AuthoredAdmission from '../../../spellcrafting-wizard/components/library/AuthoredAdmission';
+import ExecutionCompatibility from '../../../spellcrafting-wizard/components/common/ExecutionCompatibility';
 import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators } from '../../context/CreatureWizardContext';
 import { refOf, bindActor } from '../../../../services/actorConsequenceService';
 import { openCreatureAbility, refreshAuthoredAbilities, useSpellConsequenceStore } from '../../../../services/spellConsequenceService';
@@ -33,6 +34,8 @@ export function CreatureAbilityDetails({ association: suppliedAssociation, saved
     {d && (d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self') && <p role="status">Authored range {d.targeting.rangeFeet} ft / {d.targeting.restriction}. {selfAllowed ? 'Choose Self for direct capped healing.' : 'No compatible self route; keep this definition manual.'} Distinct range-zero targets remain unsupported.</p>}
     {association?.librarySpellId && <p>Detached Spell Library snapshot. Library edits or deletion do not replace this content.</p>}
     <details><summary>Inspect whole preserved definition</summary><pre className="creature-ability-json">{JSON.stringify(association, null, 2)}</pre></details>
+    {/* Route-refused Inspect cards deliberately omit admission controls; keep the shared explanation visible. */}
+    {saved && support.ok && refusal && <ExecutionCompatibility record={association.record} context={{ shared, gm, sourceRef, route: 'creature' }} />}
     {saved && support.ok && !refusal && (!token || sourceRef) && <AuthoredAdmission spell={association.record} sourceRef={sourceRef} />}
     {token && shared && gm && !sourceRef && <button type="button" disabled={busy} onClick={() => perform(() => bindActor(token.id, 'creature'))}>Bind this placed creature</button>}
     {token && shared && gm && sourceRef && support.ok && !refusal && <button type="button" disabled={busy || (!selfAllowed && (d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self'))} onClick={() => perform(() => openCreatureAbility(sourceRef))}>Use for this creature</button>}

@@ -1,0 +1,278 @@
+{
+  "null": {
+    "definition": {
+      "schemaVersion": 3,
+      "capability": "authored-effect:v1",
+      "scope": {
+        "roomId": "r"
+      },
+      "definitionId": "70000000-0000-4000-8000-0000000000d1",
+      "definitionVersion": 1,
+      "name": "DR Ward",
+      "description": "Disposable fixture",
+      "binding": {
+        "rulesetId": "prism",
+        "rulesetVersion": "cr-a1a-pilot-1",
+        "classId": "arcanoneer"
+      },
+      "spellType": "ACTION",
+      "castTimeType": "IMMEDIATE",
+      "targeting": {
+        "kind": "single",
+        "maxTargets": 1,
+        "rangeFeet": 30,
+        "restriction": "any"
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 2
+      },
+      "effects": {
+        "direct": null,
+        "condition": {
+          "kind": "damageReduction",
+          "amount": 3,
+          "label": "DR Ward"
+        }
+      },
+      "timing": {
+        "expiryPolicy": "gm-manual",
+        "durationText": "While the ward holds",
+        "authoredDuration": null,
+        "gmNote": "GM confirms range."
+      }
+    },
+    "definitionHash": "cd74576b72f8c66f68c2063acca21e8ad2c0173caac5ccbf6c107f6ac10e065c",
+    "descriptor": {
+      "schemaVersion": 3,
+      "capabilityId": "authored-effect:v1",
+      "compilerVersion": "p14-a10-effect-1",
+      "definitionRef": {
+        "roomId": "r",
+        "definitionId": "70000000-0000-4000-8000-0000000000d1",
+        "definitionVersion": 1,
+        "definitionHash": "cd74576b72f8c66f68c2063acca21e8ad2c0173caac5ccbf6c107f6ac10e065c"
+      },
+      "binding": {
+        "rulesetId": "prism",
+        "rulesetVersion": "cr-a1a-pilot-1",
+        "classId": "arcanoneer"
+      },
+      "price": {
+        "ap": 1,
+        "mana": 2
+      },
+      "targeting": {
+        "kind": "single",
+        "maxTargets": 1,
+        "rangeFeet": 30,
+        "restriction": "any"
+      },
+      "effects": {
+        "direct": null,
+        "condition": {
+          "kind": "damageReduction",
+          "amount": 3,
+          "label": "DR Ward"
+        }
+      },
+      "timing": {
+        "expiryPolicy": "gm-manual",
+        "durationText": "While the ward holds",
+        "authoredDuration": null,
+        "gmNote": "GM confirms range."
+      },
+      "executionEnabled": false
+    }
+  },
+  "damage": {
+    "definition": {
+      "schemaVersion": 3,
+      "capability": "authored-effect:v1",
+      "scope": {
+        "roomId": "r"
+      },
+      "definitionId": "70000000-0000-4000-8000-0000000000d1",
+      "definitionVersion": 1,
+      "name": "DR Ward",
+      "description": "Disposable fixture",
+      "binding": {
+        "rulesetId": "prism",
+        "rulesetVersion": "cr-a1a-pilot-1",
+        "classId": "arcanoneer"
+      },
+      "spellType": "ACTION",
+      "castTimeType": "IMMEDIATE",
+      "targeting": {
+        "kind": "single",
+        "maxTargets": 1,
+        "rangeFeet": 30,
+        "restriction": "any"
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 2
+      },
+      "effects": {
+        "direct": {
+          "kind": "damage",
+          "formula": "1d6+2",
+          "damageTypes": [
+            "arcane"
+          ]
+        },
+        "condition": {
+          "kind": "damageReduction",
+          "amount": 3,
+          "label": "DR Ward"
+        }
+      },
+      "timing": {
+        "expiryPolicy": "gm-manual",
+        "durationText": "While the ward holds",
+        "authoredDuration": null,
+        "gmNote": "GM confirms range."
+      }
+    },
+    "definitionHash": "5c901bacab09ec641d702055853fd28fb171340fc29ccda731d8762dc0ab1ee7",
+    "descriptor": {
+      "schemaVersion": 3,
+      "capabilityId": "authored-effect:v1",
+      "compilerVersion": "p14-a10-effect-1",
+      "definitionRef": {
+        "roomId": "r",
+        "definitionId": "70000000-0000-4000-8000-0000000000d1",
+        "definitionVersion": 1,
+        "definitionHash": "5c901bacab09ec641d702055853fd28fb171340fc29ccda731d8762dc0ab1ee7"
+      },
+      "binding": {
+        "rulesetId": "prism",
+        "rulesetVersion": "cr-a1a-pilot-1",
+        "classId": "arcanoneer"
+      },
+      "price": {
+        "ap": 1,
+        "mana": 2
+      },
+      "targeting": {
+        "kind": "single",
+        "maxTargets": 1,
+        "rangeFeet": 30,
+        "restriction": "any"
+      },
+      "effects": {
+        "direct": {
+          "kind": "damage",
+          "formula": "1d6+2",
+          "damageTypes": [
+            "arcane"
+          ]
+        },
+        "condition": {
+          "kind": "damageReduction",
+          "amount": 3,
+          "label": "DR Ward"
+        }
+      },
+      "timing": {
+        "expiryPolicy": "gm-manual",
+        "durationText": "While the ward holds",
+        "authoredDuration": null,
+        "gmNote": "GM confirms range."
+      },
+      "executionEnabled": false
+    }
+  },
+  "healing": {
+    "definition": {
+      "schemaVersion": 3,
+      "capability": "authored-effect:v1",
+      "scope": {
+        "roomId": "r"
+      },
+      "definitionId": "70000000-0000-4000-8000-0000000000d1",
+      "definitionVersion": 1,
+      "name": "DR Ward",
+      "description": "Disposable fixture",
+      "binding": {
+        "rulesetId": "prism",
+        "rulesetVersion": "cr-a1a-pilot-1",
+        "classId": "arcanoneer"
+      },
+      "spellType": "ACTION",
+      "castTimeType": "IMMEDIATE",
+      "targeting": {
+        "kind": "single",
+        "maxTargets": 1,
+        "rangeFeet": 30,
+        "restriction": "any"
+      },
+      "resourceCost": {
+        "actionPoints": 1,
+        "mana": 2
+      },
+      "effects": {
+        "direct": {
+          "kind": "healing",
+          "formula": "1d6+2"
+        },
+        "condition": {
+          "kind": "damageReduction",
+          "amount": 3,
+          "label": "DR Ward"
+        }
+      },
+      "timing": {
+        "expiryPolicy": "gm-manual",
+        "durationText": "While the ward holds",
+        "authoredDuration": null,
+        "gmNote": "GM confirms range."
+      }
+    },
+    "definitionHash": "1c94db06c01ea3bc562c18539a6720cfa8f9743290931ec79e2a2c58b245b657",
+    "descriptor": {
+      "schemaVersion": 3,
+      "capabilityId": "authored-effect:v1",
+      "compilerVersion": "p14-a10-effect-1",
+      "definitionRef": {
+        "roomId": "r",
+        "definitionId": "70000000-0000-4000-8000-0000000000d1",
+        "definitionVersion": 1,
+        "definitionHash": "1c94db06c01ea3bc562c18539a6720cfa8f9743290931ec79e2a2c58b245b657"
+      },
+      "binding": {
+        "rulesetId": "prism",
+        "rulesetVersion": "cr-a1a-pilot-1",
+        "classId": "arcanoneer"
+      },
+      "price": {
+        "ap": 1,
+        "mana": 2
+      },
+      "targeting": {
+        "kind": "single",
+        "maxTargets": 1,
+        "rangeFeet": 30,
+        "restriction": "any"
+      },
+      "effects": {
+        "direct": {
+          "kind": "healing",
+          "formula": "1d6+2"
+        },
+        "condition": {
+          "kind": "damageReduction",
+          "amount": 3,
+          "label": "DR Ward"
+        }
+      },
+      "timing": {
+        "expiryPolicy": "gm-manual",
+        "durationText": "While the ward holds",
+        "authoredDuration": null,
+        "gmNote": "GM confirms range."
+      },
+      "executionEnabled": false
+    }
+  }
+}

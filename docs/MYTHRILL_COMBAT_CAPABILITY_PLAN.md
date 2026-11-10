@@ -1,5 +1,18 @@
 # Mythrill â€” Prism combat capability plan (canonical)
 
+> **M6A activation recheck, 2026-11-09:** installed engine/default null gate verified; current M6A handlers 12/12 PASS.
+> M6A activation candidate preserved until creator explicitly chooses roll procedure (shared vs separate dice); guarded
+> integration and compatible acceptance slot prepared with Flash, without opening the ordinary gate yet. Historical App
+> `passed:true` includes four fetch errors and test-only roll enablement. Current admission range is 1–300 ft (not the
+> old M6A summary's 0–120). Exact blockers, three-target decision brief, Flash-only compatible-build request and
+> release acceptance: [M6A activation brief](MYTHRILL_M6A_ACTIVATION_BRIEF.md).
+>
+> **Consumable reconciled delivery & transaction boundary, 2026-11-09:** Flash delivery recorded as bounded evidence:
+> refusal protection verified; condition-only use verified; shared-room instant healing NOT verified; reload-safe
+> item/effect reconciliation NOT established. Mixed healing+condition potions must never be presented as successfully
+> executed when only condition lands; coordinate with Argon on complete implementation or explicit pre-execution refusal.
+> Later transaction-lane bytes require their own exact coverage and acceptance; do not inherit the older build's PASS.
+
 Combat architecture lead Â· 2026-10-30 Â· **planning only.** No production code, commit, push, deployment,
 migration or dependency change was made. Nothing here approves new gameplay rules; every rule question is
 listed once in Â§F.
@@ -109,11 +122,11 @@ intentionally manual-only (CR-1) and 431 are passive/descriptive; they are not "
 | **Direct, mixed** | A1â€“A6 single direct; A10 direct + Stunned/movement, one P7 command (`spellPayments.bindEffect`) | Adapter: let class-paid PC sources use the bundle (M1) | More than one effect block; crit/alt (136) | Combat Â· M1 |
 | **Delayed** | None | Infrastructure: C4 only knows "target's next turn start/end" | Delayed damage/"at end of round" | Combat Â· M2 |
 | **Periodic** (56) | Legacy client-local `processOverTimeEffectsForTarget` from `combatStore`; not authoritative, no receipts. P7 record fields exist | Infrastructure: tick roll custody, C4 boundary command that may pay/damage | Tick roll vs fixed, start/end, death at tick, stacking | Combat Â· M2, creator |
-| **Explicit timing** | C4: authenticated clock, exact-instance schedules (â‰¤256, â‰¤32 per boundary); Wizard opt-in `authenticated_caster_start` cooldowns (1â€“10 strictly upcoming caster-turn starts, primary owner PC â†’ one creature immediate damage/healing, atomic P7 start + C4 release, installed/reviewed/App PASS: [handoff](../handoff/wizard-cooldowns/HANDOFF.md)) | Infrastructure: N-round counters (`dueSequence` arithmetic is local); catalogue cooldown mapping | Roster change/combat end leaves unreleased cooldowns blocked/manual; "per round" vs per-turn; legacy `turn_based`/rest/charge manual | Combat Â· M2 |
+| **Explicit timing** | C4: authenticated clock, exact-instance schedules (â‰¤256, â‰¤32 per boundary); Wizard opt-in `authenticated_caster_start` cooldowns (1â€“10 strictly upcoming caster-turn starts, primary owner PC â†’ one creature immediate damage/healing, atomic P7 start + C4 release, installed/reviewed/App PASS: [handoff](../handoff/wizard-cooldowns/HANDOFF.md); same profile on the immediate + periodic same-kind composition: isolated candidate, NOT installed (overlaps Sol's class-payment candidate), review ACCEPT, identified build + App PASS: [handoff](../handoff/composed-cooldowns/HANDOFF.md); other bundle families unsupported for cooldowns) | Infrastructure: N-round counters (`dueSequence` arithmetic is local); catalogue cooldown mapping | Roster change/combat end leaves unreleased cooldowns blocked/manual; "per round" vs per-turn; legacy `turn_based`/rest/charge manual | Combat Â· M2 |
 | **Stat buffs/debuffs** (617) | Flat movement (A10/A11); flat Agility, Intelligence and Spirit (shared attribute family; Intelligence/Spirit extension installed/reviewed, App acceptance pending). P7 modifier-key validation alone does not confer execution. Verified new consumers: `1d6 + intelligence` / `1d6 + spirit`; Agility formula/basic-strike regression retained. See §C *Attribute buff/debuff*. | Extend only demonstrated consumers; normalize vocabulary | Same-attribute combination remains refused; F5 local-buff interaction unchanged; F7 repair separately owned; no derived-stat/max-pool/refill claim | Combat + Class HQ; Sonnet owns compatibility explanations |
 | **Stacking/refresh/suppression/immunity/removal** | A11: different names add, same definition+source refreshes, â‰¥0 floor; GM exact-instance removal | A11 is movement-only (HQ); other families need their own policy; suppression/immunity none | Source leaves/dies; different source same effect (refused) | Combat Â· creator |
 | **Saves, conditional, scaling** (130 / 72) | Nothing executes saves; Wizard lane refuses them | Adapter: GM-attested branch in approval (M1); formula grammar extensions | Who rolls, DC modifiers, half-damage rounding, `attr/K` rounding (D14-4) | Combat + creator Â· M1, M4 |
-| **Damage/healing, temp HP, defenses, equipment** | P7 HP/temp pools; P12 strike/DR/wear; Defending | Adapter work per source | Mitigation order (D12-1â€¦6) | Combat |
+| **Damage/healing, temp HP, defenses, equipment** | P7 HP/temp pools; P12 strike/DR/wear; Defending; owner-PC explicit self-healing (`restriction === 'self'`, `rangeFeet === 0`, immediate healing `v1`/`v2`/`v4` without missing-health scaling, one-actor atomic write/receipt, `targetConsent === 'none'` when `source === target`: isolated candidate, NOT installed due to live `composition-integration` overlap, review ACCEPT, identified build + ordinary-App PASS: [handoff](../handoff/owner-pc-self-healing/HANDOFF.md)) | Adapter work per source | Mitigation order (D12-1â€¦6) | Combat |
 | **M4D deterministic immediate formulas** | Installed 2026-11-05: Wizard zero-dice v4, primary owner PC → distinct creature; exact AP/mana, explicit owner approval + GM amount/reason. Runtime review ACCEPT; server71/client77; identified build/App PASS ([handoff](../handoff/m4-deterministic/HANDOFF.md)) | Reuses shared grammar, server HP snapshot, P7 writer and exact-command recovery | Catalogue whole records, PC/self/area/periodic/composed/class-payment widening remain outside this increment; full M4 open | Combat + Class HQ |
 | **Targeting, obstruction, areas, multi-target, propagation** (532) | B1 single pick; obstruction-aware aim (Sol); B2 Â§8.1 preview only | Infrastructure decision: P7 is source+â‰¤1 target (Â§C-limits) | D14-3 atomic? Chain-as-link vs travel; geometry G-series | Combat Â· M6 |
 | **Triggered effects, reactions, chains** (210) | W private collector (no execution); E1a Riposte binder with parent/opportunity ids | Adapter: per-card binders; no generic evaluator | D13-1â€¦8; loop budget not frozen | Combat + creator Â· M7 |
@@ -459,6 +472,7 @@ normal-App persistent-profile proof, one bounded review). Scoping counts are fro
   roll rule. Small breadth (56 static) â€” after M2/M4, not before.
 - **M6 â€” Multi-target and area execution:** sequential per-target exchange; B2 selection; N-actor P7 only on D14-3.
 - **M7 â€” Triggered/reaction consequences**, one card family at a time through P13B binders.
+  Foundation candidate (diagnostic-only, awaiting review; not installed): [shared-trigger-foundation](../handoff/shared-trigger-foundation/HANDOFF.md).
 
 **Long-term class/ancestry breadth (parallel tracks)**
 
@@ -655,3 +669,28 @@ Then build **M1 â€” class-paid composed effect with a GM-attested save bran
 Not periodic effects first: they touch only ~3% of the catalogue and need decisions the other milestones
 produce. M1 needs no creator decision; Class HQ confirms one profile entry.
 
+### 2026-11-07 integration status — class payments reconciled with saves + composed cooldowns + M5 recovery
+
+The class-payment bridge is now **installed** against the installed save bytes and the released composed-cooldown candidate;
+all five released M5 retained-history files remain byte-exact. 17 exact files were guard-installed after fresh base checks,
+with pre-change backups. Explicit cross-capability gates: a class payment requires its typed price plus the trusted pin pair;
+class payment + GM-recorded save refuses at admission, approval and bind; class payment + caster-start cooldown refuses at
+admission and through the unchanged cooldown route. Save-only and cooldown-only routes keep their reviewed behavior.
+Reconciliation-delta review ACCEPT; save r1/r2, cooldown F1–F8/delta, M1/M4B/M5/M4A–D/F7 and library lineage carry forward.
+Verification: class-payment 15/15, focused combined 78/78, full server 1135 (same two pre-existing evidence-folder hooks),
+client 74/74 in 11 affected suites, mirrors clean. One identified build capture `b73a4eea…67f8`, assets `55e01289…c8b5`,
+`main.9206473d.js`, frozenDrift[] and liveDrift[]; M5 recovery 5/5 exact. App journeys PASS errors[]: save (`save-app`),
+composed cooldown (`cooldown-app`), and M5 retained capacity (`recovery-app`: clear confirmed only, unresolved preserved,
+original receipt recovered once, HP/payment unchanged). A recovery setup harness race failed once before any product action
+and is retained; the rerun passed. **No production catalogue pin or complete real-spell authorization exists**, so class
+payments are installed but not executable in ordinary play. No class-paid save/cooldown route is enabled. Opening Chord stays
+parked. See `handoff/composition-integration/`. Build/port/profiles/file claims released.
+
+### 2026-11-07 timed save-dependent effects — installed, reviewed, identified build + ordinary-App PASS
+
+Rider-local "negates" saves (owner PC → one creature, plain direct part) now accept the structured target-next-start/end and counted
+start/end (2…10) expiries as well as manual expiry. Both recorded outcomes need the same installable authenticated schedule before any
+payment or HP (`effect_schedule_unavailable` otherwise, nothing charged). Saved = payment + direct part only, earlier riders/schedules
+untouched; failed = payment + direct part + timed rider in one command. Flat-DR, periodic and class-payment save exclusions stay in force.
+Half damage, direct-part/rider-only/multiple saves, area/PC targets and catalogue authorizations remain unapproved. Build assets
+`4f76e32b…`, App witness PASS; see `handoff/timed-save-integration/HANDOFF.md`. No catalogue record becomes eligible by this change.

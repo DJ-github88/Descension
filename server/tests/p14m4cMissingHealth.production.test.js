@@ -112,7 +112,7 @@ describe('M4C missing-health: production registered handlers / server dynamic au
     for (const extra of [{ targetRoute: 'primary-pc-healing' }, { classPayment: { domain: 'devotionGauge', price: { cost: 0, gain: 1, required: 0 } } }]) {
       assert.equal(registry.compileDefinition(Object.assign({}, e.canonicalDefinition, extra)).ok, false);
     }
-    assert.equal(pure.isAreaRollProcedureApproved(), false);
+    assert.equal(pure.isAreaRollProcedureApproved(), true);
   });
   it('source HP drift before approval and current/max/temp/revision drift after consent require explicit reapproval', async() => {
     const e = await admit(), original = approval(e); token(pc).character.health.current = 19;

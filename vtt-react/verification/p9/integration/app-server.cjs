@@ -23,7 +23,7 @@ async function start() {
     const result = await ack(seed, 'actor_bind', { roomId: room.id, ref: { kind, roomId: room.id, mapId, tokenId: id, ...(kind === 'character' ? { ownerUid: 'app-owner', characterId: 'ilse' } : {}) }, snapshotHash: actors.hash(token) });
     assert.equal(result.success, true, JSON.stringify(result)); refs[id] = result.ref;
   }
-  const build = process.env.APP_BUILD_DIR || path.join(__dirname, '../evidence/integration-20261015/sol', process.env.APP_BUILD || 'build-final', 'app');
+  const build = path.resolve(process.env.APP_BUILD_DIR || path.join(__dirname, '../evidence/integration-20261015/sol', process.env.APP_BUILD || 'build-final', 'app'));
   const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
   const server = http.createServer((req, res) => {
     res.setHeader('Cache-Control', 'no-store');
@@ -36,7 +36,8 @@ async function start() {
     res.setHeader('Content-Type', mime[path.extname(file)] || 'application/octet-stream'); fs.createReadStream(file).pipe(res);
   });
   await new Promise(r => server.listen(4180, '127.0.0.1', r));
-  return { backend, server, room, refs, seed, url: 'http://127.0.0.1:4180', stop: async() => { seed.disconnect(); await new Promise(r => server.close(r)); await backend.stop(); } };
+  const actualPort = server.address().port;
+  return { backend, server, room, refs, seed, url: `http://127.0.0.1:${actualPort}`, stop: async() => { seed.disconnect(); if (server.closeAllConnections) server.closeAllConnections(); await new Promise(r => server.close(r)); await backend.stop(); } };
 }
 exports.start = start;
 if (require.main === module) start().then(({ url }) => console.log(url), e => { console.error(e); process.exit(1); });

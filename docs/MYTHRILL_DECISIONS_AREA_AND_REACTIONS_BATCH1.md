@@ -1,5 +1,10 @@
 # Area targeting and reactions — compact creator decision packet
 
+**M6A Creator Decision — 2026-11-10:**
+> **Creator Decision:** Approve one shared owner roll per cast for the first M6A ranged-circle, creature-target profile, with per-target GM final amounts under the existing payment, refusal and exact-command recovery contracts.
+> **Reference:** `creator-approval-20261110-m6a-shared-roll`
+> **Scope:** Bounded shared-roll procedure only (`scope: 'first-ranged-circle-creature-targets'`). Does not approve independent per-target rolls, new target profiles, additional mechanics, or trigger decisions T1–T6.
+
 **Revision 5, 2026-10-19 — original E1a execution delivered.** B2 §8.1 is completed/accepted at its
 retained source/build identities; G1/G3/G3a/G5 stay approved, with no widening or verification rerun.
 **P13B-W approved/frozen for implementation, 2026-10-19:** D13-6b full8s, D13-11 private pre-cutoff

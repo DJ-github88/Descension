@@ -4,6 +4,8 @@ import useInventoryStore from '../../store/inventoryStore';
 import useDiceStore from '../../store/diceStore';
 import useChatStore from '../../store/chatStore';
 import useConditionStore from '../../store/conditionStore';
+import useGameStore from '../../store/gameStore';
+import { applyItemConditions, postInventoryNotice, consumableNotUsedText, consumeKey, withConsumeLock, settleEarlierUse, sendRemainingRecords, markUseCompleted, isHeld, releaseHeld, findActor, preserveAcceptedForReconciliation, planConsumableResources } from '../../services/consumableCondition';
 import { getCustomIconUrl, getIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import ItemTooltip from '../item-generation/ItemTooltip';
@@ -819,9 +821,11 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
       Object.assign(effects, item.statModifiers);
     }
     if (item.combatStats && typeof item.combatStats === 'object') {
-      ['armor', 'spellPower', 'physicalDamage', 'magicDamage', 'critChance', 'speed', 'evasion', 'strength', 'agility', 'intelligence', 'spirit', 'constitution', 'charisma'].forEach(k => {
-        if (item.combatStats[k] && typeof item.combatStats[k] === 'number') {
-          effects[k] = item.combatStats[k];
+      ['armor', 'spellPower', 'physicalDamage', 'magicDamage', 'critChance', 'speed', 'evasion', 'strength', 'agility', 'intelligence', 'spirit', 'constitution', 'charisma', 'healthRegen', 'manaRegen', 'healingPower', 'moveSpeed', 'maxHealth', 'damage', 'spellDamage'].forEach(k => {
+        const raw = item.combatStats[k];
+        const val = typeof raw === 'object' && raw !== null ? raw.value : raw;
+        if (typeof val === 'number' && val !== 0) {
+          effects[k] = val;
         }
       });
     }
@@ -867,13 +871,116 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   };
 
   // Execute Confirmed Consumption
-  const executeConfirmConsume = () => {
+  // Shared room: the room takes the item's stat condition first. A refusal (or an answer that never came) leaves the pack and
+  // the sheet untouched and says so; only a confirmation lets the item be used. Offline keeps the single local pass.
+  const executeConfirmConsume = async () => {
     if (!pendingConsumable?.item) return;
     const fullItem = pendingConsumable.item;
+    if (useGameStore.getState().isInMultiplayer !== true) { await withConsumeLock(consumeKey(fullItem), async () => applyConsumeLocally(fullItem, false)); return; }
+    const key = consumeKey(fullItem);
+    if (isHeld(key)) {
+      postInventoryNotice(`${fullItem.name}: the room already took its effect and a healing choice is waiting; choose or cancel it first.`);
+      setPendingConsumable(null);
+      if (inspectingSpell && inspectingSpell.type === 'consumable') setInspectingSpell(null);
+      return;
+    }
+    const initiatingCharState = useCharacterStore.getState();
+    const activeChar = characterId || character?.id || initiatingCharState?.currentCharacterId || initiatingCharState?.id;
+    const initiatingPrincipal = useGameStore.getState().currentPlayer?.id || initiatingCharState?.playerId || null;
+    const initiatingActor = findActor(activeChar || 'player');
+    const initiatingActorId = initiatingActor?.id || null;
 
-    // Deduct 1 from inventory
+    await withConsumeLock(key, async () => {
+      const earlier = await settleEarlierUse(key, fullItem.name, activeChar, fullItem.id);
+      if (!earlier.proceed) {
+        setPendingConsumable(null);
+        if (inspectingSpell && inspectingSpell.type === 'consumable') setInspectingSpell(null);
+        return;
+      }
+      if (earlier.alreadyDeducted) {
+        markUseCompleted(key, activeChar, fullItem.id);
+        releaseHeld(key);
+        postInventoryNotice(`${fullItem.name}: the earlier use's item deduction was already saved with its completed command; no second deduction was made.`);
+        setPendingConsumable(null);
+        if (inspectingSpell && inspectingSpell.type === 'consumable') setInspectingSpell(null);
+        return;
+      }
+      const settledCommandId = earlier.settledCommandId || null;
+      const targetItemId = (earlier.alreadyConfirmed && earlier.settledItemId) ? earlier.settledItemId : fullItem.id;
+      const buffData = earlier.alreadyConfirmed ? null : extractItemBuffData(fullItem);
+      let partial = null;
+      let lastCommandId = null;
+      let lastOutcome = null;
+      let resourcesApplied = !!earlier.resourcesApplied;
+      if (buffData) {
+        const plannedResources = freshToken => planConsumableResources(fullItem, { allowOverhealCap: true, sourceOverride: freshToken?.character });
+        const sent = await applyItemConditions(useConditionStore.getState().addCondition, key, [{ polarity: 'buff', condition: buffData }], activeChar, plannedResources, fullItem.id);
+        if (!sent.confirmed) {
+          postInventoryNotice(consumableNotUsedText(fullItem.name, sent.refused.message));
+          setPendingConsumable(null);
+          if (inspectingSpell && inspectingSpell.type === 'consumable') setInspectingSpell(null);
+          return;
+        }
+        partial = sent.partialRefusal;
+        lastCommandId = sent.commandId;
+        lastOutcome = sent.outcome;
+        resourcesApplied = !!sent.resourcesApplied;
+      }
+      if (partial) postInventoryNotice(`${fullItem.name} took effect, except one part. ${partial.message}`);
+      if (earlier.alreadyConfirmed) await sendRemainingRecords(useConditionStore.getState().addCondition, key, fullItem.name, earlier.rest);
+      // The pack may have changed while the room answered: nothing more is used if the exact item instance is gone.
+      const liveItems = useInventoryStore.getState().items || [];
+      const liveTargetItem = (targetItemId ? liveItems.find(invItem => invItem.id === targetItemId) : null)
+        || (!targetItemId && fullItem.originalItemId ? liveItems.find(invItem => invItem.originalItemId === fullItem.originalItemId) : null);
+      if (!liveTargetItem) {
+        markUseCompleted(key, activeChar, fullItem.id);
+        releaseHeld(key);
+        postInventoryNotice(`${fullItem.name} took effect in the room, but it is no longer in your pack, so nothing more was used.`);
+        setPendingConsumable(null);
+        if (inspectingSpell && inspectingSpell.type === 'consumable') setInspectingSpell(null);
+        return;
+      }
+
+      // Direct acceptance callback: verify character / principal / actor did not switch
+      const nowChar = useCharacterStore.getState();
+      const nowCharId = nowChar?.currentCharacterId || nowChar?.id;
+      const nowPrincipal = useGameStore.getState().currentPlayer?.id || nowChar?.playerId || null;
+      const nowActor = findActor(nowCharId || 'player');
+      const nowActorId = nowActor?.id || null;
+
+      const changed = nowCharId !== activeChar ||
+          !!(initiatingPrincipal && nowPrincipal && nowPrincipal !== initiatingPrincipal) ||
+          !!(initiatingActorId && nowActorId && nowActorId !== initiatingActorId);
+
+      if (changed) {
+        if (lastCommandId || earlier.alreadyConfirmed) {
+          preserveAcceptedForReconciliation(key, {
+            commandId: lastCommandId || settledCommandId,
+            outcome: lastOutcome,
+            name: liveTargetItem.name,
+            characterId: activeChar,
+            ...(targetItemId ? { itemId: targetItemId } : {})
+          });
+        }
+        releaseHeld(key);
+        setPendingConsumable(null);
+        if (inspectingSpell && inspectingSpell.type === 'consumable') setInspectingSpell(null);
+        return;
+      }
+
+      const completedCommandId = lastCommandId || settledCommandId;
+      applyConsumeLocally(liveTargetItem, true, resourcesApplied,
+        completedCommandId ? { commandId: completedCommandId, characterId: activeChar } : null);
+      markUseCompleted(key, activeChar, targetItemId);
+      setPendingConsumable(null);
+      if (inspectingSpell && inspectingSpell.type === 'consumable') setInspectingSpell(null);
+    });
+  };
+
+  const applyConsumeLocally = (fullItem, conditionsAlreadySent, resourcesAlreadyApplied = false, completion = null) => {
+    // Deduct 1 from inventory (with the completed-command marker in the same inventory save when a room command existed)
     const itemIdToRemove = fullItem.id || fullItem.originalItemId || fullItem.id;
-    useInventoryStore.getState().removeItem(itemIdToRemove, 1);
+    useInventoryStore.getState().removeItem(itemIdToRemove, 1, completion);
 
     // Apply restoration effects
     const charStore = useCharacterStore.getState();
@@ -884,33 +991,39 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     const effectsApplied = [];
 
     if (hpRestore !== 0) {
-      const curHP = charStore.health?.current ?? 45;
-      const maxHP = charStore.health?.max ?? 50;
-      const newHP = Math.max(0, Math.min(maxHP, curHP + hpRestore));
-      charStore.updateResource('health', newHP);
+      if (!resourcesAlreadyApplied) {
+        const curHP = charStore.health?.current ?? 45;
+        const maxHP = charStore.health?.max ?? 50;
+        const newHP = Math.max(0, Math.min(maxHP, curHP + hpRestore));
+        charStore.updateResource('health', newHP);
+      }
       effectsApplied.push(`${hpRestore > 0 ? '+' : ''}${hpRestore} HP`);
     }
 
     if (mpRestore !== 0) {
-      const curMP = charStore.mana?.current ?? 45;
-      const maxMP = charStore.mana?.max ?? 50;
-      const newMP = Math.max(0, Math.min(maxMP, curMP + mpRestore));
-      charStore.updateResource('mana', newMP);
+      if (!resourcesAlreadyApplied) {
+        const curMP = charStore.mana?.current ?? 45;
+        const maxMP = charStore.mana?.max ?? 50;
+        const newMP = Math.max(0, Math.min(maxMP, curMP + mpRestore));
+        charStore.updateResource('mana', newMP);
+      }
       effectsApplied.push(`${mpRestore > 0 ? '+' : ''}${mpRestore} Mana`);
     }
 
     if (apRestore !== 0) {
-      const curAP = charStore.actionPoints?.current ?? 1;
-      const maxAP = charStore.actionPoints?.max ?? 3;
-      const newAP = Math.max(0, Math.min(maxAP, curAP + apRestore));
-      charStore.updateResource('actionPoints', newAP);
+      if (!resourcesAlreadyApplied) {
+        const curAP = charStore.actionPoints?.current ?? 1;
+        const maxAP = charStore.actionPoints?.max ?? 3;
+        const newAP = Math.max(0, Math.min(maxAP, curAP + apRestore));
+        charStore.updateResource('actionPoints', newAP);
+      }
       effectsApplied.push(`${apRestore > 0 ? '+' : ''}${apRestore} AP`);
     }
 
     // Apply Buff / Condition to conditionStore if item has duration/buffs
     const buffData = extractItemBuffData(fullItem);
     if (buffData) {
-      useConditionStore.getState().addCondition('buff', buffData);
+      if (!conditionsAlreadySent) useConditionStore.getState().addCondition('buff', buffData);
       effectsApplied.push(`✨ ${buffData.name} (${Math.round(buffData.duration)}s)`);
     }
 

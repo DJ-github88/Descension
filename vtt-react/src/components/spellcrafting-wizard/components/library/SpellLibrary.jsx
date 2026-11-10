@@ -18,6 +18,7 @@ import { TALENT_TREES } from '../../../../data/talentTreeData';
 import { convertTalentSpellToLibrarySpell } from '../../../../data/talentTrees/talentSystem.mjs';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
+import { saveDisclosureForRecord } from '../common/spellSavePresentation';
 import {
   extractSpellStatline,
   extractSpellActionBadge
@@ -910,6 +911,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    // CRITICAL: Preserve original effects object for legacy format support
    // UnifiedSpellCard checks effects.buff, effects.healing, etc. for legacy formats
    effects: spell.effects || null,
+
+   // Presentation only: compiler-derived saved-card save disclosure (null when none).
+   authoredSaveDisclosure: saveDisclosureForRecord(spell),
 
    // Advanced mechanics
    mechanicsConfig: spell.mechanicsConfig || null,
@@ -2632,6 +2636,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         console.error("[SpellLibrary] Could not find spell with ID:", spellId);
        }
       } : null}
+      onDuplicate={isCustomSpell ? handleDuplicateSpell : null}
       onDelete={isCustomSpell ? (spellId) => {
        const spellToDelete = library.spells.find(s => s.id === spellId);
        handleDeleteSpell(spellId, spellToDelete?.name || 'Unknown Spell');
@@ -2738,6 +2743,19 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         >
           <i className="fas fa-plus"></i> Place on Action Bar
         </button>
+        {library.spells.some(spell => spell.id === selectedSpell.id) && (
+          <button
+            type="button"
+            className="spell-detail-action spell-detail-action-secondary"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              handleDuplicateSpell(selectedSpell.id);
+              setSelectedSpell(null);
+            }}
+          >
+            <i className="fas fa-copy"></i> Duplicate
+          </button>
+        )}
         <button
           type="button"
           className="spell-detail-action spell-detail-action-secondary"

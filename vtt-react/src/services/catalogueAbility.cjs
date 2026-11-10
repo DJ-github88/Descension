@@ -19,7 +19,7 @@ const TYPE_KEYS = Object.freeze(['school', 'icon', 'tags', 'castTime', 'castTime
 const TARGET_KEYS = Object.freeze(['targetingType', 'rangeType', 'rangeDistance', 'maxTargets', 'targetRestrictions', 'targetRestriction',
   'selectionMethod', 'targetSelectionMethod', 'movementBehavior', 'aoeShape', 'aoeType', 'aoeParameters']);
 const COST_KEYS = Object.freeze(['actionPoints', 'mana', 'resourceTypes', 'resourceValues', 'useFormulas', 'components', 'verbalText',
-  'somaticText', 'materialText', 'classResource', 'spheres', 'notes']);
+  'somaticText', 'materialText', 'materialComponents', 'classResource', 'spheres', 'notes']);
 const DAMAGE_KEYS = Object.freeze(['formula', 'damageTypes', 'resolution', 'description', 'elementType']);
 const HEALING_KEYS = Object.freeze(['formula', 'healingType', 'hasHotEffect', 'description', 'resolution']);
 const int = (value, min = 0, max = Number.MAX_SAFE_INTEGER) => Number.isSafeInteger(value) && value >= min && value <= max;
@@ -39,7 +39,7 @@ function profileFor(source, expectedCapability = null) {
     .filter(entry => entry.recordHash === recordHash && entry.classId === classId && entry.spellId === spellId);
   if (matches.length !== 1) return refuse('No reviewed catalogue profile pins this exact class/spell record (it may have changed); manual play only.');
   const entry = matches[0];
-  if (![CAPABILITY, AREA_CAPABILITY].includes(entry.capability)) return refuse('Catalogue profile capability mismatch.');
+  if (![CAPABILITY, AREA_CAPABILITY, 'authored-effect:v1'].includes(entry.capability)) return refuse('Catalogue profile capability mismatch.');
   if (expectedCapability && entry.capability !== expectedCapability) return refuse('Catalogue profile capability mismatch.');
   return { ok: true, entry };
 }
@@ -305,7 +305,34 @@ function catalogueDraft(record, classId, { authoredDefinitionId, id } = {}) {
       maxTargets: 1, targetingType: 'single', rangeType: record.targetingConfig.rangeType,
       rangeDistance: record.targetingConfig.rangeDistance, targetRestrictions: [...record.targetingConfig.targetRestrictions]
     },
-    resourceCost: { actionPoints: definition.resourceCost.actionPoints, mana: definition.resourceCost.mana, resourceTypes: ['mana'], resourceValues: { mana: definition.resourceCost.mana }, useFormulas: {}, components: [] },
+    resourceCost: (() => {
+      const sourceCost = record.resourceCost || {};
+      const sourceComponents = Array.isArray(sourceCost.components)
+        ? [...sourceCost.components]
+        : Array.isArray(record.components)
+        ? [...record.components]
+        : (sourceCost.components && typeof sourceCost.components === 'object')
+        ? Object.entries(sourceCost.components).filter(([_, v]) => Boolean(v)).map(([k]) => k)
+        : (record.components && typeof record.components === 'object')
+        ? Object.entries(record.components).filter(([_, v]) => Boolean(v)).map(([k]) => k)
+        : [];
+      const verbalText = sourceCost.verbalText !== undefined ? sourceCost.verbalText : record.verbalText;
+      const somaticText = sourceCost.somaticText !== undefined ? sourceCost.somaticText : record.somaticText;
+      const materialComponents = sourceCost.materialComponents !== undefined ? sourceCost.materialComponents : record.materialComponents;
+      const materialText = sourceCost.materialText !== undefined ? sourceCost.materialText : record.materialText;
+      return {
+        actionPoints: definition.resourceCost.actionPoints,
+        mana: definition.resourceCost.mana,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: definition.resourceCost.mana },
+        useFormulas: {},
+        components: sourceComponents,
+        ...(verbalText !== undefined ? { verbalText } : {}),
+        ...(somaticText !== undefined ? { somaticText } : {}),
+        ...(materialComponents !== undefined ? { materialComponents } : {}),
+        ...(materialText !== undefined ? { materialText } : {})
+      };
+    })(),
     cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
     resolution: 'DICE', effectResolutions: { [definition.effect.kind]: 'DICE' },
     tags: Array.isArray(record.tags) ? [...record.tags] : [],

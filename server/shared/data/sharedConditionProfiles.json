@@ -53,6 +53,23 @@
     "combinationPolicy": "At most one active change to the same attribute on one target. How two changes to the same attribute combine (add, highest only, or refresh) is not decided, so a second one is refused for the GM to resolve. Changes to different attributes are independent.",
     "notAutomated": "Supported consumers: the owner's supported spell formulas that name this attribute; a basic weapon strike only when its weapon uses this attribute. Initiative, derived damage figures and encumbrance on the owner's sheet may show the change but are display only; turn order is not recomputed and no HP, mana or AP is restored or refilled."
   },
+  "damageReductionModifier": {
+    "conditionKey": "damage-reduction-modifier",
+    "origin": "shared-condition:damage-reduction:v1",
+    "definitionId": "authored-damage-reduction-modifier",
+    "effectKey": "damageReduction",
+    "minAmount": 1,
+    "maxAmount": 20,
+    "unit": "flat-dr",
+    "polarity": {
+      "positive": "buff"
+    },
+    "description": "Temporary positive flat damage reduction (+1 to +20 flat DR) on one exact actor. Distinct from equipment blocking dice, durability, Defending and resistance/vulnerability tiers.",
+    "buffColor": "#3c6a7a",
+    "buffIcon": "/assets/icons/Status/buff/shield-protection.png",
+    "combinationPolicy": "At most one active flat damage-reduction effect on one target while D-DR-1 is open. A second flat DR effect on the same actor (authored or manual) is refused for the GM to resolve.",
+    "notAutomated": "Automated in P12A basic weapon strike only when it is the target creature's lone defense on a non-critical hit; critical hits, resistance/vulnerability coexistence, P12B PC blocking ('flat-dr' ruling), spells and riposte display the active flat DR for GM adjudication in the final amount and never subtract it automatically a second time."
+  },
   "defending": {
     "conditionKey": "defending",
     "origin": "shared-condition:defending:v1",

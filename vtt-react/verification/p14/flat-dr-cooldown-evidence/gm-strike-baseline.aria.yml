@@ -1,0 +1,54 @@
+- article:
+  - 'heading "Ilse → A: Witness Bow" [level=4]'
+  - text: 59705812-0244-4d7c-8f7e-f23a0885f01a / app-hall / pc · incarnation 4d8c1fe7-d3da-480b-8e1f-53be16dbcce7 59705812-0244-4d7c-8f7e-f23a0885f01a / app-hall / A · incarnation 8e65da30-d844-492e-922f-256e95226c1f
+  - paragraph: "Owner-reported: ranged · d6 stabbing · agility 16 (+3)"
+  - paragraph:
+    - text: physical [5] →
+    - strong: hit, proposed 8
+    - text: · 2 AP (temporary first)
+  - group "Proficiency — manual ruling":
+    - text: Proficiency — manual ruling
+    - paragraph: Owner-reported bow · NOVICE (stored) d6 · physical [5] · archetype bow
+    - paragraph: "[Open: whether a modifier is added, whether the die explodes, and how the result maps onto faces 1–20. The GM picks the outcome.]"
+    - group: Authored bow outcome table (manual)
+    - text: Proficiency outcome
+    - combobox "Proficiency outcome":
+      - option "GM chooses — nothing inferred" [selected]
+      - option "Face 1 · Critical Fumble (mishap)"
+      - option "Face 2 · Miss & Overextend (miss)"
+      - option "Face 3 · Glancing Graze (½ dmg)"
+      - option "Face 4 · Clean Hit (+0)"
+      - option "Face 5 · Solid Strike (+1 dmg)"
+      - option "Face 6 · Skilled Move (+1 & tech)"
+      - option "Face 7 · Tactical Edge (+2 dmg)"
+      - option "Face 8 · Signature Move (+2 & stunt)"
+      - option "Face 9 · Empowered Strike (+3 dmg)"
+      - option "Face 10 · Grand Flourish (+3 & cleave)"
+      - option "Face 11 · Heroic Sunder (+4 dmg)"
+      - option "Face 12 · Supreme Climax (+4 & action)"
+      - option "Face 13 · Master Precision (+5 dmg)"
+      - option "Face 14 · Master Cleave (+5 & aoe)"
+      - option "Face 15 · Battlefield Dominion (+6 dmg)"
+      - option "Face 16 · Apex Stride (+6 & step)"
+      - option "Face 17 · Sundering Blow (+7 dmg)"
+      - option "Face 18 · Stunning Critical (+7 & stun)"
+      - option "Face 19 · Peerless Flurry (+8 dmg)"
+      - option "Face 20 · Apotheosis Critical (+8 & break)"
+      - option "No proficiency outcome"
+      - option "Deferred — resolve at table"
+  - heading "Relevant defenses · GM private" [level=4]
+  - paragraph: "No automated defense step: 8 → 8"
+  - group:
+    - text: Final HP damage
+    - spinbutton "Final HP damage": "8"
+    - text: Adjustment reason (public; required if different from 8)
+    - textbox "Adjustment reason (public; required if different from 8)"
+  - paragraph: Planar centre distance 20 ft; no card range — GM adjudicates. Range is advisory; you adjudicate.
+  - paragraph:
+    - strong: "Commit preview:"
+    - text: attacker AP −2 and this creature HP damage 8 (temporary pools first). Adjudicate legality, reach and line of effect here.
+  - paragraph:
+    - strong: "Not applied by the VTT:"
+    - text: Choose the manual proficiency outcome. No stun, wear, free attack, movement or other manual effect is committed.
+  - button "Confirm and apply" [disabled]
+  - button "Decline strike"

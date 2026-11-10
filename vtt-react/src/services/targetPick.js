@@ -14,6 +14,20 @@ export function planarFeet(a, b, gridSize, feetPerTile = 5) {
   return Math.hypot(a.x - b.x, a.y - b.y) / gridSize * feetPerTile;
 }
 export const formatFeet = feet => feet === null ? '?' : (Math.round(feet * 10) / 10).toString();
+export const shortTokenId = (value, max = 12) => {
+  const text = String(value || '');
+  if (text.length <= max) return text;
+  const side = Math.ceil((max - 1) / 2);
+  return `${text.slice(0, side)}…${text.slice(-side)}`;
+};
+export function targetOptionLabel(entry) {
+  const name = entry?.name || 'Unknown';
+  const kind = entry?.ref?.kind || 'actor';
+  const token = shortTokenId(entry?.ref?.tokenId);
+  const position = [entry?.position?.x, entry?.position?.y].every(Number.isFinite)
+    ? ` · (${Math.round(entry.position.x)}, ${Math.round(entry.position.y)})` : '';
+  return `${name} · ${kind} · ${token}${position}`;
+}
 /** Range ring in world units as a polygon (projects correctly under rotation/tilt). */
 export function ringPoints(center, radiusWorld, segments = 48) {
   if (!Number.isFinite(radiusWorld) || radiusWorld <= 0 || !center) return [];

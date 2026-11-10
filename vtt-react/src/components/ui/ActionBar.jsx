@@ -28,6 +28,7 @@ import { normalizeEquipment, isOffHandDisabled as checkOffHandDisabled } from '.
 import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../../data/classResourceContracts';
 import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import { routeSpellCast, isP9Routed } from '../../services/spellConsequenceService';
+import { applyItemConditions, postInventoryNotice, consumableNotUsedText, consumeKey, withConsumeLock, settleEarlierUse, sendRemainingRecords, markUseCompleted, isHeld, markHeld, releaseHeld, findActor, preserveAcceptedForReconciliation, planConsumableResources } from '../../services/consumableCondition';
 import { routeWeaponStrike } from '../../services/weaponStrikeService';
 import { postManualNotice } from '../../services/manualActionGate';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
@@ -61,6 +62,7 @@ const ActionBar = () => {
     const [tooltipItem, setTooltipItem] = useState(null);
     const consumableHoverTimeoutRef = useRef(null);
     const consumableHideTimeoutRef = useRef(null);
+    const confirmedConditionsRef = useRef(new Set()); // shared room: pack items whose stat conditions the room has already confirmed
 
     // Spell tooltip state
     const [showSpellTooltip, setShowSpellTooltip] = useState(false);
@@ -101,6 +103,9 @@ const ActionBar = () => {
     // Overheal modal state
     const [showOverhealModal, setShowOverhealModal] = useState(false);
     const [overhealData, setOverhealData] = useState(null); // { resourceType, amount, currentValue, maxValue, item } or array of these
+    // The choice is collected before any room command; the resume runs the single atomic submission with those modes.
+    const overhealResumeRef = useRef(null);
+    const overhealModesRef = useRef({});
 
     // Spell cast confirmation state
     const [showSpellConfirmation, setShowSpellConfirmation] = useState(false);
@@ -349,16 +354,18 @@ const ActionBar = () => {
 
     // Apply resource adjustment with optional temporary resource
     // Returns: { applied: boolean, pendingOverheal: object|null }
-    const applyResourceAdjustmentWithOverheal = useCallback((resourceType, amount, item) => {
+    const applyResourceAdjustmentWithOverheal = useCallback((resourceType, amount, item, options = {}) => {
+        const { detectOnly = false, overhealContext = null, overhealModes = null } = options;
+        const charState = useCharacterStore.getState();
         const resourceMap = {
-            'health': health,
-            'mana': mana,
-            'actionPoints': actionPoints
+            'health': charState.health,
+            'mana': charState.mana,
+            'actionPoints': charState.actionPoints
         };
         const tempMap = {
-            'health': tempHealth,
-            'mana': tempMana,
-            'actionPoints': tempActionPoints
+            'health': charState.tempHealth || 0,
+            'mana': charState.tempMana || 0,
+            'actionPoints': charState.tempActionPoints || 0
         };
         
         const currentResource = resourceMap[resourceType];
@@ -373,6 +380,18 @@ const ActionBar = () => {
         // Check for overheal (positive adjustment that would exceed max)
         // Also check if already at max and trying to add more
         if (amount > 0 && (newValue > maxValue || (currentValue >= maxValue && amount > 0))) {
+            const mode = overhealModes?.[resourceType];
+            if (mode) {
+                // The player already chose before submission: apply exactly that approved overflow rule.
+                const capped = Math.max(0, Math.min(maxValue, newValue));
+                if (mode === 'temp') {
+                    updateResource(resourceType, capped, maxValue, undefined, true);
+                    updateTempResource(resourceType, (Number(currentTemp) || 0) + Math.max(0, newValue - maxValue));
+                } else {
+                    updateResource(resourceType, capped, maxValue);
+                }
+                return { applied: true, pendingOverheal: null };
+            }
             const overhealAmount = newValue - maxValue;
             return {
                 applied: false,
@@ -383,11 +402,17 @@ const ActionBar = () => {
                     currentValue,
                     maxValue,
                     currentTemp: Number(currentTemp) || 0,
-                    item
+                    item,
+                    initiatingCharacterId: charState.currentCharacterId || charState.id,
+                    ...(overhealContext || {})
                 }
             };
         }
         
+        if (detectOnly) {
+            return { applied: false, pendingOverheal: null };
+        }
+
         // Normal application (no overheal or negative adjustment)
         const finalValue = Math.max(0, Math.min(maxValue, newValue));
         updateResource(resourceType, finalValue, maxValue);
@@ -396,6 +421,8 @@ const ActionBar = () => {
 
     // Apply remaining consumable effects (after overheal is handled)
     const applyRemainingConsumableEffects = useCallback((inventoryItem, skipResourceType = null) => {
+        // Shared room: the room confirmed this item's stat conditions before the healing choice; do not send them twice.
+        if (useGameStore.getState().isInMultiplayer && confirmedConditionsRef.current.delete(inventoryItem.id)) return;
         const combatStats = inventoryItem.combatStats || {};
         const buffEffects = {};
         const debuffEffects = {};
@@ -582,98 +609,67 @@ const ActionBar = () => {
         }
     }, [addCondition]);
 
-    // Apply resource adjustment with temporary resource support
-    // Now handles both single overheal and array of overheals
+    // Collect the Cap / Temporary choice without touching conditions, resources or the pack; only the resume (after
+    // every pool has a choice) submits the single combined command.
     const applyResourceWithTemporary = useCallback((asTemporary, resourceType = null) => {
         if (!overhealData) return;
-        
-        // Handle both single object and array - ensure it's always a valid array
-        const overheals = Array.isArray(overhealData) 
+        const overheals = Array.isArray(overhealData)
             ? overhealData.filter(oh => oh != null)
             : (overhealData && typeof overhealData === 'object' ? [overhealData] : []);
-        
-        // Safety check: ensure we have valid overheals
-        if (!Array.isArray(overheals) || overheals.length === 0) return;
-        
-        // If resourceType is specified, only process that one (for individual buttons)
-        const overhealsToProcess = resourceType 
-            ? overheals.filter(oh => oh.resourceType === resourceType)
-            : overheals;
-        
-        const tempFieldMap = {
-            'health': 'tempHealth',
-            'mana': 'tempMana',
-            'actionPoints': 'tempActionPoints'
-        };
-        
-        overhealsToProcess.forEach(overheal => {
-            const { resourceType: resType, amount, currentValue, maxValue } = overheal;
-            const tempField = tempFieldMap[resType];
-            const currentTemp = tempField === 'tempHealth' ? tempHealth : 
-                               tempField === 'tempMana' ? tempMana : tempActionPoints;
-            
-            if (asTemporary) {
-                // Add as temporary resource
-                const overhealAmount = (currentValue + amount) - maxValue;
-                
-                // Set resource to max
-                updateResource(resType, maxValue, maxValue, undefined, true);
-                
-                // Update temporary resource
-                updateTempResource(resType, currentTemp + overhealAmount);
-            } else {
-                // Just cap at max, don't add temporary
-                updateResource(resType, maxValue, maxValue);
-            }
-        });
-        
-        // Get the item from the first overheal (they should all have the same item)
+        if (!overheals.length) return;
+
         const firstOverheal = overheals[0];
-        const item = firstOverheal?.item;
-        
-        // Check if all overheals have been processed
-        const remainingOverheals = resourceType 
-            ? overheals.filter(oh => oh.resourceType !== resourceType)
-            : [];
-        
-        // If all overheals are processed, continue with consumable effects
-        if (remainingOverheals.length === 0) {
-            // Continue with the rest of consumable effects
-            if (item) {
-                const inventoryItem = inventoryItems.find(invItem =>
-                    invItem.originalItemId === item.originalItemId || 
-                    invItem.id === item.originalItemId
-                );
-                if (inventoryItem) {
-                    applyRemainingConsumableEffects(inventoryItem);
-                }
-            }
-            
-            // Remove the item from inventory after decision is made
-            if (item) {
-                const inventoryItem = inventoryItems.find(invItem =>
-                    invItem.originalItemId === item.originalItemId || 
-                    invItem.id === item.originalItemId
-                );
-                if (inventoryItem) {
-                    removeItem(inventoryItem.id, 1);
-                }
-            }
-            
+        const initiatingChar = firstOverheal?.initiatingCharacterId;
+        const initiatingPrincipal = firstOverheal?.initiatingPrincipal;
+        const initiatingActorId = firstOverheal?.initiatingActorId;
+        const nowCharState = useCharacterStore.getState();
+        const currentChar = nowCharState?.currentCharacterId || nowCharState?.id;
+        const currentPrincipal = useGameStore.getState().currentPlayer?.id || nowCharState?.playerId || null;
+        const currentActor = findActor(currentChar || 'player');
+        const currentActorId = currentActor?.id || null;
+        const releaseAllHolds = () => {
+            if (firstOverheal?.useKey) releaseHeld(firstOverheal.useKey);
+            if (firstOverheal?.item) releaseHeld(consumeKey(firstOverheal.item));
+        };
+        if ((initiatingChar && currentChar && initiatingChar !== currentChar) ||
+            (initiatingPrincipal && currentPrincipal && initiatingPrincipal !== currentPrincipal) ||
+            (initiatingActorId && currentActorId && initiatingActorId !== currentActorId)) {
             setShowOverhealModal(false);
             setOverhealData(null);
-        } else {
-            // Update overheal data to remaining overheals
-            setOverhealData(remainingOverheals.length === 1 ? remainingOverheals[0] : remainingOverheals);
+            overhealResumeRef.current = null;
+            overhealModesRef.current = {};
+            releaseAllHolds();
+            return;
         }
-    }, [overhealData, tempHealth, tempMana, tempActionPoints, updateResource, updateTempResource, inventoryItems, applyRemainingConsumableEffects, removeItem]);
 
-    // Helper function to apply consumable effects
-    const applyConsumableEffects = useCallback((item) => {
+        const targets = resourceType ? overheals.filter(oh => oh.resourceType === resourceType) : overheals;
+        const remaining = resourceType ? overheals.filter(oh => oh.resourceType !== resourceType) : [];
+        const modes = { ...overhealModesRef.current };
+        targets.forEach(overheal => { if (overheal?.resourceType) modes[overheal.resourceType] = asTemporary ? 'temp' : 'cap'; });
+        overhealModesRef.current = modes;
+        if (remaining.length) {
+            setOverhealData(remaining.length === 1 ? remaining[0] : remaining);
+            return;
+        }
+
+        const resume = overhealResumeRef.current || firstOverheal?.resume || null;
+        setShowOverhealModal(false);
+        setOverhealData(null);
+        overhealResumeRef.current = null;
+        if (resume) resume(modes);
+        else { overhealModesRef.current = {}; releaseAllHolds(); }
+    }, [overhealData, currentCharacterId]);
+
+    // Helper function to apply consumable effects.
+    // Shared room: pass 1 ({ conditionsOnly: true }) asks the room to take the stat conditions and does nothing else; the
+    // caller then runs pass 2 ({ skipConditions: true }) for the instant effects. Offline: one pass, order unchanged.
+    const applyConsumableEffects = useCallback(async (item, { conditionsOnly = false, skipConditions = false, skipResources = false, overhealModes = null, overhealContext = null, targetItemId = null } = {}) => {
         // Get the full item data from inventory to access combat stats
-        const inventoryItem = inventoryItems.find(invItem =>
-            invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
-        );
+        const liveItems = useInventoryStore.getState().items || inventoryItems;
+        const inventoryItem = (targetItemId ? liveItems.find(invItem => invItem.id === targetItemId) : null)
+            || liveItems.find(invItem =>
+                invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId || invItem.id === item.id
+            );
 
         if (!inventoryItem) return;
 
@@ -685,12 +681,14 @@ const ActionBar = () => {
         let hasDebuffEffects = false;
         const pendingOverheals = []; // Array to collect all pending overheals
 
+        if (!conditionsOnly && !skipResources) {
+        const adjustOpts = { overhealContext: { initiatingItemId: inventoryItem.id, ...(overhealContext || {}) }, overhealModes };
         // Apply instant healing effects with overheal detection
         // IMPORTANT: Check ALL resources first before applying any, to catch all overheals
         if (combatStats.healthRestore) {
             const healAmount = combatStats.healthRestore.value || 0;
             if (healAmount > 0) {
-                const result = applyResourceAdjustmentWithOverheal('health', healAmount, item);
+                const result = applyResourceAdjustmentWithOverheal('health', healAmount, item, adjustOpts);
                 if (result.applied) {
                     hasInstantEffects = true;
                 } else if (result.pendingOverheal) {
@@ -698,7 +696,7 @@ const ActionBar = () => {
                 }
             } else if (healAmount < 0) {
                 hasInstantEffects = true;
-                applyResourceAdjustmentWithOverheal('health', healAmount, item);
+                applyResourceAdjustmentWithOverheal('health', healAmount, item, adjustOpts);
             }
         }
 
@@ -706,7 +704,7 @@ const ActionBar = () => {
         if (combatStats.manaRestore) {
             const manaAmount = combatStats.manaRestore.value || 0;
             if (manaAmount > 0) {
-                const result = applyResourceAdjustmentWithOverheal('mana', manaAmount, item);
+                const result = applyResourceAdjustmentWithOverheal('mana', manaAmount, item, adjustOpts);
                 if (result.applied) {
                     hasInstantEffects = true;
                 } else if (result.pendingOverheal) {
@@ -714,7 +712,7 @@ const ActionBar = () => {
                 }
             } else if (manaAmount < 0) {
                 hasInstantEffects = true;
-                applyResourceAdjustmentWithOverheal('mana', manaAmount, item);
+                applyResourceAdjustmentWithOverheal('mana', manaAmount, item, adjustOpts);
             }
         }
 
@@ -722,7 +720,7 @@ const ActionBar = () => {
         if (combatStats.actionPointRestore || combatStats.apRestore) {
             const apAmount = (combatStats.actionPointRestore?.value || combatStats.apRestore?.value || 0);
             if (apAmount > 0) {
-                const result = applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item);
+                const result = applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item, adjustOpts);
                 if (result.applied) {
                     hasInstantEffects = true;
                 } else if (result.pendingOverheal) {
@@ -730,7 +728,7 @@ const ActionBar = () => {
                 }
             } else if (apAmount < 0) {
                 hasInstantEffects = true;
-                applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item);
+                applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item, adjustOpts);
             }
         }
 
@@ -740,6 +738,7 @@ const ActionBar = () => {
             setOverhealData(pendingOverheals.length === 1 ? pendingOverheals[0] : pendingOverheals);
             setShowOverhealModal(true);
             return { hasInstantEffects: false, hasBuffEffects: false, pendingOverheal: true };
+        }
         }
 
         // Collect stat effects from combatStats (both positive and negative)
@@ -944,10 +943,19 @@ const ActionBar = () => {
         const buffDuration = foundDuration || 60;
         const debuffDuration = foundDuration || 60;
 
-        // Apply buff effects if any exist
-        if (hasBuffEffects) {
+        // Stat conditions. In a shared room the room must take them before anything else of this item is used; the buff goes
+        // first so a refused buff is never followed by an accepted penalty. A refusal returns before any effect is applied.
+        const refusedResult = refusal => ({ hasInstantEffects, hasBuffEffects: false, pendingOverheal: false, refused: refusal, itemId: inventoryItem.id, name: inventoryItem.name });
+        const targetOf = () => {
             const gameStore = require('../../store/gameStore').default.getState();
-            addCondition('buff', {
+            return gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player';
+        };
+        let conditionsConfirmed = false;
+        let partialRefusal = null;
+        let sent = null;
+        if (!skipConditions && (hasBuffEffects || hasDebuffEffects)) {
+            const records = [];
+            if (hasBuffEffects) records.push({ polarity: 'buff', condition: {
                 name: inventoryItem.name,
                 icon: getIconUrl(inventoryItem.iconId, 'items'),
                 description: inventoryItem.description || `Temporary enhancement from ${inventoryItem.name}`,
@@ -955,15 +963,10 @@ const ActionBar = () => {
                 duration: buffDuration,
                 source: 'consumable',
                 stackable: false,
-                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetId: targetOf(),
                 targetType: 'player'
-            });
-        }
-
-        // Apply debuff effects if any exist
-        if (hasDebuffEffects) {
-            const gameStore = require('../../store/gameStore').default.getState();
-            addCondition('debuff', {
+            } });
+            if (hasDebuffEffects) records.push({ polarity: 'debuff', condition: {
                 name: inventoryItem.name,
                 icon: getIconUrl(inventoryItem.iconId, 'items'),
                 description: inventoryItem.description || `Temporary negative effect from ${inventoryItem.name}`,
@@ -971,12 +974,18 @@ const ActionBar = () => {
                 duration: debuffDuration,
                 source: 'consumable',
                 stackable: false,
-                targetId: gameStore.currentPlayer?.id || useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || 'player',
+                targetId: targetOf(),
                 targetType: 'player'
-            });
+            } });
+            // One command for the whole item: a refused part applies nothing and leaves the item untouched.
+            const charId = useCharacterStore.getState().currentCharacterId || useCharacterStore.getState().id || currentCharacterId;
+            const plannedResources = freshToken => planConsumableResources(inventoryItem, { overhealModes, sourceOverride: freshToken?.character });
+            sent = await applyItemConditions(addCondition, consumeKey(inventoryItem), records, charId, plannedResources, inventoryItem.id);
+            if (!sent.confirmed) return refusedResult(sent.refused);
+            conditionsConfirmed = true;
         }
 
-        return { hasInstantEffects, hasBuffEffects, pendingOverheal: false };
+        return { hasInstantEffects: hasInstantEffects || !!sent?.resourcesApplied, hasBuffEffects, pendingOverheal: false, conditionsConfirmed, partialRefusal, commandId: sent?.commandId, outcome: sent?.outcome, resourcesApplied: !!sent?.resourcesApplied, itemId: inventoryItem.id, name: inventoryItem.name };
     }, [inventoryItems, applyResourceAdjustmentWithOverheal, addCondition]);
 
     const handleEquipmentActionClick = useCallback((action, e) => {
@@ -997,7 +1006,7 @@ const ActionBar = () => {
         setShowSpellConfirmation(true);
     }, [isInCombat, getCurrentCombatant]);
 
-    const handleSlotClick = useCallback((slotIndex, e) => {
+    const handleSlotClick = useCallback(async (slotIndex, e) => {
         const item = actionSlots[slotIndex];
         if (!item) return;
         
@@ -1040,20 +1049,198 @@ const ActionBar = () => {
             const currentQuantity = getItemQuantity(item.originalItemId);
 
             if (currentQuantity > 0) {
-                // Apply consumable effects
-                const result = applyConsumableEffects(item);
-
-                // Only remove item if there's no pending overheal (user will decide in modal)
-                if (result && !result.pendingOverheal) {
-                    // Remove one item from inventory
-                    const inventoryItem = inventoryItems.find(invItem =>
-                        invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
-                    );
-
-                    if (inventoryItem) {
-                        removeItem(inventoryItem.id, 1);
-                    }
+                // Shared room: the room takes the stat conditions first. A refusal leaves the pack, the sheet and the
+                // condition store untouched and tells the player; only a confirmation lets the item be used.
+                const sharedRoom = useGameStore.getState().isInMultiplayer === true;
+                const liveInventoryItems = useInventoryStore.getState().items || inventoryItems || [];
+                const heldItem = liveInventoryItems.find(invItem =>
+                    invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
+                );
+                // The room already took this item's conditions and the player is choosing about overhealing: a repeat
+                // click (in this or another window) must not send them again.
+                const useKey = consumeKey(heldItem || item);
+                if (sharedRoom && heldItem && (confirmedConditionsRef.current.has(heldItem.id) || isHeld(useKey))) {
+                    postInventoryNotice(`${item.name}: the room already took its effect and a healing choice is waiting; choose or cancel it first.`);
+                    return;
                 }
+
+                const runUse = async ({ overhealModes = null, skipPreflight = false } = {}) => {
+                    let overhealOpen = false;   // the overheal modal now holds the rest of this use
+                    try {
+                        const initiatingCharState = useCharacterStore.getState();
+                        const initiatingCharacterId = initiatingCharState?.currentCharacterId || initiatingCharState?.id || currentCharacterId;
+                        const initiatingPrincipal = useGameStore.getState().currentPlayer?.id || initiatingCharState?.playerId || null;
+                        const initiatingActor = findActor(initiatingCharacterId || 'player');
+                        const initiatingActorId = initiatingActor?.id || null;
+                        const initiatingItem = heldItem || item;
+                        let targetItemId = initiatingItem?.id || null;
+                        const initiatingItemOriginalId = initiatingItem?.originalItemId;
+
+                        let alreadyConfirmed = false;
+                        let settledCommandId = null;
+                        let lastCommandId = null;
+                        let lastOutcome = null;
+                        let resourcesApplied = false;
+                        if (sharedRoom) {
+                            // An earlier use whose outcome the room never reported is settled by replaying that same command.
+                            const earlier = await settleEarlierUse(useKey, item.name, initiatingCharacterId, initiatingItem?.id || null);
+                            if (!earlier.proceed) return;
+                            if (earlier.alreadyDeducted) {
+                                if (earlier.settledItemId) confirmedConditionsRef.current.delete(earlier.settledItemId);
+                                if (heldItem) confirmedConditionsRef.current.delete(heldItem.id);
+                                markUseCompleted(useKey, initiatingCharacterId, targetItemId);
+                                releaseHeld(useKey);
+                                postInventoryNotice(`${item.name}: the earlier use's item deduction was already saved with its completed command; no second deduction was made.`);
+                                return;
+                            }
+                            alreadyConfirmed = earlier.alreadyConfirmed;
+                            settledCommandId = earlier.settledCommandId || null;
+                            resourcesApplied = !!earlier.resourcesApplied;
+                            if (alreadyConfirmed && earlier.settledItemId) {
+                                targetItemId = earlier.settledItemId;
+                            }
+
+                            // The Cap / Temporary choice is collected before any room traffic. Cancel never gets here.
+                            if (!alreadyConfirmed && !skipPreflight) {
+                                const plan = planConsumableResources(initiatingItem);
+                                if (plan.overheal) {
+                                    const context = {
+                                        item: initiatingItem,
+                                        useKey,
+                                        initiatingItemId: initiatingItem?.id || null,
+                                        initiatingCharacterId,
+                                        initiatingPrincipal,
+                                        initiatingActorId
+                                    };
+                                    const resume = modes => withConsumeLock(useKey, () => runUse({ overhealModes: modes, skipPreflight: true }));
+                                    const data = (plan.overhealPools || []).map(pool => ({ ...pool, ...context, resume }));
+                                    overhealResumeRef.current = resume;
+                                    overhealModesRef.current = {};
+                                    markHeld(useKey);
+                                    setOverhealData(data.length === 1 ? data[0] : data);
+                                    setShowOverhealModal(true);
+                                    overhealOpen = true;
+                                    return;
+                                }
+                            }
+
+                            if (alreadyConfirmed) {
+                                await sendRemainingRecords(addCondition, useKey, item.name, earlier.rest);
+                                if (targetItemId) confirmedConditionsRef.current.add(targetItemId);
+                                else if (heldItem) confirmedConditionsRef.current.add(heldItem.id);
+                                markHeld(useKey);
+                                // Legacy preserved entries were accepted before the choice was collected; keep the
+                                // approved cap rule rather than opening a choice that can no longer be undo-safe.
+                                if (!overhealModes) overhealModes = { health: 'cap', mana: 'cap', actionPoints: 'cap' };
+                            } else {
+                                const gate = await applyConsumableEffects(item, { conditionsOnly: true, targetItemId, overhealModes });
+                                if (gate?.refused) {
+                                    const fresh = gate.refused.code === 'overheal_choice_required' ? (gate.refused.overhealPools || []) : [];
+                                    if (fresh.length) {
+                                        const context = {
+                                            item: initiatingItem,
+                                            useKey,
+                                            initiatingItemId: initiatingItem?.id || null,
+                                            initiatingCharacterId,
+                                            initiatingPrincipal,
+                                            initiatingActorId
+                                        };
+                                        const resume = modes => withConsumeLock(useKey, () => runUse({ overhealModes: modes, skipPreflight: true }));
+                                        const data = fresh.map(pool => ({ ...pool, ...context, resume }));
+                                        overhealResumeRef.current = resume;
+                                        overhealModesRef.current = {};
+                                        markHeld(useKey);
+                                        setOverhealData(data.length === 1 ? data[0] : data);
+                                        setShowOverhealModal(true);
+                                        overhealOpen = true;
+                                        return;
+                                    }
+                                    postInventoryNotice(consumableNotUsedText(gate.name, gate.refused.message));
+                                    return;
+                                }
+                                lastCommandId = gate?.commandId;
+                                lastOutcome = gate?.outcome;
+                                resourcesApplied = !!gate?.resourcesApplied;
+                                if (gate?.itemId) {
+                                    targetItemId = gate.itemId;
+                                    if (gate.conditionsConfirmed) confirmedConditionsRef.current.add(gate.itemId);
+                                    else confirmedConditionsRef.current.delete(gate.itemId);
+                                }
+                                markHeld(useKey);
+                                if (gate?.partialRefusal) { markUseCompleted(useKey, initiatingCharacterId, targetItemId); postInventoryNotice(`${gate.name} took effect, except one part. ${gate.partialRefusal.message}`); }
+                            }
+                            // The pack may have changed while the room answered: nothing more is used if the exact item instance is gone.
+                            const stillThere = (useInventoryStore.getState().items || []).some(invItem =>
+                                targetItemId
+                                    ? invItem.id === targetItemId
+                                    : (invItem.originalItemId === initiatingItemOriginalId || (initiatingItemOriginalId && invItem.id === initiatingItemOriginalId))
+                            );
+                            if (!stillThere) {
+                                if (targetItemId) confirmedConditionsRef.current.delete(targetItemId);
+                                if (heldItem) confirmedConditionsRef.current.delete(heldItem.id);
+                                markUseCompleted(useKey, initiatingCharacterId);
+                                releaseHeld(useKey);
+                                postInventoryNotice(`${item.name} took effect in the room, but it is no longer in your pack, so nothing more was used.`);
+                                return;
+                            }
+
+                            // Direct acceptance callback: verify character / principal / actor did not switch
+                            const currentCharState = useCharacterStore.getState();
+                            const currentCharId = currentCharState?.currentCharacterId || currentCharState?.id;
+                            const currentPrincipal = useGameStore.getState().currentPlayer?.id || currentCharState?.playerId || null;
+                            const currentActor = findActor(currentCharId || 'player');
+                            const currentActorId = currentActor?.id || null;
+
+                            const characterChanged = currentCharId !== initiatingCharacterId;
+                            const principalChanged = !!(initiatingPrincipal && currentPrincipal && currentPrincipal !== initiatingPrincipal);
+                            const actorChanged = !!(initiatingActorId && currentActorId && currentActorId !== initiatingActorId);
+
+                            if (characterChanged || principalChanged || actorChanged) {
+                                if (lastCommandId || alreadyConfirmed) {
+                                    preserveAcceptedForReconciliation(useKey, {
+                                        commandId: lastCommandId || settledCommandId,
+                                        outcome: lastOutcome,
+                                        name: item.name,
+                                        characterId: initiatingCharacterId,
+                                        ...(targetItemId ? { itemId: targetItemId } : {})
+                                    });
+                                }
+                                if (targetItemId) confirmedConditionsRef.current.delete(targetItemId);
+                                if (heldItem) confirmedConditionsRef.current.delete(heldItem.id);
+                                releaseHeld(useKey);
+                                return;
+                            }
+                        }
+
+                        // Apply consumable effects
+                        const result = await applyConsumableEffects(
+                            item,
+                            sharedRoom ? { skipConditions: true, skipResources: resourcesApplied, targetItemId, overhealModes } : { targetItemId, overhealModes }
+                        );
+
+                        overhealOpen = !!result?.pendingOverheal;
+                        // Only remove item if there's no pending overheal (user will decide in modal)
+                        if (result && !result.pendingOverheal) {
+                            // Re-read the live pack: the copy captured before the await may be stale.
+                            const liveList = useInventoryStore.getState().items || inventoryItems || [];
+                            const inventoryItem = targetItemId ? liveList.find(invItem => invItem.id === targetItemId) : null;
+                            const completedCommandId = lastCommandId || settledCommandId;
+                            if (inventoryItem) {
+                                removeItem(inventoryItem.id, 1, completedCommandId
+                                    ? { commandId: completedCommandId, characterId: initiatingCharacterId }
+                                    : null);
+                            }
+                            markUseCompleted(useKey, initiatingCharacterId, targetItemId);
+                        }
+                    } finally {
+                        // Nothing is waiting for the overheal choice unless the modal is open: never leave a marker that blocks the item.
+                        if (!overhealOpen) {
+                            if (heldItem) confirmedConditionsRef.current.delete(heldItem.id);
+                            releaseHeld(useKey);
+                        }
+                    }
+                };
+                await withConsumeLock(useKey, runUse);
 
                 // Log effect application
                 // Effects applied (instant and buff effects handled internally)
@@ -2665,62 +2852,20 @@ const ActionBar = () => {
                     return inventoryItem?.name || item?.name || null;
                 })()}
                 onCancel={() => {
+                    const firstOverheal = Array.isArray(overhealData) ? overhealData[0] : overhealData;
+                    // The Cap / Temporary / Cancel choice is collected before any room submission, so Cancel leaves
+                    // the conditions, the resources and the item quantity exactly as they were.
+                    overhealResumeRef.current = null;
+                    overhealModesRef.current = {};
+                    if (firstOverheal?.useKey) releaseHeld(firstOverheal.useKey);
+                    if (firstOverheal?.item) releaseHeld(consumeKey(firstOverheal.item));
                     setShowOverhealModal(false);
                     setOverhealData(null);
                 }}
                 onCap={(resourceType) => applyResourceWithTemporary(false, resourceType)}
                 onAddTemporary={(resourceType) => applyResourceWithTemporary(true, resourceType)}
-                onCapAll={() => {
-                    const overhealsArray = Array.isArray(overhealData) ? overhealData : [overhealData];
-                    overhealsArray.forEach(oh => {
-                        if (oh) updateResource(oh.resourceType, oh.maxValue, oh.maxValue);
-                    });
-                    const firstOverheal = overhealsArray[0];
-                    const item = firstOverheal?.item;
-                    if (item) {
-                        const inventoryItem = inventoryItems.find(invItem =>
-                            invItem.originalItemId === item.originalItemId || 
-                            invItem.id === item.originalItemId
-                        );
-                        if (inventoryItem) {
-                            applyRemainingConsumableEffects(inventoryItem);
-                            removeItem(inventoryItem.id, 1);
-                        }
-                    }
-                    setShowOverhealModal(false);
-                    setOverhealData(null);
-                }}
-                onAddTemporaryAll={() => {
-                    const overhealsArray = Array.isArray(overhealData) ? overhealData : [overhealData];
-                    overhealsArray.forEach(oh => {
-                        if (!oh) return;
-                        const tempFieldMap = {
-                            'health': 'tempHealth',
-                            'mana': 'tempMana',
-                            'actionPoints': 'tempActionPoints'
-                        };
-                        const tempField = tempFieldMap[oh.resourceType];
-                        const currentTemp = tempField === 'tempHealth' ? tempHealth : 
-                                            tempField === 'tempMana' ? tempMana : tempActionPoints;
-                        const overhealAmount = (oh.currentValue + oh.amount) - oh.maxValue;
-                        updateResource(oh.resourceType, oh.maxValue, oh.maxValue, undefined, true);
-                        updateTempResource(oh.resourceType, currentTemp + overhealAmount);
-                    });
-                    const firstOverheal = overhealsArray[0];
-                    const item = firstOverheal?.item;
-                    if (item) {
-                        const inventoryItem = inventoryItems.find(invItem =>
-                            invItem.originalItemId === item.originalItemId || 
-                            invItem.id === item.originalItemId
-                        );
-                        if (inventoryItem) {
-                            applyRemainingConsumableEffects(inventoryItem);
-                            removeItem(inventoryItem.id, 1);
-                        }
-                    }
-                    setShowOverhealModal(false);
-                    setOverhealData(null);
-                }}
+                onCapAll={() => applyResourceWithTemporary(false, null)}
+                onAddTemporaryAll={() => applyResourceWithTemporary(true, null)}
             />
 
             {/* Experience Bar - Below Action Bar */}

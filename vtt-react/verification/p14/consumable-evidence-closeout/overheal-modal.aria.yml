@@ -1,0 +1,18 @@
+- dialog "Overheal Detected":
+  - text: 
+  - heading "Overheal Detected" [level=3]
+  - text: "Potion of Vigor  Health +5 HP Surplus Current 20 / 40 Base Pool + Incoming +25 HP +20 Base, +5 Temp = Projected 45 HP 40/40 + 5 Temp | Surplus +5 HP New Reserve  Fills base: +20 HP (40/40) •  Excess: +5 HP"
+  - paragraph:
+    - text: Incoming
+    - strong: +25 HP
+    - text: will restore
+    - strong: +20 HP
+    - text: to reach full capacity (
+    - strong: 40/40
+    - text: ), while the remaining
+    - strong: +5 HP
+    - text: can be channeled into temporary reserve (45 total HP).
+  - text:  Temporary HP forms a protective cushion, absorbing incoming strikes before your true vitality is diminished.
+  - button "Cancel"
+  - button "Cap at Max"
+  - button "Add Temporary (+5 HP)"

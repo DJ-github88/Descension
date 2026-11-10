@@ -1069,6 +1069,7 @@ function projectGameStateForClient(gameState) {
   const out = { ...gameState };
   delete out.actorConsequenceRecovery; // Preserved private import evidence, never a public receipt lane.
   delete out.authoredSpellRegistry; // P14-A1: explicit public capability lookup, no raw decisions.
+  delete out.triggerLedger; // Shared trigger foundation v1: explicit viewer projection only (actor_trigger_list).
   if (out.actorConsequences) {
     const ledger = out.actorConsequences;
     out.actorConsequences = ledger.version === 1 ? {

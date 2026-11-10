@@ -4,6 +4,8 @@ import { LIBRARY_ACTION_TYPES, useSpellLibraryDispatch, libraryActionCreators } 
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import WizardStep from '../common/WizardStep';
 import ExecutionCompatibility from '../common/ExecutionCompatibility';
+import { draftSubject } from '../../utils/executionCompatibility';
+import { saveDisclosureForRecord } from '../common/spellSavePresentation';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 // Pathfinder styles imported via main.css
 import {
@@ -47,6 +49,9 @@ const Step10Review = ({
   const spellState = useSpellWizardState();
   const wizardDispatch = useSpellWizardDispatch();
   const libraryDispatch = useSpellLibraryDispatch();
+
+  const isEditing = Boolean(spellState.editMode && spellState.editingSpellId);
+  const editingSpellId = spellState.editingSpellId;
 
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -446,6 +451,7 @@ const Step10Review = ({
 
       // Resource configuration
       resourceCost: {
+        ...spellState.resourceCost,
         // Use the formula if useFormulas.mana is true, otherwise use the value
         mana: spellState.resourceCost?.useFormulas?.mana
           ? spellState.resourceCost?.resourceFormulas?.mana || "1d10+2"
@@ -453,8 +459,19 @@ const Step10Review = ({
         actionPoints: spellState.resourceCost?.actionPoints || spellState.resourceConfig?.actionPoints || 1,
         primaryResourceType: spellState.resourceCost?.primaryResourceType || spellState.resourceConfig?.resourceType || 'Mana',
         classResourceCost: spellState.resourceCost?.classResourceCost || spellState.resourceConfig?.classResourceCost || 0,
-        components: spellState.resourceCost?.components || [],
-        materialComponents: spellState.resourceCost?.materialComponents || '',
+        components: spellState.resourceCost?.components || spellState.components || [],
+        materialComponents: spellState.resourceCost?.materialComponents !== undefined
+          ? spellState.resourceCost.materialComponents
+          : (spellState.materialComponents !== undefined ? spellState.materialComponents : ''),
+        verbalText: spellState.resourceCost?.verbalText !== undefined
+          ? spellState.resourceCost.verbalText
+          : spellState.verbalText,
+        somaticText: spellState.resourceCost?.somaticText !== undefined
+          ? spellState.resourceCost.somaticText
+          : spellState.somaticText,
+        materialText: spellState.resourceCost?.materialText !== undefined
+          ? spellState.resourceCost.materialText
+          : spellState.materialText,
         // Include formula information
         useFormulas: spellState.resourceCost?.useFormulas || {},
         resourceFormulas: spellState.resourceCost?.resourceFormulas || {},
@@ -467,14 +484,31 @@ const Step10Review = ({
       infernoDescend: spellState.resourceCost?.resourceValues?.inferno_descend,
 
       // Cooldown configuration
-      cooldownConfig: {
-        type: spellState.cooldownConfig?.type || 'turn_based',
-        value: spellState.cooldownConfig?.value || 1,
-        charges: spellState.cooldownConfig?.charges || 1,
-        recovery: spellState.cooldownConfig?.recovery || 1,
-        sharesCooldown: spellState.cooldownConfig?.sharesCooldown || false,
-        cooldownGroup: spellState.cooldownConfig?.cooldownGroup || ''
-      },
+      cooldownConfig: (() => {
+        const cd = spellState.cooldownConfig || (typeof spellState.cooldown === 'object' ? spellState.cooldown : null);
+        if (!cd) return null;
+        const cooldownType = cd.cooldownType || cd.type || 'none';
+        const cooldownValue = cd.cooldownValue ?? cd.value ?? 0;
+        return {
+          cooldownType,
+          cooldownValue,
+          type: cooldownType,
+          value: cooldownValue,
+          charges: cd.charges,
+          recovery: cd.recovery,
+          sharesCooldown: cd.sharesCooldown || false,
+          cooldownGroup: cd.cooldownGroup || ''
+        };
+      })(),
+      cooldown: spellState.cooldown || (spellState.cooldownConfig?.cooldownType ? {
+        cooldownType: spellState.cooldownConfig.cooldownType,
+        cooldownValue: spellState.cooldownConfig.cooldownValue ?? 0
+      } : null),
+      effects: spellState.effects || null,
+      timing: spellState.timing || null,
+
+      // Presentation only: compiler-derived preview save disclosure (same subject as the Review).
+      authoredSaveDisclosure: saveDisclosureForRecord(draftSubject(spellState)),
 
       // Channeling configuration
       channelingConfig: spellState.spellType === 'CHANNELED' || spellState.spellType === 'channeled' ? {
@@ -2621,18 +2655,41 @@ const Step10Review = ({
         movementBehavior: spellState.targetingConfig?.movementBehavior || 'static'
       };
       
+      // Create a clean version of spellState without transient edit-mode metadata or library-only fields in draft
+      const {
+        editMode: _em,
+        editingSpellId: _esi,
+        categoryIds: _cids,
+        categories: _cats,
+        source: _src,
+        isCustom: _ic,
+        isUserCreated: _iuc,
+        createdAt: _ca,
+        updatedAt: _ua,
+        userId: _uid,
+        lastSaved: _ls,
+        dateCreated: _dc,
+        ...cleanSpellState
+      } = spellState;
+      
+      const authoredDraft = JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(cleanSpellState).filter(([key]) => key !== 'authoredDraft' && key !== 'serializedData'))));
+
       // Create a complete spell object for the library
       const librarySpell = {
-        ...spellState,
-        authoredDraft: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(spellState).filter(([key]) => key !== 'authoredDraft')))),
+        ...cleanSpellState,
+        categoryIds: spellState.categoryIds || ['uncategorized'],
+        categories: spellState.categories || ['all'],
+        source: spellState.source || 'wizard',
+        isCustom: spellState.isCustom ?? true,
+        authoredDraft,
         authoredDefinitionId: spellState.authoredDefinitionId || crypto.randomUUID(),
-        id: generateSpellId(spellState.name),
-        dateCreated: new Date().toISOString(),
+        id: isEditing && editingSpellId ? editingSpellId : generateSpellId(spellState.name),
+        dateCreated: (isEditing && spellState.dateCreated) ? spellState.dateCreated : new Date().toISOString(),
         lastModified: new Date().toISOString(),
         icon: extractSpellIcon(spellState),
-        serializedData: serializeSpell(spellState),
-        humanReadable: generateHumanReadable(spellState),
-        gameCode: generateGameCode(spellState),
+        serializedData: JSON.stringify(authoredDraft, null, 2),
+        humanReadable: generateHumanReadable(cleanSpellState),
+        gameCode: generateGameCode(cleanSpellState),
         
         // Spell type and type configuration - ensure ALL properties are saved
         spellType: spellState.spellType || 'ACTION',
@@ -2640,12 +2697,7 @@ const Step10Review = ({
         
         // Ensure trap and trigger configurations are included
         trapConfig: spellState.trapConfig,
-        triggerConfig: (hasTriggers(spellState.triggerConfig) ||
-          Object.keys(spellState.triggerConfig?.conditionalEffects || {}).length > 0 ||
-          Object.keys(spellState.triggerConfig?.buffDebuffTriggers || {}).length > 0 ||
-          spellState.triggerConfig?.requiredConditions?.enabled ||
-          spellState.triggerConfig?.triggerRole?.mode
-        ) ? spellState.triggerConfig : null,
+        triggerConfig: spellState.triggerConfig,
         
         // Ensure we have all the necessary properties for the spell card
         effectType: spellState.effectTypes && spellState.effectTypes.length > 0 ? spellState.effectTypes[0] : 'utility',
@@ -2728,23 +2780,18 @@ const Step10Review = ({
         librarySpell.devotionGain = resourceValues.devotion_gain;
       }
       
-      // Also transform resourceValues to ensure they're preserved
-      librarySpell.resourceCost = {
-        ...librarySpell.resourceCost,
-        resourceValues: resourceValues,
-        resourceTypes: spellState.resourceCost?.resourceTypes || [],
-        resourceFormulas: spellState.resourceCost?.resourceFormulas || {},
-        useFormulas: spellState.resourceCost?.useFormulas || {}
-      };
-
-      // Log the spell being saved
-      console.log('Saving spell to library:', librarySpell);
 
       // Dispatch to library context using the proper action creator
-      libraryDispatch(libraryActionCreators.addSpell(librarySpell));
-
-      // Verify the spell was added to the library
-      console.log('Spell saved to library');
+      if (isEditing && editingSpellId) {
+        console.log('Updating spell in library:', editingSpellId, librarySpell);
+        libraryDispatch(libraryActionCreators.updateSpell(editingSpellId, librarySpell));
+        wizardDispatch(actionCreators.setEditMode(false, null));
+        console.log('Spell updated in library');
+      } else {
+        console.log('Saving spell to library:', librarySpell);
+        libraryDispatch(libraryActionCreators.addSpell(librarySpell));
+        console.log('Spell saved to library');
+      }
 
       setSaving(false);
       setSaveSuccess(true);
@@ -3007,9 +3054,14 @@ const Step10Review = ({
                 className={`save-button ${saving ? 'saving' : ''} ${saveSuccess ? 'success' : ''}`}
                 onClick={handleSaveSpell}
                 disabled={saving || Object.keys(validationResults.errors).length > 0}
+                title={isEditing ? 'Finalize & Update Spell' : 'Save to Library'}
               >
                 <FontAwesomeIcon icon={faSave} className="action-icon" />
-                {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save to Library'}
+                {saving
+                  ? (isEditing ? 'Updating...' : 'Saving...')
+                  : saveSuccess
+                    ? (isEditing ? 'Updated!' : 'Saved!')
+                    : (isEditing ? 'Update Spell' : 'Save to Library')}
               </button>
 
               <button

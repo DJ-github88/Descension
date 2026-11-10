@@ -21,7 +21,7 @@ const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid'
 const MAX_STANDARD_ACTORS = 2;
 const MAX_AREA_TARGETS = 8;
 const MAX_AREA_ACTORS = 9;
-const PROTECTED = new Set(['authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
+const PROTECTED = new Set(['triggerLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
 const runtimeEpochs = new WeakMap();
 
 function epoch(room) {
@@ -114,10 +114,11 @@ function validateRecord(record, ref) {
   for (const key of ['isMagical', 'stackable', 'hasOverTimeEffect']) {
     if (own(record, key) && typeof record[key] !== 'boolean') {fail('invalid_condition');}
   }
-  // A11 review note 1: the effect identity exists only on validated authored movement (or attribute-family) records.
+  // A11 review note 1: the effect identity exists only on validated authored movement (or attribute-family / flat-DR / periodic) records.
   if (own(record, 'effectDefinition') && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').MOVEMENT.origin &&
       require('../shared/services/sharedConditionProfile').isMovementModifier(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').ATTRIBUTE.origin &&
-      require('../shared/services/sharedConditionProfile').isAttributeModifier(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').PERIODIC.origin &&
+      require('../shared/services/sharedConditionProfile').isAttributeModifier(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').DAMAGE_REDUCTION.origin &&
+      require('../shared/services/sharedConditionProfile').isDamageReductionModifier(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').PERIODIC.origin &&
       require('../shared/services/sharedConditionProfile').isPeriodicTick(record))) {fail('invalid_condition');}
   // M2A: the explicit occurrence count exists only on validated authored records with a counted structured boundary.
   if (own(record, 'clockOccurrences') && (!require('../shared/services/sharedConditionProfile').validOccurrences(record.clockOccurrences) ||
@@ -348,6 +349,8 @@ function publicReceipt(receipt) {
     // An older inconsistent/manual claim is not upgraded to E1a, nor allowed to disclose its proof.
     delete out.adjudication.chosenResult; delete out.contentHash; delete out.authorization.approvalHash; out.readOnly = true;
   }
+  // Shared trigger foundation v1: a diagnostic dismissal publishes its fixed facts only, never a fingerprint of the GM's private reason.
+  if (require('./committedTriggers').isReceipt(receipt)) {delete out.contentHash;}
   out.actors = receipt.actors.map(actor => {
     try {validateRef(actor.ref);} catch (_) {return { readOnly: true };}
     return { ref: clone(actor.ref), beforeRevision: integer(actor.beforeRevision) ? actor.beforeRevision : null, afterRevision: integer(actor.afterRevision) ? actor.afterRevision : null,
@@ -483,6 +486,17 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
       const plan = conditionProfile.attributeCombination(records, attributeAdds[0].record);
       if (!plan.ok) {fail(plan.code, plan.message);}
     }
+    // Flat DR family: the stage re-derives the one-flat-DR-per-target rule from this actor's current records
+    // (D-DR-1 open: no stacking/refresh). A generic add can never introduce a second flat DR change on an actor
+    // that already holds one, nor an authored modifier on an actor a manual record already changes.
+    const drAdds = (actor.conditions || []).filter(op => op?.op === 'add' && op.record?.effectOrigin === conditionProfile.DAMAGE_REDUCTION.origin);
+    if (drAdds.length) {
+      if (!authoredApplication) {fail('authored_effect_approval_required');}
+      if (drAdds.length !== 1 || (actor.conditions || []).length !== 1) {fail('modifier_combination_changed');}
+      if (!drAdds[0].record.sourceActor || !drAdds[0].record.effectDefinition) {fail('modifier_identity_required');}
+      const plan = conditionProfile.damageReductionCombination(records, drAdds[0].record);
+      if (!plan.ok) {fail(plan.code, plan.message);}
+    }
     // M5: one periodic instance per creature target, re-derived here from current records (refresh/stacking undecided).
     const periodicAdds = (actor.conditions || []).filter(op => op?.op === 'add' && op.record?.effectOrigin === conditionProfile.PERIODIC.origin);
     if (periodicAdds.length) {
@@ -494,16 +508,22 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
     }
     for (const operation of actor.conditions || []) {
       if (operation?.op !== 'add' && operation?.op !== 'update') {continue;}
-      if (operation.record?.effectOrigin === conditionProfile.ATTRIBUTE.origin) {continue;}
+      if (operation.record?.effectOrigin === conditionProfile.ATTRIBUTE.origin || operation.record?.effectOrigin === conditionProfile.DAMAGE_REDUCTION.origin) {continue;}
       const changed = operation.record?.effects && typeof operation.record.effects === 'object' ? Object.keys(operation.record.effects) : [];
       // Review F3: a manual change to a supported-family attribute is a GM correction only; an actor's controller cannot
       // add one (it would also block every later authored change to that attribute under the one-change rule).
       if (changed.some(key => conditionProfile.supportedAttribute(key) && operation.record.effects[key] !== 0) && (!player.isGM || authorization?.kind !== 'gm')) {
         fail('attribute_change_gm_only', 'Only the GM can record a manual change to this attribute; authored changes go through an approved action. Nothing was applied.');
       }
+      if (changed.some(key => key === conditionProfile.DAMAGE_REDUCTION.effectKey && operation.record.effects[key] !== 0) && (!player.isGM || authorization?.kind !== 'gm')) {
+        fail('damage_reduction_change_gm_only', 'Only the GM can record a manual change to flat Damage Reduction; authored changes go through an approved action. Nothing was applied.');
+      }
       const held = conditionProfile.attributeModifierTotals(records);
       const overlap = changed.find(key => Object.prototype.hasOwnProperty.call(held, key) && operation.record.effects[key] !== 0);
       if (overlap) {fail('attribute_combination_unresolved', `An authored change to ${conditionProfile.attributeName(overlap)} is already active on this actor. How two changes to the same attribute combine is not decided; the GM removes one first. Nothing was applied.`);}
+      if (changed.some(key => key === conditionProfile.DAMAGE_REDUCTION.effectKey && operation.record.effects[key] !== 0) && conditionProfile.damageReductionTotal(records) !== 0) {
+        fail('damage_reduction_combination_unresolved', 'An authored change to flat Damage Reduction is already active on this actor. How two flat DR effects combine is not decided (D-DR-1); the GM removes one first. Nothing was applied.');
+      }
     }
     for (let operation of actor.conditions || []) {
       const index = records.findIndex(record => (record.recordId || record.id) === operation.recordId);
@@ -520,15 +540,15 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
       }
       // A10: a generic add cannot manufacture authored-effect provenance. An accepted instance is never rewritten
       // (its paid content and C4 schedule are what the receipt vouches for); the only correction is exact GM removal.
-      if ((paidEffect(operation.record) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.PERIODIC.origin].includes(operation.record?.effectOrigin)) && operation.op === 'add' && !authoredApplication) fail('authored_effect_approval_required');
-      if (operation.op === 'update' && (paidEffect(operation.record) || paidEffect(records[index]) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.PERIODIC.origin].includes(operation.record?.effectOrigin) || conditionProfile.isAttributeModifier(records[index]) || conditionProfile.isPeriodicTick(records[index]))) fail('authored_effect_correction_is_removal', 'Accepted authored effects are not edited. The GM removes the exact instance (and re-applies through a new approved action if needed).');
+      if ((paidEffect(operation.record) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.DAMAGE_REDUCTION.origin, conditionProfile.PERIODIC.origin].includes(operation.record?.effectOrigin)) && operation.op === 'add' && !authoredApplication) fail('authored_effect_approval_required');
+      if (operation.op === 'update' && (paidEffect(operation.record) || paidEffect(records[index]) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.DAMAGE_REDUCTION.origin, conditionProfile.PERIODIC.origin].includes(operation.record?.effectOrigin) || conditionProfile.isAttributeModifier(records[index]) || conditionProfile.isDamageReductionModifier(records[index]) || conditionProfile.isPeriodicTick(records[index]))) fail('authored_effect_correction_is_removal', 'Accepted authored effects are not edited. The GM removes the exact instance (and re-applies through a new approved action if needed).');
       // A11: the one instance a binder-vouched refresh replaces is the only non-GM-correction removal.
       if (operation.op === 'remove' && paidEffect(records[index]) && (!player.isGM || authorization?.kind !== 'gm') &&
           !(authoredApplication && refreshRemoval && operation.recordId === refreshRemoval)) fail('authored_effect_gm_removal_required');
       // C3 correction may retain a named identity, never introduce it by updating a generic marker.
       if (operation.op === 'update' && shieldBash.namedRecord(operation.record) &&
           (!conditionProfile.isStunned(records[index]) || !shieldBash.namedRecord(records[index]))) {fail('invalid_shield_bash_result');}
-      if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin, conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.PERIODIC.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
+      if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin, conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.DAMAGE_REDUCTION.origin, conditionProfile.PERIODIC.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
       if (namedCondition && (actor.conditions.length !== 1 || !['add', 'remove', ...(namedProfile === conditionProfile.STUNNED ? ['update'] : [])].includes(operation.op) ||
           operation.op !== 'remove' && operation.record?.effectOrigin !== namedProfile.origin ||
           operation.op === 'remove' && index !== -1 && !(namedProfile === conditionProfile.DEFENDING ? conditionProfile.isDefending(records[index]) : conditionProfile.isStunned(records[index])))) {fail('invalid_shared_condition');}
@@ -602,6 +622,8 @@ function finishStage(room, uid, command, authorization, confirmedRevision, next,
   if (command.adjudication) {receipt.adjudication = clone(command.adjudication);}
   if (approved?.targetPolicy) receipt.targetAcceptance = clone(approved.targetPolicy);
   if (!Number.isSafeInteger(receipt.commitSequence)) {fail('revision_exhausted');}
+  // Shared trigger foundation v1: diagnostic obligations are staged in this same snapshot (no-op until a listener is registered).
+  require('./committedTriggers').record(room, next, receipt, command, approved, binder, entries);
   const retained = clone(prior.receipts);
   let replayFloor = prior.replayFloor;
   // Only a CONFIRMED prefix can go; pending memory receipts are never evicted.
@@ -769,13 +791,17 @@ function authorityMetadataPath(value, depth = 0) {
   if (!value || typeof value !== 'object') {return null;}
   if (depth > 20) {return 'depth_limit';}
   for (const [key, child] of Object.entries(value)) {
-    if (['authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences'].includes(key)) {return key;}
+    if (['triggerLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences'].includes(key)) {return key;}
     const found = authorityMetadataPath(child, depth + 1);
     if (found) {return `${key}.${found}`;}
   }
   return null;
 }
 function preserveImportedActorMetadata(gameState) {
+  if (own(gameState, 'triggerLedger')) {
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedTriggerLedger: gameState.triggerLedger, reason: 'untrusted-local-import' };
+    delete gameState.triggerLedger;
+  }
   if (own(gameState, 'authoredSpellRegistry')) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedAuthoredSpellRegistry: gameState.authoredSpellRegistry, reason: 'untrusted-local-import' };
     delete gameState.authoredSpellRegistry;

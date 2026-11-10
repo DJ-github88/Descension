@@ -7,7 +7,7 @@ import React from 'react';
 import { render, act, cleanup } from '@testing-library/react';
 import { SpellLibraryProvider, useSpellLibrary, useSpellLibraryDispatch } from '../SpellLibraryContext';
 import { saveLibraryToStorage, loadLibraryFromStorage } from '../../core/utils/libraryManager';
-import { activatePrivateScope, clearToSignedOut, resetBootstrapGateForTests } from '../../../../persistence/bootstrapPrivacyGate';
+import { activatePrivateScope, clearToSignedOut, beginLoadingPhase, retirePrivateScope, resetBootstrapGateForTests } from '../../../../persistence/bootstrapPrivacyGate';
 import { createUserScope } from '../../../../persistence/scopeModel';
 
 const lib = (...ids) => ({ spells: ids.map(id => ({ id, name: id })), categories: [], collections: [] });
@@ -141,4 +141,51 @@ test('signed-out edits write no library data anywhere', () => {
   const before = JSON.stringify(Object.keys(localStorage).sort());
   add('guest-edit');
   expect(JSON.stringify(Object.keys(localStorage).sort())).toBe(before);
+});
+
+// ---- reviewer repairs: stable provider (no remount) and gate phase ------------------------------------------------------------
+test('principal changes re-hydrate in place: the tree under the provider is not remounted', () => {
+  seed('a', 'a-spell'); seed('b', 'b-spell');
+  let mounts = 0;
+  function Counter() { React.useEffect(() => { mounts += 1; }, []); return null; }
+  render(<SpellLibraryProvider><Probe /><Counter /></SpellLibraryProvider>);
+  act(() => { activatePrivateScope(createUserScope('a')); });
+  act(() => { activatePrivateScope(createUserScope('b')); });
+  act(() => { clearToSignedOut(); });
+  expect(mounts).toBe(1);
+  expect(ids()).toEqual([]);
+});
+
+test('provider mounted during same-principal LOADING hydrates when the gate returns to active, and the saved library survives an edit', () => {
+  seed('a', 'a-spell');
+  act(() => { activatePrivateScope(createUserScope('a')); beginLoadingPhase(); });
+  mount();
+  expect(ids()).toEqual([]);
+  act(() => { activatePrivateScope(createUserScope('a')); });
+  expect(ids()).toEqual(['a-spell']);
+  add('new');
+  expect(stored('a')).toEqual(['a-spell', 'new']);
+});
+
+test('edits made while the gate is LOADING are not written and do not erase the saved library', () => {
+  seed('a', 'a-spell');
+  act(() => { activatePrivateScope(createUserScope('a')); });
+  mount();
+  act(() => { beginLoadingPhase(); });
+  add('during-loading');
+  act(() => { activatePrivateScope(createUserScope('a')); });
+  expect(ids()).toEqual(['a-spell']);
+  expect(stored('a')).toEqual(['a-spell']);
+});
+
+test('A to signed-out to A returns to A saved library; retiring the scope never writes', () => {
+  seed('a', 'a-spell');
+  act(() => { activatePrivateScope(createUserScope('a')); });
+  mount();
+  act(() => { retirePrivateScope(); });
+  add('while-retiring');
+  act(() => { clearToSignedOut(); });
+  act(() => { activatePrivateScope(createUserScope('a')); });
+  expect(ids()).toEqual(['a-spell']);
+  expect(stored('a')).toEqual(['a-spell']);
 });

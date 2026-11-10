@@ -67,4 +67,15 @@ function matchingItemVersions(association, entries, roomId) {
     return mapped.ok && JSON.stringify(ordered(mapped.definition)) === JSON.stringify(ordered(e.canonicalDefinition));
   });
 }
-export { clone, snapshotAbility, newItemAbility, editItemAbility, itemAbilitySupport, matchingItemVersions };
+/** Concrete owned instances that carry an association: backpack items plus items currently worn.
+    Equipping moves the same instance (same id, association intact) from inventory to equipment, so both must be listed;
+    an instance is listed once. Nothing here grants authority — admission and the shared cast route still decide. */
+function ownedAbilityItems(inventoryItems, equipment) {
+  const seen = new Set(), out = [];
+  for (const item of [...(inventoryItems || []), ...Object.values(equipment || {})]) {
+    if (!item || !item.authoredAbility || seen.has(item.id)) continue;
+    seen.add(item.id); out.push(item);
+  }
+  return out;
+}
+export { clone, snapshotAbility, newItemAbility, editItemAbility, itemAbilitySupport, matchingItemVersions, ownedAbilityItems };

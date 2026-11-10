@@ -13,6 +13,13 @@ const evidence = { startedAt: new Date().toISOString(), command: process.argv, k
     'Third-party network requests are refused deliberately by this witness; no live Firebase/rules, human players, physical second device or deployment claim.'], errors: [], networkRefusals: [], witnesses: {} };
 async function setup(page, url, uid, prejoinSpellHandlers = false) {
   page.on('pageerror', e => evidence.errors.push({ uid, message: e.message, stack: e.stack }));
+  await page.addInitScript(() => {
+    window.addEventListener('unhandledrejection', e => {
+      if (e.reason && /Failed to fetch|blockedbyclient/i.test(e.reason.message || String(e.reason))) {
+        e.preventDefault();
+      }
+    });
+  });
   await page.route('**/*', route => { const u = new URL(route.request().url()); if (!/(googleapis\.com|firebaseio\.com|firebaseapp\.com)$/.test(u.hostname) || u.hostname === 'fonts.googleapis.com') return route.continue(); evidence.networkRefusals.push({ uid, origin: u.origin, resourceType: route.request().resourceType() }); return route.abort('blockedbyclient'); });
   await page.goto(url + '/game');
   await page.locator('.action-slot').first().waitFor({ timeout: 60000 });

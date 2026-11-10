@@ -128,6 +128,7 @@ describe('M6A bounded area / multi-target execution production authority tests',
   });
 
   afterEach(async () => {
+    pure.setAreaRollApprovalForTest(undefined);
     pure.setAreaRollProposalForTest(false);
     catalogueProfiles.profiles.splice(0, catalogueProfiles.profiles.length, ...originalProfiles);
     gm?.disconnect();
@@ -298,10 +299,15 @@ describe('M6A bounded area / multi-target execution production authority tests',
     assert.equal(approvedWhileEnabled.code, 'awaiting_gm');
     const pendingCmd = buildAreaCommand(pendingApproval, approvedWhileEnabled.contentHash);
 
-    // 2) Restore shipped default (proposal unapproved)
+    // 2) Verify approved policy default, and test that an absent approval still strictly refuses
+    assert.equal(pure.isAreaRollProcedureApproved(), true);
+    assert.equal(pure.AREA_ROLL_POLICY.creatorApproval.reference, 'creator-approval-20261110-m6a-shared-roll');
+    assert.equal(pure.AREA_ROLL_POLICY.creatorApproval.scope, 'first-ranged-circle-creature-targets');
+
+    // Test that unapproved gate still strictly refuses before payment:
     pure.setAreaRollProposalForTest(false);
+    pure.setAreaRollApprovalForTest(null);
     assert.equal(pure.isAreaRollProcedureApproved(), false);
-    assert.equal(pure.AREA_ROLL_POLICY.creatorApproval, null);
 
     const beforeState = actors.clone(room.gameState);
 

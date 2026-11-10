@@ -8,7 +8,7 @@ const { FORMULA_CAPABILITY, FORMULA_COMPILER, AREA_CAPABILITY, AREA_COMPILER, MA
 const { HEALTH_CAPABILITY, HEALTH_COMPILER, readHealthFormula } = require('../shared/services/authoredAbility');
 const { DETERMINISTIC_CAPABILITY, DETERMINISTIC_COMPILER, readDeterministicFormula } = require('../shared/services/authoredAbility');
 const catalogueAbility = require('../shared/services/catalogueAbility.cjs');
-const { validMovementFeet, validOccurrences, supportedAttribute, validAttributeAmount, validTickFormula } = require('../shared/services/sharedConditionProfile');
+const { validMovementFeet, validOccurrences, supportedAttribute, validAttributeAmount, validDamageReductionAmount, validTickFormula } = require('../shared/services/sharedConditionProfile');
 // M2A: counted expiry policies (explicit target-turn boundary count 2…10) add exactly one key; every other policy keeps the exact A10 key set.
 const validEffectTiming = t => !!t && typeof t === 'object' && EFFECT_EXPIRY_POLICIES.includes(t.expiryPolicy) &&
   (COUNTED_EXPIRY_POLICIES.includes(t.expiryPolicy) ? exact(t, ['expiryPolicy', 'durationText', 'authoredDuration', 'gmNote', 'occurrences']) && validOccurrences(t.occurrences)
@@ -22,6 +22,64 @@ const COMPOSITION_VERSION = 'p14-m5-composition-1';
 // M5 composition + M4A: the immediate part reads owner-attested attribute scores through the existing scaled reader.
 const COMPOSITION_FORMULA_VERSION = 'p14-m5-composition-formula-1';
 const scaledDirect = direct => !!direct && formulaAttributes(direct.formula).length > 0;
+// Shared GM-recorded save branch: a bundle whose one save negates only its canonical effect (plain direct part, non-periodic effect).
+const SAVE_BRANCH_VERSION = 'p14-save-branch-1';
+// Timed save branch: the same save shape with a structured target-turn expiry (next start/end or counted, validated by validEffectTiming).
+// Both recorded outcomes need the authenticated schedule (spellPayments.bindEffect). Manual-expiry save bundles keep SAVE_BRANCH_VERSION.
+// A pre-change server refuses such a registry (its validEffectSave required manual expiry), so roll back only while none is admitted.
+const SAVE_BRANCH_TIMED_VERSION = 'p14-save-branch-timed-1';
+const saveBranch = require('../shared/services/saveBranch');
+// Formula-rider saves: the direct part may also be attribute-scaled when the rider is movement OR Stunned (validDirect admits the scaled
+// reader only next to periodic/movement/Stunned, and periodic never carries a save). Its own descriptor labels below. A pre-change server
+// refuses such a registry (its validEffectSave required a plain direct part), so roll back only while none is admitted.
+const SAVE_BRANCH_FORMULA_VERSION = 'p14-save-branch-formula-1';
+const SAVE_BRANCH_TIMED_FORMULA_VERSION = 'p14-save-branch-timed-formula-1';
+const SAVE_FORMULA_CONDITIONS = Object.freeze(['movement', 'stunned']);
+// Formula-rider save cooldowns: the same caster-start cooldown key on that shape; same check/start/release machinery, its own labels. A pre-change
+// server refuses such a registry (its validEffectCooldown excluded a scaled part with a save), so roll back only while none is admitted.
+const SAVE_BRANCH_FORMULA_COOLDOWN_VERSION = 'p14-save-branch-formula-cooldown-1';
+const SAVE_BRANCH_TIMED_FORMULA_COOLDOWN_VERSION = 'p14-save-branch-timed-formula-cooldown-1';
+const validEffectSave = (effects, timing) => !Object.hasOwn(effects, 'save') ||
+  (saveBranch.validSave(effects.save, ['condition']) && effects.direct !== null && !['periodic', 'damageReduction'].includes(effects.condition?.kind) &&
+    (!scaledDirect(effects.direct) || SAVE_FORMULA_CONDITIONS.includes(effects.condition?.kind)) && typeof timing?.expiryPolicy === 'string');
+// Composed cooldowns: the installed Wizard combat cooldown (authenticated caster-turn starts) on an immediate + periodic bundle.
+// Same shape/hash domain plus one exact `cooldown` key; a pre-change server refuses such a registry because its exact-key check rejects
+// `cooldown` (review F1). The distinct compiler ids only label the descriptor; they are not an admission check.
+const COMPOSITION_COOLDOWN_VERSION = 'p14-m5-composition-cooldown-1';
+const COMPOSITION_FORMULA_COOLDOWN_VERSION = 'p14-m5-composition-formula-cooldown-1';
+const authoredCooldown = require('../shared/services/authoredCooldown');
+// Effect cooldowns: the same procedure on a standalone periodic bundle and on a movement OR Stunned rider bundle (with or without its
+// existing plain immediate part). Same key, check/start/release machinery; their own descriptor labels.
+// Class-paid bundles keep refusing the key (a rider-local save: see rider-save cooldowns below). A pre-change server refuses these registries (validEffectCooldown required direct + periodic).
+const PERIODIC_COOLDOWN_VERSION = 'p14-m5-periodic-cooldown-1';
+const EFFECT_COOLDOWN_VERSION = 'p14-a10-effect-cooldown-1';
+// Attribute cooldowns reuse the installed flat attribute family and A10 executor, including its optional plain direct part.
+// FORMULA_CONDITIONS and SAVE_COOLDOWN_CONDITIONS deliberately exclude attributes.
+const ATTRIBUTE_COOLDOWN_VERSION = 'p14-a10-attribute-cooldown-1';
+// Positive flat DR reuses A10 installation and its existing single-DR refusal, with an independent cooldown.
+const FLAT_DR_COOLDOWN_VERSION = 'p14-a10-flat-dr-cooldown-1';
+const COOLDOWN_CONDITIONS = Object.freeze(['periodic', 'movement', 'stunned', 'attribute', 'damageReduction']);
+// Formula-rider cooldowns: the same key on a movement OR Stunned rider whose immediate part uses the M4A attribute vocabulary; same
+// check/start/release machinery, its own descriptor label. A pre-change server refuses these registries (validEffectCooldown excluded a
+// scaled rider), so roll back only while none is admitted.
+const EFFECT_FORMULA_COOLDOWN_VERSION = 'p14-a10-effect-formula-cooldown-1';
+// Rider-save cooldowns: the same key on a movement OR Stunned bundle that also carries its existing rider-local "negates" save
+// (plain or, under the formula-rider save cooldown labels below, attribute-scaled direct part). Same check/start/release machinery: the cooldown starts in the one successful
+// cast commit on either recorded outcome. Their own descriptor labels. A pre-change server refuses these registries (validEffectCooldown
+// excluded any save), so roll back only while none is admitted.
+const SAVE_BRANCH_COOLDOWN_VERSION = 'p14-save-branch-cooldown-1';
+const SAVE_BRANCH_TIMED_COOLDOWN_VERSION = 'p14-save-branch-timed-cooldown-1';
+const SAVE_COOLDOWN_CONDITIONS = Object.freeze(['movement', 'stunned']);
+const validEffectCooldown = d => !Object.hasOwn(d, 'cooldown') ||
+  (authoredCooldown.valid(d.cooldown) && COOLDOWN_CONDITIONS.includes(d.effects?.condition?.kind) &&
+    (!Object.hasOwn(d.effects, 'save') || SAVE_COOLDOWN_CONDITIONS.includes(d.effects.condition.kind)));
+// Formula riders: one movement OR Stunned effect whose immediate part uses the M4A attribute vocabulary (same scaled reader and binding as the
+// M5 composition). Same shape/hash domain; its own descriptor label. No save or class payment on this route (a cooldown takes the
+// formula-rider cooldown label above). A pre-change server
+// refuses such a registry (its validDirect admitted a scaled part next to a periodic tick only), so roll back only while none is admitted.
+const EFFECT_FORMULA_VERSION = 'p14-a10-effect-formula-1';
+const FORMULA_CONDITIONS = Object.freeze(['periodic', 'movement', 'stunned']);
+function scaledRider(effects) { return !!effects && scaledDirect(effects.direct) && effects.condition?.kind !== 'periodic'; }
 const FORMULA_PAYMENT_COMPILER = 'p14-m4b-class-payment-1';
 // Same damage vocabulary as the protected A1a compiler (not exported there; kept in parity here).
 const DAMAGE_TYPES = ['arcane', 'sacred', 'blight', 'ember', 'rime', 'primal', 'storm', 'wyrd', 'slicing', 'stabbing', 'smashing'];
@@ -56,11 +114,12 @@ function snapshot(value, depth = 0) {
   return out;
 }
 // A10 companion: one exact bundle. Unknown/partial vocabulary refuses; it never executes a subset.
-function validDirect(direct, periodic = false) {
+function validDirect(direct, scaledAllowed = false) {
   if (direct === null) return true;
-  // M5 composition: next to a periodic tick only, the immediate formula may use the M4A attribute vocabulary (at least one attribute).
+  // M5 composition / formula riders: next to a periodic tick, or a movement OR Stunned effect, the immediate formula may use the M4A
+  // attribute vocabulary (at least one attribute).
   try { readFormula(direct?.formula); } catch (_) {
-    if (!periodic || typeof direct?.formula !== 'string' || !scaledDirect(direct) || !readScaledFormula(direct.formula, Object.fromEntries(formulaAttributes(direct.formula).map(n => [n, 10]))).supported) return false;
+    if (!scaledAllowed || typeof direct?.formula !== 'string' || !scaledDirect(direct) || !readScaledFormula(direct.formula, Object.fromEntries(formulaAttributes(direct.formula).map(n => [n, 10]))).supported) return false;
   }
   if (direct.kind === 'healing') return exact(direct, ['kind', 'formula']);
   return direct.kind === 'damage' && exact(direct, ['kind', 'formula', 'damageTypes']) && Array.isArray(direct.damageTypes) && direct.damageTypes.length >= 1 &&
@@ -70,32 +129,58 @@ function validEffectCondition(c) {
   if (c?.kind === 'stunned') return exact(c, ['kind']);
   // Attribute family: one flat change to one supported attribute (same label rule as movement).
   if (c?.kind === 'attribute') return exact(c, ['kind', 'attribute', 'amount', 'label']) && supportedAttribute(c.attribute) && validAttributeAmount(c.amount) && text(c.label, 60) && c.label === c.label.trim();
+  // Flat DR family: one positive flat DR modifier (+1..+20).
+  if (c?.kind === 'damageReduction') return exact(c, ['kind', 'amount', 'label']) && validDamageReductionAmount(c.amount) && text(c.label, 60) && c.label === c.label.trim();
   // M5: one periodic damage OR healing tick (NdM±K), explicit per-tick roll; the timing names its boundary and count.
   if (c?.kind === 'periodic') return exact(c, ['kind', 'tick', 'label', 'tickRoll']) && c.tickRoll === 'each-tick' && text(c.label, 60) && c.label === c.label.trim() &&
     !!c.tick && validTickFormula(c.tick.formula) && (c.tick.kind === 'healing' ? exact(c.tick, ['kind', 'formula'])
       : c.tick.kind === 'damage' && exact(c.tick, ['kind', 'formula', 'damageTypes']) && Array.isArray(c.tick.damageTypes) && c.tick.damageTypes.length === 1 && DAMAGE_TYPES.includes(c.tick.damageTypes[0]));
   return c?.kind === 'movement' && exact(c, ['kind', 'feet', 'label']) && validMovementFeet(c.feet) && text(c.label, 60) && c.label === c.label.trim();
 }
-function compileEffect(d) {
+function compileEffect(d, { verifyCatalogue = true } = {}) {
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
-  if (!exact(d, ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description', 'binding', 'spellType', 'castTimeType', 'targeting', 'resourceCost', 'effects', 'timing']) ||
+  if (d?.classPayment !== undefined && d?.catalogueSource === undefined) return no('UNSUPPORTED_SHAPE');
+  if (d?.catalogueSource !== undefined && d?.classPayment === undefined) return no('UNSUPPORTED_SHAPE');
+  // Reconciliation gate: a typed class payment is reviewed only on the plain/periodic composition route. Combining it with the
+  // separately reviewed save branch or caster-start cooldown is an unreviewed route and stays manual.
+  if (d?.classPayment !== undefined && (Object.hasOwn(d, 'cooldown') || (d?.effects && Object.hasOwn(d.effects, 'save')))) return no('UNSUPPORTED_SHAPE');
+  // Formula riders carry no typed class payment (no reviewed class-paid scaled rider).
+  if (d?.classPayment !== undefined && scaledRider(d?.effects)) {return no('UNSUPPORTED_SHAPE');}
+  const effectKeys = ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description', 'binding', 'spellType', 'castTimeType', 'targeting', 'resourceCost', 'effects', 'timing']
+    .concat(d?.classPayment !== undefined ? ['classPayment'] : [])
+    .concat(d?.catalogueSource !== undefined ? ['catalogueSource'] : [])
+    .concat(Object.hasOwn(d || {}, 'cooldown') ? ['cooldown'] : []);
+  if (!exact(d, effectKeys) || !validEffectCooldown(d) ||
       d.schemaVersion !== 3 || !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
       !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
       !exact(d.binding, ['rulesetId', 'rulesetVersion', 'classId']) || d.binding.rulesetId !== 'prism' || d.binding.rulesetVersion !== 'cr-a1a-pilot-1' || !CLASS_IDS.includes(d.binding.classId) ||
       d.spellType !== 'ACTION' || d.castTimeType !== 'IMMEDIATE' ||
       !exact(d.targeting, ['kind', 'maxTargets', 'rangeFeet', 'restriction']) || d.targeting.kind !== 'single' || d.targeting.maxTargets !== 1 || !int(d.targeting.rangeFeet, 1, 300) || !['any', 'ally', 'enemy'].includes(d.targeting.restriction) ||
       !exact(d.resourceCost, ['actionPoints', 'mana']) || !int(d.resourceCost.actionPoints, 0, 20) || !int(d.resourceCost.mana, 0, 10000) ||
-      !exact(d.effects, ['direct', 'condition']) || !validDirect(d.effects.direct, d.effects.condition?.kind === 'periodic') || !validEffectCondition(d.effects.condition) ||
+      !(exact(d.effects, ['direct', 'condition']) || exact(d.effects, ['direct', 'condition', 'save'])) || !validEffectSave(d.effects, d.timing) ||
+      !validDirect(d.effects.direct, FORMULA_CONDITIONS.includes(d.effects.condition?.kind)) || !validEffectCondition(d.effects.condition) ||
       (d.effects.condition.kind === 'periodic' && ((d.effects.direct !== null && d.effects.direct.kind !== d.effects.condition.tick.kind) || d.timing?.expiryPolicy === 'gm-manual')) ||
       !validEffectTiming(d.timing) ||
       !text(d.timing.durationText, 300) || !text(d.timing.gmNote, 1000) ||
       ![null, '{}', '{"durationType":"instant"}'].includes(d.timing.authoredDuration === null ? null : JSON.stringify(d.timing.authoredDuration))) return no('INVALID_DEFINITION');
+  if (d.classPayment !== undefined && !validClassPayment(d.classPayment, d.binding.classId)) return no('UNSUPPORTED_SHAPE');
+  if (d.catalogueSource !== undefined) {
+    if (!validCatalogueSource(d.catalogueSource, d.binding.classId)) return no('UNSUPPORTED_SHAPE');
+    if (verifyCatalogue && !catalogueAbility.verifyDefinition(d).ok) return no('CATALOGUE_PROVENANCE_UNTRUSTED');
+  }
   const canonicalDefinition = canonical.value;
   const definitionHash = checkpoint.sha256Hex('mythrill:authored-effect:v1\n' + checkpoint.stableStringify(canonicalDefinition));
   const definitionRef = { roomId: d.scope.roomId, definitionId: d.definitionId, definitionVersion: d.definitionVersion, definitionHash };
-  return { ok: true, canonicalDefinition, definitionHash, descriptor: { schemaVersion: 3, capabilityId: EFFECT_CAPABILITY, compilerVersion: d.effects.condition.kind === 'periodic' ? (d.effects.direct ? (scaledDirect(d.effects.direct) ? COMPOSITION_FORMULA_VERSION : COMPOSITION_VERSION) : PERIODIC_VERSION) : EFFECT_VERSION,
-    definitionRef, binding: clone(d.binding), price: { ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana }, targeting: clone(d.targeting), effects: clone(d.effects), timing: clone(d.timing), executionEnabled: false } };
+  const cooldown = Object.hasOwn(d, 'cooldown');
+  const compilerVersion = cooldown && d.effects.condition.kind === 'damageReduction' ? FLAT_DR_COOLDOWN_VERSION : cooldown && d.effects.condition.kind === 'attribute' ? ATTRIBUTE_COOLDOWN_VERSION : d.effects.condition.kind === 'periodic'
+    ? (d.effects.direct ? (scaledDirect(d.effects.direct) ? (cooldown ? COMPOSITION_FORMULA_COOLDOWN_VERSION : COMPOSITION_FORMULA_VERSION) : (cooldown ? COMPOSITION_COOLDOWN_VERSION : COMPOSITION_VERSION)) : (cooldown ? PERIODIC_COOLDOWN_VERSION : PERIODIC_VERSION))
+    : Object.hasOwn(d.effects, 'save') ? (scaledDirect(d.effects.direct) ? (d.timing.expiryPolicy === 'gm-manual' ? (cooldown ? SAVE_BRANCH_FORMULA_COOLDOWN_VERSION : SAVE_BRANCH_FORMULA_VERSION) : (cooldown ? SAVE_BRANCH_TIMED_FORMULA_COOLDOWN_VERSION : SAVE_BRANCH_TIMED_FORMULA_VERSION))
+      : d.timing.expiryPolicy === 'gm-manual' ? (cooldown ? SAVE_BRANCH_COOLDOWN_VERSION : SAVE_BRANCH_VERSION) : (cooldown ? SAVE_BRANCH_TIMED_COOLDOWN_VERSION : SAVE_BRANCH_TIMED_VERSION)) : (cooldown ? (scaledRider(d.effects) ? EFFECT_FORMULA_COOLDOWN_VERSION : EFFECT_COOLDOWN_VERSION) : scaledRider(d.effects) ? EFFECT_FORMULA_VERSION : EFFECT_VERSION);
+  return { ok: true, canonicalDefinition, definitionHash, descriptor: Object.assign({ schemaVersion: 3, capabilityId: EFFECT_CAPABILITY, compilerVersion,
+    definitionRef, binding: clone(d.binding), price: { ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana }, targeting: clone(d.targeting), effects: clone(d.effects), timing: clone(d.timing), executionEnabled: false },
+  cooldown ? { cooldown: clone(d.cooldown) } : {},
+  d.classPayment !== undefined ? { classPayment: clone(d.classPayment), catalogueSource: clone(d.catalogueSource) } : {}) };
 }
 function validClassPayment(payment, classId) {
   const domain = PAYMENT_DOMAINS[classId];
@@ -120,7 +205,14 @@ function compileFormula(d, { verifyCatalogue = true } = {}) {
   const health = d.capability === HEALTH_CAPABILITY;
   if (deterministic ? d.schemaVersion !== 7 : health ? d.schemaVersion !== 6 : d.schemaVersion !== 4 || d.capability !== FORMULA_CAPABILITY) return no('INVALID_DEFINITION');
   const extended = d.classPayment !== undefined || d.targetRoute !== undefined || d.catalogueSource !== undefined;
-  if ((health || deterministic) && (extended || d.targeting?.restriction === 'self' || !int(d.targeting?.rangeFeet, 1, 300))) return no('UNSUPPORTED_SHAPE');
+  const stats = Object.fromEntries(CLASS_ATTRIBUTES.map(name => [name, 10]));
+  const reading = d.effect && typeof d.effect.formula === 'string'
+    ? (deterministic ? readDeterministicFormula(d.effect.formula, stats, { current: 0, max: 0 }) : health ? readHealthFormula(d.effect.formula, stats, { current: 0, max: 0 }) : readScaledFormula(d.effect.formula, stats))
+    : { supported: false };
+  const selfHeal = !extended && !cooldown && !health && reading.readsHealth !== true && d.effect?.kind === 'healing' &&
+    d.targeting?.kind === 'single' && d.targeting?.restriction === 'self' && d.targeting?.rangeFeet === 0;
+  if (d.targeting?.restriction === 'self' && !selfHeal) return no('UNSUPPORTED_SHAPE');
+  if ((health || (deterministic && !selfHeal)) && (extended || d.targeting?.restriction === 'self' || !int(d.targeting?.rangeFeet, 1, 300))) return no('UNSUPPORTED_SHAPE');
   if (extended) {
     if (d.classPayment !== undefined && (d.catalogueSource === undefined || !validClassPayment(d.classPayment, d.binding?.classId))) return no('UNSUPPORTED_SHAPE');
     if (d.catalogueSource !== undefined && !validCatalogueSource(d.catalogueSource, d.binding?.classId)) return no('UNSUPPORTED_SHAPE');
@@ -143,8 +235,6 @@ function compileFormula(d, { verifyCatalogue = true } = {}) {
   if (!projection.effect) return no('INVALID_DEFINITION');
   projection.effect.formula = '1d2';
   const base = legacy.compileDefinition(projection);
-  const stats = Object.fromEntries(CLASS_ATTRIBUTES.map(name => [name, 10]));
-  const reading = deterministic ? readDeterministicFormula(d.effect.formula, stats, { current: 0, max: 0 }) : health ? readHealthFormula(d.effect.formula, stats, { current: 0, max: 0 }) : readScaledFormula(d.effect.formula, stats);
   if (!base.ok || !reading.supported || (health && !reading.readsHealth)) return no('UNSUPPORTED_SHAPE');
   const canonicalDefinition = checkpoint.canonicalize(d, 'definition').value;
   const definitionHash = checkpoint.sha256Hex(`mythrill:${d.capability}\n` + checkpoint.stableStringify(canonicalDefinition));
@@ -212,7 +302,7 @@ function compileDefinition(d, options) {
   try { d = snapshot(d); } catch (_) { return no('INVALID_DEFINITION'); }
   if (d?.capability === AREA_CAPABILITY) return compileArea(d, options);
   if ([FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY].includes(d?.capability)) return compileFormula(d, options);
-  if (d?.capability === EFFECT_CAPABILITY) return compileEffect(d);
+  if (d?.capability === EFFECT_CAPABILITY) return compileEffect(d, options);
   if (d?.capability !== CONDITION_CAPABILITY) return legacy.compileDefinition(d);
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');

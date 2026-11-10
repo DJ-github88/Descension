@@ -1,0 +1,22 @@
+- article:
+  - 'heading "Ilse → A: DR Ward Manual" [level=4]'
+  - paragraph: Ward Manual (Flat DR +3) · While the ward holds — GM removes
+  - paragraph: "Manual: the GM removes this exact instance. GM resolves eligibility and range."
+  - paragraph: Exact source pc/4d8c1fe7-d3da-480b-8e1f-53be16dbcce7 → target A/8e65da30-d844-492e-922f-256e95226c1f. Duration and effects are owner-approved; changed terms require fresh approval.
+  - status:
+    - paragraph: "Adds Ward Manual: Flat DR +3, added once to effective flat DR. Base stats, equipment durability and armor dice are not edited."
+    - paragraph: "Now on this target: no authored flat DR change"
+    - paragraph: "After confirmation: Flat DR +3"
+    - paragraph: Automated in P12A basic weapon strike only when it is the target creature's lone defense on a non-critical hit; critical hits, resistance/vulnerability coexistence, P12B PC blocking ('flat-dr' ruling), spells and riposte display the active flat DR for GM adjudication in the final amount and never subtract it automatically a second time.
+  - paragraph: "Owner-approved price: 1 AP · 2 mana (temporary first)"
+  - paragraph: Advisory planar distance 20.0 ft; authored authored range. Line of effect and reach are GM rulings. No declared resistances on this projection.
+  - group "Private GM resolution":
+    - text: Private GM resolution GM timing clarification (required)
+    - textbox "GM timing clarification (required)": "Table ruling: in range, no save."
+    - text: Private manual resolution evidence
+    - textbox "Private manual resolution evidence": "SECRET-FDRC GM evidence: range 20 ft"
+    - checkbox "I resolved eligibility/range/saves/immunity and confirm that this whole effect outcome succeeded" [checked]: ✓
+    - text: I resolved eligibility/range/saves/immunity and confirm that this whole effect outcome succeeded
+    - paragraph: Only successful application is automated. Failed/unexecuted attempt costs remain GM-managed.
+  - button "Confirm payment, result and effect together"
+  - button "Decline"

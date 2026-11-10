@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 import useGameStore from './gameStore';
 import { getAssistanceDecisionForTarget } from '../services/inquisitorAssistanceService';
-import { DEFENDING, isDefending, isStunned } from '../services/sharedConditionProfile';
+import { DEFENDING, isDefending, isStunned, isAttributeModifier } from '../services/sharedConditionProfile';
 
 const POLARITY_CONFIG = {
     buff: {
@@ -429,7 +429,10 @@ const useConditionStore = create(
                 }
             },
 
-            getActiveEffects: (polarity, targetId = 'player') => {
+            // `options.excludeRoomAttributeModifiers`: leave out shared room attribute modifiers (authored-effect attribute family).
+            // They are approved for the effective SCORE that formulas and basic strikes read, never for the stored HP/mana/AP pools,
+            // so the sheet's stored-pool derivation asks for them to be excluded. Personal (non-room) effects are unaffected.
+            getActiveEffects: (polarity, targetId = 'player', options = {}) => {
                 const cfg = POLARITY_CONFIG[polarity];
                 const list = get()[cfg.stateKey];
                 const effects = {};
@@ -449,6 +452,7 @@ const useConditionStore = create(
 
                 list
                     .filter(record => targetIds.includes(record.targetId))
+                    .filter(record => !(options && options.excludeRoomAttributeModifiers && isAttributeModifier(record)))
                     .filter(record => polarity !== 'buff' || !getAssistanceDecisionForTarget({ ...record, kind: 'buff' }, record.targetId).suppressed)
                     .forEach(record => {
                         if (record.effects) {

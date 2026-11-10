@@ -50,10 +50,11 @@ const Step5Resources = () => {
 
  // Initialize spell components from state or with defaults
  const [spellComponents, setSpellComponents] = useState({
-  components: state.resourceCost.components || [],
-  materialComponents: state.resourceCost.materialComponents || '',
-  verbalText: state.resourceCost.verbalText || '',
-  somaticText: state.resourceCost.somaticText || ''
+  components: state.resourceCost?.components || state.components || [],
+  materialComponents: state.resourceCost?.materialComponents !== undefined ? state.resourceCost.materialComponents : (state.materialComponents || ''),
+  materialText: state.resourceCost?.materialText !== undefined ? state.resourceCost.materialText : (state.materialText || ''),
+  verbalText: state.resourceCost?.verbalText !== undefined ? state.resourceCost.verbalText : (state.verbalText || ''),
+  somaticText: state.resourceCost?.somaticText !== undefined ? state.resourceCost.somaticText : (state.somaticText || '')
  });
 
  // Initialize resource types and formulas
@@ -590,12 +591,20 @@ const Step5Resources = () => {
  };
 
  // Handler for spell components change
- const handleComponentsChange = ({ components, materialComponents, verbalText, somaticText }) => {
-  setSpellComponents({ components, materialComponents, verbalText, somaticText });
+ const handleComponentsChange = ({ components, materialComponents, materialText, verbalText, somaticText }) => {
+  const updated = {
+   components,
+   materialComponents,
+   materialText: materialText !== undefined ? materialText : spellComponents.materialText,
+   verbalText,
+   somaticText
+  };
+  setSpellComponents(updated);
 
   dispatch(actionCreators.updateResourceCost({
    components,
    materialComponents,
+   ...(updated.materialText !== undefined ? { materialText: updated.materialText } : {}),
    verbalText,
    somaticText
   }));
@@ -996,6 +1005,7 @@ const Step5Resources = () => {
        <SpellComponentsSelector
         components={spellComponents.components}
         materialComponents={spellComponents.materialComponents}
+        materialText={spellComponents.materialText}
         verbalText={spellComponents.verbalText}
         somaticText={spellComponents.somaticText}
         onChange={handleComponentsChange}

@@ -1,0 +1,338 @@
+{
+  "name": "AC Mire Twist",
+  "description": "Disposable attribute-cooldown witness (agility).",
+  "level": "",
+  "school": "",
+  "icon": "inv_misc_questionmark",
+  "spellType": "ACTION",
+  "typeConfig": {
+    "school": "arcane",
+    "castTimeType": "IMMEDIATE"
+  },
+  "effectTypes": [
+    "control"
+  ],
+  "effectsMap": {
+    "control": true
+  },
+  "damageConfig": null,
+  "healingConfig": null,
+  "buffConfig": null,
+  "debuffConfig": null,
+  "utilityConfig": null,
+  "controlConfig": {
+    "authoredCondition": {
+      "profile": "authored-effect:v1",
+      "effect": "attribute",
+      "expiryPolicy": "target-next-start",
+      "durationText": "Until the target's next turn",
+      "gmNote": "GM resolves target and range.",
+      "attribute": "agility",
+      "attributeAmount": -2,
+      "label": "Mired Agility"
+    }
+  },
+  "summoningConfig": null,
+  "transformationConfig": null,
+  "purificationConfig": null,
+  "restorationConfig": null,
+  "rollableTable": null,
+  "effectResolutions": {},
+  "effectMechanicsConfigs": {},
+  "mechanicsAvailableEffects": [],
+  "combinedEffects": [],
+  "mechanicsAvailableCombinedEffects": [],
+  "targetingConfig": {
+    "rangeType": "ranged",
+    "rangeDistance": 30,
+    "targetingType": "single",
+    "maxTargets": 1,
+    "selectionMethod": "manual",
+    "aoeShape": "",
+    "aoeParameters": {},
+    "movementBehavior": "static",
+    "targetSelectionMethod": "manual",
+    "targetRestrictions": [
+      "any"
+    ],
+    "aoeType": "sphere"
+  },
+  "targetingMode": "unified",
+  "targetingTags": {},
+  "effectTargeting": {},
+  "durationConfig": {},
+  "persistentConfig": {},
+  "propagation": null,
+  "resourceCost": {
+    "components": [],
+    "materialComponents": "",
+    "actionPoints": 1,
+    "actionPointsSelected": true,
+    "resourceTypes": [
+      "mana",
+      "actionPoints"
+    ],
+    "resourceValues": {
+      "mana": 2
+    },
+    "resourceFormulas": {},
+    "useFormulas": {},
+    "primaryResourceType": "mana"
+  },
+  "mechanicsConfig": {
+    "cards": null,
+    "combos": null,
+    "coins": null,
+    "stateRequirements": [],
+    "stateOptions": {
+      "thresholds": []
+    }
+  },
+  "prophecyOptions": null,
+  "cooldownConfig": {
+    "cooldownType": "authenticated_caster_start",
+    "cooldownValue": 2
+  },
+  "triggerConfig": {},
+  "trapConfig": {},
+  "channelingConfig": {},
+  "errors": {},
+  "warnings": {},
+  "currentStep": 6,
+  "completedSteps": [
+    1,
+    2
+  ],
+  "wizardFlow": [
+    {
+      "id": 1,
+      "name": "Basic Info",
+      "required": true
+    },
+    {
+      "id": 2,
+      "name": "Spell Type",
+      "required": true
+    },
+    {
+      "id": 3,
+      "name": "Effects",
+      "required": true
+    },
+    {
+      "id": "triggers",
+      "name": "Triggers",
+      "required": false
+    },
+    {
+      "id": 4,
+      "name": "Targeting & Propagation",
+      "required": true
+    },
+    {
+      "id": 5,
+      "name": "Resources",
+      "required": true
+    },
+    {
+      "id": 6,
+      "name": "Cooldown",
+      "required": true
+    },
+    {
+      "id": "rollable-table",
+      "name": "Rollable Table",
+      "required": false
+    },
+    {
+      "id": "mechanics",
+      "name": "Mechanics",
+      "required": false
+    },
+    {
+      "id": 10,
+      "name": "Review",
+      "required": true
+    }
+  ],
+  "lastModified": "2026-11-09T14:42:06.415Z",
+  "isValid": true,
+  "categoryIds": [
+    "uncategorized"
+  ],
+  "categories": [
+    "all"
+  ],
+  "source": "wizard",
+  "isCustom": true,
+  "authoredDraft": {
+    "name": "AC Mire Twist",
+    "description": "Disposable attribute-cooldown witness (agility).",
+    "level": "",
+    "school": "",
+    "icon": "",
+    "spellType": "ACTION",
+    "typeConfig": {
+      "school": "arcane",
+      "castTimeType": "IMMEDIATE"
+    },
+    "effectTypes": [
+      "control"
+    ],
+    "effectsMap": {
+      "control": true
+    },
+    "damageConfig": null,
+    "healingConfig": null,
+    "buffConfig": null,
+    "debuffConfig": null,
+    "utilityConfig": null,
+    "controlConfig": {
+      "authoredCondition": {
+        "profile": "authored-effect:v1",
+        "effect": "attribute",
+        "expiryPolicy": "target-next-start",
+        "durationText": "Until the target's next turn",
+        "gmNote": "GM resolves target and range.",
+        "attribute": "agility",
+        "attributeAmount": -2,
+        "label": "Mired Agility"
+      }
+    },
+    "summoningConfig": null,
+    "transformationConfig": null,
+    "purificationConfig": null,
+    "restorationConfig": null,
+    "rollableTable": null,
+    "effectResolutions": {},
+    "effectMechanicsConfigs": {},
+    "mechanicsAvailableEffects": [],
+    "combinedEffects": [],
+    "mechanicsAvailableCombinedEffects": [],
+    "targetingConfig": {
+      "rangeType": "ranged",
+      "rangeDistance": 30,
+      "targetingType": "single",
+      "maxTargets": 1,
+      "selectionMethod": "manual",
+      "aoeShape": "",
+      "aoeParameters": {},
+      "movementBehavior": "static",
+      "targetSelectionMethod": "manual",
+      "targetRestrictions": [
+        "any"
+      ]
+    },
+    "targetingMode": "unified",
+    "targetingTags": {},
+    "effectTargeting": {},
+    "durationConfig": {},
+    "persistentConfig": {},
+    "propagation": null,
+    "resourceCost": {
+      "components": [],
+      "materialComponents": "",
+      "actionPoints": 1,
+      "actionPointsSelected": true,
+      "resourceTypes": [
+        "mana",
+        "actionPoints"
+      ],
+      "resourceValues": {
+        "mana": 2
+      },
+      "resourceFormulas": {},
+      "useFormulas": {},
+      "primaryResourceType": "mana"
+    },
+    "mechanicsConfig": {
+      "cards": null,
+      "combos": null,
+      "coins": null,
+      "stateRequirements": [],
+      "stateOptions": {
+        "thresholds": []
+      }
+    },
+    "prophecyOptions": null,
+    "cooldownConfig": {
+      "cooldownType": "authenticated_caster_start",
+      "cooldownValue": 2
+    },
+    "triggerConfig": {},
+    "trapConfig": {},
+    "channelingConfig": {},
+    "errors": {},
+    "warnings": {},
+    "currentStep": 6,
+    "completedSteps": [
+      1,
+      2
+    ],
+    "wizardFlow": [
+      {
+        "id": 1,
+        "name": "Basic Info",
+        "required": true
+      },
+      {
+        "id": 2,
+        "name": "Spell Type",
+        "required": true
+      },
+      {
+        "id": 3,
+        "name": "Effects",
+        "required": true
+      },
+      {
+        "id": "triggers",
+        "name": "Triggers",
+        "required": false
+      },
+      {
+        "id": 4,
+        "name": "Targeting & Propagation",
+        "required": true
+      },
+      {
+        "id": 5,
+        "name": "Resources",
+        "required": true
+      },
+      {
+        "id": 6,
+        "name": "Cooldown",
+        "required": true
+      },
+      {
+        "id": "rollable-table",
+        "name": "Rollable Table",
+        "required": false
+      },
+      {
+        "id": "mechanics",
+        "name": "Mechanics",
+        "required": false
+      },
+      {
+        "id": 10,
+        "name": "Review",
+        "required": true
+      }
+    ],
+    "lastModified": "2026-11-09T14:42:06.230Z",
+    "isValid": true
+  },
+  "authoredDefinitionId": "3ffd1385-6c49-41cb-bc58-545069931144",
+  "id": "custom-1794235326415-3gx2uxrzs",
+  "dateCreated": "2026-11-09T14:42:06.415Z",
+  "effectType": "control",
+  "damageTypes": [
+    "arcane"
+  ],
+  "tags": [
+    "control",
+    "custom"
+  ]
+}

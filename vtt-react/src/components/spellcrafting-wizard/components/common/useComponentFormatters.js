@@ -5,59 +5,73 @@ import { formatComponentName } from './spellFormatterUtils';
 const useComponentFormatters = ({ spell, library, className }) => {
 
   const formatSpellComponents = () => {
-    if (!spell || !spell.resourceCost) {
+    if (!spell) {
       return null;
     }
 
-    const components = [];
-
-    // Check for spell components in resourceCost
-    // Only add components if they have actual text - don't show empty components
-    if (spell.resourceCost.components && spell.resourceCost.components.length > 0) {
-      spell.resourceCost.components.forEach(component => {
-        switch(component) {
-          case 'verbal':
-            // Only add verbal component if there's actual verbalText
-            if (spell.resourceCost.verbalText && spell.resourceCost.verbalText.trim()) {
-              components.push({
-                type: 'verbal',
-                symbol: 'V',
-                name: 'Verbal',
-                description: formatComponentName(spell.resourceCost.verbalText) || 'Requires speaking magical words',
-                customText: spell.resourceCost.verbalText
-              });
-            }
-            break;
-          case 'somatic':
-            // Only add somatic component if there's actual somaticText
-            if (spell.resourceCost.somaticText && spell.resourceCost.somaticText.trim()) {
-              components.push({
-                type: 'somatic',
-                symbol: 'S',
-                name: 'Somatic',
-                description: formatComponentName(spell.resourceCost.somaticText) || 'Requires specific hand gestures',
-                customText: spell.resourceCost.somaticText
-              });
-            }
-            break;
-          case 'material':
-            // Only add material component if there's actual materialComponents
-            if (spell.resourceCost.materialComponents && spell.resourceCost.materialComponents.trim()) {
-              components.push({
-                type: 'material',
-                symbol: 'M',
-                name: 'Material',
-                description: formatComponentName(spell.resourceCost.materialComponents) || 'Requires specific materials',
-                customText: spell.resourceCost.materialComponents
-              });
-            }
-            break;
-
-          default:
-            break;
-        }
-      });
+    const cost = spell.resourceCost || {};
+    let compList = [];
+    if (Array.isArray(cost.components)) {
+      compList = [...cost.components];
+    } else if (Array.isArray(spell.components)) {
+      compList = [...spell.components];
+    } else if (cost.components && typeof cost.components === 'object') {
+      compList = Object.entries(cost.components).filter(([_, v]) => Boolean(v)).map(([k]) => k);
+    } else if (spell.components && typeof spell.components === 'object') {
+      compList = Object.entries(spell.components).filter(([_, v]) => Boolean(v)).map(([k]) => k);
     }
+
+    const verbalText = cost.verbalText ?? spell.verbalText;
+    const somaticText = cost.somaticText ?? spell.somaticText;
+    const materialText = cost.materialText ?? spell.materialText;
+    const materialComponents = cost.materialComponents ?? spell.materialComponents;
+
+    if (verbalText && !compList.includes('verbal')) compList.push('verbal');
+    if (somaticText && !compList.includes('somatic')) compList.push('somatic');
+    if ((materialComponents || materialText) && !compList.includes('material')) compList.push('material');
+
+    if (compList.length === 0) return null;
+
+    const components = compList.map(component => {
+      switch(component) {
+        case 'verbal':
+          return {
+            type: 'verbal',
+            symbol: 'V',
+            name: 'Verbal',
+            description: (verbalText && formatComponentName(verbalText)) || 'Verbal component required (no specific incantation authored; GM/tabletop-managed)',
+            customText: verbalText || null
+          };
+        case 'somatic':
+          return {
+            type: 'somatic',
+            symbol: 'S',
+            name: 'Somatic',
+            description: (somaticText && formatComponentName(somaticText)) || 'Somatic component required (no specific gestures authored; GM/tabletop-managed)',
+            customText: somaticText || null
+          };
+        case 'material': {
+          const matDesc = materialText || (typeof materialComponents === 'string' && materialComponents ? materialComponents : null);
+          return {
+            type: 'material',
+            symbol: 'M',
+            name: 'Material',
+            description: (matDesc && formatComponentName(matDesc)) || 'Material component required (no specific materials authored; GM/tabletop-managed)',
+            customText: matDesc || null
+          };
+        }
+        default: {
+          const extText = cost[`${component}Text`] ?? spell[`${component}Text`];
+          return {
+            type: component,
+            symbol: component.charAt(0).toUpperCase(),
+            name: formatComponentName(component),
+            description: (extText && formatComponentName(extText)) || `${formatComponentName(component)} required (GM/tabletop-managed)`,
+            customText: extText || null
+          };
+        }
+      }
+    });
 
     if (components.length === 0) {
       return null;
@@ -94,15 +108,23 @@ const useComponentFormatters = ({ spell, library, className }) => {
 
   // Format material components as text
   const formatMaterialComponentsText = () => {
-    if (!spell || !spell.resourceCost) return null;
-
-    // Check for material components in resourceCost
+    if (!spell) return null;
+    const cost = spell.resourceCost || {};
     const materialComponents = [];
 
-    if (spell.resourceCost.materialComponents && Array.isArray(spell.resourceCost.materialComponents)) {
-      materialComponents.push(...spell.resourceCost.materialComponents.map(item => formatComponentName(item.name || item)));
-    } else if (spell.resourceCost.materialComponents && typeof spell.resourceCost.materialComponents === 'string') {
-      materialComponents.push(formatComponentName(spell.resourceCost.materialComponents));
+    const matComp = cost.materialComponents ?? spell.materialComponents;
+    const matText = cost.materialText ?? spell.materialText;
+
+    if (matComp && Array.isArray(matComp)) {
+      materialComponents.push(...matComp.map(item => formatComponentName(item.name || item)));
+    } else if (matComp && typeof matComp === 'string' && matComp.trim()) {
+      materialComponents.push(formatComponentName(matComp.trim()));
+    }
+    if (matText && typeof matText === 'string' && matText.trim()) {
+      const formatted = formatComponentName(matText.trim());
+      if (!materialComponents.includes(formatted)) {
+        materialComponents.push(formatted);
+      }
     }
 
     if (materialComponents.length === 0) return null;
@@ -111,6 +133,7 @@ const useComponentFormatters = ({ spell, library, className }) => {
       <div className="pf-spell-material-components">
         <span className="material-label">Materials: </span>
         <span className="material-list">{materialComponents.join(', ')}</span>
+        <span className="material-note"> (not automatically consumed; GM/tabletop-managed)</span>
       </div>
     );
   };

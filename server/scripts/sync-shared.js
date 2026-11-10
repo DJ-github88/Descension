@@ -23,6 +23,7 @@ const FILES = [
   'services/authoredCondition.js',
   'services/authoredEffect.js',
   'services/classEffect.js',
+  'services/saveBranch.js',
   'services/sharedConditionProfile.js',
   'services/sharedEffectTiming.js',
   'services/shieldBashResult.js',

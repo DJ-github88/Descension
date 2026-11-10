@@ -1279,7 +1279,15 @@ body .spellbook-layout .spell-wizard-railed .spell-wizard-nav-btn.spell-wizard-n
 .spell-wizard-railed .spell-wizard-stage-done { font-family: 'Crimson Text', Georgia, serif !important; font-style: italic !important; font-size: 13px !important; color: #68533e !important; }
 
 /* narrow window: the rail collapses to numbered dots, names stay in the tooltip and stage header */
+@media (max-width: 768px) {
+  body .spellbook-wizard-layout.spell-wizard-railed,
+  body .spell-wizard-railed,
+  .spell-wizard-railed { grid-template-columns: 46px minmax(0, 1fr) !important; }
+}
+
 @container spellwizard (max-width: 620px) {
+  body .spellbook-wizard-layout.spell-wizard-railed,
+  body .spell-wizard-railed,
   .spell-wizard-railed { grid-template-columns: 46px minmax(0, 1fr) !important; }
   .spell-wizard-railed .spell-step-rail { padding: 8px 4px !important; }
   body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item { justify-content: center !important; padding: 5px 0 !important; }

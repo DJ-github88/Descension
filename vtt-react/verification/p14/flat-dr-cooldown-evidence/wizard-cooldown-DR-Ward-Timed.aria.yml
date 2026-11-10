@@ -1,0 +1,70 @@
+- dialog "Spellbook":
+  - button "Spell Wizard" [pressed]
+  - button "Spell Library"
+  - button "Community"
+  - text: Spellbook
+  - button "Close": ×
+  - banner:
+    - button "Finalize"
+    - button "Load"
+    - button "Reset"
+    - button "Settings"
+    - button "Quick Spell"
+    - button "Help"
+  - navigation "Spell wizard steps":
+    - list:
+      - listitem:
+        - button "1 Basic Info": Basic Info
+      - listitem:
+        - button "2 Spell Type": Spell Type
+      - listitem:
+        - button "3 Effects"
+      - listitem:
+        - button "4 Triggers": 4 Triggers optional
+      - listitem:
+        - button "5 Targeting & Propagation"
+      - listitem:
+        - button "6 Resources"
+      - listitem:
+        - button "7 Cooldown"
+      - listitem:
+        - button "8 Rollable Table": 8 Rollable Table optional
+      - listitem:
+        - button "9 Mechanics": 9 Mechanics optional
+      - listitem:
+        - button "10 Review"
+  - text: Step 7 of 10 Cooldown
+  - paragraph: Configure how frequently your spell can be used by setting its cooldown. Choose a type of cooldown that fits the spell's power level and the intended gameplay.
+  - heading "Cooldown Type" [level=4]
+  - button "No Cooldown"
+  - button "Authenticated Caster Starts"
+  - button "Turn Based"
+  - button "Charge Based"
+  - button "Short Rest"
+  - button "Long Rest"
+  - button "Dice Based"
+  - text: Caster-turn starts to count (1–10)
+  - spinbutton "Caster-turn starts to count (1–10)": "2"
+  - paragraph: "Cooldown: 2 strictly upcoming caster-turn starts. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it."
+  - paragraph: "One primary owner PC → one placed creature; immediate damage OR healing, optionally with one periodic effect of the same kind; a periodic effect on its own; a movement or Stunned effect, optionally with an immediate damage OR healing part, which may carry one save that negates only that effect; or one Agility, Intelligence or Spirit change, optionally with a plain immediate damage OR healing part and no save. AP/mana only. With a save, the cooldown starts on either recorded outcome, because the price and the immediate part apply on both. Requires authenticated combat tracking. This controls reuse, not effect duration, acquisition or resource price: a periodic effect keeps its own tick count, and removing it or its last tick never releases the cooldown; a movement, Stunned or attribute effect keeps its own expiry, and removing or expiring it never releases the cooldown, nor does the release remove it. A second change to the same attribute remains refused even after cooldown release. A retired clock leaves an unreleased cooldown blocked for manual adjudication."
+  - paragraph: "Positive flat DR (+1 to +20, whole number) also supports this cooldown, with an optional plain immediate damage OR healing part and no save. Its expiry stays independent: removal or expiry never releases the cooldown, and cooldown release never removes the DR effect. A second flat DR effect remains refused even after cooldown release."
+  - heading "Cooldown Preview" [level=4]
+  - heading "Common Cooldown Examples" [level=3]
+  - heading "Basic Attack" [level=4]
+  - paragraph: No cooldown or 1 turn
+  - paragraph: Standard actions usable every turn
+  - heading "Utility Spell" [level=4]
+  - paragraph: 3-4 turns cooldown
+  - paragraph: Abilities that provide advantages but aren't direct damage
+  - heading "Powerful Ability" [level=4]
+  - paragraph: 5-8 turns cooldown
+  - paragraph: High-impact abilities that can change the course of battle
+  - heading "Signature Ability" [level=4]
+  - paragraph: 1-2 uses per short rest
+  - paragraph: Class-defining abilities you want available for key moments
+  - heading "Ultimate Ability" [level=4]
+  - paragraph: 1 use per long rest
+  - paragraph: Most powerful abilities that should be used strategically
+  - button "Back"
+  - progressbar
+  - 'button "Next: Rollable Table"'

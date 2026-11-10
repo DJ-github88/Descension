@@ -1,0 +1,83 @@
+{
+  "status": {
+    "success": false,
+    "error": "Invalid data format",
+    "code": "invalid_condition",
+    "event": "actor_consequence",
+    "errors": [
+      {
+        "field": "command",
+        "message": "invalid_condition"
+      }
+    ]
+  },
+  "items": [
+    {
+      "id": "witness-family",
+      "name": "Potion of Insight",
+      "quantity": 2,
+      "combatStats": {
+        "intelligence": {
+          "value": 2
+        },
+        "healthRestore": {
+          "value": 5
+        }
+      }
+    },
+    {
+      "id": "witness-regen",
+      "name": "Potion of Vigor",
+      "quantity": 2,
+      "combatStats": {
+        "healthRegen": {
+          "value": 2
+        },
+        "healthRestore": {
+          "value": 5
+        }
+      }
+    }
+  ],
+  "combat": [
+    "Potion of Insight was not used and is still in your pack. Invalid data format"
+  ],
+  "health": {
+    "current": 20,
+    "max": 40
+  },
+  "currentCharacterId": "ilse",
+  "isInMultiplayer": true,
+  "uid": "app-owner",
+  "roomId": "c2860cf0-f830-4cba-b92c-d573ed3f1be6",
+  "projection": {
+    "health": {
+      "current": 20,
+      "max": 40
+    },
+    "mana": {
+      "current": 10,
+      "max": 30
+    },
+    "actionPoints": {
+      "current": 2,
+      "max": 5
+    },
+    "tempHealth": 0,
+    "tempMana": 3,
+    "tempActionPoints": 1,
+    "roomActorProjection": {
+      "ref": {
+        "kind": "character",
+        "roomId": "c2860cf0-f830-4cba-b92c-d573ed3f1be6",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "944066de-7e6d-4b99-a6b7-d9d156fb5e95",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "revision": 0,
+      "accountGeneration": 5
+    }
+  }
+}

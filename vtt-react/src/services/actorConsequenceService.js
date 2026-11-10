@@ -17,13 +17,21 @@ let active = null;
 let admission = null;
 const pending = new Map();
 const origins = new Map();
+const rememberOrigin = (commandId, origin) => {
+  if (!origins.has(commandId) && origins.size >= 64) {
+    // Never evict an origin whose command is still pending: its ACK/timeout must be able to settle.
+    const oldest = Array.from(origins.keys()).find(id => !pending.has(id));
+    if (oldest !== undefined) origins.delete(oldest);
+  }
+  origins.set(commandId, origin);
+};
 const settleCommand = (receipt, result) => {
   const origin = origins.get(receipt.commandId);
   if (!origin || origin.uid !== receipt.submitterUid) return;
   // An in-flight request retains this same origin object until its ACK/timeout.
   // Delivered acceptance settles it even if the independent ACK is lost.
   origin.acceptedResult = result;
-  pending.delete(receipt.commandId); origins.delete(receipt.commandId);
+  pending.delete(receipt.commandId); // keep the origin + accepted result for an ordinary retry after a lost ACK
 };
 const state = () => getStore('gameStore')?.getState() || {};
 export const inSharedRoom = () => state().isInMultiplayer === true;
@@ -366,15 +374,32 @@ export function applyAcceptedConsequence(result, context = captureActorDelivery(
   present(live, staged.length > 0);
   return true;
 }
+let commandPreparedHook = null;
+export function setCommandPreparedHook(hook) {
+  const prev = commandPreparedHook;
+  commandPreparedHook = typeof hook === 'function' ? hook : null;
+  return () => { if (commandPreparedHook === hook) commandPreparedHook = prev; };
+}
 export async function submitActorEntries(entries, extra = {}) {
   {
     const snapshot = await refreshActorSnapshot();
     if (!snapshot.success) return status(snapshot);
   }
-  const command = prepareActorCommand(entries, extra);
+  const resolvedEntries = typeof entries === 'function' ? entries() : entries;
+  if (resolvedEntries && !Array.isArray(resolvedEntries) && resolvedEntries.success === false) return status(resolvedEntries);
+  const command = prepareActorCommand(resolvedEntries, extra);
   if (pending.size >= 32) return error('command_capacity');
   pending.set(command.commandId, command);
-  origins.set(command.commandId, { uid: getStore('authStore').getState().user?.uid, accountGeneration: getBootstrapGateState().accountGeneration, roomId: command.roomId });
+  rememberOrigin(command.commandId, { uid: getStore('authStore').getState().user?.uid, accountGeneration: getBootstrapGateState().accountGeneration, roomId: command.roomId });
+  if (typeof commandPreparedHook === 'function') {
+    try { commandPreparedHook(command); }
+    catch (error) {
+      // A consumable recovery record that cannot be stored must stop the command before it is emitted.
+      pending.delete(command.commandId);
+      origins.delete(command.commandId);
+      return status({ success: false, code: error?.code || 'recovery_journal_unavailable', error: error?.message || 'recovery journal unavailable', commandId: command.commandId });
+    }
+  }
   return retryActorCommand(command.commandId);
 }
 /** Small P8 seam: prepare after an explicit snapshot, preserve these exact bytes,
@@ -389,18 +414,32 @@ export function prepareActorCommand(entries, extra = {}, options = {}) {
   const freeze = value => { if (value && typeof value === 'object') { Object.values(value).forEach(freeze); Object.freeze(value); } return value; };
   return freeze(command);
 }
+export function getPendingActorCommand(commandId) {
+  return commandId && pending.has(commandId) ? clone(pending.get(commandId)) : null;
+}
+export function clearPendingActorCommandsForTests() {
+  pending.clear();
+  origins.clear();
+}
 export function submitPreparedActorCommand(command) {
   const game = state(), uid = getStore('authStore').getState().user?.uid;
   if (!uid || command?.version !== 1 || command.roomId !== game.multiplayerRoom?.id || !command.commandId) return Promise.resolve(error('retired_principal'));
   if (pending.has(command.commandId) && !same(pending.get(command.commandId), command)) return Promise.resolve(error('command_id_conflict'));
   if (!pending.has(command.commandId) && pending.size >= 32) return Promise.resolve(error('command_capacity'));
   pending.set(command.commandId, clone(command));
-  origins.set(command.commandId, { uid, accountGeneration: getBootstrapGateState().accountGeneration, roomId: command.roomId, propose: false });
+  rememberOrigin(command.commandId, { uid, accountGeneration: getBootstrapGateState().accountGeneration, roomId: command.roomId, propose: false });
   return retryActorCommand(command.commandId);
 }
 export async function retryActorCommand(commandId) {
   const command = pending.get(commandId);
-  if (!command) return error('outcome_unknown');
+  if (!command) {
+    const settled = origins.get(commandId);
+    const current = settled && settled.uid === getStore('authStore').getState().user?.uid && settled.accountGeneration === getBootstrapGateState().accountGeneration && settled.roomId === state().multiplayerRoom?.id;
+    if (current && settled.acceptedResult) return status({ ...settled.acceptedResult, commandId });
+    // No pending command and no retained receipt: this id can no longer be re-asked. Omitting the id is what tells
+    // the consumable registry the entry is lost (never re-sendable, never a permanent hold).
+    return status({ success: false, code: 'outcome_unknown' });
+  }
   const origin = origins.get(commandId);
   if (!origin || origin.uid !== getStore('authStore').getState().user?.uid || origin.accountGeneration !== getBootstrapGateState().accountGeneration || origin.roomId !== state().multiplayerRoom?.id) return error('retired_principal');
   const result = await request('actor_consequence', command);
@@ -423,27 +462,35 @@ export async function retryActorCommand(commandId) {
   return status({ ...result, commandId });
 }
 export function routeTokenState(tokenId, updates) {
-  if (!inSharedRoom() || !Object.keys(updates || {}).some(key => protectedKeys.has(key))) return false;
-  const token = findActor(tokenId), ref = refOf(token);
-  if (!ref) {error('binding_required'); return true;}
-  const finalResources = {};
-  for (const [pool, [stateKey, , tempKey]] of Object.entries(pools)) {
-    if (updates[stateKey] !== undefined || updates[tempKey] !== undefined) finalResources[pool] = {
-      current: updates[stateKey] ?? token.state[stateKey], temp: updates[tempKey] ?? token.state[tempKey] ?? 0 };
-  }
-  const operations = [];
-  if (updates.conditions) {
-    const before = token.state.conditions || [], after = updates.conditions;
-    for (const record of before) if (!after.some(value => value.id === record.id)) operations.push({ op: 'remove', recordId: record.recordId || record.id });
-    for (const raw of after) {
-      const record = raw.version === 1 && raw.recordId && sameRef(raw.target, ref) ? raw : roomCondition(raw, ref);
-      const old = before.find(value => value.id === record.id);
-      if (!old || require('./sharedConditionProfile').canonical(old) !== require('./sharedConditionProfile').canonical(record)) operations.push({ op: old ? 'update' : 'add', recordId: record.id, record });
+  const resolveUpdates = token => (typeof updates === 'function' ? updates(token) : updates) || {};
+  if (!inSharedRoom() || (typeof updates !== 'function' && !Object.keys(updates || {}).some(key => protectedKeys.has(key)))) return false;
+  if (!findActor(tokenId) || !refOf(findActor(tokenId))) return Promise.resolve(error('binding_required'));
+  // Routed (truthy): the caller may await the room's outcome; existing callers only test truthiness.
+  return submitActorEntries(() => {
+    const token = findActor(tokenId), ref = refOf(token);
+    if (!ref) return error('binding_required');
+    const resolvedUpdates = resolveUpdates(token);
+    if (resolvedUpdates.refused) return resolvedUpdates.refused;
+    const finalResources = {}, values = ref.kind === 'character' ? token.character : token.state;
+    for (const [pool, [stateKey, pcKey, tempKey]] of Object.entries(pools)) {
+      const curUpdate = resolvedUpdates[stateKey] !== undefined ? resolvedUpdates[stateKey] : (typeof resolvedUpdates[pcKey] === 'number' ? resolvedUpdates[pcKey] : resolvedUpdates[pcKey]?.current);
+      if (curUpdate !== undefined || resolvedUpdates[tempKey] !== undefined) finalResources[pool] = {
+        current: curUpdate ?? (ref.kind === 'character' ? values?.[pcKey]?.current : values?.[stateKey]) ?? 0,
+        temp: resolvedUpdates[tempKey] ?? values?.[tempKey] ?? 0 };
     }
-  }
-  submitActorEntries([{ ref, expectedRevision: token.state.actorContract.revision,
-    ...(Object.keys(finalResources).length ? { finalResources } : {}), ...(operations.length ? { conditions: operations } : {}) }]);
-  return true;
+    const operations = [];
+    if (resolvedUpdates.conditions) {
+      const before = token.state.conditions || [], after = typeof resolvedUpdates.conditions === 'function' ? resolvedUpdates.conditions(token, ref) : resolvedUpdates.conditions;
+      for (const record of before) if (!after.some(value => value.id === record.id)) operations.push({ op: 'remove', recordId: record.recordId || record.id });
+      for (const raw of after) {
+        const record = raw.version === 1 && raw.recordId && sameRef(raw.target, ref) ? raw : roomCondition(raw, ref);
+        const old = before.find(value => value.id === record.id);
+        if (!old || require('./sharedConditionProfile').canonical(old) !== require('./sharedConditionProfile').canonical(record)) operations.push({ op: old ? 'update' : 'add', recordId: record.id, record });
+      }
+    }
+    return [{ ref, expectedRevision: token.state.actorContract.revision,
+      ...(Object.keys(finalResources).length ? { finalResources } : {}), ...(operations.length ? { conditions: operations } : {}) }];
+  });
 }
 export function roomCondition(raw, ref) {
   const id = raw.recordId || raw.id || crypto.randomUUID();
@@ -527,3 +574,4 @@ export function hydrateActorConditions() {
 export function validateActorSnapshot(maps, options = {}) {
   return prepareActorProjection(maps, typeof options === 'string' ? { roomId: options } : options);
 }
+

@@ -4,6 +4,7 @@
  * P9 owns payment typing and conservation, A10/A11 own the movement record and its combination, P7 installs.
  * Keep this Node/client module free of object-spread Babel helper imports (CRA otherwise marks CommonJS as ESM). */
 const profile = require('./sharedConditionProfile');
+const saveBranch = require('./saveBranch');
 const data = require('../data/classEffectProfiles.json');
 
 const CAPABILITY = 'class-effect:v1';
@@ -140,8 +141,8 @@ function compile(raw) {
   if (saveFields.length) {
     if (saveFields.length !== SAVE_KEYS.length) return refuse('Partial save configuration stays manual.');
     if (debuff.saveOutcome !== 'negates') return refuse(`Save outcome "${debuff.saveOutcome}" stays manual (only a rider-local "negates" is supported).`);
-    if (!ATTRIBUTES.includes(debuff.saveType) || !Number.isSafeInteger(debuff.saveDC) || debuff.saveDC < 1 || debuff.saveDC > 40) return refuse('Save ability or DC is outside the supported shape.');
     save = { ability: debuff.saveType, dc: debuff.saveDC, outcome: 'negates', scope: 'debuffConfig' };
+    if (!saveBranch.validSave(save, ['debuffConfig'])) return refuse('Save ability or DC is outside the supported shape.');
   }
   // Timing is never mapped: the authored duration is carried verbatim and the GM removes the instance.
   const durationText = [rider.mechanicsText, rider.description].find(value => text(value, 700));
@@ -192,8 +193,9 @@ const isClassEffect = approval => String(approval?.spell?.definitionHash || '').
 const recordHashOf = approval => String(approval?.spell?.definitionHash || '').slice(CAPABILITY.length + 1);
 /** Stable effect identity for A11 combination: `class:<classId>:<spellId>:<recordHash>`. */
 const effectDefinition = entry => `class:${entry.classId}:${entry.spellId}:${entry.recordHash}`;
-const branches = terms => terms.save ? ['saved', 'failed'] : ['applied'];
-const riderApplies = (terms, branch) => branch === 'failed' || branch === 'applied';
+// Shared GM-recorded save branches (saveBranch.js): the class record's save negates only its own debuff block.
+const branches = terms => saveBranch.branches(terms.save);
+const riderApplies = (terms, branch) => saveBranch.applies(terms.save, branch, 'debuffConfig');
 const occurrence = approvalId => OCCURRENCE_PREFIX + approvalId;
 /** True for a record installed by a class-effect approval (never creatable by a generic write). */
 const namedRecord = record => String(record?.sourceEntityId || '').startsWith(OCCURRENCE_PREFIX) && record?.effectOrigin === profile.MOVEMENT.origin;
@@ -217,14 +219,10 @@ function resultFor(approval, branch, combination = null) {
 function riderText(terms) {
   return `${terms.rider.label} (movement −${Math.abs(terms.rider.feet)} ft)`;
 }
-const ABILITY = { strength: 'Strength', agility: 'Agility', constitution: 'Constitution', intelligence: 'Intelligence', spirit: 'Spirit', charisma: 'Charisma' };
 /** One line per outcome branch, as both owner and GM see it before confirmation. */
 function branchLines(terms) {
   const direct = terms.direct.kind === 'damage' ? `${terms.direct.damageTypes.join('/')} damage ${terms.direct.formula}` : `healing ${terms.direct.formula}`;
-  if (!terms.save) return [{ branch: 'applied', text: `${direct} + ${riderText(terms)}` }];
-  const save = `${ABILITY[terms.save.ability]} DC ${terms.save.dc}`;
-  return [{ branch: 'saved', text: `Target saves (${save}, GM records): ${direct}; no ${terms.rider.label}` },
-    { branch: 'failed', text: `Target fails (${save}, GM records): ${direct} + ${riderText(terms)}` }];
+  return saveBranch.branchLines(terms.save, { direct, effect: riderText(terms), effectName: terms.rider.label });
 }
 /** Public disclosure: what is automated, what the GM manages and what is not automated. */
 function disclosure(entry) {

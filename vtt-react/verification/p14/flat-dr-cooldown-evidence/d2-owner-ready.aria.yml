@@ -1,0 +1,35 @@
+- dialog "Supported spell cast":
+  - banner:
+    - heading "DR Ward Timed" [level=3]
+    - button "Close": ×
+  - paragraph: "Supported room ability: nothing is spent until the GM accepts. One approved price, target, effect bundle and duration; one GM-confirmed result."
+  - term: Effect
+  - definition: Ward Timed (Flat DR +3) · Until the target's next turn — expires at the start of the target's next turn
+  - term: Duration
+  - definition: "Until the target's next turn. Automatic: expires at the start of the target's next turn, at the GM-confirmed authenticated turn boundary. Requires active turn tracking with the target in the exact roster; otherwise nothing is applied or charged. GM resolves eligibility and range."
+  - term: Price
+  - definition: 1 AP · 2 mana (temporary first; you have AP 3+0 temp, mana 20+3 temp)
+  - term: Cooldown
+  - definition:
+    - text: "Cooldown: 2 strictly upcoming caster-turn starts. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it. Separate from the Ward Timed effect: it keeps its own duration; removing or expiring it does not release the cooldown, and the cooldown's release does not remove it."
+    - status: Cooldown ready.
+  - paragraph: "Source: Ilse · selected primary owner PC · pc / b42b471d-694e-432f-b9cc-20c8ec6c8482"
+  - button "Pick on map"
+  - text: card range 30 ft (any) — advisory Target
+  - combobox "Target":
+    - option "Select an exact bound target"
+    - option "A · creature · A" [selected]
+    - option "B · creature · B"
+  - alert: "PC targets unavailable: an ability with a caster-start cooldown applies to one placed creature only; a player character target stays manual."
+  - paragraph: Advisory planar distance 20.0 ft; authored any 30 ft. Line of effect and reach are GM rulings. No declared resistances on this projection.
+  - paragraph: "Target: A · A / 467019a4-8f1c-4a0f-b3e4-8685aabd5b67. You approve the action, price, exact target, effect bundle and duration; changed terms need fresh approval. The GM resolves eligibility, range, saves and success manually; only a confirmed success is automated, and payment, any HP change and the effect install together or not at all. Movement changes: different named effects add together; the same effect again from the same source refreshes its duration instead of stacking; speed never goes below 0 ft. Other combinations are refused for the GM to resolve."
+  - status:
+    - paragraph: "Adds Ward Timed: Flat DR +3, added once to effective flat DR. Base stats, equipment durability and armor dice are not edited."
+    - paragraph: "Now on this target: no authored flat DR change"
+    - paragraph: "After confirmation: Flat DR +3"
+    - paragraph: Automated in P12A basic weapon strike only when it is the target creature's lone defense on a non-critical hit; critical hits, resistance/vulnerability coexistence, P12B PC blocking ('flat-dr' ruling), spells and riposte display the active flat DR for GM adjudication in the final amount and never subtract it automatically a second time.
+  - button "Approve exact price, target, effects and duration"
+  - status:
+    - paragraph: Not registered (ability on cooldown) — no payment was recorded.
+    - paragraph: Approval e32319cf-3664-4d36-89b0-8e6b7a2d8273 · Device retained
+    - paragraph: "Retained owner-approved terms: DR Ward Manual · source pc/b42b471d-694e-432f-b9cc-20c8ec6c8482 → target A/467019a4-8f1c-4a0f-b3e4-8685aabd5b67 · 1 AP / 2 mana · Ward Manual (Flat DR +3) · While the ward holds — GM removes."

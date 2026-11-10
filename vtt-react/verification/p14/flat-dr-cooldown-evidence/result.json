@@ -1,0 +1,2112 @@
+{
+  "startedAt": "2026-11-09T19:12:24.503Z",
+  "checks": {
+    "excludedCombinationsRefused": true,
+    "ownerHydration": {
+      "characterId": "ilse",
+      "race": "human",
+      "subrace": "thalren_human",
+      "statsModel": "base+earned@1"
+    },
+    "wizardCooldownText": {
+      "DR Ward Manual": "Positive flat DR (+1 to +20, whole number) also supports this cooldown, with an optional plain immediate damage OR healing part and no save. Its expiry stays independent: removal or expiry never releases the cooldown, and cooldown release never removes the DR effect. A second flat DR effect remains refused even after cooldown release.",
+      "DR Ward Timed": "Positive flat DR (+1 to +20, whole number) also supports this cooldown, with an optional plain immediate damage OR healing part and no save. Its expiry stays independent: removal or expiry never releases the cooldown, and cooldown release never removes the DR effect. A second flat DR effect remains refused even after cooldown release.",
+      "DR Ward Counted": "Positive flat DR (+1 to +20, whole number) also supports this cooldown, with an optional plain immediate damage OR healing part and no save. Its expiry stays independent: removal or expiry never releases the cooldown, and cooldown release never removes the DR effect. A second flat DR effect remains refused even after cooldown release.",
+      "DR Ward Strike": "Positive flat DR (+1 to +20, whole number) also supports this cooldown, with an optional plain immediate damage OR healing part and no save. Its expiry stays independent: removal or expiry never releases the cooldown, and cooldown release never removes the DR effect. A second flat DR effect remains refused even after cooldown release."
+    },
+    "definitionSummary": {
+      "DR Ward Manual": "Ward Manual (Flat DR +3) · While the ward holds — GM removes",
+      "DR Ward Timed": "Ward Timed (Flat DR +3) · Until the target's next turn — expires at the start of the target's next turn",
+      "DR Ward Counted": "Ward Counted (Flat DR +3) · For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted)",
+      "DR Ward Strike": "arcane damage 1d6+2 + Ward Strike (Flat DR +3) · Until turn end — expires at the end of the target's next turn"
+    },
+    "admissionText": {
+      "DR Ward Manual": " Partially automated\n\nPrism runs the parts listed below. The rest is yours or the GM's to play.\n\nPrism runs\n\nWard Manual (Flat DR +3) · While the ward holds — GM removes\nCooldown: 2 strictly upcoming caster-turn starts. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it.\nPrice: 1 AP, 2 mana\nTarget: one creature, range 30 ft (any)\n\nStill confirmed by people\n\nThe owner approves the exact price, target and roll before anything is applied.\nThe GM confirms success and any final amount.\n\nPlayed by hand\n\nEnding the effect: the GM removes it (authored duration: While the ward holds).\nAuthored sections kept in this spell (2)\n\nWhat to do\n\nUse \"Admit this saved version\" below, then cast from the action bar. Changing the spell later needs a new admission.\n\nThis is a structural check only, against the same rules the server applies. It does not grant admission and does not say you can cast it now: the GM's room admission, your ownership, your current resources and the chosen target are checked when you cast.\n\nSaved locally — refresh room admission to check its current status.\n\nWard Manual (Flat DR +3) · While the ward holds — GM removes. Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount. Structured expiry needs active authenticated turn tracking.\n\nExisting class binding \narcanoneer\nberserker\nshaper\nharbinger\nchronarch\ninquisitor\nrevenant\nfalse_prophet\ngambit\napex\nanimist\nlunarch\nmartyr\nminstrel\nplaguebringer\npyrofiend\nspellguard\ntoxicologist\nwarden\naugur\ncrusader\nAdmit this saved versionCheck original admissionRefresh room admission",
+      "DR Ward Timed": " Partially automated\n\nPrism runs the parts listed below. The rest is yours or the GM's to play.\n\nPrism runs\n\nWard Timed (Flat DR +3) · Until the target's next turn — expires at the start of the target's next turn\nCooldown: 2 strictly upcoming caster-turn starts. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it.\nPrice: 1 AP, 2 mana\nTarget: one creature, range 30 ft (any)\n\nStill confirmed by people\n\nThe owner approves the exact price, target and roll before anything is applied.\nThe GM confirms success and any final amount.\n\nPlayed by hand\n\nEnding the effect: expires at the start of the target's next turn (authored duration: Until the target's next turn). This needs active authenticated turn tracking with the target in the combat roster; without it the GM's confirmation of the cast is refused and nothing is spent (it never falls back to GM removal).\nAuthored sections kept in this spell (2)\n\nWhat to do\n\nUse \"Admit this saved version\" below, then cast from the action bar. Changing the spell later needs a new admission.\n\nThis is a structural check only, against the same rules the server applies. It does not grant admission and does not say you can cast it now: the GM's room admission, your ownership, your current resources and the chosen target are checked when you cast.\n\nSaved locally — refresh room admission to check its current status.\n\nWard Timed (Flat DR +3) · Until the target's next turn — expires at the start of the target's next turn. Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount. Structured expiry needs active authenticated turn tracking.\n\nExisting class binding \narcanoneer\nberserker\nshaper\nharbinger\nchronarch\ninquisitor\nrevenant\nfalse_prophet\ngambit\napex\nanimist\nlunarch\nmartyr\nminstrel\nplaguebringer\npyrofiend\nspellguard\ntoxicologist\nwarden\naugur\ncrusader\nAdmit this saved versionCheck original admissionRefresh room admission",
+      "DR Ward Counted": " Partially automated\n\nPrism runs the parts listed below. The rest is yours or the GM's to play.\n\nPrism runs\n\nWard Counted (Flat DR +3) · For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted)\nCooldown: 1 strictly upcoming caster-turn start. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it.\nPrice: 1 AP, 2 mana\nTarget: one creature, range 30 ft (any)\n\nStill confirmed by people\n\nThe owner approves the exact price, target and roll before anything is applied.\nThe GM confirms success and any final amount.\n\nPlayed by hand\n\nEnding the effect: expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted) (authored duration: For 3 turn ends). This needs active authenticated turn tracking with the target in the combat roster; without it the GM's confirmation of the cast is refused and nothing is spent (it never falls back to GM removal).\nAuthored sections kept in this spell (2)\n\nWhat to do\n\nUse \"Admit this saved version\" below, then cast from the action bar. Changing the spell later needs a new admission.\n\nThis is a structural check only, against the same rules the server applies. It does not grant admission and does not say you can cast it now: the GM's room admission, your ownership, your current resources and the chosen target are checked when you cast.\n\nSaved locally — refresh room admission to check its current status.\n\nWard Counted (Flat DR +3) · For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted). Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount. Structured expiry needs active authenticated turn tracking.\n\nExisting class binding \narcanoneer\nberserker\nshaper\nharbinger\nchronarch\ninquisitor\nrevenant\nfalse_prophet\ngambit\napex\nanimist\nlunarch\nmartyr\nminstrel\nplaguebringer\npyrofiend\nspellguard\ntoxicologist\nwarden\naugur\ncrusader\nAdmit this saved versionCheck original admissionRefresh room admission",
+      "DR Ward Strike": " Partially automated\n\nPrism runs the parts listed below. The rest is yours or the GM's to play.\n\nPrism runs\n\narcane damage 1d6+2 + Ward Strike (Flat DR +3) · Until turn end — expires at the end of the target's next turn\nCooldown: 1 strictly upcoming caster-turn start. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it.\nPrice: 1 AP, 2 mana\nTarget: one creature, range 30 ft (any)\n\nStill confirmed by people\n\nThe owner approves the exact price, target and roll before anything is applied.\nThe GM confirms success and any final amount.\n\nPlayed by hand\n\nEnding the effect: expires at the end of the target's next turn (authored duration: Until turn end). This needs active authenticated turn tracking with the target in the combat roster; without it the GM's confirmation of the cast is refused and nothing is spent (it never falls back to GM removal).\nAuthored sections kept in this spell (3)\n\nWhat to do\n\nUse \"Admit this saved version\" below, then cast from the action bar. Changing the spell later needs a new admission.\n\nThis is a structural check only, against the same rules the server applies. It does not grant admission and does not say you can cast it now: the GM's room admission, your ownership, your current resources and the chosen target are checked when you cast.\n\nSaved locally — refresh room admission to check its current status.\n\narcane damage 1d6+2 + Ward Strike (Flat DR +3) · Until turn end — expires at the end of the target's next turn. Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount. Structured expiry needs active authenticated turn tracking.\n\nExisting class binding \narcanoneer\nberserker\nshaper\nharbinger\nchronarch\ninquisitor\nrevenant\nfalse_prophet\ngambit\napex\nanimist\nlunarch\nmartyr\nminstrel\nplaguebringer\npyrofiend\nspellguard\ntoxicologist\nwarden\naugur\ncrusader\nAdmit this saved versionCheck original admissionRefresh room admission"
+    },
+    "roster": [
+      "pc",
+      "B",
+      "A"
+    ],
+    "baseline": {
+      "text": "Ilse → A: Witness Bow\n0e8211c6-88ac-4d8d-b281-f7cce9403485 / app-hall / pc · incarnation b42b471d-694e-432f-b9cc-20c8ec6c8482\n0e8211c6-88ac-4d8d-b281-f7cce9403485 / app-hall / A · incarnation 467019a4-8f1c-4a0f-b3e4-8685aabd5b67\n\nOwner-reported: ranged · d6 stabbing · agility 16 (+3)\n\nphysical [5] → hit, proposed 8 · 2 AP (temporary first)\n\nProficiency — manual ruling\n\nOwner-reported bow · NOVICE (stored) d6 · physical [5] · archetype bow\n\n[Open: whether a modifier is added, whether the die explodes, and how the result maps onto faces 1–20. The GM picks the outcome.]\n\nAuthored bow outcome table (manual)\nProficiency outcome \nGM chooses — nothing inferred\nFace 1 · Critical Fumble (mishap)\nFace 2 · Miss & Overextend (miss)\nFace 3 · Glancing Graze (½ dmg)\nFace 4 · Clean Hit (+0)\nFace 5 · Solid Strike (+1 dmg)\nFace 6 · Skilled Move (+1 & tech)\nFace 7 · Tactical Edge (+2 dmg)\nFace 8 · Signature Move (+2 & stunt)\nFace 9 · Empowered Strike (+3 dmg)\nFace 10 · Grand Flourish (+3 & cleave)\nFace 11 · Heroic Sunder (+4 dmg)\nFace 12 · Supreme Climax (+4 & action)\nFace 13 · Master Precision (+5 dmg)\nFace 14 · Master Cleave (+5 & aoe)\nFace 15 · Battlefield Dominion (+6 dmg)\nFace 16 · Apex Stride (+6 & step)\nFace 17 · Sundering Blow (+7 dmg)\nFace 18 · Stunning Critical (+7 & stun)\nFace 19 · Peerless Flurry (+8 dmg)\nFace 20 · Apotheosis Critical (+8 & break)\nNo proficiency outcome\nDeferred — resolve at table\nRelevant defenses · GM private\n\nNo automated defense step: 8 → 8\n\nFinal HP damage \nAdjustment reason (public; required if different from 8) \n\nPlanar centre distance 20 ft; no card range — GM adjudicates. Range is advisory; you adjudicate.\n\nCommit preview: attacker AP −2 and this creature HP damage 8 (temporary pools first). Adjudicate legality, reach and line of effect here.\n\nNot applied by the VTT: Choose the manual proficiency outcome. No stun, wear, free attack, movement or other manual effect is committed.\n\nConfirm and applyDecline strike",
+      "manualListed": 0,
+      "damage": 8
+    },
+    "fullDamage": 8,
+    "d1OwnerText": "DR Ward Manual\n×\n\nSupported room ability: nothing is spent until the GM accepts. One approved price, target, effect bundle and duration; one GM-confirmed result.\n\nEffect\nWard Manual (Flat DR +3) · While the ward holds — GM removes\nDuration\nWhile the ward holds. Manual: the GM removes this exact instance. GM resolves eligibility and range.\nPrice\n1 AP · 2 mana (temporary first; you have AP 5+0 temp, mana 20+5 temp)\nCooldown\nCooldown: 2 strictly upcoming caster-turn starts. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it. Separate from the Ward Manual effect: it keeps its own duration; removing or expiring it does not release the cooldown, and the cooldown's release does not remove it. Cooldown ready.\n\nSource: Ilse · selected primary owner PC · pc / b42b471d-694e-432f-b9cc-20c8ec6c8482\n\nPick on mapcard range 30 ft (any) — advisory\nTarget \nSelect an exact bound target\nA · creature · A\nB · creature · B\n\nPC targets unavailable: an ability with a caster-start cooldown applies to one placed creature only; a player character target stays manual.\n\nAdvisory planar distance 20.0 ft; authored any 30 ft. Line of effect and reach are GM rulings. No declared resistances on this projection.\n\nTarget: A · A / 467019a4-8f1c-4a0f-b3e4-8685aabd5b67. You approve the action, price, exact target, effect bundle and duration; changed terms need fresh approval. The GM resolves eligibility, range, saves and success manually; only a confirmed success is automated, and payment, any HP change and the effect install together or not at all. Movement changes: different named effects add together; the same effect again from the same source refreshes its duration instead of stacking; speed never goes below 0 ft. Other combinations are refused for the GM to resolve.\n\nAdds Ward Manual: Flat DR +3, added once to effective flat DR. Base stats, equipment durability and armor dice are not edited.\n\nNow on this target: no authored flat DR change\n\nAfter confirmation: Flat DR +3\n\nAutomated in P12A basic weapon strike only when it is the target creature's lone defense on a non-critical hit; critical hits, resistance/vulnerability coexistence, P12B PC blocking ('flat-dr' ruling), spells and riposte display the active flat DR for GM adjudication in the final amount and never subtract it automatically a second time.\n\nApprove exact price, target, effects and duration",
+    "d1GmCard": "Ilse → A: DR Ward Manual\n\nWard Manual (Flat DR +3) · While the ward holds — GM removes\n\nManual: the GM removes this exact instance. GM resolves eligibility and range.\n\nExact source pc/b42b471d-694e-432f-b9cc-20c8ec6c8482 → target A/467019a4-8f1c-4a0f-b3e4-8685aabd5b67. Duration and effects are owner-approved; changed terms require fresh approval.\n\nAdds Ward Manual: Flat DR +3, added once to effective flat DR. Base stats, equipment durability and armor dice are not edited.\n\nNow on this target: no authored flat DR change\n\nAfter confirmation: Flat DR +3\n\nAutomated in P12A basic weapon strike only when it is the target creature's lone defense on a non-critical hit; critical hits, resistance/vulnerability coexistence, P12B PC blocking ('flat-dr' ruling), spells and riposte display the active flat DR for GM adjudication in the final amount and never subtract it automatically a second time.\n\nOwner-approved price: 1 AP · 2 mana (temporary first)\n\nAdvisory planar distance 20.0 ft; authored authored range. Line of effect and reach are GM rulings. No declared resistances on this projection.\n\nPrivate GM resolution\nGM timing clarification (required)\nPrivate manual resolution evidence\n I resolved eligibility/range/saves/immunity and confirm that this whole effect outcome succeeded\n\nOnly successful application is automated. Failed/unexecuted attempt costs remain GM-managed.\n\nConfirm payment, result and effect togetherDecline",
+    "d1Cast": {
+      "commandId": "41a8e882-e566-4eec-869f-9f476d71ebb7",
+      "cooldown": {
+        "combatId": "4f01d081-9d9c-424e-8013-cbe078a4fe7f",
+        "startSequence": 0,
+        "dueSequence": 6,
+        "occurrences": 2,
+        "period": 3,
+        "commandId": "41a8e882-e566-4eec-869f-9f476d71ebb7"
+      },
+      "poolBefore": {
+        "hp": {
+          "current": 20,
+          "temp": 0,
+          "max": 40
+        },
+        "mana": {
+          "current": 20,
+          "temp": 5,
+          "max": 30
+        },
+        "ap": {
+          "current": 5,
+          "temp": 0,
+          "max": 5
+        }
+      },
+      "poolAfter": {
+        "hp": {
+          "current": 20,
+          "temp": 0,
+          "max": 40
+        },
+        "mana": {
+          "current": 20,
+          "temp": 3,
+          "max": 30
+        },
+        "ap": {
+          "current": 4,
+          "temp": 0,
+          "max": 5
+        }
+      },
+      "drsA": [
+        {
+          "version": 1,
+          "id": "981c2b0c-b416-405b-bb7b-877b8de6ac9e",
+          "recordId": "981c2b0c-b416-405b-bb7b-877b8de6ac9e",
+          "conditionKey": "damage-reduction-modifier",
+          "originalName": "Ward Manual",
+          "name": "Ward Manual",
+          "type": "buff",
+          "kind": "effect",
+          "target": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "targetId": "A",
+          "targetType": "creature",
+          "source": "authored-effect:damage-reduction",
+          "sourceEntityId": "authored-effect:981c2b0c-b416-405b-bb7b-877b8de6ac9e",
+          "effectOrigin": "shared-condition:damage-reduction:v1",
+          "description": "Flat DR +3. Temporary positive flat damage reduction (+1 to +20 flat DR) on one exact actor. Distinct from equipment blocking dice, durability, Defending and resistance/vulnerability tiers.",
+          "effectSummary": "While the ward holds — GM removes.",
+          "icon": "/assets/icons/Status/buff/shield-protection.png",
+          "color": "#3c6a7a",
+          "effects": {
+            "damageReduction": 3
+          },
+          "isMagical": false,
+          "stackable": false,
+          "hasOverTimeEffect": false,
+          "sharedTiming": "manual",
+          "durationType": "manual",
+          "clockBoundary": "manual",
+          "authoredDuration": "While the ward holds",
+          "sourceActor": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "effectDefinition": "authored:fce74adc-e447-4047-bbe0-a6b37a59db88:1:f0810a915650f871f02548affeef2801306cedf0e3389d96a76b5eef06d60dbe"
+        }
+      ]
+    },
+    "withDr": {
+      "text": "Ilse → A: Witness Bow\n0e8211c6-88ac-4d8d-b281-f7cce9403485 / app-hall / pc · incarnation b42b471d-694e-432f-b9cc-20c8ec6c8482\n0e8211c6-88ac-4d8d-b281-f7cce9403485 / app-hall / A · incarnation 467019a4-8f1c-4a0f-b3e4-8685aabd5b67\n\nOwner-reported: ranged · d6 stabbing · agility 16 (+3)\n\nphysical [5] → hit, proposed 8 · 2 AP (temporary first)\n\nProficiency — manual ruling\n\nOwner-reported bow · NOVICE (stored) d6 · physical [5] · archetype bow\n\n[Open: whether a modifier is added, whether the die explodes, and how the result maps onto faces 1–20. The GM picks the outcome.]\n\nAuthored bow outcome table (manual)\nProficiency outcome \nGM chooses — nothing inferred\nFace 1 · Critical Fumble (mishap)\nFace 2 · Miss & Overextend (miss)\nFace 3 · Glancing Graze (½ dmg)\nFace 4 · Clean Hit (+0)\nFace 5 · Solid Strike (+1 dmg)\nFace 6 · Skilled Move (+1 & tech)\nFace 7 · Tactical Edge (+2 dmg)\nFace 8 · Signature Move (+2 & stunt)\nFace 9 · Empowered Strike (+3 dmg)\nFace 10 · Grand Flourish (+3 & cleave)\nFace 11 · Heroic Sunder (+4 dmg)\nFace 12 · Supreme Climax (+4 & action)\nFace 13 · Master Precision (+5 dmg)\nFace 14 · Master Cleave (+5 & aoe)\nFace 15 · Battlefield Dominion (+6 dmg)\nFace 16 · Apex Stride (+6 & step)\nFace 17 · Sundering Blow (+7 dmg)\nFace 18 · Stunning Critical (+7 & stun)\nFace 19 · Peerless Flurry (+8 dmg)\nFace 20 · Apotheosis Critical (+8 & break)\nNo proficiency outcome\nDeferred — resolve at table\nRelevant defenses · GM private\n\nFlat DR 3: 8 → 5 (Laws rounding)\n\nFinal HP damage \nAdjustment reason (public; required if different from 5) \n\nPlanar centre distance 20 ft; no card range — GM adjudicates. Range is advisory; you adjudicate.\n\nCommit preview: attacker AP −2 and this creature HP damage 5 (temporary pools first). Adjudicate legality, reach and line of effect here.\n\nNot applied by the VTT: Choose the manual proficiency outcome. No stun, wear, free attack, movement or other manual effect is committed.\n\nConfirm and applyDecline strike",
+      "manualListed": 0,
+      "damage": 5
+    },
+    "d2Cast": {
+      "commandId": "90d547cd-0f9e-4f69-b06c-ad8aebd2d705",
+      "cooldown": {
+        "combatId": "4f01d081-9d9c-424e-8013-cbe078a4fe7f",
+        "startSequence": 6,
+        "dueSequence": 12,
+        "occurrences": 2,
+        "period": 3,
+        "commandId": "90d547cd-0f9e-4f69-b06c-ad8aebd2d705"
+      },
+      "drsA": [
+        {
+          "version": 1,
+          "id": "e91a589b-32a0-4be9-b9f9-c6a8666147c1",
+          "recordId": "e91a589b-32a0-4be9-b9f9-c6a8666147c1",
+          "conditionKey": "damage-reduction-modifier",
+          "originalName": "Ward Timed",
+          "name": "Ward Timed",
+          "type": "buff",
+          "kind": "effect",
+          "target": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "targetId": "A",
+          "targetType": "creature",
+          "source": "authored-effect:damage-reduction",
+          "sourceEntityId": "authored-effect:e91a589b-32a0-4be9-b9f9-c6a8666147c1",
+          "effectOrigin": "shared-condition:damage-reduction:v1",
+          "description": "Flat DR +3. Temporary positive flat damage reduction (+1 to +20 flat DR) on one exact actor. Distinct from equipment blocking dice, durability, Defending and resistance/vulnerability tiers.",
+          "effectSummary": "Until the target's next turn — Until the start of the target's next turn — expires at the authenticated turn boundary.",
+          "icon": "/assets/icons/Status/buff/shield-protection.png",
+          "color": "#3c6a7a",
+          "effects": {
+            "damageReduction": 3
+          },
+          "isMagical": false,
+          "stackable": false,
+          "hasOverTimeEffect": false,
+          "sharedTiming": "manual",
+          "durationType": "manual",
+          "clockBoundary": "authored-target-next-start",
+          "authoredDuration": "Until the target's next turn",
+          "sourceActor": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "effectDefinition": "authored:e7fb4b2e-d47f-47bb-9bff-eca52e22800b:1:21423cba92f47b4ffe733819970307d545d179068466a76f5f60c229aadc95e7"
+        }
+      ],
+      "expirySeq": 8
+    },
+    "stagesCompleted": 18
+  },
+  "qualifications": [
+    "Real optimized App and registered backend; identity/provider/ownership/lease/cloud are fixture boundaries (mocked services).",
+    "Temporary room: accepted-live only. No live Firebase, deployment, physical second device or human tabletop claim.",
+    "Complete deterministic owner record loaded through production loadCharacter after boot.",
+    "Wizard primitives only. No catalogue record, pin or stripped catalogue demonstration."
+  ],
+  "errors": [],
+  "steps": [
+    {
+      "at": "2026-11-09T19:12:24.504Z",
+      "step": "Check excluded combinations in definitionFromWizard"
+    },
+    {
+      "at": "2026-11-09T19:12:46.286Z",
+      "step": "1. Wizard author/save/reopen/admit D1, D2, D3, D4"
+    },
+    {
+      "at": "2026-11-09T19:13:14.904Z",
+      "step": "2. Combat initiation [PC, B, A] + authenticated turn tracking + baseline strike on A"
+    },
+    {
+      "at": "2026-11-09T19:13:16.589Z",
+      "step": "3. Stage 1: D1 owner cast on A: cooldown ready, independent lifetime, no roll, GM confirm with lost-ACK recovery"
+    },
+    {
+      "at": "2026-11-09T19:13:21.951Z",
+      "step": "4. Reduced strike on A: Flat DR 3 reduces proposed damage by 3"
+    },
+    {
+      "at": "2026-11-09T19:13:28.956Z",
+      "step": "5. D1 blocked reuse: notice and entire room state unchanged"
+    },
+    {
+      "at": "2026-11-09T19:13:29.366Z",
+      "step": "6. Exact GM removal of A's DR record leaves cooldown blocked until sequence 6"
+    },
+    {
+      "at": "2026-11-09T19:13:29.413Z",
+      "step": "6b. Advance to 3 (PC start 1): cooldown active 1 start remaining, due 6"
+    },
+    {
+      "at": "2026-11-09T19:13:30.885Z",
+      "step": "6c. Advance to 6 (PC start 2): cooldown released by authenticated boundary"
+    },
+    {
+      "at": "2026-11-09T19:13:31.891Z",
+      "step": "7. Stage 5: Cast D2 (Ward Timed, target-next-start, cooldown 2) on A at seq 6"
+    },
+    {
+      "at": "2026-11-09T19:13:32.420Z",
+      "step": "7b. Advance to 8 (A's start): DR expires at 8, cooldown stays active"
+    },
+    {
+      "at": "2026-11-09T19:13:33.568Z",
+      "step": "7c. Advance to 12 (PC start 2): D2 cooldown released at 12"
+    },
+    {
+      "at": "2026-11-09T19:13:34.936Z",
+      "step": "8. Stage 6: Cast D3 (Ward Counted 3, cooldown 1) on A at seq 12"
+    },
+    {
+      "at": "2026-11-09T19:13:35.536Z",
+      "step": "8b. Advance to 15 (PC start): D3 cooldown releases at 15 while DR effect stays active"
+    },
+    {
+      "at": "2026-11-09T19:13:36.774Z",
+      "step": "8c. Combination refusal: attempt recast on A is refused without spend or cooldown"
+    },
+    {
+      "at": "2026-11-09T19:13:37.361Z",
+      "step": "9. Stage 7: Coincident boundary with roster [PC, B, A]"
+    },
+    {
+      "at": "2026-11-09T19:13:38.038Z",
+      "step": "9b. Advance to 18: Coincident boundary releases cooldown and expires DR in one boundary transition"
+    },
+    {
+      "at": "2026-11-09T19:13:39.169Z",
+      "step": "9c. Legal reuse after coincident boundary succeeds once"
+    }
+  ],
+  "stages": {
+    "excluded combinations verification": {
+      "how": "pure definitionFromWizard rejects negative DR and DR+save"
+    },
+    "author/save/reopen/admit": {
+      "how": "App controls (Spell Wizard incl. Cooldown step, Spell Library, room admission)"
+    },
+    "authenticated clock": {
+      "how": "App control (Enable / Advance authenticated turn)"
+    },
+    "D1 lost-ACK recovery": {
+      "how": "App control after GM reload (Check same command)"
+    },
+    "D1 cast": {
+      "how": "App controls (owner panel + GM card); payment, DR effect and cooldown start in one receipt"
+    },
+    "reduced strike": {
+      "how": "Existing basic noncritical strike on A demonstrates DR reduction"
+    },
+    "D1 blocked reuse": {
+      "how": "App control (owner approve → server refusal, no spend)"
+    },
+    "D1 at seq 3 blocked reuse": {
+      "how": "App control (owner approve → server refusal, no spend)"
+    },
+    "D1 boundary release": {
+      "how": "Advance authenticated turn to boundary 6 releases cooldown; DR already removed"
+    },
+    "D2 cast": {
+      "how": "App controls; payment, timed DR +3 and cooldown in one receipt"
+    },
+    "D2 after effect expiry at seq 8 blocked reuse": {
+      "how": "App control (owner approve → server refusal, no spend)"
+    },
+    "D2 effect expiry before cooldown release": {
+      "how": "DR expires at target start 8; cooldown stays blocked"
+    },
+    "D2 cooldown release": {
+      "how": "Cooldown releases at boundary 12"
+    },
+    "D3 release before counted expiry": {
+      "how": "Cooldown releases at 15 while counted DR effect remains active"
+    },
+    "D3 combination refusal": {
+      "how": "Second DR recast refused while previous instance remains active"
+    },
+    "D4 cast": {
+      "how": "One receipt applies direct damage, DR condition and cooldown"
+    },
+    "coincident boundary": {
+      "how": "Both DR expiry and cooldown release resolve cleanly in one boundary"
+    },
+    "legal reuse after coincident release": {
+      "how": "Cast succeeds once both eligibility conditions permit"
+    }
+  },
+  "limits": [
+    "Real optimized App and registered backend; identity/provider/ownership/lease/cloud are fixture boundaries.",
+    "Temporary room: accepted-live only. No live Firebase, deployment, physical second device or human tabletop claim."
+  ],
+  "passed": true,
+  "endedAt": "2026-11-09T19:13:39.986Z",
+  "build": "d:\\VTT\\vtt-react\\build",
+  "buildAssetManifestSha256": "36b3452d58566a12c15357ac54c3b7a04fefc96a880e3101dd02477440b944c1",
+  "receipts": [
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "fd87f779-901a-440d-89d2-d9cdd570b701",
+      "submitterUid": "app-gm",
+      "contentHash": "58e815f100ae75e6cbbdc8116725f5eb4efa9c8eb76291a8f73f8c5092efb3b7",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 1,
+      "acceptedAt": 1794251595192,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"adopt\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":0,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "0c257f08-e199-4a0c-aeab-789ac8fa46c7",
+      "submitterUid": "app-gm",
+      "contentHash": "5733578e22073571da7f390b3bb8462bbb530f05dd9172b7eb65b03e8dbdea8b",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 2,
+      "acceptedAt": 1794251595448,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 0,
+          "afterRevision": 1,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 20,
+              "temp": 5,
+              "max": 30
+            },
+            "ap": {
+              "current": 5,
+              "temp": 2,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "57662fa3-7a77-4803-a400-d172688de98f",
+      "submitterUid": "app-gm",
+      "contentHash": "f66f2fd666a7b9de7a97ee0524e6955807f077331963df0ea0027746b7832a21",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 3,
+      "acceptedAt": 1794251596420,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "be55f181-ebcd-49ea-b211-810da87d24e0",
+        "approvalHash": "3d96ed682f4bad5f1210973cb56d828c555c57f0ea2e75fd3b3984eedac52d21"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+      },
+      "adjudication": {
+        "definitionId": "basic-weapon-strike",
+        "definitionVersionOrHash": "p12a-strike:v1/basic-weapon-strike",
+        "chosenResult": "{\"capability\":\"p12a-strike:v1\",\"approvalId\":\"be55f181-ebcd-49ea-b211-810da87d24e0\",\"gmConfirmed\":true,\"names\":{\"source\":\"Ilse\",\"target\":\"A\"},\"weapon\":{\"slot\":\"ranged\",\"itemId\":\"dr-bow\",\"name\":\"Witness Bow\",\"weaponType\":\"bow\",\"typeSource\":\"item\",\"die\":6,\"damageType\":\"stabbing\",\"attribute\":\"agility\",\"score\":16,\"modifier\":3},\"roll\":{\"mode\":\"physical\",\"faces\":[5]},\"proficiencyRecord\":{\"weaponType\":\"bow\",\"rank\":\"NOVICE\",\"rankSource\":\"stored\",\"die\":6,\"table\":\"bow\",\"roll\":{\"mode\":\"physical\",\"faces\":[5]}},\"rollOutcome\":\"hit\",\"proposed\":8,\"proficiency\":{\"kind\":\"deferred\"},\"defense\":{\"damageType\":\"stabbing\",\"automated\":null,\"afterDefense\":8,\"manual\":[],\"ruling\":null},\"notApplied\":[{\"source\":\"proficiency-deferred\",\"text\":\"Proficiency outcome deferred: resolve it at the table and note it in chat.\"},{\"source\":\"ammunition\",\"text\":\"Ammunition use is not tracked by the VTT.\"}]}",
+        "finalAmount": 8,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 1,
+          "afterRevision": 2,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 20,
+              "temp": 5,
+              "max": 30
+            },
+            "ap": {
+              "current": 5,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 0,
+          "afterRevision": 1,
+          "finalResources": {
+            "hp": {
+              "current": 26,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "41a8e882-e566-4eec-869f-9f476d71ebb7",
+      "submitterUid": "app-gm",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 4,
+      "acceptedAt": 1794251597165,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "981c2b0c-b416-405b-bb7b-877b8de6ac9e"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+      },
+      "adjudication": {
+        "definitionId": "authored:fce74adc-e447-4047-bbe0-a6b37a59db88:1:f0810a915650f871f02548affeef2801306cedf0e3389d96a76b5eef06d60dbe",
+        "definitionVersionOrHash": "authored-effect:v1/f0810a915650f871f02548affeef2801306cedf0e3389d96a76b5eef06d60dbe",
+        "chosenResult": "{\"capability\":\"authored-effect:v1\",\"approvalId\":\"981c2b0c-b416-405b-bb7b-877b8de6ac9e\",\"kind\":\"effect\",\"gmConfirmed\":true,\"roll\":null,\"direct\":null,\"condition\":{\"amount\":3,\"kind\":\"damageReduction\",\"label\":\"Ward Manual\"},\"conditionInstanceId\":\"981c2b0c-b416-405b-bb7b-877b8de6ac9e\",\"expiryPolicy\":\"gm-manual\",\"spellName\":\"DR Ward Manual\",\"resolution\":{\"gmConfirmed\":true,\"timing\":{\"durationText\":\"While the ward holds\",\"expiryPolicy\":\"gm-manual\"}},\"combination\":{\"outcome\":\"added\",\"replacesInstanceId\":null}}",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 2,
+          "afterRevision": 3,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 20,
+              "temp": 3,
+              "max": 30
+            },
+            "ap": {
+              "current": 4,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 1,
+          "afterRevision": 2,
+          "finalResources": {
+            "hp": {
+              "current": 26,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "981c2b0c-b416-405b-bb7b-877b8de6ac9e",
+              "recordId": "981c2b0c-b416-405b-bb7b-877b8de6ac9e",
+              "conditionKey": "damage-reduction-modifier",
+              "originalName": "Ward Manual",
+              "name": "Ward Manual",
+              "type": "buff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "A",
+                "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+              },
+              "targetId": "A",
+              "targetType": "creature",
+              "source": "authored-effect:damage-reduction",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:981c2b0c-b416-405b-bb7b-877b8de6ac9e",
+              "effectOrigin": "shared-condition:damage-reduction:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/buff/shield-protection.png",
+              "color": "#3c6a7a",
+              "description": "Flat DR +3. Temporary positive flat damage reduction (+1 to +20 flat DR) on one exact actor. Distinct from equipment blocking dice, durability, Defending and resistance/vulnerability tiers.",
+              "effectSummary": "While the ward holds — GM removes.",
+              "effects": {
+                "damageReduction": 3
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "manual",
+              "sharedTiming": "manual",
+              "authoredDuration": "While the ward holds",
+              "effectDefinition": "authored:fce74adc-e447-4047-bbe0-a6b37a59db88:1:f0810a915650f871f02548affeef2801306cedf0e3389d96a76b5eef06d60dbe"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "8ecde8bc-8f15-460b-876f-8591b3cca763",
+      "submitterUid": "app-gm",
+      "contentHash": "2a26da2e35b27abc85fff8aaf0f35f7405a41996bd33e645e6bb1b87ef4acfb5",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 5,
+      "acceptedAt": 1794251601987,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 3,
+          "afterRevision": 4,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 20,
+              "temp": 3,
+              "max": 30
+            },
+            "ap": {
+              "current": 5,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "d046cc80-97be-4c99-8987-a6b475a8fd5a",
+      "submitterUid": "app-gm",
+      "contentHash": "14b1061389464d32f6adea42fbeafd26dd77dac5e224684a45fcc6fc7159b0f8",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 6,
+      "acceptedAt": 1794251602869,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "a839dc25-7912-4306-ab7c-bcc022187e96",
+        "approvalHash": "3f9fe19ae77ab521fc7512464043aa90eaf62332d693d5b411e0c127b00dc522"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+      },
+      "adjudication": {
+        "definitionId": "basic-weapon-strike",
+        "definitionVersionOrHash": "p12a-strike:v1/basic-weapon-strike",
+        "chosenResult": "{\"capability\":\"p12a-strike:v1\",\"approvalId\":\"a839dc25-7912-4306-ab7c-bcc022187e96\",\"gmConfirmed\":true,\"names\":{\"source\":\"Ilse\",\"target\":\"A\"},\"weapon\":{\"slot\":\"ranged\",\"itemId\":\"dr-bow\",\"name\":\"Witness Bow\",\"weaponType\":\"bow\",\"typeSource\":\"item\",\"die\":6,\"damageType\":\"stabbing\",\"attribute\":\"agility\",\"score\":16,\"modifier\":3},\"roll\":{\"mode\":\"physical\",\"faces\":[5]},\"proficiencyRecord\":{\"weaponType\":\"bow\",\"rank\":\"NOVICE\",\"rankSource\":\"stored\",\"die\":6,\"table\":\"bow\",\"roll\":{\"mode\":\"physical\",\"faces\":[5]}},\"rollOutcome\":\"hit\",\"proposed\":8,\"proficiency\":{\"kind\":\"deferred\"},\"defense\":{\"damageType\":\"stabbing\",\"automated\":{\"kind\":\"flatDr\",\"amount\":3,\"recordId\":\"981c2b0c-b416-405b-bb7b-877b8de6ac9e\"},\"afterDefense\":5,\"manual\":[],\"ruling\":null},\"notApplied\":[{\"source\":\"proficiency-deferred\",\"text\":\"Proficiency outcome deferred: resolve it at the table and note it in chat.\"},{\"source\":\"ammunition\",\"text\":\"Ammunition use is not tracked by the VTT.\"}]}",
+        "finalAmount": 5,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 4,
+          "afterRevision": 5,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 20,
+              "temp": 3,
+              "max": 30
+            },
+            "ap": {
+              "current": 3,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 2,
+          "afterRevision": 3,
+          "finalResources": {
+            "hp": {
+              "current": 21,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "981c2b0c-b416-405b-bb7b-877b8de6ac9e",
+              "recordId": "981c2b0c-b416-405b-bb7b-877b8de6ac9e",
+              "conditionKey": "damage-reduction-modifier",
+              "originalName": "Ward Manual",
+              "name": "Ward Manual",
+              "type": "buff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "A",
+                "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+              },
+              "targetId": "A",
+              "targetType": "creature",
+              "source": "authored-effect:damage-reduction",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:981c2b0c-b416-405b-bb7b-877b8de6ac9e",
+              "effectOrigin": "shared-condition:damage-reduction:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/buff/shield-protection.png",
+              "color": "#3c6a7a",
+              "description": "Flat DR +3. Temporary positive flat damage reduction (+1 to +20 flat DR) on one exact actor. Distinct from equipment blocking dice, durability, Defending and resistance/vulnerability tiers.",
+              "effectSummary": "While the ward holds — GM removes.",
+              "effects": {
+                "damageReduction": 3
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "manual",
+              "sharedTiming": "manual",
+              "authoredDuration": "While the ward holds",
+              "effectDefinition": "authored:fce74adc-e447-4047-bbe0-a6b37a59db88:1:f0810a915650f871f02548affeef2801306cedf0e3389d96a76b5eef06d60dbe"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "2b0d3847-4c64-44ac-89d4-dde7023e906c",
+      "submitterUid": "app-gm",
+      "contentHash": "21a21020a3faa1c1b902a835a8a1dbec7e9e2c0a925c318d740afd5b75745949",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 7,
+      "acceptedAt": 1794251609377,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "gm-correction",
+        "definitionVersionOrHash": "gm-correction",
+        "chosenResult": "GM exact removal",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 3,
+          "afterRevision": 4,
+          "finalResources": {
+            "hp": {
+              "current": 21,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "f841fdee-1a8d-4bbe-8067-00e0943ae320",
+      "submitterUid": "app-gm",
+      "contentHash": "0036a8f8d7b01fd3ec0d2afdd5ac88e4a1359a04f966a8de516679988754eeef",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 8,
+      "acceptedAt": 1794251609632,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":1,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "1a62642e-e07f-445c-8278-c50043048605",
+      "submitterUid": "app-gm",
+      "contentHash": "74e79e1736e758900e91ee35b2b51223afa3cb1c8bb431b804a85774ca56d73e",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 9,
+      "acceptedAt": 1794251609915,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":2,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "35c6c5d8-d8ec-48c7-a5dd-1655f179aebb",
+      "submitterUid": "app-gm",
+      "contentHash": "58460f19f85d3bfedd6f4f4ba8fc091bafefde4594a3ca1bf792cda7321335d9",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 10,
+      "acceptedAt": 1794251610354,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":3,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "eb1d1296-5b9d-47f8-b17f-f6f800f8f89f",
+      "submitterUid": "app-gm",
+      "contentHash": "8f4a49dc8795de1f7e60cd9c114ad192ba2316eab33a9f43903552d1935dc904",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 11,
+      "acceptedAt": 1794251611050,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":4,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "6831e913-40fb-42eb-af70-8b5c53145c67",
+      "submitterUid": "app-gm",
+      "contentHash": "5d4f37f027d481603c9f2a9272b26aa320e3767d176685116a1ccacfebcbbe5a",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 12,
+      "acceptedAt": 1794251611382,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":5,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "11076e06-ddc1-4684-ac37-c9d7c927d16d",
+      "submitterUid": "app-gm",
+      "contentHash": "017ce0bfa25370376c8c2cf4411d8a0a8dc80feb4aeb4341e622d884c6f2f8ef",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 13,
+      "acceptedAt": 1794251611715,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":6,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "90d547cd-0f9e-4f69-b06c-ad8aebd2d705",
+      "submitterUid": "app-gm",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 14,
+      "acceptedAt": 1794251612312,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "e91a589b-32a0-4be9-b9f9-c6a8666147c1"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+      },
+      "adjudication": {
+        "definitionId": "authored:e7fb4b2e-d47f-47bb-9bff-eca52e22800b:1:21423cba92f47b4ffe733819970307d545d179068466a76f5f60c229aadc95e7",
+        "definitionVersionOrHash": "authored-effect:v1/21423cba92f47b4ffe733819970307d545d179068466a76f5f60c229aadc95e7",
+        "chosenResult": "{\"capability\":\"authored-effect:v1\",\"approvalId\":\"e91a589b-32a0-4be9-b9f9-c6a8666147c1\",\"kind\":\"effect\",\"gmConfirmed\":true,\"roll\":null,\"direct\":null,\"condition\":{\"amount\":3,\"kind\":\"damageReduction\",\"label\":\"Ward Timed\"},\"conditionInstanceId\":\"e91a589b-32a0-4be9-b9f9-c6a8666147c1\",\"expiryPolicy\":\"target-next-start\",\"spellName\":\"DR Ward Timed\",\"resolution\":{\"gmConfirmed\":true,\"timing\":{\"durationText\":\"Until the target's next turn\",\"expiryPolicy\":\"target-next-start\"}},\"combination\":{\"outcome\":\"added\",\"replacesInstanceId\":null}}",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 5,
+          "afterRevision": 6,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 20,
+              "temp": 1,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 4,
+          "afterRevision": 5,
+          "finalResources": {
+            "hp": {
+              "current": 21,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "e91a589b-32a0-4be9-b9f9-c6a8666147c1",
+              "recordId": "e91a589b-32a0-4be9-b9f9-c6a8666147c1",
+              "conditionKey": "damage-reduction-modifier",
+              "originalName": "Ward Timed",
+              "name": "Ward Timed",
+              "type": "buff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "A",
+                "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+              },
+              "targetId": "A",
+              "targetType": "creature",
+              "source": "authored-effect:damage-reduction",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:e91a589b-32a0-4be9-b9f9-c6a8666147c1",
+              "effectOrigin": "shared-condition:damage-reduction:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/buff/shield-protection.png",
+              "color": "#3c6a7a",
+              "description": "Flat DR +3. Temporary positive flat damage reduction (+1 to +20 flat DR) on one exact actor. Distinct from equipment blocking dice, durability, Defending and resistance/vulnerability tiers.",
+              "effectSummary": "Until the target's next turn — Until the start of the target's next turn — expires at the authenticated turn boundary.",
+              "effects": {
+                "damageReduction": 3
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "authored-target-next-start",
+              "sharedTiming": "manual",
+              "authoredDuration": "Until the target's next turn",
+              "effectDefinition": "authored:e7fb4b2e-d47f-47bb-9bff-eca52e22800b:1:21423cba92f47b4ffe733819970307d545d179068466a76f5f60c229aadc95e7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "18b4dabd-b157-4d98-86dc-b2ad835cf08f",
+      "submitterUid": "app-gm",
+      "contentHash": "7facfe55f5080d4dca5058eb05a6789604a2c018832f50e02a314f26981d31e1",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 15,
+      "acceptedAt": 1794251612609,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":7,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "83664329-077c-4515-9584-014fa532581a",
+      "submitterUid": "app-gm",
+      "contentHash": "bf4ba6ef50c8cb30edf280b6670f71f26d2a20004b1322edd3f310b7b3d24cd0",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 16,
+      "acceptedAt": 1794251612982,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":8,\"expired\":[\"e91a589b-32a0-4be9-b9f9-c6a8666147c1\"]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 5,
+          "afterRevision": 6,
+          "finalResources": {
+            "hp": {
+              "current": 21,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "73cdda44-27c7-48f7-ac5e-013afdc59c2e",
+      "submitterUid": "app-gm",
+      "contentHash": "c6dfc3728300af2e4b0b228b33d6270f79bd9bded47e74853cdbc84cff821faa",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 17,
+      "acceptedAt": 1794251613714,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":9,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "d2e6baff-a3be-407d-83f2-5eea97faecf8",
+      "submitterUid": "app-gm",
+      "contentHash": "a2c23af04a3a9c047197b5cb5e08192669f085a1b81fa71730892c8914483476",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 18,
+      "acceptedAt": 1794251614089,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":10,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "7144ad4e-a85e-4571-bb38-d2ae1aef04ce",
+      "submitterUid": "app-gm",
+      "contentHash": "962da912ea3296c2163247b94df326921fab38abf0f8181115e30932b3abfcee",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 19,
+      "acceptedAt": 1794251614403,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":11,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "61cfc800-3162-433c-9c8d-2429e1c81cdf",
+      "submitterUid": "app-gm",
+      "contentHash": "a02ba86fa39864ea6a3cfc67125c55d97bca426f8697ac9b833bf54586d5adbf",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 20,
+      "acceptedAt": 1794251614790,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":12,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "3185c47f-7870-49b7-8338-36e4beb65a8c",
+      "submitterUid": "app-gm",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 21,
+      "acceptedAt": 1794251615345,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "16d7da44-9e7f-4285-a52b-ff919fe832f9"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+      },
+      "adjudication": {
+        "definitionId": "authored:a413cebd-86a8-4128-94db-569a7360c03f:1:eba06a41580461d30f68391929934a86c5f13d0e4058204df7f366e52aebe0da",
+        "definitionVersionOrHash": "authored-effect:v1/eba06a41580461d30f68391929934a86c5f13d0e4058204df7f366e52aebe0da",
+        "chosenResult": "{\"capability\":\"authored-effect:v1\",\"approvalId\":\"16d7da44-9e7f-4285-a52b-ff919fe832f9\",\"kind\":\"effect\",\"gmConfirmed\":true,\"roll\":null,\"direct\":null,\"condition\":{\"amount\":3,\"kind\":\"damageReduction\",\"label\":\"Ward Counted\"},\"conditionInstanceId\":\"16d7da44-9e7f-4285-a52b-ff919fe832f9\",\"expiryPolicy\":\"target-end-count\",\"spellName\":\"DR Ward Counted\",\"resolution\":{\"gmConfirmed\":true,\"timing\":{\"durationText\":\"For 3 turn ends\",\"expiryPolicy\":\"target-end-count\",\"occurrences\":3}},\"occurrences\":3,\"combination\":{\"outcome\":\"added\",\"replacesInstanceId\":null}}",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 6,
+          "afterRevision": 7,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 19,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 1,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 6,
+          "afterRevision": 7,
+          "finalResources": {
+            "hp": {
+              "current": 21,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "16d7da44-9e7f-4285-a52b-ff919fe832f9",
+              "recordId": "16d7da44-9e7f-4285-a52b-ff919fe832f9",
+              "conditionKey": "damage-reduction-modifier",
+              "originalName": "Ward Counted",
+              "name": "Ward Counted",
+              "type": "buff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "A",
+                "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+              },
+              "targetId": "A",
+              "targetType": "creature",
+              "source": "authored-effect:damage-reduction",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:16d7da44-9e7f-4285-a52b-ff919fe832f9",
+              "effectOrigin": "shared-condition:damage-reduction:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/buff/shield-protection.png",
+              "color": "#3c6a7a",
+              "description": "Flat DR +3. Temporary positive flat damage reduction (+1 to +20 flat DR) on one exact actor. Distinct from equipment blocking dice, durability, Defending and resistance/vulnerability tiers.",
+              "effectSummary": "For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted), at the authenticated turn boundary.",
+              "effects": {
+                "damageReduction": 3
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "authored-target-end-count",
+              "sharedTiming": "manual",
+              "authoredDuration": "For 3 turn ends",
+              "effectDefinition": "authored:a413cebd-86a8-4128-94db-569a7360c03f:1:eba06a41580461d30f68391929934a86c5f13d0e4058204df7f366e52aebe0da",
+              "clockOccurrences": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "e4daae03-cfea-4b86-9cca-85bf40b31fff",
+      "submitterUid": "app-gm",
+      "contentHash": "e7669a44ebbd660f7569bb249be6a1a53dcde6878775fd2467a8f0f041f647b6",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 22,
+      "acceptedAt": 1794251615784,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":13,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "3016d2b7-1231-4fcb-8fe0-734549852265",
+      "submitterUid": "app-gm",
+      "contentHash": "6422d349f94276f3317e3a90c1463a0b10a8fc8f840b00a56db8b6a6819c0b29",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 23,
+      "acceptedAt": 1794251616260,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":14,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "65d1fb56-7671-4df2-b7a1-e028fe02bacb",
+      "submitterUid": "app-gm",
+      "contentHash": "4472decd9313013c0c4848541332676f7bb9ef24d175370b679666efaf68566e",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 24,
+      "acceptedAt": 1794251616584,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":15,\"expired\":[],\"counted\":[{\"recordId\":\"16d7da44-9e7f-4285-a52b-ff919fe832f9\",\"occurrence\":1,\"of\":3}]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "4368fe11-6744-4502-8bad-a833dbb2df14",
+      "submitterUid": "app-gm",
+      "contentHash": "891c4fccda1f15b080e4dd67fbf7578ed69ddc29edae779ca9424ba778226628",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 25,
+      "acceptedAt": 1794251617330,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "gm-correction",
+        "definitionVersionOrHash": "gm-correction",
+        "chosenResult": "GM exact removal",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 7,
+          "afterRevision": 8,
+          "finalResources": {
+            "hp": {
+              "current": 21,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "9e2aa4da-9d70-4a94-9f9d-705c5f0c7d02",
+      "submitterUid": "app-gm",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 26,
+      "acceptedAt": 1794251617852,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "5136d494-9c45-4678-ba33-1489db54b2c0"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+      },
+      "adjudication": {
+        "definitionId": "authored:5c19df6e-a26e-4ed1-b060-73af1eb7e3b9:1:45f74de83ec680edbed4bacc8f3e608c6ec0a6aee3e2eef965aca6dc34587918",
+        "definitionVersionOrHash": "authored-effect:v1/45f74de83ec680edbed4bacc8f3e608c6ec0a6aee3e2eef965aca6dc34587918",
+        "chosenResult": "{\"capability\":\"authored-effect:v1\",\"approvalId\":\"5136d494-9c45-4678-ba33-1489db54b2c0\",\"kind\":\"effect\",\"gmConfirmed\":true,\"roll\":{\"mode\":\"physical\",\"dice\":[{\"sides\":6,\"faces\":[4]}],\"constant\":2,\"total\":6,\"reading\":\"1d6+2\"},\"direct\":{\"kind\":\"damage\",\"damageTypes\":[\"arcane\"]},\"condition\":{\"amount\":3,\"kind\":\"damageReduction\",\"label\":\"Ward Strike\"},\"conditionInstanceId\":\"5136d494-9c45-4678-ba33-1489db54b2c0\",\"expiryPolicy\":\"target-next-end\",\"spellName\":\"DR Ward Strike\",\"resolution\":{\"gmConfirmed\":true,\"timing\":{\"durationText\":\"Until turn end\",\"expiryPolicy\":\"target-next-end\"}},\"combination\":{\"outcome\":\"added\",\"replacesInstanceId\":null}}",
+        "finalAmount": 6,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 7,
+          "afterRevision": 8,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 17,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 0,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 8,
+          "afterRevision": 9,
+          "finalResources": {
+            "hp": {
+              "current": 15,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "5136d494-9c45-4678-ba33-1489db54b2c0",
+              "recordId": "5136d494-9c45-4678-ba33-1489db54b2c0",
+              "conditionKey": "damage-reduction-modifier",
+              "originalName": "Ward Strike",
+              "name": "Ward Strike",
+              "type": "buff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "A",
+                "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+              },
+              "targetId": "A",
+              "targetType": "creature",
+              "source": "authored-effect:damage-reduction",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:5136d494-9c45-4678-ba33-1489db54b2c0",
+              "effectOrigin": "shared-condition:damage-reduction:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/buff/shield-protection.png",
+              "color": "#3c6a7a",
+              "description": "Flat DR +3. Temporary positive flat damage reduction (+1 to +20 flat DR) on one exact actor. Distinct from equipment blocking dice, durability, Defending and resistance/vulnerability tiers.",
+              "effectSummary": "Until turn end — Until the end of the target's next turn — expires at the authenticated turn boundary.",
+              "effects": {
+                "damageReduction": 3
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "authored-target-next-end",
+              "sharedTiming": "manual",
+              "authoredDuration": "Until turn end",
+              "effectDefinition": "authored:5c19df6e-a26e-4ed1-b060-73af1eb7e3b9:1:45f74de83ec680edbed4bacc8f3e608c6ec0a6aee3e2eef965aca6dc34587918"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "0406392f-7e63-457a-8a97-ebd4eeefabf0",
+      "submitterUid": "app-gm",
+      "contentHash": "86c7ca49fbdd4b90d22bc40db8010c83315ae6b4e7c1ee040e97d7cddd5fd1d6",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 27,
+      "acceptedAt": 1794251618218,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":16,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "fee64079-5f95-47a3-8231-f5c310a5d7a0",
+      "submitterUid": "app-gm",
+      "contentHash": "6fe3ef75d5a2bc33a136edd65ee260b68fc6c127e878309388761a494bc9c625",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 28,
+      "acceptedAt": 1794251618651,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":17,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "12d5737e-a9af-4bf6-8585-9c1eed441264",
+      "submitterUid": "app-gm",
+      "contentHash": "3d92b7f8a63ba62e81e1b0cca66fbb4a6cbc09842a06da37c34ab1bd6546dfc5",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 29,
+      "acceptedAt": 1794251619015,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"4f01d081-9d9c-424e-8013-cbe078a4fe7f\",\"sequence\":18,\"expired\":[\"5136d494-9c45-4678-ba33-1489db54b2c0\"]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 9,
+          "afterRevision": 10,
+          "finalResources": {
+            "hp": {
+              "current": 15,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "378c2257-7316-480e-8ed2-682a1f2ac9c6",
+      "submitterUid": "app-gm",
+      "contentHash": "8d40a4dbb24e3fd336a431b6d585ca7f55db357af591b4e4abaf5064fde09852",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 30,
+      "acceptedAt": 1794251619216,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 8,
+          "afterRevision": 9,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 17,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 5,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "d8c7964c-9124-495b-bb97-73e42e6390ed",
+      "submitterUid": "app-gm",
+      "contentHash": "634cf0ad0aeff47bbf1689c0997635d59f88bd3dea45c1f71f01c8c68d415d29",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 31,
+      "acceptedAt": 1794251619287,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 9,
+          "afterRevision": 10,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 27,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 5,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+      "commandId": "50c406bc-4d2a-4a5a-aea0-500ddd56f22c",
+      "submitterUid": "app-gm",
+      "admissionEpoch": "88085baf-2624-441e-9540-57bc065df3cb",
+      "commitSequence": 32,
+      "acceptedAt": 1794251619796,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "5876fc8d-714d-44e5-96fc-43de55160db1"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+      },
+      "adjudication": {
+        "definitionId": "authored:fce74adc-e447-4047-bbe0-a6b37a59db88:1:f0810a915650f871f02548affeef2801306cedf0e3389d96a76b5eef06d60dbe",
+        "definitionVersionOrHash": "authored-effect:v1/f0810a915650f871f02548affeef2801306cedf0e3389d96a76b5eef06d60dbe",
+        "chosenResult": "{\"capability\":\"authored-effect:v1\",\"approvalId\":\"5876fc8d-714d-44e5-96fc-43de55160db1\",\"kind\":\"effect\",\"gmConfirmed\":true,\"roll\":null,\"direct\":null,\"condition\":{\"amount\":3,\"kind\":\"damageReduction\",\"label\":\"Ward Manual\"},\"conditionInstanceId\":\"5876fc8d-714d-44e5-96fc-43de55160db1\",\"expiryPolicy\":\"gm-manual\",\"spellName\":\"DR Ward Manual\",\"resolution\":{\"gmConfirmed\":true,\"timing\":{\"durationText\":\"While the ward holds\",\"expiryPolicy\":\"gm-manual\"}},\"combination\":{\"outcome\":\"added\",\"replacesInstanceId\":null}}",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 10,
+          "afterRevision": 11,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 25,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 4,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+          },
+          "beforeRevision": 10,
+          "afterRevision": 11,
+          "finalResources": {
+            "hp": {
+              "current": 15,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "5876fc8d-714d-44e5-96fc-43de55160db1",
+              "recordId": "5876fc8d-714d-44e5-96fc-43de55160db1",
+              "conditionKey": "damage-reduction-modifier",
+              "originalName": "Ward Manual",
+              "name": "Ward Manual",
+              "type": "buff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "A",
+                "instanceId": "467019a4-8f1c-4a0f-b3e4-8685aabd5b67"
+              },
+              "targetId": "A",
+              "targetType": "creature",
+              "source": "authored-effect:damage-reduction",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "0e8211c6-88ac-4d8d-b281-f7cce9403485",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "b42b471d-694e-432f-b9cc-20c8ec6c8482",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:5876fc8d-714d-44e5-96fc-43de55160db1",
+              "effectOrigin": "shared-condition:damage-reduction:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/buff/shield-protection.png",
+              "color": "#3c6a7a",
+              "description": "Flat DR +3. Temporary positive flat damage reduction (+1 to +20 flat DR) on one exact actor. Distinct from equipment blocking dice, durability, Defending and resistance/vulnerability tiers.",
+              "effectSummary": "While the ward holds — GM removes.",
+              "effects": {
+                "damageReduction": 3
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "manual",
+              "sharedTiming": "manual",
+              "authoredDuration": "While the ward holds",
+              "effectDefinition": "authored:fce74adc-e447-4047-bbe0-a6b37a59db88:1:f0810a915650f871f02548affeef2801306cedf0e3389d96a76b5eef06d60dbe"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

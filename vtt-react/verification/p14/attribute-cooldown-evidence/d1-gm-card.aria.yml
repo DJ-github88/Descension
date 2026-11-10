@@ -1,0 +1,22 @@
+- article:
+  - 'heading "Ilse → A: AC Dulling Charm" [level=4]'
+  - paragraph: Dulling Charm (Intelligence −2) · Permanent until removed — GM removes
+  - paragraph: "Manual: the GM removes this exact instance. GM resolves target and range."
+  - paragraph: Exact source pc/0a1a32e1-bcc7-4d2a-b909-d939d30b94e4 → target A/ad4553eb-a10d-4111-a0d7-32c2db2a48c0. Duration and effects are owner-approved; changed terms require fresh approval.
+  - status:
+    - paragraph: "Adds Dulling Charm: Intelligence −2, added once on top of the target's own sheet score. Base, level-up, heritage, origin and equipment values are not edited."
+    - paragraph: "Now on this target: no authored attribute change"
+    - paragraph: "After confirmation: Intelligence −2"
+    - paragraph: "Supported consumers: the owner's supported spell formulas that name this attribute; a basic weapon strike only when its weapon uses this attribute. Initiative, derived damage figures and encumbrance on the owner's sheet may show the change but are display only; turn order is not recomputed and no HP, mana or AP is restored or refilled."
+  - paragraph: "Owner-approved price: 1 AP · 2 mana (temporary first)"
+  - paragraph: Advisory planar distance 20.0 ft; authored authored range. Line of effect and reach are GM rulings. No declared resistances on this projection.
+  - group "Private GM resolution":
+    - text: Private GM resolution GM timing clarification (required)
+    - textbox "GM timing clarification (required)": "Table ruling: in range, no save."
+    - text: Private manual resolution evidence
+    - textbox "Private manual resolution evidence": "SECRET-AC GM evidence: range 20 ft"
+    - checkbox "I resolved eligibility/range/saves/immunity and confirm that this whole effect outcome succeeded" [checked]: ✓
+    - text: I resolved eligibility/range/saves/immunity and confirm that this whole effect outcome succeeded
+    - paragraph: Only successful application is automated. Failed/unexecuted attempt costs remain GM-managed.
+  - button "Confirm payment, result and effect together"
+  - button "Decline"

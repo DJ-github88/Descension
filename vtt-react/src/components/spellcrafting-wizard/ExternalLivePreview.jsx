@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { useSpellWizardState } from './context/spellWizardContext';
+import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from './context/spellWizardContext';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from './context/SpellLibraryContext';
 import { useClassSpellLibrary } from '../../hooks/useClassSpellLibrary';
 import SpellCardWithProcs from './components/common/SpellCardWithProcs';
@@ -12,12 +12,16 @@ import { saveUserSpell } from '../../services/firebase/userSpellService';
 // External Live Preview Component that renders outside any window
 const ExternalLivePreview = () => {
   const state = useSpellWizardState();
+  const wizardDispatch = useSpellWizardDispatch();
   const library = useSpellLibrary();
   const libraryDispatch = useSpellLibraryDispatch();
   const { addCustomSpell } = useClassSpellLibrary();
   const { activeTab, windowPosition, windowSize } = useSpellbookStore();
   const windowScale = useSettingsStore(state => state.windowScale);
   const { user } = useAuthStore();
+
+  const isEditing = Boolean(state.editMode && state.editingSpellId);
+  const editingSpellId = state.editingSpellId;
 
   // State for completion feedback
   const [isCompleting, setIsCompleting] = useState(false);
@@ -63,15 +67,34 @@ const ExternalLivePreview = () => {
         rangeDistance: state.targetingConfig?.rangeDistance
       };
 
+      // Create a clean version of state without transient edit-mode metadata or library-only fields in draft
+      const {
+        editMode: _em,
+        editingSpellId: _esi,
+        categoryIds: _cids,
+        categories: _cats,
+        source: _src,
+        isCustom: _ic,
+        isUserCreated: _iuc,
+        createdAt: _ca,
+        updatedAt: _ua,
+        userId: _uid,
+        lastSaved: _ls,
+        dateCreated: _dc,
+        ...cleanState
+      } = state;
+      
       // Create spell data from wizard state
       const spellData = {
-        ...state,
-        authoredDraft: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(state).filter(([key]) => key !== 'authoredDraft')))),
+        ...cleanState,
+        categoryIds: state.categoryIds || ['uncategorized'],
+        categories: state.categories || ['all'],
+        source: state.source || 'wizard',
+        isCustom: state.isCustom ?? true,
+        authoredDraft: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(cleanState).filter(([key]) => key !== 'authoredDraft')))),
         authoredDefinitionId: state.authoredDefinitionId || crypto.randomUUID(),
-        id: `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-        source: 'wizard',
-        isCustom: true,
-        dateCreated: new Date().toISOString(),
+        id: (isEditing && editingSpellId) ? editingSpellId : `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        dateCreated: (isEditing && state.dateCreated) ? state.dateCreated : new Date().toISOString(),
         lastModified: new Date().toISOString(),
         // Ensure we have all necessary properties
         icon: state.icon || 'inv_misc_questionmark',
@@ -201,26 +224,47 @@ const ExternalLivePreview = () => {
         spellData.lastModified = new Date().toISOString();
       }
 
-      // Add to spell library context (shows in spell library immediately)
-      // This works whether logged in or not - saves to localStorage
-      libraryDispatch(libraryActionCreators.addSpell(spellData));
+      if (isEditing && editingSpellId) {
+        // Canonical update: preserve identity, do not mint a new spell
+        libraryDispatch(libraryActionCreators.updateSpell(editingSpellId, spellData));
+        wizardDispatch(actionCreators.setEditMode(false, null));
 
-      // Add to custom spells (for character-specific spell library)
-      addCustomSpell(spellData);
-
-      // Save to Firebase if user is logged in (for cloud sync)
-      if (user?.uid) {
-        const result = await saveUserSpell(user.uid, spellData);
-        if (result.success) {
-          console.log('✅ Spell saved to user account in Firebase');
-          setCompletionMessage('✓ Spell added to library and saved to your account!');
-        } else if (result.localOnly) {
-          console.log('⚠️ Spell saved locally only (Firebase not available)');
-          setCompletionMessage('✓ Spell added to library (will sync when online)');
+        // Save to Firebase if user is logged in (for cloud sync)
+        if (user?.uid) {
+          const result = await saveUserSpell(user.uid, spellData);
+          if (result.success) {
+            console.log('✅ Spell updated in user account in Firebase');
+            setCompletionMessage('✓ Spell updated in library and saved to your account!');
+          } else if (result.localOnly) {
+            console.log('⚠️ Spell updated locally only (Firebase not available)');
+            setCompletionMessage('✓ Spell updated in library (will sync when online)');
+          }
+        } else {
+          console.log('✓ Spell updated in local library');
+          setCompletionMessage('✓ Spell updated in library!');
         }
       } else {
-        console.log('✓ Spell added to local library (not logged in - spell will not persist after page refresh)');
-        setCompletionMessage('✓ Spell added to library! (Login to save to your account)');
+        // Add to spell library context (shows in spell library immediately)
+        // This works whether logged in or not - saves to localStorage
+        libraryDispatch(libraryActionCreators.addSpell(spellData));
+
+        // Add to custom spells (for character-specific spell library)
+        addCustomSpell(spellData);
+
+        // Save to Firebase if user is logged in (for cloud sync)
+        if (user?.uid) {
+          const result = await saveUserSpell(user.uid, spellData);
+          if (result.success) {
+            console.log('✅ Spell saved to user account in Firebase');
+            setCompletionMessage('✓ Spell added to library and saved to your account!');
+          } else if (result.localOnly) {
+            console.log('⚠️ Spell saved locally only (Firebase not available)');
+            setCompletionMessage('✓ Spell added to library (will sync when online)');
+          }
+        } else {
+          console.log('✓ Spell added to local library (not logged in - spell will not persist after page refresh)');
+          setCompletionMessage('✓ Spell added to library! (Login to save to your account)');
+        }
       }
 
       // Clear the message after 3 seconds
@@ -769,6 +813,7 @@ const ExternalLivePreview = () => {
           className="adventurer-action"
           onClick={handleCompleteSpell}
           disabled={isCompleting}
+          title={isEditing ? 'Finalize & Update Spell' : 'Complete Spell'}
           style={{
             background: isCompleting
               ? 'linear-gradient(135deg, #666 0%, #888 50%, #666 100%)'
@@ -799,7 +844,9 @@ const ExternalLivePreview = () => {
             }
           }}
         >
-          {isCompleting ? 'Completing Spell...' : '✓ Complete Spell'}
+          {isCompleting
+            ? (isEditing ? 'Updating Spell...' : 'Completing Spell...')
+            : (isEditing ? '✓ Update Spell' : '✓ Complete Spell')}
         </button>
 
         {/* Completion Message */}

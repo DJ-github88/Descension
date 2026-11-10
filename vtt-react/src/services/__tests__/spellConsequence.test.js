@@ -166,6 +166,14 @@ describe('P9 S3/S5 approval and GM command preparation', () => {
     const plan = planSpellCommand({ approval: heal, contentHash: 'b'.repeat(64), tokens: [pcToken({ tempHealth: 2 })], roomId: room, mapId: map, finalAmount: 30, reason: 'Ruled overheal capped', adjudicated: true });
     expect(plan.entries).toHaveLength(1);
     expect(plan.entries[0].finalResources).toEqual({ ap: { current: 2, temp: 0 }, mana: { current: 8, temp: 0 }, hp: { current: 40, temp: 2 } });
+ 
+    const nonSelfAuthored = { ...support, definitionId: 'authored:r:1:1', definitionHash: 'authored-immediate:v2/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', rollAttributes: { intelligence: 16 }, selfHealing: false, pcTarget: false, kind: 'healing', price: { ap: 1, mana: 3 }, payment: { supported: true, affordable: true, classPayment: null } };
+    expect(() => buildApproval({ support: nonSelfAuthored, tokens: [pcToken()], sourceRef: pcRef, targetRef: pcRef, roomId: room, mapId: map, actionEpoch: 'e', baseCommitSequence: 3, roll, approvalId: 'self-no' })).toThrow(/does not permit self targeting/);
+    const selfAuthored = { ...nonSelfAuthored, selfHealing: true };
+    const selfHealApproval = buildApproval({ support: selfAuthored, tokens: [pcToken({ tempHealth: 4 })], sourceRef: pcRef, targetRef: pcRef, roomId: room, mapId: map, actionEpoch: 'e', baseCommitSequence: 3, roll, approvalId: 'self-ok' });
+    const selfHealPlan = planSpellCommand({ approval: selfHealApproval, contentHash: 'c'.repeat(64), tokens: [pcToken({ tempHealth: 4 })], roomId: room, mapId: map, finalAmount: 10, adjudicated: true });
+    expect(selfHealPlan.entries).toEqual([{ ref: pcRef, expectedRevision: 4, finalResources: { ap: { current: 2, temp: 0 }, mana: { current: 10, temp: 0 }, hp: { current: 30, temp: 4 } } }]);
+    expect(JSON.parse(selfHealPlan.extra.adjudication.chosenResult).actualHealing).toBe(10);
   });
   test('digital roll uses one random draw per die; physical faces are bounded', () => {
     const calls = [];

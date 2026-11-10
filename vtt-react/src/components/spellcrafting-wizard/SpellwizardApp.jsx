@@ -30,6 +30,7 @@ import Step8Channeling from './components/steps/Step8Channeling';
 import RollableTableStep from './components/steps/RollableTableStep';
 import ProphecyStep from './components/steps/ProphecyStep';
 import Step9Balance from './components/steps/Step9Balance';
+import Step10Review from './components/steps/Step10Review';
 
 
 
@@ -39,6 +40,7 @@ import SpellLibrary from './components/library/SpellLibrary';
 import SampleSpellsLoader from './components/library/SampleSpellsLoader';
 import UnifiedSpellCard from './components/common/UnifiedSpellCard';
 import { transformSpellForCard } from './core/utils/spellCardTransformer';
+import { categorizeSpell } from './core/utils/libraryManager';
 import { getIconUrl } from '../../utils/assetManager';
 
 // Tooltip system removed per user request
@@ -118,6 +120,14 @@ const AppContent = ({ hideHeader = false }) => {
   const wizardDispatch = useSpellWizardDispatch();
   const library = useSpellLibrary();
   const libraryDispatch = useSpellLibraryDispatch();
+
+  // Sync edit mode with wizard context state
+  useEffect(() => {
+    if (wizardState.editMode !== undefined) {
+      setEditMode(Boolean(wizardState.editMode));
+      setEditingSpellId(wizardState.editingSpellId || null);
+    }
+  }, [wizardState.editMode, wizardState.editingSpellId]);
 
   // Effect to handle responsive layout
   useEffect(() => {
@@ -257,10 +267,40 @@ const AppContent = ({ hideHeader = false }) => {
         movementBehavior: wizardState.targetingConfig?.movementBehavior || 'static'
       };
       
+      // Create a clean version of wizardState without transient edit-mode metadata or library-only fields in draft
+      const {
+        editMode: _em,
+        editingSpellId: _esi,
+        categoryIds: _cids,
+        categories: _cats,
+        source: _src,
+        isCustom: _ic,
+        isUserCreated: _iuc,
+        createdAt: _ca,
+        updatedAt: _ua,
+        userId: _uid,
+        lastSaved: _ls,
+        dateCreated: _dc,
+        lastModified: _lm,
+        ...cleanWizardState
+      } = wizardState;
+      
+      // The draft is the executable subject: library-only fields and transient edit metadata stay
+      // out, and serializedData is regenerated from the same draft so a reopened record cannot
+      // keep a stale secondary serialization after an Update.
+      const authoredDraft = JSON.parse(JSON.stringify(Object.fromEntries(
+        Object.entries(cleanWizardState).filter(([key]) => key !== 'authoredDraft' && key !== 'serializedData')
+      )));
+
       // Create a serialized version of the spell
       const spellData = {
-        ...wizardState,
-        authoredDraft: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(wizardState).filter(([key]) => key !== 'authoredDraft')))),
+        ...cleanWizardState,
+        categoryIds: wizardState.categoryIds || ['uncategorized'],
+        categories: wizardState.categories || ['all'],
+        source: wizardState.source || 'wizard',
+        isCustom: wizardState.isCustom ?? true,
+        authoredDraft,
+        serializedData: JSON.stringify(authoredDraft, null, 2),
         authoredDefinitionId: wizardState.authoredDefinitionId || crypto.randomUUID(),
         lastModified: new Date().toISOString(),
         lastSaved: new Date().toISOString(),
@@ -462,6 +502,7 @@ const AppContent = ({ hideHeader = false }) => {
       if (editMode) {
         setEditMode(false);
         setEditingSpellId(null);
+        wizardDispatch(actionCreators.setEditMode(false, null));
       }
     } catch (error) {
       console.error('Failed to save spell:', error);
@@ -483,14 +524,26 @@ const AppContent = ({ hideHeader = false }) => {
 
       // Make a deep copy of the spell data to avoid reference issues
       const spellCopy = JSON.parse(JSON.stringify(spellData));
+      const recordTriggerConfig = spellCopy.triggerConfig && typeof spellCopy.triggerConfig === 'object' &&
+        Object.keys(spellCopy.triggerConfig).length > 0 ? spellCopy.triggerConfig : null;
 
 
 
       // Ensure the spell data has all the required fields
       const formattedSpellData = {
         ...spellCopy.authoredDraft,
+        // Editing an existing library record keeps the library's own categorization rule instead
+        // of resetting the record to 'uncategorized' on Update. New/create paths keep their
+        // existing defaults.
+        ...(isEditing ? {
+          categoryIds: categorizeSpell(spellCopy),
+          categories: Array.isArray(spellCopy.categories) ? [...spellCopy.categories] : spellCopy.categories
+        } : {}),
         authoredDefinitionId: spellCopy.authoredDefinitionId,
         catalogueSource: spellCopy.catalogueSource,
+        editMode: isEditing,
+        editingSpellId: isEditing ? spellCopy.id : null,
+        dateCreated: spellCopy.dateCreated,
         // Create a default state with all required fields
         // Basic information
         name: spellCopy.name || '',
@@ -573,7 +626,16 @@ const AppContent = ({ hideHeader = false }) => {
         cooldownConfig: spellCopy.cooldownConfig || {},
 
         // Trigger configuration (for REACTION, PASSIVE, or TRAP types)
-        triggerConfig: spellCopy.triggerConfig || {
+        triggerConfig: recordTriggerConfig || spellCopy.authoredDraft?.triggerConfig || (spellCopy.catalogueSource ? {
+          // Catalogue drafts keep the established inert load defaults; the pinned whole
+          // catalogue record is the executable subject, not the Wizard trigger shape.
+          global: {
+            logicType: 'AND',
+            compoundTriggers: []
+          },
+          effectTriggers: {},
+          conditionalEffects: {}
+        } : {
           // Global triggers for the entire spell
           global: {
             logicType: 'AND',
@@ -582,8 +644,20 @@ const AppContent = ({ hideHeader = false }) => {
           // Effect-specific triggers
           effectTriggers: {},
           // Track which effects have conditional activation
-          conditionalEffects: {}
-        },
+          conditionalEffects: {},
+          // Triggers attached to effects created by this spell
+          buffDebuffTriggers: {},
+          // Required conditions - conditions that must be met before the spell can be cast
+          requiredConditions: {
+            enabled: false,
+            logicType: 'AND',
+            conditions: []
+          },
+          // Trigger role configuration
+          triggerRole: {
+            mode: 'CONDITIONAL'
+          }
+        }),
 
         // Trap placement configuration
         trapConfig: spellCopy.trapConfig || {},
@@ -653,6 +727,22 @@ const AppContent = ({ hideHeader = false }) => {
     }
   };
 
+  // Handle cancel editing
+  const handleCancelEdit = async () => {
+    const confirmed = await showConfirm({
+      title: 'Cancel Editing',
+      message: 'Cancel editing? All unsaved changes will be lost.',
+      confirmText: 'Discard Changes',
+      isDestructive: true
+    });
+    if (confirmed) {
+      wizardDispatch(actionCreators.resetState());
+      setEditMode(false);
+      setEditingSpellId(null);
+      showNotification('Edit cancelled', 'info');
+    }
+  };
+
   // Show toast notification
   const showNotification = (message, type = 'info') => {
     const notification = document.createElement('div');
@@ -678,122 +768,177 @@ const AppContent = ({ hideHeader = false }) => {
       {/* Manage spell library - load clean spells and remove invalid ones */}
       {/* <SpellLibraryManager /> */}
       {/* Header with tabs and global controls */}
-      {!hideHeader && <header className="app-header">
-        <div className="app-title">
-          <img
-            src={getIconUrl('book-banner-v-symbol-wooden-rods', 'items')}
-            alt="Spell Book"
-            className="app-logo"
-          />
-          <h1>Spell Crafting Wizard</h1>
-        </div>
-
-        <div className="app-tabs">
-          <button
-            className={`app-tab ${activeView === 'wizard' ? 'active' : ''}`}
-            onClick={() => handleViewSwitch('wizard')}
-          >
-            <img
-              src={getIconUrl('holy-cross', 'spells')}
-              alt="Spell Wizard"
-              className="tab-icon-img"
-            />
-            <span className="tab-text">Spell Wizard</span>
-          </button>
-          <button
-            className={`app-tab ${activeView === 'library' ? 'active' : ''}`}
-            onClick={() => handleViewSwitch('library')}
-          >
-            <img
-              src={getIconUrl('book-banner-v-symbol-wooden-rods', 'items')}
-              alt="Spell Library"
-              className="tab-icon-img"
-            />
-            <span className="tab-text">Spell Library</span>
-          </button>
-
-
-
-        </div>
-
-        <div className="app-global-controls">
-          <button
-            className="app-control-btn finalize-btn"
-            onClick={handleSaveSpell}
-            title={editMode ? "Finalize & Update Spell" : "Finalize & Save Spell"}
-          >
-            <span className="control-text">{editMode ? "Finalize" : "Finalize"}</span>
-          </button>
-
-          <button
-            className="app-control-btn"
-            onClick={() => setShowLoadDialog(true)}
-            title="Load Spell"
-          >
-            <span className="control-text">Load</span>
-          </button>
-
+      {hideHeader ? (
+        <header className="app-header embedded-header">
           {editMode ? (
-            <button
-              className="app-control-btn"
-              onClick={async () => {
-                const confirmed = await showConfirm({
-                  title: 'Cancel Editing',
-                  message: 'Cancel editing? All unsaved changes will be lost.',
-                  confirmText: 'Discard Changes',
-                  isDestructive: true
-                });
-                if (confirmed) {
-                  wizardDispatch(actionCreators.resetState());
-                  setEditMode(false);
-                  setEditingSpellId(null);
-                  showNotification('Edit cancelled', 'info');
-                }
-              }}
-              title="Cancel Edit"
-            >
-              <span className="control-text">Cancel Edit</span>
-            </button>
+            <div className="edit-mode-indicator-embedded edit-mode-indicator">
+              <span className="edit-mode-text">Editing Spell: {wizardState.name || 'Unnamed Spell'}</span>
+            </div>
           ) : (
-            <button
-              className="app-control-btn"
-              onClick={handleResetWizard}
-              title="Reset Wizard"
-            >
-              <span className="control-text">Reset</span>
-            </button>
+            <div className="embedded-header-spacer" />
           )}
 
-          <button
-            className="app-control-btn"
-            onClick={() => setShowSettings(!showSettings)}
-            title="Settings"
-          >
-            <span className="control-text">Settings</span>
-          </button>
+          <div className="app-global-controls">
+            <button
+              className="app-control-btn finalize-btn"
+              onClick={handleSaveSpell}
+              title={editMode ? "Finalize & Update Spell" : "Finalize & Save Spell"}
+            >
+              <span className="control-text">{editMode ? "Update" : "Finalize"}</span>
+            </button>
 
-          <button
-            className="app-control-btn"
-            onClick={() => setShowQuickSpell(!showQuickSpell)}
-            title="Quick Spell Generator"
-          >
-            <span className="control-text">Quick Spell</span>
-          </button>
+            <button
+              className="app-control-btn"
+              onClick={() => setShowLoadDialog(true)}
+              title="Open a saved spell for editing"
+            >
+              <span className="control-text">Load</span>
+            </button>
 
-          <button
-            className="app-control-btn"
-            onClick={() => setShowHelp(!showHelp)}
-            title="Help"
-          >
-            <span className="control-text">Help</span>
-          </button>
-        </div>
+            {editMode ? (
+              <button
+                className="app-control-btn cancel-btn"
+                onClick={handleCancelEdit}
+                title="Cancel Edit"
+              >
+                <span className="control-text">Cancel Edit</span>
+              </button>
+            ) : (
+              <button
+                className="app-control-btn"
+                onClick={handleResetWizard}
+                title="Reset Wizard"
+              >
+                <span className="control-text">Reset</span>
+              </button>
+            )}
 
-      </header>}
+            <button
+              className="app-control-btn"
+              onClick={() => setShowSettings(!showSettings)}
+              title="Settings"
+            >
+              <span className="control-text">Settings</span>
+            </button>
+
+            <button
+              className="app-control-btn"
+              onClick={() => setShowQuickSpell(!showQuickSpell)}
+              title="Quick Spell Generator"
+            >
+              <span className="control-text">Quick Spell</span>
+            </button>
+
+            <button
+              className="app-control-btn"
+              onClick={() => setShowHelp(!showHelp)}
+              title="Help"
+            >
+              <span className="control-text">Help</span>
+            </button>
+          </div>
+        </header>
+      ) : (
+        <header className="app-header">
+          <div className="app-title">
+            <img
+              src={getIconUrl('book-banner-v-symbol-wooden-rods', 'items')}
+              alt="Spell Book"
+              className="app-logo"
+            />
+            <h1>Spell Crafting Wizard</h1>
+          </div>
+
+          <div className="app-tabs">
+            <button
+              className={`app-tab ${activeView === 'wizard' ? 'active' : ''}`}
+              onClick={() => handleViewSwitch('wizard')}
+            >
+              <img
+                src={getIconUrl('holy-cross', 'spells')}
+                alt="Spell Wizard"
+                className="tab-icon-img"
+              />
+              <span className="tab-text">Spell Wizard</span>
+            </button>
+            <button
+              className={`app-tab ${activeView === 'library' ? 'active' : ''}`}
+              onClick={() => handleViewSwitch('library')}
+            >
+              <img
+                src={getIconUrl('book-banner-v-symbol-wooden-rods', 'items')}
+                alt="Spell Library"
+                className="tab-icon-img"
+              />
+              <span className="tab-text">Spell Library</span>
+            </button>
+          </div>
+
+          <div className="app-global-controls">
+            <button
+              className="app-control-btn finalize-btn"
+              onClick={handleSaveSpell}
+              title={editMode ? "Finalize & Update Spell" : "Finalize & Save Spell"}
+            >
+              <span className="control-text">{editMode ? "Update" : "Finalize"}</span>
+            </button>
+
+            <button
+              className="app-control-btn"
+              onClick={() => setShowLoadDialog(true)}
+              title="Open a saved spell for editing"
+            >
+              <span className="control-text">Load</span>
+            </button>
+
+            {editMode ? (
+              <button
+                className="app-control-btn cancel-btn"
+                onClick={handleCancelEdit}
+                title="Cancel Edit"
+              >
+                <span className="control-text">Cancel Edit</span>
+              </button>
+            ) : (
+              <button
+                className="app-control-btn"
+                onClick={handleResetWizard}
+                title="Reset Wizard"
+              >
+                <span className="control-text">Reset</span>
+              </button>
+            )}
+
+            <button
+              className="app-control-btn"
+              onClick={() => setShowSettings(!showSettings)}
+              title="Settings"
+            >
+              <span className="control-text">Settings</span>
+            </button>
+
+            <button
+              className="app-control-btn"
+              onClick={() => setShowQuickSpell(!showQuickSpell)}
+              title="Quick Spell Generator"
+            >
+              <span className="control-text">Quick Spell</span>
+            </button>
+
+            <button
+              className="app-control-btn"
+              onClick={() => setShowHelp(!showHelp)}
+              title="Help"
+            >
+              <span className="control-text">Help</span>
+            </button>
+          </div>
+        </header>
+      )}
 
       {/* Main content area */}
       <div className={`app-content ${activeView}-active`}>
-        {editMode && (
+        {!hideHeader && editMode && (
           <div className="edit-mode-indicator">
             Editing Spell: {wizardState.name || 'Unnamed Spell'}
           </div>
@@ -859,6 +1004,7 @@ const WizardView = () => {
     7: Step7Mechanics,  // Map step 7 to the Mechanics step
     8: Step8Channeling,
     9: Step9Balance,
+    10: Step10Review,
 
     // Special steps with string IDs
     'triggers': Step7Triggers,
@@ -866,7 +1012,8 @@ const WizardView = () => {
     'rollable-table': RollableTableStep,
     'prophecy': ProphecyStep,
     'channeling': Step8Channeling,  // Map 'channeling' to the Channeling step
-    'mechanics': Step7Mechanics  // Map 'mechanics' to the Mechanics step
+    'mechanics': Step7Mechanics,  // Map 'mechanics' to the Mechanics step
+    'review': Step10Review
   };
 
   // Navigation handlers
@@ -1027,6 +1174,7 @@ const WizardView = () => {
                   <button
                     type="button"
                     className={`spell-step-rail-item ${status}`}
+                    aria-label={`${index + 1} ${step.name}`}
                     aria-current={status === 'active' ? 'step' : undefined}
                     onClick={() => handleJumpToStep(step.id)}
                     title={step.description || step.name}
@@ -1346,7 +1494,7 @@ const HelpModal = ({ onClose }) => {
 const LoadSpellModal = ({ onClose, onLoadSpell, spells = [] }) => {
   return (
     <MythrillWindow
-      title="Load Spell"
+      title="Open Saved Spell"
       isOpen
       onClose={onClose}
       modal
@@ -1355,6 +1503,10 @@ const LoadSpellModal = ({ onClose, onLoadSpell, spells = [] }) => {
       minConstraints={[380, 360]}
     >
       <div className="modal-content">
+        <p style={{ margin: '0 0 12px', opacity: 0.8 }}>
+          Open a saved spell in the Wizard to edit that library record. To create an independent
+          copy, use Duplicate Spell in the Spell Library.
+        </p>
         {spells.length > 0 ? (
           <div className="spell-list">
             {spells.map((spell) => (
@@ -1372,9 +1524,9 @@ const LoadSpellModal = ({ onClose, onLoadSpell, spells = [] }) => {
                 </div>
                 <button
                   className="spell-list-load-btn"
-                  onClick={() => onLoadSpell(spell)}
+                  onClick={() => onLoadSpell(spell, true)}
                 >
-                  Load
+                  Edit
                 </button>
               </div>
             ))}

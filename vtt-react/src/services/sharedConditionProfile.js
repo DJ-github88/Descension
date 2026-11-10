@@ -6,6 +6,8 @@ const MOVEMENT = Object.freeze(data.movementModifier);
 // Shared attribute-modifier family: one flat change to one supported attribute score, authored only.
 const ATTRIBUTE = Object.freeze(Object.assign({}, data.attributeModifier, { attributes: Object.freeze([...data.attributeModifier.attributes]) }));
 const ATTRIBUTE_NAMES = Object.freeze({ strength: 'Strength', agility: 'Agility', constitution: 'Constitution', intelligence: 'Intelligence', spirit: 'Spirit', charisma: 'Charisma' });
+// Shared flat damage-reduction family: one positive flat DR modifier (+1..+20) on one exact actor, authored only.
+const DAMAGE_REDUCTION = Object.freeze(Object.assign({}, data.damageReductionModifier, { polarity: Object.freeze(Object.assign({}, data.damageReductionModifier.polarity)) }));
 const uuid = value => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
 const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'];
 const sameRef = (a, b) => !!a && !!b && REF_KEYS.every(k => a[k] === b[k]);
@@ -18,7 +20,7 @@ const blockingReduction = (face, defending) => face * (defending ? DEFENDING.blo
 const preventsBlockingWear = defending => !!defending && DEFENDING.preventsBlockingWear;
 const expiryLabel = (record, combat) => require('./sharedEffectTiming').label(record, combat) || (structuredBoundary(record)
   // A10: a structured instance without a live schedule (combat ended/retired clock) is manual from then on.
-  ? `${record.authoredDuration} — not tracked by the current turn clock; ${isPeriodicTick(record) ? 'no further ticks are recorded automatically; ' : ''}GM removes this exact instance.` : isStunned(record) || isMovementModifier(record) || isAttributeModifier(record) ? record.effectSummary : isDefending(record) && record.target?.kind === 'character' ? DEFENDING.expiryLabel :
+  ? `${record.authoredDuration} — not tracked by the current turn clock; ${isPeriodicTick(record) ? 'no further ticks are recorded automatically; ' : ''}GM removes this exact instance.` : isStunned(record) || isMovementModifier(record) || isAttributeModifier(record) || isDamageReductionModifier(record) ? record.effectSummary : isDefending(record) && record.target?.kind === 'character' ? DEFENDING.expiryLabel :
   record?.sharedTiming === 'manual' ? 'GM manages timing.' : null);
 function makeDefendingRecord(target, id, sourceMode = 'manual') {
   if (target?.kind !== 'character' || !REF_KEYS.every(k => typeof target[k] === 'string' && target[k]) || !uuid(id) || !['manual', 'self-defend'].includes(sourceMode)) throw Error('Exact primary PC, UUID instance and source mode required.');
@@ -38,6 +40,11 @@ function validManagedRecord(record, target) {
       sourceOccurrence: record.sourceEntityId, timing: record.clockBoundary, sourceActor: record.sourceActor, authoredDuration: record.authoredDuration,
       occurrences: record.clockOccurrences, label: record.name, effectDefinition: record.effectDefinition,
       tick: Object.assign({ kind: record.overTimeType, formula: record.overTimeFormula }, record.overTimeType === 'damage' ? { damageType: record.overTimeElement } : {}) })); } catch (_) { return false; }
+  }
+  if (record?.effectOrigin === DAMAGE_REDUCTION.origin) {
+    try { return canonical(record) === canonical(makeDamageReductionRecord(target, record.recordId, {
+      sourceOccurrence: record.sourceEntityId, timing: record.clockBoundary, sourceActor: record.sourceActor, authoredDuration: record.authoredDuration,
+      occurrences: record.clockOccurrences, amount: record.effects?.[DAMAGE_REDUCTION.effectKey], label: record.name, effectDefinition: record.effectDefinition })); } catch (_) { return false; }
   }
   if (record?.effectOrigin === ATTRIBUTE.origin) {
     const entries = record.effects && typeof record.effects === 'object' && !Array.isArray(record.effects) ? Object.entries(record.effects) : [];
@@ -264,6 +271,66 @@ function attributeCombination(conditions, record) {
   if (same) return refuseCombination('attribute_combination_unresolved', `${same.name || 'Another effect'} already changes ${attributeName(value.attribute)} on this target. How two changes to the same attribute combine (adding, highest only or refreshing) is not decided; the GM resolves it manually. Nothing was applied.`);
   return { ok: true, outcome: 'added', replaces: null };
 }
+/**
+ * Flat damage-reduction family: one positive flat DR modifier (+1..+20) on one exact actor, from one Wizard-authored,
+ * installed authored-effect definition. Like attribute modifiers, the authoritative record carries `effectDefinition`
+ * and `sourceActor` together, and a PC target's public view withholds both together while remaining a valid record.
+ * Never mutates base equipment or character stats: P12A non-critical basic weapon strikes against a creature with one
+ * flat DR condition and no automated tier subtract `effects.damageReduction` once; all other routes (critical strikes,
+ * multi-defense/tier coexistence, P12B PC blocking `'flat-dr'` ruling, spells and riposte) display it for GM adjudication.
+ */
+const validDamageReductionAmount = amount => Number.isSafeInteger(amount) && amount >= DAMAGE_REDUCTION.minAmount && amount <= DAMAGE_REDUCTION.maxAmount;
+const validModifierLabel = label => typeof label === 'string' && !!label.trim() && label === label.trim() && label.length <= 60;
+function makeDamageReductionRecord(target, id, { sourceOccurrence, timing = 'manual', sourceActor, authoredDuration, amount, label, effectDefinition, occurrences } = {}) {
+  if (!validRef(target) || !uuid(id) || typeof sourceOccurrence !== 'string' || !sourceOccurrence.startsWith(EFFECT_PREFIX) || sourceOccurrence.length > 160 ||
+      (sourceActor === undefined) !== (effectDefinition === undefined) ||
+      (sourceActor !== undefined && (!validRef(sourceActor) || sourceActor.roomId !== target.roomId || typeof effectDefinition !== 'string' || !EFFECT_DEFINITION.test(effectDefinition))) ||
+      !validDamageReductionAmount(amount) || !validModifierLabel(label)) throw Error('Exact actor and source, UUID, authored occurrence and definition, label and supported flat DR amount required.');
+  checkAuthoredOccurrence(sourceOccurrence, timing, authoredDuration, occurrences);
+  return Object.assign({ version: 1, id, recordId: id, conditionKey: DAMAGE_REDUCTION.conditionKey, originalName: label, name: label,
+    type: 'buff', kind: 'effect', target: JSON.parse(JSON.stringify(target)), targetId: target.tokenId, targetType: target.kind,
+    source: 'authored-effect:damage-reduction', sourceEntityId: sourceOccurrence, effectOrigin: DAMAGE_REDUCTION.origin,
+    description: `Flat DR +${amount}. ${DAMAGE_REDUCTION.description}`, effectSummary: authoredSummary(authoredDuration, timing, occurrences),
+    icon: DAMAGE_REDUCTION.buffIcon, color: DAMAGE_REDUCTION.buffColor,
+    effects: { [DAMAGE_REDUCTION.effectKey]: amount }, isMagical: false, stackable: false, hasOverTimeEffect: false, sharedTiming: 'manual', durationType: 'manual', clockBoundary: timing,
+    authoredDuration
+  }, sourceActor !== undefined ? { sourceActor: JSON.parse(JSON.stringify(sourceActor)), effectDefinition } : {}, occurrences !== undefined ? { clockOccurrences: occurrences } : {});
+}
+function isDamageReductionModifier(record) { return record?.effectOrigin === DAMAGE_REDUCTION.origin && validManagedRecord(record, record.target); }
+function damageReductionModifierOf(record) {
+  if (!isDamageReductionModifier(record)) return null;
+  return { amount: record.effects[DAMAGE_REDUCTION.effectKey] };
+}
+const damageReductionRecordsFor = token => (Array.isArray(token?.state?.conditions) ? token.state.conditions : []).filter(r =>
+  isDamageReductionModifier(r) && sameRef(r.target, token.state?.actorContract));
+const otherDamageReductionRecords = conditions => (Array.isArray(conditions) ? conditions : []).filter(record =>
+  !isDamageReductionModifier(record) && record?.effects && typeof record.effects === 'object' &&
+  typeof record.effects[DAMAGE_REDUCTION.effectKey] === 'number' && record.effects[DAMAGE_REDUCTION.effectKey] !== 0);
+function damageReductionTotal(conditions) {
+  let total = 0;
+  for (const record of Array.isArray(conditions) ? conditions : []) {
+    const value = damageReductionModifierOf(record);
+    if (value) total += value.amount;
+  }
+  return total;
+}
+function damageReductionBreakdown(before, conditions) {
+  const base = Number.isFinite(before) ? before : 0;
+  const effects = (Array.isArray(conditions) ? conditions : []).map(record => ({ record, value: damageReductionModifierOf(record) }))
+    .filter(entry => entry.value)
+    .map(({ record, value }) => ({ recordId: record.recordId, name: record.name, amount: value.amount, record }));
+  const total = effects.reduce((sum, effect) => sum + effect.amount, 0);
+  return { before: base, effects, total, result: base + total };
+}
+function damageReductionCombination(conditions, record) {
+  const value = damageReductionModifierOf(record);
+  if (!value) return refuseCombination('modifier_identity_required', 'This flat damage-reduction change is not a validated authored modifier. Nothing was applied.');
+  const list = Array.isArray(conditions) ? conditions : [];
+  if (list.some(existing => (existing?.recordId || existing?.id) === record.recordId)) return refuseCombination('condition_id_conflict', 'This exact instance is already active.');
+  const same = list.find(existing => damageReductionModifierOf(existing)) || otherDamageReductionRecords(list)[0];
+  if (same) return refuseCombination('damage_reduction_combination_unresolved', `${same.name || 'Another effect'} already changes flat Damage Reduction on this target. How two flat DR effects combine (adding, highest only or refreshing) is not decided (D-DR-1); the GM resolves it manually. Nothing was applied.`);
+  return { ok: true, outcome: 'added', replaces: null };
+}
 function validMovementFeet(feet) {
   return Number.isSafeInteger(feet) && feet !== 0 && feet >= MOVEMENT.minFeet && feet <= MOVEMENT.maxFeet && feet % MOVEMENT.stepFeet === 0;
 }
@@ -272,7 +339,7 @@ const movementRecordsFor = token => (Array.isArray(token?.state?.conditions) ? t
   isMovementModifier(r) && sameRef(r.target, token.state?.actorContract));
 /** Structured C4 boundary requested by an authored-effect record, or null for manual timing. */
 const structuredBoundary = record => record && String(record.sourceEntityId || '').startsWith(EFFECT_PREFIX) && STRUCTURED_TIMINGS.includes(record.clockBoundary) &&
-  (isStunned(record) || isMovementModifier(record) || isAttributeModifier(record) || isPeriodicTick(record)) ? (['authored-target-next-start', 'authored-target-start-count'].includes(record.clockBoundary) ? 'start' : 'end') : null;
+  (isStunned(record) || isMovementModifier(record) || isAttributeModifier(record) || isDamageReductionModifier(record) || isPeriodicTick(record)) ? (['authored-target-next-start', 'authored-target-start-count'].includes(record.clockBoundary) ? 'start' : 'end') : null;
 /** Number of target-turn boundaries a structured record counts: 1 for the existing next-turn timings, 2…10 when counted, null otherwise. */
 const structuredOccurrences = record => structuredBoundary(record) ? (isCountedTiming(record.clockBoundary) ? record.clockOccurrences : 1) : null;
 function isStunned(record) { return record?.effectOrigin === STUNNED.origin && validManagedRecord(record, record.target); }
@@ -375,6 +442,17 @@ exports.otherAttributeRecords = otherAttributeRecords;
 exports.supportedAttribute = supportedAttribute;
 exports.validAttributeAmount = validAttributeAmount;
 exports.attributeName = attributeName;
+exports.DAMAGE_REDUCTION = DAMAGE_REDUCTION;
+exports.validDamageReductionAmount = validDamageReductionAmount;
+exports.validModifierLabel = validModifierLabel;
+exports.makeDamageReductionRecord = makeDamageReductionRecord;
+exports.isDamageReductionModifier = isDamageReductionModifier;
+exports.damageReductionModifierOf = damageReductionModifierOf;
+exports.damageReductionRecordsFor = damageReductionRecordsFor;
+exports.otherDamageReductionRecords = otherDamageReductionRecords;
+exports.damageReductionTotal = damageReductionTotal;
+exports.damageReductionBreakdown = damageReductionBreakdown;
+exports.damageReductionCombination = damageReductionCombination;
 exports.EFFECT_PREFIX = EFFECT_PREFIX;
 exports.CLASS_EFFECT_PREFIX = CLASS_EFFECT_PREFIX;
 exports.STRUCTURED_TIMINGS = STRUCTURED_TIMINGS;

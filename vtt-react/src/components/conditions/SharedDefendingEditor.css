@@ -15,3 +15,7 @@
 /* A11: active movement effects — plain grouped section, no accents. */
 .sc-movement { margin-top: 10px; padding-top: 6px; border-top: 1px solid #c9b48f; }
 .sc-movement h4 { color: #2b2116; font-size: 16px; margin: 4px 0 6px; }
+.sc-target-ticks { margin-top: 10px; padding: 8px; background: #ede2cf; border: 1px solid #c9b48f; border-radius: 4px; }
+.sc-target-ticks h5 { margin: 0 0 6px; font-size: 15px; color: #2b2116; }
+.sc-due-tick, .sc-expired-note { font-weight: bold; color: #5a2e12; }
+.sc-tick-readonly { padding: 6px 8px; margin: 6px 0; background: #fffaf1; border-radius: 4px; border: 1px solid #c9b48f; }

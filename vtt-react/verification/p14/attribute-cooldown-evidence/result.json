@@ -1,0 +1,1514 @@
+{
+  "startedAt": "2026-11-09T14:41:36.198Z",
+  "checks": {
+    "excludedCombinationsRefused": true,
+    "ownerHydration": {
+      "characterId": "ilse",
+      "race": "human",
+      "subrace": "thalren_human",
+      "statsModel": "base+earned@1"
+    },
+    "wizardCooldownText": {
+      "AC Dulling Charm": "One primary owner PC → one placed creature; immediate damage OR healing, optionally with one periodic effect of the same kind; a periodic effect on its own; a movement or Stunned effect, optionally with an immediate damage OR healing part, which may carry one save that negates only that effect; or one Agility, Intelligence or Spirit change, optionally with a plain immediate damage OR healing part and no save. AP/mana only. With a save, the cooldown starts on either recorded outcome, because the price and the immediate part apply on both. Requires authenticated combat tracking. This controls reuse, not effect duration, acquisition or resource price: a periodic effect keeps its own tick count, and removing it or its last tick never releases the cooldown; a movement, Stunned or attribute effect keeps its own expiry, and removing or expiring it never releases the cooldown, nor does the release remove it. A second change to the same attribute remains refused even after cooldown release. A retired clock leaves an unreleased cooldown blocked for manual adjudication.",
+      "AC Mire Twist": "One primary owner PC → one placed creature; immediate damage OR healing, optionally with one periodic effect of the same kind; a periodic effect on its own; a movement or Stunned effect, optionally with an immediate damage OR healing part, which may carry one save that negates only that effect; or one Agility, Intelligence or Spirit change, optionally with a plain immediate damage OR healing part and no save. AP/mana only. With a save, the cooldown starts on either recorded outcome, because the price and the immediate part apply on both. Requires authenticated combat tracking. This controls reuse, not effect duration, acquisition or resource price: a periodic effect keeps its own tick count, and removing it or its last tick never releases the cooldown; a movement, Stunned or attribute effect keeps its own expiry, and removing or expiring it never releases the cooldown, nor does the release remove it. A second change to the same attribute remains refused even after cooldown release. A retired clock leaves an unreleased cooldown blocked for manual adjudication.",
+      "AC Spirit Flare": "One primary owner PC → one placed creature; immediate damage OR healing, optionally with one periodic effect of the same kind; a periodic effect on its own; a movement or Stunned effect, optionally with an immediate damage OR healing part, which may carry one save that negates only that effect; or one Agility, Intelligence or Spirit change, optionally with a plain immediate damage OR healing part and no save. AP/mana only. With a save, the cooldown starts on either recorded outcome, because the price and the immediate part apply on both. Requires authenticated combat tracking. This controls reuse, not effect duration, acquisition or resource price: a periodic effect keeps its own tick count, and removing it or its last tick never releases the cooldown; a movement, Stunned or attribute effect keeps its own expiry, and removing or expiring it never releases the cooldown, nor does the release remove it. A second change to the same attribute remains refused even after cooldown release. A retired clock leaves an unreleased cooldown blocked for manual adjudication.",
+      "AC Agility Strike": "One primary owner PC → one placed creature; immediate damage OR healing, optionally with one periodic effect of the same kind; a periodic effect on its own; a movement or Stunned effect, optionally with an immediate damage OR healing part, which may carry one save that negates only that effect; or one Agility, Intelligence or Spirit change, optionally with a plain immediate damage OR healing part and no save. AP/mana only. With a save, the cooldown starts on either recorded outcome, because the price and the immediate part apply on both. Requires authenticated combat tracking. This controls reuse, not effect duration, acquisition or resource price: a periodic effect keeps its own tick count, and removing it or its last tick never releases the cooldown; a movement, Stunned or attribute effect keeps its own expiry, and removing or expiring it never releases the cooldown, nor does the release remove it. A second change to the same attribute remains refused even after cooldown release. A retired clock leaves an unreleased cooldown blocked for manual adjudication."
+    },
+    "definitionSummary": {
+      "AC Dulling Charm": "Dulling Charm (Intelligence −2) · Permanent until removed — GM removes",
+      "AC Mire Twist": "Mired Agility (Agility −2) · Until the target's next turn — expires at the start of the target's next turn",
+      "AC Spirit Flare": "Spirited (Spirit +2) · For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted)",
+      "AC Agility Strike": "arcane damage 1d6+2 + Struck Agility (Agility −2) · Until turn end — expires at the end of the target's next turn"
+    },
+    "admissionText": {
+      "AC Dulling Charm": " Partially automated\n\nPrism runs the parts listed below. The rest is yours or the GM's to play.\n\nPrism runs\n\nDulling Charm (Intelligence −2) · Permanent until removed — GM removes\nCooldown: 2 strictly upcoming caster-turn starts. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it.\nPrice: 1 AP, 2 mana\nTarget: one creature, range 30 ft (any)\n\nStill confirmed by people\n\nThe owner approves the exact price, target and roll before anything is applied.\nThe GM confirms success and any final amount.\n\nPlayed by hand\n\nEnding the effect: the GM removes it (authored duration: Permanent until removed).\nAuthored sections kept in this spell (2)\n\nWhat to do\n\nUse \"Admit this saved version\" below, then cast from the action bar. Changing the spell later needs a new admission.\n\nThis is a structural check only, against the same rules the server applies. It does not grant admission and does not say you can cast it now: the GM's room admission, your ownership, your current resources and the chosen target are checked when you cast.\n\nSaved locally — refresh room admission to check its current status.\n\nDulling Charm (Intelligence −2) · Permanent until removed — GM removes. Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount. Structured expiry needs active authenticated turn tracking.\n\nExisting class binding \narcanoneer\nberserker\nshaper\nharbinger\nchronarch\ninquisitor\nrevenant\nfalse_prophet\ngambit\napex\nanimist\nlunarch\nmartyr\nminstrel\nplaguebringer\npyrofiend\nspellguard\ntoxicologist\nwarden\naugur\ncrusader\nAdmit this saved versionCheck original admissionRefresh room admission",
+      "AC Mire Twist": " Partially automated\n\nPrism runs the parts listed below. The rest is yours or the GM's to play.\n\nPrism runs\n\nMired Agility (Agility −2) · Until the target's next turn — expires at the start of the target's next turn\nCooldown: 2 strictly upcoming caster-turn starts. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it.\nPrice: 1 AP, 2 mana\nTarget: one creature, range 30 ft (any)\n\nStill confirmed by people\n\nThe owner approves the exact price, target and roll before anything is applied.\nThe GM confirms success and any final amount.\n\nPlayed by hand\n\nEnding the effect: expires at the start of the target's next turn (authored duration: Until the target's next turn). This needs active authenticated turn tracking with the target in the combat roster; without it the GM's confirmation of the cast is refused and nothing is spent (it never falls back to GM removal).\nAuthored sections kept in this spell (2)\n\nWhat to do\n\nUse \"Admit this saved version\" below, then cast from the action bar. Changing the spell later needs a new admission.\n\nThis is a structural check only, against the same rules the server applies. It does not grant admission and does not say you can cast it now: the GM's room admission, your ownership, your current resources and the chosen target are checked when you cast.\n\nSaved locally — refresh room admission to check its current status.\n\nMired Agility (Agility −2) · Until the target's next turn — expires at the start of the target's next turn. Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount. Structured expiry needs active authenticated turn tracking.\n\nExisting class binding \narcanoneer\nberserker\nshaper\nharbinger\nchronarch\ninquisitor\nrevenant\nfalse_prophet\ngambit\napex\nanimist\nlunarch\nmartyr\nminstrel\nplaguebringer\npyrofiend\nspellguard\ntoxicologist\nwarden\naugur\ncrusader\nAdmit this saved versionCheck original admissionRefresh room admission",
+      "AC Spirit Flare": " Partially automated\n\nPrism runs the parts listed below. The rest is yours or the GM's to play.\n\nPrism runs\n\nSpirited (Spirit +2) · For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted)\nCooldown: 1 strictly upcoming caster-turn start. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it.\nPrice: 1 AP, 2 mana\nTarget: one creature, range 30 ft (any)\n\nStill confirmed by people\n\nThe owner approves the exact price, target and roll before anything is applied.\nThe GM confirms success and any final amount.\n\nPlayed by hand\n\nEnding the effect: expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted) (authored duration: For 3 turn ends). This needs active authenticated turn tracking with the target in the combat roster; without it the GM's confirmation of the cast is refused and nothing is spent (it never falls back to GM removal).\nAuthored sections kept in this spell (2)\n\nWhat to do\n\nUse \"Admit this saved version\" below, then cast from the action bar. Changing the spell later needs a new admission.\n\nThis is a structural check only, against the same rules the server applies. It does not grant admission and does not say you can cast it now: the GM's room admission, your ownership, your current resources and the chosen target are checked when you cast.\n\nSaved locally — refresh room admission to check its current status.\n\nSpirited (Spirit +2) · For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted). Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount. Structured expiry needs active authenticated turn tracking.\n\nExisting class binding \narcanoneer\nberserker\nshaper\nharbinger\nchronarch\ninquisitor\nrevenant\nfalse_prophet\ngambit\napex\nanimist\nlunarch\nmartyr\nminstrel\nplaguebringer\npyrofiend\nspellguard\ntoxicologist\nwarden\naugur\ncrusader\nAdmit this saved versionCheck original admissionRefresh room admission",
+      "AC Agility Strike": " Partially automated\n\nPrism runs the parts listed below. The rest is yours or the GM's to play.\n\nPrism runs\n\narcane damage 1d6+2 + Struck Agility (Agility −2) · Until turn end — expires at the end of the target's next turn\nCooldown: 2 strictly upcoming caster-turn starts. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it.\nPrice: 1 AP, 2 mana\nTarget: one creature, range 30 ft (any)\n\nStill confirmed by people\n\nThe owner approves the exact price, target and roll before anything is applied.\nThe GM confirms success and any final amount.\n\nPlayed by hand\n\nEnding the effect: expires at the end of the target's next turn (authored duration: Until turn end). This needs active authenticated turn tracking with the target in the combat roster; without it the GM's confirmation of the cast is refused and nothing is spent (it never falls back to GM removal).\nAuthored sections kept in this spell (3)\n\nWhat to do\n\nUse \"Admit this saved version\" below, then cast from the action bar. Changing the spell later needs a new admission.\n\nThis is a structural check only, against the same rules the server applies. It does not grant admission and does not say you can cast it now: the GM's room admission, your ownership, your current resources and the chosen target are checked when you cast.\n\nSaved locally — refresh room admission to check its current status.\n\narcane damage 1d6+2 + Struck Agility (Agility −2) · Until turn end — expires at the end of the target's next turn. Explicit PC admission: one primary owner PC → one distinct creature; the owner approves the exact price, target, effects and duration; the GM confirms success and any final amount. Structured expiry needs active authenticated turn tracking.\n\nExisting class binding \narcanoneer\nberserker\nshaper\nharbinger\nchronarch\ninquisitor\nrevenant\nfalse_prophet\ngambit\napex\nanimist\nlunarch\nmartyr\nminstrel\nplaguebringer\npyrofiend\nspellguard\ntoxicologist\nwarden\naugur\ncrusader\nAdmit this saved versionCheck original admissionRefresh room admission"
+    },
+    "roster": [
+      "pc",
+      "B",
+      "A"
+    ],
+    "d1OwnerText": "AC Dulling Charm\n×\n\nSupported room ability: nothing is spent until the GM accepts. One approved price, target, effect bundle and duration; one GM-confirmed result.\n\nEffect\nDulling Charm (Intelligence −2) · Permanent until removed — GM removes\nDuration\nPermanent until removed. Manual: the GM removes this exact instance. GM resolves target and range.\nPrice\n1 AP · 2 mana (temporary first; you have AP 5+2 temp, mana 20+5 temp)\nCooldown\nCooldown: 2 strictly upcoming caster-turn starts. Starts with the accepted cast; the ongoing turn does not count. Copies and versions of this definition share it for this exact actor. Combat end/restart never resets it. Separate from the Dulling Charm effect: it keeps its own duration; removing or expiring it does not release the cooldown, and the cooldown's release does not remove it. Cooldown ready.\n\nSource: Ilse · selected primary owner PC · pc / 0a1a32e1-bcc7-4d2a-b909-d939d30b94e4\n\nPick on mapcard range 30 ft (any) — advisory\nTarget \nSelect an exact bound target\nA · creature · A\nB · creature · B\n\nPC targets unavailable: an ability with a caster-start cooldown applies to one placed creature only; a player character target stays manual.\n\nAdvisory planar distance 20.0 ft; authored any 30 ft. Line of effect and reach are GM rulings. No declared resistances on this projection.\n\nTarget: A · A / ad4553eb-a10d-4111-a0d7-32c2db2a48c0. You approve the action, price, exact target, effect bundle and duration; changed terms need fresh approval. The GM resolves eligibility, range, saves and success manually; only a confirmed success is automated, and payment, any HP change and the effect install together or not at all. Movement changes: different named effects add together; the same effect again from the same source refreshes its duration instead of stacking; speed never goes below 0 ft. Other combinations are refused for the GM to resolve.\n\nAdds Dulling Charm: Intelligence −2, added once on top of the target's own sheet score. Base, level-up, heritage, origin and equipment values are not edited.\n\nNow on this target: no authored attribute change\n\nAfter confirmation: Intelligence −2\n\nSupported consumers: the owner's supported spell formulas that name this attribute; a basic weapon strike only when its weapon uses this attribute. Initiative, derived damage figures and encumbrance on the owner's sheet may show the change but are display only; turn order is not recomputed and no HP, mana or AP is restored or refilled.\n\nApprove exact price, target, effects and duration",
+    "d1GmCard": "Ilse → A: AC Dulling Charm\n\nDulling Charm (Intelligence −2) · Permanent until removed — GM removes\n\nManual: the GM removes this exact instance. GM resolves target and range.\n\nExact source pc/0a1a32e1-bcc7-4d2a-b909-d939d30b94e4 → target A/ad4553eb-a10d-4111-a0d7-32c2db2a48c0. Duration and effects are owner-approved; changed terms require fresh approval.\n\nAdds Dulling Charm: Intelligence −2, added once on top of the target's own sheet score. Base, level-up, heritage, origin and equipment values are not edited.\n\nNow on this target: no authored attribute change\n\nAfter confirmation: Intelligence −2\n\nSupported consumers: the owner's supported spell formulas that name this attribute; a basic weapon strike only when its weapon uses this attribute. Initiative, derived damage figures and encumbrance on the owner's sheet may show the change but are display only; turn order is not recomputed and no HP, mana or AP is restored or refilled.\n\nOwner-approved price: 1 AP · 2 mana (temporary first)\n\nAdvisory planar distance 20.0 ft; authored authored range. Line of effect and reach are GM rulings. No declared resistances on this projection.\n\nPrivate GM resolution\nGM timing clarification (required)\nPrivate manual resolution evidence\n I resolved eligibility/range/saves/immunity and confirm that this whole effect outcome succeeded\n\nOnly successful application is automated. Failed/unexecuted attempt costs remain GM-managed.\n\nConfirm payment, result and effect togetherDecline",
+    "d1Cast": {
+      "commandId": "d00b7b99-c913-49f4-9e92-2aae901041c2",
+      "cooldown": {
+        "combatId": "09f8fe5c-76c0-4496-85dc-02d161843705",
+        "startSequence": 0,
+        "dueSequence": 6,
+        "occurrences": 2,
+        "period": 3,
+        "commandId": "d00b7b99-c913-49f4-9e92-2aae901041c2"
+      },
+      "poolBefore": {
+        "hp": {
+          "current": 20,
+          "temp": 0,
+          "max": 40
+        },
+        "mana": {
+          "current": 20,
+          "temp": 5,
+          "max": 30
+        },
+        "ap": {
+          "current": 5,
+          "temp": 2,
+          "max": 5
+        }
+      },
+      "poolAfter": {
+        "hp": {
+          "current": 20,
+          "temp": 0,
+          "max": 40
+        },
+        "mana": {
+          "current": 20,
+          "temp": 3,
+          "max": 30
+        },
+        "ap": {
+          "current": 5,
+          "temp": 1,
+          "max": 5
+        }
+      },
+      "attrsA": [
+        {
+          "version": 1,
+          "id": "b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3",
+          "recordId": "b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3",
+          "conditionKey": "attribute-modifier",
+          "originalName": "Dulling Charm",
+          "name": "Dulling Charm",
+          "type": "debuff",
+          "kind": "effect",
+          "target": {
+            "kind": "creature",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+          },
+          "targetId": "A",
+          "targetType": "creature",
+          "source": "authored-effect:attribute",
+          "sourceEntityId": "authored-effect:b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3",
+          "effectOrigin": "shared-condition:attribute-modifier:v1",
+          "description": "Intelligence −2. Temporary flat change to one attribute score. It is added once on top of the character's sheet attributes (base, earned gains, heritage, origin and equipment) and never rewrites them.",
+          "effectSummary": "Permanent until removed — GM removes.",
+          "icon": "/assets/icons/Status/debuff/downward-arrow.png",
+          "color": "#7a5a3c",
+          "effects": {
+            "intelligence": -2
+          },
+          "isMagical": false,
+          "stackable": false,
+          "hasOverTimeEffect": false,
+          "sharedTiming": "manual",
+          "durationType": "manual",
+          "clockBoundary": "manual",
+          "authoredDuration": "Permanent until removed",
+          "sourceActor": {
+            "kind": "character",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "effectDefinition": "authored:03ceeb27-cde6-45ad-9a26-5527e95d0ad1:1:779395fc44d887252e02ff53bc771b4bf2bc240cc59e2cefb362ccf57067fa9d",
+          "attribute": "intelligence",
+          "amount": -2,
+          "raw": {
+            "version": 1,
+            "id": "b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3",
+            "recordId": "b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3",
+            "conditionKey": "attribute-modifier",
+            "originalName": "Dulling Charm",
+            "name": "Dulling Charm",
+            "type": "debuff",
+            "kind": "effect",
+            "target": {
+              "kind": "creature",
+              "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+              "mapId": "app-hall",
+              "tokenId": "A",
+              "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+            },
+            "targetId": "A",
+            "targetType": "creature",
+            "source": "authored-effect:attribute",
+            "sourceEntityId": "authored-effect:b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3",
+            "effectOrigin": "shared-condition:attribute-modifier:v1",
+            "description": "Intelligence −2. Temporary flat change to one attribute score. It is added once on top of the character's sheet attributes (base, earned gains, heritage, origin and equipment) and never rewrites them.",
+            "effectSummary": "Permanent until removed — GM removes.",
+            "icon": "/assets/icons/Status/debuff/downward-arrow.png",
+            "color": "#7a5a3c",
+            "effects": {
+              "intelligence": -2
+            },
+            "isMagical": false,
+            "stackable": false,
+            "hasOverTimeEffect": false,
+            "sharedTiming": "manual",
+            "durationType": "manual",
+            "clockBoundary": "manual",
+            "authoredDuration": "Permanent until removed",
+            "sourceActor": {
+              "kind": "character",
+              "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+              "mapId": "app-hall",
+              "tokenId": "pc",
+              "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+              "ownerUid": "app-owner",
+              "characterId": "ilse"
+            },
+            "effectDefinition": "authored:03ceeb27-cde6-45ad-9a26-5527e95d0ad1:1:779395fc44d887252e02ff53bc771b4bf2bc240cc59e2cefb362ccf57067fa9d"
+          }
+        }
+      ]
+    },
+    "d2Cast": {
+      "commandId": "d6f84b96-4365-415c-962b-95e67572427e",
+      "cooldown": {
+        "combatId": "09f8fe5c-76c0-4496-85dc-02d161843705",
+        "startSequence": 6,
+        "dueSequence": 12,
+        "occurrences": 2,
+        "period": 3,
+        "commandId": "d6f84b96-4365-415c-962b-95e67572427e"
+      },
+      "attrsA": [
+        {
+          "version": 1,
+          "id": "811be5cd-8202-4fcf-bbbb-08c6074dfedc",
+          "recordId": "811be5cd-8202-4fcf-bbbb-08c6074dfedc",
+          "conditionKey": "attribute-modifier",
+          "originalName": "Mired Agility",
+          "name": "Mired Agility",
+          "type": "debuff",
+          "kind": "effect",
+          "target": {
+            "kind": "creature",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+          },
+          "targetId": "A",
+          "targetType": "creature",
+          "source": "authored-effect:attribute",
+          "sourceEntityId": "authored-effect:811be5cd-8202-4fcf-bbbb-08c6074dfedc",
+          "effectOrigin": "shared-condition:attribute-modifier:v1",
+          "description": "Agility −2. Temporary flat change to one attribute score. It is added once on top of the character's sheet attributes (base, earned gains, heritage, origin and equipment) and never rewrites them.",
+          "effectSummary": "Until the target's next turn — Until the start of the target's next turn — expires at the authenticated turn boundary.",
+          "icon": "/assets/icons/Status/debuff/downward-arrow.png",
+          "color": "#7a5a3c",
+          "effects": {
+            "agility": -2
+          },
+          "isMagical": false,
+          "stackable": false,
+          "hasOverTimeEffect": false,
+          "sharedTiming": "manual",
+          "durationType": "manual",
+          "clockBoundary": "authored-target-next-start",
+          "authoredDuration": "Until the target's next turn",
+          "sourceActor": {
+            "kind": "character",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "effectDefinition": "authored:3ffd1385-6c49-41cb-bc58-545069931144:1:fb42c9ff4f3320e1f31a00c9cd45244a77541662cb58dc47c9ce07252cb649f9",
+          "attribute": "agility",
+          "amount": -2,
+          "raw": {
+            "version": 1,
+            "id": "811be5cd-8202-4fcf-bbbb-08c6074dfedc",
+            "recordId": "811be5cd-8202-4fcf-bbbb-08c6074dfedc",
+            "conditionKey": "attribute-modifier",
+            "originalName": "Mired Agility",
+            "name": "Mired Agility",
+            "type": "debuff",
+            "kind": "effect",
+            "target": {
+              "kind": "creature",
+              "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+              "mapId": "app-hall",
+              "tokenId": "A",
+              "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+            },
+            "targetId": "A",
+            "targetType": "creature",
+            "source": "authored-effect:attribute",
+            "sourceEntityId": "authored-effect:811be5cd-8202-4fcf-bbbb-08c6074dfedc",
+            "effectOrigin": "shared-condition:attribute-modifier:v1",
+            "description": "Agility −2. Temporary flat change to one attribute score. It is added once on top of the character's sheet attributes (base, earned gains, heritage, origin and equipment) and never rewrites them.",
+            "effectSummary": "Until the target's next turn — Until the start of the target's next turn — expires at the authenticated turn boundary.",
+            "icon": "/assets/icons/Status/debuff/downward-arrow.png",
+            "color": "#7a5a3c",
+            "effects": {
+              "agility": -2
+            },
+            "isMagical": false,
+            "stackable": false,
+            "hasOverTimeEffect": false,
+            "sharedTiming": "manual",
+            "durationType": "manual",
+            "clockBoundary": "authored-target-next-start",
+            "authoredDuration": "Until the target's next turn",
+            "sourceActor": {
+              "kind": "character",
+              "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+              "mapId": "app-hall",
+              "tokenId": "pc",
+              "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+              "ownerUid": "app-owner",
+              "characterId": "ilse"
+            },
+            "effectDefinition": "authored:3ffd1385-6c49-41cb-bc58-545069931144:1:fb42c9ff4f3320e1f31a00c9cd45244a77541662cb58dc47c9ce07252cb649f9"
+          }
+        }
+      ],
+      "expirySeq": 8
+    },
+    "intPoolDerivation": true,
+    "formulaReapproval": true,
+    "stagesCompleted": 16
+  },
+  "qualifications": [
+    "Real optimized App and registered backend; identity/provider/ownership/lease/cloud are fixture boundaries (mocked services).",
+    "Temporary room: accepted-live only. No live Firebase, deployment, physical second device or human tabletop claim.",
+    "Complete deterministic owner record loaded through production loadCharacter after boot (setup instrumentation only).",
+    "Wizard primitives only. No catalogue record, pin or stripped catalogue demonstration."
+  ],
+  "errors": [
+    {
+      "role": "gm",
+      "message": "Failed to fetch"
+    },
+    {
+      "role": "owner",
+      "message": "Failed to fetch"
+    },
+    {
+      "role": "gm",
+      "message": "Failed to fetch"
+    }
+  ],
+  "steps": [
+    {
+      "at": "2026-11-09T14:41:36.199Z",
+      "step": "Check excluded combinations in definitionFromWizard"
+    },
+    {
+      "at": "2026-11-09T14:41:54.956Z",
+      "step": "1. Wizard author/save/reopen/admit D1, D2, D3, D4"
+    },
+    {
+      "at": "2026-11-09T14:42:23.250Z",
+      "step": "2. Combat initiation [PC, B, A] + authenticated turn expiry"
+    },
+    {
+      "at": "2026-11-09T14:42:23.746Z",
+      "step": "3. Stage 1: D1 owner cast Dulling Charm on A: cooldown ready, independent lifetime, no roll, GM confirm with dropped ACK, one receipt"
+    },
+    {
+      "at": "2026-11-09T14:42:29.390Z",
+      "step": "3b. D1 blocked reuse: useful remaining-start notice and entire room state unchanged"
+    },
+    {
+      "at": "2026-11-09T14:42:29.701Z",
+      "step": "3c. Exact GM removal of A's record: leaves cooldown blocked through boundary 5"
+    },
+    {
+      "at": "2026-11-09T14:42:29.747Z",
+      "step": "3d. Advance to 3 (PC start 1): cooldown active 1 of 2 starts remaining"
+    },
+    {
+      "at": "2026-11-09T14:42:31.151Z",
+      "step": "3e. Advance to 6 (PC start 2): cooldown released by authenticated boundary"
+    },
+    {
+      "at": "2026-11-09T14:42:32.185Z",
+      "step": "4. Stage 2: Cast D2 (Mired Agility -2, target-next-start, cooldown 2) on A at seq 6"
+    },
+    {
+      "at": "2026-11-09T14:42:32.719Z",
+      "step": "4b. Advance to 8 (A's start): effect expires at 8, effective AGI restored, cooldown stays active"
+    },
+    {
+      "at": "2026-11-09T14:42:33.803Z",
+      "step": "4c. Advance to 12 (PC start 2): D2 cooldown released at 12"
+    },
+    {
+      "at": "2026-11-09T14:42:35.344Z",
+      "step": "5. Stage 3: Cast D3 (Spirited +2, target-end count 3, cooldown 1) on A at seq 12"
+    },
+    {
+      "at": "2026-11-09T14:42:35.983Z",
+      "step": "5b. Advance to 15 (PC start): D3 cooldown releases at 15 while effect and schedule stay active"
+    },
+    {
+      "at": "2026-11-09T14:42:37.203Z",
+      "step": "5c. Combination refusal: attempt same-attribute recast on A is refused without spend or cooldown"
+    },
+    {
+      "at": "2026-11-09T14:42:37.883Z",
+      "step": "6. Stage 4: Cast D4 (plain damage 1d6+2 + Agility -2, cooldown 2) on B"
+    },
+    {
+      "at": "2026-11-09T14:42:38.541Z",
+      "step": "7. Stage 5: Stored pools and formula reapproval checks"
+    }
+  ],
+  "stages": {
+    "excluded combinations verification": {
+      "how": "pure definitionFromWizard rejects STR/CON/CHA and attribute+save"
+    },
+    "author/save/reopen/admit": {
+      "how": "App controls (Spell Wizard incl. Cooldown step, Spell Library, room admission)"
+    },
+    "authenticated clock": {
+      "how": "App control (Enable / Advance authenticated turn)"
+    },
+    "D1 lost-ACK recovery": {
+      "how": "App control after GM reload (Check same command)"
+    },
+    "D1 cast": {
+      "how": "App controls (owner panel + GM card); payment, attribute effect and cooldown start in one receipt"
+    },
+    "D1 blocked reuse": {
+      "how": "App control (owner approve → server refusal, no spend)"
+    },
+    "D1 at seq 3 blocked reuse": {
+      "how": "App control (owner approve → server refusal, no spend)"
+    },
+    "D1 boundary release": {
+      "how": "App control (Advance authenticated turn to boundary 6 releases cooldown)"
+    },
+    "D2 cast": {
+      "how": "App controls; payment, timed Agility -2 and cooldown in one receipt"
+    },
+    "D2 after effect expiry at seq 8 blocked reuse": {
+      "how": "App control (owner approve → server refusal, no spend)"
+    },
+    "D2 effect expiry before cooldown release": {
+      "how": "Effect expires at target start 8; cooldown stays blocked"
+    },
+    "D2 cooldown release": {
+      "how": "Cooldown releases at boundary 12"
+    },
+    "D3 release before counted expiry": {
+      "how": "Cooldown releases at 15 while counted effect remains active"
+    },
+    "D3 combination refusal": {
+      "how": "Same-attribute recast refused while previous instance remains active"
+    },
+    "D4 plain direct damage + attribute": {
+      "how": "One receipt applies direct damage, attribute condition and cooldown"
+    },
+    "protected consumers and pools": {
+      "how": "Unit/handler contracts confirm stored pools protected and reapproval retained"
+    }
+  },
+  "limits": [
+    "Real optimized App and registered backend; identity/provider/ownership/lease/cloud are fixture boundaries (mocked services).",
+    "Temporary room: accepted-live only. No live Firebase, deployment, physical second device or human tabletop claim.",
+    "Complete deterministic owner record loaded through production loadCharacter after boot (setup instrumentation only).",
+    "Wizard primitives only. No catalogue record, pin or stripped catalogue demonstration."
+  ],
+  "passed": true,
+  "endedAt": "2026-11-09T14:42:38.541Z",
+  "build": "d:\\VTT\\vtt-react\\build",
+  "buildAssetManifestSha256": "e85803fb378bb0cac1aeaf2046da51ea20e81cafb92fef7757e11b62ebae4d62",
+  "receipts": [
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "043aba14-6eca-4461-95ee-b64cdf36c816",
+      "submitterUid": "app-gm",
+      "contentHash": "9a7b47ba867216a5ecb6e5b703df6eb9825b2dd5867145f0af9d4443929988af",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 1,
+      "acceptedAt": 1794235343527,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"adopt\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":0,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "d00b7b99-c913-49f4-9e92-2aae901041c2",
+      "submitterUid": "app-gm",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 2,
+      "acceptedAt": 1794235344253,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+      },
+      "adjudication": {
+        "definitionId": "authored:03ceeb27-cde6-45ad-9a26-5527e95d0ad1:1:779395fc44d887252e02ff53bc771b4bf2bc240cc59e2cefb362ccf57067fa9d",
+        "definitionVersionOrHash": "authored-effect:v1/779395fc44d887252e02ff53bc771b4bf2bc240cc59e2cefb362ccf57067fa9d",
+        "chosenResult": "{\"capability\":\"authored-effect:v1\",\"approvalId\":\"b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3\",\"kind\":\"effect\",\"gmConfirmed\":true,\"roll\":null,\"direct\":null,\"condition\":{\"amount\":-2,\"attribute\":\"intelligence\",\"kind\":\"attribute\",\"label\":\"Dulling Charm\"},\"conditionInstanceId\":\"b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3\",\"expiryPolicy\":\"gm-manual\",\"spellName\":\"AC Dulling Charm\",\"resolution\":{\"gmConfirmed\":true,\"timing\":{\"durationText\":\"Permanent until removed\",\"expiryPolicy\":\"gm-manual\"}},\"combination\":{\"outcome\":\"added\",\"replacesInstanceId\":null}}",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 0,
+          "afterRevision": 1,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 20,
+              "temp": 3,
+              "max": 30
+            },
+            "ap": {
+              "current": 5,
+              "temp": 1,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+          },
+          "beforeRevision": 0,
+          "afterRevision": 1,
+          "finalResources": {
+            "hp": {
+              "current": 30,
+              "temp": 4,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3",
+              "recordId": "b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3",
+              "conditionKey": "attribute-modifier",
+              "originalName": "Dulling Charm",
+              "name": "Dulling Charm",
+              "type": "debuff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+                "mapId": "app-hall",
+                "tokenId": "A",
+                "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+              },
+              "targetId": "A",
+              "targetType": "creature",
+              "source": "authored-effect:attribute",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:b6a42b5b-4b50-41a6-b7f1-1a5d95a84bf3",
+              "effectOrigin": "shared-condition:attribute-modifier:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/debuff/downward-arrow.png",
+              "color": "#7a5a3c",
+              "description": "Intelligence −2. Temporary flat change to one attribute score. It is added once on top of the character's sheet attributes (base, earned gains, heritage, origin and equipment) and never rewrites them.",
+              "effectSummary": "Permanent until removed — GM removes.",
+              "effects": {
+                "intelligence": -2
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "manual",
+              "sharedTiming": "manual",
+              "authoredDuration": "Permanent until removed",
+              "effectDefinition": "authored:03ceeb27-cde6-45ad-9a26-5527e95d0ad1:1:779395fc44d887252e02ff53bc771b4bf2bc240cc59e2cefb362ccf57067fa9d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "e05daa17-6182-4575-853d-f6ab853e34f2",
+      "submitterUid": "app-gm",
+      "contentHash": "b4db3005a1649a31ebbf9ef12b3ed93a76ee018998be27d3194aebba711db870",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 3,
+      "acceptedAt": 1794235349709,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "gm-correction",
+        "definitionVersionOrHash": "gm-correction",
+        "chosenResult": "GM exact removal",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+          },
+          "beforeRevision": 1,
+          "afterRevision": 2,
+          "finalResources": {
+            "hp": {
+              "current": 30,
+              "temp": 4,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "405c30c2-8dd9-4c10-8ba6-4e304cfaf0a1",
+      "submitterUid": "app-gm",
+      "contentHash": "ee4f8ec9ca4328a0f246329c6a49d64efeae273c3ff251c1775ad0959f711e22",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 4,
+      "acceptedAt": 1794235349954,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":1,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "71da5edf-1135-44c0-8c72-10e51f532472",
+      "submitterUid": "app-gm",
+      "contentHash": "b189a615cfb1dc54e38269e0ca10099f635696632eb4e22ce2e40a40d90a3ecf",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 5,
+      "acceptedAt": 1794235350261,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":2,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "6c7a3350-6fcf-4bcf-b921-57e87be05881",
+      "submitterUid": "app-gm",
+      "contentHash": "17d43be34f558d2c7090471c0c54b54dbc648a45820bdb1ccc13475ec56adc71",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 6,
+      "acceptedAt": 1794235350659,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":3,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "e1168c3c-9696-41fa-818b-12fce3cd2413",
+      "submitterUid": "app-gm",
+      "contentHash": "156e21a3aad7d6f16b06c945088f832ec6c8f93f1e7353d2f1462c8b3d221111",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 7,
+      "acceptedAt": 1794235351321,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":4,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "ec7b3bc9-ae98-4451-a314-d88d8dd034e0",
+      "submitterUid": "app-gm",
+      "contentHash": "456d1d09759d2aac253f47c2716f1aa0631bda0459ab3dadac4be4c094953aee",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 8,
+      "acceptedAt": 1794235351633,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":5,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "dc15fe77-d56e-4824-bd04-59fd652c6d51",
+      "submitterUid": "app-gm",
+      "contentHash": "5ff2d14b83ffadae5e2bfc5398b346561adf877255aab20577b70a821041c415",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 9,
+      "acceptedAt": 1794235351977,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":6,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "d6f84b96-4365-415c-962b-95e67572427e",
+      "submitterUid": "app-gm",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 10,
+      "acceptedAt": 1794235352587,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "811be5cd-8202-4fcf-bbbb-08c6074dfedc"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+      },
+      "adjudication": {
+        "definitionId": "authored:3ffd1385-6c49-41cb-bc58-545069931144:1:fb42c9ff4f3320e1f31a00c9cd45244a77541662cb58dc47c9ce07252cb649f9",
+        "definitionVersionOrHash": "authored-effect:v1/fb42c9ff4f3320e1f31a00c9cd45244a77541662cb58dc47c9ce07252cb649f9",
+        "chosenResult": "{\"capability\":\"authored-effect:v1\",\"approvalId\":\"811be5cd-8202-4fcf-bbbb-08c6074dfedc\",\"kind\":\"effect\",\"gmConfirmed\":true,\"roll\":null,\"direct\":null,\"condition\":{\"amount\":-2,\"attribute\":\"agility\",\"kind\":\"attribute\",\"label\":\"Mired Agility\"},\"conditionInstanceId\":\"811be5cd-8202-4fcf-bbbb-08c6074dfedc\",\"expiryPolicy\":\"target-next-start\",\"spellName\":\"AC Mire Twist\",\"resolution\":{\"gmConfirmed\":true,\"timing\":{\"durationText\":\"Until the target's next turn\",\"expiryPolicy\":\"target-next-start\"}},\"combination\":{\"outcome\":\"added\",\"replacesInstanceId\":null}}",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 1,
+          "afterRevision": 2,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 20,
+              "temp": 1,
+              "max": 30
+            },
+            "ap": {
+              "current": 5,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+          },
+          "beforeRevision": 2,
+          "afterRevision": 3,
+          "finalResources": {
+            "hp": {
+              "current": 30,
+              "temp": 4,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "811be5cd-8202-4fcf-bbbb-08c6074dfedc",
+              "recordId": "811be5cd-8202-4fcf-bbbb-08c6074dfedc",
+              "conditionKey": "attribute-modifier",
+              "originalName": "Mired Agility",
+              "name": "Mired Agility",
+              "type": "debuff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+                "mapId": "app-hall",
+                "tokenId": "A",
+                "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+              },
+              "targetId": "A",
+              "targetType": "creature",
+              "source": "authored-effect:attribute",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:811be5cd-8202-4fcf-bbbb-08c6074dfedc",
+              "effectOrigin": "shared-condition:attribute-modifier:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/debuff/downward-arrow.png",
+              "color": "#7a5a3c",
+              "description": "Agility −2. Temporary flat change to one attribute score. It is added once on top of the character's sheet attributes (base, earned gains, heritage, origin and equipment) and never rewrites them.",
+              "effectSummary": "Until the target's next turn — Until the start of the target's next turn — expires at the authenticated turn boundary.",
+              "effects": {
+                "agility": -2
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "authored-target-next-start",
+              "sharedTiming": "manual",
+              "authoredDuration": "Until the target's next turn",
+              "effectDefinition": "authored:3ffd1385-6c49-41cb-bc58-545069931144:1:fb42c9ff4f3320e1f31a00c9cd45244a77541662cb58dc47c9ce07252cb649f9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "316321a2-32db-4735-8a45-6ad6d4ca7eb4",
+      "submitterUid": "app-gm",
+      "contentHash": "a3cbf35fc2e269e814458f79be38a188d13b5fb8fda47a4f8e6e8b36c1fefc60",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 11,
+      "acceptedAt": 1794235352935,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":7,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "f3578589-87aa-4da1-826b-1ff698a796b3",
+      "submitterUid": "app-gm",
+      "contentHash": "52a7060831dce5fc8c591eddda918bda7bb56ae492b0bca6f8499969e4fa6954",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 12,
+      "acceptedAt": 1794235353265,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":8,\"expired\":[\"811be5cd-8202-4fcf-bbbb-08c6074dfedc\"]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+          },
+          "beforeRevision": 3,
+          "afterRevision": 4,
+          "finalResources": {
+            "hp": {
+              "current": 30,
+              "temp": 4,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "9dfa859e-1799-4fbb-b7a6-e65aabd65d5f",
+      "submitterUid": "app-gm",
+      "contentHash": "a4b7f4552b283a9446f99ad90c1ab779b345c29d565f5a2ff54d379913176ee6",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 13,
+      "acceptedAt": 1794235353997,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":9,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "6cc38815-3c65-46d9-a2eb-74df033d48dd",
+      "submitterUid": "app-gm",
+      "contentHash": "8b128de36ece312f0d843b50564cd1c70875f55778db113b954be46f7fdb7482",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 14,
+      "acceptedAt": 1794235354373,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":10,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "262b31a7-06ad-40d0-81ff-d71c8742a782",
+      "submitterUid": "app-gm",
+      "contentHash": "ec892e474597e8ec803554aef1934e04f45472cc1b90c369e92bbe382109eb0a",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 15,
+      "acceptedAt": 1794235354762,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":11,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "bc51286d-708b-4ddb-92ad-72721a1be537",
+      "submitterUid": "app-gm",
+      "contentHash": "0ced7f0c80181e1f3b1234f3f12d3acc28258e724fb157668afcfe6900792d8f",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 16,
+      "acceptedAt": 1794235355183,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":12,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "53158e17-5505-4783-88e7-83e3c7cdc2e8",
+      "submitterUid": "app-gm",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 17,
+      "acceptedAt": 1794235355850,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "d8f32fa7-e597-4abc-9b35-d63061d1df88"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+        "mapId": "app-hall",
+        "tokenId": "A",
+        "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+      },
+      "adjudication": {
+        "definitionId": "authored:5367e0a3-78d4-4845-aa13-8baf0183571a:1:b9d6f1237f19f8f1fcf0d4f2eadc6303a7c79a9833d43425023893bfa91eb62f",
+        "definitionVersionOrHash": "authored-effect:v1/b9d6f1237f19f8f1fcf0d4f2eadc6303a7c79a9833d43425023893bfa91eb62f",
+        "chosenResult": "{\"capability\":\"authored-effect:v1\",\"approvalId\":\"d8f32fa7-e597-4abc-9b35-d63061d1df88\",\"kind\":\"effect\",\"gmConfirmed\":true,\"roll\":null,\"direct\":null,\"condition\":{\"amount\":2,\"attribute\":\"spirit\",\"kind\":\"attribute\",\"label\":\"Spirited\"},\"conditionInstanceId\":\"d8f32fa7-e597-4abc-9b35-d63061d1df88\",\"expiryPolicy\":\"target-end-count\",\"spellName\":\"AC Spirit Flare\",\"resolution\":{\"gmConfirmed\":true,\"timing\":{\"durationText\":\"For 3 turn ends\",\"expiryPolicy\":\"target-end-count\",\"occurrences\":3}},\"occurrences\":3,\"combination\":{\"outcome\":\"added\",\"replacesInstanceId\":null}}",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 2,
+          "afterRevision": 3,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 19,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 4,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+          },
+          "beforeRevision": 4,
+          "afterRevision": 5,
+          "finalResources": {
+            "hp": {
+              "current": 30,
+              "temp": 4,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "d8f32fa7-e597-4abc-9b35-d63061d1df88",
+              "recordId": "d8f32fa7-e597-4abc-9b35-d63061d1df88",
+              "conditionKey": "attribute-modifier",
+              "originalName": "Spirited",
+              "name": "Spirited",
+              "type": "buff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+                "mapId": "app-hall",
+                "tokenId": "A",
+                "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+              },
+              "targetId": "A",
+              "targetType": "creature",
+              "source": "authored-effect:attribute",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:d8f32fa7-e597-4abc-9b35-d63061d1df88",
+              "effectOrigin": "shared-condition:attribute-modifier:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/buff/upward-arrow-dagger-buff.png",
+              "color": "#3c6a7a",
+              "description": "Spirit +2. Temporary flat change to one attribute score. It is added once on top of the character's sheet attributes (base, earned gains, heritage, origin and equipment) and never rewrites them.",
+              "effectSummary": "For 3 turn ends — expires at the end of the target's 3rd upcoming turn (its next turn counts as the 1st; a turn already in progress is not counted), at the authenticated turn boundary.",
+              "effects": {
+                "spirit": 2
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "authored-target-end-count",
+              "sharedTiming": "manual",
+              "authoredDuration": "For 3 turn ends",
+              "effectDefinition": "authored:5367e0a3-78d4-4845-aa13-8baf0183571a:1:b9d6f1237f19f8f1fcf0d4f2eadc6303a7c79a9833d43425023893bfa91eb62f",
+              "clockOccurrences": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "4f10d23e-377b-49e2-8eba-ed497de959fa",
+      "submitterUid": "app-gm",
+      "contentHash": "4a47ddd83b81c7839a0f190966122e36483a0509625cf3dea95bb2b867ea67bf",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 18,
+      "acceptedAt": 1794235356238,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":13,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "b451cb15-ab57-4801-b30f-338eda23cc95",
+      "submitterUid": "app-gm",
+      "contentHash": "96ffa4f139627a7fca0aa11ea352a7ec02dd1e902f0548d93a9d413f61cd4406",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 19,
+      "acceptedAt": 1794235356586,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":14,\"expired\":[]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "adb42aff-dbb5-4e24-92f2-447a5f02033c",
+      "submitterUid": "app-gm",
+      "contentHash": "b3ec11354315a291dc3a2a6c0ad0d073f7ec8370dd0866e63dc702a157ae7350",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 20,
+      "acceptedAt": 1794235357053,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "shared-turn-boundary:v1",
+        "definitionVersionOrHash": "shared-turn-boundary:v1",
+        "chosenResult": "{\"mode\":\"advance\",\"combatId\":\"09f8fe5c-76c0-4496-85dc-02d161843705\",\"sequence\":15,\"expired\":[],\"counted\":[{\"recordId\":\"d8f32fa7-e597-4abc-9b35-d63061d1df88\",\"occurrence\":1,\"of\":3}]}",
+        "adjustmentReason": "Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects."
+      },
+      "actors": []
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "2c4691fa-d763-4e3f-ba7b-b2000081716f",
+      "submitterUid": "app-gm",
+      "contentHash": "bcb5b69a07d447bec5e356370b4c529189296eb64df183c9131e889305857f0b",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 21,
+      "acceptedAt": 1794235357848,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "app-gm"
+      },
+      "adjudication": {
+        "definitionId": "gm-correction",
+        "definitionVersionOrHash": "gm-correction",
+        "chosenResult": "GM exact removal",
+        "finalAmount": 0,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "A",
+            "instanceId": "ad4553eb-a10d-4111-a0d7-32c2db2a48c0"
+          },
+          "beforeRevision": 5,
+          "afterRevision": 6,
+          "finalResources": {
+            "hp": {
+              "current": 30,
+              "temp": 4,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+      "commandId": "c1eae0ba-25ae-45f4-a308-040f9f0391b0",
+      "submitterUid": "app-gm",
+      "admissionEpoch": "20ac0744-6f00-4189-80b1-4125b26050e5",
+      "commitSequence": 22,
+      "acceptedAt": 1794235358419,
+      "checkpointRevision": null,
+      "authorization": {
+        "kind": "owner-approval-gm",
+        "authorizerUid": "app-gm",
+        "proposalId": "7c94cb9b-0ada-4b20-aa09-42864b16d08c"
+      },
+      "source": {
+        "kind": "character",
+        "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "target": {
+        "kind": "creature",
+        "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+        "mapId": "app-hall",
+        "tokenId": "B",
+        "instanceId": "e467cb43-8986-49bd-ad82-ea6901200a6e"
+      },
+      "adjudication": {
+        "definitionId": "authored:3219e122-b920-469e-97de-f9c0ab35ee67:1:8dad089bc32995ea16ab592605ba840dcfa8c61f3555d20b72bf029e40da6465",
+        "definitionVersionOrHash": "authored-effect:v1/8dad089bc32995ea16ab592605ba840dcfa8c61f3555d20b72bf029e40da6465",
+        "chosenResult": "{\"capability\":\"authored-effect:v1\",\"approvalId\":\"7c94cb9b-0ada-4b20-aa09-42864b16d08c\",\"kind\":\"effect\",\"gmConfirmed\":true,\"roll\":{\"mode\":\"physical\",\"dice\":[{\"sides\":6,\"faces\":[4]}],\"constant\":2,\"total\":6,\"reading\":\"1d6+2\"},\"direct\":{\"kind\":\"damage\",\"damageTypes\":[\"arcane\"]},\"condition\":{\"amount\":-2,\"attribute\":\"agility\",\"kind\":\"attribute\",\"label\":\"Struck Agility\"},\"conditionInstanceId\":\"7c94cb9b-0ada-4b20-aa09-42864b16d08c\",\"expiryPolicy\":\"target-next-end\",\"spellName\":\"AC Agility Strike\",\"resolution\":{\"gmConfirmed\":true,\"timing\":{\"durationText\":\"Until turn end\",\"expiryPolicy\":\"target-next-end\"}},\"combination\":{\"outcome\":\"added\",\"replacesInstanceId\":null}}",
+        "finalAmount": 6,
+        "adjustmentReason": ""
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "character",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "pc",
+            "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+            "ownerUid": "app-owner",
+            "characterId": "ilse"
+          },
+          "beforeRevision": 3,
+          "afterRevision": 4,
+          "finalResources": {
+            "hp": {
+              "current": 20,
+              "temp": 0,
+              "max": 40
+            },
+            "mana": {
+              "current": 17,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 3,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": []
+        },
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+            "mapId": "app-hall",
+            "tokenId": "B",
+            "instanceId": "e467cb43-8986-49bd-ad82-ea6901200a6e"
+          },
+          "beforeRevision": 0,
+          "afterRevision": 1,
+          "finalResources": {
+            "hp": {
+              "current": 28,
+              "temp": 0,
+              "max": 250
+            },
+            "mana": {
+              "current": 0,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 2,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "7c94cb9b-0ada-4b20-aa09-42864b16d08c",
+              "recordId": "7c94cb9b-0ada-4b20-aa09-42864b16d08c",
+              "conditionKey": "attribute-modifier",
+              "originalName": "Struck Agility",
+              "name": "Struck Agility",
+              "type": "debuff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+                "mapId": "app-hall",
+                "tokenId": "B",
+                "instanceId": "e467cb43-8986-49bd-ad82-ea6901200a6e"
+              },
+              "targetId": "B",
+              "targetType": "creature",
+              "source": "authored-effect:attribute",
+              "sourceActor": {
+                "kind": "character",
+                "roomId": "e0c620dd-6f29-4434-9e27-96b0cb8fa4ce",
+                "mapId": "app-hall",
+                "tokenId": "pc",
+                "instanceId": "0a1a32e1-bcc7-4d2a-b909-d939d30b94e4",
+                "ownerUid": "app-owner",
+                "characterId": "ilse"
+              },
+              "sourceEntityId": "authored-effect:7c94cb9b-0ada-4b20-aa09-42864b16d08c",
+              "effectOrigin": "shared-condition:attribute-modifier:v1",
+              "isMagical": false,
+              "icon": "/assets/icons/Status/debuff/downward-arrow.png",
+              "color": "#7a5a3c",
+              "description": "Agility −2. Temporary flat change to one attribute score. It is added once on top of the character's sheet attributes (base, earned gains, heritage, origin and equipment) and never rewrites them.",
+              "effectSummary": "Until turn end — Until the end of the target's next turn — expires at the authenticated turn boundary.",
+              "effects": {
+                "agility": -2
+              },
+              "durationType": "manual",
+              "stackable": false,
+              "hasOverTimeEffect": false,
+              "clockBoundary": "authored-target-next-end",
+              "sharedTiming": "manual",
+              "authoredDuration": "Until turn end",
+              "effectDefinition": "authored:3219e122-b920-469e-97de-f9c0ab35ee67:1:8dad089bc32995ea16ab592605ba840dcfa8c61f3555d20b72bf029e40da6465"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

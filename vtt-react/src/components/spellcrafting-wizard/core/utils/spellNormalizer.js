@@ -128,6 +128,9 @@ export const normalizeSpell = (spell) => {
   }
 
   // 8. Normalize cooldown and duration
+  if (!normalized.cooldownConfig && spell.cooldown && typeof spell.cooldown === 'object') {
+    normalized.cooldownConfig = JSON.parse(JSON.stringify(spell.cooldown));
+  }
   normalized.cooldownConfig = normalized.cooldownConfig || { cooldownType: 'turn_based', cooldownValue: 0 };
   // Migrate legacy {type, value} keys to {cooldownType, cooldownValue}
   if (normalized.cooldownConfig.type !== undefined && normalized.cooldownConfig.cooldownType === undefined) {
@@ -792,9 +795,35 @@ function extractDebuffEffects(legacyDebuff) {
 function normalizeResourceCost(spell) {
   const cost = spell.resourceCost || {};
 
-  // Ensure components array exists
+  // Ensure components array exists (preserving modern array, legacy root or object shapes under existing precedence)
   if (!Array.isArray(cost.components)) {
-    cost.components = cost.components ? [cost.components] : [];
+    if (Array.isArray(spell.components)) {
+      cost.components = [...spell.components];
+    } else if (cost.components && typeof cost.components === 'object') {
+      cost.components = Object.entries(cost.components).filter(([_, v]) => Boolean(v)).map(([k]) => k);
+    } else if (spell.components && typeof spell.components === 'object') {
+      cost.components = Object.entries(spell.components).filter(([_, v]) => Boolean(v)).map(([k]) => k);
+    } else if (typeof cost.components === 'string') {
+      cost.components = [cost.components];
+    } else if (typeof spell.components === 'string') {
+      cost.components = [spell.components];
+    } else {
+      cost.components = [];
+    }
+  }
+
+  // Precedence fallback: preserve authored component text from root if not explicit on resourceCost
+  if (cost.verbalText === undefined && spell.verbalText !== undefined) {
+    cost.verbalText = spell.verbalText;
+  }
+  if (cost.somaticText === undefined && spell.somaticText !== undefined) {
+    cost.somaticText = spell.somaticText;
+  }
+  if (cost.materialComponents === undefined && spell.materialComponents !== undefined) {
+    cost.materialComponents = spell.materialComponents;
+  }
+  if (cost.materialText === undefined && spell.materialText !== undefined) {
+    cost.materialText = spell.materialText;
   }
 
   // Extract Devotion Level from specialMechanics and add to resourceValues

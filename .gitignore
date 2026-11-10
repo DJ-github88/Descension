@@ -153,3 +153,6 @@ UTF8
 
 # Inter-agent handoffs and work archives
 handoff/
+
+# Browser test profiles
+verification/**/profiles/

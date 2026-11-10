@@ -29,7 +29,8 @@
   position: relative;
   width: 100%;
   max-width: 480px;
-  min-width: 320px;
+  min-width: 0;
+  box-sizing: border-box;
   background: linear-gradient(160deg, #fbf8f1 0%, #f3ebd9 45%, #e6d7bf 100%);
   border: 2px solid #6b2d18;
   border-radius: 10px;
@@ -337,4 +338,41 @@
   background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
   border-color: #166534;
   box-shadow: 0 4px 10px rgba(22, 163, 74, 0.45);
+}
+
+/* Responsive adjustments for phone and tablet */
+@media (max-width: 480px) {
+  .custom-dialog-backdrop {
+    padding: 0.75rem;
+  }
+
+  .custom-dialog-card {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .custom-dialog-header {
+    padding: 0.85rem 1rem 0.65rem 1rem;
+  }
+
+  .custom-dialog-title {
+    font-size: 1.05rem;
+  }
+
+  .custom-dialog-body {
+    padding: 0.85rem 1rem;
+  }
+
+  .custom-dialog-footer {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem 1rem 1rem;
+  }
+
+  .custom-dialog-btn {
+    width: 100%;
+    min-height: 42px;
+    font-size: 0.82rem;
+    padding: 0.6rem 1rem;
+  }
 }

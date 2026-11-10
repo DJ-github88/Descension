@@ -46,7 +46,7 @@ function creatureSource(room, ref) {
 }
 function matchAssociation(room, association, entry) {
   const d = entry.canonicalDefinition;
-  const mapped = pure.definitionFromWizard(association.record, { roomId: room.id, classId: d.binding.classId, definitionVersion: d.definitionVersion });
+  const mapped = pure.definitionFromWizard(association.record, { roomId: room.id, classId: d.binding.classId, definitionVersion: d.definitionVersion, creatureSource: true });
   if (!mapped.ok || actors.hash(mapped.definition) !== actors.hash(d)) actors.fail('creature_association_mismatch');
 }
 function creatureSources(room) {
@@ -79,7 +79,7 @@ async function planCreatureAdmission(room, uid, data, authorize) {
   if (!Number.isSafeInteger(data.expectedSourceRevision) || source.contract.revision !== data.expectedSourceRevision) actors.fail('stale_actor_revision');
   if (data.expectedRegistryRevision !== before.revision) actors.fail('REVISION_CONFLICT');
   if (!/^[0-9a-f-]{36}$/i.test(data.requestId || '')) actors.fail('invalid_consequence');
-  const mapped = pure.definitionFromWizard(source.association.record, { roomId: room.id, classId: 'arcanoneer', definitionVersion: data.definitionVersion });
+  const mapped = pure.definitionFromWizard(source.association.record, { roomId: room.id, classId: 'arcanoneer', definitionVersion: data.definitionVersion, creatureSource: true });
   if (!mapped.ok) actors.fail(mapped.code, mapped.reason);
   // Creature-source eligibility (formula/health/deterministic/area, and immediate + periodic) is one shared check, also shown on the Bestiary card.
   const sourceRefusal = pure.creatureSourceRefusal(mapped.definition); if (sourceRefusal) actors.fail(sourceRefusal.code, sourceRefusal.reason);
@@ -187,26 +187,47 @@ function checkApproval(room, approval, primaryPc = false) {
         actors.fail('owner_reapproval_required', 'The caster snapshot changed. Review the formula inputs and approve again with the retained die faces; nothing was applied.');
     }
   } else if (formula) {
-    if ((health || deterministic) && (approval.target.kind !== 'creature' || approval.classPayment !== null || actors.hash(approval.source) === actors.hash(approval.target))) actors.fail('unsupported_formula_target');
-    // M4B repair R1: the admitted definition's catalogue identity and executable projection
-    // must still match a reviewed server pin at consumption. A changed/removed pin refuses.
-    if (desc.catalogueSource !== undefined) {
-      if (actors.hash(desc.catalogueSource) !== actors.hash(d.catalogueSource)) actors.fail('catalogue_provenance_untrusted', 'The admitted descriptor and definition disagree on the catalogue source.');
+    const self = actors.hash(approval.source) === actors.hash(approval.target);
+    if (d.targeting.restriction === 'self') {
+      if (!self) actors.fail('authored_target_mismatch');
+      if (!pure.ownerSelfHealing(d) || approval.source.kind !== 'character' || approval.target.kind !== 'character' || approval.classPayment !== null || health) actors.fail('unsupported_formula_target');
+    } else {
+      if ((health || deterministic) && (approval.target.kind !== 'creature' || approval.classPayment !== null || self)) actors.fail('unsupported_formula_target');
+      // M4B repair R1: the admitted definition's catalogue identity and executable projection
+      // must still match a reviewed server pin at consumption. A changed/removed pin refuses.
+      if (desc.catalogueSource !== undefined) {
+        if (actors.hash(desc.catalogueSource) !== actors.hash(d.catalogueSource)) actors.fail('catalogue_provenance_untrusted', 'The admitted descriptor and definition disagree on the catalogue source.');
+        const verified = catalogueAbility.verifyDefinition(d);
+        if (!verified.ok) actors.fail('catalogue_provenance_untrusted', verified.reason);
+      } else if (desc.classPayment) {
+        actors.fail('catalogue_provenance_untrusted', 'A typed class payment requires a pinned catalogue source.');
+      }
+      // M4B: the typed class price is pinned by the admitted definition and revalidated
+      // against the existing bank/home; no client price can replace it.
+      const payment = desc.classPayment || null;
+      if (payment ? (!approval.classPayment || approval.classPayment.domain !== payment.domain ||
+        actors.hash(approval.classPayment.price) !== actors.hash(payment.price)) : approval.classPayment !== null) actors.fail('authored_approval_mismatch');
+      const targetRoute = desc.targetRoute || 'creature';
+      if (targetRoute === 'primary-pc-healing') {
+        if (approval.target.kind !== 'character' || self ||
+          d.effect.kind !== 'healing' || d.targeting.restriction !== 'ally') actors.fail('unsupported_formula_target');
+      } else if (approval.target.kind !== 'creature' || self) actors.fail('unsupported_formula_target');
+    }
+  } else if (effect) {
+    // Same M4B authority boundary: the exact whole composition and payment are reviewed together.
+    if (desc.catalogueSource !== undefined || d.catalogueSource !== undefined) {
+      if (!desc.catalogueSource || !d.catalogueSource || actors.hash(desc.catalogueSource) !== actors.hash(d.catalogueSource)) actors.fail('catalogue_provenance_untrusted');
       const verified = catalogueAbility.verifyDefinition(d);
       if (!verified.ok) actors.fail('catalogue_provenance_untrusted', verified.reason);
-    } else if (desc.classPayment) {
-      actors.fail('catalogue_provenance_untrusted', 'A typed class payment requires a pinned catalogue source.');
-    }
-    // M4B: the typed class price is pinned by the admitted definition and revalidated
-    // against the existing bank/home; no client price can replace it.
+    } else if (desc.classPayment || d.classPayment) actors.fail('catalogue_provenance_untrusted');
     const payment = desc.classPayment || null;
     if (payment ? (!approval.classPayment || approval.classPayment.domain !== payment.domain ||
       actors.hash(approval.classPayment.price) !== actors.hash(payment.price)) : approval.classPayment !== null) actors.fail('authored_approval_mismatch');
-    const targetRoute = desc.targetRoute || 'creature';
-    if (targetRoute === 'primary-pc-healing') {
-      if (approval.target.kind !== 'character' || actors.hash(approval.source) === actors.hash(approval.target) ||
-        d.effect.kind !== 'healing' || d.targeting.restriction !== 'ally') actors.fail('unsupported_formula_target');
-    } else if (approval.target.kind !== 'creature') actors.fail('unsupported_formula_target');
+    if (payment) {
+      const source = actors.locate(room, approval.source);
+      if (approval.source.kind !== 'character' || !source.contract.primary || approval.target.kind !== 'creature' ||
+        require('../shared/services/classEffect').classIdOf(source.token.character?.class) !== d.binding.classId) actors.fail('unsupported_source_route');
+    }
   } else if (approval.classPayment !== null) actors.fail('authored_approval_mismatch');
   if (effect) {
     // A10: the whole admitted bundle (direct part, canonical effect, timing) is bound; no subset executes.
@@ -226,7 +247,9 @@ function checkApproval(room, approval, primaryPc = false) {
     else if (pure.formulaAttributes(d.effects.direct.formula).length) {
       // M5 composition + M4A: the same scaled reader, owner-attested inputs and caster-snapshot binding as an M4A formula action.
       // Re-run at approval and again at GM confirmation (checkAgainstRoom), so a caster change after approval needs reapproval.
-      if (approval.source.kind !== 'character' || d.effects.condition.kind !== 'periodic') actors.fail('unsupported_source_route');
+      // Formula riders: the same branch serves a movement OR Stunned effect; that route is one placed creature target only.
+      if (approval.source.kind !== 'character' || !pure.FORMULA_BUNDLE_CONDITIONS.includes(d.effects.condition.kind)) actors.fail('unsupported_source_route');
+      if (approval.target.kind !== 'creature') {actors.fail('pc_target_effect_unsupported', 'An attribute-scaled immediate part with an effect applies to one placed creature only; a player character target stays manual. Refused whole.');}
       const names = pure.formulaAttributes(d.effects.direct.formula), attrs = approval.rollAttributes;
       const reading = attrs && typeof attrs === 'object' && !Array.isArray(attrs) ? pure.readScaledFormula(d.effects.direct.formula, attrs) : { supported: false }, roll = approval.roll;
       if (!attrs || typeof attrs !== 'object' || Array.isArray(attrs) || Object.keys(attrs).sort().join() !== names.join() || !reading.supported || !roll ||
@@ -271,7 +294,12 @@ function checkApproval(room, approval, primaryPc = false) {
     const classId = String(source.token.character?.class || '').toLowerCase().replace(/ /g, '_');
     if (classId !== d.binding.classId) actors.fail('unsupported_binding');
   }
-  if (!area && d.targeting.restriction === 'self' && actors.hash(approval.source) !== actors.hash(approval.target)) actors.fail('authored_target_mismatch');
+  if (!area && d.targeting.restriction === 'self' && (actors.hash(approval.source) !== actors.hash(approval.target) || d.effect?.kind !== 'healing' || d.targeting?.rangeFeet !== 0)) actors.fail('authored_target_mismatch');
+  if (!area && actors.hash(approval.source) === actors.hash(approval.target) &&
+      (d.effect?.kind !== 'healing' || !['self', 'any'].includes(d.targeting?.restriction) ||
+       (approval.source.kind === 'character' && d.targeting?.restriction !== 'self' && (formula || d.targeting?.rangeFeet !== 0)))) {
+    actors.fail('authored_target_mismatch');
+  }
   return entry;
 }
 module.exports = { registry, list, lookup, checkApproval, creatureSource, creatureSources, planCreatureAdmission, checkCreatureAuthority };

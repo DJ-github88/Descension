@@ -7,6 +7,9 @@ import { getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
 import useGameStore from '../gameStore';
 import { getEncumbranceState } from '../characterHelpers';
 
+// Stored HP/mana/AP derivation must not follow shared room attribute modifiers (approved only for the effective score).
+const STORED_POOL_EFFECTS = { excludeRoomAttributeModifiers: true };
+
 // Stats Slice: Stats, equipment, derived calculations, resistances, spell power.
 // State properties and action bodies are copied verbatim from characterStore.js.
 
@@ -174,8 +177,8 @@ export const createStatsSlice = (set, get) => ({
             // Fetch buff/debuff effects for derived stats
             const useConditionStore = getStore('conditionStore');
             const conditionState = useConditionStore.getState();
-            const buffModifiersRaw = conditionState.getActiveEffects('buff');
-            const debuffModifiersRaw = conditionState.getActiveEffects('debuff');
+            const buffModifiersRaw = conditionState.getActiveEffects('buff', 'player', STORED_POOL_EFFECTS);
+            const debuffModifiersRaw = conditionState.getActiveEffects('debuff', 'player', STORED_POOL_EFFECTS);
             
             // Flatten effects from array format to simple numeric values
             const buffModifiers = flattenEffects(buffModifiersRaw);
@@ -278,8 +281,8 @@ export const createStatsSlice = (set, get) => ({
             // Fetch buff/debuff effects for derived stats
             const useConditionStore = getStore('conditionStore');
             const conditionState = useConditionStore.getState();
-            const buffModifiersRaw = conditionState.getActiveEffects('buff');
-            const debuffModifiersRaw = conditionState.getActiveEffects('debuff');
+            const buffModifiersRaw = conditionState.getActiveEffects('buff', 'player', STORED_POOL_EFFECTS);
+            const debuffModifiersRaw = conditionState.getActiveEffects('debuff', 'player', STORED_POOL_EFFECTS);
             
             // Flatten effects from array format to simple numeric values
             const buffModifiers = flattenEffects(buffModifiersRaw);
@@ -689,7 +692,7 @@ export const createStatsSlice = (set, get) => ({
         totalStats.manaRegen = Math.round(derivedStats.manaRegen || 0);
         totalStats.movementSpeed = Math.round(derivedStats.moveSpeed || 30);
         totalStats.durability = Math.round(derivedStats.durability || state.durability || 0);
-        totalStats.damageReduction = Math.round(derivedStats.damageReduction || state.damageReduction || 0);
+        totalStats.damageReduction = Math.round((derivedStats.damageReduction || state.damageReduction || 0) + (totalStats.damageReduction || 0));
         totalStats.swimSpeed = Math.round(derivedStats.swimSpeed || 0);
         totalStats.climbSpeed = Math.round(derivedStats.climbSpeed || 0);
         totalStats.carryingCapacity = Math.round(derivedStats.carryingCapacity || 0);

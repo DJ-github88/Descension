@@ -67,6 +67,8 @@ const AUTHORITATIVE_ROOM_EVENTS = new Set([
   'actor_riposte_offer', 'actor_riposte_list', 'actor_riposte_cancel', 'actor_riposte_revalidate',
   'actor_riposte_parent',
   'actor_snapshot', 'actor_bind', 'actor_consequence', 'actor_recovery', 'actor_propose', 'actor_adjudicate', 'actor_turn_boundary',
+  // Shared trigger foundation v1.1 (diagnostic): same fresh-authority guard and session-room target rule.
+  'actor_trigger_list', 'actor_trigger_register', 'actor_trigger_revoke', 'actor_trigger_dismiss',
   // P9 owner spell approvals (same strict actor_ sanitization boundary)
   'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_decline', 'actor_spell_list',
   // P12A owner strike approvals (same boundary)

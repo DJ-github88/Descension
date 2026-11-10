@@ -306,6 +306,12 @@ function authoredPayment(support, character) {
   if (!payment.supported) return payment;
   if (!payment.classPayment || canonical(payment.classPayment.price) !== canonical(support.classPaymentSpec.price) ||
     payment.classPayment.domain !== support.classPaymentSpec.domain) return manual('The existing class planner produced a different typed price; manual play only.');
+  if (support.kind === 'effect') {
+    const { domain, before, after, price } = payment.classPayment;
+    const count = value => domain === 'elementalSpheres' ? value.spheres.length : domain === 'musicalNotes' ? value.notes.reduce((a, n) => a + n, 0) : value.current;
+    const delta = domain === 'devotionGauge' ? price.gain - price.cost : price.gains.length - price.costs.length;
+    if (count(after) - count(before) !== delta) return manual('The complete gain does not fit; this composed payment stays manual. Nothing was applied.');
+  }
   return { ...support, payment };
 }
 /** Complete support decision for one caster (shape, payer, formula). */
@@ -412,9 +418,56 @@ export function affordable(pools, price) {
 /** Truthful wording (repair B2): only a refusal of the FIRST submission proves nothing
  * was recorded. A refused re-check can never be read as "no payment". */
 const codeLabel = code => String(code || 'refused').replace(/_/g, ' ');
-export function ownerRefusal(firstSubmission, code) {
+// The server's structured detail names the exact release boundary, retired clock or missing attachment.
+const refusalDetail = (code, detail) => typeof detail === 'string' && detail.trim() && detail.trim() !== code ? detail.trim() : '';
+const sentence = text => /[.!?]$/.test(String(text).trim()) ? String(text).trim() : `${String(text).trim()}.`;
+const noCharge = text => /nothing (?:was|is) (?:applied|charged)/i.test(text) ? '' : ' Nothing was applied or charged.';
+const noAppliedOrSpent = text => /nothing (?:was|is) (?:applied|spent)/i.test(text) ? '' : ' Nothing was applied or spent.';
+const noPayment = text => /no payment|nothing (?:was|is) (?:applied|charged|spent)/i.test(text) ? '' : ' No payment was recorded.';
+const ownerControl = {
+  ability_on_cooldown: ' Wait for the existing authenticated turn control to reach the release boundary; do not submit a new approval.',
+  cooldown_clock_retired: ' The authenticated cooldown clock is retired; the GM must resolve it manually. Do not submit a new approval.',
+  cooldown_clock_required: ' Use the existing combat turn controls to enable authenticated turn tracking, then approve again.',
+  cooldown_source_not_in_roster: ' The caster must be in the exact authenticated turn roster; the GM enables turn tracking before another approval.',
+  cooldown_capacity: ' The retained cooldown capacity is full; the GM must resolve this cooldown manually.',
+  actor_not_found: ' If the exact source or target changed, select its current attachment and approve again.',
+  actor_binding_conflict: ' If the exact source or target changed, select its current attachment and approve again.',
+  secondary_attachment: ' If the exact source or target changed, select its current attachment and approve again.',
+  stale_actor_revision: ' Review the exact current source and target, then approve again with the retained dice.',
+  class_home_required: ' Review the current class resource value and approve again.',
+  insufficient_resources: ' Review the current AP and mana and approve again.',
+  owner_reapproval_required: ' Review the changed terms and approve again with the retained dice.'
+};
+const gmControl = {
+  effect_schedule_unavailable: ' Enable the existing authenticated turn tracking with this exact target in the roster, or resolve this attempt manually; no new command is sent automatically.',
+  ability_on_cooldown: ' Wait for the existing authenticated turn control to reach the release boundary; this confirmation is not replaced automatically.',
+  cooldown_clock_retired: ' The authenticated cooldown clock is retired; the GM must resolve it manually. This confirmation is not replaced automatically.',
+  cooldown_clock_required: ' Use the existing combat turn controls to enable authenticated turn tracking, then explicitly confirm again.',
+  cooldown_source_not_in_roster: ' The caster must be in the exact authenticated turn roster; the GM enables turn tracking before confirming again.',
+  cooldown_capacity: ' The retained cooldown capacity is full; the GM must resolve this cooldown manually.',
+  actor_not_found: ' The owner must select the exact current attachment and approve again; this confirmation is not replaced automatically.',
+  actor_binding_conflict: ' The owner must select the exact current attachment and approve again; this confirmation is not replaced automatically.',
+  secondary_attachment: ' The owner must select the exact current attachment and approve again; this confirmation is not replaced automatically.'
+};
+const gmFallback = {
+  effect_schedule_unavailable: 'Structured expiry needs active authenticated turn tracking with this target in the exact roster (and schedule capacity)',
+  ability_on_cooldown: 'The ability is on cooldown',
+  cooldown_clock_retired: 'The authenticated cooldown clock is retired or unavailable',
+  cooldown_clock_required: 'Authenticated turn tracking is not enabled',
+  cooldown_source_not_in_roster: 'The caster is not in the exact authenticated turn roster',
+  cooldown_capacity: 'The retained cooldown capacity is full',
+  actor_not_found: 'The exact source or target is missing, replaced or no longer bound',
+  actor_binding_conflict: 'The exact source or target is missing, replaced or no longer bound',
+  secondary_attachment: 'The exact source or target is missing, replaced or no longer bound'
+};
+export const OWNER_REAPPROVAL_TEXT = 'The server closed this approval before acceptance because its terms changed. Nothing was applied or spent. Review the changed terms and the retained dice, then approve again.';
+export function ownerRefusal(firstSubmission, code, detail = '') {
   if (code === 'approval_consumed') return { phase: 'unresolved', message: 'This approval was already used; the payment was recorded (its receipt is no longer retained). Reconcile with the GM.' };
-  if (firstSubmission && code !== 'retry_window_expired') return { phase: 'refused', message: `Not registered (${codeLabel(code)}) — no payment was recorded.` };
+  if (firstSubmission && code !== 'retry_window_expired') {
+    const reason = refusalDetail(code, detail);
+    const text = reason ? `Not registered: ${sentence(reason)}` : `Not registered (${codeLabel(code)})`;
+    return { phase: 'refused', message: `${text}${reason ? noPayment(text) : ' — no payment was recorded.'}${ownerControl[code] || ''}` };
+  }
   return { phase: 'unresolved', message: `The server can no longer confirm this approval (${codeLabel(code)}). A payment may have been recorded; reconcile with the GM. It is never re-sent automatically.` };
 }
 export function gmRefusal(isRetry, code, detail = '') {
@@ -423,9 +476,17 @@ export function gmRefusal(isRetry, code, detail = '') {
   if (!isRetry && ['modifier_combination_unresolved', 'movement_modifier_capacity', 'modifier_identity_required'].includes(code)) return { phase: 'refused', message: `${typeof detail === 'string' && detail && detail !== code ? detail : 'This movement combination is not decided by the recorded policy.'} Nothing was applied or charged; the GM resolves it manually.` };
   if (code === 'creature_revalidation_required') return { phase: 'retry', message: 'Creature state changed. Nothing applied. Review current HP, bounds and conditions, then explicitly revalidate the original attempt with the same faces.' };
   if (code === 'actor_stunned') return { phase: 'retry', message: 'Stunned: no actions or reactions. Nothing applied. Retain the command and roll; remove all source instances, then review and accept again.' };
+  // A re-check that cannot be confirmed may already have landed; never turn it into a no-mutation claim.
   if (isRetry || code === 'retry_window_expired') return { phase: 'unresolved', message: `The server can no longer confirm this command (${codeLabel(code)}). It may have been applied; reconcile before acting again. It was not resubmitted.` };
-  if (code === 'owner_reapproval_required') return { phase: 'reapproval', message: 'The approved caster state, inputs or price changed. The owner must review and approve again with retained faces; nothing was applied.' };
-  if (['stale_actor_revision', 'insufficient_resources'].includes(code)) return { phase: 'retry', message: `Actors changed (${codeLabel(code)}). Nothing was applied; review and accept again.` };
+  if (code === 'owner_reapproval_required') {
+    const reason = refusalDetail(code, detail) || 'The approved caster state, inputs or price changed';
+    return { phase: 'reapproval', message: `${sentence(reason)}${noAppliedOrSpent(reason)} The owner must review the changed terms and approve again with the retained dice; this confirmation is not resubmitted.` };
+  }
+  if (gmControl[code]) {
+    const reason = refusalDetail(code, detail) || gmFallback[code];
+    return { phase: 'refused', message: `${sentence(reason)}${noCharge(reason)}${gmControl[code]}` };
+  }
+  if (['stale_actor_revision', 'insufficient_resources'].includes(code)) return { phase: 'retry', message: `Actors changed (${codeLabel(code)}). Nothing was applied or charged; review and accept again.` };
   return { phase: 'refused', message: `Refused (${codeLabel(code)}); nothing was applied.` };
 }
 export function buildApproval({ support, tokens, sourceRef, targetRef, targetRefs, areaOrigin, roomId, mapId, actionEpoch, baseCommitSequence, roll, approvalId }) {
@@ -470,7 +531,14 @@ export function buildApproval({ support, tokens, sourceRef, targetRef, targetRef
   const health = !!support?.rollHealth;
   const formula = isFormula({ spell: support });
   const pcHealing = formula && support?.targetRoute === 'primary-pc-healing';
-  if (formula && (pcHealing ? (targetRef.kind !== 'character' || sameExactRef(sourceRef, targetRef) || support.kind !== 'healing')
+  const selfHealing = support?.selfHealing === true;
+  if (selfHealing && (!sameExactRef(sourceRef, targetRef) || targetRef.kind !== 'character' || support.kind !== 'healing')) {
+    throw Error('This self-targeted healing ability applies only to your own exact primary character.');
+  }
+  if (!selfHealing && isAuthored(support) && sameExactRef(sourceRef, targetRef)) {
+    throw Error('This authored ability does not permit self targeting.');
+  }
+  if (formula && !selfHealing && (pcHealing ? (targetRef.kind !== 'character' || sameExactRef(sourceRef, targetRef) || support.kind !== 'healing')
     : targetRef.kind !== 'creature')) throw Error(pcHealing ? 'This formula version requires one distinct primary player character target.' : 'This formula version supports one distinct creature target; PC/self routes need separate admission support.');
   if (!support?.supported || !support.payment?.affordable) throw Error(support?.payment?.reason || 'This spell cannot be paid right now.');
   if (!affordable(sourcePools(source), support.price)) throw Error('Insufficient AP or mana (temporary pools count first); nothing submitted.');
@@ -504,7 +572,7 @@ export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId,
     return planAreaSpellCommand({ approval, contentHash, tokens, roomId, mapId, adjudicated, targetOutcomes });
   }
   if (classEffect.isClassEffect(approval)) return planClassEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, branch });
-  if (authoredEffect.isEffect(approval)) return planEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, resolution });
+  if (authoredEffect.isEffect(approval)) return planEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, resolution, branch });
   if (authoredCondition.isCondition(approval)) {
     if (approval.source.kind === 'character') {
       if (canonical(resolution?.timing) !== canonical(approval.conditionTerms.timing) || !resolution?.timingNote?.trim() || resolution.timingNote.length > 300 || typeof resolution.evidence !== 'string' || resolution.evidence.length > 2000) throw Error('Required GM timing clarification must retain the owner-approved duration. Changed terms need new approval.');
@@ -546,8 +614,12 @@ export function planSpellCommand({ approval, contentHash, tokens, roomId, mapId,
       finalAmount, adjustmentReason: reason.trim() } } };
 }
 /** A10: one command for the whole bundle — payment, optional direct HP change and the canonical effect. */
-function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, resolution }) {
+function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, finalAmount, reason, adjudicated, resolution, branch }) {
   const pc = approval.source.kind === 'character', terms = approval.effectTerms, res = pc ? resolution : approval.resolution;
+  // Shared GM-recorded save branch: the GM records one owner-approved branch; the negated effect installs only on "failed".
+  const save = authoredEffect.saveOf(terms);
+  if (save && !authoredEffect.branchesFor(terms).includes(branch)) throw Error('Record whether the target saved or failed first.');
+  const recorded = save ? branch : undefined, applies = authoredEffect.conditionApplies(terms, recorded);
   if (pc && (canonical(res?.timing) !== canonical(terms.timing) || !res?.timingNote?.trim() || res.timingNote.length > 300 || typeof res.evidence !== 'string' || res.evidence.length > 2000)) throw Error('Required GM ruling must keep the owner-approved duration. Changed terms need new approval.');
   if (adjudicated !== true || res?.gmConfirmed !== true) throw Error('Explicit GM-confirmed successful outcome required.');
   const direct = terms.direct;
@@ -566,9 +638,9 @@ function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, final
   if (!Object.keys(payment).length) payment.ap = depleteTempFirst(pools.ap.current, pools.ap.temp, 0, true);
   // A11: the same pure plan the server binder and P7 stage derive — add, refresh (replace the one matching
   // instance) or an explicit refusal for combinations the recorded policy does not define.
-  const plan = authoredEffect.conditionPlan(approval, target.state?.conditions || []);
+  const plan = applies ? authoredEffect.conditionPlan(approval, target.state?.conditions || []) : { ops: null, combination: null };
   if (plan.refused) throw Object.assign(Error(plan.refused.message), { code: plan.refused.code });
-  const targetEntry = { ref: approval.target, expectedRevision: target.state.actorContract.revision, conditions: plan.ops };
+  const targetEntry = { ref: approval.target, expectedRevision: target.state.actorContract.revision, ...(applies ? { conditions: plan.ops } : {}) };
   if (direct) {
     const values = approval.target.kind === 'character'
       ? { current: target.character?.health?.current, temp: target.character?.tempHealth || 0, max: target.character?.health?.max }
@@ -577,9 +649,10 @@ function planEffectCommand({ approval, contentHash, tokens, roomId, mapId, final
     if (![hp.current, hp.temp].every(Number.isFinite)) throw Error('Target resources are unavailable; refresh the room snapshot.');
     targetEntry.finalResources = { hp };
   }
-  return { entries: [{ ref: approval.source, expectedRevision: source.state.actorContract.revision, finalResources: payment }, targetEntry],
+  const classPayment = approval.classPayment ? { classPayment: { mode: 'spell', domain: approval.classPayment.domain, approvalHash: contentHash } } : {};
+  return { entries: [{ ref: approval.source, expectedRevision: source.state.actorContract.revision, finalResources: payment, ...classPayment }, targetEntry],
     extra: { source: approval.source, target: approval.target, approval: { approvalId: approval.approvalId, contentHash }, adjudication: {
-      definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash, chosenResult: JSON.stringify(authoredEffect.resultFor(approval, res, plan.combination)),
+      definitionId: approval.spell.definitionId, definitionVersionOrHash: approval.spell.definitionHash, chosenResult: JSON.stringify(authoredEffect.resultFor(approval, res, plan.combination, recorded)),
       finalAmount: direct ? finalAmount : 0, adjustmentReason: direct ? reason.trim() : '' } } };
 }
 /** M1: one command for one recorded outcome branch — payment, direct HP change and (if that branch applies it) the rider. */

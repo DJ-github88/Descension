@@ -4,8 +4,9 @@ import { CLASS_DATA_MAP } from '../../../../../data/classSpellGenerator';
 import { catalogueDraft } from '../../../../../services/catalogueAbility.cjs';
 import { setAreaRollProposalForTest, EFFECT_CAPABILITY } from '../../../../../services/authoredAbility';
 import { serializeSpell, deserializeSpell } from '../../../core/utils/spellSerializer';
-import { explainExecution, authoredInventory, readableReason, STATES } from '../../../utils/executionCompatibility';
+import { explainExecution, authoredInventory, readableReason, isCreatureRef, STATES } from '../../../utils/executionCompatibility';
 import ExecutionCompatibility from '../ExecutionCompatibility';
+import AuthoredAdmission from '../../library/AuthoredAdmission';
 import useGameStore from '../../../../../store/gameStore';
 
 const ID = '11111111-1111-4111-8111-111111111111';
@@ -16,6 +17,15 @@ const base = (over = {}) => ({ name: 'Cinder Lash', description: 'A lash of embe
   resourceCost: { actionPoints: 1, mana: 3 }, targetingConfig: { targetingType: 'single', maxTargets: 1, rangeDistance: 30, rangeType: 'ranged', targetRestrictions: ['enemy'] }, ...over });
 const bundle = (policy = 'gm-manual') => base({ name: 'Hobbling Ember', effectTypes: ['control', 'damage'],
   controlConfig: { authoredCondition: { profile: EFFECT_CAPABILITY, effect: 'movement', movementFeet: -10, label: 'Hobbled', expiryPolicy: policy, durationText: 'Until the embers cool', gmNote: 'PRIVATE-GM-NOTE do not show' } } });
+const composedPeriodic = () => base({
+  name: 'Cinder Brand', description: 'Immediate damage plus periodic ticks.',
+  spellType: 'ACTION', typeConfig: { castTimeType: 'IMMEDIATE' },
+  effectTypes: ['damage', 'control'],
+  damageConfig: { damageType: 'direct', elementType: 'ember', formula: '1d6+2', resolution: 'DICE' },
+  controlConfig: { authoredCondition: { profile: EFFECT_CAPABILITY, effect: 'periodic', periodicKind: 'damage', periodicFormula: '1d4', periodicDamageType: 'blight', tickRoll: 'each-tick', label: 'Cinder Brand',
+    expiryPolicy: 'target-start-count', occurrences: 3, durationText: 'While the cinders glow', gmNote: 'GM resolves range before confirming.' } },
+  resourceCost: { actionPoints: 1, mana: 2 }
+});
 const periodic = () => base({ name: 'Smoulder', damageConfig: { damageType: 'direct', elementType: 'ember', formula: '2d6', resolution: 'DICE', hasDotEffect: true, dotConfig: { enabled: true, duration: 3, tickFrequency: 'round' } } });
 const summon = () => base({ name: 'Call Hound', effectTypes: ['summoning'], damageConfig: null, summoningConfig: { creatures: [{ id: 'hound', quantity: 1 }], duration: 5 } });
 const transform = () => base({ name: 'Wolf Shape', effectTypes: ['transformation'], damageConfig: null, transformationConfig: { transformType: 'creature', duration: 10 } });
@@ -189,5 +199,90 @@ describe('cannot spend or change anything', () => {
     const view = explainExecution(wrap(base()), { ...ctx, gm: true });
     expect(view.next[0]).toContain('Admit this saved version');
     expect(within(render(<ExecutionCompatibility record={wrap(base())} context={ctx} />).container).getByRole('status').textContent).toMatch(/Structurally compatible/);
+  });
+});
+
+describe('route-specific execution compatibility', () => {
+  test('combined immediate + periodic spell is partially automated for a PC caster route', () => {
+    const view = explainExecution(wrap(composedPeriodic()), ctx);
+    expect(view.state).toBe(STATES.PARTIAL);
+    expect(view.automated.join(' ')).toMatch(/ember damage 1d6\+2/);
+    expect(view.automated.join(' ')).toMatch(/blight damage 1d4 per tick/);
+    expect(view.confirm.join(' ')).toMatch(/owner approves the exact price, target and roll/);
+    expect(view.manual.join(' ')).toMatch(/Resolving periodic ticks: 3 ticks recorded automatically at target turn start/);
+  });
+
+  test('combined immediate + periodic spell evaluated for a creature route is refused with plain-language route restriction', () => {
+    const view = explainExecution(wrap(composedPeriodic()), { ...ctx, route: 'creature' });
+    expect(view.state).toBe(STATES.UNSUPPORTED);
+    expect(view.summary).toMatch(/Structurally compatible with a Prism route, but not executable through this creature source/);
+    expect(view.reasons).toEqual([{ label: 'Route restriction', text: expect.stringMatching(/immediate \+ periodic.*primary owner PC source/) }]);
+    expect(view.automated).toEqual([]);
+    expect(view.manual[0]).toMatch(/immediate \+ periodic.*primary owner PC source/);
+    expect(view.manual[1]).toMatch(/Resolving periodic ticks: 3 ticks recorded automatically/);
+    expect(view.preserved.map(i => i.label)).toEqual(['Damage', 'Condition or movement effect']);
+    expect(view.next.join(' ')).toMatch(/Keep playing it by hand/);
+    expect(view.next.join(' ')).toMatch(/change what the route restriction above names/);
+  });
+
+  test('exact creature sourceRef in context triggers the same creature route refusal and explains the restriction', () => {
+    const sourceRef = { kind: 'creature', mapId: 'arena', tokenId: 'wolf-1', instanceId: 'inc-1' };
+    const view = explainExecution(wrap(composedPeriodic()), { ...ctx, sourceRef });
+    expect(view.state).toBe(STATES.UNSUPPORTED);
+    expect(view.reasons[0].label).toBe('Route restriction');
+    expect(view.reasons[0].text).toMatch(/primary owner PC source/);
+  });
+
+  test('sourceRef detection cannot misclassify a character or non-creature reference as creature', () => {
+    const charRef = { kind: 'character', characterId: 'hero-1', userId: 'user-1' };
+    expect(isCreatureRef(charRef)).toBe(false);
+    expect(isCreatureRef({ kind: 'party', partyId: 'p-1' })).toBe(false);
+    expect(isCreatureRef(null)).toBe(false);
+    expect(isCreatureRef(undefined)).toBe(false);
+    expect(isCreatureRef({ kind: 'creature', mapId: 'arena', tokenId: 't1', instanceId: 'i1' })).toBe(true);
+    expect(isCreatureRef({ mapId: 'arena', tokenId: 't1', instanceId: 'i1' })).toBe(true);
+    // When evaluated with a character sourceRef, the PC composition remains partially automated (not route-refused)
+    const view = explainExecution(wrap(composedPeriodic()), { ...ctx, sourceRef: charRef });
+    expect(view.state).toBe(STATES.PARTIAL);
+    expect(view.automated.join(' ')).toMatch(/ember damage 1d6\+2/);
+    expect(view.confirm.join(' ')).toMatch(/owner approves the exact price, target and roll/);
+  });
+
+  test('eligible creature ability (direct damage) remains executable for creature route with creature-appropriate confirmations', () => {
+    const view = explainExecution(wrap(base()), { ...ctx, route: 'creature', gm: true });
+    expect(view.state).toBe(STATES.EXECUTABLE);
+    expect(view.confirm).toEqual(['The GM confirms success and any final amount.']);
+    expect(view.confirm.join(' ')).not.toMatch(/owner approves/);
+    expect(view.next.join(' ')).toMatch(/Admit for this creature/);
+    expect(view.next.join(' ')).not.toMatch(/cast from the action bar/);
+  });
+
+  test('rendered ExecutionCompatibility component reflects route restriction and hides Prism runs list', () => {
+    const sourceRef = { kind: 'creature', mapId: 'arena', tokenId: 'wolf-1', instanceId: 'inc-1' };
+    const { container } = render(<ExecutionCompatibility record={wrap(composedPeriodic())} context={{ ...ctx, sourceRef }} />);
+    expect(container.querySelector('[data-state]').dataset.state).toBe('unsupported');
+    expect(container.textContent).toMatch(/Structurally compatible with a Prism route, but not executable through this creature source/);
+    expect(container.textContent).toMatch(/Route restriction/);
+    expect(container.textContent).not.toMatch(/Prism runs/);
+    expect(container.textContent).toMatch(/Played by hand/);
+  });
+
+  test('AuthoredAdmission with creature sourceRef: disables admit button and refuses immediate + periodic composition', () => {
+    useGameStore.setState({ isGMMode: true, isInMultiplayer: true, multiplayerRoom: { id: 'room-secret-7' } });
+    const sourceRef = { kind: 'creature', mapId: 'arena', tokenId: 'wolf-1', instanceId: 'inc-1' };
+    const { unmount } = render(<AuthoredAdmission spell={wrap(composedPeriodic())} sourceRef={sourceRef} />);
+    const admitBtn = screen.getByRole('button', { name: 'Admit for this creature' });
+    expect(admitBtn).toBeDisabled();
+    expect(screen.queryByText(/Exact creature source → one distinct creature; the GM confirms success/)).not.toBeInTheDocument();
+    expect(screen.getByText(/Compatible definition, not executable by this creature source/)).toBeInTheDocument();
+    unmount();
+  });
+
+  test('AuthoredAdmission with creature sourceRef: enables admit button for eligible creature definition', () => {
+    useGameStore.setState({ isGMMode: true, isInMultiplayer: true, multiplayerRoom: { id: 'room-secret-7' } });
+    const sourceRef = { kind: 'creature', mapId: 'arena', tokenId: 'wolf-1', instanceId: 'inc-1' };
+    render(<AuthoredAdmission spell={wrap(base())} sourceRef={sourceRef} />);
+    const admitBtn = screen.getByRole('button', { name: 'Admit for this creature' });
+    expect(admitBtn).toBeEnabled();
   });
 });

@@ -67,7 +67,8 @@ function OfferCard({ offer, piece }) {
       <p>Authored targeting: {authored.targeting.rangeFeet} ft · {authored.targeting.restriction}. Retained result {authored.attempt.roll.total}.</p>
       {bundle && <section aria-label="Full effect bundle" className="p12-bundle"><p><strong>This action also applies:</strong> {describeBundle(terms)}.</p>
         <p>{terms.condition.kind === 'movement' ? `Your movement speed changes by ${terms.condition.feet > 0 ? '+' : '−'}${Math.abs(terms.condition.feet)} ft per movement AP (combined with other movement effects, never below 0 ft).`
-          : terms.condition.kind === 'attribute' ? `Your ${terms.condition.attribute} score changes by ${terms.condition.amount > 0 ? '+' : '−'}${Math.abs(terms.condition.amount)} while it lasts (added once to your sheet score; base attributes are not edited).` : 'Canonical Stunned: you cannot act while it lasts.'} {consentText(pcConsent(terms, 'creature'))} The GM confirms eligibility, range, saves and success by hand.</p></section>}
+          : terms.condition.kind === 'attribute' ? `Your ${terms.condition.attribute} score changes by ${terms.condition.amount > 0 ? '+' : '−'}${Math.abs(terms.condition.amount)} while it lasts (added once to your sheet score; base attributes are not edited).`
+          : terms.condition.kind === 'damageReduction' ? `Your flat Damage Reduction (DR) increases by +${terms.condition.amount} while it lasts (added once to your sheet Damage Reduction (DR) and shown to the GM in combat adjudication; never automatically subtracted before or after equipment blocking).` : 'Canonical Stunned: you cannot act while it lasts.'} {consentText(pcConsent(terms, 'creature'))} The GM confirms eligibility, range, saves and success by hand.</p></section>}
       <button type="button" disabled={busy || pending} onClick={() => perform(() => approveBlock(offer.commandId, { noBlock: true }))}>{healing ? (bundle ? 'Accept this healing and effect' : 'Accept this healing proposal') : (bundle ? 'Don’t block — accept damage and effect' : 'Don’t block — accept damage proposal')}</button>
       <button type="button" disabled={busy || pending} onClick={() => perform(() => rejectCreatureOffer(offer.commandId))}>Reject proposal (nothing applied)</button></>}
     {canBlock && (piece && a.outcome === 'critical' && piece.kind === 'armor' ? <p>Criticals go around armor: no block roll. The GM resolves this hit without a block.</p> : piece ? <>
@@ -159,10 +160,14 @@ function GmPendingCard({ entry }) {
   const { approval } = entry;
   const offer = useBlockingStore(s => s.gmOffers[approval.attack.commandId]);
   const status = useBlockingStore(s => s.gmStatus[approval.attack.commandId]);
+  const characters = useCharacterTokenStore(s => s.characterTokens);
   const [manual, setManual] = useState({}), [final, setFinal] = useState(''), [reason, setReason] = useState(''), [plan, setPlan] = useState(null), [why, setWhy] = useState('');
   const { busy, error, perform } = usePerform();
   const required = offer ? requiredManual(offer.attack) : [];
-  const draft = () => ({ manual: Object.entries(manual).filter(([, v]) => v.on).map(([category, v]) => ({ category, note: v.note || '' })), finalAmount: final === '' ? undefined : final, reason });
+  const targetRef = offer?.attack?.target || approval.attack?.target;
+  const targetToken = (characters || []).find(t => keyOf(refOf(t)) === keyOf(targetRef));
+  const targetDrConditions = (targetToken?.state?.conditions || []).filter(c => typeof c?.effects?.damageReduction === 'number' && c.effects.damageReduction !== 0);
+  const draft = () => ({ manual: Object.entries(manual).filter(([, v]) => v.on).map(([category, v]) => ({ category, v, note: v.note || '' })).map(({ category, note }) => ({ category, note })), finalAmount: final === '' ? undefined : final, reason });
   const locked = ['submitting', 'unknown'].includes(status?.phase);
   // P12B-r1 (§3.9): stale state never re-rolls. The GM confirms the recorded rolls or voids.
   const revalidate = ['revalidate', 'targetRevalidate'].includes(status?.phase), blockRuling = status?.phase === 'blockRuling';
@@ -183,6 +188,7 @@ function GmPendingCard({ entry }) {
     </section>}
     <button type="button" disabled={busy} onClick={() => perform(async() => setPlan((await gmPlanBlock(approval.approvalId, draft())).preview))}>{blockRuling ? 'Check the recorded piece again' : 'Review block'}</button>
     {plan && <p>{plan.piece ? `${plan.piece.name}: face ${plan.face}${plan.defending ? ' × 2 (Defending)' : ''} = ${plan.reduction}; wear ${plan.piece.currentDie} → ${plan.broken ? 'broken' : plan.afterDie}` : 'No equipment'} → proposal after block <strong>{plan.afterBlock}</strong></p>}
+    {targetDrConditions.length > 0 && <p className="p12-meta" role="note">Active flat DR on target: {targetDrConditions.map(c => `${c.name || c.recordId || c.id} (Flat DR +${c.effects.damageReduction})`).join(', ')}. Flat DR is not subtracted automatically by equipment blocking (proposal after block ignores flat DR); check “{MANUAL_LABELS['flat-dr']}” below and rule in the final HP damage so it is never subtracted twice.</p>}
     <fieldset disabled={busy || locked}><legend>GM rulings (not automated)</legend>
       {MANUAL.map(category => <div key={category}><label><input type="checkbox" checked={!!manual[category]?.on || false} onChange={e => setManual(m => ({ ...m, [category]: { ...m[category], on: e.target.checked } }))} />
         {MANUAL_LABELS[category]}{required.includes(category) ? ' — required' : ''}</label>

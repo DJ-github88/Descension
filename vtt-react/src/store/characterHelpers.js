@@ -169,14 +169,16 @@ export const readInventoryWorkingData = () => {
             items: inventoryState.items || [],
             containers: inventoryState.containers || [],
             currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
-            encumbranceState: inventoryState.encumbranceState || 'normal'
+            encumbranceState: inventoryState.encumbranceState || 'normal',
+            consumableCommandCompletions: inventoryState.consumableCommandCompletions || []
         };
     } catch (error) {
         console.warn('Could not get inventory data:', error);
         return {
             items: [],
             currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
-            encumbranceState: 'normal'
+            encumbranceState: 'normal',
+            consumableCommandCompletions: []
         };
     }
 };

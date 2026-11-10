@@ -21,32 +21,52 @@ function roster(room) {
 }
 function application(room, next, ref, operation) {
   const lifecycle = next.combat?.effectLifecycle;
-  if (!lifecycle?.schedules) return false;
+  if (!lifecycle?.schedules) { return false; }
   const key = timing.instanceKey(ref, operation.recordId);
   // An explicit correction cancels timing, even when a newer GM writes identical record fields.
   delete lifecycle.schedules[key];
-  if (operation.op !== 'add' || !timing.clock(room.gameState.combat)) return false;
+  if (operation.op !== 'add' || !timing.clock(room.gameState.combat)) { return false; }
   try { roster(room); } catch (_) { return false; } // unsupported combat never prevents manual result entry
-  const record = operation.record, order = next.combat.turnOrder, index = next.combat.currentTurnIndex;
-  if (!profile.validManagedRecord(record, ref)) return false;
+  const item = scheduleItem(lifecycle, next.combat, ref, operation.record);
+  if (!item) { return false; }
+  lifecycle.schedules[key] = item;
+  return true;
+}
+/** The one schedule entry `application` would install for `record` on `ref` (or null). Pure: reads `lifecycle.schedules`, writes nothing. */
+function scheduleItem(lifecycle, combat, ref, record) {
+  const order = combat.turnOrder, index = combat.currentTurnIndex;
+  if (!profile.validManagedRecord(record, ref)) { return null; }
   const targetIndex = order.findIndex(entry => profile.sameRef(entry.actorRef, ref));
-  if (targetIndex < 0) return false;
+  if (targetIndex < 0) { return null; }
   const defending = ref.kind === 'character' && profile.isDefending(record) && targetIndex === index;
   const shieldBash = profile.isStunned(record) && bash.namedRecord(record) && record.clockBoundary === bash.TIMING;
   // A10: authored-effect records name their own structured boundary (start/end of the target's strictly next turn).
   const authored = profile.structuredBoundary(record);
-  if (!defending && !shieldBash && !authored) return false;
+  if (!defending && !shieldBash && !authored) { return null; }
   const endBoundary = shieldBash || authored === 'end';
   const distance = (targetIndex - index + order.length) % order.length || order.length;
   // M2A: the first occurrence is the existing strictly-next boundary; each further counted occurrence is one roster cycle later.
   const occurrences = profile.structuredOccurrences(record) || 1;
   const dueSequence = lifecycle.sequence + distance + (endBoundary ? 1 : 0) + (occurrences - 1) * order.length;
   if (!Number.isSafeInteger(dueSequence) || Object.keys(lifecycle.schedules).length >= 256 ||
-      Object.values(lifecycle.schedules).filter(item => item.dueSequence === dueSequence).length >= 32) return false; // P7 atomic capacity; extra instances remain visible/manual
-  lifecycle.schedules[key] = { combatId: lifecycle.id, ref: actors.clone(ref), recordId: record.recordId,
+      Object.values(lifecycle.schedules).filter(item => item.dueSequence === dueSequence).length >= 32) { return null; } // P7 atomic capacity; extra instances remain visible/manual
+  const item = { combatId: lifecycle.id, ref: actors.clone(ref), recordId: record.recordId,
     recordHash: actors.hash(record), recordKey: profile.canonical(record), dueSequence, boundary: endBoundary ? 'end' : 'start' };
-  if (occurrences > 1) Object.assign(lifecycle.schedules[key], { occurrences, period: order.length });
-  return true;
+  if (occurrences > 1) { Object.assign(item, { occurrences, period: order.length }); }
+  return item;
+}
+/**
+ * Timed save branch: whether the P7 stage WOULD install an authenticated schedule for this structured record on the live room,
+ * with the same clock, exact-roster and capacity rules as `application` (instances the same command removes first do not count).
+ * Read-only. Lets a binder refuse every recorded branch alike when the structured expiry the owner approved could not be honoured.
+ */
+function schedulable(room, ref, record, removedRecordIds = []) {
+  const combat = room.gameState.combat, current = timing.clock(combat);
+  if (!current?.schedules || !profile.structuredBoundary(record)) { return false; }
+  try { roster(room); } catch (_) { return false; }
+  const schedules = Object.assign({}, current.schedules);
+  for (const recordId of [record.recordId, ...removedRecordIds]) { delete schedules[timing.instanceKey(ref, recordId)]; }
+  return !!scheduleItem(Object.assign({}, current, { schedules }), combat, ref, record);
 }
 function validate(request) {
   actors.keys(request, ['version', 'roomId', 'commandId', 'actionEpoch', 'baseCommitSequence', 'mode', 'combatHash', 'expectedClock']);
@@ -231,4 +251,4 @@ function resolveTick(room, player, uid, request, confirmedRevision) {
   next.resolvedTicks = [...(next.resolvedTicks || []), tick.tickId].slice(-MAX_RESOLVED_TICKS);
   return staged;
 }
-module.exports = { roster, application, validate, stage, validateResolve, resolveTick, retainOpenTicks, MAX_OPEN_TICKS, MAX_TICKS_PER_BOUNDARY };
+module.exports = { roster, application, schedulable, validate, stage, validateResolve, resolveTick, retainOpenTicks, MAX_OPEN_TICKS, MAX_TICKS_PER_BOUNDARY };

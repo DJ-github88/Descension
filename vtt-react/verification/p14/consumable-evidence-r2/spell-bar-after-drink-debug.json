@@ -1,0 +1,72 @@
+{
+  "status": {
+    "success": false,
+    "code": "attribute_change_gm_only",
+    "error": "Only the GM can record a manual change to this attribute; authored changes go through an approved action. Nothing was applied."
+  },
+  "items": [
+    {
+      "id": "witness-family",
+      "name": "Potion of Insight",
+      "quantity": 2,
+      "combatStats": {
+        "intelligence": 2,
+        "healthRestore": {
+          "value": 5
+        }
+      }
+    },
+    {
+      "id": "witness-regen",
+      "name": "Potion of Vigor",
+      "quantity": 2,
+      "combatStats": {
+        "armor": 2,
+        "healthRestore": {
+          "value": 5
+        }
+      }
+    }
+  ],
+  "combat": [
+    "Potion of Insight was not used and is still in your pack. Only the GM can record a manual change to this attribute; authored changes go through an approved action. Nothing was applied."
+  ],
+  "health": {
+    "current": 20,
+    "max": 40
+  },
+  "currentCharacterId": "ilse",
+  "isInMultiplayer": true,
+  "uid": "app-owner",
+  "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+  "projection": {
+    "health": {
+      "current": 20,
+      "max": 40
+    },
+    "mana": {
+      "current": 10,
+      "max": 30
+    },
+    "actionPoints": {
+      "current": 2,
+      "max": 5
+    },
+    "tempHealth": 0,
+    "tempMana": 3,
+    "tempActionPoints": 1,
+    "roomActorProjection": {
+      "ref": {
+        "kind": "character",
+        "roomId": "f8e2e932-5f0d-4e72-bf66-0e8cc53c27fa",
+        "mapId": "app-hall",
+        "tokenId": "pc",
+        "instanceId": "60ac1460-944c-4baa-b802-307f7e6a2891",
+        "ownerUid": "app-owner",
+        "characterId": "ilse"
+      },
+      "revision": 1,
+      "accountGeneration": 4
+    }
+  }
+}

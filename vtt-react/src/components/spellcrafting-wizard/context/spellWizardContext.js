@@ -96,11 +96,16 @@ export const ACTION_TYPES = {
 
  // Full reset/set
  RESET_STATE: 'RESET_STATE',
- LOAD_SPELL: 'LOAD_SPELL'
+ LOAD_SPELL: 'LOAD_SPELL',
+ SET_EDIT_MODE: 'SET_EDIT_MODE'
 };
 
 // Initial state
 const initialState = {
+ // Edit mode tracking
+ editMode: false,
+ editingSpellId: null,
+
  // Basic information
  name: '',
  description: '',
@@ -311,9 +316,9 @@ function determineWizardFlow(state) {
  flow.push({ id: 'mechanics', name: 'Mechanics', required: false });
  }
 
- // Add Prophecy step as an optional step (available for any spell, not just Doomsayer)
+ // Add Prophecy step when configured or for Doomsayer
  const prophecyIndex = flow.findIndex(step => step.id === 'prophecy');
- if (prophecyIndex === -1) {
+ if (prophecyIndex === -1 && (state.prophecyOptions?.enabled || state.prophecyConfig || state.characterClass === 'doomsayer')) {
  // Insert after mechanics
  const mechIdx = flow.findIndex(step => step.id === 'mechanics');
  if (mechIdx !== -1) {
@@ -321,6 +326,12 @@ function determineWizardFlow(state) {
  } else {
   flow.push({ id: 'prophecy', name: 'Prophecy', required: false });
  }
+ }
+
+ // Final review step (Step 10 Review)
+ const reviewIndex = flow.findIndex(step => step.id === 10 || step.id === 'review');
+ if (reviewIndex === -1) {
+ flow.push({ id: 10, name: 'Review', required: true });
  }
 
  return flow;
@@ -432,8 +443,10 @@ function validateStepCompletion(step, state) {
  case 'prophecy': // Prophecy (for Doomsayer)
   return !!state.prophecyOptions && !!state.prophecyOptions.rangeDice && !!state.prophecyOptions.resolutionDie;
 
+ case 10:
+ case 'review':
  case 7: // Review
-  return state.isValid;
+  return true;
 
  default:
   return false;
@@ -482,6 +495,8 @@ function getStepRequirements(step) {
  case 'mechanics': // Mechanics Configuration
   return [1, 2, 3, 4, 5, 6];
 
+ case 10:
+ case 'review':
  case 7: // Review
   return [1, 2, 3, 4, 5, 6, 'mechanics'];
 
@@ -1263,6 +1278,16 @@ function spellWizardReducer(state, action) {
  case ACTION_TYPES.LOAD_SPELL:
   return {
   ...action.payload,
+  editMode: action.payload?.editMode !== undefined ? Boolean(action.payload.editMode) : false,
+  editingSpellId: action.payload?.editingSpellId !== undefined ? action.payload.editingSpellId : null,
+  lastModified: new Date()
+  };
+
+ case ACTION_TYPES.SET_EDIT_MODE:
+  return {
+  ...state,
+  editMode: Boolean(action.payload?.editMode),
+  editingSpellId: action.payload?.editingSpellId || null,
   lastModified: new Date()
   };
 
@@ -1470,6 +1495,10 @@ const actionCreators = {
  updateWizardFlow: (flow) => ({ type: ACTION_TYPES.UPDATE_WIZARD_FLOW, payload: flow }),
  resetState: () => ({ type: ACTION_TYPES.RESET_STATE }),
  loadSpell: (spellConfig) => ({ type: ACTION_TYPES.LOAD_SPELL, payload: spellConfig }),
+ setEditMode: (editMode, editingSpellId = null) => ({
+  type: ACTION_TYPES.SET_EDIT_MODE,
+  payload: { editMode, editingSpellId }
+ }),
  addEffectToMechanics: (effect) => ({
  type: ACTION_TYPES.ADD_EFFECT_TO_MECHANICS,
  payload: effect

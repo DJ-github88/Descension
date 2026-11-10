@@ -1,0 +1,67 @@
+{
+  "checks": {
+    "overhealCancel": {
+      "modalOpened": true,
+      "cancelled": true,
+      "conditions": 0,
+      "serverHealth": 20,
+      "localHealth": 20,
+      "itemQuantity": 2
+    },
+    "duplicateClick": {
+      "clicksSent": 2,
+      "commandsAccepted": 1,
+      "conditions": 1,
+      "serverHealth": 25,
+      "itemQuantity": 1
+    },
+    "characterSwitchAndReturn": {
+      "charBHealthUntouched": 15,
+      "journalScopedToIlse": true,
+      "reconciledOnReturn": true,
+      "serverHealth": 25,
+      "localHealth": 25,
+      "itemQuantity": 1
+    },
+    "sameDeviceReload": {
+      "journalSurvivedReload": true,
+      "recoveredReceipt": true,
+      "conditions": 1,
+      "serverHealth": 25,
+      "itemQuantity": 1
+    }
+  },
+  "errors": [],
+  "limits": [
+    "Optimized production App and registered backend run; identity/provider login, canonical ownership, lease and cloud persistence are fixture boundaries.",
+    "Inventory contents, the local character roster and the room health pool are seeded/reset through the existing webpack store exports. Every use itself is an ordinary App control (slot click, Drink / Consume, Inventory Use).",
+    "Same-device fixture room; no deployment, Firebase/production auth, physical second device or human-player claim.",
+    "Storage-failure under-debit window: if local draft storage fails while room state is accepted, local item deduction does not complete.",
+    "Cross-device exclusion: client inventory is device/character-scoped; server deduplication is command-identity only without a cross-device inventory ledger.",
+    "Post-submit journal-failure limitation: if browser storage fails after command submission, recovery is limited to live session memory and does not survive reload."
+  ],
+  "suite": "missing",
+  "environmentErrors": [
+    {
+      "role": "overheal-cancel",
+      "error": "Failed to fetch"
+    },
+    {
+      "role": "duplicate-click",
+      "error": "Failed to fetch"
+    },
+    {
+      "role": "character-switch",
+      "error": "Failed to fetch"
+    },
+    {
+      "role": "same-device-reload",
+      "error": "Failed to fetch"
+    },
+    {
+      "role": "same-device-reload",
+      "error": "Failed to fetch"
+    }
+  ],
+  "passed": true
+}

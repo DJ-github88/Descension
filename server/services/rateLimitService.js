@@ -31,6 +31,11 @@ class RateLimitService {
       actor_bind: { maxPerMinute: 30, maxPerSecond: 3 },
       actor_snapshot: { maxPerMinute: 60, maxPerSecond: 5 },
       actor_recovery: { maxPerMinute: 10, maxPerSecond: 2 },
+      // Shared trigger foundation v1.1 (diagnostic): named GM-read/registration limits.
+      actor_trigger_list: { maxPerMinute: 60, maxPerSecond: 5 },
+      actor_trigger_register: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_trigger_revoke: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_trigger_dismiss: { maxPerMinute: 30, maxPerSecond: 3 },
       actor_spell_approve: { maxPerMinute: 30, maxPerSecond: 3 },
       actor_spell_withdraw: { maxPerMinute: 30, maxPerSecond: 3 },
       actor_spell_decline: { maxPerMinute: 30, maxPerSecond: 3 },

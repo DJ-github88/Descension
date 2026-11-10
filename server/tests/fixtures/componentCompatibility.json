@@ -1,0 +1,48 @@
+{
+  "fixtureSet": "installed-component-contracts-20261108-combined",
+  "purpose": "Test data only. Expectations transcribed from accepted contracts, never computed by validators.",
+  "outcomes": ["executable", "structurally-valid-route-unsupported", "awaiting-creator-decision", "authority-forbidden"],
+  "defaults": {"route": "owner-pc-to-creature", "ap": 1, "mana": 3, "physicalFace": 4, "expectedDamageTypes":["arcane"], "expectedMovementFeet":-10, "expectedSave":{"scope":"condition","ability":"constitution","dc":12,"outcome":"negates"}},
+  "evidence": {
+    "immediate": "server/tests/p14a1Authored.production.test.js",
+    "attribute": "server/tests/p14m4Formula.production.test.js",
+    "deterministic": "server/tests/p14m4dDeterministic.production.test.js",
+    "health": "server/tests/p14m4cMissingHealth.production.test.js",
+    "timed": "server/tests/p14m2aDurations.production.test.js",
+    "save": "handoff/timed-save-integration/HANDOFF.md",
+    "periodic": "server/tests/p14m5Periodic.production.test.js",
+    "composition": "server/tests/p14m5Composition.production.test.js",
+    "cooldown": "handoff/composition-integration/HANDOFF.md",
+    "effectCooldown": "handoff/effect-cooldowns/HANDOFF.md",
+    "self": "handoff/owner-pc-self-healing/HANDOFF.md",
+    "class": "server/tests/p14ComposedClassPayment.production.test.js",
+    "authority": "docs/MYTHRILL_COMBAT_CHECKPOINT.md"
+  },
+  "fixtures": [
+    {"id":"immediate-damage", "kind":"damage", "formula":"1d8+2", "expected":{"outcome":"executable", "total":6, "hp":66, "tempHp":0}, "evidence":["immediate"]},
+    {"id":"immediate-healing", "kind":"healing", "formula":"1d8+2", "expected":{"outcome":"executable", "total":6, "hp":76, "tempHp":2}, "evidence":["immediate"]},
+    {"id":"attribute-formula", "kind":"damage", "formula":"1d8 + intelligence/3", "expected":{"outcome":"executable", "total":10, "hp":62, "tempHp":0}, "evidence":["attribute"]},
+    {"id":"deterministic-formula", "kind":"damage", "formula":"intelligence/4", "expected":{"outcome":"executable", "total":4, "hp":68, "tempHp":0}, "evidence":["deterministic"]},
+    {"id":"missing-health-reapproval", "kind":"damage", "formula":"1d8 + caster_missing_health/4", "changedInputReapproval":true, "expected":{"outcome":"executable", "total":8, "freshTotal":9, "hp":63, "tempHp":0}, "evidence":["health"]},
+    {"id":"direct-timed-rider", "kind":"damage", "formula":"1d8+2", "rider":"movement", "expected":{"outcome":"executable", "total":6, "hp":66, "tempHp":0, "conditions":1, "expirySequence":2}, "evidence":["timed"]},
+    {"id":"direct-save-timed-rider", "kind":"damage", "formula":"1d8+2", "rider":"movement", "save":"negates", "expected":{"outcome":"executable", "total":6, "hp":66, "tempHp":0, "conditions":1, "expirySequence":2}, "evidence":["save"]},
+    {"id":"standalone-periodic", "kind":"damage", "rider":"periodic", "expected":{"outcome":"executable", "total":0, "hp":70, "tempHp":2, "conditions":1, "tickHp":69}, "evidence":["periodic"]},
+    {"id":"immediate-periodic", "kind":"damage", "formula":"1d8+2", "rider":"periodic", "expected":{"outcome":"executable", "total":6, "hp":66, "tempHp":0, "conditions":1, "tickHp":63}, "evidence":["composition"]},
+    {"id":"immediate-periodic-cooldown", "kind":"damage", "formula":"1d8+2", "rider":"periodic", "cooldown":1, "expected":{"outcome":"executable", "total":6, "hp":66, "tempHp":0, "conditions":1, "tickHp":63, "cooldownDue":2}, "evidence":["cooldown"]},
+    {"id":"owner-self-healing", "route":"owner-pc-to-self", "kind":"healing", "formula":"1d8 + intelligence * 2", "expected":{"outcome":"executable", "total":40, "hp":40, "tempHp":9}, "evidence":["self"]},
+    {"id":"typed-class-payment-pinned", "kind":"damage", "formula":"1d8+2", "rider":"movement", "classPayment":true, "pin":"process-local-disposable-projection", "admission":"registry-planner-fixture-only", "wizardExpected":"authority-forbidden", "expected":{"outcome":"executable", "total":6, "hp":66, "tempHp":0, "conditions":1}, "evidence":["class","authority"]},
+    {"id":"standalone-periodic-cooldown", "kind":"damage", "rider":"periodic", "cooldown":1, "expected":{"outcome":"executable", "total":0, "hp":70, "tempHp":2, "conditions":1, "tickHp":69, "cooldownDue":2}, "evidence":["effectCooldown"]},
+    {"id":"movement-rider-cooldown", "kind":"damage", "formula":"1d8+2", "rider":"movement", "cooldown":2, "expected":{"outcome":"executable", "total":6, "hp":66, "tempHp":0, "conditions":1, "expirySequence":2, "cooldownDue":4}, "evidence":["effectCooldown"]},
+    {"id":"stunned-cooldown", "kind":"damage", "rider":"stunned", "cooldown":2, "acceptanceLimit":"production-handler/client-planner evidence only; no combined App journey", "expected":{"outcome":"executable", "total":0, "hp":70, "tempHp":2, "conditions":1, "expirySequence":2, "cooldownDue":4}, "evidence":["effectCooldown"]}
+  ],
+  "boundaries": [
+    {"id":"composition-creature-source", "fixture":"immediate-periodic", "route":"gm-creature-to-creature", "expected":"structurally-valid-route-unsupported", "stage":"admission", "code":"unsupported_source_route", "evidence":["composition"]},
+    {"id":"formula-creature-source", "fixture":"attribute-formula", "route":"gm-creature-to-creature", "expected":"structurally-valid-route-unsupported", "stage":"admission", "code":"unsupported_source_route", "evidence":["attribute"]},
+    {"id":"periodic-pc-target", "fixture":"standalone-periodic", "route":"owner-pc-to-other-pc", "expected":"structurally-valid-route-unsupported", "stage":"approval", "code":"pc_target_effect_unsupported", "evidence":["periodic"]},
+    {"id":"partial-save", "fixture":"direct-save-timed-rider", "route":"owner-pc-to-creature", "save":"halves", "expected":"awaiting-creator-decision", "stage":"wizard", "reason":"halves/partial outcomes await a creator decision", "evidence":["save"]},
+    {"id":"unowned-caster", "fixture":"immediate-damage", "route":"non-owner-pc-to-creature", "expected":"authority-forbidden", "stage":"approval", "code":"forbidden", "evidence":["immediate","authority"]},
+    {"id":"typed-payment-without-pin", "fixture":"typed-class-payment-pinned", "route":"owner-pc-to-creature", "expected":"authority-forbidden", "stage":"compilation-and-commit", "code":"catalogue_provenance_untrusted", "evidence":["class","authority"]},
+    {"id":"periodic-cooldown-creature-source", "fixture":"standalone-periodic-cooldown", "route":"gm-creature-to-creature", "expected":"structurally-valid-route-unsupported", "stage":"admission", "code":"unsupported_source_route", "evidence":["effectCooldown"]},
+    {"id":"movement-cooldown-creature-source", "fixture":"movement-rider-cooldown", "route":"gm-creature-to-creature", "expected":"structurally-valid-route-unsupported", "stage":"admission", "code":"unsupported_source_route", "evidence":["effectCooldown"]}
+  ]
+}

@@ -336,12 +336,74 @@
 /* ===== RESPONSIVE DESIGN ===== */
 
 @media (max-width: 768px) {
+  .step10-review-container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
+    max-height: none;
+    overflow: visible;
+    padding: var(--my-space-3);
+  }
+
   .review-content-wrapper {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     gap: var(--my-space-4);
+    overflow: visible;
+  }
+
+  .review-spell-preview,
+  .review-validation-panel {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: visible;
+    padding-right: 0;
+    max-height: none;
   }
 
   .review-actions {
+    box-sizing: border-box;
+    display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: var(--my-space-2);
+  }
+
+  .save-button,
+  .spellbook-button {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 42px;
+  }
+}
+
+@media (max-width: 480px) {
+  .step10-review-container {
+    padding: var(--my-space-2);
+  }
+
+  .checklist-item {
+    padding: var(--my-space-2) var(--my-space-1);
+    gap: var(--my-space-2);
+  }
+
+  .checklist-text {
+    font-size: var(--my-text-xs);
+  }
+
+  .save-button,
+  .spellbook-button {
+    padding: var(--my-space-2) var(--my-space-3);
+    font-size: var(--my-text-xs);
   }
 }

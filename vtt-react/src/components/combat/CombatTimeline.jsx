@@ -143,6 +143,7 @@ const CombatTimeline = () => {
     const getCreatureIcon = (combatant) => {
         // Handle character tokens
         if (combatant.isCharacterToken) {
+            if (combatant.tokenIcon) return combatant.tokenIcon;
             const useCharacterStore = require('../../store/characterStore').default;
             const char = useCharacterStore.getState();
             return char.tokenSettings?.customIcon || char.lore?.characterImage || getIconUrl('Arcane/Abstract Rune', 'abilities');

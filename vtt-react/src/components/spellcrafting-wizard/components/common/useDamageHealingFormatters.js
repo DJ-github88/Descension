@@ -1,4 +1,5 @@
 import { cleanFormula, normalizeSaveType } from './spellFormatterUtils';
+import { extractPeriodicTiming } from './spellTimingPresentation';
 import { normalizeDamageType } from '../../core/data/damageTypes';
 
 const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) => {
@@ -321,7 +322,8 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
   };
  };
  const formatDamage = () => {
-  if (!spell || !spell.damageConfig) return null;
+  const periodicInfo = extractPeriodicTiming(spell);
+  if (!spell || (!spell.damageConfig && (!periodicInfo || periodicInfo.kind !== 'damage'))) return null;
 
   let damageText = '';
   let dotText = '';
@@ -543,6 +545,23 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
 
 
 
+  // Handle supported M5 periodic damage
+  if (periodicInfo && periodicInfo.kind === 'damage') {
+    const boundaryText = periodicInfo.boundary === 'start' ? 'target turn start' : 'target turn end';
+    const pType = periodicInfo.damageType
+      ? `${periodicInfo.damageType.charAt(0).toUpperCase() + periodicInfo.damageType.slice(1)} Damage`
+      : 'Damage';
+    dotText = `${cleanFormula(periodicInfo.formula)} ${pType} per tick (${periodicInfo.ticks} tick${periodicInfo.ticks === 1 ? '' : 's'}, ${boundaryText})`;
+
+    if (periodicInfo.immediate && damageText) {
+      return {
+        instant: `${damageText} (immediate)`,
+        dot: dotText
+      };
+    }
+    return dotText;
+  }
+
   // Combine damage and DoT text intelligently
   let finalText = null;
 
@@ -641,6 +660,18 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
   // Use the main cleanFormula function defined above
 
 
+
+  // Check for supported M5 periodic healing
+  const periodicInfo = extractPeriodicTiming(spell);
+  if (periodicInfo && periodicInfo.kind === 'healing') {
+    const boundaryText = periodicInfo.boundary === 'start' ? 'target turn start' : 'target turn end';
+    const tickDesc = `${cleanFormula(periodicInfo.formula)} Healing per tick (${periodicInfo.ticks} tick${periodicInfo.ticks === 1 ? '' : 's'}, ${boundaryText})`;
+    if (periodicInfo.immediate) {
+      const immFormula = periodicInfo.immediate.formula || spell.healingConfig?.formula || '';
+      return `${cleanFormula(immFormula)} Healing (immediate) + ${tickDesc}`;
+    }
+    return tickDesc;
+  }
 
   // Check for healingConfig-based healing first (new system)
   if (spell.healingConfig) {

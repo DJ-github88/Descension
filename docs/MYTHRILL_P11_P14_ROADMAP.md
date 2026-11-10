@@ -1,9 +1,35 @@
 # Mythrill P11–P14 roadmap: a playable Prism combat table
 
+> **Shared trigger foundation, 2026-11-09:** diagnostic-only committed-occurrence candidate published for review; no milestone is closed or renumbered and no trigger is playable. [Handoff](../handoff/shared-trigger-foundation/HANDOFF.md) · [creator decision](../handoff/shared-trigger-foundation/DECISION_BRIEF.md).
+
+> **M6A activation recheck, 2026-11-09:** the bounded N-actor engine is installed; historical two-actor/sequential
+> proposals below are not the current M6A implementation. Ordinary casting remains gated on the scoped shared-versus-
+> separate-roll decision; M6A candidate preserved until creator explicitly decides. Guarded integration and compatible
+> acceptance slot prepared with Flash, without opening the ordinary gate yet. [Current blockers and release path](MYTHRILL_M6A_ACTIVATION_BRIEF.md).
+>
+> **Consumable reconciled delivery & transaction boundary, 2026-11-09:** Flash delivery recorded as bounded evidence:
+> refusal protection verified; condition-only use verified; shared-room instant healing NOT verified; reload-safe
+> item/effect reconciliation NOT established. Mixed healing+condition potions must never be presented as successfully
+> executed when only condition lands; coordinate with Argon on complete implementation or explicit pre-execution refusal.
+> Later transaction-lane bytes require their own exact coverage and acceptance; do not inherit the older build's PASS.
+
 Created 2026-10-16 by HQ authorization, after P10 integration. The original
 roadmap ([MYTHRILL_NEXT_PHASE.md](MYTHRILL_NEXT_PHASE.md) §26) ends at P10 and is unchanged.
 This document adds four bounded phases. **At creation only P11 was authorized.** Later bounded
 authorizations/status are recorded below; each further slice still needs its own contract/go-ahead.
+
+> **Owner-PC self-healing candidate, 2026-11-07:** bounded explicit self-target route for Wizard-authored
+> immediate healing (`restriction === 'self'`, `rangeFeet === 0`, existing AP/mana costs, `v1`/`v2`/`v4`
+> without missing-health scaling) is delivered as an isolated candidate (**NOT installed** into live `D:/VTT`
+> because Sol's `composition-integration-20261107` advanced 8 overlapping files during the run). Reuses the
+> one-actor P7 staging/receipt machinery (`command.actors.length === 1`, `receipt.actors.length === 1`),
+> temp-first AP/mana debit, capped HP restoration (`tempHealth` unchanged), fresh canonical ownership check,
+> and `targetConsent(approval) === 'none'` when `source === target`. Independent review + delta rechecks
+> ACCEPT (`77b860db-ee9d-4198-85c9-2a6260541312`); 7/7 new production tests + 210/210 server regressions +
+> 30/30 client unit tests PASS; identified production build (`captureHash: 1fb5cf85...`, `assetManifestSha256: a0b1802c...`)
+> and ordinary-App Playwright witness PASS ([handoff](../handoff/owner-pc-self-healing/HANDOFF.md)).
+> Catalogue self-healing spells (*Soothing Flame*, *Saturation Flush*, *Hollow Communion*, *All In*) retain
+> their remaining class-resource, cooldown, and multi-effect blockers.
 
 > **M4D continuation, 2026-11-05:** bounded deterministic/no-dice Wizard formulas are installed
 > after guarded reconciliation: `authored-immediate:v4`, primary owner PC → one distinct creature,
@@ -742,3 +768,11 @@ across copies/versions; remains blocked/manual without reset if the clock retire
 manifest, source-review delta ACCEPT, handlers 83/83, client 52/52, identified build `84f1584e…` and
 ordinary-App witness `app-r7` PASS (fixture auth/ownership/lease/cloud and `combat_started` roster seed
 disclosed). Legacy `turn_based`/`rounds`/rest/charge and catalogue cooldowns remain manual.
+
+**Composed cooldowns (2026-11-07, candidate — not installed):** the same profile on the installed immediate + periodic same-kind
+composition (compilers `p14-m5-composition-cooldown-1` / `-formula-cooldown-1`). One cast commit pays once, applies the immediate
+HP change, installs the periodic instance and starts the cooldown; the instance's ticks/expiry and the cooldown are independent.
+Production 12/12 (RED 12/12 on base), review + delta ACCEPT, identified build `7e4de16d…` and ordinary-App witness PASS.
+Delivered as exact patch/manifests because Sol's class-payment candidate overlaps two files:
+[handoff](../handoff/composed-cooldowns/HANDOFF.md). Movement/attribute/Stunned riders, single periodic, save, area and catalogue
+cooldowns remain unsupported/manual; no real spell became eligible.

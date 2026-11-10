@@ -3,9 +3,9 @@ import { create } from 'zustand';
 import { getStore } from '../store/storeRegistry';
 import { captureActorDelivery, currentActorDelivery } from './actorProjectionOrder';
 import { getBootstrapGateState, isPrivateProjectionIsolated } from '../persistence/bootstrapPrivacyGate';
-import { conditionContext, loadConditionCustody, retainConditionCommand } from './sharedConditionCustody';
+import { conditionContext, loadConditionCustody, retainConditionCommand, clearRetainedPeriodicEntries, clearRetainedPeriodicEntry } from './sharedConditionCustody';
 import { refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, requestActorEvent, findActor, refOf } from './actorConsequenceService';
-import { DEFENDING, STUNNED, MOVEMENT, ATTRIBUTE, PERIODIC, isPeriodicTick, canonical, sameRef, recordsFor, makeDefendingRecord, makeStunnedRecord, stunnedRecordsFor, sameStunnedSource, movementRecordsFor, attributeRecordsFor } from './sharedConditionProfile';
+import { DEFENDING, STUNNED, MOVEMENT, ATTRIBUTE, DAMAGE_REDUCTION, PERIODIC, isPeriodicTick, canonical, sameRef, recordsFor, makeDefendingRecord, makeStunnedRecord, stunnedRecordsFor, sameStunnedSource, movementRecordsFor, attributeRecordsFor, damageReductionRecordsFor } from './sharedConditionProfile';
 import { onRoomRejoined } from './roomRejoinBus';
 import * as shieldBash from './shieldBashResult';
 import * as timing from './sharedEffectTiming';
@@ -111,19 +111,65 @@ export const tickRef = tickId => ['periodic-tick', game().multiplayerRoom?.id, t
 export function retainedTickOutcome(entry) {
   if (!entry?.command) return null;
   if (entry.phase === 'accepted') return entry.command.mode === 'dismiss' ? 'dismissed' : 'applied';
-  if (entry.phase === 'failed') return 'refused';
+  // M5 capacity management: conservative treatment for older records where tick_already_resolved / tick_not_found were stored under failed
   if (['tick_already_resolved', 'tick_not_found'].includes(entry.result?.code)) return 'consumed';
+  if (entry.phase === 'failed') return 'refused';
   return 'unknown';
+}
+/**
+ * Safe capacity check: an entry is eligible for pruning ONLY when its outcome is definitively confirmed
+ * ('applied' or 'dismissed', backed by phase === 'accepted').
+ * Never eligible: unknown, unconfirmed (consumed), refused, or other non-periodic entries.
+ */
+export function isRetainedTickEligible(entry) {
+  if (!entry?.command || entry.kind !== 'periodic-tick') return false;
+  if (['tick_already_resolved', 'tick_not_found'].includes(entry.result?.code)) return false;
+  if (entry.phase !== 'accepted') return false;
+  const outcome = retainedTickOutcome(entry);
+  return outcome === 'applied' || outcome === 'dismissed';
 }
 export function retainedTickCommands(saved) {
   const roomId = game().multiplayerRoom?.id;
   return Object.values(saved?.entries || {}).filter(entry => entry?.kind === 'periodic-tick' && entry.command?.roomId === roomId && Array.isArray(entry.ref) && entry.ref[1] === roomId)
     .map(entry => ({ tickId: entry.ref[2], commandId: entry.command.commandId, mode: entry.command.mode, finalAmount: entry.command.finalAmount, roll: entry.command.roll || null,
-      adjustmentReason: entry.command.adjustmentReason, outcome: retainedTickOutcome(entry), code: entry.result?.code || null,
+      adjustmentReason: entry.command.adjustmentReason, outcome: retainedTickOutcome(entry), eligible: isRetainedTickEligible(entry), code: entry.result?.code || null,
       receiptCommandId: entry.result?.receipt?.commandId || null, tick: entry.tick || null }))
     .sort((a, b) => (['unknown', 'consumed'].includes(a.outcome) ? 0 : 1) - (['unknown', 'consumed'].includes(b.outcome) ? 0 : 1) || String(a.tickId).localeCompare(String(b.tickId)));
 }
 export const checkPeriodicTick = tickId => checkConditionCommand(tickRef(tickId));
+export function clearRetainedPeriodicTick(tickId) {
+  const s = scope();
+  if (!live(s)) throw Error('Current connected condition principal/room unavailable. Retained command unchanged.');
+  if (!game().isGMMode) throw Error('Current GM required to clear retained periodic tick history.');
+  const ref = tickRef(tickId), key = conditionKey(ref);
+  const entry = loadConditionCustody(s.context)?.entries?.[key];
+  if (!entry) return;
+  if (!isRetainedTickEligible(entry)) {
+    throw Error('Only definitively confirmed periodic tick history (applied or dismissed) can be cleared.');
+  }
+  clearRetainedPeriodicEntry(s.context, key);
+  restore(s.context);
+}
+export function clearConfirmedPeriodicHistory() {
+  const s = scope();
+  if (!live(s)) throw Error('Current connected condition principal/room unavailable. Retained command unchanged.');
+  if (!game().isGMMode) throw Error('Current GM required to clear retained periodic tick history.');
+  const saved = loadConditionCustody(s.context);
+  const roomId = s.context.roomId;
+  const keysToClear = [];
+  for (const [key, entry] of Object.entries(saved?.entries || {})) {
+    if (entry?.kind === 'periodic-tick' && entry.command?.roomId === roomId && Array.isArray(entry.ref) && entry.ref[1] === roomId) {
+      if (isRetainedTickEligible(entry)) {
+        keysToClear.push(key);
+      }
+    }
+  }
+  if (keysToClear.length > 0) {
+    clearRetainedPeriodicEntries(s.context, keysToClear);
+    restore(s.context);
+  }
+  return keysToClear.length;
+}
 export async function resolvePeriodicTick(tick, { mode = 'apply', roll, finalAmount, adjustmentReason = '' } = {}) {
   const s = scope(), ref = tickRef(tick.tickId), key = conditionKey(ref), lock = `${s.principal}:${key}`;
   if (locks.has(lock)) throw Error('This tick is already being resolved. Check the original command.');
@@ -197,15 +243,17 @@ export async function editSharedCondition(ref, operation, { recordId, sourceMode
       if (!resolveConditionActor({ targetRef: sourceActor })) throw Error('Exact Shield Bash source unavailable; no replacement incarnation or sheet fallback.');
       if (shieldBashResults().some(r => !['accepted', 'failed'].includes(r.phase))) throw Error('Check the retained unknown Shield Bash result before another result.');
     }
-    if (!['stunned', 'defending', 'movement', 'attribute', 'periodic'].includes(profile) || (profile === 'defending' && ref.kind !== 'character')) throw Error('Unsupported condition profile/actor.');
+    if (!['stunned', 'defending', 'movement', 'attribute', 'damageReduction', 'periodic'].includes(profile) || (profile === 'defending' && ref.kind !== 'character')) throw Error('Unsupported condition profile/actor.');
     // M5: an accepted periodic instance has exactly one correction — exact GM removal (later ticks are then never recorded).
     if (profile === 'periodic' && (operation !== 'remove' || !game().isGMMode)) throw Error('Periodic effects are removed by the current GM only (exact instance).');
     // A10 review finding 2: an accepted authored movement change has exactly one correction — exact GM removal.
     if (profile === 'movement' && (operation !== 'remove' || !game().isGMMode)) throw Error('Authored movement changes are removed by the current GM only (exact instance).');
     // Attribute family: the same single correction — exact GM removal; base attributes are never edited here.
     if (profile === 'attribute' && (operation !== 'remove' || !game().isGMMode)) throw Error('Authored attribute changes are removed by the current GM only (exact instance).');
-    const definition = profile === 'stunned' ? STUNNED : profile === 'movement' ? MOVEMENT : profile === 'attribute' ? ATTRIBUTE : profile === 'periodic' ? PERIODIC : DEFENDING;
-    const token = findActor(ref), active = profile === 'stunned' ? stunnedRecordsFor(token) : profile === 'movement' ? movementRecordsFor(token) : profile === 'attribute' ? attributeRecordsFor(token)
+    // Flat DR family: the same single correction — exact GM removal; base stats and equipment are never edited here.
+    if (profile === 'damageReduction' && (operation !== 'remove' || !game().isGMMode)) throw Error('Authored flat damage-reduction changes are removed by the current GM only (exact instance).');
+    const definition = profile === 'stunned' ? STUNNED : profile === 'movement' ? MOVEMENT : profile === 'attribute' ? ATTRIBUTE : profile === 'damageReduction' ? DAMAGE_REDUCTION : profile === 'periodic' ? PERIODIC : DEFENDING;
+    const token = findActor(ref), active = profile === 'stunned' ? stunnedRecordsFor(token) : profile === 'movement' ? movementRecordsFor(token) : profile === 'attribute' ? attributeRecordsFor(token) : profile === 'damageReduction' ? damageReductionRecordsFor(token)
       : profile === 'periodic' ? (token?.state?.conditions || []).filter(r => isPeriodicTick(r) && sameRef(r.target, token.state?.actorContract)) : recordsFor(token);
     const candidate = shieldBashResult ? shieldBash.makeRecord(sourceActor, ref, crypto.randomUUID()) : profile === 'stunned' && operation === 'add' ? makeStunnedRecord(ref, crypto.randomUUID(), { sourceOccurrence, timing, sourceActor }) : null;
     if (operation === 'add' && (profile === 'defending' ? active.length : active.some(r => sameStunnedSource(r, candidate)))) { message(key, { outcome: 'Already active in accepted room state — no new instance, refresh or payment.' }); return { success: true, code: 'already_active' }; }

@@ -153,25 +153,31 @@ const cleanFormula = (formula) => {
     'blood tokens': 'Blood Tokens',
     'healing_dealt': 'Healing Dealt',
     'drp_gain': 'DRP Gained',
-    'strength': 'Strength Mod',
-    'agility': 'Agility Mod',
-    'constitution': 'Constitution Mod',
-    'intelligence': 'Intelligence Mod',
-    'spirit': 'Spirit Mod',
-    'charisma': 'Charisma Mod',
-    'str': 'Strength Mod',
-    'agi': 'Agility Mod',
-    'con': 'Constitution Mod',
-    'int': 'Intelligence Mod',
-    'spi': 'Spirit Mod',
-    'spir': 'Spirit Mod',
-    'cha': 'Charisma Mod',
     'strength_modifier': 'Strength Mod',
     'agility_modifier': 'Agility Mod',
     'constitution_modifier': 'Constitution Mod',
     'intelligence_modifier': 'Intelligence Mod',
     'spirit_modifier': 'Spirit Mod',
     'charisma_modifier': 'Charisma Mod',
+    'strength_mod': 'Strength Mod',
+    'agility_mod': 'Agility Mod',
+    'constitution_mod': 'Constitution Mod',
+    'intelligence_mod': 'Intelligence Mod',
+    'spirit_mod': 'Spirit Mod',
+    'charisma_mod': 'Charisma Mod',
+    'strength': 'Strength',
+    'agility': 'Agility',
+    'constitution': 'Constitution',
+    'intelligence': 'Intelligence',
+    'spirit': 'Spirit',
+    'charisma': 'Charisma',
+    'str': 'Strength',
+    'agi': 'Agility',
+    'con': 'Constitution',
+    'int': 'Intelligence',
+    'spi': 'Spirit',
+    'spir': 'Spirit',
+    'cha': 'Charisma',
     'maxhitpoints': 'Maximum Hit Points',
     'max_hit_points': 'Maximum Hit Points',
     'hitpoints': 'Hit Points',
@@ -180,7 +186,7 @@ const cleanFormula = (formula) => {
     'attribute_modifier': 'Attribute Mod'
   };
 
-  Object.entries(resourceVariableMap).forEach(([variable, properName]) => {
+  Object.entries(resourceVariableMap).sort((a, b) => b[0].length - a[0].length).forEach(([variable, properName]) => {
     // If properName ends with ' Mod', match optional trailing 'mod' or 'modifier' to prevent 'Mod Mod'
     const pattern = properName.endsWith(' Mod')
       ? `\\b${variable}(?:[\\s_]+(?:mod|modifier))?\\b`

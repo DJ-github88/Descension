@@ -356,6 +356,7 @@ describe('creature-source eligibility feedback (definition compatibility is not 
     useCreatureStore.setState(s => ({ creatureTokens: s.creatureTokens.map(t => t.id === token0.id ? { ...t, state: { ...t.state, actorContract: binding } } : t), tokens: s.creatureTokens }));
     const token = useCreatureStore.getState().creatureTokens.find(t => t.id === 'periodic-placed');
     render(<CreatureAbilityDetails association={token.authoredAbility} token={token} saved />);
+    expect(screen.getByRole('region', { name: 'Execution compatibility' })).toHaveAttribute('data-state', 'unsupported');
     expect(screen.getByText(/Compatible definition, not executable by a creature source/)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Use for this creature' })).not.toBeInTheDocument();
     expect(screen.queryByText('Admit for this creature')).not.toBeInTheDocument();

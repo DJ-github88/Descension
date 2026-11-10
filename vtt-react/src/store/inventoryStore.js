@@ -124,6 +124,21 @@ const syncInventoryToMultiplayer = (changeType, changeData, currentInventoryStat
 
 // Helper function to get current character and record changes
 // This function is called with the current inventory state to avoid circular dependencies
+// A completed consumable deduction and its command marker are written by the same state update, so the inventory
+// persistence and the character save carry both together. A separately written flag is never used as proof.
+const applyConsumableCompletion = (state, completion, item, quantity) => {
+    if (!completion?.commandId) return null;
+    const marker = {
+        commandId: completion.commandId,
+        itemId: item.id,
+        characterId: completion.characterId || null,
+        quantity: quantity > 0 ? quantity : (item.quantity || 1),
+        at: new Date().toISOString()
+    };
+    const prior = Array.isArray(state.consumableCommandCompletions) ? state.consumableCommandCompletions : [];
+    return [...prior.filter(value => value.commandId !== marker.commandId), marker].slice(-32);
+};
+
 const recordCharacterChange = (changeType, changeData, currentInventoryState) => {
     try {
         // Import character store dynamically to avoid circular dependencies
@@ -351,6 +366,7 @@ const useInventoryStore = create(persist((set, get) => ({
         copper: 0
     },
     encumbranceState: 'normal', // normal, encumbered, overencumbered
+    consumableCommandCompletions: [], // commandId + exact item deduction, saved with the inventory/character payload
 
     // Automatic currency conversion function
     convertCurrencyUpward: (currency) => {
@@ -924,8 +940,9 @@ const useInventoryStore = create(persist((set, get) => ({
         }
     },
 
-    // Remove item with quantity support
-    removeItem: (itemId, quantity = 0) => set((state) => {
+    // Remove item with quantity support. `completion` (shared-room consumable only) carries the exact commandId of
+    // the accepted use; the same state update then stores the deduction and the completed-command marker together.
+    removeItem: (itemId, quantity = 0, completion = null) => set((state) => {
         const itemIndex = state.items.findIndex(item => item.id === itemId);
 
         if (itemIndex === -1) {
@@ -954,7 +971,8 @@ const useInventoryStore = create(persist((set, get) => ({
             // Update encumbrance after removing item
             setTimeout(() => get().updateEncumbranceState(), 0);
 
-            return { items: updatedItems };
+            const completions = applyConsumableCompletion(state, completion, item, quantity);
+            return completions ? { items: updatedItems, consumableCommandCompletions: completions } : { items: updatedItems };
         }
 
         // Otherwise remove the item completely
@@ -971,7 +989,8 @@ const useInventoryStore = create(persist((set, get) => ({
         // Update encumbrance after removing item
         setTimeout(() => get().updateEncumbranceState(), 0);
 
-        return { items: updatedItems };
+        const completions = applyConsumableCompletion(state, completion, item, quantity);
+        return completions ? { items: updatedItems, consumableCommandCompletions: completions } : { items: updatedItems };
     }),
 
     // Move item with collision detection for multi-cell items

@@ -390,3 +390,201 @@
 .btn-start i {
     font-size: 14px;
 }
+
+/* ===== PARTICIPANT DISCOVERY & INITIATIVE CONTROLS ===== */
+
+.combat-body-layout {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.combatants-discovery-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.discovery-container {
+    background: linear-gradient(135deg, #faf8f3 0%, #f5ede0 100%);
+    border: 1.5px solid #8B4513;
+    border-radius: 8px;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.discovery-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.discovery-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: #ffffff;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.discovery-item:hover:not(.ineligible) {
+    border-color: #5a1e12;
+    background: #fdfbf7;
+    transform: translateX(2px);
+}
+
+.discovery-item.selected {
+    background: #eef6ea;
+    border-color: #506e30;
+    box-shadow: inset 0 0 0 1px #506e30;
+}
+
+.discovery-item.ineligible {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #f0eee9;
+}
+
+.discovery-portrait {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1.5px solid #8B4513;
+    flex-shrink: 0;
+    background: #f1ece1;
+}
+
+.discovery-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.discovery-details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.discovery-name-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.discovery-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: #2d1810;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selection-status-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #e8e2d4;
+    color: #5a1e12;
+}
+
+.selection-status-pill.active {
+    background: #506e30;
+    color: #ffffff;
+}
+
+.ineligible-badge {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 8px;
+    background: #e2c2be;
+    color: #7a1d1d;
+    white-space: nowrap;
+}
+
+.discovery-distinction {
+    font-size: 11px;
+    color: #6a5348;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.empty-message-small {
+    padding: 12px;
+    text-align: center;
+    font-size: 12px;
+    font-style: italic;
+    color: #7a3b2e;
+}
+
+.combatant-remove-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #7a3b2e;
+    color: #ffffff;
+    border: none;
+    font-size: 12px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.combatant-remove-btn:hover {
+    opacity: 1;
+    background: #9a1d1d;
+}
+
+.combatant-distinction-tag {
+    font-size: 10.5px;
+    color: #6a5348;
+    font-family: monospace;
+    background: rgba(139, 69, 19, 0.08);
+    padding: 1px 4px;
+    border-radius: 4px;
+}
+
+.initiative-input-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    font-size: 11px;
+    color: #5a1e12;
+    font-weight: 600;
+}
+
+.combatant-initiative-input {
+    width: 54px;
+    padding: 2px 4px;
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    font-size: 11px;
+    text-align: center;
+    background: #ffffff;
+}

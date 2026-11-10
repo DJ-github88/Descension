@@ -33,6 +33,8 @@ import useTriggerFormatters from './useTriggerFormatters';
 import useDamageHealingFormatters from './useDamageHealingFormatters';
 import useStatusEffectFormatters from './useStatusEffectFormatters';
 import CompactSpellCard from './CompactSpellCard';
+import { extractPeriodicTiming, getPeriodicTimingPoints, formatAuthoredExpiry } from './spellTimingPresentation';
+import { authoredSaveDisclosure } from './spellSavePresentation';
 import SpellCardHeader from './SpellCardHeader';
 import RollableTableSummary from './RollableTableSummary';
 import ProphecySummary from './ProphecySummary';
@@ -2353,7 +2355,10 @@ const UnifiedSpellCard = ({
 
        {/* Duration (if not instant) - exclude CHANNELED, ZONE, BUFF, and DEBUFF which show duration in their effect sections */}
        {((spell?.durationType && spell.durationType !== 'instant') ||
-        (spell?.durationConfig?.durationType && spell.durationConfig.durationType !== 'instant')) &&
+        (spell?.durationConfig?.durationType && spell.durationConfig.durationType !== 'instant') ||
+        Boolean(extractPeriodicTiming(spell)) ||
+        Boolean(spell?.timing?.durationText) ||
+        Boolean(spell?.controlConfig?.authoredCondition?.durationText)) &&
         (!spell?.spellType || !['CHANNELED', 'ZONE'].includes(spell.spellType)) &&
         (!spell?.effectTypes?.includes('buff') && !spell?.effectTypes?.includes('debuff')) ? (
         <div className="unified-spell-stat duration-stat">
@@ -4439,17 +4444,19 @@ const UnifiedSpellCard = ({
        {(() => {
         const hasControlType = spell?.effectTypes?.includes('control');
         const hasControlConfig = spell?.controlConfig;
+        const hasPeriodic = Boolean(extractPeriodicTiming(spell));
+        const hasCondition = Boolean(spell?.effects?.condition);
         const hasSelectedEffects = spell?.controlConfig?.effects?.length > 0;
 
         // Show control effects if control type is selected OR control config exists
-        if (!hasControlType && !hasControlConfig) return null;
+        if (!hasControlType && !hasControlConfig && !hasPeriodic && !hasCondition) return null;
 
         return (
          <div className="healing-effects">
           <div className="healing-effects-section">
            {(() => {
             const controlData = spell?.controlConfig;
-            if (!controlData && !hasControlType) return null;
+            if (!controlData && !hasControlType && !hasPeriodic && !hasCondition) return null;
 
             const effects = [];
 
@@ -4629,6 +4636,65 @@ const UnifiedSpellCard = ({
              });
             }
 
+            // Check for supported periodic effect or authored condition
+            const periodicInfo = extractPeriodicTiming(spell);
+            if (periodicInfo) {
+              const timingPoints = getPeriodicTimingPoints(periodicInfo);
+              const timingDescription = `${periodicInfo.durationText ? `${periodicInfo.durationText} — ` : ''}${timingPoints.map(p => `${p.label}: ${p.text}`).join(' · ')}`;
+              const boundaryText = periodicInfo.boundary === 'start' ? 'target turn start' : 'target turn end';
+              const tickDesc = `${periodicInfo.formula}${periodicInfo.damageType ? ` ${periodicInfo.damageType}` : ''}`;
+              const controlTargeting = formatEffectTargeting('control');
+
+              effects.push({
+                name: `Periodic ${periodicInfo.kind === 'damage' ? 'Damage' : 'Healing'}: ${periodicInfo.label}`,
+                description: timingDescription,
+                mechanicsText: `${tickDesc} per tick · ${periodicInfo.ticks} tick${periodicInfo.ticks === 1 ? '' : 's'} at ${boundaryText} · roll per tick · GM resolved`,
+                targeting: controlTargeting,
+                timingPoints: timingPoints,
+                saveDisclosure: authoredSaveDisclosure(spellProp)
+              });
+            } else if ((spell.controlConfig?.authoredCondition || spell.effects?.condition) && effects.length === 0) {
+              const authored = spell.controlConfig?.authoredCondition || {};
+              const cond = spell.effects?.condition || {};
+              const effectKind = authored.effect || cond.kind;
+              const duration = authored.durationText || spell.timing?.durationText || '';
+              const label = authored.label || cond.label || spell.name || 'Condition';
+              const controlTargeting = formatEffectTargeting('control');
+              // A structured target-turn expiry is stated as such; only a manual (or unreadable) policy says the GM removes it.
+              const expiry = formatAuthoredExpiry(authored.expiryPolicy ?? spell.timing?.expiryPolicy, authored.occurrences ?? spell.timing?.occurrences);
+
+              if (effectKind === 'stunned') {
+                effects.push({
+                  name: 'Canonical Stunned',
+                  description: duration ? `${duration} — target cannot act or move; ${expiry || 'GM removes'}` : `Target cannot act or move; ${expiry || 'GM removes'}`,
+                  mechanicsText: `Stunned · ${expiry || 'GM removes'}`,
+                  targeting: controlTargeting,
+                  saveDisclosure: authoredSaveDisclosure(spellProp)
+                });
+              } else if (effectKind === 'movement') {
+                const feet = authored.movementFeet ?? cond.feet ?? 0;
+                const signed = `${feet > 0 ? '+' : '−'}${Math.abs(feet)} ft`;
+                effects.push({
+                  name: `${label} (Movement ${signed})`,
+                  description: duration ? `${duration} — movement speed ${signed}; ${expiry || 'GM manages timing'}` : `Movement speed ${signed}; ${expiry || 'GM manages timing'}`,
+                  mechanicsText: `Movement ${signed}`,
+                  targeting: controlTargeting,
+                  saveDisclosure: authoredSaveDisclosure(spellProp)
+                });
+              } else if (effectKind === 'attribute') {
+                const attr = authored.attribute || cond.attribute || 'Attribute';
+                const amt = authored.attributeAmount ?? cond.amount ?? 0;
+                const signed = `${amt > 0 ? '+' : '−'}${Math.abs(amt)}`;
+                effects.push({
+                  name: `${label} (${attr} ${signed})`,
+                  description: duration ? `${duration} — ${attr} ${signed}; ${expiry || 'GM manages timing'}` : `${attr} ${signed}; ${expiry || 'GM manages timing'}`,
+                  mechanicsText: `${attr} ${signed}`,
+                  targeting: controlTargeting,
+                  saveDisclosure: authoredSaveDisclosure(spellProp)
+                });
+              }
+            }
+
             // If spell has control effect type but no effects configured, show config if available
             if (hasControlType && effects.length === 0) {
              const inlineDetails = [];
@@ -4699,6 +4765,13 @@ const UnifiedSpellCard = ({
                   <div className="healing-effect-details">
                    <div className="healing-effect-mechanics">
                     {effect.mechanicsText}
+                   </div>
+                  </div>
+                 )}
+                 {effect.saveDisclosure && (
+                  <div className="healing-effect-details healing-effect-save" data-save-disclosure={effect.saveDisclosure.executable ? 'executable' : 'manual'}>
+                   <div className="healing-effect-mechanics">
+                    {effect.saveDisclosure.text}
                    </div>
                   </div>
                  )}
@@ -6286,6 +6359,7 @@ const UnifiedSpellCard = ({
         <span className="spell-requirement-value">{spell?.ancestry?.requires || spell?.requirement}</span>
        </div>
       )}
+      {formatMaterialComponentsText && formatMaterialComponentsText()}
      </div>
     )}
 
