@@ -490,10 +490,9 @@ function bindCommand(room, player, command, authorization) {
   // compare-and-set the unchanged AP projection; this is not an inferred price or a debit.
   if (authoredImmediate && !self && !Object.keys(expectedSource).length) {expectedSource.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);}
   const targetPools = actors.resources(target.token, approval.target.kind);
-  const hp = approval.spell.kind === 'damage' ? (() => {
-    const fromTemp = Math.min(targetPools.hp.temp, amount);
-    return { current: Math.max(0, targetPools.hp.current - (amount - fromTemp)), temp: targetPools.hp.temp - fromTemp };
-  })() : { current: Math.min(targetPools.hp.max, targetPools.hp.current + amount), temp: targetPools.hp.temp };
+  // Immediate damage uses the one direct-part arithmetic (temporary HP first); healing keeps its own cap rule below.
+  const damagePart = approval.spell.kind === 'damage' ? directPartResult(targetPools.hp, 'damage', amount) : null;
+  const hp = damagePart ? damagePart.final : { current: Math.min(targetPools.hp.max, targetPools.hp.current + amount), temp: targetPools.hp.temp };
   const explicitSelfHeal = authoredImmediate && self && approval.source.kind === 'character' &&
     authored.ownerSelfHealing(require('./installedAuthoredAbilities').lookup(room, approval.spell)?.canonicalDefinition);
   if (((self && approval.source.kind === 'creature') || explicitSelfHeal || (authored.isFormula(approval) && approval.target.kind === 'character') || chosen.actualHealing !== undefined) &&
@@ -508,6 +507,8 @@ function bindCommand(room, player, command, authorization) {
     if (hash(actual.ref) !== hash(value.ref) || actual.conditions !== undefined ||
       hash(actual.finalResources || {}) !== hash(value.finalResources) || hash(actual.classPayment || null) !== hash(value.classPayment || null)) {fail('approval_mismatch');}
   });
+  // Component-result provenance (one contract for every family): the authored one-part immediate damage result this binder just pinned.
+  if (authoredImmediate && damagePart && !self) {recordComponentResult(command, entry, 'effect', targetPools.hp, amount, damagePart);}
   return entry;
 }
 function bindArea(room, player, command, authorization, entry) {
@@ -596,6 +597,29 @@ function bindCondition(room, player, command, authorization, entry) {
 /** A10 direct part: its own committed HP arithmetic, temporary HP first for damage and the maximum-HP cap for healing. The bundle
  * binder pins the target's final pool to exactly `final`; the trigger ledger reads this same function as that part's provenance
  * (handoff/component-scoped-trigger-execution). The bundle's condition part never changes HP at cast. Pure; no room access. */
+/** Family expansion (handoff/component-trigger-family-expansion/CONTRACT.md): ONE authoritative component-result contract. Every supported
+ * binder records, for the exact command it just bound, the result of each single-target immediate DAMAGE component it pinned, from its
+ * own staged arithmetic (directPartResult) - never from a receipt total, a pool diff or client data. The record is keyed by the command
+ * object the P7 stage is processing and bound to the exact approval entry it consumed; nothing outside this module can write it, and it
+ * is never persisted (offers persist the trigger ledger's own occurrence). Readers get frozen copies. */
+const COMPONENT_RESULT_CONTRACT = 'authored-component-result:v1';
+const componentResults = new WeakMap();
+const freezeDeep = value => { if (value && typeof value === 'object') { Object.values(value).forEach(freezeDeep); Object.freeze(value); } return value; };
+function recordComponentResult(command, entry, componentId, before, amount, part) {
+  const a = entry.approval;
+  const result = { contract: COMPONENT_RESULT_CONTRACT, origin: { commandId: command.commandId, approvalId: a.approvalId, approvalHash: entry.contentHash },
+    source: JSON.parse(JSON.stringify(a.source)), target: JSON.parse(JSON.stringify(a.target)),
+    definition: { definitionId: a.spell.definitionId, definitionHash: a.spell.definitionHash }, componentId, kind: 'damage',
+    proposedAmount: a.roll?.total, adjudicatedAmount: amount, tempHpAbsorbed: part.tempHpAbsorbed, baseHpLost: part.baseHpLost,
+    before: { current: before.current, temp: before.temp }, final: { current: part.final.current, temp: part.final.temp } };
+  const prior = componentResults.get(command);
+  componentResults.set(command, { entry, results: (prior && prior.entry === entry ? prior.results : []).concat([freezeDeep(result)]) });
+}
+/** The component results the binder recorded for exactly this command and this consumed approval entry; [] otherwise. */
+function componentResultsFor(command, approved) {
+  const stored = command && typeof command === 'object' ? componentResults.get(command) : null;
+  return stored && approved && stored.entry === approved ? stored.results.slice() : [];
+}
 function directPartResult(hp, kind, amount) {
   if (kind === 'damage') {
     const fromTemp = Math.min(hp.temp, amount), final = { current: Math.max(0, hp.current - (amount - fromTemp)), temp: hp.temp - fromTemp };
@@ -669,14 +693,18 @@ function bindEffect(room, player, command, authorization, entry) {
   for (const pool of ['ap', 'mana']) if (a.price[pool] > 0) payment[pool] = tempFirst(pools[pool].current, pools[pool].temp, a.price[pool]);
   if (!Object.keys(payment).length) payment.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);
   const targetEntry = { ref: a.target, expectedRevision: target.contract.revision, ...(applies ? { conditions: plan.ops } : {}) };
+  let directResult = null, directBefore = null;
   if (direct) {
     const hp = actors.resources(target.token, a.target.kind).hp;
     validPool(hp);
-    targetEntry.finalResources = { hp: directPartResult(hp, direct.kind, amount).final };
+    directBefore = hp; directResult = directPartResult(hp, direct.kind, amount);
+    targetEntry.finalResources = { hp: directResult.final };
   }
   const expected = [{ ref: a.source, expectedRevision: source.contract.revision, finalResources: payment,
     ...(a.classPayment ? { classPayment: { mode: 'spell', domain: a.classPayment.domain, approvalHash: entry.contentHash } } : {}) }, targetEntry];
   if (hash(command.actors) !== hash(expected)) fail('approval_mismatch');
+  // Component-result provenance: the bundle's direct DAMAGE part, from the arithmetic pinned above (the rider changes no HP at cast).
+  if (direct && direct.kind === 'damage') { recordComponentResult(command, entry, 'effects:direct', directBefore, amount, directResult); }
   return entry;
 }
 /**
@@ -797,7 +825,7 @@ function checkTargetAcceptance(room, entry) {
   if (p.mode === 'voluntary' && (p.withdrawn || p.acceptedUid !== entry.approval.target.ownerUid)) fail('target_acceptance_required');
 }
 const conditionProfile = require('../shared/services/sharedConditionProfile');
-module.exports = { directPartResult, CAPABILITY, DOMAINS, ELEMENTS, PITCHES, APPROVED_MINSTREL_SPELLS, validateValue, validatePrice, validateMinstrelSpellApproval, conserve, publicValue, home, validateEntry, validateApproval, validateCreatureApproval,
+module.exports = { COMPONENT_RESULT_CONTRACT, componentResultsFor, directPartResult, CAPABILITY, DOMAINS, ELEMENTS, PITCHES, APPROVED_MINSTREL_SPELLS, validateValue, validatePrice, validateMinstrelSpellApproval, conserve, publicValue, home, validateEntry, validateApproval, validateCreatureApproval,
   validateRoll, tempFirst, selfState, checkAgainstRoom, checkWindow, get, add, remove, listAll, close, closedCode, closedEntry, pendingFor, consumedReceipt, gmProjection, bindCommand, ownerMember,
   targetTerms, targetProposal, checkTargetAcceptance, targetConsent, ensureTargetPolicy };
 

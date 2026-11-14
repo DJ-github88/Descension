@@ -540,7 +540,7 @@ test('subscription teardown removes all socket and rejoin listeners and ignores 
   cleanup();
 
   expect(roomRejoinSubscriberCount()).toBe(before);
-  expect(socket.off).toHaveBeenCalledTimes(5);
+  expect(socket.off).toHaveBeenCalledTimes(6);
 
   useSpellConsequenceStore.setState({ gmPending: { a1: { approval: { approvalId: 'a1' } } } });
   closedListener({ roomId: 'room-1', approvalId: 'a1', code: 'actor_removed' });

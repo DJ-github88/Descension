@@ -10,7 +10,7 @@ import { supportSpell, digitalRoll, recordRoll, affordable, sourcePools, describ
 import { branches as classBranches, branchLines as classBranchLines } from '../../services/classEffect';
 import { sameExactRef } from '../../services/featherSlash';
 import { useSpellConsequenceStore, closeOwnerPanel, ownerSource, sendSpellApproval, checkSpellApproval, withdrawSpellApproval, reapproveSpell,
-  restoreOwnerStatus, refreshSpellApprovals, gmAcceptSpell, gmDeclineSpell, gmCheckSpellCommand, markSpellReconciled } from '../../services/spellConsequenceService';
+  restoreOwnerStatus, refreshSpellApprovals, gmAcceptSpell, gmDeclineSpell, gmCheckSpellCommand, markSpellReconciled, readTargetRelationship } from '../../services/spellConsequenceService';
 import { loadLatestSpell, unresolvedSpell } from '../../services/spellConsequenceCustody';
 import { spellDraftContext, loadSpellDraft, loadDiscardedSpellDrafts, saveSpellDraft, discardSpellDraft } from '../../services/spellConsequenceService';
 import { describeDraft, sameDraftContext, planarFeet, formatFeet, pickKey } from '../../services/targetPick';
@@ -153,10 +153,47 @@ function ClassRiderOutcome({ approval, targetToken }) {
 const PREVIEW_APPROVAL = (support, sourceRef, targetRef) => support && sourceRef && targetRef ? { approvalId: PREVIEW_ID, source: sourceRef, target: targetRef, effectTerms: support.effectTerms,
   spell: { definitionHash: support.definitionHash } } : null;
 
+const RESTRICTION_LABELS = {
+  ally: 'Allies only',
+  enemy: 'Enemies only',
+  self: 'Self only',
+  any: 'Any target (unrestricted)'
+};
+
+function relationshipReason(restriction, relEntry) {
+  if (!['ally', 'enemy'].includes(restriction)) return null;
+  if (!relEntry || relEntry.status === 'loading') {
+    return { eligible: false, kind: 'loading', text: 'Checking authoritative target relationship…' };
+  }
+  if (relEntry.status === 'error') {
+    return { eligible: false, kind: 'error', text: 'Could not verify target relationship with the room server. Retry before approving.' };
+  }
+  if (relEntry.value === restriction) {
+    return { eligible: true, kind: 'ok', text: restriction === 'ally' ? 'Target is an ally of the caster.' : 'Target is an enemy of the caster.' };
+  }
+  const req = restriction === 'ally' ? 'This spell requires an ally.' : 'This spell requires an enemy.';
+  const rel = relEntry.value === 'neutral'
+    ? 'This target is neutral to the caster.'
+    : relEntry.value === 'ally'
+      ? 'This target is an ally of the caster.'
+      : 'This target is an enemy of the caster.';
+  return { eligible: false, kind: 'ineligible', text: `${req} ${rel}` };
+}
+
+function relationshipOptionSuffix(restriction, relEntry) {
+  if (!['ally', 'enemy'].includes(restriction) || !relEntry) return '';
+  if (relEntry.status === 'loading') return ' · checking…';
+  if (relEntry.status === 'error') return ' · could not verify';
+  if (relEntry.value === restriction) return ` · ${relEntry.value}`;
+  return ` · ${relEntry.value} (requires ${restriction})`;
+}
+
 /** Owner: explicit target, one recorded roll, approved price. Nothing is spent here. */
 function OwnerPanel() {
   const owner = useSpellConsequenceStore(value => value.owner);
   const status = useSpellConsequenceStore(value => value.ownerStatus);
+  const roomId = useGameStore(value => value.multiplayerRoom?.id);
+  const relationshipRevision = useSpellConsequenceStore(value => (roomId && value.relationshipRevisions && Object.prototype.hasOwnProperty.call(value.relationshipRevisions, roomId)) ? value.relationshipRevisions[roomId] : (value.relationshipRevision || 0));
   const character = useCharacterStore(value => value);
   const characters = useCharacterTokenStore(value => value.characterTokens);
   const combat = useSharedConditionStore(value => value.combat);
@@ -171,6 +208,8 @@ function OwnerPanel() {
   const [physical, setPhysical] = useState({});
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [relState, setRelState] = useState({ scopeKey: '', entries: {} });
+  const [relRetry, setRelRetry] = useState(0);
   useSpellConsequenceStore(value => value.draftVersion);
   useCombatFeedStore(value => value.rendered);
   const picking = useTargetingStore(value => value.pickSession?.id === 'p9-spell');
@@ -196,13 +235,10 @@ function OwnerPanel() {
   }, [owner]);
   useSpellConsequenceStore(s => s.registryRevision);
   const support = owner ? supportSpell({ id: owner.spellId }, character) : null;
-  if (!owner) return null;
-  const source = ownerSource();
-  const cooldownState = support?.cooldown?.type === COOLDOWN_TYPE && source.ref
-    ? cooldownStatus(source.token, combat, source.ref, support.cooldown.definitionId) : null;
+  const source = owner ? ownerSource() : { token: null, ref: null, mapId: null, error: null };
   const all = [...characters, ...creatures];
   const area = support?.isArea === true;
-  const condition = support?.kind === 'condition', composed = support?.kind === 'class-effect', bundle = support?.kind === 'effect', needsRoll = bundle ? !!support.effectTerms.direct : !condition;
+  const condition = support?.kind === 'condition', composed = support?.kind === 'class-effect', bundle = support?.kind === 'effect', needsRoll = bundle ? !!(support.effectTerms && support.effectTerms.direct) : !condition;
   const deterministic = support?.definitionHash?.startsWith(`${DETERMINISTIC_CAPABILITY}/`) === true;
   const formula = deterministic || support?.definitionHash?.startsWith(`${FORMULA_CAPABILITY}/`) || support?.definitionHash?.startsWith(`${HEALTH_CAPABILITY}/`) || ((area || bundle) && support?.rollAttributes && Object.keys(support.rollAttributes).length > 0);
   const pcHealing = !area && formula && support?.targetRoute === 'primary-pc-healing';
@@ -210,14 +246,119 @@ function OwnerPanel() {
   const authoredImmediate = !area && !condition && !bundle && !composed && String(support?.definitionId || '').startsWith('authored:');
   // Effect cooldowns (review F1): the caster-start cooldown route is one placed creature only; the server refuses a PC target.
   const cooldownRoute = support?.cooldown?.type === COOLDOWN_TYPE;
-  const candidates = source.token ? all.filter(token => refOf(token) && token.mapId === source.mapId &&
+  const isHiddenFromOwner = token => Boolean(token?.state?.hiddenFromPlayers || token?.hiddenFromPlayers || token?.state?.isHidden || token?.isHidden);
+  const candidates = owner && support?.supported && source.token ? all.filter(token => refOf(token) && token.mapId === source.mapId && !isHiddenFromOwner(token) &&
     (selfHealing ? sameExactRef(refOf(token), source.ref) && refOf(token).kind === 'character' && token.state?.actorContract?.primary
       : (!(condition || bundle || composed || pcHealing || area || authoredImmediate) || !sameExactRef(refOf(token), source.ref)) &&
         (pcHealing ? refOf(token).kind === 'character' && token.state.actorContract.primary
           : composed || formula || area ? refOf(token).kind === 'creature'
             : bundle ? refOf(token).kind === 'creature' || (!cooldownRoute && token.state.actorContract.primary && pcConsent(support.effectTerms, 'character').ok)
               : refOf(token).kind === 'creature' || token.state.actorContract.primary))) : [];
+  // M6A: visibility filter before any preview/candidate classification; GM visibility never authorizes owner disclosure.
+  const visibleForOwner = (r, token) =>
+    !isHiddenFromOwner(token) &&
+    (useCombatFeedStore.getState().rendered[actorKey(r)] || 0) > 0;
+  const areaEntries = owner && support?.supported && area && source.token ? all.map(token => {
+    const r = refOf(token);
+    const cDef = creatureDefs.find(c => c.id === token.creatureId);
+    const size = cDef?.size;
+    return {
+      token,
+      name: () => nameOf(token),
+      footprint: () => r?.kind === 'character' ? { width: 1, height: 1 } :
+        typeof size === 'string' && ['tiny', 'small', 'medium', 'large', 'huge', 'gargantuan', 'colossal'].includes(size.toLowerCase())
+          ? getCreatureSizeMapping(size) : { width: 1, height: 1 }
+    };
+  }) : [];
+  const activeOrigin = owner && aoeSession?.action?.id === owner.spellId && aoeSession?.origin ? aoeSession.origin : areaOrigin;
+  const radiusWorld = area && Number.isFinite(gridSize) && Number.isFinite(feetPerTile) && feetPerTile > 0
+    ? support.areaTerms.radiusFeet / feetPerTile * gridSize : 0;
+  const classifiedArea = owner && support?.supported && area && source.ref ? classifyAreaTokens(areaEntries, {
+    visible: visibleForOwner,
+    origin: activeOrigin,
+    radius: radiusWorld,
+    gridSize,
+    offsetX: gridOffsetX,
+    offsetY: gridOffsetY,
+    mapId: source.mapId,
+    sourceRef: source.ref
+  }) : [];
+  const areaCreatureCandidates = classifiedArea.filter(item => item.eligibleCreature);
+  const restriction = support?.targetingRestriction || support?.areaTerms?.restriction || null;
+  const needsRelationshipCheck = typeof readTargetRelationship === 'function' && (restriction === 'ally' || restriction === 'enemy');
+  const rawRefsToQuery = owner && support?.supported && needsRelationshipCheck && roomId && source.ref && !source.error
+    ? (area ? areaCreatureCandidates.map(item => item.ref) : candidates.map(token => refOf(token)))
+      .filter(r => r && !sameExactRef(r, source.ref))
+    : [];
+  const refsToQuery = [];
+  const seenQueryKeys = new Set();
+  for (const r of rawRefsToQuery) {
+    const k = ownerTargetKey(r);
+    if (!seenQueryKeys.has(k)) { seenQueryKeys.add(k); refsToQuery.push(r); }
+  }
+  const queryRefsKey = refsToQuery.map(ownerTargetKey).join(',');
+  const scopeKey = `${roomId || ''}|${owner?.spellId || ''}|${support?.definitionHash || ''}|${source.ref ? ownerTargetKey(source.ref) : ''}|${restriction || ''}|${relationshipRevision}|${relRetry}`;
+  useEffect(() => {
+    if (!owner || !support?.supported || !needsRelationshipCheck || !roomId || !source.ref || source.error) {
+      return undefined;
+    }
+    if (!refsToQuery.length) {
+      setRelState({ scopeKey, entries: {} });
+      return undefined;
+    }
+    let cancelled = false;
+    setRelState({
+      scopeKey,
+      entries: Object.fromEntries(refsToQuery.map(r => [ownerTargetKey(r), { status: 'loading' }]))
+    });
+    Promise.all(
+      refsToQuery.map(async ref => {
+        const key = ownerTargetKey(ref);
+        try {
+          const res = await readTargetRelationship(roomId, source.ref, ref);
+          if (cancelled) return;
+          const entry = res?.success && ['ally', 'enemy', 'neutral'].includes(res.value)
+            ? { status: 'ready', value: res.value, revision: res.revision }
+            : { status: 'error', error: res?.code || 'query_failed' };
+          setRelState(prev => (prev.scopeKey !== scopeKey
+            ? prev
+            : { scopeKey, entries: { ...prev.entries, [key]: entry } }));
+        } catch (err) {
+          if (cancelled) return;
+          setRelState(prev => (prev.scopeKey !== scopeKey
+            ? prev
+            : { scopeKey, entries: { ...prev.entries, [key]: { status: 'error', error: err?.message || 'query_failed' } } }));
+        }
+      })
+    );
+    return () => { cancelled = true; };
+    // scopeKey and queryRefsKey capture all primitive dependencies for this query batch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scopeKey, queryRefsKey]);
+  if (!owner) return null;
+  const relEntries = relState.scopeKey === scopeKey ? relState.entries : {};
+  const cooldownState = support?.cooldown?.type === COOLDOWN_TYPE && source.ref
+    ? cooldownStatus(source.token, combat, source.ref, support.cooldown.definitionId) : null;
    const target = candidates.find(token => ownerTargetKey(refOf(token)) === targetKey);
+  const targetRel = target && needsRelationshipCheck && !sameExactRef(refOf(target), source.ref)
+    ? relationshipReason(restriction, relEntries[ownerTargetKey(refOf(target))])
+    : null;
+  const targetRelationshipBlocked = Boolean(targetRel && !targetRel.eligible);
+  const invalidAreaSelections = area && needsRelationshipCheck
+    ? areaCreatureCandidates.filter(item =>
+      targetKeys.includes(pickKey(item.ref)) &&
+      !sameExactRef(item.ref, source.ref) &&
+      relEntries[ownerTargetKey(item.ref)]?.status === 'ready' &&
+      relEntries[ownerTargetKey(item.ref)]?.value !== restriction)
+    : [];
+  const unverifiedAreaSelections = area && needsRelationshipCheck
+    ? areaCreatureCandidates.filter(item =>
+      targetKeys.includes(pickKey(item.ref)) &&
+      !sameExactRef(item.ref, source.ref) &&
+      relEntries[ownerTargetKey(item.ref)]?.status !== 'ready')
+    : [];
+  const hasAreaRelError = area && needsRelationshipCheck &&
+    areaCreatureCandidates.some(item => !sameExactRef(item.ref, source.ref) && relEntries[ownerTargetKey(item.ref)]?.status === 'error');
   const latest = loadLatestSpell();
   const pending = unresolvedSpell(latest);
   const perform = async action => { setBusy(true); setError(''); try { await action(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
@@ -233,36 +374,6 @@ function OwnerPanel() {
     } catch (e) { setError(e.message); }
   };
   const chooseTarget = value => { setTargetKey(value); if (draftHere) { try { saveSpellDraft({ context: ctx, label: draftHere.label, roll: draftHere.roll, targetKey: value }); } catch (e) { setError(e.message); } } };
-  // M6A: visibility filter before any preview/candidate classification; GM visibility never authorizes owner disclosure.
-  const visibleForOwner = (r, token) =>
-    !token?.state?.hiddenFromPlayers && !token?.hiddenFromPlayers &&
-    (useCombatFeedStore.getState().rendered[actorKey(r)] || 0) > 0;
-  const areaEntries = area && source.token ? all.map(token => {
-    const r = refOf(token);
-    const cDef = creatureDefs.find(c => c.id === token.creatureId);
-    const size = cDef?.size;
-    return {
-      token,
-      name: () => nameOf(token),
-      footprint: () => r?.kind === 'character' ? { width: 1, height: 1 } :
-        typeof size === 'string' && ['tiny', 'small', 'medium', 'large', 'huge', 'gargantuan', 'colossal'].includes(size.toLowerCase())
-          ? getCreatureSizeMapping(size) : { width: 1, height: 1 }
-    };
-  }) : [];
-  const activeOrigin = aoeSession?.action?.id === owner.spellId && aoeSession?.origin ? aoeSession.origin : areaOrigin;
-  const radiusWorld = area && Number.isFinite(gridSize) && Number.isFinite(feetPerTile) && feetPerTile > 0
-    ? support.areaTerms.radiusFeet / feetPerTile * gridSize : 0;
-  const classifiedArea = area && source.ref ? classifyAreaTokens(areaEntries, {
-    visible: visibleForOwner,
-    origin: activeOrigin,
-    radius: radiusWorld,
-    gridSize,
-    offsetX: gridOffsetX,
-    offsetY: gridOffsetY,
-    mapId: source.mapId,
-    sourceRef: source.ref
-  }) : [];
-  const areaCreatureCandidates = classifiedArea.filter(item => item.eligibleCreature);
   const overlappingCreatures = areaCreatureCandidates.filter(item => item.status === 'candidate');
   const maxAreaCap = area ? Math.min(MAX_AREA_TARGETS, support.areaTerms?.maxTargets || MAX_AREA_TARGETS) : MAX_AREA_TARGETS;
   const selectedAreaRefs = area ? targetKeys.map(k => areaCreatureCandidates.find(item => pickKey(item.ref) === k)?.ref).filter(Boolean) : [];
@@ -313,7 +424,13 @@ function OwnerPanel() {
   const rangeFeet = area ? Number(support?.areaTerms?.rangeFeet) : Number(support?.raw?.targetingConfig?.rangeDistance);
   const rangeLabel = Number.isFinite(rangeFeet) && rangeFeet > 0 ? (area ? `area circle ${support.areaTerms.radiusFeet}-ft radius · ${rangeFeet}-ft placement range` : `card range ${rangeFeet} ft (${support.raw?.targetingConfig?.rangeType || 'authored'})`) : '';
   const pick = () => startTargetPick({ id: 'p9-spell', label: support.name, sourceRef: source.ref, candidates: candidates.map(token => refOf(token)), rangeFeet, rangeLabel,
-     reasonFor: () => 'Not an exact bound target for this spell (creatures and primary characters on your map).', onPick: value => chooseTarget(ownerTargetKey(value)), onCancel: () => {} });
+     reasonFor: ref => {
+       if (needsRelationshipCheck && ref && !sameExactRef(ref, source.ref)) {
+         const rel = relationshipReason(restriction, relEntries[ownerTargetKey(ref)]);
+         if (rel && !rel.eligible) return rel.text;
+       }
+       return 'Not an exact bound target for this spell (creatures and primary characters on your map).';
+     }, onPick: value => chooseTarget(ownerTargetKey(value)), onCancel: () => {} });
   const discarded = loadDiscardedSpellDrafts();
   if (picking || (area && aoeSession?.placing && aoeSession?.action?.id === owner.spellId)) return null; // the panel steps aside while picking/placing on the map; its state is kept
   const ownerCandidates = all.filter(token => token.state?.actorContract?.primary && token.ownerUserId && refOf(token)?.characterId === character.currentCharacterId);
@@ -337,6 +454,7 @@ function OwnerPanel() {
         <dl className="p9-facts">
           <dt>{composed || (bundle && saveOf(support.effectTerms)) ? 'Outcomes' : 'Effect'}</dt><dd>{composed ? <ul className="p9-branches">{support.branchLines.map(line => <li key={line.branch}>{line.text}</li>)}</ul> : bundle && saveOf(support.effectTerms) ? <ul className="p9-branches">{effectBranchLines(support.effectTerms).map(line => <li key={line.branch}>{line.text}</li>)}</ul> : bundle ? describeEffect(support.effectTerms) : condition ? `Canonical Stunned — ${STUNNED.description}` : `${support.kind === 'damage' ? `${support.damageTypes.join('/')} damage` : 'direct healing'} · ${support.reading.reading}`}</dd>
           {area && <><dt>Area</dt><dd>Circle {support.areaTerms.radiusFeet}-ft radius · {support.areaTerms.rangeFeet}-ft placement range · {support.areaTerms.restriction} creatures · technical limit up to {maxAreaCap} creature targets (9 actors max including caster)</dd></>}
+          {restriction && <><dt>Targeting</dt><dd>{RESTRICTION_LABELS[restriction] || restriction}</dd></>}
           {condition && <><dt>Timing</dt><dd>{support.timing.durationText} — GM removes. {support.timing.gmNote}</dd></>}
           {bundle && <><dt>Duration</dt><dd>{support.timing.durationText}. {automationText(support.timing, support.effectTerms?.condition, support.effectTerms?.direct)} {support.timing.gmNote}</dd></>}
           {bundle && saveOf(support.effectTerms) && <><dt>Save</dt><dd>{saveManualText(saveOf(support.effectTerms))} You approve both outcomes now; the GM records one of them and cannot substitute other terms. One creature target only.</dd></>}
@@ -386,6 +504,9 @@ function OwnerPanel() {
                       : item.status === 'edge' ? 'Edge/contact only — not geometrically included (GM decides)'
                       : item.status === 'manual' ? 'Unknown/off-grid footprint — GM decides'
                       : 'Outside placed circle';
+                    const itemRel = needsRelationshipCheck && item.eligibleCreature && !sameExactRef(item.ref, source.ref)
+                      ? relationshipReason(restriction, relEntries[ownerTargetKey(item.ref)])
+                      : null;
                     return (
                       <li key={keyStr}>
                         <label>
@@ -396,6 +517,7 @@ function OwnerPanel() {
                             onChange={() => toggleAreaTarget(keyStr)}
                           />
                           {' '}<strong>{item.name}</strong> · {item.ref.kind} · {item.ref.tokenId} · <em>{geoBadge}</em>
+                          {itemRel ? ` · ${itemRel.text}` : ''}
                           {item.excludedReason ? ` — ${item.excludedReason}` : ''}
                         </label>
                         {item.eligibleCreature && item.position && (
@@ -409,6 +531,19 @@ function OwnerPanel() {
                 </ul>
               )}
             </fieldset>
+            {selectedAreaRefs.length > 0 && (invalidAreaSelections.length > 0 || unverifiedAreaSelections.length > 0) && (
+              <div className="p9-diagnostic" role="alert">
+                {invalidAreaSelections.length > 0 && (
+                  <p>{restriction === 'ally' ? 'This spell requires an ally.' : 'This spell requires an enemy.'} Selected ineligible target(s): {invalidAreaSelections.map(item => item.name).join(', ')}. Deselect them manually to continue; recorded dice and selections are preserved.</p>
+                )}
+                {unverifiedAreaSelections.length > 0 && (
+                  <p>{hasAreaRelError ? 'Could not verify target relationship for selected target(s)' : 'Checking authoritative target relationship for selected target(s)'}: {unverifiedAreaSelections.map(item => item.name).join(', ')}.</p>
+                )}
+                {(hasAreaRelError || unverifiedAreaSelections.some(item => relEntries[ownerTargetKey(item.ref)]?.status === 'error')) && (
+                  <button type="button" disabled={busy} onClick={() => setRelRetry(n => n + 1)}>Retry relationship check</button>
+                )}
+              </div>
+            )}
             {unavailableAreaTargets && <div className="p9-diagnostic" role="alert">
               <p>A selected area target is unavailable or replaced. Review the target set before approving; recorded dice are retained.</p>
               <button type="button" disabled={pending || busy} onClick={() => syncAreaDraft(selectedAreaRefs.map(pickKey))}>Remove unavailable selections</button>
@@ -417,8 +552,16 @@ function OwnerPanel() {
             <div className="p12c-pick"><button type="button" disabled={pending || busy || !source.ref} onClick={pick}>Pick on map</button><span className="p9-meta">{rangeLabel ? `${rangeLabel} — advisory` : 'No card range — GM adjudicates'}</span></div>
             <label>Target <select value={targetKey} disabled={pending || busy} onChange={event => chooseTarget(event.target.value)}>
               <option value="">Select an exact bound target</option>
-              {candidates.map(token => <option key={ownerTargetKey(refOf(token))} value={ownerTargetKey(refOf(token))}>{nameOf(token)} · {refOf(token).kind} · {token.id}{sameExactRef(refOf(token), source.ref) ? ' (you)' : ''}</option>)}
+              {candidates.map(token => <option key={ownerTargetKey(refOf(token))} value={ownerTargetKey(refOf(token))}>{nameOf(token)} · {refOf(token).kind} · {token.id}{sameExactRef(refOf(token), source.ref) ? ' (you)' : relationshipOptionSuffix(restriction, relEntries[ownerTargetKey(refOf(token))])}</option>)}
              </select></label>
+            {targetRel && (
+              <div className={targetRel.eligible ? 'p9-note' : 'p9-diagnostic'} role={targetRel.eligible ? 'status' : 'alert'}>
+                <p>{targetRel.text}</p>
+                {targetRel.kind === 'error' && (
+                  <button type="button" disabled={busy} onClick={() => setRelRetry(n => n + 1)}>Retry relationship check</button>
+                )}
+              </div>
+            )}
             {targetKey && !target && <p className="p9-diagnostic" role="alert">The selected target is missing, replaced or no longer eligible. Select its exact current attachment and review again; nothing submitted.</p>}
             {bundle && (cooldownRoute || formula || !pcConsent(support.effectTerms, 'character').ok) && <p className="p9-diagnostic" role="alert">PC targets unavailable: {support.effectTerms?.condition?.kind === 'periodic' ? 'a periodic effect applies to one creature only; a player character target stays manual.' : cooldownRoute ? 'an ability with a caster-start cooldown applies to one placed creature only; a player character target stays manual.' : formula ? 'an attribute-scaled immediate part with an effect applies to one placed creature only; a player character target stays manual.' : pcConsent(support.effectTerms, 'character').message}</p>}
           </>}
@@ -442,7 +585,7 @@ function OwnerPanel() {
             {deterministic ? <p className="p9-roll-result">Calculated proposal: <strong>{roll?.total}</strong>. No dice or random roll. Review the bound inputs and exact payment, then approve; the GM must confirm the final amount.</p> : roll && <p className="p9-roll-result">Recorded {roll.mode} roll: [{roll.dice.map(group => group.faces.join(', ')).join(' | ')}] {roll.constant >= 0 ? '+' : '-'} {Math.abs(roll.constant)} = <strong>{roll.total}</strong>. {area ? 'Proposed base amount for each selected creature target; the GM adjudicates each target’s final amount.' : 'The GM confirms the final amount.'} Kept on this device for this spell through target changes and reloads.</p>}
            {formula && roll && !pending && roll.reading !== support.reading.reading && <button type="button" disabled={busy} onClick={() => perform(() => saveSpellDraft({ context: ctx, label: support.name,
              roll: recordRoll(roll.mode, support.reading, roll.dice.map(group => group.faces)), targetKey, targetKeys, areaOrigin: activeOrigin }))}>Review changed scores with retained faces</button>}
-          {!pending && <button type="button" className="p9-primary" disabled={busy || (area ? unavailableAreaTargets || selectedAreaRefs.length < 1 || targetKeys.length > maxAreaCap : !target) || (needsRoll && !roll) || !support.payment.affordable || !affordable(pools, support.price)}
+          {!pending && <button type="button" className="p9-primary" disabled={busy || (area ? unavailableAreaTargets || selectedAreaRefs.length < 1 || targetKeys.length > maxAreaCap || invalidAreaSelections.length > 0 || unverifiedAreaSelections.length > 0 : !target || targetRelationshipBlocked) || (needsRoll && !roll) || !support.payment.affordable || !affordable(pools, support.price)}
             onClick={() => perform(() => sendSpellApproval({ spellId: owner.spellId, targetRef: area ? undefined : refOf(target), targetRefs: area ? selectedAreaRefs : undefined, areaOrigin: area ? activeOrigin : undefined, roll: needsRoll ? roll : null, origin: owner.origin }))}>{area ? `Approve one source payment and ${selectedAreaRefs.length} creature target${selectedAreaRefs.length === 1 ? '' : 's'}` : composed ? 'Approve price, target, roll and listed outcomes' : bundle ? 'Approve exact price, target, effects and duration' : condition ? 'Approve exact price, target and Stunned duration' : 'Approve price and send to GM'}</button>}
         </>}
       </>}

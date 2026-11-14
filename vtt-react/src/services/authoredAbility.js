@@ -125,7 +125,18 @@ function followUpTrigger(config) { return followUpTriggerFor(config) !== null; }
 const componentScope = require('./componentScopePolicy');
 const COMPONENT_WATCH = componentScope.CONTRACT;
 const COMPONENT_WATCH_PARTS = Object.freeze({ damage_direct: Object.freeze({ componentId: 'effects:direct', kind: 'damage' }) });
-const COMPONENT_WATCH_CONDITIONS = Object.freeze(['movement', 'stunned']);
+// Family expansion (handoff/component-trigger-family-expansion): the same Wizard card, on the same Direct Damage part, maps to the
+// definition's own structural key for each admitted single-target immediate-damage family. A bundle's direct part is 'effects:direct';
+// a one-part immediate damage definition's only part is 'effect'. Placement is (wizardKey, definition shape) -> componentId; never a
+// label or index. Anything this table does not name refuses whole.
+const COMPONENT_WATCH_PLACEMENTS = Object.freeze([
+  Object.freeze({ wizardKey: 'damage_direct', shape: 'bundle', componentId: 'effects:direct', kind: 'damage' }),
+  Object.freeze({ wizardKey: 'damage_direct', shape: 'immediate', componentId: 'effect', kind: 'damage' })
+]);
+const componentWatchPlacement = (wizardKey, componentId) => COMPONENT_WATCH_PLACEMENTS.find(p => p.wizardKey === wizardKey && p.componentId === componentId) || null;
+// Riders a watched Direct Damage part may sit next to (each already an executable A10 composition). Periodic ticks stay out: a bundle
+// with periodic ticks has a second, later damage source, and no aggregation or precedence is defined.
+const COMPONENT_WATCH_CONDITIONS = Object.freeze(['movement', 'stunned', 'attribute', 'damageReduction']);
 function componentWatchShape(config) {
   if (empty(config) || !exactKeys(config, ['global', 'effectTriggers', 'conditionalEffects', 'buffDebuffTriggers', 'requiredConditions', 'triggerRole'])) { return null; }
   if (canonical(config.global) !== canonical({ logicType: 'AND', compoundTriggers: [] }) || !empty(config.conditionalEffects) || !empty(config.buffDebuffTriggers) ||
@@ -233,7 +244,7 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
     if (!empty(mech) && canonical(mech) !== canonical({ cards: null, combos: null, coins: null, stateRequirements: [], stateOptions: { thresholds: [] } })) refuse('mechanicsConfig');
     const watchShape = componentWatchShape(d.triggerConfig);
     if (watchShape && !componentScope.approved()) { refuse(`triggers (${componentScope.UNAPPROVED_REASON})`); }
-    if (watchShape && !effect) { refuse('triggers (a trigger on one part needs a multi-part spell: one direct damage part next to a movement or Stunned effect)'); }
+    if (watchShape && (condition || (!effect && kind !== 'damage'))) { refuse('triggers (Follow-up After My Damage is watched only on a Direct Damage part: a single-target immediate damage spell, or a direct damage part next to one supported effect)'); }
     const followUp = watchShape ? null : followUpTriggerFor(d.triggerConfig);
     const cd = d.cooldownConfig;
     const combatCooldown = require('./authoredCooldown').valid(cd);
@@ -283,19 +294,19 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
       const restrictions = t.targetRestrictions;
       if (!Array.isArray(restrictions) || restrictions.length !== 1 || !['ally', 'enemy', 'any'].includes(restrictions[0]) || (t.targetRestriction && t.targetRestriction !== restrictions[0])) refuse('targetRestrictions');
       if (!empty(d.effectResolutions) && canonical(d.effectResolutions) !== canonical({ [kind]: 'DICE' })) refuse('effectResolutions');
+      if (watchShape) { refuse('triggers (a watched part on an area spell is not supported: one cast would produce one damage result per creature, and no aggregation is defined)'); }
       const directEffect = readDirect(d, record, kind, true);
       if (!isAreaRollProcedureApproved({ allowProposedAreaRoll })) {
         throw Error(AREA_ROLL_UNAPPROVED_REASON);
       }
       const maxTargets = t.maxTargets !== undefined && t.maxTargets > 1 ? t.maxTargets : MAX_AREA_TARGETS;
-      return { ok: true, definition: {
+      return { ok: true, definition: Object.assign({
         schemaVersion: 5, capability: AREA_CAPABILITY, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
         name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
         targeting: { kind: 'area', aoeShape: 'circle', radiusFeet: t.aoeParameters.radius, rangeFeet: t.rangeDistance, maxTargets, restriction: restrictions[0] },
         resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
-        effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula },
-        ...(followUp ? { followUp: followUp } : {})
-      } };
+        effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula }
+      }, followUp ? { followUp: followUp } : {}) };
     }
     if (t.targetingType !== 'single' || t.maxTargets !== 1 || !int(t.rangeDistance, 300) || !['ranged', 'melee', 'self', 'touch'].includes(t.rangeType) || !empty(t.aoeParameters) || (t.movementBehavior && t.movementBehavior !== 'static')) refuse('single target / explicit range / count');
     if (record.targetingConfig?.rangeDistance !== t.rangeDistance || record.targetingConfig?.maxTargets !== t.maxTargets) refuse('library/draft targeting');
@@ -396,9 +407,12 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
         const part = Object.prototype.hasOwnProperty.call(COMPONENT_WATCH_PARTS, watchShape.wizardKey) ? COMPONENT_WATCH_PARTS[watchShape.wizardKey] : null;
         if (!part) { refuse(`triggers (Follow-up After My Damage is watched only on the Direct Damage part; the "${watchShape.wizardKey}" part removes no HP of its own)`); }
         if (!directPart || directPart.kind !== part.kind || d.damageConfig?.damageType !== 'direct') { refuse('triggers (the watched Direct Damage part is not this spell\'s direct damage)'); }
-        if (!COMPONENT_WATCH_CONDITIONS.includes(conditionEffect.kind)) { refuse('triggers (a watched Direct Damage part is supported next to a movement or Stunned effect only)'); }
-        if (combatCooldown) { refuse('triggers (a watched part on a spell with its own cooldown is not a reviewed combination)'); }
-        if (formulaAttributes(directPart.formula).length) { refuse('triggers (a watched part with an attribute-scaled formula is not a reviewed combination)'); }
+        if (conditionEffect.kind === 'periodic') { refuse('triggers (a watched Direct Damage part next to periodic ticks is not supported: the ticks are a second, later damage source and no aggregation is defined)'); }
+        if (!COMPONENT_WATCH_CONDITIONS.includes(conditionEffect.kind)) { refuse('triggers (a watched Direct Damage part is supported next to a movement, Stunned, attribute or flat damage-reduction effect only)'); }
+        // Family expansion: the spell's own caster-start cooldown and an attribute-scaled direct part (movement/Stunned only, as readBundleDirect
+        // already enforces) are existing executable compositions; the watch reads the binder's committed result and changes neither.
+        const placement = componentWatchPlacement(watchShape.wizardKey, part.componentId);
+        if (!placement || placement.shape !== 'bundle') { refuse('triggers (unsupported watched part)'); }
         componentWatch = { contract: COMPONENT_WATCH, componentId: part.componentId, wizardKey: watchShape.wizardKey };
       }
       return { ok: true, definition: Object.assign({ schemaVersion: 3, capability: EFFECT_CAPABILITY, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
@@ -415,11 +429,11 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
       if (c.conditionKey !== 'stunned' || c.expiryPolicy !== 'gm-manual' || typeof c.durationText !== 'string' || !c.durationText.trim() || c.durationText.length > 300 || typeof c.gmNote !== 'string' || !c.gmNote.trim() || c.gmNote.length > 1000) refuse('Explicit canonical Stunned, manual expiry, authored duration and GM note required');
       if (!empty(d.effectResolutions) && canonical(d.effectResolutions) !== '{"control":"MANUAL"}') refuse('condition resolution');
       if (restrictions[0] === 'self' || t.rangeDistance === 0) refuse('distinct creature targeting required');
-      return { ok: true, definition: { schemaVersion: 2, capability: CONDITION_CAPABILITY, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
+      return { ok: true, definition: Object.assign({ schemaVersion: 2, capability: CONDITION_CAPABILITY, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
         name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
         targeting: { kind: 'single', maxTargets: 1, rangeFeet: t.rangeDistance, restriction: restrictions[0] }, resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
-        effect: { kind: 'condition', conditionKey: c.conditionKey }, timing: { expiryPolicy: c.expiryPolicy, durationText: c.durationText, authoredDuration: d.durationConfig ?? null, gmNote: c.gmNote },
-        ...(followUp ? { followUp: followUp } : {}) } };
+        effect: { kind: 'condition', conditionKey: c.conditionKey }, timing: { expiryPolicy: c.expiryPolicy, durationText: c.durationText, authoredDuration: d.durationConfig ?? null, gmNote: c.gmNote }
+      }, followUp ? { followUp: followUp } : {}) };
     }
     if (!empty(d.effectResolutions) && canonical(d.effectResolutions) !== canonical({ [kind]: 'DICE' })) refuse('effectResolutions');
     const directEffect = readDirect(d, record, kind, true, true, true);
@@ -438,11 +452,22 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
     if ((readsHealth || (deterministic && !selfHeal) || (scaled && !selfHeal && t.rangeDistance === 0)) && (restrictions[0] === 'self' || t.rangeDistance === 0)) {
       refuse('This formula requires a distinct creature target');
     }
+    // Family expansion: a one-part immediate DAMAGE spell may carry the card on its only (Direct Damage) part. Every immediate-damage
+    // capability the compiler admits for a primary owner PC qualifies (plain dice, attribute-scaled, missing-health, deterministic),
+    // with or without its own caster-start cooldown. The target must be another creature (never self).
+    let immediateWatch = null;
+    if (watchShape) {
+      const placement = COMPONENT_WATCH_PLACEMENTS.find(p => p.wizardKey === watchShape.wizardKey && p.shape === 'immediate');
+      if (!placement) { refuse(`triggers (Follow-up After My Damage is watched only on the Direct Damage part; the "${watchShape.wizardKey}" part removes no HP of its own)`); }
+      if (kind !== placement.kind || d.damageConfig?.damageType !== 'direct') { refuse('triggers (the watched Direct Damage part is not this spell\'s direct damage)'); }
+      if (restrictions[0] === 'self' || t.rangeDistance === 0) { refuse('triggers (a watched Direct Damage part needs a distinct creature target)'); }
+      immediateWatch = { contract: COMPONENT_WATCH, componentId: placement.componentId, wizardKey: watchShape.wizardKey };
+    }
     // Keep the shared CommonJS module free of object-spread helper imports (CRA marks those as ESM).
     return { ok: true, definition: Object.assign({ schemaVersion: deterministic ? 7 : health ? 6 : scaled || combatCooldown ? 4 : 1, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
       name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
       targeting: { kind: 'single', maxTargets: 1, rangeFeet: t.rangeDistance, restriction: restrictions[0] }, resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
-       effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula } }, deterministic ? { capability: DETERMINISTIC_CAPABILITY } : health ? { capability: HEALTH_CAPABILITY } : scaled || combatCooldown ? { capability: FORMULA_CAPABILITY } : {}, combatCooldown ? { cooldown: cd } : {}, followUp ? { followUp: followUp } : {}) };
+       effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula } }, deterministic ? { capability: DETERMINISTIC_CAPABILITY } : health ? { capability: HEALTH_CAPABILITY } : scaled || combatCooldown ? { capability: FORMULA_CAPABILITY } : {}, combatCooldown ? { cooldown: cd } : {}, followUp ? { followUp: followUp } : {}, immediateWatch ? { componentWatch: immediateWatch } : {}) };
   } catch (error) { return { ok: false, code: 'unsupported_wizard_record', reason: error.message }; }
 }
 // M5 composition: an immediate part next to a periodic tick may use the existing M4A attribute vocabulary (readScaledFormula).
@@ -512,7 +537,7 @@ function definitionSummary(d) {
   if (d.capability === AREA_CAPABILITY) return `${d.effect?.kind} · ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''} · circle ${d.targeting?.radiusFeet} ft (up to ${d.targeting?.maxTargets} creatures)`;
   return `${d.effect?.kind} · ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''}`;
 }
-module.exports = { HEALTH_CAPABILITY, HEALTH_COMPILER, readHealthFormula, isHealth, definitionSummary, CAPABILITY, FORMULA_CAPABILITY, FORMULA_COMPILER, AREA_CAPABILITY, AREA_COMPILER, MAX_AREA_TARGETS, MAX_AREA_ACTORS, AREA_ROLL_PROCEDURE, AREA_ROLL_POLICY, AREA_ROLL_UNAPPROVED_REASON, isAreaRollProcedureApproved, setAreaRollProposalForTest, setAreaRollApprovalForTest, readScaledFormula, formulaAttributes, isFormula, isArea, CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, ADAPTER_VERSION, CLASS_IDS, FOLLOWUP_TRIGGER, FOLLOWUP_TRIGGER_ID, FOLLOWUP_HEALING_TRIGGER, FOLLOWUP_HEALING_TRIGGER_ID, FOLLOWUP_MARKERS, followUpTrigger, followUpTriggerFor, COMPONENT_WATCH, COMPONENT_WATCH_PARTS, COMPONENT_WATCH_CONDITIONS, componentWatchShape, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing, ownerSelfHealing };
+module.exports = { HEALTH_CAPABILITY, HEALTH_COMPILER, readHealthFormula, isHealth, definitionSummary, CAPABILITY, FORMULA_CAPABILITY, FORMULA_COMPILER, AREA_CAPABILITY, AREA_COMPILER, MAX_AREA_TARGETS, MAX_AREA_ACTORS, AREA_ROLL_PROCEDURE, AREA_ROLL_POLICY, AREA_ROLL_UNAPPROVED_REASON, isAreaRollProcedureApproved, setAreaRollProposalForTest, setAreaRollApprovalForTest, readScaledFormula, formulaAttributes, isFormula, isArea, CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, ADAPTER_VERSION, CLASS_IDS, FOLLOWUP_TRIGGER, FOLLOWUP_TRIGGER_ID, FOLLOWUP_HEALING_TRIGGER, FOLLOWUP_HEALING_TRIGGER_ID, FOLLOWUP_MARKERS, followUpTrigger, followUpTriggerFor, COMPONENT_WATCH, COMPONENT_WATCH_PARTS, COMPONENT_WATCH_PLACEMENTS, componentWatchPlacement, COMPONENT_WATCH_CONDITIONS, componentWatchShape, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing, ownerSelfHealing };
 /** Creature-source eligibility of an already definition-compatible ability: null, or the exact refusal the room server applies at
  * creature admission and at every approval. Single source for server admission and the Bestiary card; the server stays the authority. */
 function creatureSourceRefusal(d) {

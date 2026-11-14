@@ -142,14 +142,23 @@ function validEffectCondition(c) {
 // D1 = (a), creator approval 14 November 2026: a watched Direct Damage part. Structure is part of the canonical definition, so the exact
 // watched part is in the definition hash. NEW admission requires the creator policy; stored-registry decoding checks structure only
 // (like the catalogue pin and the area roll policy), and registration, offers and approval still require the policy at run time.
+// Family expansion (handoff/component-trigger-family-expansion): the same descriptor on every admitted single-target immediate-damage
+// family. A bundle's watched part is 'effects:direct' next to a movement, Stunned, attribute or positive flat-DR rider (its own cooldown,
+// rider save and scaled direct part stay governed by the existing validators); a one-part immediate damage definition's only part is
+// 'effect'. A previous server refuses every such registry (its validator above admitted movement/Stunned bundles only), so roll back only
+// while none is admitted (triggerRollbackScrub refuses any registry holding a componentWatch).
 function validComponentWatch(d) {
-  const w = d.componentWatch, part = w && pureAbility.COMPONENT_WATCH_PARTS[w.wizardKey];
-  return exact(w, ['contract', 'componentId', 'wizardKey']) && w.contract === pureAbility.COMPONENT_WATCH && !!part &&
-    Object.prototype.hasOwnProperty.call(pureAbility.COMPONENT_WATCH_PARTS, w.wizardKey) && w.componentId === part.componentId &&
-    d.followUp === undefined && !Object.hasOwn(d, 'cooldown') && d.classPayment === undefined && d.catalogueSource === undefined &&
-    d.effects?.direct?.kind === part.kind && pureAbility.COMPONENT_WATCH_CONDITIONS.includes(d.effects?.condition?.kind) &&
-    !scaledDirect(d.effects.direct);
+  const w = d.componentWatch;
+  if (!exact(w, ['contract', 'componentId', 'wizardKey']) || w.contract !== pureAbility.COMPONENT_WATCH) {return false;}
+  const placement = pureAbility.componentWatchPlacement(w.wizardKey, w.componentId);
+  if (!placement || d.followUp !== undefined || d.classPayment !== undefined || d.catalogueSource !== undefined || d.targetRoute !== undefined) {return false;}
+  if (placement.shape === 'bundle') {
+    return d.capability === EFFECT_CAPABILITY && d.effects?.direct?.kind === placement.kind && pureAbility.COMPONENT_WATCH_CONDITIONS.includes(d.effects?.condition?.kind);
+  }
+  return placement.shape === 'immediate' && d.effect?.kind === placement.kind && d.targeting?.kind === 'single' && d.targeting?.restriction !== 'self' &&
+    Number.isSafeInteger(d.targeting?.rangeFeet) && d.targeting.rangeFeet >= 1;
 }
+const IMMEDIATE_WATCH_COMPILER = 'p14-component-watch-immediate-1';
 function compileEffect(d, { verifyCatalogue = true, verifyComponentPolicy = true } = {}) {
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
@@ -217,9 +226,11 @@ function validCatalogueSource(source, classId) {
   return exact(source, ['spellId', 'classId', 'recordHash']) && text(source.spellId, 120) &&
     source.classId === classId && /^[0-9a-f]{64}$/.test(source.recordHash || '');
 }
-function compileFormula(d, { verifyCatalogue = true } = {}) {
+function compileFormula(d, { verifyCatalogue = true, verifyComponentPolicy = true } = {}) {
   const cooldown = d.cooldown !== undefined;
   if (d.followUp !== undefined && !FOLLOWUP_MARKERS.includes(d.followUp)) { return no('UNSUPPORTED_SHAPE'); }
+  if (d.componentWatch !== undefined && !validComponentWatch(d)) { return no('UNSUPPORTED_SHAPE'); }
+  if (d.componentWatch !== undefined && verifyComponentPolicy && !require('../shared/services/componentScopePolicy').approved()) { return no('COMPONENT_SCOPE_UNAPPROVED'); }
   if (cooldown && (!require('../shared/services/authoredCooldown').valid(d.cooldown) || d.catalogueSource !== undefined || d.classPayment !== undefined || d.targetRoute !== undefined || d.targeting?.restriction === 'self' || !int(d.targeting?.rangeFeet, 1, 300))) return no('UNSUPPORTED_SHAPE');
   const deterministic = d.capability === DETERMINISTIC_CAPABILITY;
   const health = d.capability === HEALTH_CAPABILITY;
@@ -252,6 +263,7 @@ function compileFormula(d, { verifyCatalogue = true } = {}) {
   delete projection.cooldown;
   delete projection.classPayment; delete projection.targetRoute; delete projection.catalogueSource;
   delete projection.followUp;
+  delete projection.componentWatch;
   projection.schemaVersion = 1;
   if (!projection.effect) return no('INVALID_DEFINITION');
   projection.effect.formula = '1d2';
@@ -268,6 +280,7 @@ function compileFormula(d, { verifyCatalogue = true } = {}) {
   if (d.catalogueSource !== undefined) descriptor.catalogueSource = clone(d.catalogueSource);
   if (d.followUp !== undefined) { descriptor.followUp = d.followUp; }
   if (cooldown) { descriptor.cooldown = clone(d.cooldown); descriptor.compilerVersion = 'p14-wizard-cooldown-1'; }
+  if (d.componentWatch !== undefined) { descriptor.componentWatch = clone(d.componentWatch); }
   return { ok: true, canonicalDefinition, definitionHash, descriptor };
 }
 const CLASS_ATTRIBUTES = require('../shared/services/classEffect').ATTRIBUTES;
@@ -327,6 +340,7 @@ function compileDefinition(d, options) {
   if (d?.capability === AREA_CAPABILITY) return compileArea(d, options);
   if ([FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY].includes(d?.capability)) return compileFormula(d, options);
   if (d?.capability === EFFECT_CAPABILITY) return compileEffect(d, options);
+  if (d?.capability === undefined && d?.componentWatch !== undefined) { return compileImmediateWatch(d, options); }
   if (d?.capability !== CONDITION_CAPABILITY) return legacy.compileDefinition(d);
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
@@ -345,6 +359,25 @@ function compileDefinition(d, options) {
   return { ok: true, canonicalDefinition, definitionHash, descriptor: { schemaVersion: 2, capabilityId: CONDITION_CAPABILITY, compilerVersion: VERSION,
     definitionRef, binding: clone(d.binding), price: { ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana }, targeting: clone(d.targeting), effect: clone(d.effect), timing: clone(d.timing),
     ...(d.followUp !== undefined ? { followUp: d.followUp } : {}), executionEnabled: false } };
+}
+/** Family expansion: a plain (A1a, schema 1) immediate damage definition that carries a watch on its only part. The protected A1a
+ * compiler validates every other field of the same definition without the watch; the watch is then inside the canonical definition and
+ * its hash (same A1a hash domain and capability), so a watched copy is always a different definition from its unwatched twin. */
+function compileImmediateWatch(d, { verifyComponentPolicy = true } = {}) {
+  if (!d || typeof d !== 'object' || Array.isArray(d) || !validComponentWatch(d) || d.schemaVersion !== 1) { return no('UNSUPPORTED_SHAPE'); }
+  if (verifyComponentPolicy && !require('../shared/services/componentScopePolicy').approved()) { return no('COMPONENT_SCOPE_UNAPPROVED'); }
+  const projection = clone(d); delete projection.componentWatch;
+  const base = legacy.compileDefinition(projection);
+  if (!base.ok) { return base; }
+  const canonical = checkpoint.canonicalize(d, 'definition');
+  if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) { return no('INVALID_DEFINITION'); }
+  const bare = clone(canonical.value); delete bare.componentWatch;
+  if (!equal(bare, base.canonicalDefinition)) { return no('INVALID_DEFINITION'); }
+  const canonicalDefinition = canonical.value;
+  const definitionHash = checkpoint.sha256Hex('mythrill:authored-definition:v1\n' + checkpoint.stableStringify(canonicalDefinition));
+  const definitionRef = Object.assign({}, base.descriptor.definitionRef, { definitionHash });
+  const descriptor = Object.assign(clone(base.descriptor), { compilerVersion: IMMEDIATE_WATCH_COMPILER, definitionRef, componentWatch: clone(d.componentWatch) });
+  return { ok: true, canonicalDefinition, definitionHash, descriptor };
 }
 function validateRegistrySnapshot(r) {
   try { r = snapshot(r); } catch (_) { return no(); }
@@ -380,7 +413,7 @@ function decodeRegistry(json) { try { return validateRegistrySnapshot(JSON.parse
 function createDefinitionRegistry({ authorize }) {
   async function plan(operation, input, request) {
     try { input = snapshot(input); request = snapshot(request); } catch (_) { return no('INVALID_DEFINITION'); }
-    if (input.schemaVersion !== 2 && ![CONDITION_CAPABILITY, EFFECT_CAPABILITY, FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY, AREA_CAPABILITY].includes(request.definition?.capability)) return legacy.createDefinitionRegistry({ authorize })[operation === 'admit' ? 'planAdmit' : 'planRevoke'](input, request);
+    if (input.schemaVersion !== 2 && request.definition?.componentWatch === undefined && ![CONDITION_CAPABILITY, EFFECT_CAPABILITY, FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY, AREA_CAPABILITY].includes(request.definition?.capability)) return legacy.createDefinitionRegistry({ authorize })[operation === 'admit' ? 'planAdmit' : 'planRevoke'](input, request);
     const valid = validateRegistrySnapshot(input);
     if (!valid.ok) return valid;
     const r = clone(valid.registry);

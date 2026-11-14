@@ -6,9 +6,10 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import fs from 'fs';
+import path from 'path';
 
 const mockSpell = JSON.parse(fs.readFileSync(
-  'D:/VTT/handoff/spell-card-combat-flow-repair/fixtures/combined-whole-and-component-trigger.json',
+  path.resolve(__dirname, '../../spellcrafting-wizard/__tests__/fixtures/combined-whole-and-component-trigger.json'),
   'utf8'
 ));
 const captured = [];

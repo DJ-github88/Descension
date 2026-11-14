@@ -22,7 +22,21 @@ import * as classEffect from './classEffect';
 import * as saveBranch from './saveBranch';
 import { onRoomRejoined } from './roomRejoinBus';
 
-export const useSpellConsequenceStore = create(() => ({ owner: null, ownerStatus: null, gmPending: {}, gmStatus: {} }));
+export const useSpellConsequenceStore = create(() => ({ owner: null, ownerStatus: null, gmPending: {}, gmStatus: {}, relationshipRevision: 0, relationshipRevisions: {} }));
+export async function readTargetRelationship(roomId, sourceRef, targetRef) {
+  if (!roomId || !sourceRef || !targetRef) return { success: false, code: 'invalid_consequence' };
+  const result = await requestActorEvent('actor_relationship_list', { roomId, a: sourceRef, b: targetRef });
+  if (result?.success && Number.isSafeInteger(result.revision) && gameState().multiplayerRoom?.id === roomId) {
+    useSpellConsequenceStore.setState(state => {
+      const prevRoomRev = state.relationshipRevisions?.[roomId] || 0;
+      if (prevRoomRev >= result.revision) return state;
+      return {
+        relationshipRevisions: { ...(state.relationshipRevisions || {}), [roomId]: result.revision }
+      };
+    });
+  }
+  return result;
+}
 export async function refreshAuthoredAbilities() {
   const context = spellContext(), socket = gameState().multiplayerSocket;
   const result = await requestActorEvent('actor_authored_list', { roomId: context.roomId });
@@ -797,6 +811,18 @@ export function registerSpellConsequenceHandlers({ socket }) {
   };
   const accepted = result => { if (live()) consumeSpellReceipt(result); };
   const targetPending = value => { if (live() && value?.roomId === gameState().multiplayerRoom?.id) refreshSpellApprovals(); };
+  const relationshipUpdated = value => {
+    const currentRoomId = gameState().multiplayerRoom?.id;
+    if (!live() || !value?.roomId || value.roomId !== currentRoomId) return;
+    useSpellConsequenceStore.setState(state => {
+      const prevRoomRev = state.relationshipRevisions?.[value.roomId] || 0;
+      const nextRoomRev = Number.isSafeInteger(value.revision) ? Math.max(prevRoomRev, value.revision) : prevRoomRev + 1;
+      return {
+        relationshipRevision: (state.relationshipRevision || 0) + 1,
+        relationshipRevisions: { ...(state.relationshipRevisions || {}), [value.roomId]: nextRoomRev }
+      };
+    });
+  };
   // Checkpoint confirmation upgrades the accepted label only from the writer's confirmed revision.
   const saved = value => {
     if (!live() || value?.roomId !== gameState().multiplayerRoom?.id || !Number.isSafeInteger(value.confirmedRevision)) return;
@@ -814,12 +840,20 @@ export function registerSpellConsequenceHandlers({ socket }) {
   };
   socket.on('actor_spell_pending', pending); socket.on('actor_spell_closed', closed); socket.on('actor_consequence_accepted', accepted); socket.on('room_save_status', saved);
   socket.on('actor_spell_target_pending', targetPending);
+  socket.on('actor_relationship_updated', relationshipUpdated);
   const unsubscribe = onRoomRejoined(event => {
     if (live() && event.socket === socket && event.roomId === gameState().multiplayerRoom?.id) {
       refreshSpellApprovals(); refreshAuthoredAbilities(); restoreOwnerStatus();
+      useSpellConsequenceStore.setState(state => ({
+        relationshipRevision: (state.relationshipRevision || 0) + 1,
+        relationshipRevisions: {
+          ...(state.relationshipRevisions || {}),
+          ...(event.roomId ? { [event.roomId]: (state.relationshipRevisions?.[event.roomId] || 0) + 1 } : {})
+        }
+      }));
     }
   });
-  return () => { active = false; unsubscribe(); socket.off('actor_spell_target_pending', targetPending); socket.off('actor_spell_pending', pending); socket.off('actor_spell_closed', closed); socket.off('actor_consequence_accepted', accepted); socket.off('room_save_status', saved); };
+  return () => { active = false; unsubscribe(); socket.off('actor_relationship_updated', relationshipUpdated); socket.off('actor_spell_target_pending', targetPending); socket.off('actor_spell_pending', pending); socket.off('actor_spell_closed', closed); socket.off('actor_consequence_accepted', accepted); socket.off('room_save_status', saved); };
 }
 
 

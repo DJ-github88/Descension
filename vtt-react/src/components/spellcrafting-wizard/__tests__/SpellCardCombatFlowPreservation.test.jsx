@@ -7,6 +7,7 @@
  */
 import React from 'react';
 import fs from 'fs';
+import path from 'path';
 import { render, screen, fireEvent, waitFor, act, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SpellwizardApp from '../SpellwizardApp';
@@ -45,7 +46,7 @@ jest.mock('../../../utils/dialogService', () => ({
   showPrompt: () => Promise.resolve(null)
 }));
 
-const FIXTURES = 'D:/VTT/handoff/spell-card-combat-flow-repair/fixtures';
+const FIXTURES = path.resolve(__dirname, 'fixtures');
 const COMBINED = JSON.parse(fs.readFileSync(`${FIXTURES}/combined-whole-and-component-trigger.json`, 'utf8'));
 const clone = value => JSON.parse(JSON.stringify(value));
 

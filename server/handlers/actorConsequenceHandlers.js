@@ -324,6 +324,11 @@ function registerActorConsequenceHandlers(ctx) {
     actors.validateRef(data.a);
     actors.validateRef(data.b);
     if (data.a.roomId !== captured.room.id || data.b.roomId !== captured.room.id) {actors.fail('invalid_consequence');}
+    const source = actors.locate(captured.room, data.a);
+    if (!captured.isGM && !actors.permitted(captured.room, captured.player, captured.uid, data.a, source.token)) {actors.fail('forbidden');}
+    const target = actors.locate(captured.room, data.b);
+    const hidden = Boolean(target.token?.state?.hiddenFromPlayers || target.token?.hiddenFromPlayers || target.token?.state?.isHidden || target.token?.isHidden);
+    if (!captured.isGM && hidden) {actors.fail('actor_not_found');}
     respond(ack, { success: true, roomId: captured.room.id, revision: relationships.revision(captured.room),
       value: relationships.get(captured.room, data.a, data.b) });
   });

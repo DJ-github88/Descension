@@ -210,7 +210,7 @@ function validatePlan(plan) {
     if (!exact(w, names) || !stageIds.has(w.after) || stageIds.get(w.after).kind !== 'resolution' ||
         !stageIds.get(w.after).components.includes(w.componentId) ||
         !plan.components.some(c => c.componentId === w.componentId && c.kind === 'damage') ||
-        !Object.prototype.hasOwnProperty.call(authored.COMPONENT_WATCH_PARTS, w.wizardKey) || authored.COMPONENT_WATCH_PARTS[w.wizardKey].componentId !== w.componentId) { refuse('plan_watch_invalid'); }
+        !authored.componentWatchPlacement(w.wizardKey, w.componentId)) { refuse('plan_watch_invalid'); }
     const contract = {};
     Object.keys(COMPONENT_WATCH_CONTRACT).forEach(k => { contract[k] = w[k]; });
     if (canonical(contract) !== canonical(COMPONENT_WATCH_CONTRACT)) { refuse('plan_watch_invalid'); }
@@ -275,8 +275,14 @@ const REASONS = Object.freeze({
   cyclic_component_dependency: 'These parts trigger each other in a loop, so the whole spell is resolved by hand.',
   malformed_trigger_data: 'This trigger data is not in a form Prism can read. It is kept exactly as written and never run.',
   too_many_triggers: 'This spell stores more triggers than Prism reads, so the whole spell is resolved by hand.',
-  whole_definition_refused: 'Prism can run this trigger, but it does not run this spell as a whole, so the trigger is not run either.'
+  whole_definition_refused: 'Prism can run this trigger, but it does not run this spell as a whole, so the trigger is not run either.',
+  // Family expansion: shown for the same code once the creator policy is approved, so a refused placement is never described as
+  // "not yet run anywhere". The stored code is unchanged.
+  component_watch_shape_unsupported: 'Prism runs Follow-up After My Damage on one part only when it sits on the Direct Damage part of a supported single-target damage spell: a one-part damage spell, or direct damage next to one movement, Stunned, attribute or flat damage-reduction effect. This card is not in such a place, so it is kept exactly as written, resolved by hand and never treated as a whole-spell trigger.'
 });
+const componentScopePolicy = require('./componentScopePolicy');
+/** Reason text for a refusal code. A part-attached follow-up card under an approved policy names the supported placements instead. */
+const reasonFor = code => (code === 'component_scope_unapproved' && componentScopePolicy.approved() ? REASONS.component_watch_shape_unsupported : REASONS[code]);
 
 function triggerList(group) {
   if (!plain(group) || !Array.isArray(group.compoundTriggers)) { return null; }
@@ -424,7 +430,7 @@ function explain(record, compiled) {
       subscription.subscriptionId === entry.subscriptionId);
     const code = executable ? null : entry.status === 'supported-shape' ? 'whole_definition_refused' : entry.code;
     return { entryId: entry.entryId, name: entry.name || entry.triggerId || 'Unnamed trigger', governs: scopeLabel(entry.scope), scope: entry.scope, executable: executable,
-      optional: executable ? (watches(entry) ? true : subscription.response.optional) : null, code: code, reason: code ? REASONS[code] : null };
+      optional: executable ? (watches(entry) ? true : subscription.response.optional) : null, code: code, reason: code ? reasonFor(code) : null };
   });
   const manual = scopes.refusals.map(r => ({ entryId: r.entryId, governs: scopeLabel(r.scope), scope: r.scope, section: r.section, code: r.code, reason: REASONS[r.code] }));
   const watchRuns = !!watch && triggers.some(t => t.executable && t.scope.kind === SCOPE_COMPONENT);
@@ -434,7 +440,9 @@ function explain(record, compiled) {
     const part = partName(watch.wizardKey), condition = d.effects && d.effects.condition;
     const other = condition ? (condition.kind === 'stunned' ? 'Stunned' : condition.label || 'the other part') : 'the other part';
     lines.push({ kind: 'event', text: 'When this spell\'s ' + part + ' part removes at least 1 base HP from a creature, a follow-up spell that the GM pairs with this watch can be offered to me.' });
-    lines.push({ kind: 'scope', text: 'Only the ' + part + ' part is watched. ' + other + (d.effects && d.effects.save ? ', its saving throw' : '') + ' and any other part never count, and this is never treated as a whole-spell trigger.' });
+    lines.push({ kind: 'scope', text: condition
+      ? 'Only the ' + part + ' part is watched. ' + other + (d.effects && d.effects.save ? ', its saving throw' : '') + ' and any other part never count, and this is never treated as a whole-spell trigger.'
+      : 'Only the ' + part + ' part is watched; it is this spell\'s only part. The watch is not this spell\'s own follow-up trigger and is never treated as a whole-spell trigger.' });
     lines.push({ kind: 'qualifies', text: 'What counts is the base HP that part actually removed after temporary HP. A proposed or adjusted amount, damage absorbed by temporary HP and GM corrections do not count.' });
     lines.push({ kind: 'pairing', text: 'Saving or admitting this spell does not switch the watch on. The GM pairs it with one character and one follow-up spell first; this spell is never offered as its own follow-up.' });
     lines.push({ kind: 'optional', text: 'Using the follow-up is optional; declining costs nothing.' });
@@ -442,7 +450,7 @@ function explain(record, compiled) {
     lines.push({ kind: 'cast', text: 'It uses its own targeting, range, rolls, saves and consent, and the GM confirms it like any cast.' });
     lines.push({ kind: 'lapse', text: 'One offer per cast of this spell. The offer lapses at the next authenticated turn start of the source.' });
     lines.push({ kind: 'chain', text: 'It cannot chain: a follow-up never sets off another follow-up.' });
-    lines.push({ kind: 'unsupported', text: 'Not supported: watching a healing, movement or condition part, a watch on a one-part or area spell, and casting only part of a spell.' });
+    lines.push({ kind: 'unsupported', text: 'Not supported: watching a healing, movement, condition, attribute, damage-reduction or periodic part, a watch on an area spell or next to periodic ticks, more than one watched part, and casting only part of a spell.' });
   } else if (runs) {
     lines.push({ kind: 'event', text: EVENT_TEXT[subscription.subscriptionId] });
     lines.push({ kind: 'scope', text: 'The trigger belongs to the whole spell.' });

@@ -25,7 +25,10 @@ describe('P9 S1 support adapter over authored class spells', () => {
         else expect(typeof result.reason).toBe('string');
       }
     }
-    expect(supported.sort()).toEqual(['arc_spark_bolt', 'martyr_restorative_prayer', 'minstrel_harmonic_strike', 'minstrel_opening_chord', 'minstrel_resolving_strike']);
+    expect(supported.sort()).toEqual(['arc_spark_bolt', 'minstrel_harmonic_strike', 'minstrel_opening_chord', 'minstrel_resolving_strike']);
+    const martyrFallback = supportSpell({ id: 'martyr_restorative_prayer' }, { class: 'Martyr', classResource: { type: 'devotionGauge', damage: 62, spentLevels: 2 }, stats });
+    expect(martyrFallback.supported).toBe(false);
+    expect(martyrFallback.reason).toMatch(/reviewed catalogue spell/i);
   });
   test('original definition only: slot copies resolve by ID; formulations, weapon and library actions stay manual', () => {
     expect(resolveOriginalSpell('Arcanoneer', 'arc_spark_bolt').name).toBe('Marrow-Piercing Slug');
@@ -159,8 +162,18 @@ describe('P9 S3/S5 approval and GM command preparation', () => {
     expect(() => planSpellCommand({ approval, contentHash: 'a'.repeat(64), tokens: [pcToken(), foeToken()], roomId: room, mapId: map, finalAmount: 10, adjudicated: false })).toThrow(/adjudicate/);
   });
   test('self-targeted healing is one actor entry; healing caps at maximum and keeps temporary HP', () => {
-    const martyr = { class: 'Martyr', classResource: { type: 'devotionGauge', damage: 62, spentLevels: 2 }, stats };
-    const healing = supportSpell({ id: 'martyr_restorative_prayer' }, martyr);
+    const healing = {
+      ...support,
+      definitionId: 'p9_self_heal',
+      name: 'Self Heal',
+      kind: 'healing',
+      damageTypes: [],
+      pcTarget: true,
+      selfHealing: true,
+      reading: readFormula('1d4 + spirit', stats),
+      price: { ap: 1, mana: 5 },
+      payment: { supported: true, affordable: true, classPayment: null }
+    };
     const healRoll = recordRoll('digital', healing.reading, [[3]]);
     const heal = buildApproval({ support: healing, tokens: [pcToken({ tempHealth: 2 })], sourceRef: pcRef, targetRef: pcRef, roomId: room, mapId: map, actionEpoch: 'e', baseCommitSequence: 3, roll: healRoll, approvalId: '00000000-0000-4000-8000-000000000002' });
     const plan = planSpellCommand({ approval: heal, contentHash: 'b'.repeat(64), tokens: [pcToken({ tempHealth: 2 })], roomId: room, mapId: map, finalAmount: 30, reason: 'Ruled overheal capped', adjudicated: true });

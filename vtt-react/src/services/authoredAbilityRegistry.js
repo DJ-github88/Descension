@@ -24,7 +24,7 @@ export function authoredSupport(id, room, className, stats = {}, health) {
     const reading = readScaledFormula(raw.effect.formula, stats);
     if (!reading.supported) return reading;
     const names = formulaAttributes(raw.effect.formula);
-    return { supported: true, isArea: true, areaTerms: JSON.parse(JSON.stringify(raw.targeting)),
+    return { supported: true, isArea: true, targetingRestriction: raw.targeting.restriction, areaTerms: JSON.parse(JSON.stringify(raw.targeting)),
       raw: { targetingConfig: { targetingType: 'area', aoeShape: 'circle', aoeParameters: { radius: raw.targeting.radiusFeet }, rangeDistance: raw.targeting.rangeFeet, rangeType: 'ranged', targetRestrictions: [raw.targeting.restriction], maxTargets: raw.targeting.maxTargets } },
       kind: raw.effect.kind, formula: raw.effect.formula, damageTypes: raw.effect.damageTypes || [], price: descriptor.price,
        cooldown: { type: 'none', value: 0 }, payment: { affordable: true, classPayment: null }, reading,
@@ -38,7 +38,7 @@ export function authoredSupport(id, room, className, stats = {}, health) {
     const reading = deterministic ? readDeterministicFormula(raw.effect.formula, stats, health) : descriptor.capabilityId === HEALTH_CAPABILITY ? readHealthFormula(raw.effect.formula, stats, health) : readScaledFormula(raw.effect.formula, stats);
     if (!reading.supported) return reading;
     const dynamic = reading.readsHealth === true;
-    return { supported: true, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },
+    return { supported: true, targetingRestriction: raw.targeting.restriction, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },
       kind: raw.effect.kind, formula: raw.effect.formula, damageTypes: raw.effect.damageTypes || [], price: descriptor.price,
       cooldown: raw.cooldown ? { type: raw.cooldown.cooldownType, value: raw.cooldown.cooldownValue, definitionId: raw.definitionId } : { type: 'none', value: 0 }, payment: { affordable: true, classPayment: null }, reading,
       rollAttributes: Object.fromEntries(formulaAttributes(raw.effect.formula).map(name => [name, stats[name]])),
@@ -59,7 +59,7 @@ export function authoredSupport(id, room, className, stats = {}, health) {
     const names = direct ? formulaAttributes(direct.formula) : [];
     const reading = !direct ? null : names.length ? readScaledFormula(direct.formula, stats) : readFormula(direct.formula);
     if (reading && reading.supported === false) return reading;
-    return { supported: true, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },
+    return { supported: true, targetingRestriction: raw.targeting.restriction, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },
       kind: 'effect', effectTerms: termsFor(raw), formula: direct?.formula || null, damageTypes: direct?.damageTypes || [], price: descriptor.price, timing: raw.timing,
       classPaymentSpec: raw.classPayment || null, catalogueSource: raw.catalogueSource || null,
       // Composed cooldowns: an immediate + periodic bundle may carry the installed authenticated caster-start cooldown (server-authoritative).
@@ -67,7 +67,7 @@ export function authoredSupport(id, room, className, stats = {}, health) {
       ...(names.length ? { rollAttributes: Object.fromEntries(names.map(name => [name, stats[name]])) } : {}),
       name: raw.name, definitionId: id, definitionHash: `${EFFECT_CAPABILITY}/${entry.definitionRef.definitionHash}` };
   }
-  return { supported: true, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },
+  return { supported: true, targetingRestriction: raw.targeting.restriction, raw: { targetingConfig: { rangeDistance: raw.targeting.rangeFeet, rangeType: raw.targeting.restriction } },
     kind: raw.effect.kind, formula: raw.effect.formula, damageTypes: descriptor.effect.damageTypes || [], price: descriptor.price, timing: raw.timing,
     cooldown: { type: 'none', value: 0 }, payment: { affordable: true, classPayment: null }, reading: raw.effect.kind === 'condition' ? null : readFormula(raw.effect.formula),
     selfHealing: ownerSelfHealing(raw),

@@ -1,0 +1,210 @@
+{
+  "name": "Ember Snare (whole-spell trigger)",
+  "description": "A rime lash that hobbles the target.",
+  "level": 2,
+  "spellType": "ACTION",
+  "resolution": "DICE",
+  "typeConfig": {
+    "school": "rime",
+    "icon": "spell_frost_frostbolt02",
+    "castTimeType": "IMMEDIATE",
+    "tags": [
+      "rime"
+    ]
+  },
+  "effectTypes": [
+    "damage",
+    "control"
+  ],
+  "effectsMap": {
+    "damage": true,
+    "control": true
+  },
+  "damageConfig": {
+    "damageType": "direct",
+    "elementType": "rime",
+    "formula": "2d6+2",
+    "resolution": "DICE"
+  },
+  "controlConfig": {
+    "authoredCondition": {
+      "profile": "authored-effect:v1",
+      "effect": "movement",
+      "movementFeet": -10,
+      "label": "Hobbled",
+      "expiryPolicy": "target-next-end",
+      "durationText": "Until the embers cool",
+      "gmNote": "Table resolves the rider.",
+      "save": {
+        "ability": "constitution",
+        "dc": 12,
+        "outcome": "negates"
+      }
+    }
+  },
+  "targetingConfig": {
+    "targetingType": "single",
+    "rangeType": "ranged",
+    "rangeDistance": 30,
+    "targetRestrictions": [
+      "any"
+    ],
+    "maxTargets": 1,
+    "selectionMethod": "manual"
+  },
+  "resourceCost": {
+    "actionPoints": 1,
+    "mana": 2,
+    "components": []
+  },
+  "durationConfig": {
+    "durationType": "instant"
+  },
+  "cooldownConfig": {
+    "cooldownType": "authenticated_caster_start",
+    "cooldownValue": 2
+  },
+  "triggerConfig": {
+    "global": {
+      "logicType": "AND",
+      "compoundTriggers": [
+        {
+          "id": "health_threshold",
+          "category": "health",
+          "name": "Health Threshold",
+          "parameters": {
+            "percentage": 50,
+            "comparison": "below",
+            "perspective": "self"
+          }
+        }
+      ]
+    },
+    "effectTriggers": {},
+    "conditionalEffects": {},
+    "buffDebuffTriggers": {},
+    "requiredConditions": {
+      "enabled": false,
+      "logicType": "AND",
+      "conditions": []
+    },
+    "triggerRole": {
+      "mode": "CONDITIONAL"
+    }
+  },
+  "tags": [
+    "damage",
+    "control"
+  ],
+  "source": "wizard",
+  "isCustom": true,
+  "categoryIds": [
+    "offensive"
+  ],
+  "categories": [
+    "all"
+  ],
+  "id": "fixture-whole-trigger",
+  "authoredDefinitionId": "9c3f8e2a-1111-4a2b-8c3d-000000000001",
+  "authoredDraft": {
+    "name": "Ember Snare (whole-spell trigger)",
+    "description": "A rime lash that hobbles the target.",
+    "level": 2,
+    "spellType": "ACTION",
+    "resolution": "DICE",
+    "typeConfig": {
+      "school": "rime",
+      "icon": "spell_frost_frostbolt02",
+      "castTimeType": "IMMEDIATE",
+      "tags": [
+        "rime"
+      ]
+    },
+    "effectTypes": [
+      "damage",
+      "control"
+    ],
+    "effectsMap": {
+      "damage": true,
+      "control": true
+    },
+    "damageConfig": {
+      "damageType": "direct",
+      "elementType": "rime",
+      "formula": "2d6+2",
+      "resolution": "DICE"
+    },
+    "controlConfig": {
+      "authoredCondition": {
+        "profile": "authored-effect:v1",
+        "effect": "movement",
+        "movementFeet": -10,
+        "label": "Hobbled",
+        "expiryPolicy": "target-next-end",
+        "durationText": "Until the embers cool",
+        "gmNote": "Table resolves the rider.",
+        "save": {
+          "ability": "constitution",
+          "dc": 12,
+          "outcome": "negates"
+        }
+      }
+    },
+    "targetingConfig": {
+      "targetingType": "single",
+      "rangeType": "ranged",
+      "rangeDistance": 30,
+      "targetRestrictions": [
+        "any"
+      ],
+      "maxTargets": 1,
+      "selectionMethod": "manual"
+    },
+    "resourceCost": {
+      "actionPoints": 1,
+      "mana": 2,
+      "components": []
+    },
+    "durationConfig": {
+      "durationType": "instant"
+    },
+    "cooldownConfig": {
+      "cooldownType": "authenticated_caster_start",
+      "cooldownValue": 2
+    },
+    "triggerConfig": {
+      "global": {
+        "logicType": "AND",
+        "compoundTriggers": [
+          {
+            "id": "health_threshold",
+            "category": "health",
+            "name": "Health Threshold",
+            "parameters": {
+              "percentage": 50,
+              "comparison": "below",
+              "perspective": "self"
+            }
+          }
+        ]
+      },
+      "effectTriggers": {},
+      "conditionalEffects": {},
+      "buffDebuffTriggers": {},
+      "requiredConditions": {
+        "enabled": false,
+        "logicType": "AND",
+        "conditions": []
+      },
+      "triggerRole": {
+        "mode": "CONDITIONAL"
+      }
+    },
+    "tags": [
+      "damage",
+      "control"
+    ],
+    "authoredDefinitionId": "9c3f8e2a-1111-4a2b-8c3d-000000000001"
+  },
+  "serializedData": "{\n  \"name\": \"Ember Snare (whole-spell trigger)\",\n  \"description\": \"A rime lash that hobbles the target.\",\n  \"level\": 2,\n  \"spellType\": \"ACTION\",\n  \"resolution\": \"DICE\",\n  \"typeConfig\": {\n    \"school\": \"rime\",\n    \"icon\": \"spell_frost_frostbolt02\",\n    \"castTimeType\": \"IMMEDIATE\",\n    \"tags\": [\n      \"rime\"\n    ]\n  },\n  \"effectTypes\": [\n    \"damage\",\n    \"control\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true,\n    \"control\": true\n  },\n  \"damageConfig\": {\n    \"damageType\": \"direct\",\n    \"elementType\": \"rime\",\n    \"formula\": \"2d6+2\",\n    \"resolution\": \"DICE\"\n  },\n  \"controlConfig\": {\n    \"authoredCondition\": {\n      \"profile\": \"authored-effect:v1\",\n      \"effect\": \"movement\",\n      \"movementFeet\": -10,\n      \"label\": \"Hobbled\",\n      \"expiryPolicy\": \"target-next-end\",\n      \"durationText\": \"Until the embers cool\",\n      \"gmNote\": \"Table resolves the rider.\",\n      \"save\": {\n        \"ability\": \"constitution\",\n        \"dc\": 12,\n        \"outcome\": \"negates\"\n      }\n    }\n  },\n  \"targetingConfig\": {\n    \"targetingType\": \"single\",\n    \"rangeType\": \"ranged\",\n    \"rangeDistance\": 30,\n    \"targetRestrictions\": [\n      \"any\"\n    ],\n    \"maxTargets\": 1,\n    \"selectionMethod\": \"manual\"\n  },\n  \"resourceCost\": {\n    \"actionPoints\": 1,\n    \"mana\": 2,\n    \"components\": []\n  },\n  \"durationConfig\": {\n    \"durationType\": \"instant\"\n  },\n  \"cooldownConfig\": {\n    \"cooldownType\": \"authenticated_caster_start\",\n    \"cooldownValue\": 2\n  },\n  \"triggerConfig\": {\n    \"global\": {\n      \"logicType\": \"AND\",\n      \"compoundTriggers\": [\n        {\n          \"id\": \"health_threshold\",\n          \"category\": \"health\",\n          \"name\": \"Health Threshold\",\n          \"parameters\": {\n            \"percentage\": 50,\n            \"comparison\": \"below\",\n            \"perspective\": \"self\"\n          }\n        }\n      ]\n    },\n    \"effectTriggers\": {},\n    \"conditionalEffects\": {},\n    \"buffDebuffTriggers\": {},\n    \"requiredConditions\": {\n      \"enabled\": false,\n      \"logicType\": \"AND\",\n      \"conditions\": []\n    },\n    \"triggerRole\": {\n      \"mode\": \"CONDITIONAL\"\n    }\n  },\n  \"tags\": [\n    \"damage\",\n    \"control\"\n  ],\n  \"authoredDefinitionId\": \"9c3f8e2a-1111-4a2b-8c3d-000000000001\"\n}"
+}

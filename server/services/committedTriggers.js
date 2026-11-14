@@ -177,29 +177,44 @@ function occurrenceOf(room, receipt, command, approved, binder, entries) {
   return { occurrenceId: hash(['committed-occurrence:v1', room.id, receipt.submitterUid, receipt.commandId, receipt.commitSequence, kind, approval.target]), kind,
     source: clone(approval.source), target: clone(approval.target), evidence, cause: { definitionId: approval.spell.definitionId } };
 }
-/** D1 = (a): the committed result of ONE part - the direct damage part - of a binder-approved A10 bundle whose
- * admitted definition carries a watch on that part, or null. It is read from the bundle binder's own direct-part arithmetic
- * (spellPayments.directPartResult) and must equal the pool the binder pinned. The condition part and the save are not results
- * here: the save is a resolution gate (recorded as provenance), the condition changes no HP. Whole-spell listeners never see it. */
+/** D1 = (a), family expansion (handoff/component-trigger-family-expansion/CONTRACT.md): the committed result of ONE watched part of a
+ * binder-approved cast whose admitted definition carries a watch on that part, or null. It is read from the ONE component-result contract
+ * the authorized binder produced for this exact command and approval (spellPayments.componentResultsFor) - never re-derived here from a
+ * receipt total or a pool diff, and never from client data. The staged pool of the target must equal the binder's pinned result (a
+ * consistency guard; a mismatch refuses the whole stage). Supported binders: one-part authored immediate damage ('effect') and the A10
+ * bundle's direct damage part ('effects:direct'). The rider and the save are not results: the save is a resolution gate recorded as
+ * provenance and the rider changes no HP at cast. Whole-spell listeners never see this occurrence. */
 function componentOccurrenceOf(room, receipt, command, approved, binder, entries) {
   if (!approved || binder !== require('./spellPayments')) {return null;}
   const approval = approved.approval, pure = require('../shared/services/authoredAbility'), effect = require('../shared/services/authoredEffect');
-  if (!effect.isEffect(approval) || approval.effectTerms?.direct?.kind !== 'damage' || !approval.target || approval.source?.kind !== 'character') {return null;}
+  if (!approval.target || approval.source?.kind !== 'character') {return null;}
   const admitted = require('./installedAuthoredAbilities').list(room).entries.find(item => pure.actionId(item.definitionRef) === approval.spell.definitionId);
   const watch = admitted?.canonicalDefinition?.componentWatch;
   if (!admitted || watch === undefined || approval.spell.definitionHash !== `${admitted.descriptor.capabilityId}/${admitted.definitionRef.definitionHash}`) {return null;}
+  const results = require('./spellPayments').componentResultsFor(command, approved).filter(item => item.componentId === watch.componentId);
+  if (results.length !== 1) {
+    if (!results.length) {return null;}
+    fail('trigger_evidence_inconsistent', 'The binder recorded more than one result for the watched part. Nothing changed.');
+  }
+  const result = results[0];
+  // The result belongs to exactly this command, approval, definition, source and target incarnation.
+  if (result.origin.commandId !== command.commandId || result.origin.approvalId !== approval.approvalId || result.origin.approvalHash !== approved.contentHash ||
+      result.definition.definitionId !== approval.spell.definitionId || result.definition.definitionHash !== approval.spell.definitionHash ||
+      hash(result.source) !== hash(approval.source) || hash(result.target) !== hash(approval.target) || result.kind !== 'damage') {
+    fail('trigger_evidence_inconsistent', 'The recorded component result does not belong to this cast. Nothing changed.');
+  }
   const entry = entries.find(item => hash(item.ref) === hash(approval.target));
-  if (!entry || !entry.finalResources || !entry.finalResources.hp) {return null;}
-  const before = actors.resources(actors.locate(room, approval.target).token, approval.target.kind).hp, after = entry.finalResources.hp;
-  const adjudicatedAmount = command.adjudication?.finalAmount;
-  const part = require('./spellPayments').directPartResult(before, 'damage', adjudicatedAmount);
-  if (hash(part.final) !== hash({ current: after.current, temp: after.temp })) {fail('trigger_evidence_inconsistent', 'The committed pools do not match the approved direct damage part. Nothing changed.');}
-  const evidence = { proposedTotal: approval.roll?.total, adjudicatedAmount, baseHpLost: part.baseHpLost, tempHpAbsorbed: part.tempHpAbsorbed };
+  if (!entry || !entry.finalResources || !entry.finalResources.hp ||
+      hash({ current: entry.finalResources.hp.current, temp: entry.finalResources.hp.temp }) !== hash(result.final)) {
+    fail('trigger_evidence_inconsistent', 'The committed pools do not match the approved direct damage part. Nothing changed.');
+  }
+  const evidence = { proposedTotal: result.proposedAmount, adjudicatedAmount: result.adjudicatedAmount, baseHpLost: result.baseHpLost, tempHpAbsorbed: result.tempHpAbsorbed };
   if (!Object.values(evidence).every(amount)) {fail('trigger_evidence_inconsistent', 'The committed pools do not match the approved direct damage part. Nothing changed.');}
+  const bundle = effect.isEffect(approval), saved = bundle && effect.saveOf(approval.effectTerms);
   let branch = null;
-  if (effect.saveOf(approval.effectTerms)) { try { branch = JSON.parse(command.adjudication.chosenResult).branch || null; } catch (_) { branch = null; } }
+  if (saved) { try { branch = JSON.parse(command.adjudication.chosenResult).branch || null; } catch (_) { branch = null; } }
   const component = { definitionRef: clone(admitted.definitionRef), componentId: watch.componentId, wizardKey: watch.wizardKey,
-    gates: { save: effect.saveOf(approval.effectTerms) ? { recorded: branch, appliesTo: 'effects:condition' } : null } };
+    gates: { save: saved ? { recorded: branch, appliesTo: 'effects:condition' } : null } };
   return { occurrenceId: hash(['committed-component-occurrence:v1', room.id, receipt.submitterUid, receipt.commandId, receipt.commitSequence, 'immediate-damage', approval.target, watch.componentId]),
     kind: 'immediate-damage', source: clone(approval.source), target: clone(approval.target), evidence, cause: { definitionId: approval.spell.definitionId }, component };
 }
@@ -393,7 +408,10 @@ function record(room, next, receipt, command, approved, binder, entries) {
   if (approved && binder === require('./spellPayments') && approved.approval.triggerOfferId !== undefined) {consumeOffer(room, next, receipt, approved);}
   const stored = ledger(next);
   if (!stored || !stored.listeners.length) {return;}
-  const occurrence = occurrenceOf(room, receipt, command, approved, binder, entries) || componentOccurrenceOf(room, receipt, command, approved, binder, entries);
+  // Scope separation: the whole-cast occurrence (if any) and the watched-part occurrence (if any) are separate facts of the same
+  // commit. A one-part watched spell yields both; each listener reads only the one its mode names (below).
+  const whole = occurrenceOf(room, receipt, command, approved, binder, entries), part = componentOccurrenceOf(room, receipt, command, approved, binder, entries);
+  const occurrence = whole || part;
   if (!occurrence) {return;}
   const view = { ...room, gameState: next }, pure = require('../shared/services/authoredAbility'), added = {};
   // T4/F2: a persisted multiple-pairing state never selects a winner and never produces executable offers.
@@ -403,6 +421,8 @@ function record(room, next, receipt, command, approved, binder, entries) {
     stored.listeners.some(item => executableMode(item.mode) && hash(item.source) === hash(occurrence.source) &&
       pure.actionId(item.definitionRef) === occurrence.cause.definitionId);
   for (const listener of [...stored.listeners].sort((a, b) => a.listenerId.localeCompare(b.listenerId))) {
+    const occurrence = listener.mode === COMPONENT_MODE ? part : whole;
+    if (!occurrence) {continue;}
     if (listener.on.occurrence !== occurrence.kind || hash(listener.source) !== hash(occurrence[listener.on.role])) {continue;}
     if (pure.actionId(listener.definitionRef) === occurrence.cause.definitionId) {continue;} // self-generated exclusion
     // Scope separation: a part occurrence is read only by a watch of exactly that part of exactly that admitted definition;

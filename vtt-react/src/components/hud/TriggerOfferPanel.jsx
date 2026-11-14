@@ -30,7 +30,8 @@ const offerDefinition = offer => offer?.definitionRef || offer?.listener?.defini
 const PAIRING_MODES = ['follow-up', 'component-follow-up'];
 /** A definition admitted with a watched part (D1 = a). It is an ORIGINATING spell: never offered as a follow-up. */
 const watchOf = entry => entry?.canonicalDefinition?.componentWatch || entry?.descriptor?.componentWatch || null;
-const PART_WORDS = { 'effects:direct': 'Direct Damage part' };
+// The watched part's structural id names the definition shape: a bundle's direct part, or a one-part spell's only (Direct Damage) part.
+const PART_WORDS = { 'effects:direct': 'Direct Damage part', effect: 'Direct Damage part (its only part)' };
 const partName = componentId => PART_WORDS[componentId] || 'watched part';
 const sameRef = (a, b) => !!a && !!b && JSON.stringify(a) === JSON.stringify(b);
 /** Lookup key for an exact ref, or '' when the ref is absent. Member projections redact listener definition refs, so the
@@ -224,9 +225,10 @@ export default function TriggerOfferPanel() {
       </div>
       <h4>Registered pairings</h4>
       {(projection?.listeners || []).filter(listener => PAIRING_MODES.includes(listener.mode)).map(listener => {
-        const entry = byAction[actionId(listener.definitionRef)];
-        // A watched-part pairing (D1 engineering slice, unapproved) is shown, never registered, here: say what it watches.
-        const watched = listener.mode === 'component-follow-up' && listener.watch ? byAction[actionId(listener.watch.definitionRef)] : null;
+        // refKey, never actionId: a projection without the ref (redacted or missing) must not crash this list (r2 review hardening).
+        const entry = byAction[refKey(listener.definitionRef)];
+        // A watched-part pairing is shown, never registered, here: say what it watches.
+        const watched = listener.mode === 'component-follow-up' && listener.watch ? byAction[refKey(listener.watch.definitionRef)] : null;
         return <div key={listener.listenerId} className="first-playable-trigger-row" {...(listener.mode === 'component-follow-up' ? { 'data-watch-pairing': listener.watch?.componentId || '' } : {})}>
           <p><strong>{nameOf(entry)}</strong>{authoredFollowUp(entry) ? ' (authored follow-up trigger)' : ''}{healingFollowUp(entry) ? ' (authored follow-up trigger)' : ''}{listener.on?.occurrence === 'immediate-healing' ? ' — after healing' : ''}{listener.mode === 'component-follow-up' ? ` — offered only after the direct damage part of ${nameOf(watched)} removes base HP` : ''} — {sourceLabel(listener.source)} — {listener.eligibility?.ok ? 'eligible' : listener.eligibility?.code || 'ineligible'}</p>
           <button type="button" disabled={busy} onClick={() => perform(() => revokeTriggerListener(listener.listenerId))}>Revoke pairing</button>

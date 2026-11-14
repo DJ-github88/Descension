@@ -29,7 +29,7 @@ jest.mock('../../../../../utils/assetManager', () => ({ getIconUrl: i => `m/${i}
 jest.mock('../SpellTooltip', () => () => <div />);
 jest.mock('../../../../../services/effectProcessingService', () => ({ processOverTimeEffectsForTarget: jest.fn() }));
 
-const FIXTURES = 'D:/VTT/handoff/spell-card-combat-flow-repair/fixtures';
+const FIXTURES = path.resolve(__dirname, '../../../__tests__/fixtures');
 const load = name => JSON.parse(fs.readFileSync(path.join(FIXTURES, name), 'utf8'));
 const clone = value => JSON.parse(JSON.stringify(value));
 
