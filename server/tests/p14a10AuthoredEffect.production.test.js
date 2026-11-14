@@ -157,7 +157,11 @@ describe('P14-A10 composable authored effects — registered production handlers
   it('structured expiry refuses the whole bundle when no authenticated clock or roster slot can take it; manual policy needs none', async() => {
     await admitCreature(wizardRecord({ direct: 'damage' })); let a = creatureAttempt(); await prepare(a);
     await refused('actor_consequence', command(a), 'effect_schedule_unavailable'); assert.ok(payments.get(live(), a.approvalId), 'attempt stays retained, unconsumed');
-    await startCombat([pc, source]); await refused('actor_consequence', command(a), 'effect_schedule_unavailable');
+    await startCombat([pc, source]);
+    assert.equal(payments.closedCode(live(), a.approvalId), 'combat_clock_changed');
+    await refused('actor_consequence', command(a), 'approval_combat_clock_changed'); assert.equal(payments.get(live(), a.approvalId), null, 'the stale attempt was closed, not consumed');
+    a = creatureAttempt(); await prepare(a);
+    await refused('actor_consequence', command(a), 'effect_schedule_unavailable'); // combat without an authenticated clock
     await adopt(); await refused('actor_consequence', command(a), 'effect_schedule_unavailable'); // target is not in the exact roster
     await ack(gm, 'actor_spell_withdraw', { roomId: room.id, approvalId: a.approvalId, approval: a });
     await admitCreature(wizardRecord({ name: 'Disposable Quiet Snare', policy: 'gm-manual', ap: 0, mana: 0 })); a = creatureAttempt(); await prepare(a);

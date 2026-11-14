@@ -19,6 +19,7 @@ import { convertTalentSpellToLibrarySpell } from '../../../../data/talentTrees/t
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import { saveDisclosureForRecord } from '../common/spellSavePresentation';
+import { triggerDisclosureForRecord } from '../common/spellTriggerPresentation';
 import {
   extractSpellStatline,
   extractSpellActionBadge
@@ -914,6 +915,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
    // Presentation only: compiler-derived saved-card save disclosure (null when none).
    authoredSaveDisclosure: saveDisclosureForRecord(spell),
+
+   // Presentation only: stored-trigger visibility and automation disclosure.
+   authoredTriggerDisclosure: triggerDisclosureForRecord(spell),
 
    // Advanced mechanics
    mechanicsConfig: spell.mechanicsConfig || null,

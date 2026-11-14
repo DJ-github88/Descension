@@ -17,6 +17,9 @@ const SHARED = path.resolve(__dirname, '../shared');
 // requires between these files (./x, ../data/x.json) keep working.
 const FILES = [
   'services/authoredAbility.js',
+  'services/executionPlan.js',
+  'services/componentScopePolicy.js',
+  'services/passiveActivationPolicy.js',
   'services/authoredCooldown.js',
   'services/catalogueAbility.cjs',
   'services/canonicalHash.js',
@@ -63,4 +66,3 @@ if (require.main === module) {
   }
   console.log(drifted.length ? `${check ? 'Out of date' : 'Synced'}: ${drifted.join(', ')}` : 'server/shared is up to date');
 }
-

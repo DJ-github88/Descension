@@ -48,6 +48,12 @@ function registerCombatHandlers(ctx) {
         if (typeof ackCallback === 'function') {ackCallback({ success: false, code: 'turn_gm_required' });}
         return;
       }
+      const priorClock = room.gameState.combat?.effectLifecycle
+        ? { id: room.gameState.combat.effectLifecycle.id, sequence: room.gameState.combat.effectLifecycle.sequence }
+        : null;
+      const gmSession = !!(socket.data?.authenticated && socket.data.userId === room.gmId && player.isGM &&
+        room.gm?.socketId === socket.id && room.gm?.id === player.id);
+      const closesApprovals = Boolean(priorClock) || gmSession;
       const auth = combatAuthority.canStartOrEndCombat(player, room);
       if (!auth.allowed) {
         logger.warn('[combat_started] rejected by authority check', {
@@ -57,14 +63,18 @@ function registerCombatHandlers(ctx) {
         return;
       }
 
+      const passives = require('../services/passiveActivation');
       const turnOrder = Array.isArray(data.turnOrder) ? data.turnOrder.map(combatant => {
         const boundary = require('../services/actorConsequences');
-        if (!combatant.actorRef) {return { ...combatant, resourceConsequenceStatus: 'binding_required' };}
+        const { cleaned, hadForgedFields } = passives.stripForgedPassiveFields(combatant);
+        if (!cleaned.actorRef) {return { ...cleaned, resourceConsequenceStatus: 'binding_required' };}
         try {
-          const { token } = boundary.locate(room, combatant.actorRef);
-          const values = boundary.resources(token, combatant.actorRef.kind);
-          return { ...combatant, currentActionPoints: values.ap.current, currentHp: values.hp.current, currentMana: values.mana.current, resourceConsequenceStatus: 'applied' };
-        } catch (_) {return { ...combatant, resourceConsequenceStatus: 'binding_required' };}
+          const located = boundary.locate(room, cleaned.actorRef);
+          const { token } = located;
+          const values = boundary.resources(token, cleaned.actorRef.kind);
+          const entry = { ...cleaned, currentActionPoints: values.ap.current, currentHp: values.hp.current, currentMana: values.mana.current, resourceConsequenceStatus: 'applied' };
+          return passives.applyPassiveInitiativeToEntry(room, entry, located, hadForgedFields);
+        } catch (_) {return { ...cleaned, resourceConsequenceStatus: 'binding_required' };}
       }) : [];
       const requestedIndex = Number.isInteger(data.currentTurnIndex) ? data.currentTurnIndex : 0;
       const safeIndex = turnOrder.length > 0
@@ -73,7 +83,7 @@ function registerCombatHandlers(ctx) {
 
       // M5 review F1: unresolved periodic ticks survive a restart as dismiss-only retired ticks.
       const retiredTicks = require('../services/sharedEffectLifecycle').retainOpenTicks(room.gameState.combat);
-      room.gameState.combat = {
+      const nextCombat = {
         isActive: true,
         currentTurnIndex: safeIndex,
         turnOrder,
@@ -81,15 +91,22 @@ function registerCombatHandlers(ctx) {
         currentTurnStartTime: Date.now(),
         ...(retiredTicks ? { retiredPeriodicTicks: retiredTicks } : {})
       };
+      const clockApprovals = require('../services/combatClockApprovals');
+      const closed = closesApprovals ? clockApprovals.closePending(room) : [];
+      room.gameState.combat = nextCombat;
+      if (closed.length) {clockApprovals.notify({ io, players, rooms, logger }, room, closed);}
 
       io.to(room.id).emit('combat_started', {
         combat: room.gameState.combat
       });
 
-      firebaseBatchWriter.queueWrite(room.id, room.gameState, true);
+      const queuedRevision = firebaseBatchWriter.queueWrite(room.id, room.gameState, true);
 
       if (typeof ackCallback === 'function') {
-        ackCallback({ success: true, combat: room.gameState.combat });
+        ackCallback({ success: true, combat: room.gameState.combat, ...(closesApprovals ? { clockTransition: {
+          reason: 'combat_started', from: priorClock, to: null, pendingApprovalsClosed: closed.length,
+          approvalDurability: 'live-only', persistence: Number.isSafeInteger(queuedRevision) ? 'queue-admitted' : 'not-queued'
+        } } : {}) });
       }
 
     } catch (error) {
@@ -112,6 +129,12 @@ function registerCombatHandlers(ctx) {
         if (typeof ackCallback === 'function') {ackCallback({ success: false, code: 'turn_gm_required' });}
         return;
       }
+      const priorClock = room.gameState.combat?.effectLifecycle
+        ? { id: room.gameState.combat.effectLifecycle.id, sequence: room.gameState.combat.effectLifecycle.sequence }
+        : null;
+      const gmSession = !!(socket.data?.authenticated && socket.data.userId === room.gmId && player.isGM &&
+        room.gm?.socketId === socket.id && room.gm?.id === player.id);
+      const closesApprovals = Boolean(priorClock) || gmSession;
       const auth = combatAuthority.canStartOrEndCombat(player, room);
       if (!auth.allowed) {
         logger.warn('[combat_ended] rejected by authority check', {
@@ -122,20 +145,27 @@ function registerCombatHandlers(ctx) {
       }
 
       const retiredTicks = require('../services/sharedEffectLifecycle').retainOpenTicks(room.gameState.combat);
-      room.gameState.combat = {
+      const nextCombat = {
         isActive: false,
         currentTurnIndex: null,
         turnOrder: [],
         round: 0,
         ...(retiredTicks ? { retiredPeriodicTicks: retiredTicks } : {})
       };
+      const clockApprovals = require('../services/combatClockApprovals');
+      const closed = closesApprovals ? clockApprovals.closePending(room) : [];
+      room.gameState.combat = nextCombat;
+      if (closed.length) {clockApprovals.notify({ io, players, rooms, logger }, room, closed);}
 
       io.to(room.id).emit('combat_ended');
 
-      firebaseBatchWriter.queueWrite(room.id, room.gameState, true);
+      const queuedRevision = firebaseBatchWriter.queueWrite(room.id, room.gameState, true);
 
       if (typeof ackCallback === 'function') {
-        ackCallback({ success: true });
+        ackCallback({ success: true, ...(closesApprovals ? { clockTransition: {
+          reason: 'combat_ended', from: priorClock, to: null, pendingApprovalsClosed: closed.length,
+          approvalDurability: 'live-only', persistence: Number.isSafeInteger(queuedRevision) ? 'queue-admitted' : 'not-queued'
+        } } : {}) });
       }
 
     } catch (error) {

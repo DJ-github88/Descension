@@ -215,7 +215,11 @@ describe('P14-A11 movement-effect combination — registered production handlers
     await refused('actor_consequence', c, 'insufficient_resources'); assert.deepEqual(moves(target), [original]); assert.ok(payments.get(live(), b.approvalId));
     token(pc).character.mana = mana; token(pc).character.tempMana = temp;
     assert.notEqual((await ack(gm, 'combat_ended', { roomId: room.id })).success, false); // clock retired; the instance stays, now GM-managed
-    await refused('actor_consequence', command(b), 'effect_schedule_unavailable'); assert.deepEqual(moves(target), [original]);
+    assert.equal(payments.closedCode(live(), b.approvalId), 'combat_clock_changed');
+    await refused('actor_consequence', command(b), 'approval_combat_clock_changed'); assert.equal(payments.get(live(), b.approvalId), null, 'the stale approval was closed, not consumed');
+    assert.deepEqual(moves(target), [original]);
+    const b2 = pcApproval(ref); await approve(b2);
+    await refused('actor_consequence', command(b2), 'effect_schedule_unavailable'); assert.deepEqual(moves(target), [original]);
     assert.match(profile.expiryLabel(moves(target)[0], live().gameState.combat), /not tracked by the current turn clock/);
   });
 

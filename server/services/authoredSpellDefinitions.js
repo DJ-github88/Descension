@@ -1,4 +1,5 @@
 const { canonicalize, stableStringify, sha256Hex, canonicalHash } = require('./roomCheckpoint');
+const { FOLLOWUP_MARKERS } = require('../shared/services/authoredAbility');
 
 const COMPILER_VERSION = 'cr-a1a-1';
 const CAPABILITY_ID = 'authored-immediate:v1';
@@ -174,7 +175,9 @@ const validateDefinition = (input) => {
   const copied = strictCopy(input, 'definition', 1, 'INVALID_DEFINITION');
   if (!copied.ok) { return copied; }
   const dto = copied.value;
-  if (!isPlainObject(dto) || !hasExactKeys(dto, DEFINITION_KEYS)) { return fail('INVALID_DEFINITION'); }
+  const keys = dto?.followUp === undefined ? DEFINITION_KEYS : [...DEFINITION_KEYS, 'followUp'];
+  if (!isPlainObject(dto) || !hasExactKeys(dto, keys)) { return fail('INVALID_DEFINITION'); }
+  if (dto.followUp !== undefined && !FOLLOWUP_MARKERS.includes(dto.followUp)) { return fail('UNSUPPORTED_SHAPE', 'followUp'); }
   if (dto.schemaVersion !== REGISTRY_SCHEMA_VERSION) { return fail('INVALID_DEFINITION', 'schemaVersion'); }
 
   const scope = dto.scope;
@@ -276,7 +279,8 @@ const validateDefinition = (input) => {
     resourceCost: { actionPoints: resourceCost.actionPoints, mana: resourceCost.mana },
     effect: effect.kind === 'damage'
       ? { kind: effect.kind, formula: effect.formula, damageTypes: [damageType] }
-      : { kind: effect.kind, formula: effect.formula }
+      : { kind: effect.kind, formula: effect.formula },
+    ...(dto.followUp !== undefined ? { followUp: dto.followUp } : {})
   };
 
   return { ok: true, definition, parsed: { count: parsed.count, sides: parsed.sides, constant: parsed.constant } };
@@ -310,6 +314,7 @@ const buildDescriptor = (definitionRef, definition, parsed) => ({
     constant: parsed.constant,
     damageTypes: definition.effect.kind === 'damage' ? [definition.effect.damageTypes[0]] : []
   },
+  ...(definition.followUp !== undefined ? { followUp: definition.followUp } : {}),
   executionEnabled: false
 });
 

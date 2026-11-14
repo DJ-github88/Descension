@@ -8,6 +8,7 @@ import { getManagedSpellResourcePlan, normalizeManagedClassResource, getManagedR
 import { toCanonicalSphere, MINSTREL_PITCHES } from '../data/classResourceBanks';
 import { canonical, depleteTempFirst, exactActor, sameExactRef } from './featherSlash';
 import { authoredSupport, catalogueEntry } from './authoredAbilityRegistry';
+import { cataloguePinFor } from './catalogueAbility.cjs';
 import { CAPABILITY as AUTHORED, FORMULA_CAPABILITY, AREA_CAPABILITY, AREA_ROLL_PROCEDURE, AREA_ROLL_UNAPPROVED_REASON, isAreaRollProcedureApproved, MAX_AREA_TARGETS, actionId, isAuthored, isFormula, isArea } from './authoredAbility';
 import { getStore } from '../store/storeRegistry';
 import * as authoredCondition from './authoredCondition';
@@ -344,6 +345,11 @@ function supportSpellUnchecked(spellLike, character) {
     if (!support.supported) return support;
     return authoredPayment(support, character);
   }
+  // D3=B: a reviewed catalogue spell never falls back to P9 when its admitted version is missing,
+  // revoked or unavailable. The server gate is authoritative; this keeps the ordinary UI honest.
+  if (cataloguePinFor(raw.id, classId)) {
+    return manual('This spell is a reviewed catalogue spell but its admitted version is missing, revoked or unavailable in this room. Refresh admitted abilities or ask the GM to re-admit or repair it. Catalogue spells do not use the P9 fallback; nothing was submitted.');
+  }
   // M1: a class record with one debuff block is executable only as an admitted class-effect:v1 profile.
   if (raw.debuffConfig !== undefined) return classEffectSupport(raw, character);
   const shape = supportShape(raw);
@@ -489,7 +495,8 @@ export function gmRefusal(isRetry, code, detail = '') {
   if (['stale_actor_revision', 'insufficient_resources'].includes(code)) return { phase: 'retry', message: `Actors changed (${codeLabel(code)}). Nothing was applied or charged; review and accept again.` };
   return { phase: 'refused', message: `Refused (${codeLabel(code)}); nothing was applied.` };
 }
-export function buildApproval({ support, tokens, sourceRef, targetRef, targetRefs, areaOrigin, roomId, mapId, actionEpoch, baseCommitSequence, roll, approvalId }) {
+export function buildApproval({ support, tokens, sourceRef, targetRef, targetRefs, areaOrigin, roomId, mapId, actionEpoch, baseCommitSequence, roll, approvalId, triggerOfferId }) {
+  if (triggerOfferId !== undefined && !/^[0-9a-f]{64}$/.test(triggerOfferId)) throw Error('The selected trigger offer is malformed; nothing submitted.');
   const source = exactActor(tokens, sourceRef, roomId, mapId);
   if (sourceRef.kind !== 'character') throw Error('The caster must be your exact primary character attachment.');
   if (support?.isArea || String(support?.definitionHash || '').startsWith(`${AREA_CAPABILITY}/`)) {
@@ -519,7 +526,7 @@ export function buildApproval({ support, tokens, sourceRef, targetRef, targetRef
       spell: { definitionId: support.definitionId, definitionHash: support.definitionHash, name: support.name, kind: support.kind, damageTypes: support.damageTypes },
       areaTerms: support.areaTerms, areaRollProcedure: AREA_ROLL_PROCEDURE,
       ...(areaOrigin && Number.isFinite(areaOrigin.x) && Number.isFinite(areaOrigin.y) ? { areaOrigin: { x: areaOrigin.x, y: areaOrigin.y } } : {}),
-      roll, price: support.price, classPayment: support.payment.classPayment,
+      roll, price: support.price, classPayment: support.payment.classPayment, ...(triggerOfferId ? { triggerOfferId } : {}),
       ...(support.rollAttributes && Object.keys(support.rollAttributes).length ? {
         rollAttributes: support.rollAttributes,
         formulaSourceRevision: source.state.actorContract.revision,
@@ -556,7 +563,7 @@ export function buildApproval({ support, tokens, sourceRef, targetRef, targetRef
   if (!Number.isSafeInteger(baseCommitSequence) || baseCommitSequence < 0) throw Error('Current room snapshot required (commit sequence).');
   return Object.freeze(JSON.parse(JSON.stringify({ version: 1, roomId, approvalId, actionEpoch, baseCommitSequence, source: sourceRef, target: targetRef,
     spell: { definitionId: support.definitionId, definitionHash: support.definitionHash, name: support.name, kind: support.kind, damageTypes: support.damageTypes },
-    roll: condition || (bundle && !direct) ? null : roll, price: support.price, classPayment: support.payment.classPayment,
+    roll: condition || (bundle && !direct) ? null : roll, price: support.price, classPayment: support.payment.classPayment, ...(triggerOfferId ? { triggerOfferId } : {}),
     ...(condition ? { conditionTerms: { conditionKey: 'stunned', timing: support.timing } } : {}), ...(bundle ? { effectTerms: support.effectTerms } : {}),
     ...(composed ? { effectTerms: support.effectTerms, disclosure: support.disclosure, rollAttributes: support.rollAttributes } : {}),
     ...(health ? { rollHealth: support.rollHealth } : {}),

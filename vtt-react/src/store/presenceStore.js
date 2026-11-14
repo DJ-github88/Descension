@@ -1,4 +1,4 @@
-import { getStore } from './storeRegistry';
+﻿import { getStore } from './storeRegistry';
 /**
  * Presence Store
  * 
@@ -28,6 +28,40 @@ const chatDebug = (...args) => {
 };
 
 const DEFAULT_SOCIAL_SOCKET_URL = 'https://descension-mythrill.up.railway.app';
+
+// Owned socket subscriptions: detach only the callbacks this store installed,
+// never another subsystem's listeners on the same socket.
+const ownedSocketHandlers = new WeakMap();
+
+const bindOwnedSocketHandler = (socket, event, handler) => {
+  if (!socket || typeof socket.on !== 'function') return handler;
+  socket.on(event, handler);
+  const entries = ownedSocketHandlers.get(socket);
+  if (entries) {
+    entries.push({ event, handler });
+  } else {
+    ownedSocketHandlers.set(socket, [{ event, handler }]);
+  }
+  return handler;
+};
+
+const detachOwnedSocketHandlers = (socket) => {
+  if (!socket) return;
+  const entries = ownedSocketHandlers.get(socket);
+  if (!entries) return;
+  for (const { event, handler } of entries) {
+    try {
+      if (typeof socket.off === 'function') {
+        socket.off(event, handler);
+      } else if (typeof socket.removeListener === 'function') {
+        socket.removeListener(event, handler);
+      }
+    } catch (e) {
+      // Ignore detach errors; the socket is being replaced/closed.
+    }
+  }
+  ownedSocketHandlers.delete(socket);
+};
 
 const getSocketUrlCandidates = () => {
   const envUrl = process.env.REACT_APP_SOCKET_URL;
@@ -72,6 +106,46 @@ const findPartyMemberByName = (partyMembers = [], nameCandidates = []) => {
       return memberNames.some((n) => normalized.includes(n));
     }) || null
   );
+};
+
+// Client-only reconciliation tombstones. They remember authoritative
+// removals so a delayed event or response cannot restore obsolete state.
+// They never grant server authority and never trigger a rejoin.
+const PARTY_TOMBSTONE_TTL_MS = 5 * 60 * 1000;
+const PARTY_TOMBSTONE_LIMIT = 200;
+
+const normalizeInvitationIds = (invitationIds, invitationId = null) => {
+  const raw = Array.isArray(invitationIds)
+    ? invitationIds
+    : (invitationIds ? [invitationIds] : []);
+  if (typeof invitationId === 'string' && invitationId) {
+    raw.push(invitationId);
+  }
+  return Array.from(new Set(raw.filter((id) => typeof id === 'string' && id.length > 0)));
+};
+
+const isSamePartyMemberId = (member, memberId) => Boolean(
+  memberId && (member?.id === memberId || member?.userId === memberId)
+);
+
+const shouldSyncSocialPartyToPartyStore = () => {
+  try {
+    const gameStore = getStore('gameStore');
+    if (gameStore?.getState?.()?.isInMultiplayer) {
+      return false;
+    }
+  } catch (e) {
+    // gameStore may not be registered
+  }
+  try {
+    if (typeof sessionStorage !== 'undefined' &&
+      sessionStorage.getItem('enteringMultiplayer') === 'true') {
+      return false;
+    }
+  } catch (e) {
+    // sessionStorage may be unavailable
+  }
+  return true;
 };
 
 const usePresenceStore = create((set, get) => ({
@@ -129,10 +203,15 @@ const usePresenceStore = create((set, get) => ({
   socket: null,
   isConnected: false,
   _boundSocketId: null, // Track bound socket ID to prevent duplicate listeners
+  _boundSocket: null, // Track the bound socket object across reconnect id changes
 
   // Event deduplication: Track recently processed events to prevent duplicate notifications
   // when multiple sockets receive the same event
   _processedEvents: new Map(), // Map<eventSignature, timestamp>
+
+  // Reconciliation tombstones for authoritative party removals.
+  _revokedPartyInvitationIds: new Map(), // invitationId -> timestamp
+  _clearedPartySnapshots: new Map(), // partyId -> authoritative party.updatedAt
 
   // Helper to check if event was recently processed (within 2 seconds)
   _wasEventRecentlyProcessed: (eventType, ...identifiers) => {
@@ -142,7 +221,7 @@ const usePresenceStore = create((set, get) => ({
     const now = Date.now();
 
     if (lastProcessed && (now - lastProcessed) < 2000) {
-      console.log(`ðŸ”„ [Dedup] Skipping duplicate event: ${key}`);
+      console.log(`Ã°Å¸â€â€ž [Dedup] Skipping duplicate event: ${key}`);
       return true;
     }
 
@@ -158,6 +237,79 @@ const usePresenceStore = create((set, get) => ({
 
     return false;
   },
+
+  _prunePartyReconciliationTombstones: () => {
+    const now = Date.now();
+    const revoked = get()._revokedPartyInvitationIds;
+    for (const [invitationId, at] of revoked.entries()) {
+      if (!Number.isFinite(at) || now - at > PARTY_TOMBSTONE_TTL_MS) {
+        revoked.delete(invitationId);
+      }
+    }
+
+    const cleared = get()._clearedPartySnapshots;
+    const oversized = cleared.size - PARTY_TOMBSTONE_LIMIT;
+    if (oversized > 0) {
+      const oldest = Array.from(cleared.entries())
+        .sort((a, b) => a[1] - b[1])
+        .slice(0, oversized);
+      oldest.forEach(([partyId]) => cleared.delete(partyId));
+    }
+  },
+
+  _rememberRevokedPartyInvitations: (invitationIds, invitationId = null) => {
+    const ids = normalizeInvitationIds(invitationIds, invitationId);
+    if (ids.length === 0) return;
+
+    const now = Date.now();
+    const next = new Map(get()._revokedPartyInvitationIds);
+    ids.forEach((id) => next.set(id, now));
+    for (const [id, at] of next.entries()) {
+      if (!Number.isFinite(at) || now - at > PARTY_TOMBSTONE_TTL_MS) {
+        next.delete(id);
+      }
+    }
+    set({ _revokedPartyInvitationIds: next });
+    get()._prunePartyReconciliationTombstones();
+  },
+
+  _rememberClearedPartySnapshot: (partyId, updatedAt) => {
+    if (!partyId) return;
+    const stamp = Number(updatedAt);
+    if (!Number.isFinite(stamp)) {
+      // Without an authoritative party.updatedAt there is no safe ordering
+      // baseline; do not fabricate one from the local clock.
+      return;
+    }
+
+    const next = new Map(get()._clearedPartySnapshots);
+    const previous = next.get(partyId);
+    next.set(partyId, previous == null ? stamp : Math.max(previous, stamp));
+    set({ _clearedPartySnapshots: next });
+    get()._prunePartyReconciliationTombstones();
+  },
+
+  _isPartySnapshotObsolete: (partyData) => {
+    if (!partyData || !partyData.id) return false;
+
+    const incomingUpdatedAt = Number(partyData.updatedAt);
+    const clearedAt = get()._clearedPartySnapshots.get(partyData.id);
+    if (Number.isFinite(clearedAt) &&
+      (!Number.isFinite(incomingUpdatedAt) || incomingUpdatedAt <= clearedAt)) {
+      return true;
+    }
+
+    const current = get().currentParty;
+    const currentUpdatedAt = Number(current?.updatedAt);
+    if (current && current.id && Number.isFinite(currentUpdatedAt) &&
+      Number.isFinite(incomingUpdatedAt) && incomingUpdatedAt < currentUpdatedAt) {
+      return true;
+    }
+
+    return false;
+  },
+
+  _isSocialPartyStoreTarget: () => shouldSyncSocialPartyToPartyStore(),
 
   // Subscriptions
   presenceUnsubscribe: null,
@@ -244,8 +396,8 @@ const usePresenceStore = create((set, get) => ({
    * Subscribe to all online users
    *
    * PERF: The Firestore onSnapshot fires on every field write including heartbeats.
-   * Each write comes in two phases (pending local → committed server), which causes
-   * the online-user count to flicker 0→1→0→1 while server timestamps settle.
+   * Each write comes in two phases (pending local â†’ committed server), which causes
+   * the online-user count to flicker 0â†’1â†’0â†’1 while server timestamps settle.
    * We fix this with two guards:
    *   1. Debounce: batch rapid Firestore events into a single update (500 ms window).
    *   2. Change-detection: skip set() if the serialized user list is identical.
@@ -357,6 +509,23 @@ const usePresenceStore = create((set, get) => ({
   handlePartyUpdate: (partyData) => {
     if (!partyData) return;
 
+    if (get()._isPartySnapshotObsolete(partyData)) {
+      console.log('Ignoring obsolete party snapshot', {
+        partyId: partyData.id,
+        updatedAt: partyData.updatedAt
+      });
+      return;
+    }
+
+    const previousParty = get().currentParty;
+    const previousPartyId = previousParty?.id;
+    const isPartyChange = Boolean(previousPartyId && previousPartyId !== partyData.id);
+    if (isPartyChange) {
+      // Remember the party this client is leaving so a delayed snapshot or
+      // chat delivery for it cannot replace/pollute the new party.
+      get()._rememberClearedPartySnapshot(previousPartyId, previousParty?.updatedAt);
+    }
+
     const members = partyData.members ? (
       Array.isArray(partyData.members) ? partyData.members : Object.values(partyData.members)
     ) : [];
@@ -376,8 +545,19 @@ const usePresenceStore = create((set, get) => ({
     set(state => ({
       currentParty: partyData,
       isInParty: true,
-      partyMembers: enrichedMembers
+      partyMembers: enrichedMembers,
+      // Party chat belongs to the party that produced it. A switch must not
+      // carry the old party's conversation into the new party.
+      ...(isPartyChange ? { partyChatMessages: [], partyChatUnreadCount: 0 } : {})
     }));
+
+    // A newer authoritative snapshot for this party supersedes the removal
+    // tombstone (for example, a fresh invitation was accepted after removal).
+    if (get()._clearedPartySnapshots.has(partyData.id)) {
+      const nextCleared = new Map(get()._clearedPartySnapshots);
+      nextCleared.delete(partyData.id);
+      set({ _clearedPartySnapshots: nextCleared });
+    }
 
     // Sync partyId to Firestore presence
     const { currentUserPresence } = get();
@@ -390,21 +570,18 @@ const usePresenceStore = create((set, get) => ({
 
     // Sync to partyStore
     try {
-      const gameStore = getStore('gameStore');
-      const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
-      const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
-
-      if (!isInMultiplayerRoom && !isEnteringMultiplayer) {
+      if (get()._isSocialPartyStoreTarget()) {
         const partyStore = getStore('partyStore');
         partyStore.setState({
           currentParty: partyData,
           isInParty: true,
           partyMembers: enrichedMembers,
-          leaderId: partyData.leaderId || null
+          leaderId: partyData.leaderId || null,
+          ...(isPartyChange ? { partyChatMessages: [] } : {})
         });
       }
     } catch (e) {
-      console.warn('âš ï¸ Failed to sync party update to partyStore:', e);
+      console.warn('Ã¢Å¡Â Ã¯Â¸Â Failed to sync party update to partyStore:', e);
     }
   },
 
@@ -412,7 +589,7 @@ const usePresenceStore = create((set, get) => ({
     const { currentUserPresence, onlineUsers } = get();
 
     if (!currentUserPresence) {
-      console.error('âŒ No currentUserPresence found!');
+      console.error('Ã¢ÂÅ’ No currentUserPresence found!');
       return false;
     }
 
@@ -442,7 +619,7 @@ const usePresenceStore = create((set, get) => ({
     if (userExists) {
       newOnlineUsers.set(currentUserPresence.userId, updates);
     } else {
-      console.warn('âš ï¸ User not found in onlineUsers map, adding them now');
+      console.warn('Ã¢Å¡Â Ã¯Â¸Â User not found in onlineUsers map, adding them now');
       newOnlineUsers.set(currentUserPresence.userId, updates);
     }
 
@@ -545,7 +722,7 @@ const usePresenceStore = create((set, get) => ({
     // Allow guest users to send global chat messages (essential for trial interaction)
     if (!currentUserPresence) {
       console.warn('Authentication required to send global chat messages');
-      chatDebug('ðŸŒ [sendGlobalMessage] blocked - no presence');
+      chatDebug('Ã°Å¸Å’Â [sendGlobalMessage] blocked - no presence');
       return false;
     }
 
@@ -555,7 +732,7 @@ const usePresenceStore = create((set, get) => ({
     // Client-side rate limit: block rapid-fire sends before any local append
     // or socket emit happens.
     if (!tryAcquireCooldown(`chat-send:${senderData.userId || 'anon'}`, CHAT_SEND_COOLDOWN_MS)) {
-      chatDebug('⏳ [sendGlobalMessage] blocked by cooldown');
+      chatDebug('â³ [sendGlobalMessage] blocked by cooldown');
       return false;
     }
 
@@ -614,7 +791,7 @@ const usePresenceStore = create((set, get) => ({
 
     // Emit to server for party members when connected; keep local optimistic append either way
     if (activeSocket) {
-      chatDebug('ðŸŒ [sendGlobalMessage] emit', {
+      chatDebug('Ã°Å¸Å’Â [sendGlobalMessage] emit', {
         socketId: activeSocket.id,
         senderId,
         messageId,
@@ -622,8 +799,8 @@ const usePresenceStore = create((set, get) => ({
       });
       activeSocket.emit('global_chat_message', message);
     } else {
-      console.warn('âš ï¸ Global chat sent locally only (no active multiplayer socket)');
-      chatDebug('ðŸŒ [sendGlobalMessage] no-active-socket', {
+      console.warn('Ã¢Å¡Â Ã¯Â¸Â Global chat sent locally only (no active multiplayer socket)');
+      chatDebug('Ã°Å¸Å’Â [sendGlobalMessage] no-active-socket', {
         senderId,
         messageId
       });
@@ -646,7 +823,7 @@ const usePresenceStore = create((set, get) => ({
 
     // Client-side rate limit shared with global chat sends.
     if (!tryAcquireCooldown(`chat-send:${currentUserPresence.userId || 'anon'}`, CHAT_SEND_COOLDOWN_MS)) {
-      chatDebug('⏳ [sendWhisper] blocked by cooldown');
+      chatDebug('â³ [sendWhisper] blocked by cooldown');
       return false;
     }
 
@@ -750,7 +927,7 @@ const usePresenceStore = create((set, get) => ({
       type: 'whisper_sent'
     };
 
-    console.log('ðŸ“¤ Sending whisper:', {
+    console.log('Ã°Å¸â€œÂ¤ Sending whisper:', {
       recipientId: normalizedRecipientId,
       recipientName: recipientName,
       targetUserFound: !!targetUser,
@@ -861,7 +1038,7 @@ const usePresenceStore = create((set, get) => ({
     // Clean up stale disconnected socket before reinitializing
     if (socket && !socket.connected) {
       try {
-        socket.removeAllListeners();
+        detachOwnedSocketHandlers(socket);
         socket.disconnect();
       } catch (e) {
         // Ignore cleanup errors
@@ -871,7 +1048,7 @@ const usePresenceStore = create((set, get) => ({
 
     const socketUrlCandidates = getSocketUrlCandidates();
     if (socketUrlCandidates.length === 0) {
-      console.error('âŒ No socket URL candidates configured for social socket');
+      console.error('Ã¢ÂÅ’ No socket URL candidates configured for social socket');
       return null;
     }
 
@@ -885,7 +1062,7 @@ const usePresenceStore = create((set, get) => ({
     // Fail closed: without a registered auth store there is no principal to bind
     // a socket to, so never open one (and never fall back to a tokenless guest).
     if (typeof getStore('authStore')?.getState !== 'function') {
-      console.warn('🔐 [Auth] Auth store unavailable - not opening global socket');
+      console.warn('ðŸ” [Auth] Auth store unavailable - not opening global socket');
       return null;
     }
     const principalAtStart = principalKeyOfAuthState(readAuthState());
@@ -917,7 +1094,7 @@ const usePresenceStore = create((set, get) => ({
     }
 
     if (!setupValid()) {
-      console.warn('🔐 [Auth] Principal/generation changed during global socket setup - aborting connection');
+      console.warn('ðŸ” [Auth] Principal/generation changed during global socket setup - aborting connection');
       return null;
     }
 
@@ -938,14 +1115,14 @@ const usePresenceStore = create((set, get) => ({
 
     const wireConnectionHandlers = (activeSocket, socketUrl) => {
       // Handle (re)connection - re-register presence
-      activeSocket.on('connect', () => {
-        console.log('ðŸ”Œ Socket connected:', activeSocket.id, 'url:', socketUrl);
+      bindOwnedSocketHandler(activeSocket, 'connect', () => {
+        console.log('Ã°Å¸â€Å’ Socket connected:', activeSocket.id, 'url:', socketUrl);
         get().setConnected(true);
 
         // Re-register presence on (re)connection
         const { currentUserPresence } = get();
         if (currentUserPresence) {
-          console.log('ðŸ“ Re-registering presence on connect for:', currentUserPresence.userId);
+          console.log('Ã°Å¸â€œÂ Re-registering presence on connect for:', currentUserPresence.userId);
           activeSocket.emit('register_presence', {
             userId: currentUserPresence.userId,
             name: currentUserPresence.name || currentUserPresence.characterName,
@@ -969,8 +1146,8 @@ const usePresenceStore = create((set, get) => ({
         }
       });
 
-      activeSocket.on('connect_error', (error) => {
-        console.error('âŒ Socket connection error:', error);
+      bindOwnedSocketHandler(activeSocket, 'connect_error', (error) => {
+        console.error('Ã¢ÂÅ’ Socket connection error:', error);
         get().setConnected(false);
 
         // Development fallback: if localhost is unreachable, retry once against production social server
@@ -978,10 +1155,10 @@ const usePresenceStore = create((set, get) => ({
           const fallbackUrl = fallbackSocketUrls.shift();
           fallbackAttempted = true;
 
-          console.warn(`âš ï¸ Primary social socket unavailable (${socketUrl}). Retrying with fallback: ${fallbackUrl}`);
+          console.warn(`Ã¢Å¡Â Ã¯Â¸Â Primary social socket unavailable (${socketUrl}). Retrying with fallback: ${fallbackUrl}`);
 
           try {
-            activeSocket.removeAllListeners();
+            detachOwnedSocketHandlers(activeSocket);
             activeSocket.disconnect();
           } catch (e) {
             // Ignore cleanup errors
@@ -994,18 +1171,18 @@ const usePresenceStore = create((set, get) => ({
         }
       });
 
-      activeSocket.on('connect_timeout', () => {
-        console.error('âŒ Socket connection timeout');
+      bindOwnedSocketHandler(activeSocket, 'connect_timeout', () => {
+        console.error('Ã¢ÂÅ’ Socket connection timeout');
         get().setConnected(false);
       });
 
-      activeSocket.on('error', (error) => {
-        console.error('âŒ Socket error:', error);
+      bindOwnedSocketHandler(activeSocket, 'error', (error) => {
+        console.error('Ã¢ÂÅ’ Socket error:', error);
       });
     };
 
     const createSocket = (socketUrl) => {
-      console.log('ðŸ”Œ Initializing global socket at:', socketUrl);
+      console.log('Ã°Å¸â€Å’ Initializing global socket at:', socketUrl);
       const nextSocket = io(socketUrl, socketOptions);
       get().setSocket(nextSocket);
       wireConnectionHandlers(nextSocket, socketUrl);
@@ -1055,7 +1232,7 @@ const usePresenceStore = create((set, get) => ({
   sendPartyInvite: (targetUserId, targetPlayerName) => {
     const { currentUserPresence, socket } = get();
 
-    console.log(`ðŸ“¢ [presenceStore] sendPartyInvite called for target: ${targetUserId} (${targetPlayerName})`);
+    console.log(`Ã°Å¸â€œÂ¢ [presenceStore] sendPartyInvite called for target: ${targetUserId} (${targetPlayerName})`);
 
     let activeSocket = socket;
     if (!activeSocket || !activeSocket.connected) {
@@ -1063,7 +1240,7 @@ const usePresenceStore = create((set, get) => ({
         const gameSocket = getStore('gameStore').getState()?.multiplayerSocket;
         if (gameSocket && gameSocket.connected) {
           activeSocket = gameSocket;
-          console.log('ðŸ“¢ [presenceStore] Using game multiplayer socket as fallback');
+          console.log('Ã°Å¸â€œÂ¢ [presenceStore] Using game multiplayer socket as fallback');
         }
       } catch (e) {
         // gameStore might not be available
@@ -1071,7 +1248,7 @@ const usePresenceStore = create((set, get) => ({
     }
 
     if (!currentUserPresence || !activeSocket || !activeSocket.connected) {
-      console.warn('âš ï¸ Cannot send party invite: social socket is not connected', { currentUserPresence: !!currentUserPresence, socket: !!activeSocket, connected: activeSocket?.connected });
+      console.warn('Ã¢Å¡Â Ã¯Â¸Â Cannot send party invite: social socket is not connected', { currentUserPresence: !!currentUserPresence, socket: !!activeSocket, connected: activeSocket?.connected });
       return false;
     }
 
@@ -1085,25 +1262,18 @@ const usePresenceStore = create((set, get) => ({
       outcome: null // 'accepted' | 'declined' | null
     };
 
-    console.log('ðŸ“¢ [presenceStore] Adding sentInviteEntry to state:', sentInviteEntry);
+    console.log('Ã°Å¸â€œÂ¢ [presenceStore] Adding sentInviteEntry to state:', sentInviteEntry);
     set(state => ({
       sentPartyInvites: [...state.sentPartyInvites, sentInviteEntry]
     }));
 
-    // Try to explicitly get current partyId if we are in one
-    let explicitPartyId = null;
-    try {
-      const partyStore = getStore('partyStore');
-      explicitPartyId = partyStore.getState().currentParty?.id || null;
-      console.log('ðŸ“¢ [presenceStore] Fetched explicitPartyId:', explicitPartyId);
-    } catch (e) {
-      // partyStore not available
-    }
-
-    // Server will look up the party from userToParty using fromUserId if explicitPartyId is null
-    console.log('ðŸ“¢ [presenceStore] Emitting invite_to_party to server...', { partyId: explicitPartyId, toUserId: targetUserId });
+    // Do not send partyStore.currentParty.id here: room entry stores the room
+    // id in currentParty for the room HUD, and that display id is not a social
+    // party id. The server derives the inviter's current social party from
+    // userToParty, so the client sends no party hint.
+    console.log('ï¿½ï¿½ï¿½ï¿½ï¿½?oï¿½ï¿½ [presenceStore] Emitting invite_to_party to server...', { partyId: null, toUserId: targetUserId });
     activeSocket.emit('invite_to_party', {
-      partyId: explicitPartyId,
+      partyId: null,
       fromUserId: currentUserPresence.userId,
       toUserId: targetUserId
     });
@@ -1142,7 +1312,7 @@ const usePresenceStore = create((set, get) => ({
     // Remove from pending
     set((state) => ({
       pendingPartyInvites: state.pendingPartyInvites.filter(
-        inv => inv.id !== inviteId || inv.invitationId !== inviteId
+        inv => inv.id !== inviteId && inv.invitationId !== inviteId
       )
     }));
 
@@ -1193,11 +1363,29 @@ const usePresenceStore = create((set, get) => ({
   setSocket: (socket) => {
     const existingSocket = get().socket;
 
+    // The same live socket object can reconnect with a new id. Re-binding its
+    // handlers would duplicate every party subscription, so track the object
+    // as well as the id.
+    if (socket && get()._boundSocket === socket) {
+      set({ _boundSocketId: socket.id || null });
+      const { currentUserPresence } = get();
+      if (currentUserPresence && socket.connected) {
+        socket.emit('register_presence', {
+          userId: currentUserPresence.userId,
+          name: currentUserPresence.name || currentUserPresence.characterName,
+          characterClass: currentUserPresence.class || currentUserPresence.characterClass,
+          characterLevel: currentUserPresence.level || currentUserPresence.characterLevel
+        });
+      }
+      return;
+    }
+
     // CRITICAL FIX: Track bound socket ID to prevent duplicate listener registration
     // If same socket is passed again, don't re-bind listeners
     const boundSocketId = get()._boundSocketId;
     if (socket && socket.id && boundSocketId === socket.id) {
-      console.log('â­ï¸ [setSocket] Socket already bound, skipping listener setup');
+      set({ _boundSocket: socket });
+      console.log('Ã¢ÂÂ­Ã¯Â¸Â [setSocket] Socket already bound, skipping listener setup');
       // Still re-register presence in case server restarted or lost the entry
       const { currentUserPresence } = get();
       if (currentUserPresence && socket.connected) {
@@ -1228,20 +1416,18 @@ const usePresenceStore = create((set, get) => ({
         sessionStorage.getItem('enteringMultiplayer') === 'true';
 
       if (isInMultiplayer || isEnteringMultiplayer) {
-        console.log('â­ï¸ [setSocket] Skipping socket disconnect - in multiplayer mode');
+        console.log('Ã¢ÂÂ­Ã¯Â¸Â [setSocket] Skipping socket disconnect - in multiplayer mode');
         // Still remove listeners from old socket to prevent duplicates
-        try {
-          existingSocket.removeAllListeners();
-        } catch (e) {
-          // Ignore cleanup errors
-        }
-      } else if (existingSocket.connected) {
-        console.log('ðŸ§¹ [setSocket] Cleaning up previous socket before setting new one');
-        try {
-          existingSocket.removeAllListeners();
-          existingSocket.disconnect();
-        } catch (e) {
-          // Ignore cleanup errors
+        detachOwnedSocketHandlers(existingSocket);
+      } else {
+        console.log('Ã°Å¸Â§Â¹ [setSocket] Cleaning up previous socket before setting new one');
+        detachOwnedSocketHandlers(existingSocket);
+        if (existingSocket.connected) {
+          try {
+            existingSocket.disconnect();
+          } catch (e) {
+            // Ignore cleanup errors
+          }
         }
       }
     }
@@ -1272,9 +1458,9 @@ const usePresenceStore = create((set, get) => ({
       }
 
       // Party was created successfully
-      socket.on('party_created', (payload) => {
+      bindOwnedSocketHandler(socket, 'party_created', (payload) => {
         const partyData = payload.party || payload;
-        console.log('ðŸŽ‰ Party created:', partyData.name);
+        console.log('Ã°Å¸Å½â€° Party created:', partyData.name);
 
         // Add system message if not in multiplayer
         try {
@@ -1293,7 +1479,7 @@ const usePresenceStore = create((set, get) => ({
           const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
 
           if (isInMultiplayerRoom || isEnteringMultiplayer) {
-            console.log('â­ï¸ Skipping party_created sync - in multiplayer room');
+            console.log('Ã¢ÂÂ­Ã¯Â¸Â Skipping party_created sync - in multiplayer room');
             return;
           }
         } catch (e) {
@@ -1310,10 +1496,10 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Party joined or updated (used for initial state sync)
-      socket.on('party_joined', (payload) => {
+      bindOwnedSocketHandler(socket, 'party_joined', (payload) => {
         const partyData = payload.party || payload;
         if (!partyData) return;
-        console.log('ðŸ”„ Party joined:', partyData.name || partyData.id);
+        console.log('Ã°Å¸â€â€ž Party joined:', partyData.name || partyData.id);
 
         // Update party state - notification will be shown by party_join_confirmed
         // This prevents duplicate notifications since both events fire on join
@@ -1321,7 +1507,7 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // A member joined the party
-      socket.on('party_member_joined', (payload) => {
+      bindOwnedSocketHandler(socket, 'party_member_joined', (payload) => {
         // SAFEGUARD: Ensure payload exists
         if (!payload) return;
 
@@ -1330,7 +1516,13 @@ const usePresenceStore = create((set, get) => ({
         const memberData = payload.memberData || payload.member;
 
         if (!memberData) {
-          console.warn('âš ï¸ Received party_member_joined with missing memberData:', payload);
+          console.warn('Ã¢Å¡Â Ã¯Â¸Â Received party_member_joined with missing memberData:', payload);
+          return;
+        }
+
+        const localPartyId = get().currentParty?.id;
+        if (localPartyId && partyId && localPartyId !== partyId) {
+          console.log('Ignoring party_member_joined for a different party', { partyId, localPartyId });
           return;
         }
 
@@ -1339,7 +1531,7 @@ const usePresenceStore = create((set, get) => ({
           return;
         }
 
-        console.log(`ðŸ‘¤ Party member joined: ${memberData.name} (Member ID: ${memberId || memberData.id}) to party: ${partyId}`);
+        console.log(`Ã°Å¸â€˜Â¤ Party member joined: ${memberData.name} (Member ID: ${memberId || memberData.id}) to party: ${partyId}`);
 
         // Ensure memberData has character object with default resources if not provided
         const enrichedMemberData = {
@@ -1361,7 +1553,7 @@ const usePresenceStore = create((set, get) => ({
 
         if (!alreadyExists) {
           const updatedMembers = [...existingMembers, enrichedMemberData];
-          console.log(`ðŸ“Š Updating presenceStore members count: ${existingMembers.length} -> ${updatedMembers.length}`);
+          console.log(`Ã°Å¸â€œÅ  Updating presenceStore members count: ${existingMembers.length} -> ${updatedMembers.length}`);
           set(state => ({ partyMembers: updatedMembers }));
 
           // Add visual feedback notification only when member is NEW (prevents duplicate notifications)
@@ -1374,10 +1566,10 @@ const usePresenceStore = create((set, get) => ({
               message: `${memberData.name} joined the party`
             });
           } else {
-            console.log(`ðŸ‘¤ [Dedup] Skipping "joined" toast for ${memberData.name} - already shown "accepted" toast.`);
+            console.log(`Ã°Å¸â€˜Â¤ [Dedup] Skipping "joined" toast for ${memberData.name} - already shown "accepted" toast.`);
           }
         } else {
-          console.log('â„¹ï¸ Member already exists in presenceStore');
+          console.log('Ã¢â€žÂ¹Ã¯Â¸Â Member already exists in presenceStore');
         }
 
         // Sync to partyStore REGARDLESS of whether they were in presenceStore already,
@@ -1398,16 +1590,16 @@ const usePresenceStore = create((set, get) => ({
             );
 
             if (!inPartyStore) {
-              console.log(`ðŸ“Š Syncing ${memberData.name} to partyStore.`);
+              console.log(`Ã°Å¸â€œÅ  Syncing ${memberData.name} to partyStore.`);
               partyStore.getState().addPartyMember(enrichedMemberData);
             } else {
-              console.log(`â„¹ï¸ ${memberData.name} already exists in partyStore`);
+              console.log(`Ã¢â€žÂ¹Ã¯Â¸Â ${memberData.name} already exists in partyStore`);
             }
           } else {
-            console.log('â„¹ï¸ Skipping partyStore sync - in multiplayer room or entering multiplayer');
+            console.log('Ã¢â€žÂ¹Ã¯Â¸Â Skipping partyStore sync - in multiplayer room or entering multiplayer');
           }
         } catch (e) {
-          console.warn('âš ï¸ Failed to sync join to partyStore:', e);
+          console.warn('Ã¢Å¡Â Ã¯Â¸Â Failed to sync join to partyStore:', e);
         }
 
         // Add system message to party chat
@@ -1424,13 +1616,13 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Invite was accepted - specific notification for the inviter
-      socket.on('party_invite_accepted', ({ partyId, memberId, memberName, memberData }) => {
+      bindOwnedSocketHandler(socket, 'party_invite_accepted', ({ partyId, memberId, memberName, memberData }) => {
         // DEDUPLICATION: Skip if this event was recently processed
         if (get()._wasEventRecentlyProcessed('party_invite_accepted', partyId, memberId || memberName)) {
           return;
         }
 
-        console.log(`✅ Your party invite was accepted by: ${memberName}`);
+        console.log(`âœ… Your party invite was accepted by: ${memberName}`);
 
         // Show "accepted your invite" toast to the inviter
         get().addPartyEventNotification('accepted', {
@@ -1452,13 +1644,17 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Receiver confirmation - you successfully joined a party
-      socket.on('party_join_confirmed', ({ partyId, partyName, memberCount }) => {
+      bindOwnedSocketHandler(socket, 'party_join_confirmed', ({ partyId, partyName, memberCount }) => {
+        const localPartyId = get().currentParty?.id;
+        if (partyId && get()._clearedPartySnapshots.has(partyId)) return;
+        if (partyId && localPartyId && partyId !== localPartyId) return;
+
         // DEDUPLICATION: Skip if this event was recently processed
         if (get()._wasEventRecentlyProcessed('party_join_confirmed', partyId)) {
           return;
         }
 
-        console.log(`✅ You joined party: ${partyName || partyId}`);
+        console.log(`âœ… You joined party: ${partyName || partyId}`);
 
         // Show toast notification to the receiver
         get().addPartyEventNotification('you_joined', {
@@ -1484,20 +1680,32 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // A member left the party
-      socket.on('party_member_left', ({ partyId, memberId, userName, memberName }) => {
+      bindOwnedSocketHandler(socket, 'party_member_left', ({ partyId, memberId, userName, memberName } = {}) => {
         const displayName = userName || memberName || 'Unknown';
-        console.log('ðŸ‘¤ Party member left:', displayName);
+        const localPartyId = get().currentParty?.id;
+        if (localPartyId && partyId && localPartyId !== partyId) {
+          console.log('Ignoring party_member_left for a different party', { partyId, localPartyId });
+          return;
+        }
+
+        console.log('Ã°Å¸â€˜Â¤ Party member left:', displayName);
 
         set(state => ({
-          partyMembers: (state.partyMembers || []).filter(m => m.id !== memberId)
+          partyMembers: (state.partyMembers || []).filter(m => !isSamePartyMemberId(m, memberId))
         }));
 
-        // Sync to partyStore
+        // Sync to partyStore only when it currently represents the social
+        // party, never the multiplayer room roster.
         try {
-          const partyStore = getStore('partyStore');
-          partyStore.setState(state => ({
-            partyMembers: (state.partyMembers || []).filter(m => m.id !== memberId)
-          }));
+          if (get()._isSocialPartyStoreTarget()) {
+            const partyStore = getStore('partyStore');
+            const storePartyId = partyStore.getState()?.currentParty?.id;
+            if (!storePartyId || !partyId || storePartyId === partyId) {
+              partyStore.setState(state => ({
+                partyMembers: (state.partyMembers || []).filter(m => !isSamePartyMemberId(m, memberId))
+              }));
+            }
+          }
         } catch (e) {
           // partyStore not available
         }
@@ -1516,8 +1724,13 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Party leadership changed (when leader leaves)
-      socket.on('party_leader_changed', ({ partyId, newLeaderId, newLeaderName }) => {
-        console.log('ðŸ‘‘ Party leadership changed:', newLeaderName);
+      bindOwnedSocketHandler(socket, 'party_leader_changed', ({ partyId, newLeaderId, newLeaderName }) => {
+        const localPartyId = get().currentParty?.id;
+        if (partyId && (partyId !== localPartyId || get()._clearedPartySnapshots.has(partyId))) {
+          return;
+        }
+
+        console.log('Ã°Å¸â€˜â€˜ Party leadership changed:', newLeaderName);
 
         const updater = state => ({
           partyMembers: (state.partyMembers || []).map(m => {
@@ -1544,8 +1757,8 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Party now has only one member (offer to disband) - LEGACY: Now auto-disbanded
-      socket.on('party_single_member', ({ partyId, partyName, message }) => {
-        console.log('ðŸ‘¤ You are now the only party member');
+      bindOwnedSocketHandler(socket, 'party_single_member', ({ partyId, partyName, message }) => {
+        console.log('Ã°Å¸â€˜Â¤ You are now the only party member');
 
         // Show notification
         try {
@@ -1560,9 +1773,53 @@ const usePresenceStore = create((set, get) => ({
         }
       });
 
+      // Apply an authoritative social-party reset. The caller is responsible
+      // for confirming that the event targets the locally displayed party.
+      const applySocialPartyReset = ({ partyId = null, updatedAt = null } = {}) => {
+        get()._rememberClearedPartySnapshot(partyId, updatedAt);
+
+        const resetState = {
+          currentParty: null,
+          isInParty: false,
+          partyMembers: [],
+          partyChatMessages: []
+        };
+
+        set(resetState);
+
+        // Clear party from Firestore presence
+        const { currentUserPresence } = get();
+        if (currentUserPresence) {
+          presenceService.updateSession(currentUserPresence.userId, {
+            partyId: null,
+            partyName: null
+          });
+        }
+
+        // The multiplayer room roster is not the social party. Never let a
+        // social removal event clear the room HUD.
+        try {
+          if (get()._isSocialPartyStoreTarget()) {
+            const partyStore = getStore('partyStore');
+            partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
+          }
+        } catch (e) {
+          // partyStore not available
+        }
+      };
+
       // Party auto-disbanded (only 1 member remaining)
-      socket.on('party_auto_disbanded', ({ partyId, partyName, message }) => {
-        console.log('ðŸ’¥ Party auto-disbanded:', partyName);
+      bindOwnedSocketHandler(socket, 'party_auto_disbanded', ({ partyId, partyName, message } = {}) => {
+        const localPartyId = get().currentParty?.id;
+        if (localPartyId && partyId && localPartyId !== partyId) {
+          console.log('Ignoring stale party_auto_disbanded for a different party', {
+            partyId,
+            localPartyId
+          });
+          return;
+        }
+
+        console.log('Ã°Å¸â€™Â¥ Party auto-disbanded:', partyName);
 
         // Show notification
         try {
@@ -1576,36 +1833,23 @@ const usePresenceStore = create((set, get) => ({
           // chatStore not available
         }
 
-        const resetState = {
-          currentParty: null,
-          isInParty: false,
-          partyMembers: [],
-          partyChatMessages: []
-        };
-
-        set(state => resetState);
-
-        // Clear party from Firestore presence
-        const { currentUserPresence } = get();
-        if (currentUserPresence) {
-          presenceService.updateSession(currentUserPresence.userId, {
-            partyId: null,
-            partyName: null
-          });
-        }
-
-        // Sync to partyStore
-        try {
-          const partyStore = getStore('partyStore');
-          partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
-        } catch (e) {
-          // partyStore not available
-        }
+        applySocialPartyReset({
+          partyId: partyId || localPartyId,
+          updatedAt: get().currentParty?.updatedAt
+        });
       });
 
       // Party was disbanded
-      socket.on('party_disbanded', ({ partyId, partyName, disbandedBy }) => {
-        console.log('ðŸ’¥ Party disbanded:', partyName);
+      bindOwnedSocketHandler(socket, 'party_disbanded', ({ partyId, partyName, disbandedBy, updatedAt } = {}) => {
+        const localPartyId = get().currentParty?.id;
+        if (localPartyId && partyId && localPartyId !== partyId) {
+          // A delayed disband of a party this client already left must not
+          // clear the current party.
+          get()._rememberClearedPartySnapshot(partyId, updatedAt);
+          return;
+        }
+
+        console.log('Ã°Å¸â€™Â¥ Party disbanded:', partyName);
 
         // Add system message if not in multiplayer
         try {
@@ -1617,101 +1861,114 @@ const usePresenceStore = create((set, get) => ({
           });
         } catch (e) { }
 
-        const resetState = {
-          currentParty: null,
-          isInParty: false,
-          partyMembers: [],
-          partyChatMessages: []
-        };
-
-        set(state => resetState);
-
-        // Clear party from Firestore presence
-        const { currentUserPresence } = get();
-        if (currentUserPresence) {
-          presenceService.updateSession(currentUserPresence.userId, {
-            partyId: null,
-            partyName: null
-          });
-        }
-
-        // Sync to partyStore
-        try {
-          const partyStore = getStore('partyStore');
-          partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
-        } catch (e) {
-          // partyStore not available
-        }
+        applySocialPartyReset({
+          partyId: partyId || localPartyId,
+          updatedAt: Number.isFinite(Number(updatedAt))
+            ? Number(updatedAt)
+            : get().currentParty?.updatedAt
+        });
       });
 
       // Party was left (user perspective)
-      socket.on('party_left', ({ partyId }) => {
-        console.log('ðŸ‘¤ Left party:', partyId);
-
-        // Add system message if not in multiplayer
-        try {
-          const chatStore = getStore('chatStore');
-          chatStore.getState().addSocialNotification({
-            type: 'party_left',
-            sender: { name: 'Party System' },
-            content: `You have left the party.`
-          });
-        } catch (e) { }
-
-        const resetState = {
-          currentParty: null,
-          isInParty: false,
-          partyMembers: [],
-          partyChatMessages: []
-        };
-
-        set(state => resetState);
-
-        // Clear party from Firestore presence
-        const { currentUserPresence } = get();
-        if (currentUserPresence) {
-          presenceService.updateSession(currentUserPresence.userId, {
-            partyId: null,
-            partyName: null
-          });
+      bindOwnedSocketHandler(socket, 'party_left', ({ partyId, updatedAt, reason } = {}) => {
+        const localPartyId = get().currentParty?.id;
+        if (localPartyId && partyId && localPartyId !== partyId) {
+          // Another socket switched parties before this client processed the
+          // old switch event. Record the removal and keep the newer party.
+          get()._rememberClearedPartySnapshot(partyId, updatedAt);
+          return;
         }
 
-        // Sync to partyStore
-        try {
-          const partyStore = getStore('partyStore');
-          partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
-        } catch (e) {
-          // partyStore not available
+        console.log('Ã°Å¸â€˜Â¤ Left party:', partyId || localPartyId);
+
+        // Add a system message unless this is reconnect state sync.
+        if (reason !== 'reconnect_sync') {
+          try {
+            const chatStore = getStore('chatStore');
+            chatStore.getState().addSocialNotification({
+              type: 'party_left',
+              sender: { name: 'Party System' },
+              content: `You have left the party.`
+            });
+          } catch (e) { }
         }
+
+        applySocialPartyReset({
+          partyId: partyId || localPartyId,
+          updatedAt: Number.isFinite(Number(updatedAt))
+            ? Number(updatedAt)
+            : get().currentParty?.updatedAt
+        });
       });
 
       // Party was updated (also handled by party_joined)
-      socket.on('party_updated', (payload) => {
+      bindOwnedSocketHandler(socket, 'party_updated', (payload) => {
         if (!payload) return;
         const partyData = payload.party || payload;
-        console.log('ðŸ”„ Party updated:', partyData.name);
+        console.log('Ã°Å¸â€â€ž Party updated:', partyData.name);
         get().handlePartyUpdate(partyData);
       });
 
       // Member removed from party (kick or self-leave via server).
       // The server emits `removed_from_party` to the removed user and
       // `party_member_removed` to the rest, so normalize both here.
-      const handleMemberRemoved = ({ partyId, targetUserId, userName, memberId, __self = false }) => {
+      const handleMemberRemoved = ({
+        partyId,
+        targetUserId,
+        userName,
+        memberId,
+        invitationIds,
+        invitationId,
+        updatedAt,
+        __self = false
+      } = {}) => {
         const removedId = targetUserId || memberId;
-        console.log('ðŸ‘¤ Member removed from party:', userName || removedId);
+        const exactInvitationIds = normalizeInvitationIds(invitationIds, invitationId);
+
+        if (exactInvitationIds.length > 0) {
+          get()._rememberRevokedPartyInvitations(exactInvitationIds);
+          const idSet = new Set(exactInvitationIds);
+          const removeRevokedInvites = (list) => (list || []).filter((inv) =>
+            !idSet.has(inv?.id) && !idSet.has(inv?.invitationId)
+          );
+
+          set(state => ({
+            pendingPartyInvites: removeRevokedInvites(state.pendingPartyInvites)
+          }));
+
+          try {
+            const partyStore = getStore('partyStore');
+            partyStore.setState(state => ({
+              pendingPartyInvites: removeRevokedInvites(state.pendingPartyInvites)
+            }));
+          } catch (e) {
+            // partyStore not available
+          }
+        }
+
+        console.log('Ã°Å¸â€˜Â¤ Member removed from party:', userName || removedId);
 
         const isSelf = __self || (
           removedId != null && get().currentUserPresence?.userId === removedId
         );
+        const localPartyId = get().currentParty?.id;
+        const eventPartyId = partyId || null;
+        const targetsLocalParty = !localPartyId || !eventPartyId || localPartyId === eventPartyId;
+
+        if (!targetsLocalParty) {
+          // A delayed removal from a party this client already left must not
+          // clear the party the account has since joined.
+          console.log('Ignoring stale party removal for a different party', {
+            partyId: eventPartyId,
+            localPartyId
+          });
+          return;
+        }
 
         if (isSelf) {
-          const resetState = {
-            currentParty: null,
-            isInParty: false,
-            partyMembers: [],
-            partyChatMessages: []
-          };
-          set(resetState);
+          const baselineUpdatedAt = Number.isFinite(Number(updatedAt))
+            ? Number(updatedAt)
+            : get().currentParty?.updatedAt;
 
           try {
             const chatStore = getStore('chatStore');
@@ -1722,43 +1979,64 @@ const usePresenceStore = create((set, get) => ({
             });
           } catch (e) { }
 
-          try {
-            const partyStore = getStore('partyStore');
-            partyStore.setState({
-              ...resetState,
-              leaderId: null,
-              leaderMode: false
-            });
-          } catch (e) { }
-        } else {
-          set(state => {
-            const updatedMembers = (state.partyMembers || []).filter(m => m.id !== removedId);
-            return {
-              partyMembers: updatedMembers,
-              // Push a party event toast so remaining members see who left
-              partyEventNotifications: [
-                ...state.partyEventNotifications,
-                { id: `left-${removedId}-${Date.now()}`, type: 'left', memberName: userName || 'A member' }
-              ]
-            };
+          applySocialPartyReset({
+            partyId: eventPartyId || localPartyId,
+            updatedAt: baselineUpdatedAt
           });
-
-          try {
-            const partyStore = getStore('partyStore');
-            partyStore.setState(state => {
-              const updatedMembers = (state.partyMembers || []).filter(m => m.id !== removedId);
-              return { partyMembers: updatedMembers };
-            });
-          } catch (e) { }
+          return;
         }
+
+        set(state => {
+          const updatedMembers = (state.partyMembers || [])
+            .filter(m => !isSamePartyMemberId(m, removedId));
+          return {
+            partyMembers: updatedMembers,
+            // Push a party event toast so remaining members see who left
+            partyEventNotifications: [
+              ...state.partyEventNotifications,
+              { id: `left-${removedId}-${Date.now()}`, type: 'left', memberName: userName || 'A member' }
+            ]
+          };
+        });
+
+        // Never mutate the multiplayer room roster from a social-party event.
+        try {
+          if (get()._isSocialPartyStoreTarget()) {
+            const partyStore = getStore('partyStore');
+            const storePartyId = partyStore.getState()?.currentParty?.id;
+            if (!storePartyId || !eventPartyId || storePartyId === eventPartyId) {
+              partyStore.setState(state => {
+                const updatedMembers = (state.partyMembers || [])
+                  .filter(m => !isSamePartyMemberId(m, removedId));
+                return { partyMembers: updatedMembers };
+              });
+            }
+          }
+        } catch (e) { }
       };
 
-      socket.on('removed_from_party', (data) => handleMemberRemoved({ ...data, __self: true }));
-      socket.on('party_member_removed', (data) => handleMemberRemoved({ ...data, targetUserId: data.memberId }));
+      bindOwnedSocketHandler(socket, 'removed_from_party', (data) => handleMemberRemoved({ ...data, __self: true }));
+      bindOwnedSocketHandler(socket, 'party_member_removed', (data) => handleMemberRemoved({ ...data, targetUserId: data.memberId }));
 
       // Party invitation received
-      socket.on('party_invitation_received', (invitation) => {
-        console.log('ðŸ“© Party invitation received:', invitation.partyName || 'New Party');
+      bindOwnedSocketHandler(socket, 'party_invitation_received', (invitation) => {
+        if (!invitation) return;
+        const incomingInvitationId = invitation.id || invitation.invitationId;
+        if (!incomingInvitationId) return;
+
+        if (get()._revokedPartyInvitationIds.has(incomingInvitationId)) {
+          console.log('Ignoring delivery of a revoked party invitation', {
+            invitationId: incomingInvitationId
+          });
+          return;
+        }
+
+        const alreadyPending = (get().pendingPartyInvites || []).some((inv) =>
+          (inv?.id || inv?.invitationId) === incomingInvitationId
+        );
+        if (alreadyPending) return;
+
+        console.log('Ã°Å¸â€œÂ© Party invitation received:', invitation.partyName || 'New Party');
 
         set(state => ({
           pendingPartyInvites: [...state.pendingPartyInvites, invitation]
@@ -1773,9 +2051,45 @@ const usePresenceStore = create((set, get) => ({
         });
       });
 
+      // A pending party invitation was revoked (for example the party leader
+      // removed a pending invitee, or the invitee's membership was removed).
+      // Only the exact invitation identities supplied by the server are
+      // cleared; unrelated notices stay untouched.
+      bindOwnedSocketHandler(socket, 'party_invitation_revoked', (payload = {}) => {
+        const { partyId, invitationType, invitationIds, invitationId } = payload;
+        if (invitationType && invitationType !== 'party') return;
+
+        const exactInvitationIds = normalizeInvitationIds(invitationIds, invitationId);
+        if (exactInvitationIds.length === 0) {
+          console.warn('party_invitation_revoked had no exact invitation identity; notice left in place', {
+            partyId
+          });
+          return;
+        }
+
+        get()._rememberRevokedPartyInvitations(exactInvitationIds);
+        const idSet = new Set(exactInvitationIds);
+        const removeRevokedInvites = (list) => (list || []).filter((inv) =>
+          !idSet.has(inv?.id) && !idSet.has(inv?.invitationId)
+        );
+
+        set(state => ({
+          pendingPartyInvites: removeRevokedInvites(state.pendingPartyInvites)
+        }));
+
+        try {
+          const partyStore = getStore('partyStore');
+          partyStore.setState(state => ({
+            pendingPartyInvites: removeRevokedInvites(state.pendingPartyInvites)
+          }));
+        } catch (e) {
+          // partyStore not available
+        }
+      });
+
       // Server confirms invitation was sent (with real invitationId for matching)
-      socket.on('invitation_sent', ({ invitationId, toUserId }) => {
-        console.log('ðŸ“¤ [invitation_sent] Server confirmed invite sent:', { invitationId, toUserId });
+      bindOwnedSocketHandler(socket, 'invitation_sent', ({ invitationId, toUserId }) => {
+        console.log('Ã°Å¸â€œÂ¤ [invitation_sent] Server confirmed invite sent:', { invitationId, toUserId });
 
         // Update the matching sent invite entry with the real invitationId
         set(state => {
@@ -1783,7 +2097,7 @@ const usePresenceStore = create((set, get) => ({
             // Match by targetUserId (most reliable) or by recent timestamp (fallback)
             const isRecent = Date.now() - inv.sentAt < 5000; // Within last 5 seconds
             if (inv.targetUserId === toUserId || (inv.invitationId === null && isRecent)) {
-              console.log(`ðŸ“¤ [invitation_sent] Updating invite for ${inv.targetName} with invitationId: ${invitationId}`);
+              console.log(`Ã°Å¸â€œÂ¤ [invitation_sent] Updating invite for ${inv.targetName} with invitationId: ${invitationId}`);
               return { ...inv, invitationId };
             }
             return inv;
@@ -1800,11 +2114,13 @@ const usePresenceStore = create((set, get) => ({
       // Party invitation was accepted
       // NOTE: This event ONLY updates the sentPartyInvites list.
       // Notifications are handled by party_invite_accepted handler to prevent duplicates.
-      socket.on('party_invitation_accepted', ({ invitationId, userId, userName }) => {
-        console.log('✅ Party invitation accepted (list update):', userName, 'userId:', userId, 'invitationId:', invitationId);
+      bindOwnedSocketHandler(socket, 'party_invitation_accepted', ({ invitationId, userId, userName }) => {
+        console.log('âœ… Party invitation accepted (list update):', userName, 'userId:', userId, 'invitationId:', invitationId);
 
         set(state => ({
-          pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId),
+          pendingPartyInvites: state.pendingPartyInvites.filter(inv =>
+            inv.id !== invitationId && inv.invitationId !== invitationId
+          ),
           sentPartyInvites: state.sentPartyInvites.map(inv => {
             const matches = inv.invitationId === invitationId ||
               inv.targetUserId === userId ||
@@ -1817,8 +2133,8 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Party invitation was declined
-      socket.on('party_invitation_declined', ({ invitationId, userId, userName }) => {
-        console.log('âŒ Party invitation declined:', userName, 'invitationId:', invitationId);
+      bindOwnedSocketHandler(socket, 'party_invitation_declined', ({ invitationId, userId, userName }) => {
+        console.log('Ã¢ÂÅ’ Party invitation declined:', userName, 'invitationId:', invitationId);
 
         set(state => {
           const updatedInvites = state.sentPartyInvites.map(inv => {
@@ -1830,7 +2146,9 @@ const usePresenceStore = create((set, get) => ({
           });
 
           return {
-            pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId),
+            pendingPartyInvites: state.pendingPartyInvites.filter(inv =>
+              inv.id !== invitationId && inv.invitationId !== invitationId
+            ),
             sentPartyInvites: updatedInvites,
             // Push a party event toast
             partyEventNotifications: [
@@ -1850,8 +2168,8 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Receiver confirmation - you declined an invite
-      socket.on('invitation_declined_confirmed', ({ invitationId }) => {
-        console.log('✅ Party invite declined');
+      bindOwnedSocketHandler(socket, 'invitation_declined_confirmed', ({ invitationId }) => {
+        console.log('âœ… Party invite declined');
 
         // Show toast notification to the decliner
         get().addPartyEventNotification('you_declined', {
@@ -1860,8 +2178,8 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Party chat message received from server
-      socket.on('global_chat_message', (message) => {
-        chatDebug('ðŸŒ [global_chat_message] received', {
+      bindOwnedSocketHandler(socket, 'global_chat_message', (message) => {
+        chatDebug('Ã°Å¸Å’Â [global_chat_message] received', {
           senderId: message.senderId,
           messageId: message.id,
           contentLength: message.content?.length
@@ -1869,10 +2187,16 @@ const usePresenceStore = create((set, get) => ({
         get().addGlobalMessage(message);
       });
 
-      socket.on('party_chat_message', (message) => {
+      bindOwnedSocketHandler(socket, 'party_chat_message', (message) => {
         const { partyId, fromId, message: content, timestamp, senderName, fromSocketId } = message;
-        
-        chatDebug('ðŸ’¬ [party_chat_message] received', {
+
+        const localPartyId = get().currentParty?.id;
+        if (partyId && (partyId !== localPartyId || get()._clearedPartySnapshots.has(partyId))) {
+          chatDebug('Ignoring party chat for a different party', { partyId, localPartyId });
+          return;
+        }
+
+        chatDebug('Ã°Å¸â€™Â¬ [party_chat_message] received', {
           partyId,
           fromId,
           fromSocketId,
@@ -1880,7 +2204,7 @@ const usePresenceStore = create((set, get) => ({
           contentLength: content?.length
         });
 
-        // Skip messages from self — already optimistically appended by TabbedChat
+        // Skip messages from self â€” already optimistically appended by TabbedChat
         // CRITICAL: Use fromSocketId if available to allow cross-tab syncing for the same user
         const { currentUserPresence, socket: activeSocket } = get();
 
@@ -1899,7 +2223,7 @@ const usePresenceStore = create((set, get) => ({
         );
 
         if (isFromOurSocket || isFromOurIdNoSocket) {
-          chatDebug('ðŸ’¬ Skipping self-echo for party message');
+          chatDebug('Ã°Å¸â€™Â¬ Skipping self-echo for party message');
           return;
         }
 
@@ -1918,8 +2242,8 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Party error received
-      socket.on('party_error', ({ error, partyId, ...rest }) => {
-        console.error('âŒ Party error:', error);
+      bindOwnedSocketHandler(socket, 'party_error', ({ error, partyId, ...rest }) => {
+        console.error('Ã¢ÂÅ’ Party error:', error);
 
         // Show notification
         const chatStore = getStore('chatStore');
@@ -1930,10 +2254,10 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // GM session invitation received
-      socket.on('gm_session_invitation', (invitation) => {
+      bindOwnedSocketHandler(socket, 'gm_session_invitation', (invitation) => {
         if (!invitation) return;
 
-        console.log('ðŸŽ­ GM session invitation received:', {
+        console.log('Ã°Å¸Å½Â­ GM session invitation received:', {
           partyName: invitation.partyName,
           gmName: invitation.gmName,
           roomId: invitation.roomId,
@@ -1950,14 +2274,14 @@ const usePresenceStore = create((set, get) => ({
           const partyStore = getStore('partyStore');
           const currentMembers = partyStore.getState().partyMembers || [];
           if (currentMembers.length > 0) {
-            console.log('ðŸ§¹ Clearing social party members on GM session invitation', {
+            console.log('Ã°Å¸Â§Â¹ Clearing social party members on GM session invitation', {
               count: currentMembers.length,
               names: currentMembers.map(m => m.name)
             });
             partyStore.getState().clearPartyMembers();
           }
         } catch (e) {
-          console.warn('âš ï¸ Failed to clear party members on GM session invitation:', e);
+          console.warn('Ã¢Å¡Â Ã¯Â¸Â Failed to clear party members on GM session invitation:', e);
         }
 
         // Set flag to trigger invitation UI
@@ -1966,10 +2290,10 @@ const usePresenceStore = create((set, get) => ({
         });
       });
 
-      socket.on('session_join_request', (request) => {
+      bindOwnedSocketHandler(socket, 'session_join_request', (request) => {
         if (!request) return;
 
-        console.log('ðŸ“¨ Session join request received:', {
+        console.log('Ã°Å¸â€œÂ¨ Session join request received:', {
           requesterName: request.requesterName,
           requesterId: request.requesterId,
           roomId: request.roomId,
@@ -1999,8 +2323,8 @@ const usePresenceStore = create((set, get) => ({
         }, 60000);
       });
 
-      socket.on('join_request_accepted', (data) => {
-        console.log('✅ Join request accepted:', data);
+      bindOwnedSocketHandler(socket, 'join_request_accepted', (data) => {
+        console.log('âœ… Join request accepted:', data);
 
         const { invitation } = data;
 
@@ -2010,11 +2334,11 @@ const usePresenceStore = create((set, get) => ({
           const partyStore = getStore('partyStore');
           const currentMembers = partyStore.getState().partyMembers || [];
           if (currentMembers.length > 0) {
-            console.log('ðŸ§¹ Clearing party members on join request acceptance');
+            console.log('Ã°Å¸Â§Â¹ Clearing party members on join request acceptance');
             partyStore.getState().clearPartyMembers();
           }
         } catch (e) {
-          console.warn('âš ï¸ Failed to clear party members:', e);
+          console.warn('Ã¢Å¡Â Ã¯Â¸Â Failed to clear party members:', e);
         }
 
         set({
@@ -2027,8 +2351,8 @@ const usePresenceStore = create((set, get) => ({
         });
       });
 
-      socket.on('join_request_declined', (data) => {
-        console.log('âŒ Join request declined:', data);
+      bindOwnedSocketHandler(socket, 'join_request_declined', (data) => {
+        console.log('Ã¢ÂÅ’ Join request declined:', data);
 
         set(state => ({
           sentJoinRequests: state.sentJoinRequests.filter(r => r.id !== data.requestId)
@@ -2039,8 +2363,8 @@ const usePresenceStore = create((set, get) => ({
         });
       });
 
-      socket.on('party_invite_failed', (data) => {
-        console.error('âŒ Party invite failed:', data);
+      bindOwnedSocketHandler(socket, 'party_invite_failed', (data) => {
+        console.error('Ã¢ÂÅ’ Party invite failed:', data);
 
         // Update the sent invite entry as failed
         set(state => ({
@@ -2066,16 +2390,16 @@ const usePresenceStore = create((set, get) => ({
         });
       });
 
-      socket.on('session_invitation_sent', (data) => {
-        console.log('✅ Session invitation sent:', data);
+      bindOwnedSocketHandler(socket, 'session_invitation_sent', (data) => {
+        console.log('âœ… Session invitation sent:', data);
 
         get().addPartyEventNotification('session_invitation_sent', {
           message: 'Session invitation sent'
         });
       });
 
-      socket.on('invite_error', (data) => {
-        console.error('âŒ Invite error:', data);
+      bindOwnedSocketHandler(socket, 'invite_error', (data) => {
+        console.error('Ã¢ÂÅ’ Invite error:', data);
 
         get().addPartyEventNotification('invite_error', {
           message: data.message || 'Failed to send invitation'
@@ -2083,8 +2407,8 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Whisper message received (for global/presence socket, outside game rooms)
-      socket.on('whisper_received', (message) => {
-        console.log('ðŸ’¬ Whisper received:', {
+      bindOwnedSocketHandler(socket, 'whisper_received', (message) => {
+        console.log('Ã°Å¸â€™Â¬ Whisper received:', {
           senderId: message.senderId,
           senderName: message.senderName,
           recipientId: message.recipientId,
@@ -2100,8 +2424,8 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Whisper sent confirmation (for global/presence socket)
-      socket.on('whisper_sent', (message) => {
-        console.log('✅ Whisper sent confirmation:', {
+      bindOwnedSocketHandler(socket, 'whisper_sent', (message) => {
+        console.log('âœ… Whisper sent confirmation:', {
           recipientId: message.recipientId,
           recipientName: message.recipientName,
           content: message.content?.substring(0, 30)
@@ -2115,8 +2439,8 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Another user's status changed (for real-time updates in Online Users list)
-      socket.on('user_status_changed', ({ userId, status, statusComment }) => {
-        console.log('ðŸ”„ User status changed:', { userId, status });
+      bindOwnedSocketHandler(socket, 'user_status_changed', ({ userId, status, statusComment }) => {
+        console.log('Ã°Å¸â€â€ž User status changed:', { userId, status });
 
         const { onlineUsers, currentUserPresence } = get();
 
@@ -2137,12 +2461,44 @@ const usePresenceStore = create((set, get) => ({
           set({ onlineUsers: newOnlineUsers });
         }
       });
+
+      // Re-register presence on every reconnect. The server answers with the
+      // account's current party snapshot (or an authoritative absence), which
+      // is the reconnect reconciliation path. One handler per live socket.
+      if (typeof socket.on === 'function' && !socket.__partyReconnectPresenceBound) {
+        socket.__partyReconnectPresenceBound = true;
+        bindOwnedSocketHandler(socket, 'connect', () => {
+          const { currentUserPresence } = get();
+          if (!currentUserPresence) return;
+          console.log('Re-registering presence on connect for:', currentUserPresence.userId);
+          socket.emit('register_presence', {
+            userId: currentUserPresence.userId,
+            name: currentUserPresence.name || currentUserPresence.characterName,
+            accountName: currentUserPresence.accountName || null,
+            characterClass: currentUserPresence.class || currentUserPresence.characterClass,
+            characterLevel: currentUserPresence.level || currentUserPresence.characterLevel,
+            character: {
+              class: currentUserPresence.class || 'Unknown',
+              level: currentUserPresence.level || 1,
+              health: currentUserPresence.health || null,
+              mana: currentUserPresence.mana || null,
+              actionPoints: currentUserPresence.actionPoints || { current: 0, max: 0 },
+              race: currentUserPresence.race || 'Unknown',
+              raceDisplayName: currentUserPresence.raceDisplayName || 'Unknown'
+            },
+            health: currentUserPresence.health || null,
+            mana: currentUserPresence.mana || null,
+            actionPoints: currentUserPresence.actionPoints || { current: 0, max: 0 }
+          });
+        });
+      }
     }
 
     set({
       socket,
       isConnected: socket?.connected || false,
-      _boundSocketId: socket?.id || null
+      _boundSocketId: socket?.id || null,
+      _boundSocket: socket || null
     });
   },
 
@@ -2172,16 +2528,16 @@ const usePresenceStore = create((set, get) => ({
     const { gmSessionInvitation, socket } = get();
 
     if (!gmSessionInvitation) {
-      console.error('âŒ No GM session invitation to accept');
+      console.error('Ã¢ÂÅ’ No GM session invitation to accept');
       return;
     }
 
     if (!socket || !socket.connected) {
-      console.error('âŒ No socket connection for GM session invitation');
+      console.error('Ã¢ÂÅ’ No socket connection for GM session invitation');
       return;
     }
 
-    console.log('✅ Accepting GM session invitation:', gmSessionInvitation.partyName);
+    console.log('âœ… Accepting GM session invitation:', gmSessionInvitation.partyName);
 
     // Set flag to prevent social party from syncing to partyStore during transition
     sessionStorage.setItem('enteringMultiplayer', 'true');
@@ -2194,7 +2550,7 @@ const usePresenceStore = create((set, get) => ({
       partyName: gmSessionInvitation.partyName
     }));
 
-    console.log('ðŸ’¾ [presenceStore] Saved pendingGMSessionInvitation to sessionStorage');
+    console.log('Ã°Å¸â€™Â¾ [presenceStore] Saved pendingGMSessionInvitation to sessionStorage');
 
     // Set flag to trigger navigation to /multiplayer so MultiplayerApp mounts
     set({
@@ -2221,11 +2577,11 @@ const usePresenceStore = create((set, get) => ({
     const { socket } = get();
 
     if (!socket || !socket.connected) {
-      console.error('âŒ No socket connection for join request');
+      console.error('Ã¢ÂÅ’ No socket connection for join request');
       return false;
     }
 
-    console.log('ðŸ“¨ Sending join request to leader:', { leaderId, roomId, requesterId, requesterName });
+    console.log('Ã°Å¸â€œÂ¨ Sending join request to leader:', { leaderId, roomId, requesterId, requesterName });
 
     const requestId = uuidv4();
     const request = {
@@ -2258,11 +2614,11 @@ const usePresenceStore = create((set, get) => ({
     const { socket } = get();
 
     if (!socket || !socket.connected) {
-      console.error('âŒ No socket connection for join request response');
+      console.error('Ã¢ÂÅ’ No socket connection for join request response');
       return false;
     }
 
-    console.log(`${accepted ? '✅' : 'âŒ'} Responding to join request:`, { requestId, accepted });
+    console.log(`${accepted ? 'âœ…' : 'Ã¢ÂÅ’'} Responding to join request:`, { requestId, accepted });
 
     socket.emit('respond_to_join_request', {
       requestId,
@@ -2283,11 +2639,11 @@ const usePresenceStore = create((set, get) => ({
     const { socket } = get();
 
     if (!socket || !socket.connected) {
-      console.error('âŒ No socket connection for session invitation');
+      console.error('Ã¢ÂÅ’ No socket connection for session invitation');
       return false;
     }
 
-    console.log('ðŸ“¨ Sending session invitation:', { memberId, roomId });
+    console.log('Ã°Å¸â€œÂ¨ Sending session invitation:', { memberId, roomId });
 
     socket.emit('invite_member_to_session', {
       memberId,
@@ -2313,16 +2669,16 @@ const usePresenceStore = create((set, get) => ({
     const { gmSessionInvitation, socket } = get();
 
     if (!gmSessionInvitation) {
-      console.error('âŒ No GM session invitation to decline');
+      console.error('Ã¢ÂÅ’ No GM session invitation to decline');
       return;
     }
 
     if (!socket || !socket.connected) {
-      console.error('âŒ No socket connection for GM session invitation');
+      console.error('Ã¢ÂÅ’ No socket connection for GM session invitation');
       return;
     }
 
-    console.log('âŒ Declining GM session invitation:', gmSessionInvitation.partyName);
+    console.log('Ã¢ÂÅ’ Declining GM session invitation:', gmSessionInvitation.partyName);
     socket.emit('respond_to_room_invitation', {
       invitationId: gmSessionInvitation.id,
       roomId: gmSessionInvitation.roomId,
@@ -2698,7 +3054,7 @@ const usePresenceStore = create((set, get) => ({
     // Detach and close the underlying socket so it (and its ~40 handlers) cannot
     // outlive the store and duplicate events on the next login.
     try {
-      socket?.removeAllListeners?.();
+      detachOwnedSocketHandlers(socket);
       socket?.disconnect?.();
     } catch (_e) { /* ignore */ }
 
@@ -2714,13 +3070,20 @@ const usePresenceStore = create((set, get) => ({
       partyMembers: [],
       pendingInvitations: [],
       pendingPartyInvites: [],
+      sentPartyInvites: [],
+      partyEventNotifications: [],
+      _processedEvents: new Map(),
+      _revokedPartyInvitationIds: new Map(),
+      _clearedPartySnapshots: new Map(),
       socket: null,
       isConnected: false,
       presenceUnsubscribe: null,
-      _boundSocketId: null
+      _boundSocketId: null,
+      _boundSocket: null
     });
   }
 }));
 
 export default usePresenceStore;
+
 

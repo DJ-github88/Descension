@@ -69,6 +69,8 @@ const AUTHORITATIVE_ROOM_EVENTS = new Set([
   'actor_snapshot', 'actor_bind', 'actor_consequence', 'actor_recovery', 'actor_propose', 'actor_adjudicate', 'actor_turn_boundary',
   // Shared trigger foundation v1.1 (diagnostic): same fresh-authority guard and session-room target rule.
   'actor_trigger_list', 'actor_trigger_register', 'actor_trigger_revoke', 'actor_trigger_dismiss',
+  // First playable passive activation v1 (same fresh-authority guard and session-room target rule).
+  'actor_passive_list', 'actor_passive_activate', 'actor_passive_revoke',
   // P9 owner spell approvals (same strict actor_ sanitization boundary)
   'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_decline', 'actor_spell_list',
   // P12A owner strike approvals (same boundary)

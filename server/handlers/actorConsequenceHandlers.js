@@ -8,7 +8,7 @@ const proposals = new WeakMap();
 const UNCONSUMABLE = ['critical_bypasses_armor', 'actor_binding_conflict', 'secondary_attachment', 'actor_not_found'];
 
 function registerActorConsequenceHandlers(ctx) {
-  const { socket, rooms, players, io, validateRoomMembership, authorityService, firebaseBatchWriter: writer, firebaseService } = ctx;
+  const { socket, rooms, players, io, validateRoomMembership, authorityService, firebaseBatchWriter: writer, firebaseService, parties, userToParty } = ctx;
   const sessionUid = (room, player, socketId) => player.userId ||
     (player.isGM && room.gm?.id === player.id && room.gm?.socketId === socketId ? room.gmId : null);
   const respond = (ack, result) => { if (typeof ack === 'function') {ack(result);} else {socket.emit('actor_consequence_result', result);} };
@@ -36,16 +36,21 @@ function registerActorConsequenceHandlers(ctx) {
   // Reuse binding's resolver; room token ownership alone can lag the character record.
   const confirmPcBundleOwners = async(captured, approval) => {
     const self = approval?.source?.kind === 'character' && approval?.target?.kind === 'character' && actors.hash(approval.source) === actors.hash(approval.target);
-    if ((!require('../shared/services/authoredEffect').isEffect(approval) && !self) || approval.source.kind !== 'character' || approval.target.kind !== 'character') return;
+    const offerBound = approval?.triggerOfferId !== undefined;
+    const refs = [];
+    if (require('../shared/services/authoredEffect').isEffect(approval) && approval.source?.kind === 'character' && approval.target?.kind === 'character') {refs.push(...(self ? [approval.source] : [approval.source, approval.target]));}
+    else if (offerBound && approval.source?.kind === 'character') {refs.push(approval.source, ...(approval.target?.kind === 'character' ? [approval.target] : []));}
+    else if (self) {refs.push(approval.source);}
+    if (!refs.length) {return;}
     try {
-      for (const ref of self ? [approval.source] : [approval.source, approval.target]) {
+      for (const ref of refs) {
         actors.locate(captured.room, ref);
         const owner = await firebaseService.getCharacterOwner(ref.characterId, { fresh: true });
         current(captured);
         if (!owner?.ok || owner.userId !== ref.ownerUid) actors.fail('actor_binding_conflict');
       }
-      // Recheck both exact room bindings after the asynchronous resolver calls.
-      actors.locate(captured.room, approval.source); actors.locate(captured.room, approval.target);
+      // Recheck the exact room bindings after the asynchronous resolver calls.
+      for (const ref of refs) {actors.locate(captured.room, ref);}
     } catch (error) {
       current(captured);
       // Concurrent consumption wins over later ownership/binding failures. Callers still
@@ -77,12 +82,12 @@ function registerActorConsequenceHandlers(ctx) {
   const respondInstalled = (ack, result) => {
     try {respond(ack, result);} catch (_) { /* accepted/unknown delivery retains retry custody */ }
   };
-  const publishInstalled = (room, event, result, ack) => {
+  const publishInstalled = (room, event, result, ack, privateResult = null) => {
     const delivered = deliver(room, event, result);
     // Delivery cannot undo installed actors/receipt or become rejection.
-    respondInstalled(ack, { ...result, delivery: delivered ? 'sent' : 'partial' });
+    respondInstalled(ack, { ...(privateResult || result), delivery: delivered ? 'sent' : 'partial' });
   };
-  const install = (room, next) => {
+  const install = (room, next, after) => {
     room.gameState = next;
     // Mirrors are derived only for an exact owner/canonical character match.
     for (const map of Object.values(next.maps || {})) {
@@ -96,6 +101,7 @@ function registerActorConsequenceHandlers(ctx) {
         }
       }
     }
+    if (typeof after === 'function') {after(room, next);}
   };
   const admit = (room, staged) => {
     if (liveOnly(room)) {
@@ -106,7 +112,7 @@ function registerActorConsequenceHandlers(ctx) {
       const validated = require('../services/roomCheckpoint').canonicalize(staged.next, 'gameState');
       if (validated.error) {actors.fail('CHECKPOINT_INVALID', validated.error);}
       if (actors.bytes(staged.next.actorConsequences?.receipts || []) > 512 * 1024) {actors.fail('receipt_capacity');}
-      install(room, staged.next);
+      install(room, staged.next, staged.afterInstall);
       return;
     }
     if (!writer || typeof writer.admitConsequence !== 'function') {actors.fail('checkpoint_writer_unavailable');}
@@ -114,7 +120,7 @@ function registerActorConsequenceHandlers(ctx) {
       if (staged.receipt) {staged.receipt.checkpointRevision = revision;}
       if (actors.bytes(staged.next.actorConsequences?.receipts || []) > 512 * 1024) {actors.fail('receipt_capacity');}
       return staged.next;
-    }, next => install(room, next), { authorityToken: room.authorityToken });
+    }, next => install(room, next, staged.afterInstall), { authorityToken: room.authorityToken });
     if (!admission.queued) {actors.fail(admission.code || admission.reason || 'writer_admission_refused');}
   };
   const run = (event, action) => socket.on(event, ctx.requireAuth(async(data, ack) => {
@@ -132,6 +138,227 @@ function registerActorConsequenceHandlers(ctx) {
       bindings: Object.entries(room.gameState.maps || {}).flatMap(([mapId, map]) => ['tokens', 'creatures', 'characterTokens'].flatMap(field =>
         Object.entries(map[field] || {}).map(([tokenId, token]) => ({ mapId, tokenId, kind: field === 'characterTokens' ? 'character' : 'creature', snapshotHash: actors.hash(token) })))) });
   });
+  const partySource = require('../services/partySource');
+  const recruitment = require('../services/actorRecruitment');
+  const companions = require('../services/companionRoster');
+  const relationships = require('../services/actorRelationships');
+  const relationshipCommand = require('../services/actorRelationshipCommand');
+  const placement = require('../services/companionPlacement');
+  const recruitmentPartySource = { resolve: (room, recipientUid) => partySource.resolve(room, recipientUid, { parties, userToParty }) };
+  run('actor_recruit', async(request, ack) => {
+    recruitment.validate(request);
+    const captured = context(request.roomId);
+    if (!captured.isGM) {actors.fail('forbidden');}
+    const old = actors.knownReceipt(captured.room, captured.uid, request);
+    if (old) {
+      if (old.contentHash !== actors.hash(request)) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, { ...resultFor(captured.room, old), rosterEntry: recruitment.replayRoster(old) });
+      return;
+    }
+    await confirm(captured);
+    const afterConfirm = actors.knownReceipt(captured.room, captured.uid, request);
+    if (afterConfirm) {
+      if (afterConfirm.contentHash !== actors.hash(request)) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, { ...resultFor(captured.room, afterConfirm), rosterEntry: recruitment.replayRoster(afterConfirm) });
+      return;
+    }
+    const staged = recruitment.stage(captured.room, captured.player, captured.uid, request, confirmed(captured.room),
+      { partySource: recruitmentPartySource, relationships, roster: companions });
+    staged.afterInstall = roomRef => require('./tokenHandlers').clearTokenControl(roomRef, staged.clearControl.tokenId, staged.clearControl.mapId);
+    current(captured);
+    admit(captured.room, staged);
+    const result = { ...resultFor(captured.room, staged.receipt), rosterEntry: companions.projectEntry(staged.entry, false) };
+    publishInstalled(captured.room, 'actor_consequence_accepted', result, ack,
+      { ...result, rosterEntry: companions.projectEntry(staged.entry, true) });
+    deliver(captured.room, 'actor_bound', { success: true, roomId: captured.room.id, actorSnapshot: require('../services/actorProjection').snapshot(captured.room) });
+  });
+  run('actor_recruit_recipients', async(data, ack) => {
+    actors.keys(data, ['roomId']);
+    const captured = context(data.roomId);
+    if (!captured.isGM) {actors.fail('forbidden');}
+    const recipients = [];
+    for (const member of captured.room.players?.values?.() || []) {
+      if (!member || member.isGM === true || typeof member.userId !== 'string' || !member.userId) {continue;}
+      const party = recruitmentPartySource.resolve(captured.room, member.userId);
+      if (!party || party.ok !== true) {continue;}
+      recipients.push({
+        uid: member.userId,
+        playerId: member.id || null,
+        name: member.name || null,
+        characterName: member.characterName || member.character?.name || null,
+        partyId: party.partyId,
+        actorRef: party.recipientActorRef
+      });
+    }
+    respond(ack, { success: true, roomId: captured.room.id, relationshipRevision: relationships.revision(captured.room),
+      rosterRevision: companions.revision(captured.room), recipients });
+  });
+  run('actor_companion_list', async(data, ack) => {
+    recruitment.validateList(data);
+    const captured = context(data.roomId);
+    const rosterRevision = companions.revision(captured.room);
+    if (data.rosterRevision !== undefined && data.rosterRevision !== rosterRevision) {actors.fail('roster_revision_conflict');}
+    respond(ack, { success: true, roomId: captured.room.id, rosterRevision, entries: companions.list(captured.room, captured.uid, captured.isGM) });
+  });
+  const replayPlacement = (roomRef, receipt) => {
+    const replay = placement.replay(receipt);
+    if (replay?.placement === 'inactive') {
+      const result = resultFor(roomRef, receipt);
+      return { ...result, success: false, code: replay.code || 'companion_inactive',
+        placement: 'inactive', activeRef: null, rosterEntry: replay.rosterEntry || null, replay: true };
+    }
+    return { ...resultFor(roomRef, receipt), placement: replay?.placement || 'placed',
+      activeRef: replay?.activeRef || null, rosterEntry: replay?.rosterEntry || null, replay: true };
+  };
+  const inactiveAck = (roomRef, entry) => ({ success: false, code: 'companion_inactive', roomId: roomRef.id,
+    rosterEntry: companions.projectEntry(entry, false) });
+  const publishInactive = (roomRef, staged, ack) => {
+    const result = { ...resultFor(roomRef, staged.receipt), placement: 'inactive', activeRef: null,
+      rosterEntry: companions.projectEntry(staged.entry, false) };
+    publishInstalled(roomRef, 'actor_consequence_accepted', result, ack,
+      { ...result, success: false, code: 'companion_inactive' });
+  };
+  const closeCompanionApprovals = (roomRef, ref) => {
+    if (!ref) {return [];}
+    const closed = placement.closeApprovals(roomRef, ref);
+    for (const item of closed) {
+      const payload = { roomId: roomRef.id, approvalId: item.approvalId, contentHash: item.contentHash, code: 'actor_removed' };
+      if (item.ownerUid) {toUid(roomRef, item.ownerUid, 'actor_spell_closed', payload);}
+      if (item.targetOwnerUid && item.targetOwnerUid !== item.ownerUid) {toUid(roomRef, item.targetOwnerUid, 'actor_spell_closed', payload);}
+      toGm(roomRef, 'actor_spell_closed', payload);
+    }
+    return closed;
+  };
+  run('actor_companion_place', async(data, ack) => {
+    placement.validatePlace(data);
+    const captured = context(data.roomId);
+    const old = actors.knownReceipt(captured.room, captured.uid, data);
+    if (old) {
+      if (old.contentHash !== actors.hash(data)) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, replayPlacement(captured.room, old));
+      return;
+    }
+    const pre = placement.preflight(captured.room, captured.player, captured.uid, data);
+    if (pre.mode === 'focus') {
+      respond(ack, { success: true, roomId: captured.room.id, placement: 'focus',
+        activeRef: pre.activeRef, rosterEntry: pre.rosterEntry });
+      return;
+    }
+    await confirm(captured);
+    const afterConfirm = actors.knownReceipt(captured.room, captured.uid, data);
+    if (afterConfirm) {
+      if (afterConfirm.contentHash !== actors.hash(data)) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, replayPlacement(captured.room, afterConfirm));
+      return;
+    }
+    if (pre.mode === 'reconcile') {
+      const reconciled = placement.stageReconciliation(captured.room, captured.player, captured.uid, data,
+        confirmed(captured.room), 'place');
+      current(captured);
+      if (!reconciled.reconciled) {
+        respondInstalled(ack, inactiveAck(captured.room, reconciled.entry));
+        return;
+      }
+      admit(captured.room, reconciled);
+      closeCompanionApprovals(captured.room, reconciled.reconciledRef);
+      publishInactive(captured.room, reconciled, ack);
+      return;
+    }
+    const staged = placement.stagePlacement(captured.room, captured.player, captured.uid, data, confirmed(captured.room));
+    staged.afterInstall = roomRef => require('./tokenHandlers').clearTokenControl(roomRef, staged.clearControl.tokenId, staged.clearControl.mapId);
+    current(captured);
+    admit(captured.room, staged);
+    const result = { ...resultFor(captured.room, staged.receipt), placement: 'placed',
+      activeRef: staged.activeRef, rosterEntry: companions.projectEntry(staged.entry, false) };
+    publishInstalled(captured.room, 'actor_consequence_accepted', result, ack,
+      { ...result, rosterEntry: companions.projectEntry(staged.entry, captured.isGM === true) });
+    deliver(captured.room, 'token_created', { roomId: captured.room.id, tokenId: staged.activeRef.tokenId,
+      mapId: staged.activeRef.mapId, actorSnapshot: require('../services/actorProjection').snapshot(captured.room) });
+    deliver(captured.room, 'actor_bound', { success: true, roomId: captured.room.id,
+      actorSnapshot: require('../services/actorProjection').snapshot(captured.room) });
+  });
+  run('actor_companion_dismiss', async(data, ack) => {
+    placement.validateDismiss(data);
+    const captured = context(data.roomId);
+    const old = actors.knownReceipt(captured.room, captured.uid, data);
+    if (old) {
+      if (old.contentHash !== actors.hash(data)) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, replayPlacement(captured.room, old));
+      return;
+    }
+    await confirm(captured);
+    const afterConfirm = actors.knownReceipt(captured.room, captured.uid, data);
+    if (afterConfirm) {
+      if (afterConfirm.contentHash !== actors.hash(data)) {actors.fail('command_id_conflict');}
+      respondInstalled(ack, replayPlacement(captured.room, afterConfirm));
+      return;
+    }
+    const staged = placement.stageDismissal(captured.room, captured.player, captured.uid, data, confirmed(captured.room));
+    if (staged.alreadyInactive) {
+      respondInstalled(ack, inactiveAck(captured.room, staged.entry));
+      return;
+    }
+    if (staged.reconciled) {
+      current(captured);
+      admit(captured.room, staged);
+      closeCompanionApprovals(captured.room, staged.reconciledRef);
+      publishInactive(captured.room, staged, ack);
+      return;
+    }
+    staged.afterInstall = roomRef => require('./tokenHandlers').clearTokenControl(roomRef, staged.clearControl.tokenId, staged.clearControl.mapId);
+    current(captured);
+    admit(captured.room, staged);
+    closeCompanionApprovals(captured.room, staged.dismissedRef);
+    const result = { ...resultFor(captured.room, staged.receipt), placement: 'available',
+      activeRef: null, rosterEntry: companions.projectEntry(staged.entry, false) };
+    publishInstalled(captured.room, 'actor_consequence_accepted', result, ack,
+      { ...result, rosterEntry: companions.projectEntry(staged.entry, captured.isGM === true) });
+    deliver(captured.room, 'token_dismissed', { roomId: captured.room.id, tokenId: staged.dismissedRef.tokenId,
+      mapId: staged.dismissedRef.mapId, actorSnapshot: require('../services/actorProjection').snapshot(captured.room) });
+    deliver(captured.room, 'actor_bound', { success: true, roomId: captured.room.id,
+      actorSnapshot: require('../services/actorProjection').snapshot(captured.room) });
+  });
+  run('actor_relationship_list', async(data, ack) => {
+    actors.keys(data, ['roomId', 'a', 'b']);
+    const captured = context(data.roomId);
+    actors.validateRef(data.a);
+    actors.validateRef(data.b);
+    if (data.a.roomId !== captured.room.id || data.b.roomId !== captured.room.id) {actors.fail('invalid_consequence');}
+    respond(ack, { success: true, roomId: captured.room.id, revision: relationships.revision(captured.room),
+      value: relationships.get(captured.room, data.a, data.b) });
+  });
+  run('actor_relationship_set', async(request, ack) => {
+    relationshipCommand.validate(request);
+    const captured = context(request.roomId);
+    if (!captured.isGM) {actors.fail('forbidden');}
+    const old = actors.knownReceipt(captured.room, captured.uid, request);
+    if (old) {
+      if (old.contentHash !== actors.hash(request)) {actors.fail('command_id_conflict');}
+      const plan = relationshipCommand.receiptPlan(old);
+      respondInstalled(ack, { ...resultFor(captured.room, old), relationshipRevision: plan.revision,
+        relationshipValue: plan.value });
+      return;
+    }
+    await confirm(captured);
+    const afterConfirm = actors.knownReceipt(captured.room, captured.uid, request);
+    if (afterConfirm) {
+      if (afterConfirm.contentHash !== actors.hash(request)) {actors.fail('command_id_conflict');}
+      const plan = relationshipCommand.receiptPlan(afterConfirm);
+      respondInstalled(ack, { ...resultFor(captured.room, afterConfirm), relationshipRevision: plan.revision,
+        relationshipValue: plan.value });
+      return;
+    }
+    const staged = relationshipCommand.stage(captured.room, captured.player, captured.uid, request,
+      confirmed(captured.room));
+    current(captured);
+    admit(captured.room, staged);
+    const result = { ...resultFor(captured.room, staged.receipt), relationshipRevision: staged.revision,
+      relationshipValue: request.value };
+    respondInstalled(ack, result);
+    // The GM acknowledgement carries the authority detail; every entitled session only needs the
+    // monotonic revision so cached relationship reads can be invalidated without receiving pair refs.
+    deliver(captured.room, 'actor_relationship_updated', { roomId: captured.room.id, revision: staged.revision });
+  });
   run('actor_turn_boundary', async(data, ack) => {
     const lifecycle = require('../services/sharedEffectLifecycle');
     lifecycle.validate(data);
@@ -147,6 +374,53 @@ function registerActorConsequenceHandlers(ctx) {
     current(captured);
     admit(captured.room, staged);
     const result = resultFor(captured.room, staged.receipt);
+    publishInstalled(captured.room, 'actor_consequence_accepted', result, ack);
+    deliver(captured.room, 'combat_state_sync', { combat: result.combat });
+  });
+  // C1-C7=A: one authoritative GM-only roster transaction. C8=B is separate and not implemented here.
+  run('actor_combat_roster', async(data, ack) => {
+    const roster = require('../services/combatRoster');
+    roster.validate(data);
+    const captured = context(data.roomId);
+    if (!captured.isGM) {actors.fail('turn_gm_required');}
+    const notifyClosures = closed => {
+      for (const item of closed) {
+        const payload = { roomId: captured.room.id, approvalId: item.approvalId, contentHash: item.contentHash, code: 'actor_removed' };
+        if (item.ownerUid) {toUid(captured.room, item.ownerUid, 'actor_spell_closed', payload);}
+        if (item.targetOwnerUid && item.targetOwnerUid !== item.ownerUid) {toUid(captured.room, item.targetOwnerUid, 'actor_spell_closed', payload);}
+        toGm(captured.room, 'actor_spell_closed', payload);
+      }
+    };
+    const closeMissing = () => {
+      if (data.op !== 'leave' || (data.targetState ?? 'bound') !== 'missing') {return [];}
+      try {
+        const closed = roster.closeApprovalsForRef(captured.room, data.target, 'actor_removed');
+        notifyClosures(closed);
+        return closed;
+      } catch (_) {return [];} // best-effort live-only cleanup; the roster change is already installed
+    };
+    const old = actors.knownReceipt(captured.room, captured.uid, data);
+    if (old) {
+      if (old.contentHash !== actors.hash(data)) {actors.fail('command_id_conflict');}
+      closeMissing();
+      respondInstalled(ack, { ...resultFor(captured.room, old), replay: true,
+        rosterChange: old.adjudication ? roster.publicRosterChange(JSON.parse(old.adjudication.chosenResult)) : null });
+      return;
+    }
+    await confirm(captured);
+    const afterConfirm = actors.knownReceipt(captured.room, captured.uid, data);
+    if (afterConfirm) {
+      if (afterConfirm.contentHash !== actors.hash(data)) {actors.fail('command_id_conflict');}
+      closeMissing();
+      respondInstalled(ack, { ...resultFor(captured.room, afterConfirm), replay: true,
+        rosterChange: afterConfirm.adjudication ? roster.publicRosterChange(JSON.parse(afterConfirm.adjudication.chosenResult)) : null });
+      return;
+    }
+    const staged = roster.stage(captured.room, captured.player, captured.uid, data, confirmed(captured.room));
+    current(captured);
+    admit(captured.room, staged);
+    closeMissing();
+    const result = { ...resultFor(captured.room, staged.receipt), rosterChange: roster.publicRosterChange(staged.rosterChange) };
     publishInstalled(captured.room, 'actor_consequence_accepted', result, ack);
     deliver(captured.room, 'combat_state_sync', { combat: result.combat });
   });
@@ -409,6 +683,8 @@ function registerActorConsequenceHandlers(ctx) {
   };
   // Shared trigger foundation v1 (diagnostic): same session fence, writer admission and receipt publication as above.
   require('./committedTriggerHandlers').registerCommittedTriggerHandlers({ run, context, current, confirm, confirmed, liveOnly, admit, resultFor, respond, respondInstalled, publishInstalled, toUid, toGm });
+  // First playable passive activation v1 (Heightened Senses +2 flat initiative, fail-closed until creator approval).
+  require('./passiveHandlers').registerPassiveHandlers({ run, context, current, confirm, confirmed, liveOnly, admit, writer, resultFor, respond, respondInstalled, publishInstalled, toUid, toGm });
   // P9 owner approval: the owner authorizes their own price/typed result; the GM
   // later adjudicates the cross-actor outcome through one strict actor_consequence.
   for (const event of ['actor_spell_approve', 'actor_spell_prepare_creature']) run(event, async(approval, ack) => {

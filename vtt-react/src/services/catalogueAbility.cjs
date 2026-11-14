@@ -44,6 +44,15 @@ function profileFor(source, expectedCapability = null) {
   return { ok: true, entry };
 }
 
+/** Client-facing identity check: a reviewed catalogue spell exists for this exact class/spell id.
+ * Used only to prevent the ordinary UI from silently choosing the legacy P9 fallback. The server
+ * gate remains authoritative. */
+function cataloguePinFor(spellId, classId) {
+  if (typeof spellId !== 'string' || typeof classId !== 'string') return null;
+  return (Array.isArray(profileData.profiles) ? profileData.profiles : [])
+    .find(entry => entry?.spellId === spellId && entry?.classId === classId) || null;
+}
+
 /** The executable projection a pin authorises. Identity and scope are added per admission. */
 function definitionProjection(definition) {
   if (!definition || typeof definition !== 'object' || Array.isArray(definition)) return null;
@@ -345,4 +354,4 @@ function catalogueDraft(record, classId, { authoredDefinitionId, id } = {}) {
 }
 
 module.exports = { CAPABILITY, AREA_CAPABILITY, MAX_AREA_TARGETS, CLASS_DOMAIN, DOMAINS, catalogueExecutable, catalogueDraft, classPaymentFor,
-  profileFor, verifyRecord, verifyDefinition, definitionProjection };
+  cataloguePinFor, profileFor, verifyRecord, verifyDefinition, definitionProjection };

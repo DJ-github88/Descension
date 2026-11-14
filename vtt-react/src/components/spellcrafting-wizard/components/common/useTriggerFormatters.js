@@ -257,6 +257,8 @@ const useTriggerFormatters = ({ spell, library }) => {
    'health_threshold': 'health threshold is reached',
    'damage_taken': 'damage is taken',
    'damage_dealt': 'damage is dealt',
+   'follow_up_after_damage': 'my immediate damage removes at least 1 base HP from a creature',
+   'follow_up_after_healing': 'my immediate healing actually restores at least 1 HP (actual HP restored, after the maximum-HP cap) to a creature or another primary player character, not yourself (not myself)',
    'critical_hit': 'a critical hit lands',
    'turn_start': 'turn starts',
    'turn_end': 'turn ends',
@@ -317,6 +319,10 @@ const useTriggerFormatters = ({ spell, library }) => {
    if (amount) displayText += ` ${amount} pts of`;
    if (damageType && damageType !== 'any') displayText += ` ${damageType}`;
    displayText += ' damage';
+  } else if (trigger.id === 'follow_up_after_damage') {
+   displayText = 'When my immediate damage removes at least 1 base HP from a creature';
+  } else if (trigger.id === 'follow_up_after_healing') {
+   displayText = 'When my immediate healing actually restores at least 1 HP (actual HP restored, after the maximum-HP cap) to a creature or another primary player character; not yourself (not myself); optional at its ordinary price; one offer per originating cast; lapses at the next authenticated turn start of the source; cannot chain.';
   } else if (trigger.id === 'critical_hit') {
    const perspective = trigger.parameters?.perspective || 'self';
    const whoMap = {
@@ -768,7 +774,7 @@ const useTriggerFormatters = ({ spell, library }) => {
   return displayText || trigger.id || 'Unknown trigger';
  };
 
- // Format trigger text for conditional display (e.g., "If below 50% health" instead of "When my health falls below 50%")
+ // Format trigger text for conditional display while preserving the stored subject.
  const formatTriggerForConditionalDisplay = (trigger) => {
   if (!trigger) return 'Unknown trigger';
 
@@ -783,7 +789,7 @@ const useTriggerFormatters = ({ spell, library }) => {
             trigger.parameters?.health_threshold || 
             50; // Default to 50% if not specified
    const comparison = trigger.parameters?.comparison || 'below';
-   const perspective = trigger.parameters?.perspective || 'self';
+   const perspective = trigger.parameters?.perspective;
    
    // Map comparison values
    const compMap = {
@@ -796,20 +802,31 @@ const useTriggerFormatters = ({ spell, library }) => {
    };
    
    const compText = compMap[comparison] || 'below';
-   
-   // For self perspective, simplify to just "If below X% health"
-   if (perspective === 'self') {
-    return `If ${compText} ${percentage}% health`;
-   } else {
-    // For other perspectives, include the target
-    const whoMap = {
-     'target': 'target',
-     'ally': 'ally',
-     'enemy': 'enemy',
-     'any': 'anyone'
-    };
-    return `If ${whoMap[perspective] || 'target'} ${compText} ${percentage}% health`;
+   const whoMap = {
+    'self': 'my',
+    'target': "the target's",
+    'ally': "an ally's",
+    'enemy': "an enemy's",
+    'any': "anyone's"
+   };
+
+   if (!perspective || !whoMap[perspective]) {
+    return `If health is ${compText} ${percentage}% (subject not stored)`;
    }
+   return `If ${whoMap[perspective]} health is ${compText} ${percentage}%`;
+  }
+
+  if ((trigger.id === 'damage_taken' || trigger.id === 'damage_dealt') && !trigger.parameters?.perspective) {
+   const amount = trigger.parameters?.amount;
+   const damageType = trigger.parameters?.damage_type;
+   let text = trigger.id === 'damage_taken' ? 'If damage is taken' : 'If damage is dealt';
+   if (amount) text += ` (${amount} pts)`;
+   if (damageType && damageType !== 'any') text += ` (${damageType})`;
+   return `${text} (subject not stored)`;
+  }
+
+  if (trigger.id === 'resource_threshold' && !trigger.parameters?.perspective) {
+   return 'If the stored resource threshold is met (subject not stored)';
   }
 
   // For all other triggers, convert "When" to "If" and simplify
@@ -826,10 +843,6 @@ const useTriggerFormatters = ({ spell, library }) => {
   } else if (!text.startsWith('If ')) {
    text = 'If ' + text;
   }
-  
-  // Simplify common patterns
-  text = text.replace(/^If I /, 'If ');
-  text = text.replace(/^If my /, 'If ');
   
   return text;
  };

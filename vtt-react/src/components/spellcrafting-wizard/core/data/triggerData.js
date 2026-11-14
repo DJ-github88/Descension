@@ -42,7 +42,11 @@
         { id: 'combat_start', name: 'Combat Start', description: 'Activates when combat begins', params: [] },
         { id: 'combat_end', name: 'Combat End', description: 'Activates when combat ends', params: [] },
         { id: 'first_strike', name: 'First Strike', description: 'Activates on the first attack in combat', params: ['perspective'] },
-        { id: 'last_stand', name: 'Last Stand', description: 'Activates when you are the last ally standing', params: [] }
+        { id: 'last_stand', name: 'Last Stand', description: 'Activates when you are the last ally standing', params: [] },
+
+        // The one approved executable Wizard trigger. It grants no execution by itself: the room GM
+        // must still register this exact admitted version for one primary owner PC.
+        { id: 'follow_up_after_damage', name: 'Follow-up After My Damage', description: 'Optional follow-up: when my primary PC\'s immediate damage removes at least 1 base HP from a creature, the room GM may register this ability as the follow-up. It pays its normal price and uses its own targeting, range and consent. It cannot chain.', params: [] }
       ],
       movement: [
         { id: 'movement_start', name: 'Movement Start', description: 'Activates when movement begins', params: ['perspective'] },
@@ -66,7 +70,11 @@
         { id: 'death_save_success', name: 'Death Save Success', description: 'Triggers when a character succeeds on a death saving throw', params: ['target_type'] },
         { id: 'death_save_failure', name: 'Death Save Failure', description: 'Triggers when a character fails a death saving throw', params: ['target_type'] },
         { id: 'full_health', name: 'Full Health', description: 'Triggers when at full health', params: ['perspective'] },
-        { id: 'overhealing', name: 'Overhealing', description: 'Triggers when healing would exceed maximum health', params: ['perspective'] }
+        { id: 'overhealing', name: 'Overhealing', description: 'Triggers when healing would exceed maximum health', params: ['perspective'] },
+
+        // The second approved executable Wizard trigger (healing). Like the damage follow-up, it grants no execution
+        // by itself: the room GM must still pair this exact admitted version with one primary owner PC.
+        { id: 'follow_up_after_healing', name: 'Follow-up After My Healing', description: 'Optional follow-up: when my primary PC\'s immediate healing actually restores at least 1 HP (after the maximum-HP cap) to a creature or to another primary player character, not yourself, the room GM may register this ability as the follow-up. Actual HP restored means the committed base HP gained after that cap. Healing myself does not count, and neither does healing that restores nothing. It pays its normal price (ordinary price) and uses its own targeting, range and consent. One offer per originating cast; it lapses at the next authenticated turn start of the source and cannot chain.', params: [] }
       ],
       status: [
         { id: 'effect_applied', name: 'Effect Applied', description: 'Activates when a status effect is applied', params: ['effect_type', 'perspective'] },

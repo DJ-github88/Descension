@@ -21,7 +21,7 @@ const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid'
 const MAX_STANDARD_ACTORS = 2;
 const MAX_AREA_TARGETS = 8;
 const MAX_AREA_ACTORS = 9;
-const PROTECTED = new Set(['triggerLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
+const PROTECTED = new Set(['triggerLedger', 'passiveLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
 const runtimeEpochs = new WeakMap();
 
 function epoch(room) {
@@ -282,6 +282,40 @@ function publicReceipt(receipt) {
   if (receipt.adjudication) {out.adjudication = Object.fromEntries(['definitionId', 'definitionVersionOrHash', 'chosenResult', 'finalAmount', 'adjustmentReason']
     .filter(key => typeof receipt.adjudication[key] === 'string' || (typeof receipt.adjudication[key] === 'number' && Number.isFinite(receipt.adjudication[key])))
     .map(key => [key, receipt.adjudication[key]]));}
+  if (String(receipt.adjudication?.definitionVersionOrHash || '') === 'actor-recruit:v1' && out.adjudication) {
+    // Review N1: the recipient actor ref is never public for this capability, including when the
+    // stored chosenResult is malformed and cannot be parsed.
+    delete out.target;
+    try {
+      const c = JSON.parse(out.adjudication.chosenResult);
+      const safe = Object.fromEntries(['capability', 'sourceRevision'].filter(k => c[k] !== undefined).map(k => [k, c[k]]));
+      if (c.roster) {
+        safe.roster = Object.fromEntries(['rosterId', 'stableTokenId', 'displayName', 'creatureId', 'state', 'activeRef', 'updatedAt']
+          .filter(k => c.roster[k] !== undefined).map(k => [k, c.roster[k]]));
+      }
+      if (c.relationship) {
+        safe.relationship = {
+          revision: c.relationship.revision,
+          ...(Array.isArray(c.relationship.allies) ? { allyCount: c.relationship.allies.length } : {})
+        };
+      }
+      out.adjudication.chosenResult = JSON.stringify(safe);
+    } catch (_) { out.readOnly = true; delete out.adjudication.chosenResult; }
+  }
+  if (receipt.adjudication?.definitionVersionOrHash === 'combat-roster:v1' && out.adjudication) {
+    // Combat roster v1: only geometry and clock identity cross the shared boundary; audit IDs stay server-side.
+    try {
+      const c = JSON.parse(out.adjudication.chosenResult);
+      out.adjudication.chosenResult = JSON.stringify({ capability: c.capability, op: c.op, targetState: c.targetState,
+        beforeRosterHash: c.beforeRosterHash, afterRosterHash: c.afterRosterHash, beforeIndex: c.beforeIndex,
+        afterIndex: c.afterIndex, currentIndexBefore: c.currentIndexBefore, currentIndexAfter: c.currentIndexAfter,
+        clockBefore: c.clockBefore ?? null, clockAfter: c.clockAfter ?? null });
+    } catch (_) { out.readOnly = true; delete out.adjudication.chosenResult; }
+    delete out.contentHash;
+    delete out.target;
+    delete out.source;
+    delete out.targets;
+  }
   if (String(receipt.adjudication?.definitionVersionOrHash || '').startsWith('authored-condition:v1/') && out.adjudication) {
     try {
       const c = JSON.parse(out.adjudication.chosenResult), r = c.resolution;
@@ -392,6 +426,7 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
   if (command.roomId !== room.id) {fail('actor_not_found');}
   const existing = knownReceipt(room, uid, command);
   if (existing) {return { existing };}
+  require('./catalogueP9Gate').checkCommand(room, command);
   const prior = ledger(room);
   if (command.actionEpoch !== epoch(room)) {fail('outcome_unknown');}
   if (command.baseCommitSequence < prior.replayFloor) {fail('retry_window_expired');}
@@ -415,6 +450,9 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
         : (strikes.get(room, id) || strikes.closedCode(room, id) || strikes.consumedReceipt(room, id) || inBlocks());
     if (collision) {fail('command_id_conflict');}
   }
+  // P9 authority applies only after cross-capability collision precedence; an unapproved direct P9
+  // command still needs the owner approval bound to the exact definition.
+  if (!command.approval || binder === require('./spellPayments')) {require('./p9AbilityDefinitions').checkCommand(room, command);}
   const approved = binder ? binder.bindCommand(room, player, command, authorization) : null;
   const conditionProfile = require('../shared/services/sharedConditionProfile');
   const authoredCondition = require('../shared/services/authoredCondition');
@@ -637,6 +675,7 @@ function finishStage(room, uid, command, authorization, confirmedRevision, next,
   if (mirrors.collisions.length) {fail('actor_binding_conflict');}
   next.tokens = mirrors.tokens; next.characterTokens = mirrors.characterTokens; next.gridItems = mirrors.gridItems;
   for (const actor of entries) {
+    if (actor.preserveCombatResources === true) {continue;}
     for (const combatant of next.combat?.turnOrder || []) {
       if (hash(combatant.actorRef) !== hash(actor.ref)) {continue;}
       combatant.currentHp = actor.finalResources.hp.current;
@@ -791,7 +830,7 @@ function authorityMetadataPath(value, depth = 0) {
   if (!value || typeof value !== 'object') {return null;}
   if (depth > 20) {return 'depth_limit';}
   for (const [key, child] of Object.entries(value)) {
-    if (['triggerLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences'].includes(key)) {return key;}
+    if (['triggerLedger', 'passiveLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'actorRelationships', 'companionRoster'].includes(key)) {return key;}
     const found = authorityMetadataPath(child, depth + 1);
     if (found) {return `${key}.${found}`;}
   }
@@ -801,6 +840,10 @@ function preserveImportedActorMetadata(gameState) {
   if (own(gameState, 'triggerLedger')) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedTriggerLedger: gameState.triggerLedger, reason: 'untrusted-local-import' };
     delete gameState.triggerLedger;
+  }
+  if (own(gameState, 'passiveLedger')) {
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedPassiveLedger: gameState.passiveLedger, reason: 'untrusted-local-import' };
+    delete gameState.passiveLedger;
   }
   if (own(gameState, 'authoredSpellRegistry')) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedAuthoredSpellRegistry: gameState.authoredSpellRegistry, reason: 'untrusted-local-import' };
@@ -832,6 +875,14 @@ function preserveImportedActorMetadata(gameState) {
         }
       }
     }
+  }
+  if (own(gameState, 'actorRelationships')) {
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedActorRelationships: gameState.actorRelationships, reason: 'untrusted-local-import' };
+    delete gameState.actorRelationships;
+  }
+  if (own(gameState, 'companionRoster')) {
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedCompanionRoster: gameState.companionRoster, reason: 'untrusted-local-import' };
+    delete gameState.companionRoster;
   }
   if (gameState.actorConsequences) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, imported: gameState.actorConsequences, reason: 'untrusted-local-import' };

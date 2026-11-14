@@ -251,4 +251,66 @@ function resolveTick(room, player, uid, request, confirmedRevision) {
   next.resolvedTicks = [...(next.resolvedTicks || []), tick.tickId].slice(-MAX_RESOLVED_TICKS);
   return staged;
 }
-module.exports = { roster, application, schedulable, validate, stage, validateResolve, resolveTick, retainOpenTicks, MAX_OPEN_TICKS, MAX_TICKS_PER_BOUNDARY };
+/**
+ * Re-anchor every retained schedule after an authoritative roster change. The caller has
+ * already inserted/removed the roster entry, set currentTurnIndex and updated positionKey.
+ * The clock id/sequence are never changed. A schedule whose target is not in the new roster
+ * is detached with a receipt record; a bound actor's own live schedule is refused before this
+ * helper runs. Returns change/detached records for the receipt; never silently drops a schedule.
+ */
+function reanchorForRoster(room, nextCombat) {
+  const clock = nextCombat.effectLifecycle;
+  if (!clock) { return { changes: [], detached: [] }; }
+  const order = nextCombat.turnOrder, index = nextCombat.currentTurnIndex, R = order.length;
+  const indexByRef = new Map(order.map((entry, i) => [actors.hash(entry.actorRef), i]));
+  const changes = [], detached = [], perSequence = new Map();
+
+  for (const [key, item] of Object.entries(clock.schedules || {})) {
+    if (item?.combatId !== clock.id) { continue; } // dead from an older clock; untouched
+    if (!item.ref || !item.recordId || !['start', 'end'].includes(item.boundary) ||
+        !Number.isSafeInteger(item.dueSequence)) {
+      actors.fail('stale_effect_schedule');
+    }
+    const targetIndex = indexByRef.get(actors.hash(item.ref));
+    if (targetIndex === undefined) {
+      // Only reachable for a pre-existing stale target or the explicit missing repair.
+      delete clock.schedules[key];
+      detached.push({ key, recordId: item.recordId, ref: item.ref, reason: 'target_not_in_roster' });
+      continue;
+    }
+    const resolved = actors.locate(room, item.ref);
+    const record = (resolved.token.state?.conditions || []).find(r => r?.recordId === item.recordId);
+    if (!record || !profile.validManagedRecord(record, item.ref) || actors.hash(record) !== item.recordHash) {
+      actors.fail('stale_effect_schedule');
+    }
+    const total = item.occurrences || 1;
+    const left = timing.remaining(item, clock.sequence);
+    if (left < 1 || left > total) { actors.fail('stale_effect_schedule'); }
+    const distance = (targetIndex - index + R) % R || R;
+    const nextBoundary = clock.sequence + distance + (item.boundary === 'end' ? 1 : 0);
+    if (!Number.isSafeInteger(nextBoundary)) { actors.fail('turn_clock_exhausted'); }
+    const from = { dueSequence: item.dueSequence, period: item.period ?? null,
+      occurrences: item.occurrences ?? 1, firstSequence: item.firstSequence ?? null };
+    const checkCount = total === 1 ? 1 : left;
+    for (let k = 0; k < checkCount; k += 1) {
+      const seq = nextBoundary + k * R;
+      perSequence.set(seq, (perSequence.get(seq) || 0) + 1);
+      if (perSequence.get(seq) > 32) { actors.fail('turn_expiry_capacity'); }
+    }
+    if (total === 1) {
+      item.dueSequence = nextBoundary;
+    } else {
+      item.firstSequence = nextBoundary;
+      item.firstOccurrence = total - left + 1;
+      item.period = R;
+      item.dueSequence = nextBoundary + (left - 1) * R;
+      if (!Number.isSafeInteger(item.dueSequence)) { actors.fail('turn_clock_exhausted'); }
+    }
+    changes.push({ key, recordId: item.recordId, ref: item.ref, from, to: { dueSequence: item.dueSequence,
+      period: item.period ?? null, occurrences: item.occurrences ?? 1, firstSequence: item.firstSequence ?? null,
+      firstOccurrence: item.firstOccurrence ?? null } });
+  }
+  if (Object.keys(clock.schedules || {}).length > 256) { actors.fail('turn_expiry_capacity'); }
+  return { changes, detached };
+}
+module.exports = { roster, application, schedulable, validate, stage, validateResolve, resolveTick, retainOpenTicks, reanchorForRoster, MAX_OPEN_TICKS, MAX_TICKS_PER_BOUNDARY };

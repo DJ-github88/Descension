@@ -300,6 +300,24 @@ function checkApproval(room, approval, primaryPc = false) {
        (approval.source.kind === 'character' && d.targeting?.restriction !== 'self' && (formula || d.targeting?.rangeFeet !== 0)))) {
     actors.fail('authored_target_mismatch');
   }
+  checkRelationshipTargets(room, approval, d);
   return entry;
+}
+// Approved source-relative symmetric relationship semantics: absent pair = neutral.
+// Only admitted ally-only/enemy-only restrictions consult the store; self/any rules are unchanged.
+function checkRelationshipTargets(room, approval, definition) {
+  const restriction = definition?.targeting?.restriction;
+  if (!['ally', 'enemy'].includes(restriction)) {return;}
+  const refs = Array.isArray(approval.targets) ? approval.targets : [approval.target];
+  if (!refs.length || refs.some(ref => !ref)) {return;}
+  const relationships = require('./actorRelationships');
+  for (let index = 0; index < refs.length; index += 1) {
+    const target = refs[index];
+    if (actors.hash(target) === actors.hash(approval.source)) {continue;}
+    if (relationships.get(room, approval.source, target) === restriction) {continue;}
+    const scope = refs.length > 1 ? ` (target ${index + 1} of ${refs.length})` : '';
+    actors.fail('target_relationship_mismatch',
+      `The admitted ability targets ${restriction === 'ally' ? 'allies' : 'enemies'} only${scope}. The selected target does not have that source-relative relationship. Nothing was applied or spent.`);
+  }
 }
 module.exports = { registry, list, lookup, checkApproval, creatureSource, creatureSources, planCreatureAdmission, checkCreatureAuthority };

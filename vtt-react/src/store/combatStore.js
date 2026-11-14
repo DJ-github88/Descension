@@ -101,8 +101,15 @@ const useCombatStore = create((set, get) => ({
 
             // Roll initiative or use supplied initiative through existing procedure
             const initiativeMod = creature.stats.initiativeMod !== undefined ? creature.stats.initiativeMod : Math.floor(((creature.stats.agility || 10) - 10) / 2);
+            const hasCustomInitiative = Boolean(
+                customInitiatives &&
+                customInitiatives[token.id] !== undefined &&
+                customInitiatives[token.id] !== null &&
+                customInitiatives[token.id] !== '' &&
+                Number.isFinite(Number(customInitiatives[token.id]))
+            );
             let initiative, d20Roll;
-            if (customInitiatives && Number.isFinite(Number(customInitiatives[token.id]))) {
+            if (hasCustomInitiative) {
                 initiative = Number(customInitiatives[token.id]);
                 d20Roll = initiative - initiativeMod;
             } else {
@@ -148,6 +155,7 @@ const useCombatStore = create((set, get) => ({
                 name: creature.name,
                 initiative,
                 d20Roll,
+                ...(hasCustomInitiative ? { customInitiative: true } : {}),
                 agilityMod: Math.floor((creature.stats.agility - 10) / 2),
                 initiativeMod,
                 tokenIcon: creature.tokenIcon,

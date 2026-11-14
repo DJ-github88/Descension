@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "description": "Reviewed server-held legacy P9 definitions. Generated from the authored class records and the client P9 support contract; never populated from a request.",
+  "generatedFrom": [
+    "vtt-react/src/data/classes/arcanoneerData.js",
+    "vtt-react/src/data/classes/minstrelData.js"
+  ],
+  "supportEnumeration": {
+    "method": "CLASS_DATA_MAP spells filtered by the client supportShape/readFormula/planClassPayment contract",
+    "classRecords": 2760,
+    "p9Supported": 5,
+    "cataloguePinnedExcluded": [
+      "martyr_restorative_prayer"
+    ],
+    "entries": 4
+  },
+  "entries": [
+    {
+      "classId": "arcanoneer",
+      "definitionId": "arc_spark_bolt",
+      "definitionHash": "p9-spell:v1/599898d64f316c34af68f1e94fa0aa4aa5c8c6f30ad1483eaf16eda444f243ca",
+      "recordHash": "599898d64f316c34af68f1e94fa0aa4aa5c8c6f30ad1483eaf16eda444f243ca",
+      "name": "Marrow-Piercing Slug",
+      "kind": "damage",
+      "damageTypes": ["arcane"],
+      "price": { "ap": 1, "mana": 4 },
+      "dice": [{ "count": 1, "sides": 8 }],
+      "constantRule": "intelligence_div_4",
+      "classPrice": { "costs": ["arcane", "arcane"], "gains": [] },
+      "paymentDomain": "elementalSpheres",
+      "source": "vtt-react/src/data/classes/arcanoneerData.js"
+    },
+    {
+      "classId": "minstrel",
+      "definitionId": "minstrel_harmonic_strike",
+      "definitionHash": "p9-spell:v1/baca878b4f8bd1133cfe5496ab716520007c50694817d10412765a52dd5b2521",
+      "recordHash": "baca878b4f8bd1133cfe5496ab716520007c50694817d10412765a52dd5b2521",
+      "name": "Harmonic Strike",
+      "kind": "damage",
+      "damageTypes": ["smashing", "stabbing", "slicing"],
+      "price": { "ap": 1, "mana": 4 },
+      "dice": [{ "count": 1, "sides": 8 }],
+      "constantRule": "zero",
+      "classPrice": { "costs": [], "gains": ["III", "III", "I"] },
+      "paymentDomain": "musicalNotes",
+      "source": "vtt-react/src/data/classes/minstrelData.js"
+    },
+    {
+      "classId": "minstrel",
+      "definitionId": "minstrel_opening_chord",
+      "definitionHash": "p9-spell:v1/c50d2e41042e81d6988e65daa8843d4c4d83a700064141b02cdc0bd92f189695",
+      "recordHash": "c50d2e41042e81d6988e65daa8843d4c4d83a700064141b02cdc0bd92f189695",
+      "name": "Opening Chord",
+      "kind": "damage",
+      "damageTypes": ["storm"],
+      "price": { "ap": 1, "mana": 4 },
+      "dice": [{ "count": 1, "sides": 6 }],
+      "constantRule": "zero",
+      "classPrice": { "costs": [], "gains": ["I", "I", "V"] },
+      "paymentDomain": "musicalNotes",
+      "source": "vtt-react/src/data/classes/minstrelData.js"
+    },
+    {
+      "classId": "minstrel",
+      "definitionId": "minstrel_resolving_strike",
+      "definitionHash": "p9-spell:v1/e6a1b7a12865b3db2d0a8d6e623ef55af20609d82b62338c9c4b898972c1985d",
+      "recordHash": "e6a1b7a12865b3db2d0a8d6e623ef55af20609d82b62338c9c4b898972c1985d",
+      "name": "Resolving Strike",
+      "kind": "damage",
+      "damageTypes": ["storm"],
+      "price": { "ap": 1, "mana": 4 },
+      "dice": [{ "count": 1, "sides": 8 }],
+      "constantRule": "spirit_score",
+      "classPrice": { "costs": ["I", "V"], "gains": [] },
+      "paymentDomain": "musicalNotes",
+      "source": "vtt-react/src/data/classes/minstrelData.js"
+    }
+  ]
+}

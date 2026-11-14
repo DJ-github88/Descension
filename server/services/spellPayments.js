@@ -1,7 +1,8 @@
 /** Original P9: named source-owned class payment adapter and owner approvals.
- * Typed shape and price-conservation checks only; no spell rules, dice, targeting,
- * mitigation or class pricing. Prices are prepared by the owning class domain on
- * the owner's client and bound here to the exact approved typed result.
+ * A P9 request is authorized only against the reviewed server-held definition table
+ * (`p9AbilityDefinitions`): exact id/hash/name/kind/damage types, AP/mana price, dice,
+ * formula reading and typed class payment. Catalogue-pinned spells are refused first.
+ * The approved typed result is bound here to the exact owner-approved outcome.
  */
 const actors = require('./actorConsequences');
 
@@ -11,42 +12,9 @@ const PITCHES = Object.freeze(['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']);
 const THRESHOLDS = Object.freeze([0, 10, 20, 40, 60, 80, 100]);
 const DOMAINS = Object.freeze(['elementalSpheres', 'musicalNotes', 'devotionGauge']);
 const CAPABILITY = 'p9-spell:v1';
-const APPROVED_MINSTREL_SPELLS = Object.freeze({
-  // Existing P9 builder, distinct from the held minstrel_harmony_strike.
-  minstrel_harmonic_strike: Object.freeze({
-    definitionId: 'minstrel_harmonic_strike',
-    definitionHash: 'p9-spell:v1/baca878b4f8bd1133cfe5496ab716520007c50694817d10412765a52dd5b2521',
-    name: 'Harmonic Strike',
-    kind: 'damage',
-    damageTypes: Object.freeze(['smashing', 'stabbing', 'slicing']),
-    price: Object.freeze({ ap: 1, mana: 4 }),
-    dice: Object.freeze([{ sides: 8, count: 1 }]),
-    constantRule: 'zero',
-    classPrice: Object.freeze({ costs: Object.freeze([]), gains: Object.freeze(['III', 'III', 'I']) }),
-  }),
-  minstrel_opening_chord: Object.freeze({
-    definitionId: 'minstrel_opening_chord',
-    definitionHash: 'p9-spell:v1/c50d2e41042e81d6988e65daa8843d4c4d83a700064141b02cdc0bd92f189695',
-    name: 'Opening Chord',
-    kind: 'damage',
-    damageTypes: Object.freeze(['storm']),
-    price: Object.freeze({ ap: 1, mana: 4 }),
-    dice: Object.freeze([{ sides: 6, count: 1 }]),
-    constantRule: 'zero',
-    classPrice: Object.freeze({ costs: Object.freeze([]), gains: Object.freeze(['I', 'I', 'V']) }),
-  }),
-  minstrel_resolving_strike: Object.freeze({
-    definitionId: 'minstrel_resolving_strike',
-    definitionHash: 'p9-spell:v1/e6a1b7a12865b3db2d0a8d6e623ef55af20609d82b62338c9c4b898972c1985d',
-    name: 'Resolving Strike',
-    kind: 'damage',
-    damageTypes: Object.freeze(['storm']),
-    price: Object.freeze({ ap: 1, mana: 4 }),
-    dice: Object.freeze([{ sides: 8, count: 1 }]),
-    constantRule: 'spirit_score',
-    classPrice: Object.freeze({ costs: Object.freeze(['I', 'V']), gains: Object.freeze([]) }),
-  }),
-});
+// One server-held table authorizes both the Minstrel specs and every other reviewed P9 definition.
+const p9Definitions = require('./p9AbilityDefinitions');
+const APPROVED_MINSTREL_SPELLS = p9Definitions.specsForClass('minstrel');
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const approvals = new WeakMap();
 const condition = require('../shared/services/authoredCondition');
@@ -191,7 +159,8 @@ function validateApprovalShape(approval, creature = false) {
   if (area) {
     if (creature) fail('unsupported_source_route');
     if (!authored.isAreaRollProcedureApproved()) fail('area_roll_procedure_unapproved', authored.AREA_ROLL_UNAPPROVED_REASON);
-    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'targets', 'areaTerms', 'areaOrigin', 'areaRollProcedure', 'spell', 'roll', 'rollAttributes', 'formulaSourceRevision', 'formulaSourceHash', 'price', 'classPayment']);
+    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'targets', 'areaTerms', 'areaOrigin', 'areaRollProcedure', 'spell', 'roll', 'rollAttributes', 'formulaSourceRevision', 'formulaSourceHash', 'price', 'classPayment', 'triggerOfferId']);
+    if (approval.triggerOfferId !== undefined && !/^[0-9a-f]{64}$/.test(approval.triggerOfferId)) {fail('invalid_spell_approval');}
     if (approval.version !== 1 || !text(approval.roomId) || !UUID.test(approval.approvalId || '') || !text(approval.actionEpoch) || !int(approval.baseCommitSequence) ||
       actors.bytes(approval) > 32768 || !authored.isAuthored(approval.spell) || approval.areaRollProcedure !== authored.AREA_ROLL_PROCEDURE) fail('invalid_spell_approval');
     keys(approval.areaTerms, ['kind', 'aoeShape', 'radiusFeet', 'rangeFeet', 'maxTargets', 'restriction']);
@@ -220,7 +189,8 @@ function validateApprovalShape(approval, creature = false) {
     if (approval.formulaSourceRevision !== undefined && !int(approval.formulaSourceRevision)) fail('invalid_spell_approval');
     if (approval.formulaSourceHash !== undefined && !/^[0-9a-f]{64}$/.test(approval.formulaSourceHash || '')) fail('invalid_spell_approval');
   } else {
-    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment', ...(creature ? ['sourceAuthority', ...(condition.isCondition(approval) || bundle ? ['resolution'] : [])] : condition.isCondition(approval) ? ['conditionTerms'] : []), ...(bundle ? ['effectTerms'] : []), ...(authored.isFormulaBundle(approval) ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(composed ? ['effectTerms', 'disclosure', 'rollAttributes'] : []), ...(formula ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(authored.isHealth(approval) ? ['rollHealth'] : [])]);
+    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment', ...(creature ? ['sourceAuthority', ...(condition.isCondition(approval) || bundle ? ['resolution'] : [])] : condition.isCondition(approval) ? ['conditionTerms'] : []), ...(bundle ? ['effectTerms'] : []), ...(authored.isFormulaBundle(approval) ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(composed ? ['effectTerms', 'disclosure', 'rollAttributes'] : []), ...(formula ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(authored.isHealth(approval) ? ['rollHealth'] : []), ...(creature ? [] : ['triggerOfferId'])]);
+    if (!creature && approval.triggerOfferId !== undefined && !/^[0-9a-f]{64}$/.test(approval.triggerOfferId)) {fail('invalid_spell_approval');}
     if (authored.isHealth(approval)) {
       keys(approval.rollHealth, ['current', 'max']);
       if (!int(approval.rollHealth.current, 0, 100000) || !int(approval.rollHealth.max, 0, 100000) || approval.target?.kind !== 'creature' || approval.classPayment !== null) fail('invalid_spell_approval');
@@ -340,12 +310,34 @@ function selfState(room, approval) {
   const source = actors.locate(room, approval.source);
   return hash({ contract: source.contract, resources: actors.resources(source.token, 'creature'), conditions: source.token.state?.conditions || [] });
 }
+/** Server-derived source-relative relationship binding for admitted ally/enemy restrictions.
+ * Unrestricted/self approvals return null and keep their existing stale-input behavior. */
+function relationshipState(room, approval) {
+  const authored = require('../shared/services/authoredAbility');
+  if (!approval?.spell || !(authored.isAuthored(approval.spell) || authored.isFormula(approval) || authored.isArea(approval))) {return null;}
+  const entry = require('./installedAuthoredAbilities').lookup(room, approval.spell);
+  const restriction = entry.canonicalDefinition?.targeting?.restriction;
+  if (!['ally', 'enemy'].includes(restriction)) {return null;}
+  const targets = Array.isArray(approval.targets) ? approval.targets : [approval.target];
+  if (!targets.length || targets.some(target => !target)) {return null;}
+  const relationships = require('./actorRelationships');
+  return hash(targets.map(target => [hash(target), relationships.get(room, approval.source, target)]));
+}
+function checkRelationshipRevalidation(room, entry) {
+  if (entry.relationshipState === undefined || entry.relationshipState === null) {return;}
+  if (relationshipState(room, entry.approval) !== entry.relationshipState) {
+    fail('owner_reapproval_required', 'The source-relative relationship between the caster and a selected target changed after approval. Nothing was applied or spent. Review the target and approve again.');
+  }
+}
 /** Checks an approval against current authoritative room state. */
 function checkAgainstRoom(room, approval) {
+  require('./catalogueP9Gate').check(room, approval);
+  p9Definitions.check(room, approval);
   const authored = require('../shared/services/authoredAbility');
   if (authored.isAuthored(approval.spell) || authored.isFormula(approval) || authored.isArea(approval) || approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`)) {
     require('./installedAuthoredAbilities').checkApproval(room, approval);
   }
+  if (approval.triggerOfferId !== undefined) {require('./committedTriggers').checkOfferApproval(room, approval);}
   actors.assertCanAct(room, approval.source);
   const source = actors.locate(room, approval.source);
   if (authored.isArea(approval)) {
@@ -373,9 +365,6 @@ function checkAgainstRoom(room, approval) {
   }
   if (approval.source.kind === 'creature') { validPool(pools.ap); if (!condition.isCondition(approval)) validPool(actors.resources(target.token, approval.target.kind).hp); }
   else if (hash(approval.source) === hash(approval.target) && !condition.isCondition(approval)) { validPool(actors.resources(target.token, approval.target.kind).hp); }
-  if (approval.source.kind === 'character' && source.token?.character?.class === 'Minstrel' && approval.spell.definitionHash.startsWith(`${CAPABILITY}/`)) {
-    validateMinstrelSpellApproval(approval);
-  }
   if (approval.classPayment) {
     if (hash(home(source.token)) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) {fail('class_home_required');}
   }
@@ -397,6 +386,7 @@ function add(room, entry) {
   if (entry.approval.source.kind === 'creature' ? listAll(room).some(e => hash(e.approval.source) === hash(entry.approval.source)) : pendingFor(room, entry.approval.source.ownerUid, entry.approval.source.characterId)) {fail('approval_pending');}
   if ((closedApprovals.get(room)?.size || 0) + entries.size >= CLOSED_LIMIT) {fail('approval_capacity');}
   if (entries.size >= 32 || actors.bytes(Array.from(entries.values()).map(value => value.approval).concat(entry.approval)) > 512 * 1024) {fail('approval_capacity');}
+  if (entry.relationshipState === undefined) {entry.relationshipState = relationshipState(room, entry.approval);}
   entries.set(entry.approval.approvalId, entry);
   return entry;
 }
@@ -448,6 +438,9 @@ function bindCommand(room, player, command, authorization) {
   }
   if (entry.contentHash !== command.approval.contentHash) {fail('command_id_conflict');}
   const { approval } = entry;
+  require('./catalogueP9Gate').check(room, approval);
+  p9Definitions.check(room, approval);
+  checkRelationshipRevalidation(room, entry);
   if (condition.isCondition(approval)) return bindCondition(room, player, command, authorization, entry);
   if (effect.isEffect(approval)) return bindEffect(room, player, command, authorization, entry);
   if (classEffect.isClassEffect(approval)) return bindClassEffect(room, player, command, authorization, entry);
@@ -600,6 +593,17 @@ function bindCondition(room, player, command, authorization, entry) {
   if (hash(command.actors) !== hash(expected)) fail('approval_mismatch');
   return entry;
 }
+/** A10 direct part: its own committed HP arithmetic, temporary HP first for damage and the maximum-HP cap for healing. The bundle
+ * binder pins the target's final pool to exactly `final`; the trigger ledger reads this same function as that part's provenance
+ * (handoff/component-scoped-trigger-execution). The bundle's condition part never changes HP at cast. Pure; no room access. */
+function directPartResult(hp, kind, amount) {
+  if (kind === 'damage') {
+    const fromTemp = Math.min(hp.temp, amount), final = { current: Math.max(0, hp.current - (amount - fromTemp)), temp: hp.temp - fromTemp };
+    return { final, baseHpLost: hp.current - final.current, tempHpAbsorbed: fromTemp };
+  }
+  const final = { current: Math.min(hp.max, hp.current + amount), temp: hp.temp };
+  return { final, hpRestored: final.current - hp.current };
+}
 // A10: one GM-confirmed bundle — payment, optional direct HP change and one canonical effect (with any
 // structured C4 schedule, installed by the P7 stage) — or nothing. Terms are bound to the installed definition.
 function bindEffect(room, player, command, authorization, entry) {
@@ -668,8 +672,7 @@ function bindEffect(room, player, command, authorization, entry) {
   if (direct) {
     const hp = actors.resources(target.token, a.target.kind).hp;
     validPool(hp);
-    const fromTemp = Math.min(hp.temp, amount);
-    targetEntry.finalResources = { hp: direct.kind === 'damage' ? { current: Math.max(0, hp.current - (amount - fromTemp)), temp: hp.temp - fromTemp } : { current: Math.min(hp.max, hp.current + amount), temp: hp.temp } };
+    targetEntry.finalResources = { hp: directPartResult(hp, direct.kind, amount).final };
   }
   const expected = [{ ref: a.source, expectedRevision: source.contract.revision, finalResources: payment,
     ...(a.classPayment ? { classPayment: { mode: 'spell', domain: a.classPayment.domain, approvalHash: entry.contentHash } } : {}) }, targetEntry];
@@ -794,6 +797,7 @@ function checkTargetAcceptance(room, entry) {
   if (p.mode === 'voluntary' && (p.withdrawn || p.acceptedUid !== entry.approval.target.ownerUid)) fail('target_acceptance_required');
 }
 const conditionProfile = require('../shared/services/sharedConditionProfile');
-module.exports = { CAPABILITY, DOMAINS, ELEMENTS, PITCHES, APPROVED_MINSTREL_SPELLS, validateValue, validatePrice, validateMinstrelSpellApproval, conserve, publicValue, home, validateEntry, validateApproval, validateCreatureApproval,
+module.exports = { directPartResult, CAPABILITY, DOMAINS, ELEMENTS, PITCHES, APPROVED_MINSTREL_SPELLS, validateValue, validatePrice, validateMinstrelSpellApproval, conserve, publicValue, home, validateEntry, validateApproval, validateCreatureApproval,
   validateRoll, tempFirst, selfState, checkAgainstRoom, checkWindow, get, add, remove, listAll, close, closedCode, closedEntry, pendingFor, consumedReceipt, gmProjection, bindCommand, ownerMember,
   targetTerms, targetProposal, checkTargetAcceptance, targetConsent, ensureTargetPolicy };
+

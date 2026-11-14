@@ -3,11 +3,13 @@ import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
+import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
 import { getCreatureTokenIconUrl, getIconUrl } from '../../utils/assetManager';
 import { createPortal } from 'react-dom';
 import TurnTimer from './TurnTimer';
 import CombatConfigModal from './CombatConfigModal';
+import CombatRosterControls from '../gm-tools/CombatRosterControls';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import './CombatTimeline.css';
 
@@ -29,6 +31,8 @@ const CombatTimeline = () => {
     } = useCombatStore();
 
     const { creatures } = useCreatureStore();
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const isInMultiplayer = useGameStore(state => state.isInMultiplayer);
     const windowScale = useSettingsStore(state => state.windowScale);
 
     const [showTooltip, setShowTooltip] = useState(false);
@@ -386,6 +390,11 @@ const CombatTimeline = () => {
                                             </div>
                                         );
                                     })}
+                                    {isGMMode && isInMultiplayer && (
+                                        <div className="timeline-roster" style={{ flexBasis: '100%', width: '100%' }}>
+                                            <CombatRosterControls />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </Resizable>

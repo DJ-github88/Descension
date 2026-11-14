@@ -41,6 +41,29 @@ function manualOnlyText(label) {
   return `Saving throw${label ? ` (${label})` : ''}: manual only — Prism cannot run this save shape as authored. Resolve it at the table; the GM records the outcome.`;
 }
 
+/** The compiler refused this record at its stored trigger section first. */
+function triggerRefusal(reason) {
+  return /^(triggers?|triggerConfig):/i.test(String(reason || ''));
+}
+
+/**
+ * A save component the compiler has not evaluated because a different stored section was
+ * refused first. Describe the authored save and the whole-record verdict without claiming
+ * the save shape itself is unsupported.
+ */
+function recordManualText({ label, raw, authored, directKind, reason }) {
+  const rider = riderLabelOf(authored);
+  const direct = directKind ? `direct ${directKind}` : 'direct damage or healing';
+  const stopped = reason ? ` Prism stopped at ${reason}` : ' See execution compatibility for the blocking section.';
+  const supportedTerms = raw?.outcome === 'negates' && ABILITY_NAMES[raw?.ability] && Number.isSafeInteger(raw?.dc);
+
+  if (!supportedTerms) {
+    return `Save component${label ? ` (${label})` : ''}: the authored save is preserved as written. The whole ability is manual —${stopped}`;
+  }
+
+  return `Save component${label ? ` (${label})` : ''}: ${manualText({ ability: raw.ability, dc: raw.dc, outcome: raw.outcome })} On a save, only the rider "${rider}" is negated; the ${direct} part still applies on both outcomes. The whole ability is manual —${stopped}`;
+}
+
 /**
  * Computes the disclosure from a compiler-bearing saved record (stored record with
  * `authoredDraft`, or the Review's `draftSubject`). Returns null when the record
@@ -55,12 +78,28 @@ export function saveDisclosureForRecord(record, { riderLabel } = {}) {
   const result = definitionFromWizard(record, { classId: 'arcanoneer', definitionVersion: 1 });
   const label = labelFor(null, raw);
   if (!result.ok || !result.definition?.effects?.save) {
-    return { executable: false, text: manualOnlyText(label), label, save: null };
+    if (!result.ok && triggerRefusal(result.reason)) {
+      return {
+        executable: false,
+        status: 'record-manual',
+        text: recordManualText({
+          label,
+          raw,
+          authored,
+          directKind: draft?.damageConfig ? 'damage' : draft?.healingConfig ? 'healing' : null,
+          reason: result.reason
+        }),
+        label,
+        save: null
+      };
+    }
+    return { executable: false, status: 'unsupported-shape', text: manualOnlyText(label), label, save: null };
   }
 
   const save = result.definition.effects.save;
   return {
     executable: true,
+    status: 'executable',
     text: executableText(save, riderLabel || riderLabelOf(authored), result.definition.effects.direct?.kind),
     label: labelFor(save, raw),
     save

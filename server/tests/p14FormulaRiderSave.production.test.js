@@ -267,15 +267,22 @@ describe('Formula-rider saves — attribute-scaled immediate part + one movement
     });
   }
 
-  it('both outcomes keep the timed-save scheduling precondition: without a clock or with the target off the roster, saved and failed refuse (nothing spent, approval pending); the same approval commits once the clock is live', async() => {
+  it('both outcomes keep the timed-save scheduling precondition: without a clock or with the target off the roster, saved and failed refuse (nothing spent, approval pending); after the clock change a fresh approval commits once', async() => {
     const ref = await admitPc(saveRecord());
-    const a = formulaApproval(ref, { faces: [[4, 4]] }); await approve(a);
+    let a = formulaApproval(ref, { faces: [[4, 4]] }); await approve(a);
     for (const branch of ['saved', 'failed']) {
       const st = world(), x = await ack(gm, 'actor_consequence', command(a, { branch }));
       assert.equal(x.success, false); assert.equal(x.code, 'effect_schedule_unavailable', `${branch}: ${JSON.stringify(x)}`); assert.deepEqual(world(), st, branch);
     }
     assert.ok(payments.get(live(), a.approvalId), 'approval stays pending');
     await startCombat(); await adopt();
+    assert.equal(payments.closedCode(live(), a.approvalId), 'combat_clock_changed');
+    for (const branch of ['saved', 'failed']) {
+      const st = world(), x = await ack(gm, 'actor_consequence', command(a, { branch }));
+      assert.equal(x.code, 'approval_combat_clock_changed', `${branch}: ${JSON.stringify(x)}`); assert.deepEqual(world(), st, branch);
+    }
+    assert.equal(payments.get(live(), a.approvalId), null, 'the stale approval was closed, not consumed');
+    a = formulaApproval(ref, { faces: [[4, 4]] }); await approve(a);
     const before = pools(), r = await accept(command(a, { branch: 'saved' }));
     assert.equal(chosen(r).branch, 'saved'); assert.equal(moves(target).length, 0); assert.equal(spent(before, pools(), 'mana'), 3);
     const off = formulaApproval(ref, { t: other, faces: [[6, 6]] }); await approve(off);

@@ -14,6 +14,7 @@ const pure = require('../../vtt-react/src/services/authoredAbility');
 const effect = require('../../vtt-react/src/services/authoredEffect');
 const profile = require('../../vtt-react/src/services/sharedConditionProfile');
 const timing = require('../../vtt-react/src/services/sharedEffectTiming');
+const relationships = require('../services/actorRelationships');
 const once = (s, e) => new Promise(r => s.once(e, r));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const ack = (s, e, d) => new Promise((resolve, reject) => { const t = setTimeout(() => reject(Error(e)), 5000); s.emit(e, d, r => { clearTimeout(t); resolve(r); }); });
@@ -39,7 +40,7 @@ describe('Timed save-dependent effects — GM-recorded save branch with authenti
   beforeEach(async() => {
     writer = new FirebaseBatchWriter(60000, 50, { shouldPersist: () => true, persist: async() => ({ outcome: 'confirmed' }) });
     server = createProductionStackServer({ firebaseBatchWriter: writer }); await server.start();
-    for (const e of ['actor_bind', 'actor_snapshot', 'actor_consequence', 'actor_authored_admit', 'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_list', 'actor_turn_boundary', 'combat_started', 'combat_ended'])
+    for (const e of ['actor_bind', 'actor_snapshot', 'actor_consequence', 'actor_authored_admit', 'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_list', 'actor_turn_boundary', 'combat_started', 'combat_ended', 'actor_relationship_set'])
     {server.setEventLimits(e, { maxPerMinute: 4000, maxPerSecond: 4000 });}
     const gmUid = server.nextUserId(); ownerUid = server.nextUserId();
     server.registerAuthToken('gm', gmUid); server.registerAuthToken('owner', ownerUid); server.registerAuthToken('observer', server.nextUserId());
@@ -57,6 +58,7 @@ describe('Timed save-dependent effects — GM-recorded save branch with authenti
     m().characterTokens.pc = { id: 'pc', ownerUserId: ownerUid, character: { id: 'c', class: 'Arcanoneer', health: { current: 20, max: 30 }, mana: { current: 40, max: 40 }, actionPoints: { current: 10, max: 10 }, tempMana: 0, tempActionPoints: 0 }, state: { conditions: [] } };
     pc = (await ack(gm, 'actor_bind', { roomId: room.id, ref: { kind: 'character', roomId: room.id, mapId: 'default', tokenId: 'pc', ownerUid, characterId: 'c' }, snapshotHash: actors.hash(m().characterTokens.pc) })).ref;
     assert.ok(pc);
+    await setRelation(pc, target, 'enemy');
   });
   afterEach(async() => { gm.disconnect(); owner.disconnect(); observer.disconnect(); await server.stop(); });
 
@@ -116,6 +118,12 @@ describe('Timed save-dependent effects — GM-recorded save branch with authenti
   }
   const remove = (ref, recordId) => ({ ...base(), actors: [{ ref, expectedRevision: token(ref).state.actorContract.revision, conditions: [{ op: 'remove', recordId }] }],
     adjudication: { definitionId: 'gm-correction', definitionVersionOrHash: 'gm-correction', finalAmount: 0, adjustmentReason: '', chosenResult: 'GM exact removal' } });
+  async function setRelation(a, b, value) {
+    const result = await ack(gm, 'actor_relationship_set', { version: 1, roomId: room.id, commandId: uuid(),
+      actionEpoch: actors.epoch(live()), baseCommitSequence: actors.ledger(live()).commitSequence,
+      pairs: [{ a, b }], value, expectedRelationshipRevision: relationships.revision(live()) });
+    assert.equal(result.success, true, JSON.stringify(result));
+  }
   const snapshot = () => ({ hp: hp(target), pools: pools(), conditions: actors.clone(token(target).state.conditions), schedules: actors.clone(lifecycle()?.schedules || null), receipts: actors.ledger(live()).receipts.length });
 
   it('admission: next start/end and counted expiries compile with the save under their own compiler id; invalid timing is refused with the save selected; manual-expiry save bundles keep theirs', () => {
@@ -186,24 +194,33 @@ describe('Timed save-dependent effects — GM-recorded save branch with authenti
     step = await advance(); assert.equal(seq(), 4); assert.deepEqual(chosen(step.r).expired, [a.approvalId]); assert.equal(speed(target), 30);
   });
 
-  it('missing tracking, target outside the roster, retired or stale clock and full schedule capacity refuse BOTH outcomes alike with nothing charged; the approval then executes once', async() => {
+  it('missing tracking, target outside the roster, retired or stale clock and full schedule capacity refuse BOTH outcomes alike with nothing charged; a fresh approval under the resulting clock then executes once', async() => {
     const ref = await admitPc(wizardRecord());
-    const a = await cast(ref), both = async code => { for (const branch of ['saved', 'failed']) {await refused('actor_consequence', command(a, { branch }), code);} };
+    let a = await cast(ref);
+    const both = async (approval, code) => { for (const branch of ['saved', 'failed']) {await refused('actor_consequence', command(approval, { branch }), code);} };
+    const stale = async approval => {
+      assert.equal(payments.closedCode(live(), approval.approvalId), 'combat_clock_changed');
+      await both(approval, 'approval_combat_clock_changed');
+      assert.equal(payments.get(live(), approval.approvalId), null, 'the stale approval was closed, not consumed');
+    };
     const start = snapshot();
-    await both('effect_schedule_unavailable'); // no combat
-    await startCombat([pc, target, other]); await both('effect_schedule_unavailable'); // combat without an authenticated clock
-    await ack(gm, 'combat_ended', { roomId: room.id }); await startCombat([pc, other]); await adopt(); await both('effect_schedule_unavailable'); // target outside the exact roster
-    await ack(gm, 'combat_ended', { roomId: room.id }); await startCombat([pc, target, other]); await adopt();
-    const retiredId = lifecycle().id; await ack(gm, 'combat_ended', { roomId: room.id }); await both('effect_schedule_unavailable'); // retired clock
-    await startCombat([pc, target, other]); await adopt(); assert.notEqual(lifecycle().id, retiredId);
+    await both(a, 'effect_schedule_unavailable'); // no combat
+    await startCombat([pc, target, other]); await stale(a); a = await cast(ref);
+    await both(a, 'effect_schedule_unavailable'); // combat without an authenticated clock
+    await ack(gm, 'combat_ended', { roomId: room.id }); await startCombat([pc, other]); await adopt(); await stale(a); a = await cast(ref);
+    await both(a, 'effect_schedule_unavailable'); // target outside the exact roster
+    await ack(gm, 'combat_ended', { roomId: room.id }); await startCombat([pc, target, other]); await adopt(); await stale(a);
+    const retiredId = lifecycle().id; await ack(gm, 'combat_ended', { roomId: room.id }); a = await cast(ref);
+    await both(a, 'effect_schedule_unavailable'); // retired clock
+    await startCombat([pc, target, other]); await adopt(); assert.notEqual(lifecycle().id, retiredId); await stale(a); a = await cast(ref);
     const order = actors.clone(live().gameState.combat.turnOrder); live().gameState.combat.turnOrder.reverse(); // stale clock: roster changed without a boundary
-    assert.equal(timing.clock(live().gameState.combat), null); await both(); live().gameState.combat.turnOrder = order;
+    assert.equal(timing.clock(live().gameState.combat), null); await both(a, 'effect_schedule_unavailable'); live().gameState.combat.turnOrder = order;
     for (let i = 0; i < 256; i++) {lifecycle().schedules[`filler-${i}`] = { combatId: lifecycle().id, dueSequence: 1000 + i };}
-    await both('effect_schedule_unavailable'); for (let i = 0; i < 256; i++) {delete lifecycle().schedules[`filler-${i}`];}
+    await both(a, 'effect_schedule_unavailable'); for (let i = 0; i < 256; i++) {delete lifecycle().schedules[`filler-${i}`];}
     for (let i = 0; i < 32; i++) {lifecycle().schedules[`filler-${i}`] = { combatId: lifecycle().id, dueSequence: 2 };} // the rider's own due boundary is full
-    await both('effect_schedule_unavailable'); for (let i = 0; i < 32; i++) {delete lifecycle().schedules[`filler-${i}`];}
+    await both(a, 'effect_schedule_unavailable'); for (let i = 0; i < 32; i++) {delete lifecycle().schedules[`filler-${i}`];}
     assert.deepEqual({ hp: hp(target), pools: pools(), conditions: token(target).state.conditions }, { hp: start.hp, pools: start.pools, conditions: start.conditions }, 'no charge, no HP, no rider');
-    assert.ok(payments.get(live(), a.approvalId), 'the owner approval is still pending (never silently converted to manual expiry)');
+    assert.ok(payments.get(live(), a.approvalId), 'the fresh approval is still pending (never silently converted to manual expiry)');
     const r = await accept(command(a, { branch: 'saved' })); assert.equal(receiptsFor(r.receipt.commandId).length, 1); assert.equal(hp(target), start.hp - 8);
   });
 

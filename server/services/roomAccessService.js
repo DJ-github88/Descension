@@ -579,7 +579,7 @@ const SHARED_CHARACTER_FIELDS = Object.freeze([
   'id', 'name', 'class', 'race', 'subrace', 'raceDisplayName', 'level',
   'health', 'mana', 'actionPoints',
   'tempHealth', 'tempMana', 'tempActionPoints', 'exhaustionLevel',
-  'classResource', 'stats', 'equipment', 'alignment', 'background',
+  'classResource', 'stats', 'skillRanks', 'equipment', 'alignment', 'background',
   'damageReduction', 'durability', 'movementSpeed', 'resistances', 'immunities',
   'racialTraits', 'tokenSettings', 'isPlayerToken', 'playerId'
 ]);
@@ -595,8 +595,30 @@ const SHARED_CHARACTER_SCALAR_FIELDS = new Set([
 // Actual supported public stat keys. Arbitrary stats.* keys (including nested
 // blobs such as stats.inventory or stats.secretBlob) never pass.
 const SUPPORTED_STAT_KEYS = Object.freeze([
-  'strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'
+  'strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'initiativeMod'
 ]);
+
+const SUPPORTED_SKILL_RANKS = new Set([
+  'UNTRAINED', 'NOVICE', 'TRAINED', 'APPRENTICE', 'ADEPT', 'EXPERT', 'MASTER'
+]);
+const SKILL_KEY_RE = /^[A-Za-z][A-Za-z0-9_-]{0,47}$/;
+
+function projectSkillRanksForClient(skillRanks) {
+  if (!skillRanks || typeof skillRanks !== 'object' || Array.isArray(skillRanks)) {return null;}
+  const entries = Object.entries(skillRanks);
+  if (entries.length > 64) {return null;}
+  const out = {};
+  for (const [key, raw] of entries) {
+    if (!SKILL_KEY_RE.test(key)) {continue;}
+    if (typeof raw === 'string' && SUPPORTED_SKILL_RANKS.has(raw.trim().toUpperCase())) {
+      out[key] = raw.trim().toUpperCase();
+    } else if (raw && typeof raw === 'object' && !Array.isArray(raw) &&
+               typeof raw.rank === 'string' && SUPPORTED_SKILL_RANKS.has(raw.rank.trim().toUpperCase())) {
+      out[key] = raw.rank.trim().toUpperCase();
+    }
+  }
+  return out;
+}
 
 const RESOURCE_PAIR_KEYS = Object.freeze(['health', 'mana', 'actionPoints']);
 
@@ -852,6 +874,11 @@ function projectCharacterForClient(character) {
       if (projected !== null) {out[key] = projected;}
       continue;
     }
+    if (key === 'skillRanks') {
+      const projected = projectSkillRanksForClient(value);
+      if (projected !== null) {out[key] = projected;}
+      continue;
+    }
     if (key === 'equipment') {
       out[key] = projectEquipmentForClient(value);
       continue;
@@ -1060,6 +1087,18 @@ function projectTokenDictionary(tokens) {
   return out;
 }
 
+function projectCompanionEntry(entry, options = {}) {
+  return require('./companionRoster').projectEntry(entry, options.authority === true);
+}
+
+function projectCompanionRosterForClient(room, uid, isGM) {
+  return require('./companionRoster').list(room, uid, isGM === true);
+}
+
+function projectRelationshipForClient(room, a, b) {
+  return require('./actorRelationships').get(room, a, b);
+}
+
 /**
  * Redact private player/character data from an outbound shared game-state
  * projection. Raw stored/checkpoint data is never mutated.
@@ -1070,6 +1109,9 @@ function projectGameStateForClient(gameState) {
   delete out.actorConsequenceRecovery; // Preserved private import evidence, never a public receipt lane.
   delete out.authoredSpellRegistry; // P14-A1: explicit public capability lookup, no raw decisions.
   delete out.triggerLedger; // Shared trigger foundation v1: explicit viewer projection only (actor_trigger_list).
+  delete out.passiveLedger; // First playable passive activation v1: explicit viewer projection only (actor_passive_list).
+  delete out.actorRelationships; // Recruitment relationship store: explicit viewer projection only.
+  delete out.companionRoster; // Recruitment roster store: explicit safe projection only.
   if (out.actorConsequences) {
     const ledger = out.actorConsequences;
     out.actorConsequences = ledger.version === 1 ? {
@@ -1783,6 +1825,9 @@ module.exports = {
   projectPlayerForClient,
   projectPlayersForClient,
   projectGameStateForClient,
+  projectCompanionEntry,
+  projectCompanionRosterForClient,
+  projectRelationshipForClient,
   projectMapDataForClient,
   projectRootMapDataForClient,
   buildRoomProjection,

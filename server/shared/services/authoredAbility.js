@@ -75,6 +75,72 @@ function disabled(config, path) {
 const defaultTriggers = { global: { logicType: 'AND', compoundTriggers: [] }, effectTriggers: {}, conditionalEffects: {}, buffDebuffTriggers: {}, requiredConditions: { enabled: false, logicType: 'AND', conditions: [] }, triggerRole: { mode: 'CONDITIONAL' } };
 const loadedDefaultTriggers = { global: { logicType: 'AND', compoundTriggers: [] }, effectTriggers: {}, conditionalEffects: {} };
 const loadedDefaultMechanics = { cards: null, combos: null, coins: null, stateRequirements: [], stateOptions: { thresholds: [] } };
+// The first, and only, approved Wizard-authored executable trigger: this ability is the named
+// follow-up offered after its primary owner PC's committed immediate damage removes base HP.
+const FOLLOWUP_TRIGGER = 'authored-followup-trigger:v1';
+const FOLLOWUP_TRIGGER_ID = 'follow_up_after_damage';
+// The second approved Wizard-authored executable trigger (creator approval H1-H3, 13 November 2026): this ability is the
+// named follow-up offered after its primary owner PC's committed immediate healing actually restores HP to a creature or
+// to another primary player character. A separate id, category and marker: the damage shape above is unchanged.
+const FOLLOWUP_HEALING_TRIGGER = 'authored-followup-healing-trigger:v1';
+const FOLLOWUP_HEALING_TRIGGER_ID = 'follow_up_after_healing';
+const FOLLOWUP_MARKERS = Object.freeze([FOLLOWUP_TRIGGER, FOLLOWUP_HEALING_TRIGGER]);
+const FOLLOWUP_SHAPES = Object.freeze([Object.freeze({ id: FOLLOWUP_TRIGGER_ID, category: 'combat', marker: FOLLOWUP_TRIGGER }),
+  Object.freeze({ id: FOLLOWUP_HEALING_TRIGGER_ID, category: 'health', marker: FOLLOWUP_HEALING_TRIGGER })]);
+const exactKeys = (value, names) => !!value && typeof value === 'object' && !Array.isArray(value) &&
+  Object.keys(value).sort().join('|') === names.slice().sort().join('|');
+/** The marker of the one supported authored trigger shape this config is (damage or healing follow-up, global only);
+ * null for the established inert defaults. Every other non-default trigger section is refused whole (never stripped
+ * or partially compiled). Each id is accepted under exactly one category. */
+function followUpTriggerFor(config) {
+  if (empty(config)) { return null; }
+  only(config, ['global', 'effectTriggers', 'conditionalEffects', 'buffDebuffTriggers', 'requiredConditions', 'triggerRole'], 'triggerConfig');
+  // F1 compatibility: reuse the installed BASE inert-trigger predicate before the supported shape.
+  // Every established no-trigger combination keeps its BASE admission behavior, including omitted
+  // empty effect/conditional/buff containers and the default global/required/trigger-role set.
+  // The catalogue-prepared partial load default is handled by the catalogue branch before this helper
+  // and is intentionally not accepted here: BASE refused it on the ordinary path.
+  if (canonical(config.global) === canonical({ logicType: 'AND', compoundTriggers: [] }) &&
+      empty(config.effectTriggers) && empty(config.conditionalEffects) && empty(config.buffDebuffTriggers) &&
+      canonical(config.requiredConditions) === canonical({ enabled: false, logicType: 'AND', conditions: [] }) &&
+      canonical(config.triggerRole) === canonical({ mode: 'CONDITIONAL' })) { return null; }
+  const triggers = config.global?.compoundTriggers;
+  const trigger = Array.isArray(triggers) && triggers.length === 1 ? triggers[0] : null;
+  const shape = trigger && typeof trigger === 'object' ? FOLLOWUP_SHAPES.find(item => item.id === trigger.id) : null;
+  if (!exactKeys(config.global, ['logicType', 'compoundTriggers']) || config.global.logicType !== 'AND' || !trigger ||
+      !exactKeys(trigger, ['id', 'category', 'name', 'parameters']) || !shape ||
+      trigger.category !== shape.category || typeof trigger.name !== 'string' || !trigger.name.trim() || trigger.name.length > 120 ||
+      !exactKeys(trigger.parameters, []) || !empty(config.effectTriggers) || !empty(config.conditionalEffects) ||
+      !empty(config.buffDebuffTriggers) || !exactKeys(config.requiredConditions, ['enabled', 'logicType', 'conditions']) ||
+      config.requiredConditions.enabled !== false || config.requiredConditions.logicType !== 'AND' || !Array.isArray(config.requiredConditions.conditions) ||
+      config.requiredConditions.conditions.length !== 0 || !exactKeys(config.triggerRole, ['mode']) || config.triggerRole.mode !== 'CONDITIONAL') { refuse('triggers'); }
+  return shape.marker;
+}
+/** Boolean form kept for existing callers: true when the config is one of the supported follow-up shapes. */
+function followUpTrigger(config) { return followUpTriggerFor(config) !== null; }
+// D1 = (a), creator approval 14 November 2026 (componentScopePolicy.js): exactly one
+// "Follow-up After My Damage" card placed under Effect-Specific Triggers on ONE part, every other trigger section at its inert
+// default. It watches that part's own committed result; it is never read as a whole-spell trigger. The policy decides whether
+// it may compile at all; the definition branch decides which part it may sit on. Any other effect-attached shape refuses whole.
+const componentScope = require('./componentScopePolicy');
+const COMPONENT_WATCH = componentScope.CONTRACT;
+const COMPONENT_WATCH_PARTS = Object.freeze({ damage_direct: Object.freeze({ componentId: 'effects:direct', kind: 'damage' }) });
+const COMPONENT_WATCH_CONDITIONS = Object.freeze(['movement', 'stunned']);
+function componentWatchShape(config) {
+  if (empty(config) || !exactKeys(config, ['global', 'effectTriggers', 'conditionalEffects', 'buffDebuffTriggers', 'requiredConditions', 'triggerRole'])) { return null; }
+  if (canonical(config.global) !== canonical({ logicType: 'AND', compoundTriggers: [] }) || !empty(config.conditionalEffects) || !empty(config.buffDebuffTriggers) ||
+      canonical(config.requiredConditions) !== canonical({ enabled: false, logicType: 'AND', conditions: [] }) ||
+      canonical(config.triggerRole) !== canonical({ mode: 'CONDITIONAL' })) { return null; }
+  const parts = config.effectTriggers && typeof config.effectTriggers === 'object' && !Array.isArray(config.effectTriggers) ? Object.keys(config.effectTriggers) : [];
+  if (parts.length !== 1) { return null; }
+  const group = config.effectTriggers[parts[0]];
+  if (!exactKeys(group, ['logicType', 'compoundTriggers', 'targetingOverride']) || group.logicType !== 'AND' || group.targetingOverride !== null ||
+      !Array.isArray(group.compoundTriggers) || group.compoundTriggers.length !== 1) { return null; }
+  const trigger = group.compoundTriggers[0];
+  if (!exactKeys(trigger, ['id', 'category', 'name', 'parameters']) || trigger.id !== FOLLOWUP_TRIGGER_ID || trigger.category !== 'combat' ||
+      typeof trigger.name !== 'string' || !trigger.name.trim() || trigger.name.length > 120 || !exactKeys(trigger.parameters, [])) { return null; }
+  return { wizardKey: parts[0] };
+}
 const effective = (key, value) => empty(value) || (key === 'triggerConfig' && canonical(value) === canonical(defaultTriggers)) ? null : value;
 const inactiveDefault = (value, fallback) => empty(value) || canonical(value) === canonical(fallback);
 function definitionFromWizard(record, { roomId, definitionVersion, classId, allowProposedAreaRoll, creatureSource } = {}) {
@@ -165,11 +231,10 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
     if ((condition || effect) && canonical(record.durationConfig ?? null) !== canonical(d.durationConfig ?? null)) refuse('library/draft durationConfig');
     const mech = d.mechanicsConfig;
     if (!empty(mech) && canonical(mech) !== canonical({ cards: null, combos: null, coins: null, stateRequirements: [], stateOptions: { thresholds: [] } })) refuse('mechanicsConfig');
-    if (!empty(d.triggerConfig)) {
-      const t = d.triggerConfig;
-      only(t, ['global', 'effectTriggers', 'conditionalEffects', 'buffDebuffTriggers', 'requiredConditions', 'triggerRole'], 'triggerConfig');
-      if (canonical(t.global) !== canonical({ logicType: 'AND', compoundTriggers: [] }) || !empty(t.effectTriggers) || !empty(t.conditionalEffects) || !empty(t.buffDebuffTriggers) || canonical(t.requiredConditions) !== canonical({ enabled: false, logicType: 'AND', conditions: [] }) || canonical(t.triggerRole) !== canonical({ mode: 'CONDITIONAL' })) refuse('triggers');
-    }
+    const watchShape = componentWatchShape(d.triggerConfig);
+    if (watchShape && !componentScope.approved()) { refuse(`triggers (${componentScope.UNAPPROVED_REASON})`); }
+    if (watchShape && !effect) { refuse('triggers (a trigger on one part needs a multi-part spell: one direct damage part next to a movement or Stunned effect)'); }
+    const followUp = watchShape ? null : followUpTriggerFor(d.triggerConfig);
     const cd = d.cooldownConfig;
     const combatCooldown = require('./authoredCooldown').valid(cd);
     if (!empty(cd)) {
@@ -228,7 +293,8 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
         name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
         targeting: { kind: 'area', aoeShape: 'circle', radiusFeet: t.aoeParameters.radius, rangeFeet: t.rangeDistance, maxTargets, restriction: restrictions[0] },
         resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
-        effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula }
+        effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula },
+        ...(followUp ? { followUp: followUp } : {})
       } };
     }
     if (t.targetingType !== 'single' || t.maxTargets !== 1 || !int(t.rangeDistance, 300) || !['ranged', 'melee', 'self', 'touch'].includes(t.rangeType) || !empty(t.aoeParameters) || (t.movementBehavior && t.movementBehavior !== 'static')) refuse('single target / explicit range / count');
@@ -325,12 +391,22 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
       const directPart = direct ? readBundleDirect(d, record, direct, FORMULA_BUNDLE_CONDITIONS.includes(c.effect)) : null;
       if (!empty(d.effectResolutions) && canonical(d.effectResolutions) !== canonical(wantResolutions)) refuse('effect resolution');
       if (restrictions[0] === 'self' || t.rangeDistance === 0) refuse('distinct creature targeting required');
+      let componentWatch = null;
+      if (watchShape) {
+        const part = Object.prototype.hasOwnProperty.call(COMPONENT_WATCH_PARTS, watchShape.wizardKey) ? COMPONENT_WATCH_PARTS[watchShape.wizardKey] : null;
+        if (!part) { refuse(`triggers (Follow-up After My Damage is watched only on the Direct Damage part; the "${watchShape.wizardKey}" part removes no HP of its own)`); }
+        if (!directPart || directPart.kind !== part.kind || d.damageConfig?.damageType !== 'direct') { refuse('triggers (the watched Direct Damage part is not this spell\'s direct damage)'); }
+        if (!COMPONENT_WATCH_CONDITIONS.includes(conditionEffect.kind)) { refuse('triggers (a watched Direct Damage part is supported next to a movement or Stunned effect only)'); }
+        if (combatCooldown) { refuse('triggers (a watched part on a spell with its own cooldown is not a reviewed combination)'); }
+        if (formulaAttributes(directPart.formula).length) { refuse('triggers (a watched part with an attribute-scaled formula is not a reviewed combination)'); }
+        componentWatch = { contract: COMPONENT_WATCH, componentId: part.componentId, wizardKey: watchShape.wizardKey };
+      }
       return { ok: true, definition: Object.assign({ schemaVersion: 3, capability: EFFECT_CAPABILITY, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
         name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
         targeting: { kind: 'single', maxTargets: 1, rangeFeet: t.rangeDistance, restriction: restrictions[0] }, resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
         effects: Object.assign({ direct: directPart, condition: conditionEffect }, save ? { save } : {}),
         timing: Object.assign({ expiryPolicy: c.expiryPolicy, durationText: c.durationText, authoredDuration: d.durationConfig ?? null, gmNote: c.gmNote }, COUNTED_EXPIRY_POLICIES.includes(c.expiryPolicy) ? { occurrences: c.occurrences } : {}) },
-        combatCooldown ? { cooldown: cd } : {}) };
+        combatCooldown ? { cooldown: cd } : {}, followUp ? { followUp: followUp } : {}, componentWatch ? { componentWatch: componentWatch } : {}) };
     }
     if (condition) {
       only(d.controlConfig, ['authoredCondition'], 'controlConfig (use the explicit canonical condition profile)');
@@ -342,7 +418,8 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
       return { ok: true, definition: { schemaVersion: 2, capability: CONDITION_CAPABILITY, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
         name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
         targeting: { kind: 'single', maxTargets: 1, rangeFeet: t.rangeDistance, restriction: restrictions[0] }, resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
-        effect: { kind: 'condition', conditionKey: c.conditionKey }, timing: { expiryPolicy: c.expiryPolicy, durationText: c.durationText, authoredDuration: d.durationConfig ?? null, gmNote: c.gmNote } } };
+        effect: { kind: 'condition', conditionKey: c.conditionKey }, timing: { expiryPolicy: c.expiryPolicy, durationText: c.durationText, authoredDuration: d.durationConfig ?? null, gmNote: c.gmNote },
+        ...(followUp ? { followUp: followUp } : {}) } };
     }
     if (!empty(d.effectResolutions) && canonical(d.effectResolutions) !== canonical({ [kind]: 'DICE' })) refuse('effectResolutions');
     const directEffect = readDirect(d, record, kind, true, true, true);
@@ -365,7 +442,7 @@ function definitionFromWizard(record, { roomId, definitionVersion, classId, allo
     return { ok: true, definition: Object.assign({ schemaVersion: deterministic ? 7 : health ? 6 : scaled || combatCooldown ? 4 : 1, scope: { roomId }, definitionId: record.authoredDefinitionId, definitionVersion,
       name: d.name, description: d.description, binding: { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId }, spellType: 'ACTION', castTimeType: 'IMMEDIATE',
       targeting: { kind: 'single', maxTargets: 1, rangeFeet: t.rangeDistance, restriction: restrictions[0] }, resourceCost: { actionPoints: cost.actionPoints, mana: manaValues[0] },
-       effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula } }, deterministic ? { capability: DETERMINISTIC_CAPABILITY } : health ? { capability: HEALTH_CAPABILITY } : scaled || combatCooldown ? { capability: FORMULA_CAPABILITY } : {}, combatCooldown ? { cooldown: cd } : {}) };
+       effect: kind === 'damage' ? { kind, formula: directEffect.formula, damageTypes: directEffect.damageTypes } : { kind, formula: directEffect.formula } }, deterministic ? { capability: DETERMINISTIC_CAPABILITY } : health ? { capability: HEALTH_CAPABILITY } : scaled || combatCooldown ? { capability: FORMULA_CAPABILITY } : {}, combatCooldown ? { cooldown: cd } : {}, followUp ? { followUp: followUp } : {}) };
   } catch (error) { return { ok: false, code: 'unsupported_wizard_record', reason: error.message }; }
 }
 // M5 composition: an immediate part next to a periodic tick may use the existing M4A attribute vocabulary (readScaledFormula).
@@ -435,11 +512,13 @@ function definitionSummary(d) {
   if (d.capability === AREA_CAPABILITY) return `${d.effect?.kind} · ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''} · circle ${d.targeting?.radiusFeet} ft (up to ${d.targeting?.maxTargets} creatures)`;
   return `${d.effect?.kind} · ${d.effect?.formula}${d.effect?.damageTypes?.length ? ` ${d.effect.damageTypes.join('/')}` : ''}`;
 }
-module.exports = { HEALTH_CAPABILITY, HEALTH_COMPILER, readHealthFormula, isHealth, definitionSummary, CAPABILITY, FORMULA_CAPABILITY, FORMULA_COMPILER, AREA_CAPABILITY, AREA_COMPILER, MAX_AREA_TARGETS, MAX_AREA_ACTORS, AREA_ROLL_PROCEDURE, AREA_ROLL_POLICY, AREA_ROLL_UNAPPROVED_REASON, isAreaRollProcedureApproved, setAreaRollProposalForTest, setAreaRollApprovalForTest, readScaledFormula, formulaAttributes, isFormula, isArea, CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, ADAPTER_VERSION, CLASS_IDS, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing, ownerSelfHealing };
+module.exports = { HEALTH_CAPABILITY, HEALTH_COMPILER, readHealthFormula, isHealth, definitionSummary, CAPABILITY, FORMULA_CAPABILITY, FORMULA_COMPILER, AREA_CAPABILITY, AREA_COMPILER, MAX_AREA_TARGETS, MAX_AREA_ACTORS, AREA_ROLL_PROCEDURE, AREA_ROLL_POLICY, AREA_ROLL_UNAPPROVED_REASON, isAreaRollProcedureApproved, setAreaRollProposalForTest, setAreaRollApprovalForTest, readScaledFormula, formulaAttributes, isFormula, isArea, CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED_EXPIRY_POLICIES, ADAPTER_VERSION, CLASS_IDS, FOLLOWUP_TRIGGER, FOLLOWUP_TRIGGER_ID, FOLLOWUP_HEALING_TRIGGER, FOLLOWUP_HEALING_TRIGGER_ID, FOLLOWUP_MARKERS, followUpTrigger, followUpTriggerFor, COMPONENT_WATCH, COMPONENT_WATCH_PARTS, COMPONENT_WATCH_CONDITIONS, componentWatchShape, readFormula, definitionFromWizard, actionId, isAuthored, creatureSelfHealing, ownerSelfHealing };
 /** Creature-source eligibility of an already definition-compatible ability: null, or the exact refusal the room server applies at
  * creature admission and at every approval. Single source for server admission and the Bestiary card; the server stays the authority. */
 function creatureSourceRefusal(d) {
   if (!d) return null;
+  if (d.componentWatch !== undefined) { return { code: 'unsupported_source_route', reason: 'A watched part trigger currently requires a primary owner PC source; the whole creature ability remains manual.' }; }
+  if (FOLLOWUP_MARKERS.includes(d.followUp)) { return { code: 'unsupported_source_route', reason: 'An authored follow-up trigger currently requires a primary owner PC source; the whole creature ability remains manual.' }; }
   if ([FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY, AREA_CAPABILITY].includes(d.capability)) return { code: 'unsupported_source_route', reason: 'This formula version currently requires a primary owner PC source; the whole creature ability remains manual.' };
   if (d.capability === EFFECT_CAPABILITY && d.effects && d.effects.save !== undefined) return { code: 'unsupported_source_route', reason: 'A GM-recorded save branch currently requires a primary owner PC source; the whole creature ability remains manual.' };
   if (d.capability === EFFECT_CAPABILITY && d.effects && d.effects.direct && d.effects.condition && d.effects.condition.kind === 'periodic') return { code: 'unsupported_source_route', reason: 'An immediate + periodic ability currently requires a primary owner PC source; the whole creature ability remains manual.' };

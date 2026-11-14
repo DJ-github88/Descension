@@ -15,6 +15,9 @@ import { getClassIconUrl } from '../utils/classIconUtils';
 import useMapStore from "../store/mapStore";
 import * as SettingsStoreModule from "../store/settingsStore";
 import localRoomService, { forceSaveCurrentRoom } from "../services/localRoomService";
+import useChatStore from '../store/chatStore';
+import { COMPANION_DRAG_MIME, COMPANION_RECONCILED_MESSAGE, COMPANION_RECONCILE_REFRESH_FAILED_MESSAGE,
+  companionRefusalText, listCompanions, placeCompanionFromDrop } from '../services/companionRecruitment';
 import GridItem from "./grid/GridItem";
 import GridContainer from "./grid/GridContainer";
 import CreatureToken from "./grid/CreatureToken";
@@ -2226,31 +2229,78 @@ function GridComponent({
   return gridSystem.getGridCoordinateFromEvent(e, gridRef.current);
  };
 
- // Set up drag and drop event listeners for creatures
- useEffect(() => {
-  // Handle drag start event
-  const handleDragStart = (e) => {
-   // Check if this is a creature drag by looking at the dataTransfer types
-   const isCreatureDrag = e.dataTransfer.types.includes('creature/id');
-   const isSummonDrag = e.dataTransfer.types.includes('application/summon-token');
-
-   // Only set isDraggingCreature for actual creature drags
-   if (isCreatureDrag) {
-    setIsDraggingCreature(true);
+  // Persistent recruited-companion drop. The payload carries only the stable
+  // roster identity; the server derives the creature snapshot and exact
+  // incarnation. A repeat drop focuses the existing placement instead of
+  // creating a fresh actor.
+  const handleCompanionRosterDrop = useCallback(async (event, worldPos) => {
+   const raw = event.dataTransfer.getData(COMPANION_DRAG_MIME) || event.dataTransfer.getData('text/plain');
+   if (!raw) { return false; }
+   let payload;
+   try { payload = JSON.parse(raw); } catch (_) { return false; }
+   if (!payload || payload.type !== 'companion-roster' ||
+       typeof payload.rosterId !== 'string' || !payload.rosterId) { return false; }
+   event.preventDefault();
+   const roomId = useGameStore.getState().multiplayerRoom?.id;
+   if (!roomId) { return true; }
+   const mapId = useMapStore.getState().currentMapId || 'default';
+   const name = payload.displayName || 'Companion';
+   const notify = content => useChatStore.getState().addNotification?.('combat',
+     { type: 'system', content, timestamp: new Date().toISOString() });
+   notify(`Placing ${name}…`);
+   const result = await placeCompanionFromDrop({ roomId, payload, mapId,
+     position: { x: worldPos.x, y: worldPos.y } });
+   if (result?.reconciled) {
+     let message = result.reconciledMessage || COMPANION_RECONCILED_MESSAGE;
+     try {
+       const listed = await listCompanions(roomId);
+       if (!listed?.success) { message = COMPANION_RECONCILE_REFRESH_FAILED_MESSAGE; }
+     } catch (_) {
+       message = COMPANION_RECONCILE_REFRESH_FAILED_MESSAGE;
+     }
+     notify(message);
+     return true;
    }
-
-   // Track summon drags globally so dragover/drop can handle them
-   if (isSummonDrag) {
-    window._isDraggingSummonToken = true;
+   if (!result?.success) {
+     notify(companionRefusalText(result));
+     return true;
    }
-  };
+   notify(result.placement === 'focus'
+     ? `${name} is already placed; focused the existing token.`
+     : `Placed ${name}.`);
+   return true;
+  }, []);
 
-  // Handle drag end event
-  const handleDragEnd = () => {
-   setIsDraggingCreature(false);
-   setDraggedCreatureId(null);
-   window._isDraggingSummonToken = false;
-  };
+  // Set up drag and drop event listeners for creatures
+  useEffect(() => {
+   // Handle drag start event
+   const handleDragStart = (e) => {
+    // Check if this is a creature drag by looking at the dataTransfer types
+    const isCreatureDrag = e.dataTransfer.types.includes('creature/id');
+    const isSummonDrag = e.dataTransfer.types.includes('application/summon-token');
+    const isCompanionDrag = e.dataTransfer.types.includes(COMPANION_DRAG_MIME);
+
+    // Only set isDraggingCreature for actual creature drags
+    if (isCreatureDrag) {
+     setIsDraggingCreature(true);
+    }
+
+    // Track summon drags globally so dragover/drop can handle them
+    if (isSummonDrag) {
+     window._isDraggingSummonToken = true;
+    }
+    if (isCompanionDrag) {
+     window._isDraggingCompanionRoster = true;
+    }
+   };
+
+   // Handle drag end event
+   const handleDragEnd = () => {
+    setIsDraggingCreature(false);
+    setDraggedCreatureId(null);
+    window._isDraggingSummonToken = false;
+    window._isDraggingCompanionRoster = false;
+   };
 
   // Handle drop event for document-level drops
   const handleDocumentDrop = (e) => {
@@ -2420,6 +2470,14 @@ function GridComponent({
     return;
    }
 
+   // Handle recruited-companion drops from the Party HUD roster.
+   if (e.dataTransfer.types.includes(COMPANION_DRAG_MIME)) {
+    const gridCoords = gridSystem.getGridCoordinateFromEvent(e, gridRef.current);
+    const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+    handleCompanionRosterDrop(e, worldPos);
+    return;
+   }
+
    // Handle creature drops
    if (!isDraggingCreature) {
     return;
@@ -2472,9 +2530,11 @@ function GridComponent({
 
   // Handle drag over event for document
   const handleDocumentDragOver = (e) => {
-   // Must preventDefault for ALL drags (items, creatures, summons) to allow drop events to fire
+   // Must preventDefault for ALL drags (items, creatures, summons, companions) to allow drop events to fire
    // This is required by HTML5 drag and drop API
-   if (isDraggingCreature || isDraggingItemRef.current || window.isDraggingItem || window._isDraggingSummonToken) {
+   if (isDraggingCreature || isDraggingItemRef.current || window.isDraggingItem ||
+       window._isDraggingSummonToken || window._isDraggingCompanionRoster ||
+       e.dataTransfer.types.includes(COMPANION_DRAG_MIME)) {
     e.preventDefault();
    }
 
@@ -2497,7 +2557,7 @@ function GridComponent({
    document.removeEventListener('drop', handleDocumentDrop);
    document.removeEventListener('dragover', handleDocumentDragOver);
   };
- }, [isDraggingCreature, addToken, tileSize, addItemToGrid, currentMapId]);
+  }, [isDraggingCreature, addToken, tileSize, addItemToGrid, currentMapId, handleCompanionRosterDrop]);
 
  // Handle removing a token
  const handleRemoveToken = useCallback((tokenId) => {
@@ -2773,6 +2833,14 @@ function GridComponent({
   // Drop event on tile
 
   try {
+   // Recruited-companion drops use the tile's world position and the stable
+   // roster identity; they never take the static template path.
+   if (e.dataTransfer.types.includes(COMPANION_DRAG_MIME)) {
+    const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
+    handleCompanionRosterDrop(e, worldPos);
+    return;
+   }
+
    // Check for portal template drops first
    const portalTemplateData = e.dataTransfer.getData('portal/template');
    if (portalTemplateData) {

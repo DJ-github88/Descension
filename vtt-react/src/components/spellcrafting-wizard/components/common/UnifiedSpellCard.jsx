@@ -35,6 +35,7 @@ import useStatusEffectFormatters from './useStatusEffectFormatters';
 import CompactSpellCard from './CompactSpellCard';
 import { extractPeriodicTiming, getPeriodicTimingPoints, formatAuthoredExpiry } from './spellTimingPresentation';
 import { authoredSaveDisclosure } from './spellSavePresentation';
+import { authoredTriggerDisclosure } from './spellTriggerPresentation';
 import SpellCardHeader from './SpellCardHeader';
 import RollableTableSummary from './RollableTableSummary';
 import ProphecySummary from './ProphecySummary';
@@ -281,6 +282,9 @@ const UnifiedSpellCard = ({
    return spellProp || {};
   }
  })();
+
+ // Stored trigger disclosure: component description + whole-record automation verdict.
+ const triggerDisclosure = authoredTriggerDisclosure(spellProp);
 
  // State for hover tooltips (only used in compact variant)
  const [showTooltip, setShowTooltip] = useState(false);
@@ -549,6 +553,24 @@ const UnifiedSpellCard = ({
       const hasDamageEffectTriggers = damageEffectTriggers?.compoundTriggers?.length > 0;
       const hasHealingEffectTriggers = healingEffectTriggers?.compoundTriggers?.length > 0;
 
+      // What Prism does with this spell's triggers: one shared explanation (services/executionPlan), shown as plain
+      // lines in the existing effect markup. "runs" still needs the GM to pair the spell with one character.
+      const triggerPlan = triggerDisclosure?.plan || null;
+      const triggerPlanBlock = triggerPlan ? (
+       <div className="healing-effect-item" data-trigger-plan={triggerPlan.runs ? 'runs' : 'stored'} style={{ marginBottom: '8px', paddingBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)' }}>
+        <div className="healing-effect">
+         <span className="healing-effect-name">{triggerPlan.heading}</span>
+        </div>
+        <div className="healing-effect-details">
+         {triggerPlan.lines.map((line, index) => (
+          <div key={`${line.kind}-${index}`} className="healing-effect-mechanics" data-trigger-plan-line={line.kind} style={{ fontSize: '0.9em', marginTop: index > 0 ? '4px' : '0' }}>
+           {line.text}
+          </div>
+         ))}
+        </div>
+       </div>
+      ) : null;
+
       // Build trigger/required state header if needed
       let triggerHeader = null;
       if (hasGlobalTriggerOrRequired) {
@@ -576,6 +598,11 @@ const UnifiedSpellCard = ({
               </div>
              );
             })}
+            {triggerDisclosure?.manual && (
+             <div data-trigger-disclosure="manual" style={{ fontSize: '0.9em', marginTop: '4px' }}>
+              {triggerDisclosure.text}
+             </div>
+            )}
            </div>
           </div>
          </div>
@@ -616,10 +643,16 @@ const UnifiedSpellCard = ({
             <span className="healing-effect-name" style={{ fontSize: '0.95em', fontWeight: '600', color: 'rgba(139, 115, 85, 0.9)' }}>
              Spell Triggers
             </span>
+            <span className="healing-effect-description"> ◆ Whole spell</span>
            </div>
            <div className="damage-effect-details" style={{ marginTop: '8px' }}>
+            {triggerDisclosure?.manual && (
+             <div className="damage-effect-mechanics" data-trigger-disclosure="manual" style={{ fontSize: '0.9em' }}>
+              {triggerDisclosure.text}
+             </div>
+            )}
             {triggerTexts.map((text, index) => (
-             <div key={index} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: index > 0 ? '4px' : '0' }}>
+             <div key={index} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: index > 0 || triggerDisclosure?.manual ? '4px' : '0' }}>
               <strong>{text}</strong>
              </div>
             ))}
@@ -689,7 +722,7 @@ const UnifiedSpellCard = ({
       const hasPurification = spell?.effectTypes?.includes('purification') && spell?.purificationConfig;
       const hasRestoration = spell?.effectTypes?.includes('restoration') && spell?.restorationConfig;
 
-      const hasAnyStatContent = shouldRenderDamage || shouldRenderHealing || hasGlobalTriggerOrRequired ||
+      const hasAnyStatContent = shouldRenderDamage || shouldRenderHealing || hasGlobalTriggerOrRequired || Boolean(triggerPlanBlock) ||
        hasBuffContent || hasDebuffContent || hasDuration || hasUtility || hasControl ||
        hasTerrain || hasSummoning || hasTransformation || hasPurification || hasRestoration ||
        hasProphecy || hasRollableTable || hasStatusEffects;
@@ -699,7 +732,8 @@ const UnifiedSpellCard = ({
         {hasEffectsToWrap ? (
          <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
           <div className="healing-effects-section">
-           {/* Global trigger/required state header */}
+           {/* What Prism does with the triggers, then the global trigger/required state header */}
+           {triggerPlanBlock}
            {hasGlobalTriggerOrRequired && triggerHeader && (
             triggerHeader
            )}
@@ -1255,6 +1289,15 @@ const UnifiedSpellCard = ({
          </div>
         ) : (
          <>
+          {/* What Prism does with the triggers, before the trigger header */}
+          {triggerPlanBlock && (
+           <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
+            <div className="healing-effects-section">
+             {triggerPlanBlock}
+            </div>
+           </div>
+          )}
+
           {/* Render trigger header separately if no effects to wrap */}
           {hasGlobalTriggerOrRequired && triggerHeader && (
            <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
@@ -2299,41 +2342,48 @@ const UnifiedSpellCard = ({
         ) : null;
        })()}
 
-       {/* Buff/Debuff Trigger Chains */}
-       {spell?.triggerConfig?.buffDebuffTriggers && (() => {
-        const bdt = spell.triggerConfig.buffDebuffTriggers;
-        const chains = [];
-        for (const [effectType, chainData] of Object.entries(bdt)) {
-         if (chainData.triggersEffect) {
+        {/* Buff/Debuff Trigger Chains */}
+        {spell?.triggerConfig?.buffDebuffTriggers && (() => {
+         const bdt = spell.triggerConfig.buffDebuffTriggers;
+         const chains = [];
+         for (const [effectType, chainData] of Object.entries(bdt)) {
+          const triggerTexts = (Array.isArray(chainData.triggers) ? chainData.triggers : [])
+           .map(trigger => formatTriggerForConditionalDisplay(trigger));
+          if (!chainData.triggersEffect && triggerTexts.length === 0) continue;
           const sourceName = effectType.charAt(0).toUpperCase() + effectType.slice(1);
-          const targetName = chainData.triggersEffect.replace(/_/g, ' ');
-          chains.push({ source: sourceName, target: targetName });
+          const targetName = chainData.triggersEffect ? chainData.triggersEffect.replace(/_/g, ' ') : 'no target effect stored';
+          chains.push({ source: sourceName, target: targetName, triggerTexts });
          }
-        }
-        if (chains.length === 0) return null;
-        return (
-         <div className="damage-effects" style={{ marginTop: '4px' }}>
-          <div className="damage-effects-section">
-           <div className="damage-effects-list">
-            {chains.map((chain, i) => (
-             <div key={`chain-${i}`} className="damage-effect-item">
-              <div className="damage-effect">
-               <span className="damage-effect-name">Trigger Chain</span>
-              </div>
-              <div className="damage-effect-details">
-               <div className="damage-effect-mechanics">
-                <span style={{ color: '#ff8c00' }}>{chain.source}</span>
-                {" → "}
-                <span style={{ color: '#6495ED' }}>{chain.target}</span>
+         if (chains.length === 0) return null;
+         return (
+          <div className="damage-effects" style={{ marginTop: '4px' }}>
+           <div className="damage-effects-section">
+            <div className="damage-effects-list">
+             {chains.map((chain, i) => (
+              <div key={`chain-${i}`} className="damage-effect-item">
+               <div className="damage-effect">
+                <span className="damage-effect-name">Trigger Chain</span>
+                <span className="damage-effect-description"> ◆ {chain.source} component → {chain.target}</span>
+               </div>
+               <div className="damage-effect-details">
+                {triggerDisclosure?.manual && (
+                 <div className="damage-effect-mechanics" data-trigger-disclosure="manual" style={{ fontSize: '0.9em' }}>
+                  {triggerDisclosure.text}
+                 </div>
+                )}
+                {chain.triggerTexts.map((text, idx) => (
+                 <div key={idx} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: idx > 0 || triggerDisclosure?.manual ? '4px' : '0' }}>
+                  <strong>{text}</strong>
+                 </div>
+                ))}
                </div>
               </div>
-             </div>
-            ))}
+             ))}
+            </div>
            </div>
           </div>
-         </div>
-        );
-       })()}
+         );
+        })()}
 
        {/* Mechanics Available Effects (for card-based mechanics) */}
        {spell?.mechanicsAvailableEffects && spell.mechanicsAvailableEffects.length > 0 && (
@@ -4769,7 +4819,7 @@ const UnifiedSpellCard = ({
                   </div>
                  )}
                  {effect.saveDisclosure && (
-                  <div className="healing-effect-details healing-effect-save" data-save-disclosure={effect.saveDisclosure.executable ? 'executable' : 'manual'}>
+                  <div className="healing-effect-details healing-effect-save" data-save-disclosure={effect.saveDisclosure.status || (effect.saveDisclosure.executable ? 'executable' : 'manual')}>
                    <div className="healing-effect-mechanics">
                     {effect.saveDisclosure.text}
                    </div>

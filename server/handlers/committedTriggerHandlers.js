@@ -12,7 +12,7 @@ function registerCommittedTriggerHandlers({ run, context, current, confirm, conf
     actors.keys(data, ['roomId']);
     const captured = context(data.roomId);
     await confirm(captured);
-    respond(ack, { success: true, roomId: captured.room.id, capability: triggers.CAPABILITY, mode: 'diagnostic', viewerRole: captured.isGM ? 'gm' : 'member',
+    respond(ack, { success: true, roomId: captured.room.id, ...triggers.describe(captured.room), viewerRole: captured.isGM ? 'gm' : 'member',
       durability: liveOnly(captured.room) ? 'live-only' : 'checkpoint-eligible',
       ...triggers.project(captured.room, { uid: captured.uid, gm: captured.isGM }, confirmed(captured.room), liveOnly(captured.room)) });
   });
@@ -27,8 +27,9 @@ function registerCommittedTriggerHandlers({ run, context, current, confirm, conf
       if (!current(captured).isGM) {actors.fail('forbidden');}
       // Re-planned from current state after the await; no await separates this from admission.
       const before = triggers.audience(captured.room), planned = plan();
+      const mode = planned.listener?.mode || planned.mode || 'diagnostic';
       if (planned.next) {admit(captured.room, { next: planned.next });}
-      respondInstalled(ack, { success: true, roomId: captured.room.id, capability: triggers.CAPABILITY, mode: 'diagnostic',
+      respondInstalled(ack, { success: true, roomId: captured.room.id, capability: triggers.executableMode(mode) ? triggers.FOLLOWUP_CAPABILITY : triggers.CAPABILITY, mode,
         ...(planned.listener ? { listener: planned.listener } : { listenerId: planned.listenerId }),
         revision: triggers.ledger(captured.room.gameState).revision, status: liveOnly(captured.room) ? 'live-only' : 'accepted-live / checkpoint pending' });
       if (planned.next) {notify(captured.room, before);}

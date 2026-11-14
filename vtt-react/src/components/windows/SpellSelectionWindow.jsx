@@ -3,6 +3,7 @@ import MythrillWindow from './MythrillWindow';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import { triggerDisclosureForRecord } from '../spellcrafting-wizard/components/common/spellTriggerPresentation';
 
 // Pathfinder styles imported via spellbook main.css
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
@@ -178,6 +179,10 @@ const SpellSelectionWindow = ({
         behavior: '',
         parameters: {}
       },
+
+      // Stored trigger sections and their automation disclosure
+      triggerConfig: spell.triggerConfig || spell.authoredDraft?.triggerConfig || null,
+      authoredTriggerDisclosure: triggerDisclosureForRecord(spell),
 
       // Rarity
       rarity: spell.rarity || 'uncommon'

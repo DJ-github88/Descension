@@ -1,0 +1,376 @@
+{
+ "name": "Passive Fidelity Whole Trigger",
+ "description": "Ordinary passive authored with one whole-spell follow-up trigger.",
+ "level": "",
+ "school": "",
+ "icon": "<div class=\"spell-icon spell-icon-arcane\"></div>",
+ "spellType": "PASSIVE",
+ "typeConfig": {
+  "toggleable": false
+ },
+ "effectTypes": [
+  "damage"
+ ],
+ "effectsMap": {
+  "damage": true
+ },
+ "damageConfig": {
+  "formula": "1d4 + damage/2",
+  "damageType": "direct",
+  "elementType": "ember",
+  "secondaryElementType": null,
+  "canCrit": false,
+  "critMultiplier": 2,
+  "critDiceOnly": false,
+  "dotConfig": {
+   "duration": 3,
+   "tickFrequency": "round",
+   "scalingType": "flat",
+   "dotFormula": "1d4 + INT/2",
+   "dotFormulas": [
+    {
+     "round": 1,
+     "formula": "1d4"
+    }
+   ]
+  }
+ },
+ "healingConfig": null,
+ "buffConfig": null,
+ "debuffConfig": null,
+ "utilityConfig": null,
+ "controlConfig": null,
+ "summoningConfig": null,
+ "transformationConfig": null,
+ "purificationConfig": null,
+ "restorationConfig": null,
+ "rollableTable": null,
+ "effectResolutions": {},
+ "effectMechanicsConfigs": {},
+ "mechanicsAvailableEffects": [],
+ "combinedEffects": [],
+ "mechanicsAvailableCombinedEffects": [],
+ "targetingConfig": {
+  "aoeType": "sphere",
+  "targetingType": "single",
+  "rangeType": "ranged",
+  "aoeShape": "circle",
+  "aoeParameters": {},
+  "targetRestrictions": [
+   "any"
+  ],
+  "selectionMethod": "manual",
+  "targetSelectionMethod": "manual",
+  "movementBehavior": "static"
+ },
+ "targetingMode": "unified",
+ "targetingTags": {},
+ "effectTargeting": {},
+ "durationConfig": {},
+ "persistentConfig": {},
+ "propagation": null,
+ "resourceCost": {
+  "components": [],
+  "materialComponents": "",
+  "actionPoints": 1,
+  "actionPointsSelected": true,
+  "resourceTypes": [],
+  "resourceValues": {},
+  "resourceFormulas": {},
+  "useFormulas": {}
+ },
+ "mechanicsConfig": {
+  "cards": null,
+  "combos": null,
+  "coins": null,
+  "stateRequirements": [],
+  "stateOptions": {
+   "thresholds": []
+  }
+ },
+ "prophecyOptions": null,
+ "cooldownConfig": {},
+ "triggerConfig": {
+  "global": {
+   "logicType": "AND",
+   "compoundTriggers": [
+    {
+     "id": "follow_up_after_damage",
+     "category": "combat",
+     "name": "Follow-up After My Damage",
+     "parameters": {}
+    }
+   ]
+  },
+  "effectTriggers": {},
+  "conditionalEffects": {},
+  "buffDebuffTriggers": {},
+  "requiredConditions": {
+   "enabled": false,
+   "logicType": "AND",
+   "conditions": []
+  },
+  "triggerRole": {
+   "mode": "CONDITIONAL"
+  }
+ },
+ "trapConfig": {},
+ "channelingConfig": {},
+ "errors": {
+  "targetingConfig": "Targeting configuration is required",
+  "durationConfig": "Duration configuration is required"
+ },
+ "warnings": {},
+ "currentStep": 10,
+ "completedSteps": [
+  1,
+  2
+ ],
+ "wizardFlow": [
+  {
+   "id": 1,
+   "name": "Basic Info",
+   "required": true
+  },
+  {
+   "id": 2,
+   "name": "Spell Type",
+   "required": true
+  },
+  {
+   "id": 3,
+   "name": "Effects",
+   "required": true
+  },
+  {
+   "id": "triggers",
+   "name": "Triggers",
+   "required": true
+  },
+  {
+   "id": 4,
+   "name": "Targeting & Propagation",
+   "required": true
+  },
+  {
+   "id": 5,
+   "name": "Resources",
+   "required": true
+  },
+  {
+   "id": 6,
+   "name": "Cooldown",
+   "required": true
+  },
+  {
+   "id": "rollable-table",
+   "name": "Rollable Table",
+   "required": false
+  },
+  {
+   "id": "mechanics",
+   "name": "Mechanics",
+   "required": false
+  },
+  {
+   "id": 10,
+   "name": "Review",
+   "required": true
+  }
+ ],
+ "lastModified": "2026-11-13T18:56:15.412Z",
+ "isValid": false,
+ "categoryIds": [
+  "uncategorized"
+ ],
+ "categories": [
+  "all"
+ ],
+ "source": "wizard",
+ "isCustom": true,
+ "authoredDraft": {
+  "name": "Passive Fidelity Whole Trigger",
+  "description": "Ordinary passive authored with one whole-spell follow-up trigger.",
+  "level": "",
+  "school": "",
+  "icon": "",
+  "spellType": "PASSIVE",
+  "typeConfig": {
+   "toggleable": false
+  },
+  "effectTypes": [
+   "damage"
+  ],
+  "effectsMap": {
+   "damage": true
+  },
+  "damageConfig": {
+   "formula": "1d4 + damage/2",
+   "damageType": "direct",
+   "elementType": "ember",
+   "secondaryElementType": null,
+   "canCrit": false,
+   "critMultiplier": 2,
+   "critDiceOnly": false,
+   "dotConfig": {
+    "duration": 3,
+    "tickFrequency": "round",
+    "scalingType": "flat",
+    "dotFormula": "1d4 + INT/2",
+    "dotFormulas": [
+     {
+      "round": 1,
+      "formula": "1d4"
+     }
+    ]
+   }
+  },
+  "healingConfig": null,
+  "buffConfig": null,
+  "debuffConfig": null,
+  "utilityConfig": null,
+  "controlConfig": null,
+  "summoningConfig": null,
+  "transformationConfig": null,
+  "purificationConfig": null,
+  "restorationConfig": null,
+  "rollableTable": null,
+  "effectResolutions": {},
+  "effectMechanicsConfigs": {},
+  "mechanicsAvailableEffects": [],
+  "combinedEffects": [],
+  "mechanicsAvailableCombinedEffects": [],
+  "targetingConfig": {},
+  "targetingMode": "unified",
+  "targetingTags": {},
+  "effectTargeting": {},
+  "durationConfig": {},
+  "persistentConfig": {},
+  "propagation": null,
+  "resourceCost": {
+   "components": [],
+   "materialComponents": "",
+   "actionPoints": 1,
+   "actionPointsSelected": true,
+   "resourceTypes": [],
+   "resourceValues": {},
+   "resourceFormulas": {},
+   "useFormulas": {}
+  },
+  "mechanicsConfig": {
+   "cards": null,
+   "combos": null,
+   "coins": null,
+   "stateRequirements": [],
+   "stateOptions": {
+    "thresholds": []
+   }
+  },
+  "prophecyOptions": null,
+  "cooldownConfig": {},
+  "triggerConfig": {
+   "global": {
+    "logicType": "AND",
+    "compoundTriggers": [
+     {
+      "id": "follow_up_after_damage",
+      "category": "combat",
+      "name": "Follow-up After My Damage",
+      "parameters": {}
+     }
+    ]
+   },
+   "effectTriggers": {},
+   "conditionalEffects": {},
+   "buffDebuffTriggers": {},
+   "requiredConditions": {
+    "enabled": false,
+    "logicType": "AND",
+    "conditions": []
+   },
+   "triggerRole": {
+    "mode": "CONDITIONAL"
+   }
+  },
+  "trapConfig": {},
+  "channelingConfig": {},
+  "errors": {
+   "targetingConfig": "Targeting configuration is required",
+   "durationConfig": "Duration configuration is required"
+  },
+  "warnings": {},
+  "currentStep": 10,
+  "completedSteps": [
+   1,
+   2
+  ],
+  "wizardFlow": [
+   {
+    "id": 1,
+    "name": "Basic Info",
+    "required": true
+   },
+   {
+    "id": 2,
+    "name": "Spell Type",
+    "required": true
+   },
+   {
+    "id": 3,
+    "name": "Effects",
+    "required": true
+   },
+   {
+    "id": "triggers",
+    "name": "Triggers",
+    "required": true
+   },
+   {
+    "id": 4,
+    "name": "Targeting & Propagation",
+    "required": true
+   },
+   {
+    "id": 5,
+    "name": "Resources",
+    "required": true
+   },
+   {
+    "id": 6,
+    "name": "Cooldown",
+    "required": true
+   },
+   {
+    "id": "rollable-table",
+    "name": "Rollable Table",
+    "required": false
+   },
+   {
+    "id": "mechanics",
+    "name": "Mechanics",
+    "required": false
+   },
+   {
+    "id": 10,
+    "name": "Review",
+    "required": true
+   }
+  ],
+  "lastModified": "2026-11-13T18:56:14.598Z",
+  "isValid": false
+ },
+ "authoredDefinitionId": "7793d1ee-bd50-41ca-89bc-a7026a6e0f0e",
+ "id": "passive-fidelity-whole-trigger-mwfc875a",
+ "dateCreated": "2026-11-13T18:56:15.406Z",
+ "serializedData": "{\n  \"name\": \"Passive Fidelity Whole Trigger\",\n  \"description\": \"Ordinary passive authored with one whole-spell follow-up trigger.\",\n  \"level\": \"\",\n  \"school\": \"\",\n  \"icon\": \"\",\n  \"spellType\": \"PASSIVE\",\n  \"typeConfig\": {\n    \"toggleable\": false\n  },\n  \"effectTypes\": [\n    \"damage\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true\n  },\n  \"damageConfig\": {\n    \"formula\": \"1d4 + damage/2\",\n    \"damageType\": \"direct\",\n    \"elementType\": \"ember\",\n    \"secondaryElementType\": null,\n    \"canCrit\": false,\n    \"critMultiplier\": 2,\n    \"critDiceOnly\": false,\n    \"dotConfig\": {\n      \"duration\": 3,\n      \"tickFrequency\": \"round\",\n      \"scalingType\": \"flat\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"dotFormulas\": [\n        {\n          \"round\": 1,\n          \"formula\": \"1d4\"\n        }\n      ]\n    }\n  },\n  \"healingConfig\": null,\n  \"buffConfig\": null,\n  \"debuffConfig\": null,\n  \"utilityConfig\": null,\n  \"controlConfig\": null,\n  \"summoningConfig\": null,\n  \"transformationConfig\": null,\n  \"purificationConfig\": null,\n  \"restorationConfig\": null,\n  \"rollableTable\": null,\n  \"effectResolutions\": {},\n  \"effectMechanicsConfigs\": {},\n  \"mechanicsAvailableEffects\": [],\n  \"combinedEffects\": [],\n  \"mechanicsAvailableCombinedEffects\": [],\n  \"targetingConfig\": {},\n  \"targetingMode\": \"unified\",\n  \"targetingTags\": {},\n  \"effectTargeting\": {},\n  \"durationConfig\": {},\n  \"persistentConfig\": {},\n  \"propagation\": null,\n  \"resourceCost\": {\n    \"components\": [],\n    \"materialComponents\": \"\",\n    \"actionPoints\": 1,\n    \"actionPointsSelected\": true,\n    \"resourceTypes\": [],\n    \"resourceValues\": {},\n    \"resourceFormulas\": {},\n    \"useFormulas\": {}\n  },\n  \"mechanicsConfig\": {\n    \"cards\": null,\n    \"combos\": null,\n    \"coins\": null,\n    \"stateRequirements\": [],\n    \"stateOptions\": {\n      \"thresholds\": []\n    }\n  },\n  \"prophecyOptions\": null,\n  \"cooldownConfig\": {},\n  \"triggerConfig\": {\n    \"global\": {\n      \"logicType\": \"AND\",\n      \"compoundTriggers\": [\n        {\n          \"id\": \"follow_up_after_damage\",\n          \"category\": \"combat\",\n          \"name\": \"Follow-up After My Damage\",\n          \"parameters\": {}\n        }\n      ]\n    },\n    \"effectTriggers\": {},\n    \"conditionalEffects\": {},\n    \"buffDebuffTriggers\": {},\n    \"requiredConditions\": {\n      \"enabled\": false,\n      \"logicType\": \"AND\",\n      \"conditions\": []\n    },\n    \"triggerRole\": {\n      \"mode\": \"CONDITIONAL\"\n    }\n  },\n  \"trapConfig\": {},\n  \"channelingConfig\": {},\n  \"errors\": {\n    \"targetingConfig\": \"Targeting configuration is required\",\n    \"durationConfig\": \"Duration configuration is required\"\n  },\n  \"warnings\": {},\n  \"currentStep\": 10,\n  \"completedSteps\": [\n    1,\n    2\n  ],\n  \"wizardFlow\": [\n    {\n      \"id\": 1,\n      \"name\": \"Basic Info\",\n      \"required\": true\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Spell Type\",\n      \"required\": true\n    },\n    {\n      \"id\": 3,\n      \"name\": \"Effects\",\n      \"required\": true\n    },\n    {\n      \"id\": \"triggers\",\n      \"name\": \"Triggers\",\n      \"required\": true\n    },\n    {\n      \"id\": 4,\n      \"name\": \"Targeting & Propagation\",\n      \"required\": true\n    },\n    {\n      \"id\": 5,\n      \"name\": \"Resources\",\n      \"required\": true\n    },\n    {\n      \"id\": 6,\n      \"name\": \"Cooldown\",\n      \"required\": true\n    },\n    {\n      \"id\": \"rollable-table\",\n      \"name\": \"Rollable Table\",\n      \"required\": false\n    },\n    {\n      \"id\": \"mechanics\",\n      \"name\": \"Mechanics\",\n      \"required\": false\n    },\n    {\n      \"id\": 10,\n      \"name\": \"Review\",\n      \"required\": true\n    }\n  ],\n  \"lastModified\": \"2026-11-13T18:56:14.598Z\",\n  \"isValid\": false\n}",
+ "humanReadable": "Passive Fidelity Whole Trigger is a  arcane spell. It has a casting time of 1 action. The spell has a range of 30 feet. The spell's duration is instantaneous. \n\nOrdinary passive authored with one whole-spell follow-up trigger.",
+ "gameCode": "{\n  \"id\": \"spell_1794596175407\",\n  \"name\": \"Passive Fidelity Whole Trigger\",\n  \"description\": \"Ordinary passive authored with one whole-spell follow-up trigger.\",\n  \"level\": 1,\n  \"school\": \"arcane\",\n  \"castingTime\": \"1 action\",\n  \"range\": \"30 feet\",\n  \"components\": {\n    \"verbal\": true,\n    \"somatic\": true,\n    \"material\": false,\n    \"materials\": \"\"\n  },\n  \"duration\": \"Instantaneous\",\n  \"resources\": {\n    \"actionPoints\": 1,\n    \"mana\": 13,\n    \"cooldown\": 0,\n    \"classResources\": null\n  },\n  \"effects\": {},\n  \"targeting\": {\n    \"type\": \"single\",\n    \"range\": 30,\n    \"restrictions\": [\n      \"any\"\n    ]\n  },\n  \"tags\": []\n}",
+ "effectType": "damage",
+ "damageTypes": [
+  "ember"
+ ],
+ "tags": [
+  "damage"
+ ],
+ "statusEffectsConfig": []
+}

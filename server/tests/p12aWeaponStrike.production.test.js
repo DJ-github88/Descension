@@ -301,9 +301,17 @@ describe('P12A owner-approved weapon strike (registered production stack)', func
   });
   it('P9 and strike registries cannot consume a shared approval ID, in either registration order', async() => {
     const first = await register(), id = first.approved.approvalId;
+    // Use a reviewed server-held P9 definition for the collision registration (the live P9 route).
+    const beforeSpheres = { type: 'elementalSpheres', spheres: ['arcane', 'arcane', 'ember'] };
+    const pcToken = actors.locate(live(), pcRef).token;
+    pcToken.character.class = 'Arcanoneer';
+    pcToken.character.classResource = { ...actors.clone(beforeSpheres), current: 3, max: 12 };
+    pcToken.state.classPayment = { version: 1, domain: 'elementalSpheres', value: actors.clone(beforeSpheres) };
     const p9 = { version: 1, roomId: room.id, approvalId: id, actionEpoch: epoch, baseCommitSequence: actors.ledger(live()).commitSequence, source: pcRef, target: foeRef,
-      spell: { definitionId: 'test-spell', definitionHash: `p9-spell:v1/${'a'.repeat(64)}`, name: 'Test', kind: 'damage', damageTypes: ['arcane'] },
-      roll: { mode: 'physical', dice: [{ sides: 8, faces: [6] }], constant: 0, total: 6, reading: '1d8' }, price: { ap: 1, mana: 0 }, classPayment: null };
+      spell: { definitionId: 'arc_spark_bolt', definitionHash: 'p9-spell:v1/599898d64f316c34af68f1e94fa0aa4aa5c8c6f30ad1483eaf16eda444f243ca', name: 'Marrow-Piercing Slug', kind: 'damage', damageTypes: ['arcane'] },
+      roll: { mode: 'physical', dice: [{ sides: 8, faces: [6] }], constant: 4, total: 10, reading: '1d8 + intelligence/4 → 1d8 + 4 (INT 16 ÷ 4, rounded down)' },
+      price: { ap: 1, mana: 4 },
+      classPayment: { domain: 'elementalSpheres', before: actors.clone(beforeSpheres), after: { type: 'elementalSpheres', spheres: ['ember'] }, price: { costs: ['arcane', 'arcane'], gains: [] } } };
     const p9Result = await ack(owner, 'actor_spell_approve', p9); assert.equal(p9Result.code, 'awaiting_gm', JSON.stringify(p9Result));
     const strikeCmd = await gmCommand(first.approved, first.contentHash);
     assert.equal((await ack(gm, 'actor_consequence', strikeCmd)).code, 'command_id_conflict');

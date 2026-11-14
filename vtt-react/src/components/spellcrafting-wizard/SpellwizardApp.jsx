@@ -291,6 +291,7 @@ const AppContent = ({ hideHeader = false }) => {
       const authoredDraft = JSON.parse(JSON.stringify(Object.fromEntries(
         Object.entries(cleanWizardState).filter(([key]) => key !== 'authoredDraft' && key !== 'serializedData')
       )));
+      authoredDraft.targetingConfig = JSON.parse(JSON.stringify(fullTargetingConfig));
 
       // Create a serialized version of the spell
       const spellData = {

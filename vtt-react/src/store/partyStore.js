@@ -204,6 +204,21 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
 
         const partyData = payload.party || payload;
 
+        // A delayed create response must not restore a party the account has
+        // already left or switched away from.
+        const presenceState = usePresenceStore.getState();
+        const isObsolete = typeof presenceState._isPartySnapshotObsolete === 'function' &&
+          presenceState._isPartySnapshotObsolete(partyData);
+        if (isObsolete) {
+          console.log('Ignoring obsolete party_created response', {
+            partyId: partyData?.id,
+            updatedAt: partyData?.updatedAt
+          });
+          set({ isCreatingParty: false, partyCreationPromise: null });
+          resolve(partyData);
+          return;
+        }
+
         // MERGE members instead of replacing the whole array
         // This prevents losing local character data or "current-player" entry
         set(state => {
@@ -255,6 +270,19 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
 
         // If error is "already in party", check if we have the party data and resolve
         if (error.error === 'You are already in a party' && error.party) {
+          const presenceState = usePresenceStore.getState();
+          const isObsolete = typeof presenceState._isPartySnapshotObsolete === 'function' &&
+            presenceState._isPartySnapshotObsolete(error.party);
+          if (isObsolete) {
+            console.log('Ignoring obsolete already-in-party response', {
+              partyId: error.party?.id,
+              updatedAt: error.party?.updatedAt
+            });
+            set({ isCreatingParty: false, partyCreationPromise: null });
+            resolve(error.party);
+            return;
+          }
+
           // MERGE members even on error case
           set(state => {
             let membersArray = [];
@@ -418,8 +446,11 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
 
     console.log('ðŸ“© Sending party invitation to:', targetUserId);
     const fromUserId = usePresenceStore.getState().currentUserPresence?.userId;
+    // Room entry may store a room display id in currentParty. The server
+    // derives the inviter's current social party from userToParty, so this
+    // client path sends no display id as a party hint.
     socket.emit('invite_to_party', {
-      partyId: currentParty.id,
+      partyId: null,
       fromUserId,
       toUserId: targetUserId
     });
@@ -443,7 +474,9 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
 
     // Remove from pending
     set(state => ({
-      pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId)
+      pendingPartyInvites: state.pendingPartyInvites.filter(inv =>
+        inv.id !== invitationId && inv.invitationId !== invitationId
+      )
     }));
   },
 
@@ -463,7 +496,9 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
 
     // Remove from pending
     set(state => ({
-      pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId)
+      pendingPartyInvites: state.pendingPartyInvites.filter(inv =>
+        inv.id !== invitationId && inv.invitationId !== invitationId
+      )
     }));
   },
 

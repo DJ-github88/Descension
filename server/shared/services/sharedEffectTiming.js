@@ -18,20 +18,37 @@ function scheduleFor(record, combat) {
  * when the effect is applied. Occurrence k happens at dueSequence − (N − k)·R, so the count is a pure function of the
  * authenticated clock sequence: no stored mutable counter, nothing a duplicate request could decrement twice.
  * Existing next-turn schedules carry neither field and keep their meaning (one occurrence at dueSequence).
+ * Roster re-anchoring adds optional `firstSequence`/`firstOccurrence` so a partially elapsed counted
+ * schedule keeps its remaining count when the roster geometry changes.
  */
+function firstOf(item, total) {
+  return Number.isSafeInteger(item.firstSequence) ? item.firstSequence : item.dueSequence - (total - 1) * item.period;
+}
+function firstOccurrenceOf(item) {
+  return Number.isSafeInteger(item.firstOccurrence) && item.firstOccurrence >= 1 ? item.firstOccurrence : 1;
+}
 function occurrenceAt(item, sequence) {
   const total = item?.occurrences || 1;
-  if (total === 1) return item?.dueSequence === sequence ? { occurrence: 1, of: 1, final: true } : null;
-  const gap = item.dueSequence - sequence;
-  if (!Number.isSafeInteger(item.period) || item.period < 1 || !Number.isSafeInteger(gap) || gap < 0 || gap % item.period !== 0) return null;
-  const after = gap / item.period;
-  return after < total ? { occurrence: total - after, of: total, final: after === 0 } : null;
+  if (total === 1) { return item?.dueSequence === sequence ? { occurrence: 1, of: 1, final: true } : null; }
+  if (!Number.isSafeInteger(item.period) || item.period < 1) { return null; }
+  const first = firstOf(item, total), firstOccurrence = firstOccurrenceOf(item);
+  if (!Number.isSafeInteger(first) || sequence < first) { return null; }
+  const gap = sequence - first;
+  if (gap % item.period !== 0) { return null; }
+  const occurrence = firstOccurrence + gap / item.period;
+  if (occurrence < 1 || occurrence > total) { return null; }
+  return { occurrence, of: total, final: occurrence === total };
 }
 // Boundaries still to come strictly after `sequence` (counted schedules; capped at N because a turn already in progress is never counted).
 function remaining(item, sequence) {
   const total = item?.occurrences || 1;
-  if (total === 1) return item.dueSequence > sequence ? 1 : 0;
-  return Math.max(0, Math.min(total, Math.ceil((item.dueSequence - sequence) / item.period)));
+  if (total === 1) { return item.dueSequence > sequence ? 1 : 0; }
+  if (!Number.isSafeInteger(item.period) || item.period < 1) { return 0; }
+  const first = firstOf(item, total), firstOccurrence = firstOccurrenceOf(item);
+  if (!Number.isSafeInteger(first)) { return 0; }
+  if (sequence < first) { return Math.max(0, Math.min(total, total - firstOccurrence + 1)); }
+  const elapsed = Math.floor((sequence - first) / item.period) + 1;
+  return Math.max(0, Math.min(total, total - firstOccurrence + 1 - elapsed));
 }
 function progress(record, combat) {
   const item = scheduleFor(record, combat), total = profile.structuredOccurrences(record);

@@ -10,6 +10,7 @@ const catalogueAbility = require('../shared/services/catalogueAbility.cjs');
 const catalogueProfiles = require('../shared/data/catalogueAbilityProfiles.json');
 const { canonical, sha256Hex } = require('../shared/services/canonicalHash');
 const payments = require('../services/spellPayments');
+const relationships = require('../services/actorRelationships');
 
 const ack = (s, event, data) => new Promise((resolve, reject) => {
   const t = setTimeout(() => reject(Error(event)), 5000);
@@ -29,7 +30,7 @@ describe('M6A bounded area / multi-target execution production authority tests',
     writer = new FirebaseBatchWriter(60000, 50, { shouldPersist: () => true, persist: async () => ({ outcome: 'confirmed' }) });
     server = createProductionStackServer({ firebaseBatchWriter: writer });
     await server.start();
-    for (const e of ['actor_bind', 'actor_consequence', 'actor_snapshot', 'actor_spell_approve', 'actor_spell_list', 'actor_authored_admit', 'actor_authored_revoke']) {
+    for (const e of ['actor_bind', 'actor_consequence', 'actor_snapshot', 'actor_spell_approve', 'actor_spell_list', 'actor_authored_admit', 'actor_authored_revoke', 'actor_relationship_set']) {
       server.setEventLimits(e, { maxPerMinute: 4000, maxPerSecond: 4000 });
     }
     gu = server.nextUserId();
@@ -138,6 +139,12 @@ describe('M6A bounded area / multi-target execution production authority tests',
   });
 
   const token = ref => actors.locate(room, ref).token;
+  async function setRelation(a, b, value) {
+    const result = await ack(gm, 'actor_relationship_set', { version: 1, roomId: room.id, commandId: uuid(),
+      actionEpoch: actors.epoch(room), baseCommitSequence: actors.ledger(room).commitSequence,
+      pairs: [{ a, b }], value, expectedRelationshipRevision: relationships.revision(room) });
+    assert.equal(result.success, true, JSON.stringify(result));
+  }
 
   function makeWizardAreaRecord({
     formula = '2d6 + intelligence / 2',
@@ -190,7 +197,10 @@ describe('M6A bounded area / multi-target execution production authority tests',
       classId: 'arcanoneer'
     });
     assert.equal(result.success, true, JSON.stringify(result));
-    return installed.list(room).entries.find(e => e.definitionRef.definitionId === record.authoredDefinitionId);
+    const entry = installed.list(room).entries.find(e => e.definitionRef.definitionId === record.authoredDefinitionId);
+    const restriction = entry.canonicalDefinition.targeting.restriction;
+    if (['ally', 'enemy'].includes(restriction)) { for (const ref of foes) await setRelation(pc, ref, restriction); }
+    return entry;
   }
 
   function buildAreaApproval(e, targetRefs, { faces = [4, 5], classPayment = null, areaOrigin = { x: 150, y: 150 } } = {}) {

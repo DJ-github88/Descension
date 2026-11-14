@@ -4,8 +4,9 @@ import { LIBRARY_ACTION_TYPES, useSpellLibraryDispatch, libraryActionCreators } 
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import WizardStep from '../common/WizardStep';
 import ExecutionCompatibility from '../common/ExecutionCompatibility';
-import { draftSubject } from '../../utils/executionCompatibility';
+import { draftSubject, finalizeTargetingConfig } from '../../utils/executionCompatibility';
 import { saveDisclosureForRecord } from '../common/spellSavePresentation';
+import { triggerDisclosureForRecord } from '../common/spellTriggerPresentation';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 // Pathfinder styles imported via main.css
 import {
@@ -13,9 +14,9 @@ import {
   deserializeSpell,
   generateHumanReadable,
   generateGameCode,
-  createSpellTemplate
+  createSpellTemplate,
+  extractSpellIcon
 } from '../../core/utils/spellSerializer';
-import { extractSpellIcon } from '../../core/utils/previewGenerator';
 import { formatFormulaToPlainEnglish } from '../common/SpellCardUtils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -89,6 +90,7 @@ const Step10Review = ({
 
   // Map wizard state to a format the UnifiedSpellCard can understand
   const mapWizardStateToPreviewState = () => {
+    const previewSubject = draftSubject(spellState);
     // Extract icon from spell state
     const icon = spellState.typeConfig?.icon || extractSpellIcon(spellState) || 'inv_misc_questionmark';
 
@@ -249,8 +251,7 @@ const Step10Review = ({
       triggerConfig: (hasActualTriggers ||
         Object.keys(spellState.triggerConfig?.conditionalEffects || {}).length > 0 ||
         Object.keys(spellState.triggerConfig?.buffDebuffTriggers || {}).length > 0 ||
-        spellState.triggerConfig?.requiredConditions?.enabled ||
-        spellState.triggerConfig?.triggerRole?.mode
+        spellState.triggerConfig?.requiredConditions?.enabled
       ) ? spellState.triggerConfig : null,
 
       // Damage/Healing information
@@ -507,8 +508,9 @@ const Step10Review = ({
       effects: spellState.effects || null,
       timing: spellState.timing || null,
 
-      // Presentation only: compiler-derived preview save disclosure (same subject as the Review).
-      authoredSaveDisclosure: saveDisclosureForRecord(draftSubject(spellState)),
+      // Presentation only: compiler-derived preview disclosures (same subject as the Review).
+      authoredSaveDisclosure: saveDisclosureForRecord(previewSubject),
+      authoredTriggerDisclosure: triggerDisclosureForRecord(previewSubject),
 
       // Channeling configuration
       channelingConfig: spellState.spellType === 'CHANNELED' || spellState.spellType === 'channeled' ? {
@@ -1154,10 +1156,9 @@ const Step10Review = ({
       rarity: spellState.rarity || 'common',
       lastModified: new Date().toISOString(),
 
-      // Include trap and trigger configurations
+      // Include trap configuration
       spellType: spellState.spellType || 'ACTION',
       trapConfig: spellState.trapConfig,
-      triggerConfig: hasActualTriggers ? spellState.triggerConfig : null,
       typeConfig: spellState.typeConfig,
 
       // Prophecy configuration (Doomsayer)
@@ -2635,25 +2636,7 @@ const Step10Review = ({
       }
       
       // Ensure targetingConfig has all required fields, including aoeType
-      const fullTargetingConfig = {
-        ...spellState.targetingConfig,
-        // Ensure aoeType is included (may be same as aoeShape or separate)
-        aoeType: spellState.targetingConfig?.aoeType || spellState.targetingConfig?.aoeShape || 'sphere',
-        // Ensure all targeting fields are present
-        targetingType: spellState.targetingConfig?.targetingType || 'single',
-        rangeType: spellState.targetingConfig?.rangeType || 'ranged',
-        rangeDistance: spellState.targetingConfig?.rangeDistance,
-        aoeShape: spellState.targetingConfig?.aoeShape || 'circle',
-        aoeParameters: spellState.targetingConfig?.aoeParameters || {},
-        targetRestrictions: spellState.targetingConfig?.targetRestrictions || 
-                          (spellState.targetingConfig?.targetRestriction ? [spellState.targetingConfig.targetRestriction] : ['any']),
-        maxTargets: spellState.targetingConfig?.maxTargets,
-        selectionMethod: spellState.targetingConfig?.selectionMethod || 
-                        spellState.targetingConfig?.targetSelectionMethod || 'manual',
-        targetSelectionMethod: spellState.targetingConfig?.targetSelectionMethod || 
-                              spellState.targetingConfig?.selectionMethod || 'manual',
-        movementBehavior: spellState.targetingConfig?.movementBehavior || 'static'
-      };
+      const fullTargetingConfig = finalizeTargetingConfig(spellState.targetingConfig);
       
       // Create a clean version of spellState without transient edit-mode metadata or library-only fields in draft
       const {
@@ -2673,6 +2656,12 @@ const Step10Review = ({
       } = spellState;
       
       const authoredDraft = JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(cleanSpellState).filter(([key]) => key !== 'authoredDraft' && key !== 'serializedData'))));
+      authoredDraft.targetingConfig = JSON.parse(JSON.stringify(fullTargetingConfig));
+
+      const safeIcon = (value) => (typeof value === 'string' && value.trim() && !/[<>]/.test(value) ? value : null);
+      const resolvedIcon = safeIcon(spellState.typeConfig?.icon) ||
+        safeIcon(spellState.icon) ||
+        extractSpellIcon({ ...spellState, icon: safeIcon(spellState.icon) });
 
       // Create a complete spell object for the library
       const librarySpell = {
@@ -2686,7 +2675,7 @@ const Step10Review = ({
         id: isEditing && editingSpellId ? editingSpellId : generateSpellId(spellState.name),
         dateCreated: (isEditing && spellState.dateCreated) ? spellState.dateCreated : new Date().toISOString(),
         lastModified: new Date().toISOString(),
-        icon: extractSpellIcon(spellState),
+        icon: resolvedIcon,
         serializedData: JSON.stringify(authoredDraft, null, 2),
         humanReadable: generateHumanReadable(cleanSpellState),
         gameCode: generateGameCode(cleanSpellState),
@@ -2835,6 +2824,12 @@ const Step10Review = ({
           return true;
         }
       }
+    }
+
+    // Check for effect-attached triggers
+    if (triggerConfig.buffDebuffTriggers &&
+        Object.keys(triggerConfig.buffDebuffTriggers).length > 0) {
+      return true;
     }
 
     // Check for legacy compound triggers

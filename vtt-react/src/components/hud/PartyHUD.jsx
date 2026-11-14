@@ -15,6 +15,7 @@ import useChatStore from '../../store/chatStore';
 import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore'; // CRITICAL: For userId identification
 import useCreatureStore from '../../store/creatureStore';
+import useMapStore from '../../store/mapStore';
 import { getTokensForClass, getTokensForRace, resolveClassId } from '../../data/summonableTokens';
 import ClassResourceBar from './ClassResourceBar';
 import SummonTokenBar from './SummonTokenBar';
@@ -45,6 +46,10 @@ import ActorConsequenceLayer from './ActorConsequenceLayer';
 import ReactionWindowHost from './ReactionWindowPanel';
 import RiposteHost from './RipostePanel';
 import { SharedConditionHost } from '../conditions/SharedDefendingEditor';
+import { COMPANION_DRAG_MIME, COMPANION_RECONCILED_MESSAGE, COMPANION_RECONCILE_REFRESH_FAILED_MESSAGE,
+    buildCompanionDragPayload, companionRefusalText, dismissCompanion,
+    focusPlacedCompanion, listCompanions } from '../../services/companionRecruitment';
+import { findCompanionToken } from '../../services/companionIdentity';
 import { expiryLabel as sharedExpiryLabel } from '../../services/sharedConditionProfile';
 import { useSharedConditionStore } from '../../services/sharedConditionService';
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -2352,6 +2357,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const [overhealData, setOverhealData] = useState(null); // { resourceType, amount, memberId }
     const [showSummonTokenBar, setShowSummonTokenBar] = useState(false);
     const [summonTokenBarCharacter, setSummonTokenBarCharacter] = useState(null);
+    const [companionEntries, setCompanionEntries] = useState([]);
+    const [companionStatus, setCompanionStatus] = useState('');
+    const [companionRosterRevision, setCompanionRosterRevision] = useState(null);
     const nodeRefs = useRef({});
     const resourceBarRefs = useRef({}); // Store refs to resource bars for floating text positioning
     // Measured frame heights per member: class bars vary in height, so the
@@ -2557,6 +2565,132 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         setContextMenuPosition({ x: e.clientX, y: e.clientY });
         setContextMenuMember(member);
         setShowContextMenu(true);
+        const game = useGameStore.getState();
+        if (game.isInMultiplayer && game.multiplayerRoom?.id &&
+            isSelfId(member?.id, member?.userId, myIds)) {
+            setCompanionEntries([]);
+            setCompanionRosterRevision(null);
+            setCompanionStatus('Loading companions…');
+            listCompanions(game.multiplayerRoom.id).then(result => {
+                if (!result?.success) {
+                    setCompanionEntries([]);
+                    setCompanionRosterRevision(null);
+                    setCompanionStatus(companionRefusalText(result));
+                    return;
+                }
+                setCompanionEntries(Array.isArray(result.entries) ? result.entries : []);
+                setCompanionRosterRevision(result.rosterRevision ?? 0);
+                setCompanionStatus('');
+            }).catch(() => {
+                setCompanionEntries([]);
+                setCompanionRosterRevision(null);
+                setCompanionStatus('The companion roster is unavailable.');
+            });
+        }
+    };
+
+    const refreshCompanionReconciliation = async (roomId, result) => {
+        let message = result?.reconciledMessage || COMPANION_RECONCILED_MESSAGE;
+        try {
+            const listed = await listCompanions(roomId);
+            if (!listed?.success) {
+                message = COMPANION_RECONCILE_REFRESH_FAILED_MESSAGE;
+            } else {
+                setCompanionEntries(Array.isArray(listed.entries) ? listed.entries : []);
+                setCompanionRosterRevision(listed.rosterRevision ?? 0);
+            }
+        } catch (_) {
+            message = COMPANION_RECONCILE_REFRESH_FAILED_MESSAGE;
+        }
+        setCompanionStatus(message);
+        addNotification?.('combat', { type: 'system', content: message, timestamp: new Date().toISOString() });
+    };
+
+    const handleFocusCompanion = async (entry) => {
+        const game = useGameStore.getState();
+        const roomId = game.multiplayerRoom?.id;
+        if (!roomId || !entry?.activeRef) return;
+        const mapState = useMapStore.getState();
+        const currentMapId = mapState.currentMapId ||
+            (typeof mapState.getCurrentMapId === 'function' ? mapState.getCurrentMapId() : null) || 'default';
+        if (entry.activeRef.mapId !== currentMapId) {
+            const message = companionRefusalText({ code: 'active_actor_elsewhere' });
+            setCompanionStatus(message);
+            addNotification?.('combat', { type: 'system', content: message, timestamp: new Date().toISOString() });
+            return;
+        }
+        const placed = findCompanionToken(useCreatureStore.getState().creatureTokens || [], entry.activeRef);
+        const result = await focusPlacedCompanion({
+            roomId,
+            entry,
+            rosterRevision: companionRosterRevision,
+            mapId: currentMapId,
+            position: placed?.position || { x: 0, y: 0 }
+        });
+        if (result?.reconciled) {
+            await refreshCompanionReconciliation(roomId, result);
+            return;
+        }
+        if (!result?.success) {
+            const message = companionRefusalText(result);
+            setCompanionStatus(message);
+            addNotification?.('combat', { type: 'system', content: message, timestamp: new Date().toISOString() });
+            return;
+        }
+        const exact = findCompanionToken(useCreatureStore.getState().creatureTokens || [],
+            result.activeRef || entry.activeRef);
+        if (!exact?.position) {
+            const message = 'That companion is placed, but its exact token is not available on this client map.';
+            setCompanionStatus(message);
+            addNotification?.('combat', { type: 'system', content: message, timestamp: new Date().toISOString() });
+            return;
+        }
+        useGameStore.getState().setCameraPosition(exact.position.x, exact.position.y);
+        setCompanionStatus('');
+    };
+
+    const handleCompanionDragStart = (event, entry) => {
+        const built = buildCompanionDragPayload(entry);
+        if (built.success === false) {
+            event.preventDefault();
+            setCompanionStatus(companionRefusalText(built));
+            return;
+        }
+        const payload = JSON.stringify(built.payload);
+        event.dataTransfer.setData(COMPANION_DRAG_MIME, payload);
+        event.dataTransfer.setData('text/plain', payload);
+        event.dataTransfer.effectAllowed = 'copy';
+        window._isDraggingCompanionRoster = true;
+        setCompanionStatus(`Drag ${entry.displayName || 'companion'} to the grid to place.`);
+    };
+
+    const handleCompanionDragEnd = () => {
+        window._isDraggingCompanionRoster = false;
+        setShowContextMenu(false);
+    };
+
+    const handleDismissCompanion = async (entry) => {
+        const game = useGameStore.getState();
+        const roomId = game.multiplayerRoom?.id;
+        if (!roomId || !entry?.rosterId) return;
+        setCompanionStatus(`Dismissing ${entry.displayName || 'companion'}…`);
+        const result = await dismissCompanion({ roomId, rosterId: entry.rosterId });
+        if (result?.reconciled) {
+            await refreshCompanionReconciliation(roomId, result);
+            return;
+        }
+        if (!result?.success) {
+            const message = companionRefusalText(result);
+            setCompanionStatus(message);
+            addNotification?.('combat', { type: 'system', content: message, timestamp: new Date().toISOString() });
+            return;
+        }
+        const listed = await listCompanions(roomId);
+        if (listed?.success) {
+            setCompanionEntries(Array.isArray(listed.entries) ? listed.entries : []);
+            setCompanionRosterRevision(listed.rosterRevision ?? 0);
+        }
+        setCompanionStatus('Companion dismissed to available.');
     };
 
     // Buff context menu handlers
@@ -4199,6 +4333,55 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     label: 'Inspect',
                     onClick: handleInspectMember
                 });
+
+                // Recruited companions: listed for the recipient from the server-held roster.
+                if (isSelf && isInMultiplayer) {
+                    const companionItems = [];
+                    if (companionEntries.length === 0) {
+                        companionItems.push({ label: companionStatus || 'No recruited companions', disabled: !companionStatus });
+                    } else {
+                        if (companionStatus) {
+                            companionItems.push({ label: companionStatus, disabled: true });
+                        }
+                        for (const entry of companionEntries) {
+                            const name = entry.displayName || 'Companion';
+                            if (entry.state === 'placed') {
+                                companionItems.push({
+                                    icon: <i className="fas fa-crosshairs"></i>,
+                                    label: `Focus ${name}`,
+                                    onClick: () => handleFocusCompanion(entry)
+                                });
+                                companionItems.push({
+                                    icon: <i className="fas fa-undo"></i>,
+                                    label: `Dismiss ${name}`,
+                                    title: 'Return this recruited companion to the available roster. No HP, mana, AP or condition is reset.',
+                                    keepOpen: true,
+                                    onClick: () => handleDismissCompanion(entry)
+                                });
+                            } else if (entry.state === 'available') {
+                                companionItems.push({
+                                    icon: <i className="fas fa-hand-pointer"></i>,
+                                    label: `Place ${name} — drag to grid`,
+                                    draggable: true,
+                                    onDragStart: event => handleCompanionDragStart(event, entry),
+                                    onDragEnd: handleCompanionDragEnd,
+                                    title: 'Drag this recruited companion onto the grid. The same stable token identity is reused without resetting resources.'
+                                });
+                            } else {
+                                companionItems.push({
+                                    icon: <i className="fas fa-ban"></i>,
+                                    label: `${name} — Inactive`,
+                                    disabled: true
+                                });
+                            }
+                        }
+                    }
+                    menuItems.push({
+                        icon: <i className="fas fa-paw"></i>,
+                        label: 'Companions',
+                        submenu: companionItems
+                    });
+                }
 
                 // Only show create token for current player
                 if (contextMenuMember?.name === currentPlayerData.name || isSelfId(contextMenuMember?.id, contextMenuMember?.userId, myIds)) {

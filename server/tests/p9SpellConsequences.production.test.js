@@ -14,7 +14,7 @@ const ack = (client, event, payload) => new Promise((resolve, reject) => {
 });
 const once = (client, event) => new Promise(resolve => client.once(event, resolve));
 const sha = value => crypto.createHash('sha256').update(value).digest('hex');
-const DEF_HASH = `p9-spell:v1/${sha('arc_spark_bolt')}`;
+const DEF_HASH = 'p9-spell:v1/599898d64f316c34af68f1e94fa0aa4aa5c8c6f30ad1483eaf16eda444f243ca';
 
 describe('P9 owner-approved spell consequences (registered production stack)', function() {
   this.timeout(20000);
@@ -133,28 +133,22 @@ describe('P9 owner-approved spell consequences (registered production stack)', f
     assert.equal((await ack(owner, 'actor_recovery', { roomId: room.id, ref: pcRef })).recovery.rawToken.state.classPayment.value.spheres[0], 'ember');
     assert.equal((await ack(other, 'actor_recovery', { roomId: room.id, ref: pcRef })).code, 'forbidden');
   });
-  it('S4 Martyr self-heal is one actor; ledger result is private and public receipt shows only current/max', async() => {
+  it('S4 catalogue-pinned Restorative Prayer is refused on the legacy P9 route with no mutation', async() => {
     const ledger = { type: 'devotionGauge', current: 2, max: 6, damage: 62, earnedLevels: 4, spentLevels: 2, bonusLevels: 0 };
     assert.equal((await sync(null, { domain: 'devotionGauge', value: ledger })).success, true);
     const after = { ...ledger, current: 3, spentLevels: 1 };
+    const before = JSON.stringify(room.gameState);
     const approved = approval({ target: pcRef, spell: { definitionId: 'martyr_restorative_prayer', definitionHash: `p9-spell:v1/${sha('prayer')}`, name: 'Restorative Prayer', kind: 'healing', damageTypes: [] },
       roll: { mode: 'digital', dice: [{ sides: 4, faces: [3] }], constant: 14, total: 17, reading: '1d4 + spirit → 1d4 + 14 (SPI score)' }, price: { ap: 1, mana: 5 },
       classPayment: { domain: 'devotionGauge', before: ledger, after, price: { cost: 0, gain: 1, required: 0 } } });
-    const registered = await ack(owner, 'actor_spell_approve', approved); assert.equal(registered.code, 'awaiting_gm', JSON.stringify(registered));
-    const chosen = JSON.stringify({ capability: 'p9-spell:v1', approvalId: approved.approvalId, roll: approved.roll, kind: 'healing', damageTypes: [], gmConfirmed: true });
-    const accepted = await ack(gm, 'actor_consequence', await command(gm, [{ ref: pcRef, expectedRevision: revision(pcRef),
-      finalResources: { ap: { current: 2, temp: 0 }, mana: { current: 8, temp: 0 }, hp: { current: 37, temp: 0 } }, classPayment: { mode: 'spell', domain: 'devotionGauge', approvalHash: registered.contentHash } }],
-    { source: pcRef, target: pcRef, approval: { approvalId: approved.approvalId, contentHash: registered.contentHash },
-      adjudication: { definitionId: 'martyr_restorative_prayer', definitionVersionOrHash: approved.spell.definitionHash, chosenResult: chosen, finalAmount: 17, adjustmentReason: '' } }));
-    assert.equal(accepted.success, true, JSON.stringify(accepted));
-    assert.equal(accepted.receipt.actors.length, 1); assert.equal(accepted.receipt.actors[0].afterRevision, accepted.receipt.actors[0].beforeRevision + 1);
-    assert.deepEqual(actors.locate(room, pcRef).token.state.classPayment.value, after);
-    assert.deepEqual(accepted.receipt.actors[0].classPayment.public, { type: 'devotionGauge', current: 3, max: 6 });
-    assert.equal(JSON.stringify(accepted.receipt).includes('spentLevels'), false);
-    // Conservation: a ledger that does not restore spent first is refused before registration.
-    const bad = approval({ ...approved, approvalId: crypto.randomUUID(), classPayment: { ...approved.classPayment, before: after, after: { ...after, current: 4, spentLevels: 1, bonusLevels: 1 } } });
-    assert.equal((await ack(owner, 'actor_spell_approve', bad)).code, 'class_payment_mismatch');
+    const refused = await ack(owner, 'actor_spell_approve', approved);
+    assert.equal(refused.success, false, JSON.stringify(refused));
+    assert.equal(refused.code, 'catalogue_p9_fallback_refused', JSON.stringify(refused));
+    assert.match(refused.error, /catalogue admission/i);
+    assert.equal(JSON.stringify(room.gameState), before);
+    assert.equal(payments.get(room, approved.approvalId), null);
   });
+
   it('S5 revision bump or temp split change needs no owner re-approval; a changed class home requires it', async() => {
     await sync(null, { domain: 'elementalSpheres', value: spheres(['arcane', 'arcane', 'ember']) });
     const approved = approval();
@@ -259,15 +253,15 @@ describe('P9 owner-approved spell consequences (registered production stack)', f
     assert.equal(accepted.success, true, JSON.stringify(accepted));
     assert.equal(payments.get(room, approved.approvalId), null);
     assert.equal(accepted.receipt.authorization.authorizerUid, gmUid);
-    assert.equal((await ack(owner, 'actor_spell_approve', approval({ classPayment: null }))).code, 'awaiting_gm', 'consumed approval no longer blocks new approvals');
+    await sync({ domain: 'elementalSpheres', value: spheres(['ember']) }, { domain: 'elementalSpheres', value: spheres(['arcane', 'arcane', 'ember']) });
+    assert.equal((await ack(owner, 'actor_spell_approve', approval())).code, 'awaiting_gm', 'consumed approval no longer blocks new approvals');
   });
   it('R-B2 a consumed approval stays consumed after its receipt is pruned; re-checks are unknown, never re-registered', async() => {
     server.setEventLimits('actor_consequence', { maxPerMinute: 50000, maxPerSecond: 50000 });
     await sync(null, { domain: 'elementalSpheres', value: spheres(['arcane', 'arcane', 'ember']) });
-    const approved = approval({ classPayment: null });
+    const approved = approval();
     const { contentHash } = await ack(owner, 'actor_spell_approve', approved);
     const cmd = await gmCommand(approved, contentHash, { entries: undefined });
-    cmd.actors[0] = { ...cmd.actors[0] }; delete cmd.actors[0].classPayment;
     const accepted = await ack(gm, 'actor_consequence', cmd);
     assert.equal(accepted.success, true, JSON.stringify(accepted));
     for (let index = 0; index < 260; index++) {
@@ -282,7 +276,7 @@ describe('P9 owner-approved spell consequences (registered production stack)', f
     assert.equal((await ack(owner, 'actor_spell_withdraw', { roomId: room.id, approvalId: approved.approvalId })).code, 'approval_consumed');
     assert.equal((await ack(gm, 'actor_consequence', cmd)).code, 'retry_window_expired', 'a pruned GM command re-check is unknown, not refused-as-unapplied');
     // A different approval prepared before the floor cannot register either.
-    assert.equal((await ack(owner, 'actor_spell_approve', approval({ classPayment: null, baseCommitSequence: 0 }))).code, 'retry_window_expired');
+    assert.equal((await ack(owner, 'actor_spell_approve', approval({ baseCommitSequence: 0 }))).code, 'retry_window_expired');
     assert.equal(JSON.stringify(room.gameState), before);
   });
   it('R-N1/N2 closed approvals are never forgotten within a runtime; the legacy mirror is not reverted by unrelated commands', async() => {

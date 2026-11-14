@@ -24,14 +24,42 @@ export const STATES = Object.freeze({ EXECUTABLE: 'executable', PARTIAL: 'partia
 export const WIZARD_ONLY_KEYS = Object.freeze(['editMode', 'editingSpellId', 'categoryIds', 'categories', 'source', 'isCustom', 'isUserCreated', 'createdAt', 'updatedAt', 'userId', 'lastSaved', 'dateCreated']);
 
 /**
- * Wraps an unsaved Wizard state exactly as the save path does: the Wizard-only keys are removed, authoredDraft is a plain copy of
- * the rest, and serializedData is regenerated from that copy (a loaded spell's stale serializedData is replaced when it is saved).
- * Nothing about what the validator accepts changes; a field the validator refuses is still refused.
+ * Normalizes targetingConfig using the same save-boundary contract as SpellwizardApp and Step10Review.
+ */
+export function finalizeTargetingConfig(targetingConfig) {
+  return {
+    ...targetingConfig,
+    aoeType: targetingConfig?.aoeType || targetingConfig?.aoeShape || 'sphere',
+    targetingType: targetingConfig?.targetingType || 'single',
+    rangeType: targetingConfig?.rangeType || 'ranged',
+    rangeDistance: targetingConfig?.rangeDistance,
+    aoeShape: targetingConfig?.aoeShape || 'circle',
+    aoeParameters: targetingConfig?.aoeParameters || {},
+    targetRestrictions: targetingConfig?.targetRestrictions ||
+      (targetingConfig?.targetRestriction ? [targetingConfig.targetRestriction] : ['any']),
+    maxTargets: targetingConfig?.maxTargets,
+    selectionMethod: targetingConfig?.selectionMethod ||
+      targetingConfig?.targetSelectionMethod || 'manual',
+    targetSelectionMethod: targetingConfig?.targetSelectionMethod ||
+      targetingConfig?.selectionMethod || 'manual',
+    movementBehavior: targetingConfig?.movementBehavior || 'static'
+  };
+}
+
+/**
+ * Wraps an unsaved Wizard state exactly as the save path does: the Wizard-only keys are removed,
+ * targetingConfig is finalized with the save-boundary defaults, authoredDraft is a plain copy of
+ * the rest, and serializedData is regenerated from that copy (a loaded spell's stale serializedData
+ * is replaced when it is saved). Nothing about what the validator accepts changes; a field the
+ * validator refuses is still refused.
  */
 export function draftSubject(draft) {
   if (!draft || typeof draft !== 'object') return null;
+  const fullTargetingConfig = finalizeTargetingConfig(draft.targetingConfig);
   const state = Object.fromEntries(Object.entries(draft).filter(([key]) => !WIZARD_ONLY_KEYS.includes(key)));
+  state.targetingConfig = fullTargetingConfig;
   const authoredDraft = JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(state).filter(([key]) => key !== 'authoredDraft' && key !== 'serializedData'))));
+  authoredDraft.targetingConfig = JSON.parse(JSON.stringify(fullTargetingConfig));
   return { ...state, authoredDraft, serializedData: JSON.stringify(authoredDraft, null, 2) };
 }
 

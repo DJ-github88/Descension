@@ -59,7 +59,7 @@ const useCharacterTokenStore = create(
       const sheet = getStore('characterStore')?.getState();
       if (sheet?.currentCharacterId && (!characterSnapshot?.id || characterSnapshot.id === sheet.currentCharacterId)) {
        characterSnapshot = { ...characterSnapshot, id: sheet.currentCharacterId, name: sheet.name, race: sheet.race, class: sheet.class, level: sheet.level,
-        stats: sheet.stats, health: sheet.health, mana: sheet.mana, actionPoints: sheet.actionPoints,
+        stats: sheet.stats, skillRanks: sheet.skillRanks, health: sheet.health, mana: sheet.mana, actionPoints: sheet.actionPoints,
         tempHealth: sheet.tempHealth, tempMana: sheet.tempMana, tempActionPoints: sheet.tempActionPoints, tokenSettings: sheet.tokenSettings };
       }
      }
@@ -346,6 +346,8 @@ const useCharacterTokenStore = create(
       const ownNames = new Set([s.name, s.baseName].filter(Boolean));
       const fresh = {
        id: s.currentCharacterId,
+       stats: s.stats,
+       skillRanks: s.skillRanks,
        name: s.name,
        race: s.race,
        raceDisplayName: s.raceDisplayName,

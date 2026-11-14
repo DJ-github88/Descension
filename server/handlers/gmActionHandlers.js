@@ -17,6 +17,8 @@ function registerGmActionHandlers(ctx) {
   const {
     io,
     socket,
+    players,
+    rooms,
     logger,
     validateRoomMembership,
     validateMapExists,
@@ -409,13 +411,17 @@ function registerGmActionHandlers(ctx) {
         if (room.gameState.combat?.effectLifecycle && (!socket.data?.authenticated || socket.data.userId !== room.gmId || room.gm?.socketId !== socket.id)) {return;}
         {
           const retiredTicks = require('../services/sharedEffectLifecycle').retainOpenTicks(room.gameState.combat);
-          room.gameState.combat = {
+          const nextCombat = {
             isActive: false,
             currentTurn: null,
             turnOrder: [],
             round: 0,
             ...(retiredTicks ? { retiredPeriodicTicks: retiredTicks } : {})
           };
+          const clockApprovals = require('../services/combatClockApprovals');
+          const closed = clockApprovals.closePending(room);
+          room.gameState.combat = nextCombat;
+          if (closed.length) {clockApprovals.notify({ io, players, rooms, logger }, room, closed);}
         }
         break;
 

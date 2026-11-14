@@ -1,0 +1,53 @@
+{
+  "id": "skill_perception_heightened_senses",
+  "name": "Heightened Senses",
+  "description": "Your senses are on high alert. Add 2 to your initiative rolls.",
+  "spellType": "PASSIVE",
+  "effectTypes": ["buff"],
+  "typeConfig": {
+    "school": "wyrd",
+    "icon": "spell_nature_sentinal",
+    "tags": ["skill", "perception", "buff", "passive", "proficient"]
+  },
+  "buffConfig": {
+    "buffType": "statEnhancement",
+    "effects": [
+      {
+        "id": "initiative_boost",
+        "name": "Heightened Senses",
+        "description": "Add 2 to initiative rolls",
+        "mechanicsText": "",
+        "statModifier": {
+          "stat": "initiative",
+          "magnitude": 2,
+          "magnitudeType": "flat"
+        }
+      }
+    ],
+    "durationValue": 0,
+    "durationType": "permanent",
+    "durationUnit": "permanent",
+    "concentrationRequired": false,
+    "canBeDispelled": false
+  },
+  "targetingConfig": {
+    "targetingType": "self",
+    "rangeType": "self",
+    "rangeDistance": 0
+  },
+  "resourceCost": {
+    "resourceTypes": [],
+    "resourceValues": {},
+    "actionPoints": 0,
+    "components": []
+  },
+  "cooldownConfig": {
+    "type": "turn_based",
+    "value": 0
+  },
+  "resolution": "DICE",
+  "skillRequirement": {
+    "skillId": "perception",
+    "minRank": "NOVICE"
+  }
+}

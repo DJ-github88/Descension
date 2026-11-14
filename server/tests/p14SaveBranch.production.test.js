@@ -15,6 +15,7 @@ const effect = require('../../vtt-react/src/services/authoredEffect');
 const saveBranch = require('../../vtt-react/src/services/saveBranch');
 const classEffect = require('../../vtt-react/src/services/classEffect');
 const profile = require('../../vtt-react/src/services/sharedConditionProfile');
+const relationships = require('../services/actorRelationships');
 const once = (s, e) => new Promise(r => s.once(e, r));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const ack = (s, e, d) => new Promise((resolve, reject) => { const t = setTimeout(() => reject(Error(e)), 5000); s.emit(e, d, r => { clearTimeout(t); resolve(r); }); });
@@ -41,7 +42,7 @@ describe('Shared GM-recorded save outcomes — Wizard bundle, registered product
   beforeEach(async() => {
     writer = new FirebaseBatchWriter(60000, 50, { shouldPersist: () => true, persist: async() => ({ outcome: 'confirmed' }) });
     server = createProductionStackServer({ firebaseBatchWriter: writer }); await server.start();
-    for (const e of ['actor_bind', 'actor_snapshot', 'actor_consequence', 'actor_authored_admit', 'actor_spell_prepare_creature', 'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_list', 'actor_recovery'])
+    for (const e of ['actor_bind', 'actor_snapshot', 'actor_consequence', 'actor_authored_admit', 'actor_spell_prepare_creature', 'actor_spell_approve', 'actor_spell_withdraw', 'actor_spell_list', 'actor_recovery', 'actor_relationship_set'])
       server.setEventLimits(e, { maxPerMinute: 4000, maxPerSecond: 4000 });
     const gmUid = server.nextUserId(); ownerUid = server.nextUserId();
     server.registerAuthToken('gm', gmUid); server.registerAuthToken('owner', ownerUid); server.registerAuthToken('observer', server.nextUserId());
@@ -59,6 +60,7 @@ describe('Shared GM-recorded save outcomes — Wizard bundle, registered product
     m().characterTokens.pc = { id: 'pc', ownerUserId: ownerUid, character: { id: 'c', class: 'Arcanoneer', health: { current: 20, max: 30 }, mana: { current: 10, max: 10 }, actionPoints: { current: 4, max: 4 }, tempMana: 2, tempActionPoints: 1 }, state: { conditions: [] } };
     pc = (await ack(gm, 'actor_bind', { roomId: room.id, ref: { kind: 'character', roomId: room.id, mapId: 'default', tokenId: 'pc', ownerUid, characterId: 'c' }, snapshotHash: actors.hash(m().characterTokens.pc) })).ref;
     assert.ok(pc);
+    await setRelation(pc, target, 'enemy');
   });
   afterEach(async() => { gm.disconnect(); owner.disconnect(); observer.disconnect(); await server.stop(); });
 
@@ -105,6 +107,12 @@ describe('Shared GM-recorded save outcomes — Wizard bundle, registered product
     assert.equal(r.success, false, JSON.stringify(r)); if (code) assert.equal(r.code, code, JSON.stringify(r)); assert.deepEqual(live().gameState, before, 'nothing changed'); return r;
   }
   const withdraw = a => ack(owner, 'actor_spell_withdraw', { roomId: room.id, approvalId: a.approvalId });
+  async function setRelation(a, b, value) {
+    const result = await ack(gm, 'actor_relationship_set', { version: 1, roomId: room.id, commandId: uuid(),
+      actionEpoch: actors.epoch(live()), baseCommitSequence: actors.ledger(live()).commitSequence,
+      pairs: [{ a, b }], value, expectedRelationshipRevision: relationships.revision(live()) });
+    assert.equal(result.success, true, JSON.stringify(result));
+  }
 
   it('compiler: a rider-local "negates" save compiles under its own compiler; every other save shape stays manual with a reason; bundles without a save keep A10 bytes', () => {
     const saved = map(wizardRecord());

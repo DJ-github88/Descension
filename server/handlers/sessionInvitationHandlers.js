@@ -64,6 +64,12 @@ function registerSessionInvitationHandlers(ctx) {
     return typeof uid === 'string' && uid.length > 0 ? uid : null;
   }
 
+  function resolveAuthenticatedUserId() {
+    if (!socket.data || socket.data.authenticated !== true) {return null;}
+    const uid = socket.data.userId;
+    return typeof uid === 'string' && uid.length > 0 ? uid : null;
+  }
+
   function isIssuingGmForRoom(room, player, uid) {
     if (roomAccess.isOwningGm(room, uid)) {return true;}
     // Legacy temporary rooms without a recorded owner: in-room GM role.
@@ -361,9 +367,43 @@ function registerSessionInvitationHandlers(ctx) {
     }
   });
 
-  socket.on('invite_to_party', async({ partyId, fromUserId, toUserId }) => {
+  socket.on('invite_to_party', async({ partyId, toUserId } = {}) => {
     try {
-      logger.info('📢 [invite_to_party] Received invite request', { partyId, fromUserId, toUserId, socketId: socket.id });
+      // The inviter is the verified socket identity. A client-supplied
+      // fromUserId is display input at most and grants no authority.
+      const inviterUid = resolveAuthenticatedUserId();
+      if (!inviterUid) {
+        socket.emit('party_invite_failed', {
+          error: 'Only a verified party member may invite',
+          code: 'party_invite_forbidden',
+          toUserId
+        });
+        return;
+      }
+
+      const targetPartyId = partyId || userToParty.get(inviterUid);
+      const party = targetPartyId ? parties.get(targetPartyId) : null;
+      if (!party || !party.members || !party.members[inviterUid]) {
+        // A non-member receives the same refusal whether or not the party
+        // exists; party existence is not disclosed to unauthorized callers.
+        socket.emit('party_invite_failed', {
+          error: 'Only a current party member may invite',
+          code: 'party_invite_forbidden',
+          toUserId
+        });
+        return;
+      }
+
+      if (typeof toUserId !== 'string' || toUserId.length === 0) {
+        socket.emit('party_invite_failed', {
+          error: 'A recipient account is required',
+          code: 'party_invite_forbidden',
+          toUserId
+        });
+        return;
+      }
+
+      logger.info('📢 [invite_to_party] Received invite request', { partyId: targetPartyId, inviterUid, toUserId, socketId: socket.id });
 
       const targetUserPartyId = userToParty.get(toUserId);
       let targetAlreadyInParty = false;
@@ -379,8 +419,8 @@ function registerSessionInvitationHandlers(ctx) {
             logger.warn('📢 [invite_to_party] Target user has party entry but is offline, cleaning up', { toUserId, stalePartyId: targetUserPartyId });
             userToParty.delete(toUserId);
           } else {
-            if (targetUserPartyId === partyId) {
-              logger.info('📢 [invite_to_party] Target already in same party', { toUserId, partyId });
+            if (targetUserPartyId === targetPartyId) {
+              logger.info('📢 [invite_to_party] Target already in same party', { toUserId, partyId: targetPartyId });
               socket.emit('party_invite_failed', {
                 error: 'User is already in your party',
                 toUserId: toUserId
@@ -394,27 +434,14 @@ function registerSessionInvitationHandlers(ctx) {
         }
       }
 
-      let targetPartyId = partyId;
-
-      if (!targetPartyId && fromUserId) {
-        targetPartyId = userToParty.get(fromUserId);
-        logger.info('📢 [invite_to_party] Resolved partyId from user', { fromUserId, targetPartyId });
-      }
-
-      const party = parties.get(targetPartyId);
-      if (!party) {
-        logger.warn('📢 [invite_to_party] Party not found', { targetPartyId });
-        socket.emit('party_error', { error: 'Party not found' });
-        return;
-      }
-
       const invitationId = uuidv4();
       const invitation = {
         id: invitationId,
         // Social party invitation only. NEVER a room-access grant.
         kind: 'party',
         partyId: targetPartyId,
-        fromUserId,
+        // Bound to the verified inviter; the client fromUserId is ignored.
+        fromUserId: inviterUid,
         toUserId,
         createdAt: Date.now(),
         expiresAt: Date.now() + INVITATION_EXPIRY_MS
@@ -425,7 +452,7 @@ function registerSessionInvitationHandlers(ctx) {
       const targetSockets = getSocketsByUserId(toUserId);
 
       if (targetSockets.length > 0) {
-        const inviterData = onlineSocialUsers.get(socket.id) || {};
+        const inviterData = onlineSocialUsers.get(socket.id) || getOnlineUserById(inviterUid) || {};
         const invitationPayload = {
           ...invitation,
           partyName: party.name,
@@ -433,7 +460,6 @@ function registerSessionInvitationHandlers(ctx) {
           senderName: inviterData.name || 'Unknown',
           senderLevel: inviterData.characterLevel || 1,
           senderClass: inviterData.characterClass || 'Unknown',
-          fromUserId,
           targetAlreadyInParty,
           targetExistingPartyId
         };

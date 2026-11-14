@@ -306,11 +306,17 @@ describe('P14-M2A explicit multi-turn durations — registered production handle
     const def = counted('Disposable Snare Two', 'Snared', -10, 'target-start-count', 2);
     // No combat, then combat without an authenticated clock: the structured bundle is refused whole.
     await admitCreature(def); let a = await cast(); await refused('actor_consequence', command(a), 'effect_schedule_unavailable');
-    await startCombat([pc, source, target]); await refused('actor_consequence', command(a), 'effect_schedule_unavailable');
+    await startCombat([pc, source, target]);
+    assert.equal(payments.closedCode(live(), a.approvalId), 'combat_clock_changed');
+    await refused('actor_consequence', command(a), 'approval_combat_clock_changed'); assert.equal(payments.get(live(), a.approvalId), null, 'the stale approval was closed, not consumed');
+    a = await cast(); await refused('actor_consequence', command(a), 'effect_schedule_unavailable');
     // A target missing from the exact roster is refused too.
     await ack(gm, 'combat_ended', { roomId: room.id }); await startCombat([pc, source]); await adopt();
-    await refused('actor_consequence', command(a), 'effect_schedule_unavailable');
+    await refused('actor_consequence', command(a), 'approval_combat_clock_changed'); assert.equal(payments.get(live(), a.approvalId), null, 'the stale approval was closed, not consumed');
+    a = await cast(); await refused('actor_consequence', command(a), 'effect_schedule_unavailable');
     await ack(gm, 'combat_ended', { roomId: room.id }); await startCombat([pc, source, target]); await adopt();
+    await refused('actor_consequence', command(a), 'approval_combat_clock_changed'); assert.equal(payments.get(live(), a.approvalId), null, 'the stale approval was closed, not consumed');
+    a = await cast();
     // Capacity is counted at the FINAL boundary only: intermediate occurrences expire nothing, so they do not take a slot.
     const lifecycle = () => live().gameState.combat.effectLifecycle;
     for (let i = 0; i < 32; i++) lifecycle().schedules[`filler-${i}`] = { combatId: lifecycle().id, dueSequence: 5 };
@@ -368,7 +374,10 @@ describe('P14-M2A explicit multi-turn durations — registered production handle
     const pub = actors.publicReceipt(r.receipt); assert.equal(JSON.parse(pub.adjudication.chosenResult).occurrences, 3); assert.ok(!JSON.stringify(pub).includes('PRIVATE'));
     await advanceTo(8); assert.equal(moves(target).length, 1); const last = await advance(); assert.deepEqual(chosen(last.r).expired, [rec.recordId]); assert.equal(speed(target), 30);
     // The owner route still refuses to start a counted effect without an exact roster slot.
-    const b = pcApproval(ref); await approve(b); await ack(gm, 'combat_ended', { roomId: room.id }); await refused('actor_consequence', command(b, { amount: 5 }), 'effect_schedule_unavailable');
+    const b = pcApproval(ref); await approve(b); await ack(gm, 'combat_ended', { roomId: room.id });
+    assert.equal(payments.closedCode(live(), b.approvalId), 'combat_clock_changed');
+    await refused('actor_consequence', command(b, { amount: 5 }), 'approval_combat_clock_changed'); assert.equal(payments.get(live(), b.approvalId), null, 'the stale approval was closed, not consumed');
+    const b2 = pcApproval(ref); await approve(b2); await refused('actor_consequence', command(b2, { amount: 5 }), 'effect_schedule_unavailable'); assert.ok(payments.get(live(), b2.approvalId), 'the fresh approval stays pending');
   });
   it('the projection every client receives keeps the occurrence count, so the browser still reads a counted record as valid (found by the App witness)', () => {
     const target = { kind: 'creature', roomId: 'r', mapId: 'm', tokenId: 'B', instanceId: uuid() };

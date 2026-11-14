@@ -10,6 +10,7 @@ const roomAccess = require('../services/roomAccessService');
 const pure = require('../shared/services/authoredAbility');
 const catalogue = require('../shared/services/catalogueAbility.cjs');
 const catalogueProfiles = require('../shared/data/catalogueAbilityProfiles.json');
+const relationships = require('../services/actorRelationships');
 
 /** The complete catalogue record, copied verbatim from martyrData.js. */
 const MARTYR_RECORD = {
@@ -37,7 +38,7 @@ describe('M4B catalogue formula + typed class payment + primary-PC healing conse
   beforeEach(async() => {
     writer = new FirebaseBatchWriter(60000, 50, { shouldPersist: () => true, persist: async() => ({ outcome: 'confirmed' }) });
     server = createProductionStackServer({ firebaseBatchWriter: writer }); await server.start();
-    for (const e of ['actor_bind', 'actor_snapshot', 'actor_consequence', 'actor_authored_admit', 'actor_authored_revoke', 'actor_authored_list', 'actor_spell_approve', 'actor_spell_target_respond', 'actor_spell_list']) server.setEventLimits(e, { maxPerMinute: 4000, maxPerSecond: 4000 });
+    for (const e of ['actor_bind', 'actor_snapshot', 'actor_consequence', 'actor_authored_admit', 'actor_authored_revoke', 'actor_authored_list', 'actor_spell_approve', 'actor_spell_target_respond', 'actor_spell_list', 'actor_relationship_set']) server.setEventLimits(e, { maxPerMinute: 4000, maxPerSecond: 4000 });
     ownerUid = server.nextUserId(); tgtUid = server.nextUserId(); const gmUid = server.nextUserId();
     server.registerAuthToken('gm', gmUid); server.registerAuthToken('owner', ownerUid); server.registerAuthToken('tgt', tgtUid);
     gm = server.connect({ token: 'gm' }); await once(gm, 'connect'); room = await server.seedRoom(gm.id, { gmUserId: gmUid });
@@ -61,6 +62,8 @@ describe('M4B catalogue formula + typed class payment + primary-PC healing conse
     assert.ok(foe);
     // Class home is published after binding, like the client's existing syncHome path.
     actors.locate(room, pc).token.state.classPayment = { version: 1, domain: 'devotionGauge', value: before };
+    await setRelation(pc, pc2, 'ally');
+    await setRelation(pc, foe, 'enemy');
     const prepared = catalogue.catalogueDraft(MARTYR_RECORD, 'martyr', { authoredDefinitionId: uuid(), id: 'catalogue-martyr' });
     assert.equal(prepared.ok, true, prepared.reason);
     const admitted = await ack(gm, 'actor_authored_admit', { roomId: room.id, requestId: uuid(), expectedRegistryRevision: installed.registry(room).revision, record: prepared.draft, definitionVersion: 1, classId: 'martyr' });
@@ -72,6 +75,12 @@ describe('M4B catalogue formula + typed class payment + primary-PC healing conse
   afterEach(async() => { owner?.disconnect(); tgtOwner?.disconnect(); gm?.disconnect(); await server.stop(); });
   const token = ref => actors.locate(room, ref).token;
   const projected = ref => { const source = actors.locate(room, ref); return roomAccess.projectTokenForClient(source.token); };
+  async function setRelation(a, b, value) {
+    const result = await ack(gm, 'actor_relationship_set', { version: 1, roomId: room.id, commandId: uuid(),
+      actionEpoch: actors.epoch(room), baseCommitSequence: actors.ledger(room).commitSequence,
+      pairs: [{ a, b }], value, expectedRelationshipRevision: relationships.revision(room) });
+    assert.equal(result.success, true, JSON.stringify(result));
+  }
   function makeApproval() {
     const source = token(pc);
     const reading = pure.readScaledFormula(entry.canonicalDefinition.effect.formula, { spirit: 18 });

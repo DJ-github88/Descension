@@ -64,7 +64,9 @@ const ExternalLivePreview = () => {
         aoeType: state.targetingConfig?.aoeType || state.targetingConfig?.aoeShape || 'sphere',
         targetingType: state.targetingConfig?.targetingType || 'single',
         rangeType: state.targetingConfig?.rangeType || 'ranged',
-        rangeDistance: state.targetingConfig?.rangeDistance
+        rangeDistance: state.targetingConfig?.rangeDistance,
+        targetRestrictions: state.targetingConfig?.targetRestrictions ||
+                          (state.targetingConfig?.targetRestriction ? [state.targetingConfig.targetRestriction] : ['any'])
       };
 
       // Create a clean version of state without transient edit-mode metadata or library-only fields in draft
@@ -83,7 +85,9 @@ const ExternalLivePreview = () => {
         dateCreated: _dc,
         ...cleanState
       } = state;
-      
+      const authoredDraft = JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(cleanState).filter(([key]) => key !== 'authoredDraft'))));
+      authoredDraft.targetingConfig = JSON.parse(JSON.stringify(fullTargetingConfig));
+
       // Create spell data from wizard state
       const spellData = {
         ...cleanState,
@@ -91,7 +95,7 @@ const ExternalLivePreview = () => {
         categories: state.categories || ['all'],
         source: state.source || 'wizard',
         isCustom: state.isCustom ?? true,
-        authoredDraft: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(cleanState).filter(([key]) => key !== 'authoredDraft')))),
+        authoredDraft,
         authoredDefinitionId: state.authoredDefinitionId || crypto.randomUUID(),
         id: (isEditing && editingSpellId) ? editingSpellId : `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         dateCreated: (isEditing && state.dateCreated) ? state.dateCreated : new Date().toISOString(),

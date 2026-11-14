@@ -159,6 +159,9 @@ const UnifiedContextMenu = ({
                                                         <button
                                                             className={`context-menu-button ${subItem.className || ''} ${subItem.disabled ? 'disabled' : ''}`}
                                                             style={{ pointerEvents: 'auto' }}
+                                                            draggable={subItem.draggable === true}
+                                                            onDragStart={subItem.onDragStart}
+                                                            onDragEnd={subItem.onDragEnd}
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
                                                                 e.preventDefault();
@@ -199,6 +202,9 @@ const UnifiedContextMenu = ({
                                     <button
                                         className={`context-menu-button ${item.className || ''} ${item.disabled ? 'disabled' : ''}`}
                                         style={{ pointerEvents: 'auto' }}
+                                        draggable={item.draggable === true}
+                                        onDragStart={item.onDragStart}
+                                        onDragEnd={item.onDragEnd}
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             e.preventDefault();

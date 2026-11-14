@@ -1,0 +1,43 @@
+{
+  "id": "ithran_vat_knit_flesh",
+  "name": "Vat-Knit Flesh",
+  "description": "At the end of each of your turns, recover 1 HP, up to your maximum. It does nothing while you are at 0 HP, and ember damage taken since your last turn stops the next recovery.",
+  "level": 1,
+  "icon": "spell_nature_rejuvenation",
+  "spellType": "PASSIVE",
+  "effectTypes": ["healing"],
+  "typeConfig": {
+    "category": "racial",
+    "school": "primal",
+    "tags": ["ancestral_gift", "regeneration", "passive", "groven"]
+  },
+  "healingConfig": {
+    "healingType": "regeneration",
+    "formula": "1",
+    "durationType": "permanent",
+    "hotDuration": "while above 0 HP, at the end of each of your turns",
+    "suppressedBy": {
+      "damageTypes": ["ember"],
+      "until": "next_tick"
+    }
+  },
+  "targetingConfig": {
+    "targetingType": "self",
+    "rangeType": "self"
+  },
+  "resourceCost": {
+    "actionPoints": 0,
+    "mana": 0,
+    "components": []
+  },
+  "cooldownConfig": {
+    "cooldownType": "none",
+    "cooldownValue": 0
+  },
+  "ancestry": {
+    "origin": "Biological · vat-derived Groven physiology",
+    "requires": "Above 0 HP.",
+    "limits": "One recovery per turn, whatever the source. Never above maximum HP.",
+    "counters": "Ember damage taken since your last turn stops the next recovery."
+  }
+}

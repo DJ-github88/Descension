@@ -1113,12 +1113,14 @@ function spellWizardReducer(state, action) {
    effectTriggers: action.payload.effectTriggers || state.triggerConfig.effectTriggers,
    buffDebuffTriggers: action.payload.buffDebuffTriggers !== undefined
    ? action.payload.buffDebuffTriggers
-   : state.triggerConfig.buffDebuffTriggers,
+   : (state.triggerConfig.buffDebuffTriggers ?? {}),
    requiredConditions: action.payload.requiredConditions !== undefined
    ? action.payload.requiredConditions
-   : state.triggerConfig.requiredConditions,
-   conditionalEffects: state.triggerConfig.conditionalEffects,
-   triggerRole: state.triggerConfig.triggerRole
+   : (state.triggerConfig.requiredConditions ?? {
+     enabled: false, logicType: 'AND', conditions: []
+    }),
+   conditionalEffects: state.triggerConfig.conditionalEffects ?? {},
+   triggerRole: state.triggerConfig.triggerRole ?? { mode: 'CONDITIONAL' }
   },
   lastModified: new Date()
   };

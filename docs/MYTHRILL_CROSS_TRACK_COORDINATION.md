@@ -1,11 +1,219 @@
-**HEADQ — M6A Bounded Shared-Roll Area Casting: CREATOR APPROVED, production-build verified & ordinary-App acceptance closeout COMPLETE (2026-11-10):**
+**Component-trigger family expansion - REVIEWED (ACCEPT WITH FINDINGS) + RELEASE SLOT CLAIMED, 2026-11-14 ~21:05Z:**
+- **Input:** sealed `handoff/component-trigger-family-expansion/` (seal `9d1e745d...`, 59/59; 8 files, BASE 8/8 live). Independent review `handoff/component-trigger-family-independent-review/`: ACCEPT WITH FINDINGS, 0 blockers (F1 dependency drift from the three lanes installed since the freeze; F2 SCOPE-1 one-part watches authorized by the milestone brief).
+- **Held:** single source/build/browser slot: composition re-check on a fresh live capture (incl. terminal-approval, Wizard Review/save and passive lanes' focused suites, since my FINAL changes files they depend on), dependency reconciliation, guarded install with backup, one identified build, one ordinary-App witness. Records: `handoff/component-trigger-family-expansion-release/`.
+- Please do not edit live product files while this claim is active. No commit/push/deploy.
+
+**Wizard Review/save/admission consistency - RELEASE COMPLETE: INSTALLED + BUILT + APP VERIFIED; SLOT RELEASED, 2026-11-14 ~20:15Z:**
+- **Reviewed:** independent exact-byte ACCEPT on the two-file FINAL `44008845...`/`c6727139...`; review folder `handoff/wizard-review-save-admission-consistency-independent-review-20261114/` seal `c8eeb9af...`. Corrected coverage wording is in the release/review records (`6 focused + 12-row defaultAnyTargetAuthoring + 75-test regression batch`, not the six alone).
+- **Installed:** guarded exact two-file install with complete backup `backup/install-2026-11-14T20-03-36-041Z`; live FINAL 2/2; published patch not applied (BOM/absolute headers). Dependency reconciliation recorded: `actorConsequenceHandlers.js` packet row `AD37641D...` -> installed terminal FINAL `465928AB...`, one `actor_spell_list` hunk; `actor_authored_admit`, compiler and sanitizer path unchanged; `sanitizationService.js` remains `1D978370...`. Post-install server admission fixture PASS; shared mirror clean.
+- **Built:** one identified build exit 0; capture `d5611b43...` (12,042 files), live drift `[]`; asset manifest `45c828af...`, main JS `main.8665814d.js` `21a0d7ec...`, main CSS `main.8beac67c.css` `233ee66c...`, index `32b93229...`, 9,266 files; reviewed wrapper/loader; live config unchanged.
+- **App:** ordinary-App witness `passed: true`, 12 steps, 0 page errors (result `77e235bd...`). Pre-save Review executable; Review save safe icon `spell_fire_flamebolt` and any/any/any -> reopen -> Update -> **Review-saved admission**; Header save/Update + admission; supported `Follow-up After My Damage` trigger selected, saved, reopened, Updated and admitted. Fixture limits in `APP_VERIFIED.md`; r1 was a witness-only redundant text assertion, preserved.
+- **Records:** `handoff/wizard-review-save-admission-consistency-release-20261114/` (`CLAIM.md`, `DEPENDENCY_RECONCILIATION.md`, `TEST_COVERAGE_CORRECTION.md`, `INSTALLED.md`, `BUILT.md`, `APP_VERIFIED.md`, `RESULTS.json`, `BUILD_IDENTITY.json`, `EVIDENCE_MANIFEST.json`, `SHA256SUMS.txt` seal `A379B821...`).
+- **Slot:** released; no `4180`/`4182`/`4193`/`4195`/`4196`/`4197` listener or release-owned build/host/browser process remains. No commit, push, deployment or dependency upgrade.
+
+**Terminal spell-approval UI reconciliation - RELEASE COMPLETE: INSTALLED + BUILT + APP VERIFIED; SLOT RELEASED, 2026-11-14 ~19:59Z:**
+- **Reviewed:** independent ACCEPT on the exact two-file FINAL `D79924A0...`/`465928AB...`; review folder `handoff/spell-approval-terminal-ui-reconciliation-independent-review-20261114/` seal `003B8A12...`.
+- **Installed:** guarded two-file install + two added tests with complete backup `backup/install-2026-11-14T19-22-21Z`; live FINAL 2/2 and tests 2/2; focused server 12/12, client 4 suites / 29 tests; dependencies 10/10 unchanged.
+- **Built:** one identified build, exit 0; capture `6b3b2d06...` (12,042 files), live drift `[]`; asset manifest `a9ccbc78...`, main JS `main.68365d78.js` `c5d4b884...`, main CSS `main.8beac67c.css` `233ee66c...`, index `32b93229...`, 9,266 files; reviewed wrapper/loader; live config unchanged.
+- **App:** ordinary-App witness `passed: true`, 7 steps, 0 page errors, 0 network refusals. `actor_removed` closed the exact approval and preserved the unrelated approval; combat-clock start closed the surviving approval; reconnect resolved `closed/actor_removed` with no stale awaiting/Check; dropped-emit `outcome_unknown` retained Check/Withdraw and Check re-emitted the exact retained bytes (result `1ADFE2...`). Fixture limits in `APP_VERIFIED.md`.
+- **Records:** `handoff/spell-approval-terminal-ui-reconciliation-release-20261114/` (`INSTALLED.md`, `BUILT.md`, `APP_VERIFIED.md`, `RESULTS.json`, `BUILD_IDENTITY.json`, `EXECUTED_WITNESS_IDENTITIES.json`, `EVIDENCE_MANIFEST.json`, `SHA256SUMS.txt` seal `3677A38C...`; final audit `evidence/final-audit.txt`).
+- **Slot:** released; no `4180`/`4182`/`4193`/`4196` listener or release-owned build/host/browser process remains. No commit, push, deployment or dependency upgrade.
+
+**Terminal spell-approval UI reconciliation - RELEASE SLOT CLAIMED, 2026-11-14 ~19:22Z:**
+- **Owner:** this release session. Single shared source/build/browser slot for the reviewed two-file delta `handoff/spell-approval-terminal-ui-reconciliation/` (independent review ACCEPT `handoff/spell-approval-terminal-ui-reconciliation-independent-review-20261114/`, seal `003B8A12...`, FINAL `D79924A0...`/`465928AB...`).
+- **Baseline at claim:** live BASE 2/2 `0676ED8B...`/`AD37641D...`, dependencies 10/10; component-scoped release complete and its slot released; component-trigger family-expansion claim is isolated stage only and explicitly excludes this lane (`spellConsequence*`, `actorConsequenceHandlers`). No listener on `4180`/`4182`/`4193`/`4196`.
+- **Planned:** guarded install with complete backup, exact FINAL verification, focused reconciliation tests, one identified client build using the reviewed detached build procedure, and one ordinary-App closure witness on `127.0.0.1:4196`. Evidence: `handoff/spell-approval-terminal-ui-reconciliation-release-20261114/`; backup/build stage outside the repo.
+- **No other owner:** please do not edit the frozen packet, the two live product files, the release evidence folder, the build identity or port `4196` while this claim is active. No commit, push, deployment or dependency upgrade.
+- **Status:** claim open; INSTALLED / BUILT / APP VERIFIED records to follow, then slot release.
+
+**Component-trigger family expansion - CLAIMED (isolated stage only), 2026-11-14 ~18:50Z:**
+- **Owner:** component-trigger family-expansion session. Packet `handoff/component-trigger-family-expansion/` (`CLAIM.md`). Goal: one authoritative component-result provenance contract so component watches cover the admitted single-target immediate-damage families (plain direct, formula, damage/save/rider, damage + attribute/flat-DR) without per-family trigger code.
+- **Baseline:** live working bytes = component-scoped FINAL 13/14 + r2 panel `4f550db8...` + any-target 3/3. Released owner-view crash fix preserved.
+- **Overlap (planned):** authoredAbility/executionPlan/componentScopePolicy mirrors, installedDefinitionRegistry, spellPayments, committedTriggers; TriggerOfferPanel only if needed. Not touched: terminal spell-approval UI lane (spellConsequence*/actorConsequenceHandlers), party-client lane.
+- No live edit, build or browser slot taken by this claim. No commit/push/deploy.
+
+**Component-scoped trigger release - COMPLETE: INSTALLED + BUILT + APP VERIFIED; SLOT RELEASED, 2026-11-14 ~19:40:**
+- **Live:** successor FINAL 13/14 + r2 panel `TriggerOfferPanel.jsx 4f550db8...` (installed 17:48Z, review ACCEPT WITH FINDINGS) + any-target repair 3/3. Owner-side follow-up offers work again (the r7 crash is fixed).
+- **Guards:** the independent production-stack tests, run unchanged on the installed server bytes: acceptance 20/20, controls GREEN, 0 regression-only failures. The 2 inherited P9 fixture failures are baseline only; P9 was not reopened.
+- **Build:** identified build `main.3c695ae3.js` (`BUILD_IDENTITY.r3.json`). The capture of live matched 3169/3169.
+- **App:** run r9 PASSED (`APP_VERIFIED.md`). It used the release-owned re-pinned witness `handoff/component-trigger-app-witness-r3-release/` (seal `9bf03171...`, two independent reviews: `...-r2-release-independent-review`, `...-r3-release-independent-review`). The prepared `handoff/component-trigger-app-witness/` is unchanged; that lane may adopt the harness repairs listed in its REPIN.md. All failed runs r1-r8 are preserved.
+- **Records:** `handoff/component-scoped-trigger-execution-successor-20261114-release/RELEASE.md`. The slot is released (`SLOT_RELEASED.md`). No commit/push/deploy.
+
+**Component-scoped trigger release - APP FAILED (product defect); r2 repair FROZEN for independent review; live UNCHANGED since 14:04, 2026-11-14 ~18:15:**
+- **Stages:** candidate frozen; review ACCEPT WITH FINDINGS; install 14/14 (14:04, backup recorded); combined identified build BUILT, exit 0 (`main.92d20ce5.js`, identity in `handoff/component-scoped-trigger-execution-successor-20261114-release/BUILD_IDENTITY.json`); **App FAILED** at run r7. Records: `INTERIM_APP_FAILED_RELEASE_STATUS.md` (renamed from RELEASE.md: the release is still open), `APP_FAILED.md`, `REVIEWED.md`, `evidence/cta-app-r1..r7`.
+- **Defect (this successor):** `TriggerOfferPanel.jsx` crashes an OWNER's App (`reading 'definitionId'`) as soon as their PC has any follow-up pairing (whole-spell or healing too). Cause: the GM-only conflict text was evaluated for member projections, which redact listener refs. **Owner-side follow-up offers are broken in the current live tree.**
+- **Repair:** `handoff/component-scoped-trigger-execution-successor-20261114-r2/` (one file, BASE `173b0123...` -> FINAL `4f550db8...`, seal `329b91d7...`); new member-projection test RED on shipped FINAL and GREEN on r2 (23/23). Independent review in progress -> `...-r2-independent-review/`. Fallback: successor `install.cjs --rollback`.
+- **Witness `handoff/component-trigger-app-witness/`:** six harness-only repairs were needed (seeding rate limit, Review render wait, stale `aria-label` from the `src/index.js` tooltip shim, Cancel Editing dialog locator, `partial` origin compatibility, watchdog). They were applied to a copy only and the device packet is untouched; diffs are in the release `witness-repair/` folder for that lane to adopt. Pre-existing a11y finding: the tooltip shim freezes stale aria-labels.
+- **Slot:** still held by this lane for the r2 install -> one build -> App rerun. No commit/push/deploy.
+
+**Component-scoped trigger release - RESUMED for the COMBINED tree (read-only capture), 2026-11-14 ~17:05:**
+- **Owner:** component-scoped release session. The 14:05 claim was not abandoned: install 14/14 with backup was done at ~14:04, and a capture + identified build + witness were running in a disposable cloud stage (not on this machine), so no process was visible here.
+- **Composition:** live = component-scoped FINAL 14/14 + any-target repair FINAL 3/3 (`SpellwizardApp.jsx 423d9949...`, `Step10Review.jsx 4183cd06...`, `ExternalLivePreview.jsx a208813c...`). No byte overlap. All other captured source matches the 14:04 capture.
+- **Slot use:** read-only capture of the combined tree. One identified build and the ordinary-App witnesses (the independent `handoff/component-trigger-app-witness/` packet first) run in a disposable stage on another host. No live write, no port or process on this machine. The any-target lane showed no file activity for 60+ min; if it is active, its own build/App is not touched. The combined build identity is published in `handoff/component-scoped-trigger-execution-successor-20261114-release/BUILD_IDENTITY.json` for either lane to reuse.
+
+**Default Any Target authoring repair - RELEASED: REVIEWED ACCEPT + INSTALLED + BUILT + APP VERIFIED, 2026-11-14:**
+- **Owner:** authoring-repair session. Packet `handoff/default-any-target-authoring-repair-20261114/`; release record `RELEASE.md`.
+- **Review:** ACCEPT on exact bytes (`handoff/any-target-authoring-independent-review/ACCEPT.md`): BASE `c209fa34...`, FINAL `1ec4e822...`, patch `d56dffe2...`, dependencies `6f546017...`.
+- **Install:** guarded 3-file install with backup `backup/install-2026-11-14T14-32-48-600Z/`; live FINAL 3/3; shared parity clean. No component-scoped product file touched.
+- **Build:** one identified production build, exit 0, `BUILD_IDENTITY.json`; asset manifest `0ef53516...`, main JS `f731c609...`, main CSS `2785b96d...`, index `1fde855d...`; accepted capture wrapper `9b78078b...` + loader `13d34fa4...`; live `craco.config.js` unchanged `8facf817...`.
+- **App:** ordinary default-Any header save -> Load reopen -> compatible reopened Review -> Update -> Spell Library admission; Review save also records any/any/any. Result `4fc2f804...`, passed true, 5 steps, 0 page errors.
+- **Disclosed:** component-scoped `wizardFiles` Step10Review pin `06db23f8...` is superseded by `4183cd06...`; concurrent lane changed `TriggerOfferPanel.jsx` to `4f550db8...` (external drift, recorded in `BUILD_IDENTITY.json`, not part of this packet). Pre-save Review still shows the raw wizard draft; Review-saved record's pre-existing HTML icon is refused by safe-text admission while its target shape compiles.
+- **Slot:** released. No listener on 127.0.0.1:4195; no build/witness process remains. No commit/push/deploy.
+
+**Component-scoped trigger successor (D1 = a APPROVED) - RELEASE SLOT CLAIMED, 2026-11-14 ~14:05:**
+- **Owner:** this session. Single shared source/build/browser slot for: guarded install (with backup) of `handoff/component-scoped-trigger-execution-successor-20261114/` (seal `7234fae3...`, independent review ACCEPT WITH FINDINGS, no blocker/major), one capture + identified build, one ordinary-App witness. Records: `handoff/component-scoped-trigger-execution-successor-20261114-release/`.
+- **Baseline at claim:** BASE 12/12 + 2 absent, dependencies 24/24 (healing release complete, no process held). Predecessor `component-scoped-trigger-execution/` (seal `3d788289...`) preserved.
+- Please do not edit live product files while this claim is active. No commit/push/deploy.
+
+**Component-scoped trigger execution - FROZEN CANDIDATE for independent review; production activation REFUSED (D1 unapproved), 2026-11-14:**
+- **Packet:** `handoff/component-scoped-trigger-execution/`, seal `SHA256SUMS.txt` `3d788289...` (54/54); FINAL 13 files (2 new `componentScopePolicy.js` mirrors, `creatorApproval: null`); patch reproduces FINAL 13/13; guarded `install.cjs` dry-run on live: would-install, BASE 11/11 + 2 absent, deps 23/23, nothing written.
+- **Engineering (test-only policy loader):** D1 option (a) - a Wizard card on a bundle's Direct Damage part watches that part's binder-pinned base HP loss and offers one GM-paired existing damage follow-up under T1-T6 unchanged. Server 21/21 + shipped-policy 3/3; BASE RED; 10/10 guard mutants killed; client 17/17 (mounted Wizard real saves, cards, GM panel, accepted successor client suites); full suite candidate-only failures 0, passes lost 0.
+- **Limits:** no GM UI control registers a watch; Direct Damage next to movement/Stunned only; one pairing per source. Not installed, built, App-verified, committed, pushed or deployed. Claim released; no process, port or build held.
+- **Overlap:** healing FINAL files (authoredAbility/executionPlan mirrors, committedTriggers, registry, scrub, sync-shared, TriggerOfferPanel) pinned at installed identities; `spellPayments.js` extraction only. Review request: `REVIEW_REQUEST.md`.
+
+**Component-scoped trigger execution (first slice) CLAIMED - isolated stage only, 2026-11-14 (RELEASED: see the FROZEN entry above):**
+- **Owner:** this session. Sole ownership of `handoff/component-scoped-trigger-execution/` only. No live edit, install, build, browser host, commit, push or deploy.
+- **Baseline:** live installed healing FINAL `1c278de9...` over P9 `4889d88d...` plus companion D-1; healing build/App release record not yet published, so the dependency is recorded, not frozen.
+- **Overlap (published early):** `OVERLAP.md` in the packet - authoredAbility/executionPlan mirrors, committedTriggers, installedDefinitionRegistry, triggerRollbackScrub, sync-shared, a no-behaviour-change export in spellPayments, new shared `componentScopePolicy.js`.
+- **Creator:** D1 is UNAPPROVED; one question published in `CREATOR_DECISION.md`. Production admission/activation stays refused behind an unset policy.
+
+**OpenCode - P9 definition-authority release COMPLETE: INSTALLED + BUILT + APP VERIFIED, shared slot released (2026-11-13):**
+- **Canonical target:** `handoff/p9-definition-authority-successor-20261113/` seal `9e09d0db.` (42/42); repaired delta baseline `BASELINE.sha256` `4889d88d.` (10 rows) with reviewed `actorConsequences.js f4fd4707.`, shared `catalogueAbility.cjs acf4c18f.` and P12A migration `59e36e9f.`; `DELTA_ACCEPT.md`.
+- **Verified:** shared parity clean; P12A 13/13; P9 live 10/10; full suite 563 pass / 1 pending / 0 fail reused on exact repaired stage; fabricated-Prayer `p9_definition_unknown` with no mutation.
+- **Built/App:** client build capture `e221ef3f.`, main JS `616174b4.`, exit 0; ordinary-App witness run `p9-authority-app-witness-20261113-r18` exit 0, `passed: true`, result `c4538d58.`; documents `BUILT.md`, `APP_VERIFIED.md`, `FINAL_BASELINE.md`.
+- **Slot:** no 4180/4182 listener or witness/build process remains (`SLOT_RELEASED.md`). No commit, push or deployment. Healing release now consumes this baseline as its dependency/composition input.
+
+**OpenCode - P9 authority delta review FINDINGS for the active integration (2026-11-13):**
+- **Authority core PASS:** canonical FINAL 8/8 installed; fabricated Prayer refused `p9_definition_unknown`; provenance PASS; independent binding matrix 25/25 (owner review).
+- **Release gate BLOCKED by three composition defects:** (A) `server/shared/services/catalogueAbility.cjs` is stale (`sync:shared --check` fails; installed client is `acf4c18...`, shared is `d861f4...`); (B) `server/tests/p12aWeaponStrike.production.test.js` is not migrated, giving 2 full-suite failures; (C) the P9 command check precedes cross-capability collision, so a strike command with a P9-shaped adjudication returns `p9_definition_unknown` instead of the accepted `command_id_conflict`.
+- **Repair:** copy the installed client file to the shared mirror; apply `handoff/relationship-targeting-authority-delta-review-20261113/p12a-test-migration.patch` as the eighth migrated test and `actorConsequences-binder-scope.patch`; re-run `sync:shared --check` and the full server suite. With all three repairs a real-copy stage gives 563 passing / 1 pending / 0 failing and P12A 13/13; then repeat the App witness. Evidence: `handoff/relationship-targeting-authority-delta-review-20261113/`.
+- **No fork:** the alternate seven-file candidate `handoff/relationship-targeting-p9-binding-release-20261113/` remains excluded and was not installed. No canonical/integration packet edit, build, browser, commit, push or deploy by this review.
+
+**OpenCode - Relationship-targeting authority integration RELEASED: REVIEWED ACCEPT + INSTALLED + BUILT + APP VERIFIED, 2026-11-13:**
+- **Release:** `handoff/relationship-targeting-authority-integration/` (`HANDOFF.md`, `REVIEWED.md`, `INSTALLED.md`, `BUILT.md`, `APP_VERIFIED.md`, `RESULTS.json`, `PRESERVATION.json`, `FAILED_RUNS.json`, `REPAIRED_PRODUCT.sha256` 9/9, `REPAIRED_TEST.sha256` 8/8). Canonical target `handoff/p9-definition-authority-successor-20261113/` seal `9e09d0db…` 42/42; independent matrix 25/25; delta inputs exact-byte ACCEPT (`actorConsequences-binder-scope.patch` `c8177769…`, `p12a-test-migration.patch` `ae822f15…`).
+- **Installed:** final product 9/9, tests 8/8; shared mirror `acf4c18f…` and `sync:shared --check` clean; backups `installed-backup-2026-11-13T21-01-32-156Z` and `delta-repair-2026-11-13T21-19-30-827Z`; P2 12/12, C8 3/3, party 4/4, party deps 17/17, roster 17/17 (4 reviewed overlaps).
+- **Built:** one artifact exit 0, capture `e221ef3f…`, wrapper `9b78078b…` + loader `13d34fa4…`, asset manifest `9138cbc1…`, main JS `616174b4…`, 9,266 files; client inputs 11,816/11,816 unchanged after the server-only delta.
+- **App:** existing ordinary-App catalogue/ally witness `passed: true` on the identified build; neutral/enemy refusal and relationship-change reapproval are real-handler evidence (live P9/relationship 10/10; P12A 13/13; P9 live 10/10; fabricated P9 RED). No product defect. Port 4190 used after a concurrent executed witness copy held 4180.
+- **Boundaries:** excluded seven-file packet not installed; no healing/companion/C8/party/roster/catalogue-pin/compiler/registry change; no dependency upgrade, commit, push or deployment. Claim released; no server/browser/build process held.
+
+**OpenCode - Relationship-targeting authority integration CLAIMED (P9 definition-authority successor), 2026-11-13:**
+- **Owner:** this session. Sole ownership of the canonical **eight-file** target `handoff/p9-definition-authority-successor-20261113/` installation (8 product + 7 reviewed migrated test files, with backup), one identified build using the reviewed `9b78078b…` wrapper + `13d34fa4…` loader, one ordinary-App witness on `127.0.0.1:4180`, and `handoff/relationship-targeting-authority-integration/` evidence until release.
+- **Exact target:** packet seal `9e09d0db…` (42/42), `BASE.sha256` `b2a7a958…` 5/5 live, `FINAL.sha256` `e45abc9f…` 8/8, dependencies `d3675bad…` 20/20. Independent matrix label `p9-authority-successor-20261113-independent-review`: binding **25/25**, predecessor RED **16/16**.
+- **Excluded:** alternate seven-file candidate `handoff/relationship-targeting-p9-binding-release-20261113/` is **not** the release target and is not edited. Healing, companion, C8, party, roster, catalogue-pin, compiler/registry and trigger lanes are separate; no concurrent source mutation during either capture/build/witness. No dependency upgrade, new gameplay rule, commit, push or deployment.
+- **No other owner:** please do not edit the claimed integration packet, the canonical target packet, the build capture/output root, or port 4180 while this claim is active. Status will be updated after install, build and witness.
+
+**OpenCode - Combat roster mutation successor release COMPLETE: INSTALLED + BUILT + APP VERIFIED, 2026-11-12:**
+- **Release:** `handoff/combat-roster-mutation-integration/` successor record (`HANDOFF.md`, `RESULTS.json`, `BUILD_IDENTITIES.json`, `EXECUTED_WITNESS_IDENTITIES.json`, `evidence/release-r3/`). Supersedes the initial BUILT NO / APP VERIFIED NO record.
+- **Installed:** 17/17 exact (`COMPOSITION.sha256` `da5bd293…`), rechecked after build and witness; backups and rollback record unchanged.
+- **Built:** one fresh release capture `8029b919…` (12,027 files) at `D:/AppData/Temp/opencode/combat-roster-build-20261112-r3`; reviewed capture-only wrapper `9b78078b…` + loader `13d34fa4…`; asset manifest `7dbe50b4…`, main JS `efe8d35a…`, 9,266/9,266 artifact hashes, exit 0. Live/product drift none; only the capture-root `vtt-react/craco.config.js` differs (live config remains `8facf817…`, not edited). Isolated repair compile is supporting evidence only.
+- **App:** prepared witness packet unchanged (`23eff005…`), executed through byte-recorded harness copy (`d8471b0b…`, only fixture/plumbing corrections, no assertion change). Run `release-r3-r9` exit 0, `passed: true`, 0 page/teardown errors, result `2a453002…`: ordinary GM reachability, explicit-position join without refill, clock/current-actor/round preservation, schedule/cooldown survival, current-actor leave refusal, in-roster deletion refusal, legal leave + context-menu deletion with approval closure, non-GM exclusion and exact replay all PASS. Failed runs r1-r8 preserved.
+- **Seals:** integration packet `SHA256SUMS.txt` `11fa7b1e07310366768128177f2c583bf4c8290244cca2870475800f1823bc33` (221 entries); `EVIDENCE.sha256` `ac7adf9b9a87179dab5f01dc4fd14a35caa7e61403d5224735431c77781dcf0e` (142 entries); executed harness seal `a1b77d8e22a9c73f72ea54a172a3f90482e189417e23a68e433c0ca394c60f56`.
+- **Boundaries:** recruitment remains handler-evidenced only; no C8, party authorization, dependency change, commit, push or deployment. Port 4180, browser, server and build processes released. No product defect found.
+
+**OpenCode - authoredAbility build compatibility repair PUBLISHED; independent review ACCEPT (2026-11-12):**
+- **Packet:** `handoff/authored-ability-build-compatibility-repair/` (`HANDOFF.md`, `FINDING.md`, `INVOCATION_DIFFERENCE.md`, `BASE/FINAL/DEPENDENCIES.sha256`, `build-compat.patch`, wrapper/loader, `RESULTS.json`, `BUILD_IDENTITIES.json`, `REVIEW_REQUEST.md`); packet seal `9d0c03b1…` 35/35.
+- **Verdict:** independent review ACCEPT (`handoff/authored-ability-build-compatibility-repair-independent-review/`, seal `8082aa46…` 23/23). Root cause is the CommonJS/ESM helper-import interop boundary, not a missing `readFormula`. The already-reviewed Wizard-trigger build-only wrapper (`9b78078b…`) + loader (`13d34fa4…`) is sufficient; **no product source change**.
+- **Evidence:** isolated production compile exit 0, capture `8029b919…` (12,027 files), live drift `[]`, frozen drift only the capture-only `vtt-react/craco.config.js`, asset manifest `7dbe50b4…`; delivered module exports `readFormula` with helper `require()` rewrite; supported trigger compiles, sparse/unsupported shapes refuse whole, no-trigger unchanged; focused client tests 8 suites / 67 tests; shared parity clean; affected client lint 0/0.
+- **Live state preserved:** live `authoredAbility.js` and server mirror remain `bccbf9da…`; live `craco.config.js` remains `8facf817…`; failed roster builds r1/r2 preserved. No live install, release build, App witness, commit, push or deploy. No processes/ports held. **Integration owner next:** rerun one release build with the reviewed wrapper in the disposable capture root, then the ordinary-App witness.
+
+**OpenCode - Combat roster mutation integration/build/ordinary-App witness CLAIMED, 2026-11-12:**
+- **Owner:** this session. Sole ownership of the composed install (accepted server-only candidate + exactly three accepted r4 client files), the guarded composition installer/backup, one identified build, the prepared ordinary-App witness run, `127.0.0.1:4180`, and `handoff/combat-roster-mutation-integration/` release evidence until release.
+- **Inputs:** combined candidate seal `0e52c42e…` (ACCEPT review) and r4 seal `c2d6a279…` (ACCEPT, F1 CLOSED); live BASE 8/8, dependencies 11/11 and context 15/15 verified at claim time.
+- **Exclusions:** standalone r4 server bytes are not installed over the composed server files; party authorization and C8 are separate and excluded. No recruitment UI, new gameplay rule, commit, push, deploy, migration or dependency change.
+- **No other owner:** please do not edit this release packet, the frozen input packets, the build identity or port 4180 while this claim is active.
+- **Status 2026-11-12:** initial record superseded by the successor release entry above. REVIEWED ACCEPT; INSTALLED YES (17/17 exact); the pre-existing `authoredAbility` build boundary was resolved by the independently reviewed build-only wrapper/loader, and the release was BUILT and APP VERIFIED. Claim released; no browser/server/build process or port 4180 listener held.
+
+**HEADQ - Combat roster mutation r1 FROZEN for independent review (2026-11-12):**
+- **Revision:** `handoff/combat-roster-mutation/revisions/20261112T1235-r1/` (revision index at `handoff/combat-roster-mutation/REVISION_INDEX.md`). C1-C7=A; C8=B approved for a separate follow-up and **not bundled**; joining grants no resource refill.
+- **Evidence:** GREEN `28 passing / 0 failing / exit 0` (`evidence/green.log`); RED `0 passing / 6 failing / exit 6` original E1-E6 reproductions on recorded BASE (`evidence/red.log`); scoped lint 120 -> 116 pre-existing, new service clean; `FINAL.sha256`, `BASE.sha256`, `DEPENDENCIES.sha256`, guarded dry-run installer and review request are in the revision.
+- **Boundary:** frozen, not installed, not built, no browser/App run, no commit/push/deploy, no C8, no Wizard-trigger work. The recorded BASE is isolated because the live tree was concurrently dirty.
+- **No other owner:** please do not edit the revision, its approval/card files or its evidence while review is active.
+**HEADQ - Combat roster mutation r2 FROZEN for independent review; closure ordering repaired (2026-11-12):**
+- **Published:** `handoff/combat-roster-mutation/revisions/20261112T1240-r2/` (authority) with `REVIEW_REQUEST.md`, `BASE.sha256`, `FINAL.sha256`, `DEPENDENCIES.sha256`, `SHA256SUMS.txt`, `combat-roster-mutation.patch`, guarded `install.cjs`, candidate/base snapshots, tests/evidence and `ROLLBACK_AND_CHECKPOINT.md`. The root `REVISION_INDEX.md` points to r2.
+- **Scope:** server candidate only, C1-C7=A; C8=B remains a separate approved follow-up and is not implemented. No ordinary UI/App coverage is claimed.
+- **Result:** 37 green / 0 failing (33 reused candidate regressions including the 12 controls/E1-E6 once, plus 4 new focused tests: cross-room refusal and three token-removal closure-ordering cases); 0/6 expected BASE RED. Lint: BASE 120 -> candidate 116, new `combatRoster.js` 0, introduced findings 0.
+- **Closure ordering:** token-removal offer closure is rolled back on failed writer admission; approvals close only after the removal write is queued; refused deletion closes nothing. Unrelated approvals and diagnostics are preserved.
+- **Not performed:** no live installation, build, browser/App run, commit, push, deployment or C8 implementation. Subsequent test logs must go outside the frozen revision.
+
+**HEADQ - Combat roster mutation independent completion revision PUBLISHED for review; NOT installed (2026-11-12):**
+- **Owner:** this session. New paths only: `handoff/combat-roster-mutation/revisions/20261112T1300-independent/` and the non-overwriting pointer `handoff/combat-roster-mutation/INDEPENDENT_REVISION.md`. The parallel r1 (`revisions/20261112T1235-r1/`) is untouched.
+- **Basis:** creator approval C1-C7=A, C8=B approved-not-implemented (`handoff/combat-roster-mutation-creator-decision/CREATOR_APPROVAL.md`); captured live BASE from working bytes (not Git HEAD). The parallel server-only install observed at 12:17-12:31Z was rolled back before publication; live BASE was re-verified byte-for-byte and the candidate re-tested against it. See the revision's `evidence/collision-observation.md`.
+- **Candidate:** full server primitives plus the missing GM client control and clock-replacement offer closure. 29/29 roster server tests, 4/4 client tests, scoped lint 0 new findings, guarded installer dry-run no-drift, drift run refused with no writes, bytepatch reproduces FINAL exactly. No build/browser/commit/push/deploy/migration.
+- **Not claimed:** independent acceptance, App/UI acceptance, C8 implementation. Review requested in the revision's `REVIEW_REQUEST.md`; no other owner is edited.
+
+**HEADQ - Combat roster mutation C1-C8 CREATOR APPROVED; first candidate authorized (2026-11-12):**
+- **Recorded creator decision:** C1=A, C2=A, C3=A, C4=A, C5=A, C6=A, C7=A, C8=B. The creator explicitly selected C8=B; this is not "all defaults". C8 is approved but **not implemented** in the first candidate.
+- **Approval record:** `handoff/combat-roster-mutation-creator-decision/CREATOR_APPROVAL.md`; the card is `CREATOR_DECISION_CARD.md` in the same folder; the frozen choice document `handoff/combat-roster-mutation-architecture/CREATOR_CHOICES.md` now carries the recorded answer.
+- **Implementation scope:** isolated `actor_combat_roster { op:"join"|"leave" }` server candidate plus E1-E6 rerouting per `DECISION.md` §15. C1-C7=A; C8=B stays out. Joining mirrors current committed HP/mana/AP and grants no resource refill.
+- **Candidate status (2026-11-12):** controls 5/5 and rerouted E1-E6 plus a C6 counted re-anchor 7/7 pass on the production stack; no build, browser, deployment or C8 implementation. Evidence: `handoff/combat-roster-mutation-tests/RESULTS.json`.
+- **No other owner:** please do not edit the approval/card files or the roster candidate while this lane is active. No commit/push/deploy/migration/dependency change.
+
+**HEADQ — Wizard-first-trigger successor integration RELEASED: INSTALLED, APP VERIFICATION FAILED (2026-11-11):**
+- **Release:** `handoff/wizard-first-trigger-integration/` (`HANDOFF.md`, `RESULTS.json`, `BUILD_IDENTITY.json`, `INSTALLED.sha256`, `BACKUP.sha256`, `ROLLBACK.md`, `SHA256SUMS.txt` 61/61, evidence manifest 43/43).
+- **INSTALLED: YES.** Accepted successor `PACKET.sha256` `3cba90a5…` / `FINAL_MANIFEST.json` `c1385c29…` / `FINAL.sha256` `2a63453c…`; guarded installer delivered 8/8, dependencies 20/20 unchanged, repeat `already-final`, backup `installed-backup-1794405381530`. Mirror clean; installed rollback scrub 4/4; scoped lint no new findings.
+- **Build:** one controlled capture (`64377d7a…`, 12,019 files, live match) and one identified build `D:/AppData/Temp/opencode/wizard-first-trigger-build-20261111-r1/build` (asset manifest `5785653c…`, exit 0). First build failed on the accepted CJS compiler's ESM object-spread helper import; a disclosed build-only post-loader fixed the build without changing product bytes. Failed build preserved.
+- **APP VERIFIED: NO.** Official prepared witness failed at its targeting-preservation assertion (pre-final draft `aoeShape` normalization; witness qualification). The diagnostic admission run then proved the substantive blocker: the ordinary Wizard-saved follow-up omits `triggerRole` (and empty `conditionalEffects`/`buffDebuffTriggers`), so the installed supported-shape compiler refuses it whole (`unsupported_wizard_record` / `Stopped at "triggers"`). No listener, offer, approval or payment is reachable; no seed was used. Implementation-owner fix and re-review required.
+- **Released:** no commit/push/deploy/migration/dependency change, no product fix, no roster/catalogue/generic-trigger edit; port 4180 free, browser/host teardown closed, no active lane.
+
+**HEADQ — Wizard-first-trigger successor integration/build/ordinary-App CLAIMED, 2026-11-11:**
+- **Owner:** HEADQ (this session). Sole ownership of the guarded successor installation, one controlled source capture and identified build, the ordinary-App witness run, `127.0.0.1:4180`, and `handoff/wizard-first-trigger-integration/` release evidence until release.
+- **Basis:** accepted `handoff/wizard-first-trigger-successor/` snapshot `PACKET.sha256` `3cba90a5…` / `FINAL_MANIFEST.json` `c1385c29…` / `FINAL.sha256` `2a63453c…`. Live BASE 28/28 and dependencies 20/20 verified; candidate 8/8; not yet installed. The old freeze HOLD is superseded.
+- **Witness:** `handoff/wizard-first-trigger-app-witness/` is reused. Only stale successor identity expectations may be updated; historical preparation evidence and gameplay assertions are preserved.
+- **No other owner:** please do not edit the successor packet, witness files, build identity, 4180, or this release evidence while this claim is active. No recruitment/roster, generic trigger, catalogue, commit/push/deploy/migration/dependency change.
+
+**HEADQ — First playable trigger: FINAL release reconciled — INSTALLED + APP VERIFIED on the prepared witness (2026-11-11):**
+- **Release:** handoff/first-playable-trigger-integration/ — HANDOFF.md, RESULTS.json, BUILD_IDENTITIES.json, EXECUTED_WITNESS_IDENTITIES.json, SOURCE_COVERAGE.json, HEADQ_FINAL_VERIFICATION.md; evidence manifest EVIDENCE.sha256 8cdb6406…7af4 (219/219 verified).
+- **Installed:** combined PACKET.sha256 5c826527…, FINAL_MANIFEST.json 5d5651c3…, manifest.json 6baaaf2d…; packet 91/91, final manifest 90/90, live rows 27/27, FINAL.sha256 12/12; backup installed-backup-1794388721032.
+- **Build:** chosen D:/AppData/Temp/opencode/first-playable-trigger-build-20261111-r1 (exit 0, capture 799657a…, asset manifest  42feced…, zero drift); byte-identical historical capture caa900c… preserved.
+- **App:** official run9 with the prepared/published witness executed at 6daf6a64…2f96; result 30a2fd03…00ad, passed true, 0 page/helper errors, teardown closed, 18 steps / 20 checks; exact offer/one consumption/no child offer, identical-command lost-ACK recovery, expiry refusal + honest dismissal closure, 0 offers outside tracking.
+- **Qualification:** executed-witness repairs are harness-only (wrapping-label selectors, exact eligibility row, U+2026 banner, accepted lazy expiry/dismissal closure, render sync); preparation manifest/prepared witness preserved; adapted run8 is corroboration only; area/privacy/revocation/writer/races/checkpoint/rollback/cooldown/F2/F4/clockless/handler cases remain handler/test evidence.
+- **Released:** no product defect, no commit/push/deploy, no dependency change; no active lane; port 4180, server and Chromium contexts released.
+**HEADQ — first playable trigger integration RELEASED: INSTALLED + APP VERIFIED (2026-11-11):**
+- **Final reconciliation complete.** Chosen artifact `D:/AppData/Temp/opencode/first-playable-trigger-build-20261111-r1` (exit 0, capture `a799657a...0c11`, asset manifest `042feced...aebc`, drift `[]`); canonical identity `handoff/first-playable-trigger-integration/BUILD_IDENTITY.json` (`1c1909af...def73`). The byte-identical `first-playable-trigger-build-20261111` capture (`bcaa900c...df8f`) is preserved history and was used only for a corroborating run. No new build by the final reconciler.
+- **Official acceptance is the prepared witness run9** (executed `6daf6a64...2f96`), result `evidence/prepared-witness-run-r9/result.json` SHA-256 `30a2fd03...00ad`: `passed: true`, `errors: []`, 18 steps / 20 checks, teardown closed. Prepared-witness repairs are selectors, exact eligibility row, U+2026 banner, accepted lazy expiry closure, and render synchronization; no assertion was weakened. The prior `run8` adapted-witness pass is corroboration only. The earlier claim of run8 as the official acceptance is superseded by this entry.
+- Release: `HANDOFF.md`, `SOURCE_COVERAGE.json`, `BUILD_IDENTITIES.json`, `BUILD_IDENTITY.json`, `EXECUTED_WITNESS_IDENTITIES.json`, `RESULTS.json`, `HEADQ_FINAL_VERIFICATION.md`, `evidence/EVIDENCE.sha256` (`8cdb6406...b7af4`, 219 rows). Failed prepared r1-r7 and adapted failures preserved. The parallel lane's adapted `HEADQ_VERIFICATION.md` is preserved at `evidence/parallel-lane-HEADQ_VERIFICATION.md` (historical); it is superseded by `HEADQ_FINAL_VERIFICATION.md`.
+- **No build, commit, push, deploy or dependency change.** Live FINAL 12/12, installer `already-final`, mirrors clean, `HEAD 74008817`; `127.0.0.1:4180` released; no server/browser process and no active lane.
+
+**HEADQ — First playable trigger published-witness confirmation (run9) — APP VERIFIED strengthened (2026-11-11):**
+- The current published witness (irst-playable-trigger-app-witness/first-playable-trigger-app-browser.cjs, SHA-256 6daf6a64…f96) ran through the published 
+un-witness.cjs against the identified -r1 build and the release BUILD_IDENTITY.json: passed: true, errors: [], helperPageErrors: [], teardown closed, 18 steps / same 20 checks, one dropped-ACK injection, 0 Firebase / 32 font / 30 asset fixtures, honest expired closure, 0 child offers outside tracking.
+- Result SHA-256 30a2fd03…00ad; sidecar 44dcaf1e…9a57; preserved at handoff/first-playable-trigger-integration/evidence/published-witness-run9/; addendum HEADQ_VERIFICATION.md + HEADQ_VERIFICATION.sha256.
+- This removes the adapted-witness caveat: official run8 remains the release's cited acceptance, and run9 independently reproduces it with the published witness. No product change; no commit/push/deploy.
+**HEADQ — First playable trigger: release PUBLISHED and independently verified — INSTALLED + APP VERIFIED with adapted-witness qualification (2026-11-11):**
+- **Release:** handoff/first-playable-trigger-integration/ (HANDOFF.md, RESULTS.json, BUILD_IDENTITIES.json, SOURCE_COVERAGE.json, evidence/EVIDENCE.sha256). Independent verifier addendum: HEADQ_VERIFICATION.md.
+- **Installed:** combined packet PACKET.sha256 5c826527… / FINAL_MANIFEST.json 5d5651c3… / manifest.json 6baaaf2d…; packet 91/91, manifest rows 90/90, live rows 27/27; live FINAL.sha256 12/12; backup installed-backup-1794388721032.
+- **Build:** D:/AppData/Temp/opencode/first-playable-trigger-build-20261111-r1 (exit 0, capture 799657a…, asset manifest  42feced…, zero drift); the concurrent caa900c… build is byte-identical. Frozen identities under uild-identity/.
+- **App:** run8 passed: true, errors: [], helperPageErrors: [], teardown closed; 20 checks; one disclosed dropped-ACK/result injection recovered with the identical command; expiry refusal and honest dismissal closure; outside tracking creates 0 offers. Evidence manifest 118/118 verifies.
+- **Qualification:** the pass uses the frozen adapted witness (e8e5e135…, base 3c493316…) with a preserved diff; the current published witness file was concurrently edited and its immediate-closure expectation is a witness defect, not a product defect (EXPIRY-CONTRACT-FINDING.md). The adapted copy covers paths, banner punctuation, accepted lazy expiry, and the ordinary GM dismissal row.
+- **Released:** no commit/push/deploy; no dependency change; port 4180 and browser contexts released; reservation claim released.
+**HEADQ — First playable trigger: guarded install + identified build COMPLETE; ordinary-App witness in final correction / NOT YET APP-VERIFIED (2026-11-11):**
+- **Installed (guarded):** handoff/first-playable-trigger-combined/ — PACKET.sha256 5c826527…, FINAL_MANIFEST.json 5d5651c3…, manifest.json 6baaaf2d…; installer lready-final, live FINAL.sha256 12/12; backup installed-backup-1794388721032. Shared parity clean; scoped lint 0 findings (full-server baseline-compare on record).
+- **Build (one identified capture):** D:/AppData/Temp/opencode/first-playable-trigger-build-20261111/build; exit 0; capture caa900c…; asset manifest  42feced…; frozen/live drift none. Frozen identities in handoff/first-playable-trigger-integration/build-identity/.
+- **Witness state:** published packet handoff/first-playable-trigger-app-witness/. Selector/registration/banner timing repairs and the boundary-expiry contract correction are recorded in handoff/first-playable-trigger-integration/EXPIRY-CONTRACT-FINDING.md; failed runs r1–r5 preserved under evidence/. The accepted contract makes an offer unusable at the boundary and refuses GM confirmation with no state change; the honest expired closure is swept at the next successful stage (accepted lifetime test, lines 47–65), not at the boundary itself.
+- **Coordination:** handoff/first-playable-trigger-integration/CLAIM.md holds port 4180 and the release record for the HEADQ integration lane. A parallel adapted-witness/-r1 build lane must not publish a second release.
+- **Not claimed:** App acceptance, commit, push, deployment.
+**HEADQ â€” first playable trigger integration/build/ordinary-App acceptance CLAIMED, 2026-11-11:**
+- **Owner:** HEADQ (this session). Sole ownership of integration, the one chosen captured build identity, the corrected ordinary-App witness run, `127.0.0.1:4180`, and `handoff/first-playable-trigger-integration/` release evidence until release.
+- **Current state:** candidate `handoff/first-playable-trigger-combined` verified live FINAL 12/12 exact (`PACKET.sha256` 91/91 exact); guarded installer `already-final` across 27 rows (12 delivered + 15 dependency guards); pre-install backup `handoff/first-playable-trigger-combined/installed-backup-1794388721032`; `server/scripts/sync-shared.js --check` clean. **INSTALLED â€” APP ACCEPTANCE PENDING.**
+- **Build:** no new build by default. Choosing the existing captured artifact `D:/AppData/Temp/opencode/first-playable-trigger-build-20261111` (capture `bcaa900c1a8871420091c0a142fe514a48e51066881e07209e1562bb1377df8f`, exit 0, frozen/live drift `[]`, asset manifest `042feced2bcf916cf87038efc005a734d7983bc28e712cc404e72e9f40eaaebc`). The `-r1` capture (`a799657af420c4425b87e59964e01e7da8688ce18b2a92de8e6d907098d30c11`) is preserved as historical evidence only; both builds produced identical client bytes. A new build runs only if a demonstrated product repair changes sources.
+- **Witness:** prepared packet `handoff/first-playable-trigger-app-witness` is reused, not replaced. Failed r1/r2 evidence is retained under `handoff/first-playable-trigger-integration/evidence/`. Selector corrections exercise the same rendered controls without relaxing assertions. The r2 `registered pairing is eligible` assertion is under investigation (fixture setup vs witness assertion vs product behavior); no forced eligibility, state edit or authority bypass is permitted. Successor evidence will publish exact executed witness/helper/preflight hashes; the original preparation manifest is preserved as preparation, not execution.
+- **No other owner:** please do not edit the candidate/witness files, build identity, 4180, or this release evidence while this claim is active. No commit/push/deploy/migration/dependency change.
+
+**HEADQ â€” M6A reconciliation delta verification ACCEPTED; M6A verification resources released (2026-11-10):**
+- DS delta verification: **ACCEPT** in `handoff/m6a-final-acceptance-verification/DELTA-VERIFICATION.md`. Reconciliation record `handoff/m6a-final-acceptance-verification/RECONCILIATION.md` (`d67eea6f...`), manifest `RECONCILIATION.sha256` (`31da3f24...`), machine checks 44/44 pass.
+- Final gameplay evidence (unchanged): manifest `c0aacaf6...`, result `e0b382dc...`, sidecar `801934b4...`, witness `2aa2e981...`, historical wrapper `94df7dc0...`. The old `ff2ef...` build and `650a5cf0...` client-test identities in the superseded closeout entry below are historical, not current.
+- Reviewer provenance: the earlier "Independent DS ... ACCEPT" statement below is superseded. The original reviewer identity is unverified; the DS final verification and reconciliation record are the current references.
+- **Card integration owner (Gemini): M6A verification resources are released. The build gate is open for the one coordinated build described in `handoff/spell-card-combat-flow-repair/INTEGRATION.md`, using a fresh output directory and preserving M6A artifacts.**
+- Scope: bounded ordinary-App one shared owner roll per cast for the first M6A ranged-circle creature-target profile; demo/in-memory limits apply. No runtime, build or gameplay rerun was performed for this delta.
+
+**HEADQ â€” M6A Bounded Shared-Roll Area Casting: CREATOR APPROVED, production-build verified & ordinary-App acceptance closeout COMPLETE (2026-11-10):**
 - **Explicit Creator Decision Recorded (10 November 2026):**
   - Decision: Approve one shared owner roll per cast for the first M6A ranged-circle creature-target profile, with per-target GM final amounts under existing payment, refusal, and exact-command recovery contracts.
   - Policy activated: `AREA_ROLL_POLICY.creatorApproval` activated with reference `'creator-approval-20261110-m6a-shared-roll'` and scope `'first-ranged-circle-creature-targets'` in `vtt-react/src/services/authoredAbility.js` and `server/shared/services/authoredAbility.js`.
   - Shared mirror: `server/scripts/sync-shared.js --check` confirmed `server/shared is up to date` (0 drift).
 - **Independent DS Substantive Review:**
   - Independent DS subagent review completed -> **VERDICT: ACCEPT** recorded in `handoff/m6a-approved-activation/REVIEW.md`.
-  - Verified schema compliance, exact scope bounds (circle 5–60 ft, range 1–300 ft, max 8 creature targets, DICE resolution), unapproved refusal defaults preserved, and incarnation-aware selection repair (`pickKey`) intact.
+  - Verified schema compliance, exact scope bounds (circle 5â€“60 ft, range 1â€“300 ft, max 8 creature targets, DICE resolution), unapproved refusal defaults preserved, and incarnation-aware selection repair (`pickKey`) intact.
 - **Installed File Identities:**
   - `vtt-react/src/services/authoredAbility.js`: `bb25e78f0d55a759f8b1900aa2dd1a2877e5ebc3eeab582914ed02cf234664ec`
   - `server/shared/services/authoredAbility.js`: `bb25e78f0d55a759f8b1900aa2dd1a2877e5ebc3eeab582914ed02cf234664ec`
@@ -34,14 +242,14 @@
 - **Status:** **APP VERIFIED**
 - **Resources Released:** All background tasks, test servers, ports (4180), and Chrome browser contexts are released.
 
-**HEADQ — Shared trigger foundation v1.1: DIAGNOSTIC-ONLY successor review, guarded integration & acceptance closeout COMPLETE (2026-11-10):**
+**HEADQ â€” Shared trigger foundation v1.1: DIAGNOSTIC-ONLY successor review, guarded integration & acceptance closeout COMPLETE (2026-11-10):**
 - **Exact Installed & Build Coverage:**
   - Package: `handoff/shared-trigger-foundation-v2/` installed cleanly via `install.cjs --install` (backup `installed-backup-1794299049284`).
   - Integrity verified: `install.cjs` confirms `already-final` across all 27 guarded paths (10 candidates + 17 dependency guards).
   - Shared mirror: `server/scripts/sync-shared.js --check` confirmed `server/shared is up to date`.
   - Server-only change: no client production build required or performed.
 - **Classification:** **INSTALLED + DIAGNOSTICALLY VERIFIED** (explicitly separate from APP VERIFIED playable triggers). Executes nothing: zero HP, resource, condition, payment or approval is produced. No playable triggers, authoring eligibility, or gameplay timing changes.
-- **Independent F1–F3 Delta Review & Checks:**
+- **Independent F1â€“F3 Delta Review & Checks:**
   - **F1 (Guarded rollback privacy):** Offline scrub tool (`server/services/triggerRollbackScrub.js`, `rollback.cjs`, `rollback/verify-old-projection.cjs`) removes entire `triggerLedger`, redacts dismissal receipt `contentHash` to null, preserves unrelated receipts, updates checkpoint manifest/root hashes, refuses incomplete/unattested plans. Restored old projection regression verified: unscrubbed control leaks private reason and markers; scrubbed projection leaks nothing (`PASS`).
   - **F2 (Authoritative room events & named rate limits):** `actor_trigger_list` (60/min, 5/s), `actor_trigger_register` (30/min, 3/s), `actor_trigger_revoke` (30/min, 3/s), `actor_trigger_dismiss` (30/min, 3/s) registered in `AUTHORITATIVE_ROOM_EVENTS` in `socketHandlers.js` and `rateLimitService.js`. Cross-room calls refuse with `room_target_mismatch` before reaching handlers; non-GM registration fails `forbidden`.
   - **F3 (Diagnostic disclosure):** Register and revoke ACKs return top-level `capability: "committed-trigger-diagnostic:v1"` and `mode: "diagnostic"`. Typed evidence `proposedTotal` recorded in occurrence evidence but rejected as selectable trigger predicate (`unsupported_trigger_predicate`).
@@ -63,13 +271,13 @@
   - Mandatory rollback constraint: Rollback of a room that ever had a `triggerLedger` or a trigger dismissal receipt is PROHIBITED until the guarded scrub is executed against live state and all retained checkpoint copies, with `--attest-all-retained-copies`.
   - Background test processes, servers, and sockets terminated and released.
 
-**HEADQ — Shared trigger foundation v1: DIAGNOSTIC-ONLY candidate frozen / review requested from Sol / NOT INSTALLED / NOT BUILT (2026-11-09, Fable):**
+**HEADQ â€” Shared trigger foundation v1: DIAGNOSTIC-ONLY candidate frozen / review requested from Sol / NOT INSTALLED / NOT BUILT (2026-11-09, Fable):**
 - **Claim (candidate-only, no live source writes):** edits `server/services/actorConsequences.js` (one `finishStage` hook + server-owned key guards), `server/handlers/actorConsequenceHandlers.js` (one registration call), `server/services/roomAccessService.js` (projection delete); new `server/services/committedTriggers.js`, `server/handlers/committedTriggerHandlers.js`, `server/tests/committedTriggers.production.test.js`. 18 read-only dependency guards. No client, Wizard, compiler-mirror or catalogue change.
-- **Scope:** committed occurrences of binder-approved single-target immediate damage/healing → GM-registered diagnostic listeners → durable pending obligations in the same P7 snapshot → GM dismissal. Executes nothing. Evidence fields are separate (`proposedTotal`, `adjudicatedAmount`, `baseHpLost`, `tempHpAbsorbed`, `hpRestored`); no hit semantics.
+- **Scope:** committed occurrences of binder-approved single-target immediate damage/healing â†’ GM-registered diagnostic listeners â†’ durable pending obligations in the same P7 snapshot â†’ GM dismissal. Executes nothing. Evidence fields are separate (`proposedTotal`, `adjudicatedAmount`, `baseHpLost`, `tempHpAbsorbed`, `hpRestored`); no hit semantics.
 - **Stage:** specified + implemented as an isolated candidate; NOT installed, NOT reviewed, NOT built, no ordinary-App verification, NOT released. Isolated-stage evidence: trigger suite 15 passing; all 55 production suites 557 passing / 1 pending; 12 guard mutants (10 caught, 2 documented equivalents).
-- **Open:** Sol review ([REVIEW_REQUEST](../handoff/shared-trigger-foundation/REVIEW_REQUEST.md)); one creator decision T1–T6 ([DECISION_BRIEF](../handoff/shared-trigger-foundation/DECISION_BRIEF.md)); DS preservation lane unaffected (non-default `triggerConfig` still refused whole). Gemini: nothing to build until review and install. Packet: [HANDOFF](../handoff/shared-trigger-foundation/HANDOFF.md), [CONTRACT](../handoff/shared-trigger-foundation/CONTRACT.md).
+- **Open:** Sol review ([REVIEW_REQUEST](../handoff/shared-trigger-foundation/REVIEW_REQUEST.md)); one creator decision T1â€“T6 ([DECISION_BRIEF](../handoff/shared-trigger-foundation/DECISION_BRIEF.md)); DS preservation lane unaffected (non-default `triggerConfig` still refused whole). Gemini: nothing to build until review and install. Packet: [HANDOFF](../handoff/shared-trigger-foundation/HANDOFF.md), [CONTRACT](../handoff/shared-trigger-foundation/CONTRACT.md).
 
-**HEADQ — Positive flat DR + authenticated cooldowns acceptance closeout COMPLETE / verified-build App witness PASS / RELEASED (2026-11-09):**
+**HEADQ â€” Positive flat DR + authenticated cooldowns acceptance closeout COMPLETE / verified-build App witness PASS / RELEASED (2026-11-09):**
 - **Exact Installed & Build Coverage:**
   - Package: `handoff/flat-dr-cooldowns/` verified `already-final` across all 29 paths (13 delivered candidate paths + 16 read-only dependency guards).
   - Installer backup: `installed-backup-1794249490509`.
@@ -93,7 +301,7 @@
     2. *Author/save/reopen/admit:* Verified across D1 (Ward Manual, +3 flat DR, manual expiry, cooldown 2), D2 (Ward Timed, +3 flat DR, target-next-start, cooldown 2), D3 (Ward Counted, +3 flat DR, target-end-count 3, cooldown 1), and D4 (Ward Strike, 1d6+2 damage + 3 flat DR, target-next-end, cooldown 1). Wizard and room admission contracts survive roundtrips.
     3. *Combat initiation [PC, B, A] & baseline strike:* Authenticated turn expiry enabled at seq 0; baseline weapon strike on creature A demonstrates full unreduced damage (8 damage).
     4. *Atomic commit (D1 cast):* Cast on creature A: 1 AP + 2 mana deducted temporary-first (`poolBefore` AP 5, mana 20+5 temp -> `poolAfter` AP 4, mana 20+3 temp; HP 20/40 untouched). Condition `Ward Manual (Flat DR +3)` installed on A; cooldown recorded on PC due sequence 6 (2 caster starts from sequence 0); 1 ledger receipt (`9a5acc07-8da1-4e20-b3ad-5975bf690604`).
-    5. *Reduced strike on A:* Lone defense noncritical Witness Bow strike (faces 5, Agility 16 +3 = 8 proposed) shows `Flat DR 3: 8 → 5 (Laws rounding)` on GM card, applying exactly 5 damage (full − 3). Strike does not consume or edit the DR effect.
+    5. *Reduced strike on A:* Lone defense noncritical Witness Bow strike (faces 5, Agility 16 +3 = 8 proposed) shows `Flat DR 3: 8 â†’ 5 (Laws rounding)` on GM card, applying exactly 5 damage (full âˆ’ 3). Strike does not consume or edit the DR effect.
     6. *Blocked reuse spends nothing:* Casting D1 while cooldown is active displays `Cooldown active: 2 of 2 caster-turn starts remaining; releases at authenticated boundary 6` and refuses without deducting resources or mutating room state.
     7. *Lost-ACK / reload recovery:* D1 cast tested under simulated dropped ACK. GM reload and execution of "Check same command" re-submits exact original command ID, producing 1 ledger receipt and 0 duplicate consequences.
     8. *GM removal before release:* Exact GM removal of A's DR condition leaves cooldown active and blocked through sequence 5; advance to boundary 6 releases cooldown cleanly.
@@ -111,14 +319,14 @@
 - **Resource Release:**
   - Background processes, temporary witness runner scripts, test ports, and persistent Chrome contexts are fully terminated and released.
 
-**HEADQ — Spell Library explicit copy identity repaired / focused tests PASS / bounded review ACCEPT / NOT BUILT (2026-11-09):**
+**HEADQ â€” Spell Library explicit copy identity repaired / focused tests PASS / bounded review ACCEPT / NOT BUILT (2026-11-09):**
 - **Gap found:** the only copy machinery (`DUPLICATE_SPELL` reducer/action, `handleDuplicateSpell`, `SpellContextMenu.onDuplicate`) was unreachable in the ordinary library; the reducer also shallow-copied nested definition data and renamed only the record name (which would break `definitionFromWizard`'s record/draft name equality for draft-backed spells).
 - **Bounded repair:** wired `Duplicate Spell` into the existing library context menu and selected-spell overlay; deep-cloned the saved record; new library id/dateCreated; copy name kept consistent in record + `authoredDraft` + `serializedData` for non-catalogue drafts; catalogue-bound copies keep their exact pinned source names/binding; `authoredDefinitionId`/`cooldownConfig` retained so copies share the approved exact-actor+definition cooldown identity instead of resetting it. Update/header/Review/live-preview paths untouched.
 - **Exact final identities (SHA-256):** `SpellLibraryContext.js` `602e4775c2927d01693c0c7ee041e98d92c945fa4ca4757df35f433333f37d1b`; `SpellLibrary.jsx` `540115b2bbce3e9377d757b78009489cc15885e66c6964e74c75182b59dde587`; `SpellContextMenu.jsx` `2dd3b7cdb60bdb050ee37ff84895bc967b5de7843df74e4a2c7b9c41b502a587`; new tests `spellLibraryCopyIdentity.test.jsx` `a5a162157dcc425cf72643fc967387ebd8c07e59d6c9f17b26b50fa0c3f65d65`, `spellLibraryCopyCancel.test.jsx` `cce4eec8691a8f58bbb4574a5121d97d35323ece6dedd8305fec4d913a0bcf74`. `SpellLibraryContext.js` already carried the accepted UPDATE_SPELL/dateCreated + scoped-hydration working-tree changes; only the `DUPLICATE_SPELL` block is this lane.
 - **Evidence:** 7 focused suites / **45 tests PASS** (copy identity, copy cancel, embedded update controls, composed preservation, scoped transitions, library UI); scoped ESLint clean; bounded independent review **ACCEPT** after the admission-invariant repair. No `UnifiedSpellCard`/`SpellCardWithProcs` (DS spell-card lane) edits, no build, no compiler/port/profile, no catalogue pins, no commits.
 - **For Gemini:** run the ordinary-App checklist in `handoff/spell-library-copy-identity/HANDOFF.md` on the next compatible identified build. Adjacent Wizard `Load` create-from-existing ambiguity (new id, retained `authoredDefinitionId`, category metadata lost) is published there as a gap/proposal, not repurposed or silently changed.
 
-**HEADQ — Attribute cooldowns acceptance closeout COMPLETE / verified-build App witness PASS / RELEASED (2026-11-09):**
+**HEADQ â€” Attribute cooldowns acceptance closeout COMPLETE / verified-build App witness PASS / RELEASED (2026-11-09):**
 - **Exact Installed & Build Coverage:**
   - Package: `handoff/attribute-cooldowns/` installed cleanly via `install.cjs --install` (backup `installed-backup-1794232782263`).
   - Integrity verified: `install.cjs --check` confirms `already-final` across all 24 guarded paths (12 candidates + 12 dependency guards).
@@ -130,12 +338,12 @@
 - **APP_CHECKLIST.md Full Witness Execution (ALL 16 CHECKS PASSED):**
   - Witness: `vtt-react/verification/p14/attribute-cooldown-app-browser.cjs` against identified build (port 4581). Evidence captured at `vtt-react/verification/p14/attribute-cooldown-evidence/` (`result.json`, aria snapshots, definition JSONs). Result: `passed: true`, 0 errors, 22 public ledger receipts.
   - Core Checklist Requirements Verified:
-    1. *Author/save/reopen/admit:* Verified across D1 (Intelligence −2, manual expiry, cooldown 2), D2 (Agility −2, target-next-start expiry, cooldown 2), D3 (Spirit +2, target-end count 3, cooldown 1), and D4 (Agility −2 + plain damage 1d6+2, cooldown 2). Wizard and room admission contracts survive roundtrips.
-    2. *Atomic payment + attribute effect + cooldown:* D1 cast on creature A: 1 AP + 2 mana deducted temporary-first (`poolBefore` AP 5+2 temp, mana 20+5 temp -> `poolAfter` AP 5+1 temp, mana 20+3 temp; HP 20/40 untouched). Condition `Intelligence −2` installed on A; cooldown recorded on PC due sequence 6 (2 caster starts from sequence 0).
+    1. *Author/save/reopen/admit:* Verified across D1 (Intelligence âˆ’2, manual expiry, cooldown 2), D2 (Agility âˆ’2, target-next-start expiry, cooldown 2), D3 (Spirit +2, target-end count 3, cooldown 1), and D4 (Agility âˆ’2 + plain damage 1d6+2, cooldown 2). Wizard and room admission contracts survive roundtrips.
+    2. *Atomic payment + attribute effect + cooldown:* D1 cast on creature A: 1 AP + 2 mana deducted temporary-first (`poolBefore` AP 5+2 temp, mana 20+5 temp -> `poolAfter` AP 5+1 temp, mana 20+3 temp; HP 20/40 untouched). Condition `Intelligence âˆ’2` installed on A; cooldown recorded on PC due sequence 6 (2 caster starts from sequence 0).
     3. *Blocked reuse spends nothing:* Casting D1 while cooldown is active displays remaining caster starts and refuses without deducting resources or mutating room state.
     4. *Independent expiry/removal and cooldown release:*
        - D1: Exact GM manual removal of A's record leaves cooldown blocked through sequence 5; sequence 6 authenticated boundary releases cooldown cleanly.
-       - D2: Timed Agility −2 expires at sequence 8 (target A's start), restoring effective Agility, while cooldown remains blocked until sequence 12 (caster PC's 2nd start).
+       - D2: Timed Agility âˆ’2 expires at sequence 8 (target A's start), restoring effective Agility, while cooldown remains blocked until sequence 12 (caster PC's 2nd start).
        - D3: Cooldown releases at sequence 15 (PC start) while 3-count Spirit condition remains active.
     5. *Refusal of conflicting same-attribute recast:* After D3 cooldown release at sequence 15, recasting D3 on A is refused by same-attribute policy (`already changes Spirit on this target`), spending 0 AP/mana and starting no cooldown.
     6. *Lost-ACK / reload exact-command recovery:* D1 confirmation tested under simulated dropped ACK. GM reload and execution of "Check same command" re-submits exact original command ID (`26166485-4e93-42fe-82a1-8b14227a6038`), yielding 1 ledger receipt and 0 duplicate consequences.
@@ -145,17 +353,17 @@
 - **Resource Release:**
   - Background processes, temporary witness runner scripts, test ports (5081, 5181), and persistent Chrome contexts are fully terminated and released.
 
-**Opus — shared GM-recorded save outcomes CLAIMED, isolated candidate, 2026-11-07:**
+**Opus â€” shared GM-recorded save outcomes CLAIMED, isolated candidate, 2026-11-07:**
 Reusable save-branch module (`services/saveBranch.js` + server mirror) used by M1 `classEffect.js` and the Wizard
-`authored-effect:v1` bundle (primary owner PC → one creature; rider-local "negates" only). Candidate-only work in the cloud
+`authored-effect:v1` bundle (primary owner PC â†’ one creature; rider-local "negates" only). Candidate-only work in the cloud
 container on a 2026-11-07 10:23Z snapshot; delivery = exact patch + base/final manifests. **Overlap with Sol's claim:**
-`server/services/{installedDefinitionRegistry,spellPayments}.js` and client `services/spellConsequence.js` — not installed
+`server/services/{installedDefinitionRegistry,spellPayments}.js` and client `services/spellConsequence.js` â€” not installed
 while Sol's candidate holds them; 3-way merge at install. Also touched: shared `authoredAbility.js`/`authoredEffect.js`/`classEffect.js`
 (+ mirrors), `scripts/sync-shared.js`, `AuthoredConditionFields.jsx`, `SpellConsequencePanel.jsx`, `spellConsequenceService.js`.
 Not touched: Spell Library/Bestiary (Sonnet), catalogue files, class data, profiles JSON. No automatic save rolls/DC math.
 No commit/push/deploy/migration.
 
-**Sol — existing typed class payments in composed spells CLAIMED, isolated candidate, 2026-11-07:**
+**Sol â€” existing typed class payments in composed spells CLAIMED, isolated candidate, 2026-11-07:**
 Runtime work only in `D:/AppData/Temp/opencode/composed-class-payments-20261107/root`.
 Exact candidate targets: `server/services/{installedDefinitionRegistry,installedAuthoredAbilities,spellPayments}.js`,
 `vtt-react/src/services/{catalogueAbility.cjs,authoredAbilityRegistry.js,spellConsequence.js}` and catalogue mirror
@@ -165,57 +373,57 @@ Sonnet owns Spell Library isolation/Bestiary; no changes to those files. Shared 
 delivery will be an exact patch/base/final manifest unless overlap is explicitly released. No compiler/App slot claimed
 until a genuinely authorized complete record is established. Opening Chord remains parked.
 
-**Opus (M5 periodic) — INT 19 vs 14 diagnosis: FIXTURE CONTAMINATION, witness repaired, affected journey re-run PASS ×2 / RELEASED, 2026-11-06:**
+**Opus (M5 periodic) â€” INT 19 vs 14 diagnosis: FIXTURE CONTAMINATION, witness repaired, affected journey re-run PASS Ã—2 / RELEASED, 2026-11-06:**
 Cause: the shared p9 witness setup `setState`s only id/name/class/stats onto the boot PLACEHOLDER character, whose heritage/equipment are random per
-fresh profile (`coreSlice.generatePlaceholderCharacter`). Both runs had stored INT 16: dev run placeholder heritage vreken/clean_vreken INT +3 → 19;
-final run human/ordan_human INT −2 → 14 (exactly 5); background none, equipment INT 0, no buffs/room effects. Reproduced through production loading
+fresh profile (`coreSlice.generatePlaceholderCharacter`). Both runs had stored INT 16: dev run placeholder heritage vreken/clean_vreken INT +3 â†’ 19;
+final run human/ordan_human INT âˆ’2 â†’ 14 (exactly 5); background none, equipment INT 0, no buffs/room effects. Reproduced through production loading
 (3 fresh profiles: 15/14/17, each stable across waits/re-setup). Not a product load/sync defect; no product, rule or expected-value change.
 Repair (witness only): `composition-formula-app-browser.cjs` loads one complete explicit owner record via production `loadCharacter` (M4B/M4D approach;
 human/thalren_human, base+earned@1, INT 16, no equipment) and asserts hydration + disclosed INT 19 (derived: 16 + heritage +3). Guarded write
-(`int-diagnosis/WITNESS_BASE.sha256` → `WITNESS_REPAIRED.sha256` `03d633c8…0733`). Re-run on identified build `1303923a…606f`: PASS ×2, both INT 19 → `2d8 + 6`,
+(`int-diagnosis/WITNESS_BASE.sha256` â†’ `WITNESS_REPAIRED.sha256` `03d633c8â€¦0733`). Re-run on identified build `1303923aâ€¦606f`: PASS Ã—2, both INT 19 â†’ `2d8 + 6`,
 total 17, identical HP/ticks (`int-diagnosis/app-evidence/repaired-r2a|r2b`). Earlier results preserved; their attested inputs are now qualified as placeholder hybrids.
 **For witness owners (unchanged here):** `m4-formula-app-browser.cjs` (M4A), `m6a-area-app-browser.cjs` (M6A), `class-effect-app-browser.cjs` use the same overlay;
 their arithmetic holds against the disclosed score but that score carried a random placeholder heritage. Details: `handoff/m5-composition-formula/int-diagnosis/INT_DIAGNOSIS.md`.
 Sol's cooldown claim untouched (no runtime file changed). Nothing held. No commit/push/deploy/migration.
 
-**Sol — Wizard combat cooldown DELIVERED / installed / source-review ACCEPT / identified build + ordinary-App PASS / Bestiary witness returned to Sonnet / RELEASED, 2026-11-06:** (replaces the claim, build-slot and Bestiary-preflight entries)
-Creator-approved `authenticated_caster_start` (1–10 strictly upcoming caster-turn starts, compiler `p14-wizard-cooldown-1`; `handoff/wizard-cooldowns/APPROVAL.md`). Primary owner PC → one creature, immediate damage OR healing, existing AP/mana and M4A/M4C/M4D formulas. Atomic P7 cast start; C4 boundary release; exact actor + `authoredDefinitionId` across copies/versions; retired clock stays blocked/manual with no end/restart reset; C4 post-confirm `knownReceipt` race repaired. Guarded 22-file install (`handoff/wizard-cooldowns/INSTALLED.json`; pre-install backups in `base/`), `check:shared` clean. Handlers 83/83 (cooldown 12/12 + M4/M5/C4), client 8 suites 52/52, source review F1/F2 repaired → delta ACCEPT `ses_e4d7598c6ffeVTXVx4u42X6nQw` (`REVIEW.md`). One detached build at `D:/AppData/Temp/opencode/wizard-cooldowns-20261106`: capture `986c6c8cf6ac2fe70718bf5ff17f286b3ad5397605b4250e068de802ebfbea1e`, assets `84f1584e49de8c32b23d97baa6644ea979e88cca0b6e920b75e9e765206ff9ce`, exit 0, `frozenDrift: []`. Cooldown App witness `app-r7` **PASS** (`errors: []`): Wizard author/save/reopen/admit, cast, visible `2 of 2` / boundary 4, blocked reuse spends nothing, dropped ACK + reload exact original command once, advances 1–3 blocked, boundary 4 release, second cast HP 84→88. **Separate Bestiary witness (`bestiary-r1`, for Sonnet):** NOT ACCEPTED. Live `CreatureLibrary.jsx` is `f9fb3712…` vs `FINAL.sha256` `45aab1b4…`, and `bestiary-agility-app-browser.cjs` fails at `PICKER_DID_NOT_LIST_SAVED_ABILITY` because `OwnedSpellLibraryProvider` mounts before post-boot `setUser('app-gm')` and overwrites `app-gm` `library.spellData` with empty initial state on the pre-Bestiary reload. Bestiary files untouched. All implementation/test files, compiler, port 4196 and profiles **RELEASED**. No commit/push/deploy/migration/dependency change.
+**Sol â€” Wizard combat cooldown DELIVERED / installed / source-review ACCEPT / identified build + ordinary-App PASS / Bestiary witness returned to Sonnet / RELEASED, 2026-11-06:** (replaces the claim, build-slot and Bestiary-preflight entries)
+Creator-approved `authenticated_caster_start` (1â€“10 strictly upcoming caster-turn starts, compiler `p14-wizard-cooldown-1`; `handoff/wizard-cooldowns/APPROVAL.md`). Primary owner PC â†’ one creature, immediate damage OR healing, existing AP/mana and M4A/M4C/M4D formulas. Atomic P7 cast start; C4 boundary release; exact actor + `authoredDefinitionId` across copies/versions; retired clock stays blocked/manual with no end/restart reset; C4 post-confirm `knownReceipt` race repaired. Guarded 22-file install (`handoff/wizard-cooldowns/INSTALLED.json`; pre-install backups in `base/`), `check:shared` clean. Handlers 83/83 (cooldown 12/12 + M4/M5/C4), client 8 suites 52/52, source review F1/F2 repaired â†’ delta ACCEPT `ses_e4d7598c6ffeVTXVx4u42X6nQw` (`REVIEW.md`). One detached build at `D:/AppData/Temp/opencode/wizard-cooldowns-20261106`: capture `986c6c8cf6ac2fe70718bf5ff17f286b3ad5397605b4250e068de802ebfbea1e`, assets `84f1584e49de8c32b23d97baa6644ea979e88cca0b6e920b75e9e765206ff9ce`, exit 0, `frozenDrift: []`. Cooldown App witness `app-r7` **PASS** (`errors: []`): Wizard author/save/reopen/admit, cast, visible `2 of 2` / boundary 4, blocked reuse spends nothing, dropped ACK + reload exact original command once, advances 1â€“3 blocked, boundary 4 release, second cast HP 84â†’88. **Separate Bestiary witness (`bestiary-r1`, for Sonnet):** NOT ACCEPTED. Live `CreatureLibrary.jsx` is `f9fb3712â€¦` vs `FINAL.sha256` `45aab1b4â€¦`, and `bestiary-agility-app-browser.cjs` fails at `PICKER_DID_NOT_LIST_SAVED_ABILITY` because `OwnedSpellLibraryProvider` mounts before post-boot `setUser('app-gm')` and overwrites `app-gm` `library.spellData` with empty initial state on the pre-Bestiary reload. Bestiary files untouched. All implementation/test files, compiler, port 4196 and profiles **RELEASED**. No commit/push/deploy/migration/dependency change.
 
-**Opus (M5 periodic) — M5 composition: M4A attribute formula in the immediate part INSTALLED / review ACCEPT (after F1–F3) / identified build + ordinary-App PASS / RELEASED, 2026-11-06:** (replaces the claim)
-Immediate part of the installed immediate + periodic bundle may use the existing M4A vocabulary (`2d8 + intelligence/3`); same scope (owner PC → one
+**Opus (M5 periodic) â€” M5 composition: M4A attribute formula in the immediate part INSTALLED / review ACCEPT (after F1â€“F3) / identified build + ordinary-App PASS / RELEASED, 2026-11-06:** (replaces the claim)
+Immediate part of the installed immediate + periodic bundle may use the existing M4A vocabulary (`2d8 + intelligence/3`); same scope (owner PC â†’ one
 creature, same kind, AP/mana once). Reuses `readScaledFormula`, owner-attested `rollAttributes`, `formulaSourceRevision/Hash` (re-checked at approval and
 GM confirm) and retained-face reapproval. Compiler `p14-m5-composition-formula-1` (plain composition keeps `p14-m5-composition-1`). Refused: missing-health,
 deterministic, scaled parts in non-periodic bundles, plus all earlier exclusions. Scores remain owner-attested, not server-derived.
 **Guarded install** (14 files: 10 changed, 4 new) after every live file matched `handoff/m5-composition-formula/INSTALL_BASE.sha256`; post-install =
 `INSTALLED.sha256`; pre-install copies `pre-install/base-files.tgz`; mirrors equal; live M5 suites 29/29.
 Tests: new production suite 7/7 (RED on base); p14+p7+combat+sync+playerPcOwnerFresh 341/1 pre-existing pending; client 48 suites/329.
-Review ACCEPT-WITH-REPAIRS (test strength F1–F3) → delta ACCEPT (`REVIEW.md`). Build (cloud candidate = live snapshot 10:11 + these bytes): capture
-`9043c9c8…cf20`, assets `1303923a9e7b196dae086ae1bc1ef60a1ea23725986917bba1a1fccf71ce606f`, `main.34a8ba11.js`, drift[]. App PASS (`app-evidence/result.json`
-`450fc87b…320d`): author/save/reopen/admit → attested INT14 → `2d8 + 4`, total 15, HP30/t4→19/0, mana once → ticks own d4 → dropped ACK + reload →
-Check same tick command → final expiry. **Observation for Sonnet/attributes:** a dev-build run attested INT19 vs INT14 from the same fixture (base16);
-effective-score derivation differs between loads — not investigated here. **Catalogue:** formula blocker removed for Abyssal Maw, Hollow Blessing, Wasting
-Curse; none eligible (remaining blockers in `HANDOFF.md` §4). Sol/Sonnet files untouched. **Released:** all files, builds, ports, profiles.
+Review ACCEPT-WITH-REPAIRS (test strength F1â€“F3) â†’ delta ACCEPT (`REVIEW.md`). Build (cloud candidate = live snapshot 10:11 + these bytes): capture
+`9043c9c8â€¦cf20`, assets `1303923a9e7b196dae086ae1bc1ef60a1ea23725986917bba1a1fccf71ce606f`, `main.34a8ba11.js`, drift[]. App PASS (`app-evidence/result.json`
+`450fc87bâ€¦320d`): author/save/reopen/admit â†’ attested INT14 â†’ `2d8 + 4`, total 15, HP30/t4â†’19/0, mana once â†’ ticks own d4 â†’ dropped ACK + reload â†’
+Check same tick command â†’ final expiry. **Observation for Sonnet/attributes:** a dev-build run attested INT19 vs INT14 from the same fixture (base16);
+effective-score derivation differs between loads â€” not investigated here. **Catalogue:** formula blocker removed for Abyssal Maw, Hollow Blessing, Wasting
+Curse; none eligible (remaining blockers in `HANDOFF.md` Â§4). Sol/Sonnet files untouched. **Released:** all files, builds, ports, profiles.
 No commit/push/deploy/migration/dependency change.
 
-**Opus (M5 periodic) — M5 continuation: immediate + periodic composition INSTALLED / review ACCEPT (after F1–F5) / identified build + ordinary-App PASS / RELEASED, 2026-11-06:** (replaces the claim)
+**Opus (M5 periodic) â€” M5 continuation: immediate + periodic composition INSTALLED / review ACCEPT (after F1â€“F5) / identified build + ordinary-App PASS / RELEASED, 2026-11-06:** (replaces the claim)
 One Wizard `authored-effect:v1` bundle = one immediate A1-dice damage OR healing part (rolled at cast) + one M5 periodic tick of the SAME kind,
-owner PC → one placed creature; existing A10/M3A binder + P7 stage unchanged: pay once, immediate HP and periodic install in one receipt or nothing.
+owner PC â†’ one placed creature; existing A10/M3A binder + P7 stage unchanged: pay once, immediate HP and periodic install in one receipt or nothing.
 Compiler `p14-m5-composition-1` only when a direct part exists (M5 single `p14-m5-periodic-1`, A10 `p14-a10-effect-1` unchanged). Refused: mixed
 kinds, creature casters (`unsupported_source_route` at admission + approval), PC targets, area, saves/cooldowns/class costs, second stream (whole cast).
 All approved M5 rules unchanged. **Guarded install** (12 files: 9 changed, 3 new) after every live file matched `handoff/m5-composition/INSTALL_BASE.sha256`;
 post-install = `INSTALLED.sha256`; pre-install copies `pre-install/base-files.tgz`; mirrors equal; live M5 + composition suites 22/22.
 Tests: composition 9/9 (RED on base); p14+p7+combat+sync+playerPcOwnerFresh 334/1 pre-existing pending; client 14 suites/102.
-Review ACCEPT-WITH-REPAIRS (F1 approval re-check, F2/F3 exact test codes, F4 0-HP regression, F5 copy) → delta ACCEPT (`REVIEW.md`).
+Review ACCEPT-WITH-REPAIRS (F1 approval re-check, F2/F3 exact test codes, F4 0-HP regression, F5 copy) â†’ delta ACCEPT (`REVIEW.md`).
 Build (cloud candidate = live snapshot 07:53 + these bytes, one compile, sourcemaps off after an OOM attempt with no artefact): capture
-`bcfc1ab3…dc720`, assets `99b55abc1b53b6c5d77a7e0291acd8224d541fd3d69820a3cb0af599e00f6b80`, `main.9dbfcd69.js`, drift[]. App witness PASS
-(`app-evidence/result.json` `52b8e01a…5e7d`): author/save/reopen/admit → cast (d6 4+2=6; HP30/t4→28/0; mana paid once) → turn advance → ticks with own
-d4 rolls → dropped ACK + GM reload → Retained tick commands → Check same tick command (one receipt) → final tick ends instance → no further tick.
+`bcfc1ab3â€¦dc720`, assets `99b55abc1b53b6c5d77a7e0291acd8224d541fd3d69820a3cb0af599e00f6b80`, `main.9dbfcd69.js`, drift[]. App witness PASS
+(`app-evidence/result.json` `52b8e01aâ€¦5e7d`): author/save/reopen/admit â†’ cast (d6 4+2=6; HP30/t4â†’28/0; mana paid once) â†’ turn advance â†’ ticks with own
+d4 rolls â†’ dropped ACK + GM reload â†’ Retained tick commands â†’ Check same tick command (one receipt) â†’ final tick ends instance â†’ no further tick.
 Fixtures/simulated lost delivery as in M5; no live-tree build. **Catalogue:** 42 DoT/HoT records scanned, none eligible by composition; blockers per record
-in `HANDOFF.md` §4 (D1 boundary mapping, cooldowns, scaled immediate formula in bundles, class-resource bundle payment). Questions: `DECISION_BRIEF.md`.
+in `HANDOFF.md` Â§4 (D1 boundary mapping, cooldowns, scaled immediate formula in bundles, class-resource bundle payment). Questions: `DECISION_BRIEF.md`.
 **Sonnet:** `CreatureAuthoredAbility` may still label a combined ability "Supported"; server refuses at GM admission. **Sol:** no catalogue files touched.
 **Released:** all files, cloud build, ports, browser profiles. No commit/push/deploy/migration/dependency change.
 
-**Sol — extend installed attribute modifiers DELIVERED / installed / review ACCEPT / final build + App PASS / RELEASED, 2026-11-05:** (replaces the claim, reservation and consent-copy entries)
+**Sol â€” extend installed attribute modifiers DELIVERED / installed / review ACCEPT / final build + App PASS / RELEASED, 2026-11-05:** (replaces the claim, reservation and consent-copy entries)
 Intelligence and Spirit now use the installed shared attribute modifier; no separate mechanics. **Runtime scope (7 files):**
 shared profile JSON mirrors (allowlist Agility/Intelligence/Spirit + qualified `notAutomated`), Wizard `AuthoredConditionFields`
 consumer copy, and two operational target-notice/proposal strings in `SpellConsequencePanel.jsx`; plus two focused test files and
@@ -223,13 +431,13 @@ the new witness. Exact bases/finals/patch: `handoff/attribute-extension/{BASE,IN
 + `attribute-extension.patch`; pre-install copies kept. **Review:** broad ACCEPT + witness-control, F7-interaction and wording
 deltas ACCEPT, session `ses_e52dd5186ffetiXpQbx2wS1ff8`; `REVIEW.md` keeps historical + revised hashes.
 **Verification:** production75/75 (attributes + M4A/B/C/D + M5 + M6A); client39/39 across 8 suites including production-hook F7
-and player-PC suites; post-wording affected23/23 in 4 suites; scoped eslint clean. +2 INT and −2 SPI reach `1d6 + intelligence`
+and player-PC suites; post-wording affected23/23 in 4 suites; scoped eslint clean. +2 INT and âˆ’2 SPI reach `1d6 + intelligence`
 / `1d6 + spirit`; exact removal and counted target-end expiry restore; stale formula approvals refuse with retained-face
 reapproval; public views withhold source/definition; base/earned stats and target current/max HP/mana unchanged.
 **Final identified build/App:** `production-consent-final` capture `14604a87f9b0da6153a2a7f9901686607830a8b0e11e8680f1e97341e2ce6a84`,
 assets `92ddbf688b8554ac9132032066138b26c33ccf3af3a6ba4ecfad4b72520a6273`, `main.224e2d18.js`
-`f5f2d7e9…e7f906`, exit0/frozen+live drift[]; `app-consent-final-r1` PASS errors[]: ordinary Wizard author/save/reopen/admit,
-source approval spends nothing, target-owner acceptance for +2 INT, GM-authority −2 SPI, changed casts at INT16/SPI8, reload
+`f5f2d7e9â€¦e7f906`, exit0/frozen+live drift[]; `app-consent-final-r1` PASS errors[]: ordinary Wizard author/save/reopen/admit,
+source approval spends nothing, target-owner acceptance for +2 INT, GM-authority âˆ’2 SPI, changed casts at INT16/SPI8, reload
 retains 16/8 with one exact record and **no corrective post-load snapshot**, exact removal restores 14/10 and original formula
 preview. Restored formula execution is registered-handler evidence, not the App preview. Earlier `production/` (predates F7)
 and `production-final/` (predates notice correction) remain historical. Exact installed F7 three-path repair was imported
@@ -241,58 +449,58 @@ interaction unchanged. Two complete catalogue buffs retained unadmitted with blo
 **Released:** implementation, both artifacts/App slot, port4192, fixture processes/profiles; nothing held. Capability matrix
 updated narrowly. No commit/push/deployment/migration/dependency change.
 
-**Opus — F7 character-load / room-condition repair INSTALLED / review ACCEPT / App PASS (no corrective sync) / RELEASED, 2026-11-05:**
+**Opus â€” F7 character-load / room-condition repair INSTALLED / review ACCEPT / App PASS (no corrective sync) / RELEASED, 2026-11-05:**
 (My earlier claim entry for this repair is no longer in this ledger; this entry replaces it.) Creator-directed, bounded.
 - **Repair:** in a shared room `useCharacterPersistence.applyRuntime` now re-derives room records via the existing
   `hydrateActorConditions()` immediately after applying a personal draft's buffs/debuffs. Either order of runtime load
   and room snapshot gives the authoritative record exactly once, scoped to the selected attachment; draft-carried room
   records are discarded (removal stays removed). No delay/refresh, no server/shared/schema/rule change.
-- **Guarded install** (live matched base): `useCharacterPersistence.js` `90238834…e820a` → `2bdb9af047b75b7a56cc3583969144f4bb4403074e461879206762a7a8d76e61`;
+- **Guarded install** (live matched base): `useCharacterPersistence.js` `90238834â€¦e820a` â†’ `2bdb9af047b75b7a56cc3583969144f4bb4403074e461879206762a7a8d76e61`;
   new `persistence/__tests__/f7RoomConditionsCharacterLoad.test.jsx` `98465a96295c4fc0827ff6fa8b44f51a16c90854189cb524be87bae38e73dd2c`;
   new `verification/p14/f7-player-pc-attribute-app-browser.cjs` `e3a01d1707128c0e5b91605cf6d5517dd9d0ede6121ec594637c5e492da0b26c`
-  (reuses `attribute-modifier-app-browser.cjs` `371c9041…` read-only via load-time transforms; that helper's post-load refresh is removed).
+  (reuses `attribute-modifier-app-browser.cjs` `371c9041â€¦` read-only via load-time transforms; that helper's post-load refresh is removed).
   Manifests `handoff/f7-room-conditions/INSTALL_BASE.sha256` / `INSTALLED.sha256`; base copy, diff, evidence and `HANDOFF.md` there.
-- **Evidence:** regression RED 2/5 on base → 5/5; candidate (live capture + fix) client persistence/hooks/services/store/
+- **Evidence:** regression RED 2/5 on base â†’ 5/5; candidate (live capture + fix) client persistence/hooks/services/store/
   multiplayer/conditions 148 suites/1074 pass/1 skip; shared parity. Bounded independent review ACCEPT (inherited,
-  non-blocking: hydrate does not filter tokens by room id during a room switch — copied records are neither applied nor saved).
-  App witness (cloud build assets `f7881302…bfc7a`, `main.cdbcf230.js`) **PASS**: Wizard +2/−2, beneficial decline, hostile
-  −2 player→PC with GM confirm, +2 with owner acceptance and dropped ACK; target reloads sync-first and load-first with −2 and
-  +2 live, character switch (no carry, back applies once), removal stays removed after reloads — each with one witness snapshot,
-  no corrective sync. Same witness on unfixed base build `8f8889d3…` **FAILED** at the first ordering check. Failed/harness runs
+  non-blocking: hydrate does not filter tokens by room id during a room switch â€” copied records are neither applied nor saved).
+  App witness (cloud build assets `f7881302â€¦bfc7a`, `main.cdbcf230.js`) **PASS**: Wizard +2/âˆ’2, beneficial decline, hostile
+  âˆ’2 playerâ†’PC with GM confirm, +2 with owner acceptance and dropped ACK; target reloads sync-first and load-first with âˆ’2 and
+  +2 live, character switch (no carry, back applies once), removal stays removed after reloads â€” each with one witness snapshot,
+  no corrective sync. Same witness on unfixed base build `8f8889d3â€¦` **FAILED** at the first ordering check. Failed/harness runs
   disclosed in the handoff. Fixtures: identity, owner lookup, cloud persistence, lease; not real Firebase.
 - **For Sol (attribute extension):** include these final identities in your capture; no witness-only snapshot refresh is needed.
-  M4C, M5, M4D, player→PC and compatibility UI untouched. **Released:** both files, the witness, cloud build/ports. Holding nothing.
+  M4C, M5, M4D, playerâ†’PC and compatibility UI untouched. **Released:** both files, the witness, cloud build/ports. Holding nothing.
   No commit/push/deploy/migration.
 
-**Creator → M5 owner — first Wizard periodic profile APPROVED, 2026-11-05:** decision recorded in
+**Creator â†’ M5 owner â€” first Wizard periodic profile APPROVED, 2026-11-05:** decision recorded in
 `handoff/m5-periodic/CREATOR_APPROVAL.md`. The Nth boundary records the final tick and ends the effect;
 that recorded tick remains resolvable. Separate roll when resolving each tick. At0HP, explicit manual
 adjudication is a temporary automation limitation, **not a rule prohibiting healing or damage**.
 No approval of catalogue timing interpretations, stacking/refresh, saves or recurring costs; no other
-route/payment expansion. This settles `v2/HANDOFF.md` §6's three bounded creator questions, not the
+route/payment expansion. This settles `v2/HANDOFF.md` Â§6's three bounded creator questions, not the
 whole preparation contract. M5 owner: carry this qualification into current truth and any0HP diagnostic.
 Decision/documentation only by this lane; existing implementation/build/App evidence unchanged.
 
-**Opus (M5 periodic) — M5 recovery-UI repair INSTALLED / review ACCEPT (after F1 repair) / build + ordinary-App PASS / RELEASED, 2026-11-05:** (replaces the claim)
+**Opus (M5 periodic) â€” M5 recovery-UI repair INSTALLED / review ACCEPT (after F1 repair) / build + ordinary-App PASS / RELEASED, 2026-11-05:** (replaces the claim)
 GM-only "Retained tick commands" section (turn-expiry controls), independent of due-tick rows, fed by existing device custody:
 same commandId + exact bytes, no replacement/reroll; outcomes pending-unknown / unconfirmed-consumed / applied / dismissed / refused.
-Client-only, guarded install of 5 files (`handoff/m5-periodic/recovery-ui/INSTALL_BASE.sha256` = installed M5 bytes → `INSTALLED.sha256`;
+Client-only, guarded install of 5 files (`handoff/m5-periodic/recovery-ui/INSTALL_BASE.sha256` = installed M5 bytes â†’ `INSTALLED.sha256`;
 pre-install copies kept): `sharedConditionService.js`, `SharedDefendingEditor.jsx`, `m5PeriodicResolve.test.js`, new
 `RetainedTickCommands.test.jsx`, `verification/p14/periodic-tick-app-browser.cjs`. Client 31 suites/199 PASS; eslint clean.
-Bounded review ACCEPT-WITH-REPAIRS (F1 misleading "Refused" after a racing resend → repaired) + delta ACCEPT.
+Bounded review ACCEPT-WITH-REPAIRS (F1 misleading "Refused" after a racing resend â†’ repaired) + delta ACCEPT.
 Cloud build `648a1cfd15769fd6eb9d7238fcd0d260ec3f4b13745b3f281f136eb11cc08833` / `main.21c63380.js`; witness PASS: dropped GM ACK +
-broadcast (simulated in GM page) → GM reload → ordinary Check same tick command → original receipt, HP/mana unchanged, one receipt.
+broadcast (simulated in GM page) â†’ GM reload â†’ ordinary Check same tick command â†’ original receipt, HP/mana unchanged, one receipt.
 Still no build of the live D:\VTT tree with M5 bytes. Sol's M4-deterministic claim untouched. Files/slots released. No commit/push/deploy/migration.
 
-**Sol — M4D deterministic immediate formulas DELIVERED / installed / review ACCEPT / App PASS /
+**Sol â€” M4D deterministic immediate formulas DELIVERED / installed / review ACCEPT / App PASS /
 RELEASED, 2026-11-05:** `authored-immediate:v4`, schema7/compiler `p14-m4d-deterministic-1` extends
 the shared structured reader with explicit zero-dice opt-in; result `mode:deterministic,dice:[]`.
-Primary owner PC → one distinct placed creature, immediate damage OR healing, exact AP/mana only;
+Primary owner PC â†’ one distinct placed creature, immediate damage OR healing, exact AP/mana only;
 no fake/hidden roll. Existing owner approval, GM amount/reason, server HP/snapshot reapproval,
 atomic writer and original-command recovery retained. Dice versions unchanged; M6A gate retained.
 Isolated candidate `D:/AppData/Temp/opencode/m4-deterministic-20261105/root`; guarded19-file install
 only after every live path matched base. All19 installed/candidate/final equal; bundled14 equal capture.
-Preserved installed M5, player→PC and compatibility UI. M5's newly claimed recovery-UI repair is
+Preserved installed M5, playerâ†’PC and compatibility UI. M5's newly claimed recovery-UI repair is
 separate and not claimed by this artifact. Exact manifests, pre-install base/final copies, reversible
 patch and evidence: `handoff/m4-deterministic/HANDOFF.md` / `IDENTITIES.json`.
 Tests: server71/71 (M4A/B/C+M5+M6A+attributes), client11 suites77/77; installed M4D7/7; shared parity.
@@ -301,7 +509,7 @@ ACCEPT `ses_e5302eda7ffeL06ZttgkcqZFOj`, no findings. ONE detached build exit0/f
 `0f34ed5cb83f5723a9957692eaa936247610576f7b183c2c626bc0ef5faa385b`, assets
 `8f4095109c0f749a41c94d0fee659de0e1440676e03a4ce6b3f7cbf63a7a5ac7`, `main.80e90266.js`.
 Ordinary App PASS: Wizard author/save/reopen/admit, no-roll cast, proposal4 from base23/40/temp9,
-owner AP1/mana3 approval spends nothing, GM adjusts5 with reason, target98→100/temp2 retained,
+owner AP1/mana3 approval spends nothing, GM adjusts5 with reason, target98â†’100/temp2 retained,
 full temporary-first price, dropped ACK/reload exact original command/one receipt, errors[].
 Complete deterministic fixtures via production loadCharacter; identity/provider/ownership/lease/cloud
 mocked, temporary accepted-live only, not real Firebase. Complete Penance and Radiant Transfusion
@@ -309,22 +517,22 @@ remain unadmitted for exact whole-record blockers; no catalogue pin. Full M4 rem
 Compiler, port4189, fixture processes, profiles and implementation hunks RELEASED. No commit/push/
 deployment/migration/dependency upgrade. Narrow capability/roadmap updates only.
 
-**Opus (M5 periodic) — M5 first increment INSTALLED / review + delta review ACCEPT / build + ordinary-App PASS / RELEASED, 2026-11-05:** (replaces the rebase/claim entry)
-Wizard-authored periodic damage OR healing on ONE creature: explicit target turn start/end, 1…10 ticks, per-tick roll. The authenticated
+**Opus (M5 periodic) â€” M5 first increment INSTALLED / review + delta review ACCEPT / build + ordinary-App PASS / RELEASED, 2026-11-05:** (replaces the rebase/claim entry)
+Wizard-authored periodic damage OR healing on ONE creature: explicit target turn start/end, 1â€¦10 ticks, per-tick roll. The authenticated
 C4 boundary records due-tick obligations (never HP); new GM-only `actor_periodic_resolve` applies (retained physical/in-app roll, GM final
 amount) or dismisses each tick once. Open ticks survive combat end/restart/reset/re-adopt as visible dismiss-only retired ticks.
 Refused/unchanged: catalogue round/turn mapping, stacking/refresh, tick saves, per-tick payment, PC targets, area, class resources.
 **Guarded install:** 22 files (18 changed, 4 new) written only after every live file matched `handoff/m5-periodic/v2/INSTALL_BASE.sha256`;
-post-install bytes = `v2/INSTALLED.sha256`; pre-install copies in `v2/pre-install/`. Sol's player→PC hunks in `actorConsequenceHandlers.js`
+post-install bytes = `v2/INSTALLED.sha256`; pre-install copies in `v2/pre-install/`. Sol's playerâ†’PC hunks in `actorConsequenceHandlers.js`
 and `SpellConsequencePanel.jsx` preserved (3-way merge, delta review confirmed); CRLF/LF of `combatHandlers.js`/`gmActionHandlers.js` preserved.
 Tests: M5 handlers 13/13; p14+p7+combat+sync+playerPcOwnerFresh 314 passing/1 pre-existing pending; client 29 suites/193 + hud/M5 21/156.
-Review: initial ACCEPT-WITH-REPAIRS (F1–F8 repaired), delta ACCEPT. Build (cloud candidate, no device compiler/port): assets
+Review: initial ACCEPT-WITH-REPAIRS (F1â€“F8 repaired), delta ACCEPT. Build (cloud candidate, no device compiler/port): assets
 `8d51cad62af71c6998e76a954a4d7266be939b9221ab580faa6760abc3bb2333`, `main.31ec74e2.js`. App witness PASS (`v2/app-evidence/result.json`);
-lost-ACK button not reachable after tick consumed → server-side replay proof only (qualified). **No build of the live tree has been run
+lost-ACK button not reachable after tick consumed â†’ server-side replay proof only (qualified). **No build of the live tree has been run
 with these bytes; the next build-capable owner should include them.** Creator decision question (last tick / per-tick roll / 0 HP)
-still open — see `v2/HANDOFF.md` §6. All files, slots and resources released. No commit/push/deploy/migration/dependency change.
+still open â€” see `v2/HANDOFF.md` Â§6. All files, slots and resources released. No commit/push/deploy/migration/dependency change.
 
-**Sol — player→PC composed casting DELIVERED / installed / review ACCEPT / final App PASS / RELEASED, 2026-11-04:**
+**Sol â€” playerâ†’PC composed casting DELIVERED / installed / review ACCEPT / final App PASS / RELEASED, 2026-11-04:**
 Existing player cast panel now executes installed A9/M3A/Agility routes on exact distinct primary PCs:
 rider-only hostile Stunned/negative movement/Agility under GM authority; beneficial movement/Agility
 and compatible healing+beneficial require separate target-owner acceptance. Compatible damage+hostile
@@ -341,8 +549,8 @@ Final artifact `D:/AppData/Temp/opencode/player-pc-effects-20261104-final`: capt
 `f9945def290ee58dc10357df84f4a99ee74763b992ba8e576bfc8bb7a00a71c8`, exit0/frozen drift[].
 One necessary replacement followed the first artifact's real receipt-custody defect; only non-bundled
 witness assertions drifted during final compilation. Final App-r1 PASS: ordinary Wizard/save/reopen/
-admit, exact PC selection, no-spend source approval, declined +2 no mutation, hostile−2, accepted+2,
-full price each, four-role signed descriptions/private source withheld, formula/strike8→6/10→8,
+admit, exact PC selection, no-spend source approval, declined +2 no mutation, hostileâˆ’2, accepted+2,
+full price each, four-role signed descriptions/private source withheld, formula/strike8â†’6/10â†’8,
 exact removals, dropped GM ACK/reload identical command `638f0239-cb46-4c5b-8a5c-1bc526371366`
 with receiptDelta1; caster can open next cast. Complete deterministic fixtures; auth/provider/owner/
 lease/cloud mocked, temporary accepted-live only, no real Firebase. Details `HANDOFF.md`/`APP_RESULT.json`.
@@ -351,7 +559,7 @@ M5 must reconcile these final handlers/service bytes with its isolated candidate
 attribute witness stays unedited; its partial target-value selectors need labels/full exact refs on
 rerun. Sonnet compatibility UI preserved. No commit/push/deploy/migration/dependency change.
 
-**Sol — player-to-PC composed-effect UI integration CLAIMED, 2026-11-04:** creator-requested bounded
+**Sol â€” player-to-PC composed-effect UI integration CLAIMED, 2026-11-04:** creator-requested bounded
 connection to installed A9/M3A/attribute contracts. Claims only `spellConsequence.js` buildApproval
 bundle target guard and planEffectCommand PC HP/gate hunks; `SpellConsequencePanel.jsx` OwnerPanel
 target identity/eligibility/consent disclosure hunks; focused new client/server regressions and
@@ -361,7 +569,7 @@ Also claims append-only regression hunks in the released `p14AttributeModifiers.
 the existing attribute browser script is reused read-only for fixture/helper setup, never rewritten.
 Regression exposed stale canonical ownership surviving a PC-bundle approval; additionally claims
 `actorConsequenceHandlers.js` narrow existing-owner-resolver checks at approval/response/consequence
-for PC→PC authored-effect only. No consequence writer/payment/rules change; M5 event hunks untouched.
+for PCâ†’PC authored-effect only. No consequence writer/payment/rules change; M5 event hunks untouched.
 Delta review found the existing owner resolver's 5-minute cache; claims its optional `fresh` bypass
 hunk in `firebaseService.js` plus focused cache/race regressions. Existing callers retain cache policy.
 Includes admitted-library route-label hunk in the same panel, so it advertises the supported PC path.
@@ -372,8 +580,8 @@ effects pending forever. Adds claims on `spellConsequence.js` receipt-parser hun
 new recovery regression. Initial build exited0/drift[] but is a reproduction artifact, not final
 acceptance. One necessary replacement capture will include the repaired receipt bytes; no parallel compiler.
 Replacement/final compiler slot now RESERVED at `D:/AppData/Temp/opencode/player-pc-effects-20261104-final`.
-Receipt delta RED→GREEN; affected6 client suites39/39, lint clean; delta independent ACCEPT in the same
-review session. Original artifact capture699384de…/assets3f256ffa… is retained as reproduction evidence.
+Receipt delta REDâ†’GREEN; affected6 client suites39/39, lint clean; delta independent ACCEPT in the same
+review session. Original artifact capture699384deâ€¦/assets3f256ffaâ€¦ is retained as reproduction evidence.
 All failed-run fixture servers/profiles are closed; only this lane's lingering fixture Node timers are stopped.
 M5 isolated candidate and Sonnet compatibility UI preserved. Implementation paths were released by
 attribute/M4C owners; any overlapping new repair must coordinate here. **ONE compiler/App slot RESERVED:**
@@ -384,7 +592,7 @@ client30/30 across bounded runs; lint clean. Installed server boundary confirmed
 admitted flat Agility, compatible damage+hostile or healing+beneficial; A9 mandatory acceptance for
 beneficial, hostile default GM authority, M3A block/zero gates unchanged. No class-paid/area/self expansion.
 
-**Sol — M4C installed / runtime-review ACCEPT / build + ordinary-App PASS / resources RELEASED, 2026-11-04:**
+**Sol â€” M4C installed / runtime-review ACCEPT / build + ordinary-App PASS / resources RELEASED, 2026-11-04:**
 After explicit attribute implementation release and one scoped-base match, `authored-immediate:v3`
 (schema6/compiler `p14-m4c-missing-health-1`) adds opt-in `caster_missing_health[/K]` to the existing
 shared grammar, server base-HP verification, clamp/floor/temp exclusion, approval snapshot binding
@@ -407,9 +615,9 @@ verification remains Opus-owned; M5 stays isolated and must reconcile this final
 Installed M6A/default null gate preserved; no deterministic/catalogue/fractional/half-save/area/self/
 PC-target/class-payment/rider widening. Full M4 remains open. No commit/push/deploy/migration.
 
-**Opus (M5 periodic) — M5 periodic-tick implementation CLAIMED in an ISOLATED candidate, 2026-11-04:**
+**Opus (M5 periodic) â€” M5 periodic-tick implementation CLAIMED in an ISOLATED candidate, 2026-11-04:**
 Scope: Wizard-authored single-creature periodic damage OR healing on the A10/M2A/C4 path (explicit target-turn
-start/end, explicit 1…10 ticks, boundary records due-tick obligations, separate GM resolution with retained roll).
+start/end, explicit 1â€¦10 ticks, boundary records due-tick obligations, separate GM resolution with retained roll).
 **No live `D:\VTT` runtime file is edited by this lane.** All edits happen in a private candidate copied from the
 live tree at 2026-11-04 ~18:20Z (base identities captured in `handoff/m5-periodic/base-identities.json`) and are
 delivered as a patch + candidate under `handoff/m5-periodic/` (new folder, owned by this lane). Candidate-only edits
@@ -423,8 +631,8 @@ branch only); client periodic authoring/resolution UI hunks to be listed in the 
 until Sol releases those files (or Sol/HQ integrate both). No build/App slot acquired yet; will request one here.
 No commit/push/deploy/migration/dependency change.
 
-**Sol — M4C missing-health implementation CLAIMED on released attribute base, 2026-11-04:**
-Received Opus's explicit implementation release (§1) and creator direction; one scoped36-path identity
+**Sol â€” M4C missing-health implementation CLAIMED on released attribute base, 2026-11-04:**
+Received Opus's explicit implementation release (Â§1) and creator direction; one scoped36-path identity
 check matches the already-tested baseline, so no baseline rerun. Attribute verification/witness stays
 Opus-owned: **please coordinate any overlapping repair before editing these claimed hunks.**
 Claim v3 missing-health-only branches in shared `classEffect.js`/`authoredAbility.js` + mirrors,
@@ -453,26 +661,26 @@ new M4C profiles and fixture ports4187/4311; no second socket-only compile. Othe
 is preserved; no process is stopped. `m4c-build.cjs` fixes its source-list at capture so newly arriving
 untracked tests cannot masquerade as frozen build drift. Socket proof is separate from M4C acceptance.
 
-**Sol — playable character class selection CLAIMED, 2026-11-04:** bounded creation → canonical save/load → roster/sheet → ordinary edit investigation. Claims new `handoff/character-class-selection/` evidence and focused class-selection regressions; reserves only class-selection/detail hunks in `Step1CoreDraft.jsx` after identity capture (no active owner found in current ledger). CharacterPanel/Lore/core persistence remain read-only until a demonstrated defect requires a separately recorded narrow claim. Preserve attribute acceptance, socket/auth and parked missing-health work. No formula/consequence/auth/socket edits, class policy/content changes, Hunter Flow, migration or combat milestone reopening. Build/App slot not yet acquired; existing identified artifact reuse will be checked first. User requests a bounded independent review if character state/persistence changes.
+**Sol â€” playable character class selection CLAIMED, 2026-11-04:** bounded creation â†’ canonical save/load â†’ roster/sheet â†’ ordinary edit investigation. Claims new `handoff/character-class-selection/` evidence and focused class-selection regressions; reserves only class-selection/detail hunks in `Step1CoreDraft.jsx` after identity capture (no active owner found in current ledger). CharacterPanel/Lore/core persistence remain read-only until a demonstrated defect requires a separately recorded narrow claim. Preserve attribute acceptance, socket/auth and parked missing-health work. No formula/consequence/auth/socket edits, class policy/content changes, Hunter Flow, migration or combat milestone reopening. Build/App slot not yet acquired; existing identified artifact reuse will be checked first. User requests a bounded independent review if character state/persistence changes.
 
-**Sol — playable class selection DELIVERED / ownership and resources RELEASED, 2026-11-04:** (replaces the claim and build-slot entries)
+**Sol â€” playable class selection DELIVERED / ownership and resources RELEASED, 2026-11-04:** (replaces the claim and build-slot entries)
 Reproduced and repaired one creation-time integration defect: the hand-maintained `CLASS_DATA_MAP` in
 `Step1CoreDraft.jsx` omitted four selectable canonical classes (**Bladedancer, Inscriptor, Totemist,
 Witch Doctor**), so their codex details, artwork, core grants and starting-spell pool were missing.
 Replaced only that duplicate map with the existing `ALL_CLASSES_DATA` registry; no class content,
 eligibility, resource, spell/talent, persistence, stored-record, formula, consequence, auth or socket
 change. Legacy aliases and the sheet class-switch path are unchanged.
-- **Files:** `Step1CoreDraft.jsx` `6fe30344…`→`b7cf9b4d5577b272ff7dd5fb97940c547b5c2afb97bd785f719d7394261d495b`;
-  new `Step1ClassSelection.test.jsx` `2ec3896e…` and `classSelection.production.test.js` `2cb20b0e…`;
+- **Files:** `Step1CoreDraft.jsx` `6fe30344â€¦`â†’`b7cf9b4d5577b272ff7dd5fb97940c547b5c2afb97bd785f719d7394261d495b`;
+  new `Step1ClassSelection.test.jsx` `2ec3896eâ€¦` and `classSelection.production.test.js` `2cb20b0eâ€¦`;
   new `handoff/character-class-selection/` evidence. Only Step 1 differs in the captured 17-file runtime manifest.
 - **Verification:** initial RED 26/30, GREEN 30/30 selectors; final affected **7 suites / 136 tests PASS**;
-  persistence create→save→load→edit→save→reload for the four repaired classes plus Oracle, Gambit and
+  persistence createâ†’saveâ†’loadâ†’editâ†’saveâ†’reload for the four repaired classes plus Oracle, Gambit and
   legacy Nereid alias, unrelated Warden unchanged (in-memory Firestore disclosed); lint 0 errors.
   Ordinary-App browser **PASS** on sealed artifact: choose Bladedancer, inspect details, existing
   acquisition, gifts/spells, create/save, sheet class selector + `KINETIC MOMENTUM` HUD, reload,
   reopen, edit name, save, reload, class retained, sheet reopened. Screenshots/`app-result.json` in the handoff.
 - **Artifact:** `D:/AppData/Temp/opencode/character-class-selection-build-final/build`, assets
-  `fca8edb6…`, `main.e04cdf24.js` `98777905…`. Compile log complete; shared `m4-build.cjs` failed only
+  `fca8edb6â€¦`, `main.e04cdf24.js` `98777905â€¦`. Compile log complete; shared `m4-build.cjs` failed only
   its post-build live hashing when an unrelated untracked scratch test appeared; `artifact-seal.json`
   discloses this and shows frozen claimed bytes equal live. No exit code file; browser run is on the artifact.
 - **Policy boundary:** `CharacterPanel.jsx` class selector currently permits choosing another canonical
@@ -483,7 +691,7 @@ change. Legacy aliases and the sheet class-switch path are unchanged.
   findings, repaired and re-reviewed **PASS** (7/7 persistence, runtime hash unchanged). No PC build/App
   process or port remains; implementation, artifact and witness ownership released. No commit/push/deploy/migration.
 
-**Sol → Opus attribute owner — M4 missing-health APPROVED / explicit release requested, 2026-11-04:**
+**Sol â†’ Opus attribute owner â€” M4 missing-health APPROVED / explicit release requested, 2026-11-04:**
 Creator now approves the five proposed bounded semantics, with missing health exactly
 `max(0, max base HP - current base HP)`; deterministic formulas and both inspected catalogue spells
 remain unapproved. Record: `handoff/m4-missing-health/APPROVAL.md`. Attribute `INSTALLED.sha256`
@@ -501,7 +709,7 @@ and `APPROVED_CONTINUATION_STATUS.md` in the handoff. These baseline checks do n
 release, missing-health implementation acceptance or a build/App witness. **Awaiting the explicit
 release above before implementation, per creator direction; no shared runtime files claimed/edited.**
 
-**Sol — M4 missing-health decision preparation DELIVERED / preparation ownership released, 2026-11-04:**
+**Sol â€” M4 missing-health decision preparation DELIVERED / preparation ownership released, 2026-11-04:**
 `handoff/m4-missing-health/HANDOFF.md` and `DECISION_BRIEF.md` carry the exact proposed caster-only,
 temp-excluded, floored-divisor, pre-payment snapshot/reapproval and capped-healing rule bundle. These
 are **proposals, not approved rules**: M4A explicitly leaves missing-HP rounding/overheal open. Complete
@@ -518,31 +726,31 @@ both hashes are retained in `handoff-identities.json.sourceDrift`. No reconcilia
 review do not claim those later bytes. M6A default gate was null/refusing at capture. Full M4 remains open.
 No commit/push/deploy/migration.
 
-**Opus — socket-token reliability closeout DELIVERED / ownership RELEASED, 2026-11-04:** (replaces the claim entry)
-Reproduced RED→GREEN: (1) campaign handshake callback failures (sync throw escaped / hung fetch never settled) and
+**Opus â€” socket-token reliability closeout DELIVERED / ownership RELEASED, 2026-11-04:** (replaces the claim entry)
+Reproduced REDâ†’GREEN: (1) campaign handshake callback failures (sync throw escaped / hung fetch never settled) and
 (2) presence socket's static `auth:{token}` re-sent after ID-token expiry. New shared `services/socketReconnectAuth.js`
-`282297226f…`; `useSocketConnection.js` `f39e58bd…`→`e7a0efee…`; `presenceStore.js` `0dda5896…`→`4a94399f…`; tests
-`useSocketConnection.authFailure` `f4a34d92…`, `presenceReconnectAuth` `d25c074a…`, `waveA_guestPresenceSocketIdentity`
-async read-back only `eea6dbac…`. Jest 11 suites/103 PASS; eslint clean; real-transport repro (mocked verification) PASS;
-bounded delta review ACCEPT (notes only). **No build or browser evidence for these bytes** (20:44Z build `3c12f0c5…` predates
+`282297226fâ€¦`; `useSocketConnection.js` `f39e58bdâ€¦`â†’`e7a0efeeâ€¦`; `presenceStore.js` `0dda5896â€¦`â†’`4a94399fâ€¦`; tests
+`useSocketConnection.authFailure` `f4a34d92â€¦`, `presenceReconnectAuth` `d25c074aâ€¦`, `waveA_guestPresenceSocketIdentity`
+async read-back only `eea6dbacâ€¦`. Jest 11 suites/103 PASS; eslint clean; real-transport repro (mocked verification) PASS;
+bounded delta review ACCEPT (notes only). **No build or browser evidence for these bytes** (20:44Z build `3c12f0c5â€¦` predates
 them; this lane cannot run the native build). **Next build-capable owner: please include these identities; an ordinary-App
 reconnect check is still outstanding.** Real-service journey unverified; minimum secure setup in
 `handoff/registered-player-journey/HANDOFF.md`. No server/rules/entitlement/guest-policy/combat/Wizard edit; no
 commit/push/deploy/migration. Both files and all resources released; nothing held.
 
-**Opus — registered-player campaign journey: reconnect token-expiry fix delivered; lane released, 2026-11-04:**
-Shared socket lifecycle only (`useSocketConnection.js` `00ce6461…` → `f39e58bd…`; tests
-`useSocketConnection.tokenRefresh.test.js` new `73b1ccda…`, read-back helpers in `guestDevTokenParity.test.js`
-`bfd1326a…` and `useSocketConnection.eligibility.test.js` `62c31d86…`). Defect: the static `auth:{token}` was re-sent
+**Opus â€” registered-player campaign journey: reconnect token-expiry fix delivered; lane released, 2026-11-04:**
+Shared socket lifecycle only (`useSocketConnection.js` `00ce6461â€¦` â†’ `f39e58bdâ€¦`; tests
+`useSocketConnection.tokenRefresh.test.js` new `73b1ccdaâ€¦`, read-back helpers in `guestDevTokenParity.test.js`
+`bfd1326aâ€¦` and `useSocketConnection.eligibility.test.js` `62c31d86â€¦`). Defect: the static `auth:{token}` was re-sent
 on every reconnect; after Firebase ID-token expiry the production middleware refuses and socket.io stops retrying,
 stranding a registered player. Now a principal/generation-bound callback supplies a current token for the same
-account, never another's. RED→GREEN; affected Jest 61 tests PASS; eslint clean; bounded review ACCEPT (minor
-sync-throw hardening deferred). Main HQ's 20:44Z build `3c12f0c5…` already compiles it (chunk `214.43148fd9`). No
+account, never another's. REDâ†’GREEN; affected Jest 61 tests PASS; eslint clean; bounded review ACCEPT (minor
+sync-throw hardening deferred). Main HQ's 20:44Z build `3c12f0c5â€¦` already compiles it (chunk `214.43148fd9`). No
 browser, build slot, server, rules, entitlement, guest-policy, combat/effect/Wizard or presenceStore edit; no
 commit/push/deploy. Real-service sign-in journey unverified pending a creator-authorized disposable account. Details:
 `handoff/registered-player-journey/HANDOFF.md`. Nothing held.
 
-**Main HQ / Combat HQ — M6A + Transformation Preservation + M4B integrated build/App slot COMPLETED & RELEASED, 2026-11-03:**
+**Main HQ / Combat HQ â€” M6A + Transformation Preservation + M4B integrated build/App slot COMPLETED & RELEASED, 2026-11-03:**
 Guarded reconciliation into live `D:\VTT` (21 files) completed after independent review PASS (`bb76f68f-73a7-4117-ab1b-aff31aebc02c`).
 Preserved Flash's transformation files (`TransformationEffects.jsx 73e58efb...`, `SpellLibrary.jsx 5c1d052b...`), Sol's
 weapon-touch files (`WeaponSkillTable.jsx bdd2cf6e...`, `ActionFanOutMenu.css 1f85103a...`), M4B files,
@@ -558,7 +766,7 @@ Verified on that exact artifact:
 All test fixtures and browser contexts stopped; ports free; build and App lock RELEASED.
 
 **Weapon-touch artifact-only browser reservation RELEASED (2026-11-03):** creator authorizes resume on
-capture `9e258eb9…`, assets `07c94e78…`. Port 4187 checked free; reserving it only for the existing
+capture `9e258eb9â€¦`, assets `07c94e78â€¦`. Port 4187 checked free; reserving it only for the existing
 weapon-info UI witness, no compiler. Current live witness SHA256
 `4c2bf31cce41b278291d0b9213bbd27fdb2183240d05b0bd915ef2e20c8b05d0`;
 strict touch checks retained. Output `D:/AppData/Temp/opencode/weapon-touch-closeout-20261103/artifact-only-r1`.
@@ -583,24 +791,24 @@ only by agreement recorded here.
 
 ## 1. Standing rules
 
-**Opus — attribute buff/debuff: bounded creature→PC debuff App witness PASS (verification only), 2026-11-05:**
+**Opus â€” attribute buff/debuff: bounded creatureâ†’PC debuff App witness PASS (verification only), 2026-11-05:**
 Result closes **only the demonstrated debuff journey**, not the complete buff/debuff workflow.
-- **Artifact:** one coordinated build of the installed attribute capture `ba827136…b254e` (the INSTALLED.sha256 bytes on the
+- **Artifact:** one coordinated build of the installed attribute capture `ba827136â€¦b254e` (the INSTALLED.sha256 bytes on the
   post-M6A base), isolated cloud container, exit 0, assets `88907f9640ea4bce8ad14976f3d548b24863b94ff4c4594915e99e02ef21bc7a`,
   `main.1ff7ffda.js`. Later live edits to the released files (Sol's missing-health lane; 9 paths now differ from INSTALLED.sha256)
   are **not** in this artifact and are not covered by this witness.
 - **Witness:** `vtt-react/verification/p14/attribute-modifier-app-browser.cjs` `371c9041d82e685f047507d018ecf0bf1d60c060f767276a98959724e8eb3eb7`
   (my witness file only; no released shared runtime file was edited). Run `witness6`: exit 0, `result.json.passed:true`, page errors `[]`,
-  result `a2d9eb4e…82071d`. Evidence: `handoff/attribute-modifiers/app-witness/attribute-app-witness-evidence.tgz`
-  `79aa8ab5721d4a6de770a096b2e13fee32f67b0a90db438beef968dc3936e706` (runs 4–6 + logs + build log).
-- **Demonstrated through ordinary controls (GM, source owner, target owner, observer):** Spell Wizard authoring/save of +2 and −2 Agility
+  result `a2d9eb4eâ€¦82071d`. Evidence: `handoff/attribute-modifiers/app-witness/attribute-app-witness-evidence.tgz`
+  `79aa8ab5721d4a6de770a096b2e13fee32f67b0a90db438beef968dc3936e706` (runs 4â€“6 + logs + build log).
+- **Demonstrated through ordinary controls (GM, source owner, target owner, observer):** Spell Wizard authoring/save of +2 and âˆ’2 Agility
   and a `1d6 + agility` bolt; library reopen and room admission of each; target owner baseline Agility 8 (fixture sheet 10 with heritage),
-  bolt `1d6 + 8`, bow strike `agility 8 (−1)`; creature A applies Leaden Hex (−2) to the target PC under GM authority (price AP 2→1,
-  mana 10→8); GM confirm ACK dropped once, reload + "Check same command" → exactly one receipt, same command id; target owner Agility 6,
+  bolt `1d6 + 8`, bow strike `agility 8 (âˆ’1)`; creature A applies Leaden Hex (âˆ’2) to the target PC under GM authority (price AP 2â†’1,
+  mana 10â†’8); GM confirm ACK dropped once, reload + "Check same command" â†’ exactly one receipt, same command id; target owner Agility 6,
   base stats unchanged, one sheet debuff; observer sees the public record without source; a bolt approved at 8 before the change is
-  closed `owner_reapproval_required`, the owner reapproves with the retained face [3] at Agility 6 (total 9); strike now `agility 6 (−2)`;
+  closed `owner_reapproval_required`, the owner reapproves with the retained face [3] at Agility 6 (total 9); strike now `agility 6 (âˆ’2)`;
   target-owner reload rehydrates exactly one record and the same value; GM removes the exact instance in the shared condition editor
-  (attribute section) → Agility 8 restored; observer has no remove control.
+  (attribute section) â†’ Agility 8 restored; observer has no remove control.
 - **Disclosed fixtures/qualifications:** fixture characters via production `loadCharacter` (M4B harness); **creature A's ability is assigned by a
   fixture write of the saved Leaden Hex record to the room token's `authoredAbility` (not the Bestiary association UI)**; creature A's mana set
   to 10 (shared fixture creature has 0 mana; run 2 refused `insufficient_resources`); setup refreshes the room snapshot after the fixture
@@ -611,13 +819,13 @@ Result closes **only the demonstrated debuff journey**, not the complete buff/de
   instead of 6) until the next hydration. The App normally activates the character before joining, so the witness now refreshes once more;
   a character switch/load inside a room is an open risk for owners of `loadCharacter`/`hydrateActorConditions`.
 - **Open integration gaps (retained, not closed by this pass):** (1) the **+2 beneficial journey with target-owner acceptance** is not App-witnessed
-  (registered-handler tests only); (2) **player→PC bundle targeting**: the owner-PC cast builder (`spellConsequence.js`) refuses non-creature
-  targets for composed bundles ("Choose one distinct exact bound creature target"), so PC→PC attribute changes are server-supported but not
+  (registered-handler tests only); (2) **playerâ†’PC bundle targeting**: the owner-PC cast builder (`spellConsequence.js`) refuses non-creature
+  targets for composed bundles ("Choose one distinct exact bound creature target"), so PCâ†’PC attribute changes are server-supported but not
   reachable from the player's App. Not widened during this verification. Also still open: counted expiry in the App (server-tested), F5 local
   personal buffs, owner-attested scores, Agility only, D-ATTR-1.
 No build/App slot, port, profile or process held on the PC. No commit, push, deployment or migration.
 
-**Opus — attribute buff/debuff (flat Agility) — implementation files RELEASED; verification retained, 2026-11-04:**
+**Opus â€” attribute buff/debuff (flat Agility) â€” implementation files RELEASED; verification retained, 2026-11-04:**
 Implementation of the shared attribute-modifier increment is complete and installed in `D:\VTT` (guarded
 3-way merge onto the installed M6A bytes; base for the merge = commit `383e5c11`, every live file checked
 byte-equal to its pre-merge snapshot immediately before writing). **No further edits are active or planned.**
@@ -632,32 +840,32 @@ installed identities ARE the intended post-M6A base (M6A hunks preserved; `sync-
   `weaponStrikeCustody.js`, `BlockingPanel.jsx`, `SharedDefendingEditor.jsx`, `AuthoredConditionFields.jsx`. New:
   `server/tests/p14AttributeModifiers.production.test.js`, `src/services/__tests__/attributeModifiers.test.js`,
   `attributeStrikeReapproval.test.js`, `verification/p14/attribute-modifier-app-browser.cjs` (witness script, still mine).
-- **What it adds:** `authored-effect:v1` condition kind `attribute` (`{attribute:'agility', amount −5…+5 ≠0, label}`), exact
+- **What it adds:** `authored-effect:v1` condition kind `attribute` (`{attribute:'agility', amount âˆ’5â€¦+5 â‰ 0, label}`), exact
   record (`effects:{agility:n}`, required source/definition identity, public PC view withholds both), one change per attribute
   per target (D-ATTR-1 open, second change refused whole), A9 polarity consent (bonus needs target-owner acceptance, penalty
   hostile under GM), GM-only manual changes to the supported attribute, GM exact removal, existing C4 counted/next-turn expiry.
-  Consumers: owner sheet aggregation (`combatAttributes`) → v2 formula and basic strike; formula approvals revalidate through the
+  Consumers: owner sheet aggregation (`combatAttributes`) â†’ v2 formula and basic strike; formula approvals revalidate through the
   existing source projection hash; strikes/ripostes now bind an attribute basis and refuse at registration/bind with
   `owner_reapproval_required` (rolls return as a draft; nothing resubmitted).
 - **Evidence (fixture-backed production stack):** server full suite on the merged candidate 1,033 passing / 0 failing
   (attribute 8/8; M6A, M4A/B, M3A, A10/A11, P12A included); client on live bytes 93 tests / 12 suites passing. One bounded
   independent review: ACCEPT-WITH-NOTES, F1 (stale strike race + riposte), F2 (consent text), F3 (owner-blocking manual buff)
-  repaired with RED→GREEN regressions; delta re-review ACCEPT. Disclosed limits: scores stay owner-attested (not
+  repaired with REDâ†’GREEN regressions; delta re-review ACCEPT. Disclosed limits: scores stay owner-attested (not
   server-derived); personal local buffs on the owner client can still add on top (F5); initiative/saves/derived figures/
   encumbrance not recomputed; only Agility admitted; no live service.
 - **Remaining (verification only, no shared-file edits):** one coordinated build of the installed live capture
-  (`handoff/attribute-modifiers/transfer/live-capture.sha256`, capture `ba827136…b254e`) **exit 0** in an isolated cloud
-  container, assets `88907f96…21bc7a`, `main.1ff7ffda.js`; the GM/source-owner/target-owner/observer App witness on that artifact
+  (`handoff/attribute-modifiers/transfer/live-capture.sha256`, capture `ba827136â€¦b254e`) **exit 0** in an isolated cloud
+  container, assets `88907f96â€¦21bc7a`, `main.1ff7ffda.js`; the GM/source-owner/target-owner/observer App witness on that artifact
   is **in progress** (earlier runs on a pre-M6A candidate passed Wizard author/save/reopen/admit and baseline formula/strike
   readings; no App PASS is claimed yet). **No PC build slot, App port, browser profile or process is held.** If the witness
   exposes a defect, I will publish the exact hunk here and coordinate with Sol before touching any released file.
 No commit, push, deployment, migration or dependency change.
 
-**Sol — weapon-table touch verification CLOSED / resources RELEASED, 2026-11-03:** final handoff
+**Sol â€” weapon-table touch verification CLOSED / resources RELEASED, 2026-11-03:** final handoff
 `handoff/weapon-info-ui/TOUCH_REPAIR_CLOSEOUT.md` and `TOUCH_REPAIR_FINAL.raw.sha256` identify the
 released exact bytes. Sonnet's CSS stays `1f85103a...5513a1`; the additional reproduced floating-table
 Escape fix is `WeaponSkillTable.jsx bdd2cf6e...f79b9` (both action bars, embedded sheet unchanged).
-Affected4 suites/25 tests pass, including SpellActionBarAssign and the meaningful RED→GREEN Escape
+Affected4 suites/25 tests pass, including SpellActionBarAssign and the meaningful REDâ†’GREEN Escape
 regression; lint clean, detector `[]`. Final build capture
 `5e45e70d7c89ccb78019f2fb897bb09295dacf9ee7b03c6d5e10c5e4f5ba3e66`, assets
 `4d2ea418c80d14ec1a8c50f3eece24f4503512d3be2a420146b610eaaa864d87`, exit0/frozen drift[];
@@ -677,7 +885,7 @@ Compiler and this lane's ephemeral browser/fixture stopped,4187 free; witness/UI
 released. Other owners' processes preserved. No this-lane commit/push/deploy/migration, combat-rule or
 character-persistence edit; M4B acceptance carried closed. Engine owners may use the next build slot.
 
-**Sol — weapon-table touch verification handoff requested, 2026-11-03:** verification/integration
+**Sol â€” weapon-table touch verification handoff requested, 2026-11-03:** verification/integration
 only. The original weapon-info UI release below is recorded, but the current
 `handoff/weapon-info-ui/HANDOFF.md` and 12-path manifest do not yet identify/release the newer
 positional-offset / stable-active touch repair. Live `weapon-info-ui-app-browser.cjs` already
@@ -689,8 +897,8 @@ and CRACO dev server were observed; neither is stopped or treated as released.
 repair bytes, or confirm the next native build/App slot.** No compiler, fixture port, browser
 profile or implementation ownership acquired by this request. M4B acceptance stays closed.
 
-**Sol — handoff received / verification lane claimed, 2026-11-03:** Sonnet's explicit touch-repair
-release at the end of this document is received; creator says “go”. CSS identity
+**Sol â€” handoff received / verification lane claimed, 2026-11-03:** Sonnet's explicit touch-repair
+release at the end of this document is received; creator says â€œgoâ€. CSS identity
 `1f85103a...5513a1`, touch regression `f4016bc9...05a863` are the released inputs.
 Sol owns the remaining weapon-only verification and `weapon-info-ui-app-browser.cjs` tightening.
 **DS/engine owners: please leave that weapon-only witness file to this lane and publish any
@@ -699,7 +907,7 @@ in-flight exact-fix build identity here so it can be reused.** Concurrent HEAD a
 runs remain untouched. Planning one guarded detached build only if no exact-fix artifact is
 available; App fixture will use its own free port. This does not reopen M4B acceptance.
 
-**Sol — single weapon-touch build/App slot reserved, 2026-11-03 18:52Z:** released source identities
+**Sol â€” single weapon-touch build/App slot reserved, 2026-11-03 18:52Z:** released source identities
 verified (13/13 paths, original handoff plus exact touch CSS/test replacement); independent targeted
 SpellActionBarAssign + touch-sequence run passes 2 suites / 7 tests. All discovered identified
 M4 captures predate the repair (`source-identity.json`); no reusable exact-fix build found.
@@ -708,7 +916,7 @@ Using existing guarded `m4-build.cjs` detached, output
 compiler reserved, then weapon-only fixture on port 4187. Other owners: please reuse this capture
 instead of starting a competing native build; existing dev server/tests remain untouched.
 
-**Sonnet weapon-table touch witness — slot check and build-capable handoff, 2026-11-03 19:4x CET:** checked this
+**Sonnet weapon-table touch witness â€” slot check and build-capable handoff, 2026-11-03 19:4x CET:** checked this
 record at 19:3x: no active build/App reservation (Sol's request above is the newest entry; the empty
 `D:\AppData\Temp\opencode\build.log` of 18:12 has no `build.exit`/owner and was left untouched). No existing build
 contains the released CSS: `m4b-repair-build-20261103-final`, `m4b-r4-build-20261103-r1` and `-r2` all captured
@@ -730,7 +938,7 @@ Source identities at hand-off: `ActionFanOutMenu.css 1f85103a...`; `ActionFanOut
 (after held press and after tap), fan-still-open and no-cast-dialog after the held press. No click fallback; no other change.
 Whoever runs it: append the result here and release the slot. No commit/push/deployment.
 
-**Sol → Sonnet, build handoff acknowledged:** the single guarded native build above is already
+**Sol â†’ Sonnet, build handoff acknowledged:** the single guarded native build above is already
 running (launcher PID 13156, CRACO PID 12568, build worker PID 17696), capture completed before
 weapon-only witness tightening. Your proposed runner is therefore **not launched**; this artifact
 is reused for the requested strict tap/held-press proof. Sonnet's AP assertions are retained and
@@ -739,11 +947,11 @@ checks are verification-only. Port 4187 is this lane's fixture port instead of p
 No second compiler or M4B acceptance run. Please leave weapon-only witness ownership here through
 closeout; the captured CSS and original 12-path inputs stay unchanged.
 
-**Sol — concrete ordinary-App dismissal defect / bounded repair, 2026-11-03:** the one initial
+**Sol â€” concrete ordinary-App dismissal defect / bounded repair, 2026-11-03:** the one initial
 build passed (`9e258eb9...b445`, assets `07c94e78...fc4b`, frozen drift `[]`; only post-capture
 witness drift). Initial App-r1 failed a witness assumption (table-close also closes fan); corrected
 by ordinary fan reopen. App-r2 proved the held touch press on Sonnet's unchanged CSS, but Escape
-closed the table **and opened Navigation's “Depart Mythrill?” dialog**, blocking the next tap.
+closed the table **and opened Navigation's â€œDepart Mythrill?â€ dialog**, blocking the next tap.
 This is a reproduced UI defect, not a reason to bypass hit testing or use fallback clicks.
 Minimal additional scope: `WeaponSkillTable.jsx` consumes Escape in capture phase while a floating
 table with `onClose` is mounted; embedded sheet tables retain their sheet handler. This shared
@@ -754,7 +962,7 @@ clean, UI detector `[]`. Reserving the **necessary replacement** guarded native 
 retained. Sonnet's released touch CSS/test remain exact. One final strict App confirmation on the
 replacement artifact, port4187. No other compiler/alternative runner requested.
 
-**Sol — final artifact passed; witness ownership reminder:** replacement build exited0, capture
+**Sol â€” final artifact passed; witness ownership reminder:** replacement build exited0, capture
 `5e45e70d...ba3e66`, assets `4d2ea418...864d87`; exact released CSS and all14 final source/test paths
 match frozen/live bytes. App-final passed the desktop, transition, sheet, held-press and quick-tap
 checks. A concurrent weapon-witness edit changed the narrow reset from Escape to the Close button
@@ -764,7 +972,7 @@ now includes the local-Escape repair. **Other owners: please stop edits to
 Escape on the same artifact; no further build. Earlier App-final/pass evidence is retained and
 its actual witness identity is recorded separately.
 
-**Main HQ / Combat HQ — M6A real area / multi-target execution lane claimed & completed in isolation, 2026-11-03:**
+**Main HQ / Combat HQ â€” M6A real area / multi-target execution lane claimed & completed in isolation, 2026-11-03:**
 owning M6A (`authored-area:v1`: Wizard area authoring/save/reopen/admission, B2 ranged-circle area
 placement and bounded $1 \dots 8$ creature-target selection, one source payment, shared owner roll with
 per-target GM adjudication, atomic P7 multi-actor consequence installation, and once-only recovery) in an
@@ -776,76 +984,76 @@ artifacts published to `handoff/m6a-delivery/` (`HANDOFF.md`, `base-identities.j
   - Client Jest suites: **4 suites / 39 tests passing** (`m6aAreaExecution.test.js`, `areaPreview.test.js`, `acceptedResultFeed.test.js`, `spellConsequence.test.js`).
   - Bounded independent review (`bb76f68f-73a7-4117-ab1b-aff31aebc02c`) completed; both findings repaired (`OwnerPanel.visibleForOwner` empty-map fallback removed; `formulaSourceRevision`/`formulaSourceHash` scoped to scaling formulas).
   - Detached build (`D:/AppData/Temp/opencode/m6a-area-execution-20261103/root/vtt-react/build`): exit `0`, `asset-manifest.json` `3f18acbf4b71c1fcc2e662c6b2c3ea87f840b45f3d58246e5589b3827b2e6993`.
-  - Multi-browser Playwright App witness (`verification/p14/m6a-area-app-browser.cjs` → `D:/AppData/Temp/opencode/m6a-area-execution-20261103/app-witness/result.json`): exit `0` (`passed: true`).
+  - Multi-browser Playwright App witness (`verification/p14/m6a-area-app-browser.cjs` â†’ `D:/AppData/Temp/opencode/m6a-area-execution-20261103/app-witness/result.json`): exit `0` (`passed: true`).
 - **Overlaps & reconciliation guards:**
-  - **Opus (`attribute-modifiers`):** 6 shared files (`authoredAbility.js` + mirror, `installedDefinitionRegistry.js`, `actorConsequences.js`, `spellPayments.js`, `actorConsequenceHandlers.js`, `SpellConsequencePanel.jsx`), all in orthogonal branches (`authored-effect:v1` vs `authored-area:v1`); exact merge instructions in `handoff/m6a-delivery/HANDOFF.md` §5.
+  - **Opus (`attribute-modifiers`):** 6 shared files (`authoredAbility.js` + mirror, `installedDefinitionRegistry.js`, `actorConsequences.js`, `spellPayments.js`, `actorConsequenceHandlers.js`, `SpellConsequencePanel.jsx`), all in orthogonal branches (`authored-effect:v1` vs `authored-area:v1`); exact merge instructions in `handoff/m6a-delivery/HANDOFF.md` Â§5.
   - **Flash (`transformation-preservation`):** M6A does not touch `TransformationEffects.jsx` (`73e58efbb607f7fe66ba5b04a1a010c1370a18c99720a7130e697417fddb06a6`) or `SpellLibrary.jsx` (`5c1d052b693fa3d4a914b25c3d0b945afab1f0dd47bda3e493e5065a7fe1e017`); preserve those newer live-tree files during eventual reconciliation (never overwrite with snapshot copies) and run the bounded transformation checklist (`handoff/transformation-preservation/HANDOFF.md`) at the next planned integrated build as authoring/preservation evidence, not transformation combat execution.
 
-**Sonnet weapon-info UI — included in the M4B frozen candidate, 2026-11-03:** live handoff
+**Sonnet weapon-info UI â€” included in the M4B frozen candidate, 2026-11-03:** live handoff
 `handoff/weapon-info-ui/` (HANDOFF.md, raw + LF-normalized identities, patch) verified against
 `D:\VTT`; all 12 paths match `IDENTITIES.raw.sha256`. The shared frozen candidate
-`m4b-repair-build-20261103-r2` (capture `3612237620…`, build exit 0, `frozenDrift:[]`, assets
-`75bb2cd3…`) contains 10/12 paths at exact raw bytes, including the narrow `ActionBar.jsx` and
+`m4b-repair-build-20261103-r2` (capture `3612237620â€¦`, build exit 0, `frozenDrift:[]`, assets
+`75bb2cd3â€¦`) contains 10/12 paths at exact raw bytes, including the narrow `ActionBar.jsx` and
 `SpellActionBar.jsx` hunks (CRLF on disk; LF-normalized bytes equal the handoff). Two paths arrived
-after that capture: `WeaponSkillTable.jsx` and its test (wording-only "Opens at" → "Rank:"; no
+after that capture: `WeaponSkillTable.jsx` and its test (wording-only "Opens at" â†’ "Rank:"; no
 behavior change). **Included** in the final coordinated capture `m4b-r4-build-20261103-r1`
 (capture `3ffc6e17...`, assets `219d60ef...`); the same-script check on that artifact passed the
 desktop/keyboard/sheet/direct-click paths and retained the narrow emulated-touch limitation below.
 Affected check added and executed against the same frozen artifact
 (`D:/AppData/Temp/opencode/weapon-ui-20261103-r13/result.json`): Mace MH fan hover/focus shows
-spellcard + 20-row table (rank rows 5–6); ArrowRight focuses the table; the separate Table button
+spellcard + 20-row table (rank rows 5â€“6); ArrowRight focuses the table; the separate Table button
 opens a pinned table with no spellcard, no cast dialog and unchanged AP; sheet focus/Enter shows the
-tooltip and 1–20 table; Escape closes. Desktop passes. Narrow used 768x900 because the App gates
+tooltip and 1â€“20 table; Escape closes. Desktop passes. Narrow used 768x900 because the App gates
 `/game` to the phone landing page at <=767px. **Finding:** Playwright emulated touch tap on the
 Table button did not open the pinned table (pointer/touch reached the button, the synthesized click
 retargeted to `#root` and closed the fan); the same Table handler opened it via a direct click.
-No physical-device test. The r2 artifact still shows the pre-final "Opens at …" rank wording; the
-live "Rank: …" wording is Jest-verified but not yet browser-witnessed on a rebuilt artifact.
+No physical-device test. The r2 artifact still shows the pre-final "Opens at â€¦" rank wording; the
+live "Rank: â€¦" wording is Jest-verified but not yet browser-witnessed on a rebuilt artifact.
 **Correction 2026-11-03 (after the final App):** the r4/final build later browser-witnessed the live
 "Rank: Novice (your rank)" wording; see the M4B final evidence reconciliation below. The r2/r13
 "Opens at" record remains retained as historical evidence.
 `m4b-catalogue-app-browser.cjs` now runs this UI check on the same build for future captures; the
 already-completed M4B App acceptance was not repeated.
 
-**Opus — M4B bounded authority/admission review → DS, 2026-11-03 (review only; DS owns repairs):**
+**Opus â€” M4B bounded authority/admission review â†’ DS, 2026-11-03 (review only; DS owns repairs):**
 Candidate reviewed = committed `7e636125` (working tree clean for server/vtt-react/scripts at review time); key bytes
-`catalogueAbility.cjs 610f908f…` (mirror byte-equal), `installedDefinitionRegistry.js c6142e93…`, `spellPayments.js d5298ac6…`,
-`installedAuthoredAbilities.js 155dcd94…`, shared `authoredAbility.js 13ee6cbb…` (mirror equal). DS's App witness is still open;
+`catalogueAbility.cjs 610f908fâ€¦` (mirror byte-equal), `installedDefinitionRegistry.js c6142e93â€¦`, `spellPayments.js d5298ac6â€¦`,
+`installedAuthoredAbilities.js 155dcd94â€¦`, shared `authoredAbility.js 13ee6cbbâ€¦` (mirror equal). DS's App witness is still open;
 this review does not cover it. **Executed by Opus:** DS's M4B 3/3 and M4A 6/6 production handlers pass; real-catalogue sweep
 (143 Martyr/Minstrel/Arcanoneer records through `catalogueExecutable`) admits exactly one record, `martyr_restorative_prayer`
 (Devotion gain 1, `1d4 + spirit`, primary-pc-healing); six probe handlers in an external scratch file (no repo file touched).
 Verdict: **BLOCK on R1**, other items minor.
-- **R1 (medium; blocks) — the catalogue binding is self-attested.** `recordHash` is only `sha256(canonical(record supplied in the
+- **R1 (medium; blocks) â€” the catalogue binding is self-attested.** `recordHash` is only `sha256(canonical(record supplied in the
   admit request))`; neither `definitionFromWizard` nor `compileFormula` checks it against a shipped catalogue or a pinned list.
   Probe P-A: a doctored Restorative Prayer (`4d4 + spirit`, mana 0, Devotion gain 6) prepared with `catalogueDraft` was admitted
   by the normal `actor_authored_admit` as a "catalogue" definition with `classPayment {gain:6}`, beside the real one under the
   same `spellId`. So the contract line "classPayment is admitted only on a catalogue-backed definition" is not enforced: any
   library record (including a shared/imported one) carrying a self-consistent `catalogueSource` gets typed class payment and the
   "catalogue source" admission label. Repair suggestion (same pattern as M1 `classEffectProfiles.json`): a reviewed server/shared
-  pin `{classId, spellId, recordHash}` checked at compile and at consumption; unknown hash → refuse, nothing admitted.
-- **R2 (low) — whole-record conflicts resolve silently.** `classPaymentFor` takes the first of several encodings of the same
+  pin `{classId, spellId, recordHash}` checked at compile and at consumption; unknown hash â†’ refuse, nothing admitted.
+- **R2 (low) â€” whole-record conflicts resolve silently.** `classPaymentFor` takes the first of several encodings of the same
   quantity (`??`/`pick`). P-B: `devotionGain:1` with `resourceCost.resourceValues.classResource.gain:3` admits gain 1 instead of
   refusing. Refuse when two encodings of one quantity disagree (the real Martyr record has two encodings that agree).
-- **R3 (low; hardening, not reachable today) — formula PC healing does not require a policy at command time.** `spellPayments.bindCommand`
+- **R3 (low; hardening, not reachable today) â€” formula PC healing does not require a policy at command time.** `spellPayments.bindCommand`
   calls `checkTargetAcceptance`, which returns early when `entry.targetPolicy` is absent. P-I: deleting the policy after approval let
   the GM command heal the PC with no target acceptance. Policy is always created at registration, so production can't reach this today;
-  add the same guard `bindEffect` has (`targetConsent(...) === 'required' && !entry.targetPolicy` → `target_acceptance_required`).
+  add the same guard `bindEffect` has (`targetConsent(...) === 'required' && !entry.targetPolicy` â†’ `target_acceptance_required`).
 - **N1 (note):** `catalogueExecutable` line 134 checks `keysOnly(values, COST_KEYS)` before the allowance for `devotion_*`, `*_sphere` and
   `note_*`, so those `resourceValues` encodings always refuse (P-B). This fails safe, but the sphere/note `resourceValues` branches in
   `classPaymentFor` can never run, so "all three typing adapters" only covers the top-level encodings. **N2:** line 70's refusal text is
-  garbled (`0Ã¢â‚¬Â¦6`).
+  garbled (`0ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦6`).
 - **Confirmed sound (executed):** source owner can't answer the target proposal (`forbidden`); the target proposal carries the formula reading
   and proposed amount, not the bank before/after, `rollAttributes` or `formulaSourceHash`; class home drift after acceptance refuses the whole
-  command with state byte-unchanged; a GM change to the final amount → `owner_reapproval_required`, unchanged; target-owner events
+  command with state byte-unchanged; a GM change to the final amount â†’ `owner_reapproval_required`, unchanged; target-owner events
   carry no bank internals. **Inspected, not separately executed:** typed `conserve` at approval shape, home-before check at bind, P7
   stage class payment, writer refusal atomicity, lost-ACK replay (from DS's passing tests). Rollattribute attestation and range are
   settled M4A design and are not reopened.
 Next: DS repairs R1 (R2/R3 optional, same pass). Opus will re-review only the affected hunks plus P-A/P-B/P-I.
 
-**DS — M4B R1/R2/R3 repairs implemented; Opus review requested on these repairs only, 2026-11-03:**
+**DS â€” M4B R1/R2/R3 repairs implemented; Opus review requested on these repairs only, 2026-11-03:**
 R1 repair is a reviewed server/shared pin, not another per-spell executor:
 `vtt-react/src/data/catalogueAbilityProfiles.json` (byte-equal `server/shared/data/catalogueAbilityProfiles.json`)
-pins the exact `{classId: martyr, spellId: martyr_restorative_prayer, recordHash: 0fe63938…64ed}` and the
+pins the exact `{classId: martyr, spellId: martyr_restorative_prayer, recordHash: 0fe63938â€¦64ed}` and the
 reviewed executable projection. `catalogueExecutable`, `definitionFromWizard`/`compileDefinition` and
 cast-time `installedAuthoredAbilities.checkApproval` all require that pin; a client record plus its own
 matching hash is refused. The whole Martyr record is preserved in the library draft; catalogue edits do
@@ -854,7 +1062,7 @@ approval metadata was added. R2 now refuses conflicting supported encodings of o
 (including top-level `devotionGain` vs `resourceValues.classResource.gain`) instead of choosing the first.
 R3 requires the exact target-consent record at final formula PC-healing acceptance; deleting the policy
 after approval now refuses `target_acceptance_required` with room state byte-unchanged (no AP/mana/class
-gain/HP). N2's garbled `0…6` diagnostic is corrected. N1 is retained as a safe refusal: nested
+gain/HP). N2's garbled `0â€¦6` diagnostic is corrected. N1 is retained as a safe refusal: nested
 `resourceValues` `devotion_*` / `*_sphere` / `note_*` forms are documented as unsupported, and only the
 top-level Martyr Devotion route is claimed end to end.
 Regressions added: doctored self-consistent Restorative Prayer refused at admission; wrong/missing
@@ -862,29 +1070,29 @@ trusted identity refused at admission and cast; conflicting resource fields refu
 consent refused atomically; genuine pinned Prayer still succeeds. Focused runs: M4B production 8/8,
 M4B client 9/9, M4A 6/6, shared-mirror sync 1/1. Client scoped lint clean; server files retain their
 existing brace/style baseline. The normal-UI entry-point repair is preserved; the final built
-Wizard→save/reopen→admit→consent→execution App witness is still pending. No commit/push/deploy/migration.
+Wizardâ†’save/reopenâ†’admitâ†’consentâ†’execution App witness is still pending. No commit/push/deploy/migration.
 **Opus:** please re-review only the affected R1/R2/R3 hunks and rerun your existing P-A/P-B/P-I probes;
 do not re-open settled M4A rollattribute/range design.
 
-**Opus — M4B R1/R2/R3 repair re-review → DS, 2026-11-03 (review only; DS owns fixes):**
-Reviewed = uncommitted working tree on HEAD `7e636125`, M4B paths only: `catalogueAbility.cjs 2652d81a…` (mirror equal),
-`catalogueAbilityProfiles.json 6cd10d60…` (mirror equal), `installedDefinitionRegistry.js c2d8e01b…`, `installedAuthoredAbilities.js 63bb73df…`,
-`spellPayments.js d81d320f…`, `authoredAbility.js 82636a39…` (mirror equal), `sync-shared.js 711573cc…`; tests `p14m4bCatalogue.production 984564b7…`,
-`m4bCatalogue.test 18fcba70…`. Hashes re-checked after probing (unchanged). Concurrent Weapon/Spell-Wizard/summon edits not reviewed.
+**Opus â€” M4B R1/R2/R3 repair re-review â†’ DS, 2026-11-03 (review only; DS owns fixes):**
+Reviewed = uncommitted working tree on HEAD `7e636125`, M4B paths only: `catalogueAbility.cjs 2652d81aâ€¦` (mirror equal),
+`catalogueAbilityProfiles.json 6cd10d60â€¦` (mirror equal), `installedDefinitionRegistry.js c2d8e01bâ€¦`, `installedAuthoredAbilities.js 63bb73dfâ€¦`,
+`spellPayments.js d81d320fâ€¦`, `authoredAbility.js 82636a39â€¦` (mirror equal), `sync-shared.js 711573ccâ€¦`; tests `p14m4bCatalogue.production 984564b7â€¦`,
+`m4bCatalogue.test 18fcba70â€¦`. Hashes re-checked after probing (unchanged). Concurrent Weapon/Spell-Wizard/summon edits not reviewed.
 **Executed by Opus** (external scratch probe file on DS's fixture; no repo file touched): **P-A** doctored Prayer (`4d4 + spirit`, mana 0, gain 6)
-with its own matching `sha256(canonical)` hash → refused by the pin ("No reviewed catalogue profile pins…"), state and registry revision unchanged,
+with its own matching `sha256(canonical)` hash â†’ refused by the pin ("No reviewed catalogue profile pinsâ€¦"), state and registry revision unchanged,
 `catalogueDraft` of it also refuses. **P-A2** hash-preserving edits of an admitted definition (gain 6, formula, mana 0, renamed, other spellId,
-no targetRoute, no classPayment, range 60) → all `CATALOGUE_PROVENANCE_UNTRUSTED` at compile. **P-B** `devotionGain 1` vs `classResource.gain 3` →
-"Conflicting Devotion gain encodings" (unit, whole record and admission, state unchanged). **P-I** accept, then strip policy → `target_acceptance_required`,
+no targetRoute, no classPayment, range 60) â†’ all `CATALOGUE_PROVENANCE_UNTRUSTED` at compile. **P-B** `devotionGain 1` vs `classResource.gain 3` â†’
+"Conflicting Devotion gain encodings" (unit, whole record and admission, state unchanged). **P-I** accept, then strip policy â†’ `target_acceptance_required`,
 state byte-unchanged; target proposal holds only spell price, formula reading and proposed amount (no bank before/after, rollAttributes, formulaSourceHash).
-**P-G** genuine pinned Prayer: mana 10→5, AP 4→3, Devotion 0→1, ally HP 20→30. Real `martyrData.js` record hashes to the pin; catalogue sweep (142 records
+**P-G** genuine pinned Prayer: mana 10â†’5, AP 4â†’3, Devotion 0â†’1, ally HP 20â†’30. Real `martyrData.js` record hashes to the pin; catalogue sweep (142 records
 by my walker) admits only `martyr_restorative_prayer`. DS's M4B production suite reran 8/8 on these bytes. **Not rerun by Opus:** client 9/9, M4A 6/6,
 mirror sync, lint, build, App witness (still DS-pending).
 Verdict: **R1, R2, R3 repaired as specified. M4B not closed: R4 blocks.**
-- **R4 (medium; blocks; latent) — removing or replacing a pin bricks the room's whole authored registry.** `validateRegistrySnapshot` recompiles every
-  stored definition, and `compileFormula` now refuses an unpinned catalogue source. **P-R:** after admitting the genuine Prayer, emptying the pin list in memory →
+- **R4 (medium; blocks; latent) â€” removing or replacing a pin bricks the room's whole authored registry.** `validateRegistrySnapshot` recompiles every
+  stored definition, and `compileFormula` now refuses an unpinned catalogue source. **P-R:** after admitting the genuine Prayer, emptying the pin list in memory â†’
   `installed.list` and `actor_authored_revoke` both fail `invalid_authored_registry`. So every authored spell in that room (unrelated ones included) can't be
-  listed, admitted, approved or revoked, and the stale Prayer can't be revoked. The trigger is the documented maintenance path ("catalogue edit → new pin"),
+  listed, admitted, approved or revoked, and the stale Prayer can't be revoked. The trigger is the documented maintenance path ("catalogue edit â†’ new pin"),
   whenever the old entry is replaced rather than kept. Repair (DS's choice): (a) keep stored-snapshot validation independent of current pins
   (verify pins at admit and at `checkApproval` only, as the new cast check already does), so an unpinned definition stays decodable/revocable and refuses at cast; or
   (b) make pins append-only, with a sync/test guard that fails if a shipped pin disappears. Add a regression either way.
@@ -923,15 +1131,15 @@ witness remain pending.
 **Opus:** please re-review only the R4 hunk and rerun P-R plus the affected P-A/P-G/N4 probes; do not
 re-open R1/R2/R3 or the settled M4A design.
 
-**Opus — M4B R4 re-review → DS, 2026-11-03 (review only):**
-Reviewed delta since the R1–R3 review: `installedDefinitionRegistry.js f0a23d2a…`, `installedAuthoredAbilities.js cb07fb81…`,
-`p14m4bCatalogue.production.test.js e542e138…`, client `m4bCatalogue.test.js c00b98f2…`. All other M4B bytes are unchanged
-(`catalogueAbility.cjs 2652d81a…`, pins `6cd10d60…`, `authoredAbility.js 82636a39…`, `spellPayments.js d81d320f…`; mirrors equal).
-**Executed by Opus** (external scratch probes on DS's fixture): **P-R** pin retired → registry loads; Prayer listed `eligible:false`
+**Opus â€” M4B R4 re-review â†’ DS, 2026-11-03 (review only):**
+Reviewed delta since the R1â€“R3 review: `installedDefinitionRegistry.js f0a23d2aâ€¦`, `installedAuthoredAbilities.js cb07fb81â€¦`,
+`p14m4bCatalogue.production.test.js e542e138â€¦`, client `m4bCatalogue.test.js c00b98f2â€¦`. All other M4B bytes are unchanged
+(`catalogueAbility.cjs 2652d81aâ€¦`, pins `6cd10d60â€¦`, `authoredAbility.js 82636a39â€¦`, `spellPayments.js d81d320fâ€¦`; mirrors equal).
+**Executed by Opus** (external scratch probes on DS's fixture): **P-R** pin retired â†’ registry loads; Prayer listed `eligible:false`
 with the pin reason; pending Prayer command and a new approval both refuse `catalogue_provenance_untrusted`, state byte-unchanged;
 a different hash pinned for the same spell is not substituted; exact revoke succeeds; after the pin is restored the revocation stands.
 **P-A** doctored self-consistent Prayer still refused at admission (`unsupported_wizard_record`, pin reason). **P-G** genuine Prayer still
-completes (mana 10→5, Devotion 0→1, ally HP 20→30). **P-S (new)** a doctored catalogue definition written straight into the stored registry
+completes (mana 10â†’5, Devotion 0â†’1, ally HP 20â†’30). **P-S (new)** a doctored catalogue definition written straight into the stored registry
 with recomputed hashes, never admitted, decodes (integrity is self-consistent by design) but is listed ineligible and its approval refuses,
 state unchanged. So the per-consumption pin check, not decode, is the authority gate, and it holds. DS's M4B production suite reran 13/13 on
 these bytes. **Not rerun by Opus:** client 10/10, M4A 6/6, mirror sync, build, App witness (DS-pending). N3/N4 records accepted as written.
@@ -947,8 +1155,8 @@ Build identity: `D:\AppData\Temp\opencode\m4b-r4-build-20261103-r1`, capture
 The normal App path prepared/saved/reopened the class card, admitted the saved catalogue version,
 dragged it to the action bar, recorded the owner's physical `[4]` (`[4] + 18 = 22`), created the exact
 target healing proposal and owner acceptance, and the GM accepted final healing 22. Receipt:
-`actualHealing 10`; AP 2→1 (temp 0), mana 10→8 (temp 0), Devotion 0→1 (`bonusLevels 1`), ally HP
-20→30 with temp HP 3 preserved. Limits remain the existing fixtures: auth/provider/ownership/lease/
+`actualHealing 10`; AP 2â†’1 (temp 0), mana 10â†’8 (temp 0), Devotion 0â†’1 (`bonusLevels 1`), ally HP
+20â†’30 with temp HP 3 preserved. Limits remain the existing fixtures: auth/provider/ownership/lease/
 cloud and player identity are fixtures; no live Firebase or second physical device. Only the
 Martyr/Devotion route was browser-witnessed; the Arcanoneer/Minstrel adapters remain unit/shared-
 adapter coverage. M4B-specific dropped-ACK/reload was not separately re-run in the App; the same-file
@@ -1021,15 +1229,15 @@ bytes compare byte-exact to the new capture (`diffs=0`, `missing=0`). Focused su
 M4B production 13/13; M4B client plus affected suites 5 suites/40 tests. The rebuilt artifact also
 browser-witnesses the final `Rank: Novice (your rank)` wording; the emulated narrow touch tap remains
 the recorded UI limit. No commit/push/deployment/migration.
-*Addendum — attribute hydration consistency closeout (Opus, 2026-11-03; witness-only, no product change).*
+*Addendum â€” attribute hydration consistency closeout (Opus, 2026-11-03; witness-only, no product change).*
 The fixture qualification above stands as observed. **Explanation: fixture input difference; no product
 hydration defect reproduced.** Each `browser.newPage()` is a fresh context with an empty roster, so
-`GameProvider.jsx:20-39` → `initializeCharacterSystem` (`coreSlice.js:1477-1490`) authors and loads a
+`GameProvider.jsx:20-39` â†’ `initializeCharacterSystem` (`coreSlice.js:1477-1490`) authors and loads a
 random placeholder (`generatePlaceholderCharacter`, `coreSlice.js:72-94,180-224`: random race/subrace,
 random weapon/armour; Griefwood Staff is SPI +2). The witness's owner `setState` (former
 `m4b-catalogue-app-browser.cjs:59-62`) wrote only id/name/class/level/stats(spirit 18)/classResource/
 class_spells, so the placeholder's race, subrace and equipment survived. The cast reads the whole live
-store (`SpellConsequencePanel.jsx:106,133` → `combatAttributes` → `getTotalStatsWithEffects`,
+store (`SpellConsequencePanel.jsx:106,133` â†’ `combatAttributes` â†’ `getTotalStatsWithEffects`,
 `statsSlice.js:618`), giving 18 + leftover heritage SPI + leftover equipment SPI (subrace SPI modifiers
 range -2..+4). baseStats/statsModel (absent, legacy), earned gains, origin, effects and the room token
 (spirit 18, no race; owner-attested, not server-recomputed) were equal across runs. Reproduced on the
@@ -1044,19 +1252,19 @@ Witness correction: new `vtt-react/verification/p14/m4b-fixture-characters.cjs` 
 holds one complete explicit record per page (statsModel `base+earned@1`, baseStats = stats, no earned
 gains, named heritage, background none, every equipment slot explicitly empty). Owner Ilse is base
 Spirit 17 + Thalren heritage +1 = expected effective 18, derived by the existing rules. The witness
-(`m4b-catalogue-app-browser.cjs` `748eea87...` → `50ec02e5...`; pre-edit content = HEAD `3d21c583`
+(`m4b-catalogue-app-browser.cjs` `748eea87...` â†’ `50ec02e5...`; pre-edit content = HEAD `3d21c583`
 modulo CRLF) now waits for boot initialization to settle, then hydrates via production
 `loadCharacter`, and asserts effective Spirit 18 and no equipped items before the roll, then
 `spirit 18` in the owner-attested dialog text, then `approval.rollAttributes.spirit` and
 `roll.constant` = 18. Focused check (external probe, real store/rules): all 25 subraces x 5 weapon
-options x 4 armour options as boot placeholders (pre-hydration SPI 14-22) → 500/500 hydrate the
+options x 4 armour options as boot placeholders (pre-hydration SPI 14-22) â†’ 500/500 hydrate the
 fixture to effective 18 for the owner, exact race/subrace and no equipment on every page; owner
 classResource normalizes to `devotionGauge` and the Devotion planner prices `{cost 0, gain 1}`;
 `node --check` passes. Not run: build or App rerun (not required for this closeout); the corrected
 witness is first exercised on the next M4B App run. Ownership of the witness/fixture files released;
 no attribute-buff consumer change and no handoff needed.
 
-**Sol — creature summon definition adapter, 2026-11-03 (complete; ownership released):**
+**Sol â€” creature summon definition adapter, 2026-11-03 (complete; ownership released):**
 verified `D:/VTT`, `origin DJ-github88/Descension`, `master`, HEAD
 `7e6361256736fe5f23235b8b7278ffe67f3861a8`, initially clean. DS retains M4B
 execution/catalogue/Wizard, Opus authority/admission, Sonnet weapon/equipment/action-bar UI,
@@ -1067,10 +1275,10 @@ Class HQ resource displays. Existing Wizard receipt at the end of this record ca
   the real card to show stale Golem instead of canonical Spirit Wolf. Unknown/manual fields
   and `durationConfig` were also dropped. Builder has no current production import/shipped
   summon instance found; this is a supported-input reproduction, not claimed user-data loss.
-- **Production trace:** Step3 library/basic selection spreads the ability → Wizard reducer
-  ADD/UPDATE retains whole payload → `CreatureWizardApp.handleSave` copies `abilities` unchanged
-  → creature store/library and Firebase whole-record save → `normalizeCreatureForWizard` clones
-  abilities → inspect (`EnhancedCreatureInspectView:2049`) / GM fan-out → adapter → real
+- **Production trace:** Step3 library/basic selection spreads the ability â†’ Wizard reducer
+  ADD/UPDATE retains whole payload â†’ `CreatureWizardApp.handleSave` copies `abilities` unchanged
+  â†’ creature store/library and Firebase whole-record save â†’ `normalizeCreatureForWizard` clones
+  abilities â†’ inspect (`EnhancedCreatureInspectView:2049`) / GM fan-out â†’ adapter â†’ real
   `UnifiedSpellCard`, already canonical-first. BasicAbilityCreator itself currently offers no
   summon editor; rich selected-library definitions are the applicable authoring input.
 - **Minimal fix:** recognize modern `summoningConfig`; spread original fields before existing
@@ -1095,11 +1303,11 @@ Class HQ resource displays. Existing Wizard receipt at the end of this record ca
   No build, migration, dependency change, commit, push or deployment. File ownership released;
   no build/App resources acquired.
 
-**Sol — installed M3A continuation / bounded M4A formula work, 2026-11-02:** M3A's reconciled
+**Sol â€” installed M3A continuation / bounded M4A formula work, 2026-11-02:** M3A's reconciled
 18-path installation and its separate cloud build/App qualifications are carried from
 `handoff/m3a-delivery/reconciled/`, not reaccepted. Auth live/source and served-build inspection
-is recorded in its reconciliation note §6; no combined acceptance or real Firebase claim.
-M4A frozen in capability plan §C: reusable integer caster-attribute scaling through Wizard and
+is recorded in its reconciliation note Â§6; no combined acceptance or real Firebase claim.
+M4A frozen in capability plan Â§C: reusable integer caster-attribute scaling through Wizard and
 versioned immediate definitions, existing approval/P7/recovery. Missing-HP/half-save rounding
 questions isolated; no rules invented. Prospective write scope: shared authoredAbility/classEffect
 (and mirrors), installedDefinitionRegistry/installedAuthoredAbilities/spellPayments, client
@@ -1121,7 +1329,7 @@ is `D:/AppData/Temp/opencode/m4a-20261102-r1/`. Concurrent Class/UI edits remain
 Installed M3A and final auth source are included
 but this is affected M4 verification, not a new combined M3A/auth acceptance.
 
-**M4A coordinated build repair:** r1 capture `7f877e29…` was stable (`frozenDrift:[]`),
+**M4A coordinated build repair:** r1 capture `7f877e29â€¦` was stable (`frozenDrift:[]`),
 but compiler exit1: Babel's object-spread helper made the shared CommonJS authoredAbility module
 look like ESM (`creatureSelfHealing` export unavailable). Replaced the added object spread with
 Object.assign and synced the mirror; M4 client/server checks pass. The server source fingerprint
@@ -1132,9 +1340,9 @@ Failed capture/build records are retained. Repaired guarded build reservation is
 `D:/AppData/Temp/opencode/m4a-20261102-r2/` (second compiler attempt, first intended usable artifact).
 No failed compile is counted as successful, and no second acceptance campaign is being launched.
 
-**M4A App-verified receipt:** guarded capture `30c7e4ad…e783c`, build exit0, assets
-`bb48de7f…154ad`, `frozenDrift:[]`. Normal App real controls: both v2 formulas saved, reopened,
-admitted and cast; unsupported `* 1.5` visibly manual. Damage face4 + INT16×2 = 36 with temp-first
+**M4A App-verified receipt:** guarded capture `30c7e4adâ€¦e783c`, build exit0, assets
+`bb48de7fâ€¦154ad`, `frozenDrift:[]`. Normal App real controls: both v2 formulas saved, reopened,
+admitted and cast; unsupported `* 1.5` visibly manual. Damage face4 + INT16Ã—2 = 36 with temp-first
 payment; dropped GM ACK + same-profile reload recovered by the identical original command (one
 receipt, retained face); healing face4 + floor(16/4) = 8. Evidence
 `D:/AppData/Temp/opencode/m4a-app-20261102-r2/` (private profiles, ACL-restricted); failed witness
@@ -1150,39 +1358,39 @@ adapter plus `authored-immediate:v2` optional typed payment for the existing thr
 primary-PC healing consent. First cohort Martyr Restorative Prayer; Minstrel Resolving Strike stays P9.
 The then-current three production-handler cases and four client checks (all three typing adapters)
 passed; affected server56/mirrors + client5 suites/34; lint0 errors. One optimized artifact from
-guarded capture `3673a581…`, assets `19b7903e…20da`, `frozenDrift:[]`; two test/concurrent paths
+guarded capture `3673a581â€¦`, assets `19b7903eâ€¦20da`, `frozenDrift:[]`; two test/concurrent paths
 live-drift after capture preserved. Its normal-App witness was **not established** at that time:
 artifact and class cards loaded, but the Spellbook class-card detail did not expose the prepare
 control. That blocker was later diagnosed as the CRA `.cjs` asset rule plus the unmounted-Wizard
 handoff (see the final DS R1-R4/App closure at the top of this record). Earlier failed/void compiler
 attempts preserved. No commit/push/deploy/migration/dependency change.
 
-**Sol — M2A installed integration verified (qualified); native slots released, 2026-10-31:**
+**Sol â€” M2A installed integration verified (qualified); native slots released, 2026-10-31:**
 [`handoff/m2a-integration/HANDOFF.md`](../handoff/m2a-integration/HANDOFF.md) records
-guarded22-path scope`cd0c2c43…`, integrated capture`ed604808…` and one build exit0,
-assets`28c38bc0…b06dc5`.169 concurrent dirty runtime paths and later focus/Tab/Escape
+guarded22-path scope`cd0c2c43â€¦`, integrated capture`ed604808â€¦` and one build exit0,
+assets`28c38bc0â€¦b06dc5`.169 concurrent dirty runtime paths and later focus/Tab/Escape
 UI preserved; final frozen/live/addition drift[]. Affected229 server /17 suites134
 client /mirrors pass; lint0 errors/4 warnings. Native App1 carries real Wizard/save/
 reopen/admission; App5 ordinary combat/counting/reload/original-command checks/refresh
-and focused-control Escape PASS, errors[]. End×2/start×3 expire at4/5; reload2 does
+and focused-control Escape PASS, errors[]. EndÃ—2/startÃ—3 expire at4/5; reload2 does
 not consume; checks3 twice replay identical original bytes; refresh8 survives old10
-and expires12; “for1 round” stays manual. Two declared setup qualifications: exact
+and expires12; â€œfor1 roundâ€ stays manual. Two declared setup qualifications: exact
 App1 definitions are fixture-admitted for continuation, and personal-library
 restoration across fixture reload/login is **not established** (failed evidence kept).
 No forced/DOM-dispatched/control/socket-clock fallback accepted. Original archive
-`f02f879e…fefa4`,25 canonical entries and byte-exact archive PNGs verified; two loose
+`f02f879eâ€¦fefa4`,25 canonical entries and byte-exact archive PNGs verified; two loose
 PNG mismatches/TRANSFER_NOTE/original manifest preserved. Complete/profile archives
 restricted, locally Git-excluded, not expanded as profiles/packaged/hosted. Original
-Opus isolated build/App/review (assets`0e75b82e…`) carried separately. Clasp null/disabled;
+Opus isolated build/App/review (assets`0e75b82eâ€¦`) carried separately. Clasp null/disabled;
 strictly-next semantics unchanged, no live-service/P5 gate closure. Native build/App
 slots and port4180 released; no commit/push/deployment/migration.
 
-**Sol — M2A installed / integrated native build slot reserved, 2026-10-31:**
-complete archive `f02f879e…fefa4` and all25 original manifest entries verified;
+**Sol â€” M2A installed / integrated native build slot reserved, 2026-10-31:**
+complete archive `f02f879eâ€¦fefa4` and all25 original manifest entries verified;
 the two loose re-encoded PNGs/TRANSFER_NOTE/original manifest remain unchanged.
 Canonical PNGs are from the archive; complete/profile archives are ACL-restricted,
 locally Git-excluded and never served/extracted as browser profiles. Actual base
-archive `cc9b67f8…8187a` matches M1 **without later UI** on all19 existing paths;
+archive `cc9b67f8â€¦8187a` matches M1 **without later UI** on all19 existing paths;
 the patch reproduces22/22 final hashes. Guarded22-path live landing complete,
 scope `cd0c2c43c367d7c0404619223902e2fc2598af0a6971415955865d8a3af1925f`,
 169 other dirty runtime paths unchanged. Cast-panel focus/Tab/local Escape retained.
@@ -1196,11 +1404,11 @@ occupancy guards remain in force; no shared/Opus browser reuse or live-cloud cla
 Clasp remains unconfirmed/disabled. Isolated acceptance is carried, not called
 installed verification until this build/App closure finishes.
 
-**Sonnet (M3A, composed effects on player characters) — base identity and prospective scope, 2026-10-31:**
+**Sonnet (M3A, composed effects on player characters) â€” base identity and prospective scope, 2026-10-31:**
 isolated cloud workspace only; no shared live runtime file is read-for-write or edited, and no PC build/App/port/profile
 resource is reserved. Base = verified delivered chain, rebuilt and hash-checked (not guessed): `handoff/m1-work/base-subset.tgz`
-(2,693 files, all hashes match) + `m1-class-effect.patch` sha256 `330bfc3e…2291` (tree equals `handoff/m2a-work/base-m1.tgz`) +
-`M2A_counted_durations.patch` sha256 `23c852a2…6a22` (all 22 delivered file hashes match). Parent sealed identity `4829cc5a…`;
+(2,693 files, all hashes match) + `m1-class-effect.patch` sha256 `330bfc3eâ€¦2291` (tree equals `handoff/m2a-work/base-m1.tgz`) +
+`M2A_counted_durations.patch` sha256 `23c852a2â€¦6a22` (all 22 delivered file hashes match). Parent sealed identity `4829cc5aâ€¦`;
 M3A working identity (2,704 source files, node_modules and public binaries excluded) `58d6bb1a50d6ce32cc85bb5e5e1a6390c536944880379c18a1bb74219d87b6ab`.
 Sol's M1+UI candidate and combat-window UI are NOT in this base; overlaps will be listed in the delivery. Baseline on this base:
 77 passing (A5, A9, A10, A11, M2A, M1, C4 production handlers).
@@ -1210,7 +1418,7 @@ new `tests/p14m3aPcBundle.production.test.js`. Client: `services/{authoredEffect
 `components/hud/{SpellConsequencePanel,BlockingPanel}.*`, target-proposal/owner panels as needed, new client test + `verification/p14/pc-bundle-app-browser.cjs`.
 Not touched: class data, Clasp gate, resource planners, storage, Minstrel allowlists, A10/A11/M2A meanings. Deliverable: `handoff/m3a-delivery/`.
 
-**Sol — M2A delivery verification / bounded integration reservation, 2026-10-31:**
+**Sol â€” M2A delivery verification / bounded integration reservation, 2026-10-31:**
 received `handoff/m2a-delivery/M2A_counted_durations.patch`, SHA manifest, 22 final
 file hashes, timing truth table and bounded review. Verifying the supplied M1 base
 archive and final identities before source changes. The completed live combat-base
@@ -1222,14 +1430,14 @@ Class HQ confirmation. Native build/App slot will be reserved only for the event
 one integrated build and strict ordinary-control counted-duration proof; cloud M2A
 work/delivery remains Opus-owned. No commit/push/deploy/migration.
 
-**Sol — integrated-base build/App PASS & native PC slots released, 2026-10-30:**
-one detached native CRACO production build on the frozen `37bc4bee…` / `561cd157…`
-capture (combat scope `51221137…`, `frozenDrift: []`) exited 0 with asset manifest
+**Sol â€” integrated-base build/App PASS & native PC slots released, 2026-10-30:**
+one detached native CRACO production build on the frozen `37bc4beeâ€¦` / `561cd157â€¦`
+capture (combat scope `51221137â€¦`, `frozenDrift: []`) exited 0 with asset manifest
 `526992a791ae79c12349898502e819b9dd29c331ab77583677bc5bffe84e583d`. Affected App
 checks on that exact artifact across the same persistent GM/owner profiles PASS
 (`handoff/combat-base-verification/HANDOFF.md`): ordinary combat-window interactions/
 retained drafts/reconnect (`app2`), full-record Clasp manual notice + A11 movement
-stacking/refresh/exact removal (`app3`), Minstrel Opening Chord→Resolving Strike
+stacking/refresh/exact removal (`app3`), Minstrel Opening Chordâ†’Resolving Strike
 payment + effective Spirit 18 + lost-ACK `Check same command` recovery (`app7`),
 and 5 same-profile GM rehydrates with `identicalCopiesToRemove: 0` across all
 families (`app9`, GM `62` keys/`203,442` chars, owner `67` keys/`278,319` chars).
@@ -1238,9 +1446,9 @@ after the 20:00:08Z capture while `combatScopeDrift` remained `[]` (`app5` prefl
 also respected a concurrent native Class compiler). Clasp remains disabled (`classHq: null`);
 M2A remains unfinished and excluded. Native PC build/App slots and port 4180 are released.
 
-**Opus — explicit M2A PC-resource release, forwarded verbatim by creator, 2026-10-30:**
+**Opus â€” explicit M2A PC-resource release, forwarded verbatim by creator, 2026-10-30:**
 
-> M2A releases its PC build/App reservation. M2A used no PC build, App, port or browser-profile resources; its builds and persistent-profile App witness run only in an isolated cloud container, which stays reserved to M2A until it reports a final result. The PC build slot, App ports and profiles are free for Sol. M2A touches D:\VTT\handoff\m2a-delivery\ only and will not touch Sol’s candidate or shared runtime files.
+> M2A releases its PC build/App reservation. M2A used no PC build, App, port or browser-profile resources; its builds and persistent-profile App witness run only in an isolated cloud container, which stays reserved to M2A until it reports a final result. The PC build slot, App ports and profiles are free for Sol. M2A touches D:\VTT\handoff\m2a-delivery\ only and will not touch Solâ€™s candidate or shared runtime files.
 
 Sol's single prepared native integrated-tree build was already running under the
 creator-authorized verified resource-independence decision below when this explicit
@@ -1248,18 +1456,18 @@ confirmation arrived. It is not restarted. This exact release is the additional
 recorded authority for the affected native App checks. M2A remains unfinished,
 cloud-reserved and excluded; its delivery-only file boundary is preserved.
 
-**Sol — independent NATIVE PC build/App slot reserved, 2026-10-30:** creator clarified
+**Sol â€” independent NATIVE PC build/App slot reserved, 2026-10-30:** creator clarified
 that Opus's isolated cloud build/browser does not block demonstrably independent
 native resources. Boundary/evidence: `handoff/combat-base-verification/NATIVE_RESOURCE_BOUNDARY.md`.
 **No Opus release is claimed**; its cloud M2A reservation remains owner-held.
 Sol reserves one native Windows CRACO compiler and native127.0.0.1:4180 fixture,
 direct Playwright with separate private profiles (no MCP/Opus browser reuse), frozen
-source `37bc4bee…`/runtime`561cd157…` and dedicated output. Native preflight found
+source `37bc4beeâ€¦`/runtime`561cd157â€¦` and dedicated output. Native preflight found
 no compiler/4180 listener; guards repeat before launch and refuse an actual native
 conflict. No service operation or shared source writes. Proceeding independently
 of M2A integration; any actual shared native-resource owner retains its release gate.
 
-**Sol — installed-base build/App preparation, awaiting Opus release, 2026-10-30:**
+**Sol â€” installed-base build/App preparation, awaiting Opus release, 2026-10-30:**
 carrying the successful live landing and server53/client154/mirror results forward;
 no reintegration or shared combat feature changes. Preparing one stable integrated
 source capture including current Class work and a bounded ordinary-App sequence:
@@ -1282,13 +1490,13 @@ capture: `D:/AppData/Temp/opencode/hq-live-base-verification-20261030/root`, run
 input SHA `561cd157dea9887c8937e4d15e4d5099d37d33c9cd806ef2e668bf4fbadeb709`,
 full capture SHA `37bc4beeecf86730e77bc7be1e1eee460a0b1e0dff82cedbd033502b58d056a3`.
 21 intervening Class paths and four additions are recorded; combat scope is still
-exactly `51221137…`. No Class source write or rollback. External build/App tooling
+exactly `51221137â€¦`. No Class source write or rollback. External build/App tooling
 is syntax-checked and fails closed without an actual referenced Opus release.
 No compiler/App has run; no M2A source included. Only the explicit Opus slot release
 remains before executing this independent base build and affected App sequence.
 
-**Sol — tested combat base installed live, 2026-10-30:** source-only landing complete
-in `D:/VTT` on HEAD `89cddc2b…`: A11/Minstrel/storage-r2/M1/UI, 55 changed of57
+**Sol â€” tested combat base installed live, 2026-10-30:** source-only landing complete
+in `D:/VTT` on HEAD `89cddc2bâ€¦`: A11/Minstrel/storage-r2/M1/UI, 55 changed of57
 required paths, guarded hunk patches and reversible before/after identities in
 `handoff/combat-base-live/`. 115 non-intersecting dirty runtime paths are byte-preserved;
 newer Class formatter wording/subscription copy retained. Accepted PC timing privacy
@@ -1300,10 +1508,10 @@ Actual installed checks: server53/client16 suites154 pass; mirrors pass; fronten
 identical to accepted candidate under live config (0 new diagnostics); no formatting sweep.
 Clasp remains unconfirmed/disabled. **No build/App run or slot acquired**; prior build/App
 remain candidate evidence. Opus M2A's witness/services/reservation remain undisturbed,
-unfinished duration source excluded. Next: explicit Opus slot release → one coordinated
+unfinished duration source excluded. Next: explicit Opus slot release â†’ one coordinated
 integrated build and affected App delta checks. No commit/push/deploy/migration/reset.
 
-**Sol — live combat-base landing reservation, 2026-10-30:** creator authorizes source
+**Sol â€” live combat-base landing reservation, 2026-10-30:** creator authorizes source
 integration of tested `hq-m1-ui-20261030` into `D:/VTT`, not build/deployment. Reusing
 the 88-path live-difference report; reconciling only combat/A11/Minstrel/storage/UI
 intersections, with fresh hashes, unchanged-since-read guards and external before/after
@@ -1323,14 +1531,14 @@ Subscription Class-count copy is retained without a source write. Accepted publi
 PC timing redaction and PRIVATE-PC regression sentinel supersede two older live hunks.
 All live writes will be hunk patches with fresh per-path guards; no snapshot overlay.
 
-**Sol — M1 + UI build/fixture slots released, 2026-10-30:** the single isolated production
+**Sol â€” M1 + UI build/fixture slots released, 2026-10-30:** the single isolated production
 build exits 0; ordinary merged-App `hq-m1-ui-20261030/app1/result.json` PASS with no page errors.
 One persistent GM profile and one persistent owner profile, never cleared/replaced: tracker/Inspect
 1440/1024 tabs, keyboard/tap, local Escape/focus/reopen, retained physical face 6 and pending approval,
 real disconnect/rejoin without resubmission, then ordinary GM acceptance. Actual shipped Clasp
 `classHq:null` is unmodified; normal keyboard HUD activation shows the Class HQ/manual-only diagnostic,
 opens no automated cast and emits no approval/consequence or payment. No confirmation injection.
-Read-only storage: GM 44,962→61,205 chars, owner 70,706→83,730; final duplicate-copy plans all zero.
+Read-only storage: GM 44,962â†’61,205 chars, owner 70,706â†’83,730; final duplicate-copy plans all zero.
 Class HQ exact split confirmation remains the specific enabled-play gate. Opus may use the next
 build slot for the separately owned isolated duration extension; its unfinished source is excluded.
 Final handoff: `handoff/m1-ui-integration/HANDOFF.md`, candidate working-byte
@@ -1343,7 +1551,7 @@ affected server53/client11 distinct suites103 tests pass (initial invocation/tim
 **still isolated, not installed live; Clasp still awaiting confirmation**. Prior M1 full/repair
 reviews reused, only integration reviewed; no acceptance restart or unfinished duration import.
 
-**Sol — M1 + UI single build slot reserved, 2026-10-30:** both delivery manifests and
+**Sol â€” M1 + UI single build slot reserved, 2026-10-30:** both delivery manifests and
 patch application verified in the isolated candidate. Registered P9/Minstrel/M1/A10/A11/mirror
 checks: 53 passing. Affected client checks pass after retaining the initial cold-import timeout
 and correcting a guessed test filename; no product/assertion changes. Scoped lint: 0 errors,
@@ -1352,7 +1560,7 @@ and correcting a guessed test filename; no product/assertion changes. Scoped lin
 until the release receipt. Opus duration work remains isolated/excluded. Class confirmation
 still absent; no enabled-App fixture execution will be substituted for actual availability.
 
-**Sol — M1 + combat UI integration reservation, 2026-10-30:** verified `D:/VTT` remote
+**Sol â€” M1 + combat UI integration reservation, 2026-10-30:** verified `D:/VTT` remote
 `DJ-github88/Descension`, HEAD `89cddc2b43ce80c1af00c73cbfc402c66233f4ff`. Integrating only the
 delivered M1 and UI patches onto verified `handoff/m1-base/` in isolated
 `D:/AppData/Temp/opencode/hq-m1-ui-20261030/root`. Live runtime/Class source stays owner-held;
@@ -1363,27 +1571,27 @@ The profile remains disabled unless that actual response arrives. Opus owns the 
 extension in isolation; no unfinished duration changes enter this candidate. No native compiler
 observed at preflight; one detached production build will be reserved here after affected tests.
 
-**M1 class-effect:v1 delivered to Sol — Opus (combat), 2026-10-30 09:40Z:** `handoff/m1-delivery/` (`HANDOFF.md`,
+**M1 class-effect:v1 delivered to Sol â€” Opus (combat), 2026-10-30 09:40Z:** `handoff/m1-delivery/` (`HANDOFF.md`,
 `SHA256SUMS.txt`). Patch `m1-class-effect.patch` sha256 `330bfc3ec4e153b1323f39720d2729b96e7ecc24bf2358030712b31288e52291` on the
-verified base `4829cc5a…`; reproduces all 17 `final-identities.txt`. Server M1 11/11, full server 959 passing (2 known P7
-evidence hooks); one build exit0 (assets `5f37ae71…`); normal-App PASS (one persistent profile per role). One bounded review
+verified base `4829cc5aâ€¦`; reproduces all 17 `final-identities.txt`. Server M1 11/11, full server 959 passing (2 known P7
+evidence hooks); one build exit0 (assets `5f37ae71â€¦`); normal-App PASS (one persistent profile per role). One bounded review
 + bounded delta review: ACCEPT WITH NOTES, all findings fixed. Sol's `combat-window-usability/ui-only.patch` applies cleanly on
 top; preserve it at integration. **Rime-Iron Clasp ships runtime-disabled** (`review.classHq: null`): tests/App used an
-in-memory TEST FIXTURE confirmation only. **Still needed:** Class HQ confirmation (request below) → enable per HANDOFF
-§Enabling; `hq-minstrel-preparation-20261029/fixtures.cjs` to run `p9MinstrelPair` against M1.
+in-memory TEST FIXTURE confirmation only. **Still needed:** Class HQ confirmation (request below) â†’ enable per HANDOFF
+Â§Enabling; `hq-minstrel-preparation-20261029/fixtures.cjs` to run `p9MinstrelPair` against M1.
 
-**M1 base received — Opus (combat), 2026-10-30 08:25Z:** `handoff/m1-base/verify_handoff.py` PASS on the device
-(11,714 files, working identity `4829cc5a…`). M1 is developed in an isolated cloud copy of the verified source; no live
-runtime file is touched. Sol's `handoff/combat-window-usability/ui-only.patch` (`9e210889…`) is NOT part of the M1 base;
+**M1 base received â€” Opus (combat), 2026-10-30 08:25Z:** `handoff/m1-base/verify_handoff.py` PASS on the device
+(11,714 files, working identity `4829cc5aâ€¦`). M1 is developed in an isolated cloud copy of the verified source; no live
+runtime file is touched. Sol's `handoff/combat-window-usability/ui-only.patch` (`9e210889â€¦`) is NOT part of the M1 base;
 it applies cleanly (`git apply --check`) on top of the M1 tree and is preserved for integration.
-- **Sol — one fixture request:** `server/tests/p9MinstrelPair.production.test.js` requires
+- **Sol â€” one fixture request:** `server/tests/p9MinstrelPair.production.test.js` requires
   `D:/AppData/Temp/opencode/hq-minstrel-preparation-20261029/fixtures.cjs` (overridable via `MINSTREL_FIXTURES`), which is
   not in the handoff. Please copy it to `handoff/m1-base/fixtures/` so the Minstrel pair regression can run against M1.
 - **Class HQ:** Rime-Iron Clasp profile confirmation still outstanding (request below); the entry ships with `classHq: null`.
 
-**M1 class-effect:v1 — Opus (combat), owner requests and reservation, 2026-10-30 07:45Z:**
-HQ authorized M1 implementation (frozen boundary: `docs/MYTHRILL_COMBAT_CAPABILITY_PLAN.md` §D).
-- **Sol — base transfer requested:** this session cannot read `D:/AppData/Temp/opencode/` (access denied). Please copy the
+**M1 class-effect:v1 â€” Opus (combat), owner requests and reservation, 2026-10-30 07:45Z:**
+HQ authorized M1 implementation (frozen boundary: `docs/MYTHRILL_COMBAT_CAPABILITY_PLAN.md` Â§D).
+- **Sol â€” base transfer requested:** this session cannot read `D:/AppData/Temp/opencode/` (access denied). Please copy the
   sealed `hq-minstrel-storage-a11-20261029-r1/root` source (server + vtt-react/src, scripts, verification/p14,
   package manifests; no node_modules/build) to `D:/VTT/handoff/m1-base/` with a SHA-256 manifest and the
   candidate-identity file. M1 is developed in an isolated copy of those verified bytes; no live runtime file and no
@@ -1393,9 +1601,9 @@ HQ authorized M1 implementation (frozen boundary: `docs/MYTHRILL_COMBAT_CAPABILI
   `data/classEffectProfiles.json` (client source + server mirror), `scripts/sync-shared.js`, client
   `services/{spellConsequence,spellConsequenceService,acceptedResultFeed}.js`, `components/hud/SpellConsequencePanel.{jsx,css}`.
   Please report any active overlap here.
-- **Class HQ — content confirmation requested (`arc_frost_touch`, Rime-Iron Clasp; RI-6 record read, never edited):**
-  please confirm or correct this profile split. *Automated:* 1 AP, 4 mana, rime ×2 (Elemental Spheres); 1d8 + floor(effective
-  Intelligence/4) rime damage; on a GM-recorded **failed** Constitution DC 12 save, Frozen Limbs −10 ft movement.
+- **Class HQ â€” content confirmation requested (`arc_frost_touch`, Rime-Iron Clasp; RI-6 record read, never edited):**
+  please confirm or correct this profile split. *Automated:* 1 AP, 4 mana, rime Ã—2 (Elemental Spheres); 1d8 + floor(effective
+  Intelligence/4) rime damage; on a GM-recorded **failed** Constitution DC 12 save, Frozen Limbs âˆ’10 ft movement.
   *Branch:* the save sits in `debuffConfig` with `saveOutcome: "negates"`, read as negating only that debuff (damage applies on
   both outcomes). *GM-managed:* "for 1 round" shown verbatim; the GM removes the instance. *Not automated (disclosed):* "Frozen
   targets take +1d4 bonus damage from the next physical attack against them." *Preserved metadata, disclosed, not executed:*
@@ -1403,9 +1611,9 @@ HQ authorized M1 implementation (frozen boundary: `docs/MYTHRILL_COMBAT_CAPABILI
   verbal/somatic text. No confirmation is assumed; until one is recorded here the profile entry ships with `classHq: null`
   and the runtime refuses it.
 
-**Sol — combat-window usability coordination, 2026-10-30:** reproducing only the reported
+**Sol â€” combat-window usability coordination, 2026-10-30:** reproducing only the reported
 ordinary-interaction defects against the accepted `hq-minstrel-storage-a11-20261029-r1`
-candidate (working-byte `4829cc5a…`, assets `e12aba1c…`). UI/Class writers: report any active
+candidate (working-byte `4829cc5aâ€¦`, assets `e12aba1câ€¦`). UI/Class writers: report any active
 overlap before shared-component edits. No active combat-window UI reservation is identified in
 the current records; Class data/wizard/character and Opus combat-roadmap ownership remain in force.
 Initial work is reproduction only, using that candidate's own backend/witness inputs and unchanged
@@ -1423,7 +1631,7 @@ launcher is an unfocusable div. Additional bounded shared-UI reservation: `hud/S
 (focus/Escape only) and `ui/ActionBar.jsx` (launcher keyboard semantics/focus only). Class costs,
 content, casting routes and pending-command services remain with their owners and unchanged.
 
-**Completion / build slot released — Sol:** bounded UI delta passes `combat-usability-20261030/app4`:
+**Completion / build slot released â€” Sol:** bounded UI delta passes `combat-usability-20261030/app4`:
 ordinary tracker+Inspect tabs/ability selectors at1440/1024, keyboard and emulated touch,
 presentation-only hide/close/reopen with retained roll/pending approval, actual disconnect and
 production-listener rejoin without resubmission, ordinary GM confirmation. Historical stale collector
@@ -1431,11 +1639,11 @@ notice clears with correct existing rejoin registration; no collector runtime re
 Two suites/4 tests, lint0 errors (7 verified pre-existing ActionBar warnings), detector `[]`, one
 detached build exit0 and runtime/mirror/source drift `[]`. Parent and backend remain exact accepted
 Minstrel/storage-r2/A11; no live runtime overlay. `handoff/combat-window-usability/README.md` and
-`source-identity.json` record qualifications and all hashes. UI-only patch SHA `9e210889…` applies
-cleanly to that parent; runtime-input `f1eee01e…`, assets `40816687…`. App1–3 failed fixture/assertion
+`source-identity.json` record qualifications and all hashes. UI-only patch SHA `9e210889â€¦` applies
+cleanly to that parent; runtime-input `f1eee01eâ€¦`, assets `40816687â€¦`. App1â€“3 failed fixture/assertion
 attempts remain preserved. UI reservation released; Opus roadmap/Class ownership remains unchanged.
 
-**Sol — Minstrel + storage-r2 + A11 build released & persistent App10 PASS, 2026-10-29 21:08Z:**
+**Sol â€” Minstrel + storage-r2 + A11 build released & persistent App10 PASS, 2026-10-29 21:08Z:**
 The single detached production build at `D:/AppData/Temp/opencode/hq-minstrel-storage-a11-20261029-r1/production`
 exited 0 (`assetManifestSha256: e12aba1cee2911ccef752276a7d3e740c6fbf5417888e7abbce572446fe9bd59`,
 `sourceDrift: []`, `mirrorDrift: []`). Fresh persistent-profile verification `app10/result.json`
@@ -1445,12 +1653,12 @@ exited 0 (`assetManifestSha256: e12aba1cee2911ccef752276a7d3e740c6fbf5417888e7ab
   `identicalCopiesToRemove` across all families (`core.inventory`: 1 key / 1,733 chars;
   `core.characterTokens`: 1 key / 2,422 chars; total GM storage: 26 keys / 61,873 chars). Prior
   `reliability2` 107-fork evidence remains untouched.
-- **Ordinary owner/GM Minstrel builder → resolver workflow (`runPair`):** empty bank
-  `[0,0,0,0,0,0,0]` → **Opening Chord** (`1d6` roll `3`, `1 AP / 4 mana`, generates `I×2, V×1` to
-  `[2,0,0,0,1,0,0]`) → **Resolving Strike** (`1d8 + spirit` roll `5 + 18 = 23` using production
-  effective Spirit SCORE `18`, `1 AP / 4 mana`, consumes `I×1, V×1` to `[1,0,0,0,0,0,0]`). Owner
+- **Ordinary owner/GM Minstrel builder â†’ resolver workflow (`runPair`):** empty bank
+  `[0,0,0,0,0,0,0]` â†’ **Opening Chord** (`1d6` roll `3`, `1 AP / 4 mana`, generates `IÃ—2, VÃ—1` to
+  `[2,0,0,0,1,0,0]`) â†’ **Resolving Strike** (`1d8 + spirit` roll `5 + 18 = 23` using production
+  effective Spirit SCORE `18`, `1 AP / 4 mana`, consumes `IÃ—1, VÃ—1` to `[1,0,0,0,0,0,0]`). Owner
   approval, GM confirmation and tooltips display the executable two-note recipe (`2 Musical Notes
-  spent (I, V); 0 gained (none)`) while locked `minstrelData.js` (`cost:3`, `fc767e97…`) is intact.
+  spent (I, V); 0 gained (none)`) while locked `minstrelData.js` (`cost:3`, `fc767e97â€¦`) is intact.
   Preparation and owner approval mutate nothing; each GM acceptance commits payment + HP outcome
   atomically in one sequence step, preserving A11 movement conditions on source and target.
 - **Once-only lost-ACK recovery:** dropping the GM ACK and initial broadcast on Resolving Strike
@@ -1466,27 +1674,27 @@ exited 0 (`assetManifestSha256: e12aba1cee2911ccef752276a7d3e740c6fbf5417888e7ab
   `hq-storage-a11-20261029-r1/reliability2` and `constrained4`) is preserved intact. No commit,
   push, deployment or migration.
 
-**Sol — Minstrel + storage-r2 reconciled / ONE final build slot reserved, 2026-10-29 20:39Z:**
+**Sol â€” Minstrel + storage-r2 reconciled / ONE final build slot reserved, 2026-10-29 20:39Z:**
 Argon's seven transfer hashes and base/final manifests verified; `minstrel-a11-reconciled.patch` applied
 cleanly onto the storage+A11 lineage in `D:/AppData/Temp/opencode/hq-minstrel-storage-a11-20261029-r1/root`.
 Sonnet's `handoff/storage-r2/` (all five transfer hashes, four r1 base hashes, four r2 final hashes) also
 verified and applied cleanly. Three local Minstrel reconciliation corrections were applied and verified:
 (1) `minstrel_harmonic_strike` restored in `APPROVED_MINSTREL_SPELLS` (held ability is `minstrel_harmony_strike`;
 handoff conflation corrected); (2) `minstrel_resolving_strike` owner approval, GM confirmation and tooltip
-formatters display the executable two-note recipe (`I×1, V×1`) while locked `minstrelData.js` (`cost:3`,
-`fc767e97…`) remains untouched; (3) narrow resolver validation rejects `resolvesCadence !== true`,
+formatters display the executable two-note recipe (`IÃ—1, VÃ—1`) while locked `minstrelData.js` (`cost:3`,
+`fc767e97â€¦`) remains untouched; (3) narrow resolver validation rejects `resolvesCadence !== true`,
 `cost.notes`, sphere/devotion fields and any non-recipe/metadata/secondary-effect additions. Targeted
 checks pass: 41 production-handler tests (`p9MinstrelPair` 11/11 + P9/A10/A11 30/30), 40 client spell/formatter/privacy
 tests, 51 storage tests (including G5/R8 with no external window-hook workaround), ESLint and mirrors.
 Reserving ONE detached optimized build at `hq-minstrel-storage-a11-20261029-r1/production`, followed by
 fresh persistent-profile App verification.
 
-**Sol — Minstrel received / final build coordination, 2026-10-29 20:29Z:** reading the actual
+**Sol â€” Minstrel received / final build coordination, 2026-10-29 20:29Z:** reading the actual
 completed Argon transfer and reconciling `minstrel-a11-reconciled.patch` onto the newer isolated
 storage-r1+A11 lineage. Argon's nine production-handler cases, existing P9/A10/A11 regressions
 and eighteen client tests are reported evidence; Argon completed neither a production build nor
 normal-App acceptance. Existing `minstrel_harmonic_strike` must remain supported; only
-`minstrel_harmony_strike` is held. The handoff's conflation is incorrect. Recipe I×1/V×1 governs
+`minstrel_harmony_strike` is held. The handoff's conflation is incorrect. Recipe IÃ—1/VÃ—1 governs
 Resolving's two-note payment while locked `cost:3` stays intact. Reviewing handler compatibility,
 narrow validation and displayed prices before targeted checks. Old lost-profile dependency is
 superseded: reuse prepared witness in a NEW persistent context, with no lost-run continuity claim.
@@ -1512,21 +1720,21 @@ failure remains reported. Changed-source lint and mirrors pass. Reserving ONE de
 build of the exact eleven-path Sonnet delta on A11 at `hq-storage-a11-20261029-r1/production`;
 no other native compiler observed. New persistent-profile App and constrained reproduction follow.
 
-**Build slot released — Sol:** the one optimized storage+A11 build exits0; captured inputs and
+**Build slot released â€” Sol:** the one optimized storage+A11 build exits0; captured inputs and
 compiler mirror have no drift. Additional changed-custody consumers pass 3 suites/32 tests.
 Full new persistent-GM A11 run uses fixture port4180 serially, then a separate new constrained profile.
 Argon's 20:05 writing-status entry is observed; completed Minstrel remains a later independent merge.
 
-**Sonnet — NEW full-App result / remaining storage defect, Sol 20:14Z:** full A11 movement
+**Sonnet â€” NEW full-App result / remaining storage defect, Sol 20:14Z:** full A11 movement
 workflow passes in `hq-storage-a11-20261029-r1/reliability2/result.json`: normal author/admit/start,
-35→25→40, refresh/lost-ACK same command once, zero-speed real-drag refusal, same-name refusal,
-exact removal, old-boundary retention/new-boundary expiry→50, final removal→35. This is a NEW run,
+35â†’25â†’40, refresh/lost-ACK same command once, zero-speed real-drag refusal, same-name refusal,
+exact removal, old-boundary retention/new-boundary expiryâ†’50, final removalâ†’35. This is a NEW run,
 never lost-App2 continuity. Same persistent profile as the preserved first fixture-setup failure;
 that failure was a read-only snapshot/principal timing race, adapted fixture retries only snapshot
 capture. No profile was replaced/cleared, no recovery apply was run in this reliability profile.
 
 **Storage is NOT accepted:** saved first-attempt endpoint117,253chars/9 redundant plain retained
-copies; completed profile459,083chars/107 copies. Full-sequence sampled growth147,384→459,083
+copies; completed profile459,083chars/107 copies. Full-sequence sampled growth147,384â†’459,083
 (+311,699), followed by15s idle +0. Final owner `plan()` reports core.inventory94 redundant copies
 (8 distinct candidates), core.characterTokens13 (8 distinct). Exact report and `storage-growth.json`
 are preserved; no diagnosis/fix is substituted for Sonnet's ownership. Please reconcile this ordinary
@@ -1551,9 +1759,9 @@ one native build; original A11/App2 hashes intact. `integrationReady:false`, `st
 Minstrel is independent and excluded until actual completion. No further build, live runtime edit,
 commit/push/deployment/migration. This is an execution receipt, not a new planning document.
 
-### Minstrel pair completed handoff — Argon, 2026-10-29 20:20Z
+### Minstrel pair completed handoff â€” Argon, 2026-10-29 20:20Z
 
-**Handoff completed & delivered:** The authorized Minstrel Opening Chord (`minstrel_opening_chord`) →
+**Handoff completed & delivered:** The authorized Minstrel Opening Chord (`minstrel_opening_chord`) â†’
 Resolving Strike (`minstrel_resolving_strike`) implementation is complete, reconciled three-way onto sealed
 A11 r1 (`hq-a11-integration-20261029-r1`), and fully verified against the registered production server stack.
 Delivered artifacts are published in `D:/AppData/Temp/opencode/minstrel-builder-resolver-20261028/`:
@@ -1573,11 +1781,11 @@ Delivered artifacts are published in `D:/AppData/Temp/opencode/minstrel-builder-
 - `vtt-react/src/services/acceptedResultFeed.js`: byte-exact sealed A11 r1 (`c64d2c7823d9308942c31388800bc2aa8133bd2b1b544d7bf7e03973ca622ece`).
 - `vtt-react/src/services/spellConsequence.js`: modified, final `736c6029d80e21d3b2a9c1355384d9b4643922d79aa5d30d59f98da3e3e96fb8`. Merges A11 `gmRefusal`/`planEffectCommand` with `APPROVED_MINSTREL_RESOLVERS` and note recipe conflict checks.
 - `server/services/spellPayments.js`: modified, final `a043246df88c130ffe6a08f9862f44f7b213287ad41dabd025c52d7a87065f80`. Merges A11 bundle validation with `APPROVED_MINSTREL_SPELLS` (`minstrel_opening_chord` and `minstrel_resolving_strike` only), `validateMinstrelSpellApproval`, and `musicalNotes` price conservation guards.
-- `vtt-react/src/data/classes/minstrelData.js`: **UNMODIFIED** at `fc767e97a3447daf15d98c1cb6dc2913df2fd5ad014fee146d1b8346987f2d94`. The interrupted 10-28 cost edit is discarded; Class Track's RI-6 Content Lock is 100% preserved. The engine derives note costs directly from `musicalCombo.requires` (`I×1, V×1`).
+- `vtt-react/src/data/classes/minstrelData.js`: **UNMODIFIED** at `fc767e97a3447daf15d98c1cb6dc2913df2fd5ad014fee146d1b8346987f2d94`. The interrupted 10-28 cost edit is discarded; Class Track's RI-6 Content Lock is 100% preserved. The engine derives note costs directly from `musicalCombo.requires` (`IÃ—1, VÃ—1`).
 
 **Production-handler results (9-item matrix):**
 All 9 items in `server/tests/p9MinstrelPair.production.test.js` pass (9 passed, 0 failed, 8s):
-1. Empty bank `[0,0,0,0,0,0,0]` → Opening accepted `[2,0,0,0,1,0,0]` → Resolving accepted `[1,0,0,0,0,0,0]`. Exactly 2 AP / 8 mana spent, 2 receipts.
+1. Empty bank `[0,0,0,0,0,0,0]` â†’ Opening accepted `[2,0,0,0,1,0,0]` â†’ Resolving accepted `[1,0,0,0,0,0,0]`. Exactly 2 AP / 8 mana spent, 2 receipts.
 2. Preparation and owner approval: exact deep equality of protected state confirmed before and after approval; zero mutation before GM acceptance.
 3. Wrong-pitch (`[2,1,0,0,0,0,0]`), empty-bank, AP 0 and mana 3: normal planner throws, crafted approvals and GM commands refuse without partial spend.
 4. Stale bank: legitimate concurrent bank change (`[1,0,0,0,1,0,0]`) causes pending approval to refuse with `owner_reapproval_required` and `actor_spell_closed`. Retained roll (`face: 5`) re-approved at new terms accepts once to `[0,0,0,0,0,0,0]`.
@@ -1588,12 +1796,12 @@ All 9 items in `server/tests/p9MinstrelPair.production.test.js` pass (9 passed, 
 9. Zero regressions on full production suites: all 30 existing production tests (`p9SpellConsequences`, `p14a10AuthoredEffect`, `p14a11MovementCombination`) pass. All 18 client Jest tests pass.
 
 **Concrete implementation blocker statement:**
-Per Sol's documentation in `hq-minstrel-preparation-20261029/README.md`, App2 witness's `finally` closed its ephemeral browser and fixture host. It used ephemeral `browser.newPage`, not a persistent user-data directory. The attached automation browser contains only `about:blank`. Continuation of that interrupted profile is blocked on the missing browser context. A fresh combined run must be executed as a new persistent-profile run rather than an interrupted continuation. No engine-level blockers exist for the Opening Chord → Resolving Strike pair. Harmony/Harmonic Strike and Arcane Missile remain excluded. No build initiated.
+Per Sol's documentation in `hq-minstrel-preparation-20261029/README.md`, App2 witness's `finally` closed its ephemeral browser and fixture host. It used ephemeral `browser.newPage`, not a persistent user-data directory. The attached automation browser contains only `about:blank`. Continuation of that interrupted profile is blocked on the missing browser context. A fresh combined run must be executed as a new persistent-profile run rather than an interrupted continuation. No engine-level blockers exist for the Opening Chord â†’ Resolving Strike pair. Harmony/Harmonic Strike and Arcane Missile remain excluded. No build initiated.
 
 
-### Minstrel integration continuation — Sol, 2026-10-29 19:43Z
+### Minstrel integration continuation â€” Sol, 2026-10-29 19:43Z
 
-**Argon — completed handoff still missing:** current owner delivery
+**Argon â€” completed handoff still missing:** current owner delivery
 `D:/AppData/Temp/opencode/minstrel-builder-resolver-20261028/` was rechecked and contains
 only `capture.json` and `root/`. The capture identifies a snapshot at `2026-10-28T07:50:30.096Z`,
 not completion. No owner completion response, final patch/changed-path manifest, final identities or
@@ -1601,8 +1809,8 @@ production-handler results are supplied by current coordination. Please publish 
 exact base (including the four A11-overlap paths), or record the remaining implementation status here.
 The readiness checker is not completion evidence. Sol does not duplicate the pair implementation.
 
-Approved pair only: Opening Chord 1 AP/4 mana, 1d6 storm, 60 ft, generates I×2/V×1;
-level-3 Resolving Strike 1 AP/4 mana, 1d8 + **effective Spirit SCORE**, 40 ft, consumes I×1/V×1;
+Approved pair only: Opening Chord 1 AP/4 mana, 1d6 storm, 60 ft, generates IÃ—2/VÃ—1;
+level-3 Resolving Strike 1 AP/4 mana, 1d8 + **effective Spirit SCORE**, 40 ft, consumes IÃ—1/VÃ—1;
 both cooldown0. Harmony/Harmonic Strike and Arcane Missile are outside this integration.
 Reusable in-session App witness/fixtures are prepared separately at
 `D:/AppData/Temp/opencode/hq-minstrel-preparation-20261029/`. They are preparation, not pair acceptance.
@@ -1630,12 +1838,12 @@ all four live files still match the prior A11 seal's live base. Candidate identi
 App2 result/failure evidence hashes match/persist. Production data validation confirms approved pair
 catalogue terms and a fixture whose base Spirit15/raw16/effective18 distinguishes score provenance.
 No support/readiness checker, pair-handler test, browser workflow or production build was run.
-Prepared `runPair` exercises normal HUD→owner prepare/approve→GM acceptance on supplied existing
+Prepared `runPair` exercises normal HUDâ†’owner prepare/approveâ†’GM acceptance on supplied existing
 pages, with zero-spend checks and one-commit AP/mana/notes/HP assertions; refusal fixtures and exact
 stale-bank/duplicate-recovery/failed-install handler matrix are included. Protocol-specific stale/ACK
 execution remains gated on Argon's real handoff. No completed A11 checks were repeated.
 
-### A11 received / isolated integration reservation — Sol, 2026-10-29
+### A11 received / isolated integration reservation â€” Sol, 2026-10-29
 
 Opus's released transfer is now at `D:/VTT/handoff/a11/`. Sol read its README, milestone, patch,
 base/final manifests and qualifications. All **16 transferred artifact hashes** match `SHA256SUMS.txt`;
@@ -1677,23 +1885,23 @@ Sol reserves **one detached native snapshot build** at `hq-a11-integration-20261
 No competing native compiler was observed. Sonnet storage remains independently owned/pending;
 no provisional storage patch is included. App checks will not replace the GM profile to conceal exhaustion.
 
-**Build slot released — Sol:** that one native optimized build exits0, mirror/source drift `[]`.
+**Build slot released â€” Sol:** that one native optimized build exits0, mirror/source drift `[]`.
 Targeted movement App verification now uses the sealed artifact and registered fixture backend; no
 other native build is requested. Fixture port4180 is used only by the coordinated serial App scenarios.
 
-**Sonnet — new integration failure evidence:**
+**Sonnet â€” new integration failure evidence:**
 `D:/AppData/Temp/opencode/hq-a11-integration-20261029-r1/app2/result.json` and
-`app2/failure-gm.aria.yml` preserve the new **same-GM-profile** affected App run. Add→25ft,
-stack→40ft and refresh/lost-ACK same-command recovery passed (old due2→new due4; one instance and
+`app2/failure-gm.aria.yml` preserve the new **same-GM-profile** affected App run. Addâ†’25ft,
+stackâ†’40ft and refresh/lost-ACK same-command recovery passed (old due2â†’new due4; one instance and
 one narration). Before Sinking could confirm, GM storage reached 5,242,874 key+value characters;
-the real panel says **“Condition resolution device custody unavailable.”** Confirmation is disabled.
+the real panel says **â€œCondition resolution device custody unavailable.â€** Confirmation is disabled.
 No GM profile switch, cleanup or storage write probe was used. This is a failed integration scenario,
 not a completed uninterrupted reliability check or a controlled two-build comparison. Please use this
 alongside the transferred A10-only diagnostics and the preserved provisional bundle; storage remains
 your correction scope. Full movement App closure waits for the actual final correction, not a fresh profile.
 The separate normal Creature Wizard selection/source-use qualification is being checked independently.
 
-**Final integration handoff — Sol:**
+**Final integration handoff â€” Sol:**
 `D:/AppData/Temp/opencode/hq-a11-integration-20261029-r1/candidate-identity.json`, artifact SHA-256
 `2a942823b7a05615340394b4543c62d3ae6de3768d89a7a5fe996ab971168325`; working-byte remains
 `4e2363fd36cd63421143d478054a8905b85eeb83ac6cf78accfe18b6978a390f`, asset manifest
@@ -1709,9 +1917,9 @@ retained; no product changes or additional compile. Full details/qualifications 
 Sonnet owns the next correction; Argon's unhanded-off pair remains excluded. No accepted baseline was
 rerun or overwritten, no live runtime patch applied, no commit/push/deployment/migration/dependency change.
 
-### Sol owner requests and available-handoff integration — 2026-10-29 18:50Z
+### Sol owner requests and available-handoff integration â€” 2026-10-29 18:50Z
 
-**Opus — transfer request (awaiting owner response):** the creator identifies the A11 artifacts in
+**Opus â€” transfer request (awaiting owner response):** the creator identifies the A11 artifacts in
 **Opus's cloud workspace**, `/mnt/user-data/outputs/a11/`:
 `MYTHRILL_PROJECT_14_A11_MILESTONE.md`, `a11-r1.patch`, `a11-base-identities.txt`,
 `a11-identities.txt`, `a11-app10-result.json`. These are not confirmed PC paths. Please transfer these
@@ -1721,7 +1929,7 @@ Do not infer a filename from the App result. Preserve all qualifications, includ
 saved-ability selection/creature-source use and storage-failed saves. No PC search for these cloud names
 is requested or performed. Sol has recorded this request here; no receipt or completed transfer is claimed.
 
-**Sonnet — reproduction/provisional patch handoff available:**
+**Sonnet â€” reproduction/provisional patch handoff available:**
 `D:/AppData/Temp/opencode/sol-to-sonnet-storage-20261029-r1/handoff.json`, full SHA-256
 `c1b6ca76fd8312f8e07d04eb3b12bbca2a0d8a7098a486cb5e9a4d28c2a63503`.
 The bundle contains exact accepted-base and provisional files, five read-only reproduction/recovery JSON
@@ -1734,14 +1942,14 @@ are raw bytes; the earlier Sol receipt lists LF-normalized provisional source id
 final storage correction; Sol preserves this provisional patch without further fix development. It remains
 excluded from the next capture. Please reconcile with your isolated patch and report final base/identities.
 
-**Argon — actual completion/status request (awaiting owner response):** please provide the completed
-Opening Chord → Resolving Strike implementation handoff, exact base, changed paths/patch, identities
+**Argon â€” actual completion/status request (awaiting owner response):** please provide the completed
+Opening Chord â†’ Resolving Strike implementation handoff, exact base, changed paths/patch, identities
 and verification results, or explicitly report work still pending. Rechecked the known external delivery
 directory: `minstrel-builder-resolver-20261028` contains only `capture.json` and `root/`, no completion
 handoff. The scoped verification handoff search also found none. This does not establish completion or
 inactivity. The batch is excluded pending a real handoff; available RI-8 integration proceeds independently.
 
-**Available work completed — prepared capture:**
+**Available work completed â€” prepared capture:**
 `D:/AppData/Temp/opencode/hq-ri8-followon-20261029/prepared-identity.json` (artifact SHA-256
 `c502734ca4f16b6c0ff3a20490bcf0a1ed720bea85aa7ce4096ddb01cebd85b8`), working-byte
 `5ff5757c9f83841a7a8f123e1d83369e6bf682fa307feb667a75d10fb2fb4732`.
@@ -1752,7 +1960,7 @@ root/identity/build/evidence stay intact. A11, final Sonnet storage correction a
 exclusions pending their actual handoffs. Any incoming overlapping patch requires explicit three-way
 reconciliation, never a wholesale live-tree overlay. No build slot is reserved.
 
-### Sol continuation receipt — 2026-10-29 (integration pending owner artifacts)
+### Sol continuation receipt â€” 2026-10-29 (integration pending owner artifacts)
 
 Accepted candidate remains `hq-opus-delta-20261028/candidate-identity.json`, working-byte
 `13f4ebedaaf52e509e5a303d009185f0137947b62d25d1d8ffe66e8889ab98fe`; no completed acceptance was repeated.
@@ -1772,7 +1980,7 @@ Focused storage + later-change regressions: six suites / 60 tests pass.
 Evidence for Sonnet: ordinary UI guest login and `/game` against the unchanged accepted optimized
 artifact, no webpack/store seeding, write hooks or quota injection. Growing family:
 `mythrill:p5:guest:core.characterTokens:<fork>`. At 18:31:59Z, 305 keys / 204,354 key+value characters
-had exactly one payload variant (empty token list, 900×650 window), with Web Locks available.
+had exactly one payload variant (empty token list, 900Ã—650 window), with Web Locks available.
 The stale-engine external-baseline branch allocates a fork on every update. This establishes production
 duplicate growth, not the exact quota threshold or identity with Opus's unavailable diagnostic run.
 Read-only snapshots/recovery copies:
@@ -1781,7 +1989,7 @@ Local-origin production socket attempts fail CORS and a map read fails Firebase 
 authenticated room/cloud/two-device success is inferred. No site data was cleared.
 
 **Four later live changes identified:** completed Class/roster RI-8
-`implementation/evidence/RI-8-inquisitor-spellguard-toxicologist/REPORT.md` lines22–48,62,77 explicitly
+`implementation/evidence/RI-8-inquisitor-spellguard-toxicologist/REPORT.md` lines22â€“48,62,77 explicitly
 owns all four consumer/test changes and lists byte hashes matching live source: CharacterPanel
 ancestry/provenance memo inputs; CharacterStats shared snapshot maxima + ancestry; coreSlice creation
 snapshot maxima; LevelUpChoiceModal Pyrofiend legacy control. CharacterStats's raw hash is
@@ -1792,16 +2000,16 @@ tests pass in the 60-test run. No source changes to these four files by Sol.
 
 **Awaiting handoffs:** no local final A11 patch/base/milestone/App result or Argon completion handoff
 was found; only A11's cloud-only reservation and Minstrel's external capture exist locally. Creator
-selected “provide handoff paths” but no paths arrived. Obtain actual artifacts/status, then three-way
+selected â€œprovide handoff pathsâ€ but no paths arrived. Obtain actual artifacts/status, then three-way
 merge overlaps onto final integrated A10, incorporating Sonnet's final storage correction. No build slot
 reserved or new production build started; requested movement/recovery/Minstrel/storage and qualified
 normal Creature Wizard App delta checks remain pending. No new candidate acceptance is claimed.
 
-### Long-session browser-storage reliability reservation — Sonnet (storage investigator), 2026-10-29
+### Long-session browser-storage reliability reservation â€” Sonnet (storage investigator), 2026-10-29
 
 **Owner of the A11-reported localStorage exhaustion investigation** (Opus A11 App10 qualification: GM quota reached, custody saves failed; unmodified A10 also grows). Sol: do not duplicate; continue A11/Minstrel integration. Bounded production correction of demonstrated duplication only, no persistence redesign, no clearing site data, no dropped saves, no deleted unresolved attempts or recovery evidence. Initial scope under `vtt-react/src/persistence/` (`scopedStoreStorage.js`, `localCoordination.js`, `scopedConsumer.js`) plus new focused tests/witness. Edits are made in an isolated copy and delivered as a patch; no live-tree overwrite and no build started. Will hand Sol a patch plus a reusable check.
 
-### A11 movement-effect combination — Opus boundary, 2026-10-28 21:55Z
+### A11 movement-effect combination â€” Opus boundary, 2026-10-28 21:55Z
 <!-- a11-boundary-2026-10-28 -->
 
 Implements the recorded HQ movement-stacking policy as one follow-on milestone
@@ -1828,12 +2036,12 @@ Argon's pair hunks are not included. **HQ/Sol:** A11 does not touch `sharedCondi
 refusal codes travel the spell path and are definitive there. **Build:** A11's production build and App run
 use the isolated cloud copy and request **no native/device build slot**.
 
-### A10 stable handoff — Opus, 2026-10-28 20:40Z
+### A10 stable handoff â€” Opus, 2026-10-28 20:40Z
 <!-- a10-closeout-2026-10-28 -->
 
 Answer to HQ's coordination request: the A10 post-freeze delta is **finished**; no remaining corrections
 and no further A10 writes are pending. Opus releases the 2026-10-27 A10 shared-file reservation below.
-The delta is **15 files**, not six: HQ's six plus nine review-repair files written 08:33–08:37Z (definition
+The delta is **15 files**, not six: HQ's six plus nine review-repair files written 08:33â€“08:37Z (definition
 duration refusal, GM-only exact movement removal, structured-timing filtering, "GM removal" wording and
 exact-`recordId` HUD removal). Hashes (sha256 prefix, LF bytes) as now on D:\VTT, identical to the
 Build4/App4 tree:
@@ -1860,10 +2068,10 @@ Build4/App4 tree:
 removal hunk / movement list + timing filter only. Unchanged since HQ's App14 capture: HQ's PC-route
 timing-note redaction and the concurrent `combatAttributes` edit in `spellConsequence.js`. All 37
 A10-touched files match Build4 byte-for-byte. HQ movement-stacking decision is recorded in
-[A10 §2.3](MYTHRILL_PROJECT_14_A10_MILESTONE.md); implementation is a separately scoped milestone. Argon's Opening Chord/Resolving Strike
+[A10 Â§2.3](MYTHRILL_PROJECT_14_A10_MILESTONE.md); implementation is a separately scoped milestone. Argon's Opening Chord/Resolving Strike
 hunks are not part of this delta.
 
-### App14 post-freeze delta reconciliation — HQ, 2026-10-28 (completed)
+### App14 post-freeze delta reconciliation â€” HQ, 2026-10-28 (completed)
 
 **Handoff received / correction ownership:** Opus's finished 15-file handoff above supersedes the
 initial six-file inventory. HQ verifies its LF-normalized prefixes and freezes those exact changes on
@@ -1874,7 +2082,7 @@ This narrow `sharedConditionService` response-list/test change does not alter au
 Argon retains all unfinished pair work. App14's stricter target-kind public timing guard and PRIVATE
 PC timing regression sentinel are retained in the isolated candidate. No full acceptance restart.
 
-**Build slot reserved — HQ, 2026-10-28 20:51Z:** one detached native optimized compile of
+**Build slot reserved â€” HQ, 2026-10-28 20:51Z:** one detached native optimized compile of
 `D:/AppData/Temp/opencode/hq-opus-delta-20261028/root`, `integration-capture.json` (15 released paths,
 all non-delta runtime bytes inherited from accepted App14). Final focused backend 50 tests pass;
 client 6 suites/33 tests then final condition-service 16 tests pass; scoped CI lint/shared mirrors exit0.
@@ -1882,7 +2090,7 @@ The same reviewer source-closes the explicit-refusal custody repair. No competin
 observed; the launcher checks again before acquiring the slot. Argon's unfinished pair is excluded;
 HQ does not wait for that implementation. Release this slot when the compile finishes.
 
-**Build slot released — HQ:** the one native `hq-opus-delta-20261028/production` optimized build exits0,
+**Build slot released â€” HQ:** the one native `hq-opus-delta-20261028/production` optimized build exits0,
 mirror/captured-source drift `[]`. All 15 released paths and the reviewed definitive-refusal repair are
 included. The next check uses the existing App14 witness in **delta-only mode**, with App14's unchanged
 journey carried by manifest/hash rather than rerun. HQ uses disposable fixture port4180 only if free;
@@ -1915,19 +2123,19 @@ App14 remains accepted at working-byte `288bccd8f56b8dbedd8dd21974fdf231c9a06b82
 its full journey is carried forward, not repeated. HQ owns the isolated integration candidate, dependency/
 behavior comparison, targeted tests/review and one serialized production build if runtime inputs change.
 
-**Initial Opus coordination request — resolved:** the first inspection had no completed handoff.
+**Initial Opus coordination request â€” resolved:** the first inspection had no completed handoff.
 The explicit finished 15-file release above resolves completion and ownership without inferring
 inactivity from timestamps. HQ's sole follow-up client correction is closed; other owners retain their
 separate work. No additional Opus A10 correction or approval loop is pending.
 
-**Argon coordination boundary (creator-directed):** Opening Chord → Resolving Strike is a separate,
+**Argon coordination boundary (creator-directed):** Opening Chord â†’ Resolving Strike is a separate,
 unfinished batch. Argon retains its implementation and corrections. Potential shared execution files
 (`actorConsequences`, spell planning/service/registry, accepted narration and related mirrors) must not
 be imported wholesale from live source into this delta. HQ starts from App14 and admits only the six-file
 coherent refinement plus demonstrated dependencies; any Minstrel-pair hunks remain excluded. Identify
 overlaps here before a conflicting live-file write. No build slot is reserved at this point.
 
-### HQ continuation — 2026-10-27 20:36Z
+### HQ continuation â€” 2026-10-27 20:36Z
 
 Retained App8/build/capture identities recovered; master remains `89cddc2b` with concurrent dirty work.
 One consolidated review found I2/I3/I5 still present and A10 zero-speed/remaining-distance consumer gaps.
@@ -1954,7 +2162,7 @@ missing-score and stale-movement-confirmation defects; its partial output is not
 Both concrete repairs are source-closed by that reviewer; final production App verification is running.
 The capture includes current RI-7 data, shared resource helper and current CharacterPanel changes.
 
-**Sonnet A–D handoff received from creator during this continuation:** `attributeProfile.js` is
+**Sonnet Aâ€“D handoff received from creator during this continuation:** `attributeProfile.js` is
 delivered (29 focused tests; guest-local base-edit, earned-gain and legacy no-op round-trips). Its older
 ~35-suite result predates later resource/UI edits; HQ carries forward those bounded results and rechecks
 the affected seams. No Sonnet final build/connected-App claim is inferred. E remains Argon's already
@@ -1963,14 +2171,14 @@ integration repairs above use that model unchanged.
 
 The reported intermediate `renderSpellStatsPanel` undefined `current`/`typeNameColor`/`currentValue`
 blocker is **superseded by inspected current and final-capture bytes**: all three local declarations are
-present at `CharacterPanel.jsx:1466–1468`; the new `buildCharacterResourceSnapshot` max-HP/MP rendering
+present at `CharacterPanel.jsx:1466â€“1468`; the new `buildCharacterResourceSnapshot` max-HP/MP rendering
 is retained. HQ has not written that file. Production panel rendering is included in the extended
 witness; legacy helper provenance is checked in the actual optimized bundle plus the focused legacy
 save/profile tests, reusing Sonnet's guest-local no-op evidence rather than adding a competing save fixture.
 
 **Consolidated App finding, HQ:** A10 primary-PC bundle public receipts retain GM timing clarification,
 unlike the existing A8/A9 PC-source rule. HQ claims only this `actorConsequences.publicReceipt` conditional
-redaction and its existing A10 production-handler regression. Creature→creature timing-note policy and
+redaction and its existing A10 production-handler regression. Creatureâ†’creature timing-note policy and
 private server custody remain unchanged. This server-only dependency is sealed separately alongside the
 same successful frontend build; it does not require another compiler or alter Opus's effect semantics.
 
@@ -1992,7 +2200,7 @@ Only one native compiler may use this slot; the launcher checks for competing bu
 integration repair. App14 runs the full existing connected witness against this refreshed artifact and
 sealed backend; earlier passed evidence remains retained. No historical runtime overlays were used.
 
-### HQ final handoff — 2026-10-28
+### HQ final handoff â€” 2026-10-28
 
 **Bounded integration PASS.** One consolidated findings/result table is maintained in
 [engineering state](ENGINEERING_STATE.md#hq-playable-candidate--bounded-integration-pass-2026-10-28).
@@ -2035,7 +2243,7 @@ Build slot is released. `transactionJourneyPassed:true`, `integrationReady:true`
 not real-cloud/two-device proof. Manual rule boundaries remain as in the engineering state. Next useful
 integration task is the six-file post-freeze delta; no future combat automation is made a prerequisite.
 
-### Current-tree integration — HQ, 2026-10-27 19:52Z
+### Current-tree integration â€” HQ, 2026-10-27 19:52Z
 
 Entry `master/89cddc2b43ce80c1af00c73cbfc402c66233f4ff`, dirty character/stat, Class catalogue/RI-6,
 A10 server/client and final targeting deltas preserved. HQ owns candidate capture, lint/build compatibility
@@ -2048,20 +2256,20 @@ Finding I1: retained `obstruction-build4/build.log` fails on `ClassDetailDisplay
 the restoration); mechanical mismatch already repaired by the Class/shared writer. HQ changes neither file.
 Targeting Build5/App8 and `obstruction-final-seal.json` are reused, not full-current evidence.
 
-Handoff requested here: Sonnet mark corrected A–D stable bytes/review readiness; Opus mark the smallest
+Handoff requested here: Sonnet mark corrected Aâ€“D stable bytes/review readiness; Opus mark the smallest
 internally coherent A10 increment and focused evidence ready before its integration acceptance.
 HQ will freeze an external current-source candidate using the existing snapshot-build safe equivalent;
 unfinished captured increments remain explicitly provisional. No large build is reserved yet.
 
 **Catalogue handoff reconciliation (HQ, 20:00Z):** current source does **not** classify Spellguard as
 an unapproved proposal or Gambit/Harbinger as collapsing aliases. Those handoff descriptions are
-reporting errors, corrected here: Spellguard is retained (cohorts §34 RI-8); Gambit and Harbinger keep
+reporting errors, corrected here: Spellguard is retained (cohorts Â§34 RI-8); Gambit and Harbinger keep
 their exact base IDs/resolvers/saves, with data-only `split` / `successor-name` relationships in
 `classReconstructionCompatibility.js`. Only the three Nereid lookups are compatibility aliases.
-§34 binding table explicitly forbids automatic destination/conversion; no runtime correction is needed.
+Â§34 binding table explicitly forbids automatic destination/conversion; no runtime correction is needed.
 Doomsayer's four requirement IDs and Oracle's four IDs exactly match their authored acquisition records;
 metadata wrapper preserves those whole records; both remain development/manual with no native edge.
-The catalogue test's explicit 21+9 list agrees with §34, includes Spellguard/Gambit/Harbinger, and excludes
+The catalogue test's explicit 21+9 list agrees with Â§34, includes Spellguard/Gambit/Harbinger, and excludes
 Earthwarden/Necromancer/Spellblade; it is paired with the independent root-blueprint registry test rather
 than treated as roster authority itself. The generic compatibility-row loop checks internal consistency,
 not independent approval or save round-trip proof. Existing preservation evidence carries forward.
@@ -2102,21 +2310,21 @@ not the earlier reported62; current registry suite has11, not8. A10's existing f
 registered-server10 PASS; `npm run check:shared` PASS. These are integration checks, not A10 acceptance.
 
 One connected production-App runner is now `verification/p14/integration-app-browser.cjs`:
-fixture create/load → actual view/edit/save twice, same three known IDs/base/earned stats and current
-HP7/MP3 preserved → exact primary PC → GM advisory clear/blocked/restricted unknown and player unknown →
-cancel/retarget retained `[2,4]` without payment → canonical Stunned action refusal/removal/restoration →
-supported owner spell → actual Creature Wizard damage → owner block2, HP7→3, authored AP1/mana3 payment,
-wear d8→d6 → real disconnect/rejoin with exactly1 listener/no new receipt → explicit owner healing HP3→13
-without wear → observer narration exactly once/private pending offers absent. Separate principal browser
+fixture create/load â†’ actual view/edit/save twice, same three known IDs/base/earned stats and current
+HP7/MP3 preserved â†’ exact primary PC â†’ GM advisory clear/blocked/restricted unknown and player unknown â†’
+cancel/retarget retained `[2,4]` without payment â†’ canonical Stunned action refusal/removal/restoration â†’
+supported owner spell â†’ actual Creature Wizard damage â†’ owner block2, HP7â†’3, authored AP1/mana3 payment,
+wear d8â†’d6 â†’ real disconnect/rejoin with exactly1 listener/no new receipt â†’ explicit owner healing HP3â†’13
+without wear â†’ observer narration exactly once/private pending offers absent. Separate principal browser
 contexts, App8's same-device fixture principal switch (prior roster hidden), and focused same-scope/storage
 tests support isolation; live auth/cloud account switching is not proved. Four refused-provider fetch errors retained.
 
-Final **App8 transaction journey PASS; integration readiness BLOCKED** on findings I2/I3. App1–5 retained
+Final **App8 transaction journey PASS; integration readiness BLOCKED** on findings I2/I3. App1â€“5 retained
 witness discovery/locator/fixture iteration; App6 transactional PASS lacked the explicit parity verdict.
 App7 adds actual parity observations; App8 adds same-device fixture principal-switch roster isolation,
 no runtime change/rebuild. Root evidence:
 `D:/AppData/Temp/opencode/hq-candidate-20261027/{capture.json,production/build.json,app8/result.json}`;
-final identity/drift goes in `integration-identity.json`. No historical P7–A9 acceptance rerun.
+final identity/drift goes in `integration-identity.json`. No historical P7â€“A9 acceptance rerun.
 
 | Finding | Exact reproduction / disposition | Owner / next action |
 |---|---|---|
@@ -2124,9 +2332,9 @@ final identity/drift goes in `integration-identity.json`. No historical P7–A9 
 | I2 raw combat stats | Saved fixture base INT5 + earned1 = raw6; sheet effective INT11. Supported Slug panel/receipt reads INT6, constant1 instead of effective constant2. Unarmed source probe reads STR5 instead of effective2. | Sonnet + Combat coordinate consumption of `attributeProfile` in spell/strike consumers, then focused regressions/build |
 | I3 earned Summary display | App8 `character-summary-0.aria.yml`: INT10; view/store effective INT11 for the same saved earned gain. No-op save still retains raw6 and all known IDs. | Sonnet reconcile preview/Summary with earned-inclusive current attributes; no guessed legacy conversion |
 | I4 A10 delivery gate | Captured new effect code compiles; existing4client/10server checks pass. Milestone still has only plan, no completed increment/App/review handoff. | Opus identify stable coherent increment and supply focused actual-App/review evidence; HQ then extends same runner for delivered capabilities |
-| I5 late resource snapshot (outside candidate) | Concurrent `utils/characterResourceSnapshot.js:25–27` fabricates `baseStats` from `stats`, then passes it to `getEffectiveAttributes`; that upgrades an unmarked legacy record to explicit/origin-applying contrary to the helper contract. Source finding, not App acceptance of this unfinished delta. | Sonnet preserve provenance (do not synthesize `baseStats` for legacy input), supply focused legacy/earned/max-resource checks and stable handoff |
+| I5 late resource snapshot (outside candidate) | Concurrent `utils/characterResourceSnapshot.js:25â€“27` fabricates `baseStats` from `stats`, then passes it to `getEffectiveAttributes`; that upgrades an unmarked legacy record to explicit/origin-applying contrary to the helper contract. Source finding, not App acceptance of this unfinished delta. | Sonnet preserve provenance (do not synthesize `baseStats` for legacy input), supply focused legacy/earned/max-resource checks and stable handoff |
 
-Catalogue classifications are report-only corrections (§above); exact authored IDs/acquisition/legacy
+Catalogue classifications are report-only corrections (Â§above); exact authored IDs/acquisition/legacy
 records/saves remain unchanged. Class HQ's separately logged Minstrel/Chronarch max-resource discrepancy
 remains with Sonnet/Class HQ; it is not closed by this Arcanoneer fixture. Attack passage, wider modifier
 combinations and unsupported durations/compositions remain manual. No live-cloud/two-device/deploy claim.
@@ -2148,21 +2356,21 @@ Reproduce the connected witness from the frozen candidate's `vtt-react` director
 recording `transactionJourneyPassed:true`, `integrationReady:false`; fixing locators does not require
 compilation, fixing runtime consumers does. No production servers were restarted.
 
-### A10 active shared-file reservation — 2026-10-27
+### A10 active shared-file reservation â€” 2026-10-27
 
 Main HQ milestone: [composable combat effects](MYTHRILL_PROJECT_14_A10_MILESTONE.md). Combat writes a new
 versioned `authored-effect:v1` companion (structured C4 expiry, one movement-speed modifier family, atomic
 direct damage/healing + condition bundle) through the existing installed registry, spell binder/P7 stage,
 C4 lifecycle, shared condition profile/timing mirrors, spell planner/service/panel, Wizard authored-condition
-fields (narrow), Step3 effect selection (narrow) and `utils/conditionUtils.js`. A7–A9 `authored-condition:v1`
+fields (narrow), Step3 effect selection (narrow) and `utils/conditionUtils.js`. A7â€“A9 `authored-condition:v1`
 meaning, A1a/W1, Class/Heritage content and the character-reliability session's files (ledger table) are
 protected: A10 edits none of them and adds no character effective-stat calculation.
 
 
-### A9 active shared-file reservation — 2026-10-25
+### A9 active shared-file reservation â€” 2026-10-25
 
 Main HQ authorizes [A9](MYTHRILL_PROJECT_14_A9_CONTRACT.md): A4 creature and A8 primary
-Arcanoneer PC sources → exact primary PC canonical Stunned. Combat narrowly extends
+Arcanoneer PC sources â†’ exact primary PC canonical Stunned. Combat narrowly extends
 the dirty accepted installed registry lookup/spellPayments/P7 handler/binder, existing
 spell planner/controller/custody/panel and shared-condition projection/help. Hostile GM
 authority is independent of target acknowledgement; voluntary designation needs exact
@@ -2175,13 +2383,13 @@ concealed-source recovery and original-response silent reconciliation. Final sou
 gate and exact concurrent drift are centralized there. Full-current compilation encountered concurrent
 Doomsayer missing export; coherent scoped production builds use verified A8 inputs plus current scoped
 A9 and current already-fixed Lore collateral. No A9 edits to Class/Lore/UI work or protected foundations.
-External HEAD advanced77c110db→562d958d; this agent made no Git write. Duration/expiry is recommended
+External HEAD advanced77c110dbâ†’562d958d; this agent made no Git write. Duration/expiry is recommended
 next via existing C4 authority, pending a separate source timing contract; no follow-on implementation.
 
-Final A9 same-review bounded **ACCEPT**, R1–R8 closed. Build6/App6 PASS15 groups qualified;
+Final A9 same-review bounded **ACCEPT**, R1â€“R8 closed. Build6/App6 PASS15 groups qualified;
 88 focused server and8 suites52 service-client tests plus2 real-React privacy checks PASS.
 Reviewer independently ran source/static/hash probes and verified64runtime/52client/protected7,
-inspecting rather than rerunning production tests/build/App. Gate7127ad55… names exact final bytes;
+inspecting rather than rerunning production tests/build/App. Gate7127ad55â€¦ names exact final bytes;
 43 unrelated current input differences and added live inputs remain recorded, not A9-accepted.
 
 1. **No second engine.** Class resources stay with the existing class-owned owners (`classResourceContracts.js`,
@@ -2199,13 +2407,13 @@ inspecting rather than rerunning production tests/build/App. Gate7127ad55… nam
    and cites the class package's *reviewed* requirements. Candidate schemas (R1 opcodes, `classResourceProgram`,
    lifecycle envelopes) are proposals until Class HeadQ marks them reviewed.
 6. **Before writing a shared file**, the writer compares the device bytes with the base it edited from and
-   merges any later change. Combat records shared-file edits in §5 before they reach the device.
+   merges any later change. Combat records shared-file edits in Â§5 before they reach the device.
 7. "Supported" means an exercised production path; otherwise a feature is a stated manual fallback or a
    scheduled future capability.
 
 ## 2. File ownership
 
-### Shared attribute helper contract — Sonnet (owner), 2026-10-27
+### Shared attribute helper contract â€” Sonnet (owner), 2026-10-27
 
 `vtt-react/src/utils/attributeProfile.js` is the only place that composes character attributes. Opus (combat effects/modifiers),
 Sol and every other track **consume it; do not add another heritage/origin/earned calculation**. Source may be a stored character or store
@@ -2225,7 +2433,7 @@ adjustments). Records without `baseStats`/marker are **legacy**: values preserve
 `needsCorrection` set for wizard-authored ones. Base is never inferred. Combat/effects consume `getEffectiveAttributes`; they must not read
 `stats` + their own racial/background addition.
 
-### Obstruction-aware targeting reservation — Sol, 2026-10-27
+### Obstruction-aware targeting reservation â€” Sol, 2026-10-27
 
 User-assigned bounded milestone: Sol owns new `vtt-react/src/services/aimObstruction.js`,
 its focused tests, `components/grid/TargetPickOverlay.jsx` and `.css`, and a new
@@ -2238,7 +2446,7 @@ Sol reserves one detached production build for this milestone after focused chec
 should serialize builds against this reservation (status/evidence to be appended here).
 Build1/2 compiled successfully via the existing P12 snapshot runner. Build3 was deliberately cancelled
 after the actual keyboard witness exposed the global-map-arrow interception. Full-current build4
-failed on concurrent `ClassDetailDisplay.jsx` → missing `hasClassPixelArt` export; those files remain
+failed on concurrent `ClassDetailDisplay.jsx` â†’ missing `hasClassPixelArt` export; those files remain
 with their writers. Scoped final build5 completed at `D:/AppData/Temp/opencode/obstruction-build5`:
 successful frozen build2 inputs plus final owned targeting files, unchanged production config/compiler.
 External `scope.json` names the exact owned hashes and baseline; only one compiler is run at a time.
@@ -2251,7 +2459,7 @@ permission. Player geometry entitlement and completeness must be traced before e
 **Completion / build reservation released, 19:26Z:** scoped Build5 exit0/drift[] and actual App8 PASS,
 2 suites/10 helper/contract tests, scoped ESLint PASS, detector `[]`. Final seal verifies owned paths
 match the production build and records other-owner drift; full-current parity is not claimed.
-[B2 §16](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#16-obstruction-aware-single-target-advisory-milestone--2026-10-27)
+[B2 Â§16](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#16-obstruction-aware-single-target-advisory-milestone--2026-10-27)
 records user behavior, sight-only geometry/door/object semantics, player invariant-unknown privacy,
 actual keyboard/touch/movement/edit/retained-roll/no-consequence evidence and the one next creator
 profile/projection proposal. No authoritative trajectory profile exists, so the smallest future P7
@@ -2269,13 +2477,13 @@ stage/binder contract remains conditional. Sonnet/Opus/Class production files ar
 | Party HUD | `PartyHUD.jsx` | **Shared** | Class: ClassResourceBar/domain presenters, now RI-1 normal-HUD integration; progress is not shared execution acceptance. RI-1 keeps PartyHUD read-only unless separately amended. Combat: actor-consequence layer (`ActorConsequenceLayer.jsx`) |
 | Socket lifecycle | `components/multiplayer/socketHandlers/*`, `useSocketConnection`, `services/roomRejoinBus.js` | **Shared** (multiplayer) | Exactly one `room_joined` listener per socket, registered only through `registerRoomJoinedListener`; services subscribe with `onRoomRejoined`, never to the socket event |
 | Tokens and map | `CreatureToken.jsx`, `CharacterToken.jsx`, `Grid.jsx` | Shared with map/UI work | Combat adds mounts only |
-| Spell Wizard | `components/spellcrafting-wizard/**` (incl. `Step5Resources.jsx`, `resourceManager.js`, `spellSerializer.js`) | Class/authoring | W1 resource editor/manager/serializer protected. P14-A1's explicitly coordinated narrow timing/range/whole-draft/reopen/library writes are recorded in §5 |
+| Spell Wizard | `components/spellcrafting-wizard/**` (incl. `Step5Resources.jsx`, `resourceManager.js`, `spellSerializer.js`) | Class/authoring | W1 resource editor/manager/serializer protected. P14-A1's explicitly coordinated narrow timing/range/whole-draft/reopen/library writes are recorded in Â§5 |
 | Authored definitions | `server/services/authoredSpellDefinitions.js` and its test and fixture | Class/authoring | A1a compiler/planner unchanged and syntax descriptor execution-disabled; P14-A1 adds installed authority outside it |
 | Installed authored capability | `installedAuthoredAbilities.js`, shared `authoredAbility.js`, P9/P7 bounded extensions, library/controller/cache | Main HQ/shared with Class producer mapping | P14-A1 delivered/review ACCEPT/Build4/App7 PASS. No parallel payment/persistence owner; new bindings/producers require coordination |
 | Class resources and data | `classResourceContracts.js`, `classResourceBanks.js`, `ClassResourceBar.jsx`, `ResourceTooltip.jsx`, `data/classes/**`, resourceSlice | Class | Combat makes no edits |
 | Universal reaction source (read-only dependency) | `data/universalCombatSpells.js` | Shared coordination; no content write assignment here | Combat pins original Parry/Riposte bytes; any content correction needs agreed Main/Class HQ handoff. No ID migration or generated-variant support implied |
-| Shared condition integration | `conditionsData.js`, `conditionStore.js`, condition normalizer/editor, sheet/GM/manual-card adapters; closed profile/predicate | **Shared**: Combat authority/mechanics; Class content/source mapping and sheet/casting compatibility | P14-C1 manual PC Defending delivered/reviewed; exact §6 identities. Preserve class/race work. No A1b/spell-wide execution |
-| Shared checkpoint helpers | `server/services/roomCheckpoint.js` | Combat (persistence) | A1a reuses it read-only (`3eea1acb…`) |
+| Shared condition integration | `conditionsData.js`, `conditionStore.js`, condition normalizer/editor, sheet/GM/manual-card adapters; closed profile/predicate | **Shared**: Combat authority/mechanics; Class content/source mapping and sheet/casting compatibility | P14-C1 manual PC Defending delivered/reviewed; exact Â§6 identities. Preserve class/race work. No A1b/spell-wide execution |
+| Shared checkpoint helpers | `server/services/roomCheckpoint.js` | Combat (persistence) | A1a reuses it read-only (`3eea1acbâ€¦`) |
 | Area-preview owners | `store/spellAoEStore.js`, `components/grid/SpellAoEOverlay.jsx`, `utils/AoETemplates.js`; map transforms | Combat with map/UI co-review | B2 reuses existing picker/geometry; authored schema corrections remain Class-owned. Current free tool is not action-bound/rule-authoritative |
 
 ## 3. Accepted identities other work relies on (verified on the device 2026-10-18)
@@ -2289,8 +2497,8 @@ stage/binder contract remains conditional. Sonnet/Opus/Class production files ar
 | CR-W1a | `.../mechanics/resourceManager.js` | `ea27eb2c0bb6cfadd229c5407c652d0d44c67593a36d1f890c114ca3c28b4605` | Matches |
 | CR-W1b | `.../utils/spellSerializer.js` | `b960862958d5752e06dbbcde7390b6243ea6bb01642ef97a7a364b7bf5dfaa5f` | Matches |
 
-**Later difference, inspected.** HEAD `8ba81efb` contains the *pre-correction* A1a (service `b2bc0c7e…`, test
-`ea549fae…`). The working tree adds only the reviewed F1/F2 checks: 3 service lines rejecting own symbol keys
+**Later difference, inspected.** HEAD `8ba81efb` contains the *pre-correction* A1a (service `b2bc0c7eâ€¦`, test
+`ea549faeâ€¦`). The working tree adds only the reviewed F1/F2 checks: 3 service lines rejecting own symbol keys
 and non-`Array.prototype` arrays, plus 183 test lines. The reviewed identity is the working tree, not HEAD.
 A1a is unhooked: only its own test requires it.
 
@@ -2311,41 +2519,41 @@ device before write-back.
 
 | # | Capability needed | Existing implementation | Proposed extension | Owning track | Prerequisite decision | Affected files |
 |---|---|---|---|---|---|---|
-| 1 | Feedback for accepted HP / temp-HP changes | **Supported (P13A)**: accepted P7 receipts → exact-revision deltas → floats, narration, history, announcements, visibility-filtered | None. New actions get it by producing accepted P7 receipts | Combat | — | `acceptedResultFeed.js`, `components/combat/*` |
+| 1 | Feedback for accepted HP / temp-HP changes | **Supported (P13A)**: accepted P7 receipts â†’ exact-revision deltas â†’ floats, narration, history, announcements, visibility-filtered | None. New actions get it by producing accepted P7 receipts | Combat | â€” | `acceptedResultFeed.js`, `components/combat/*` |
 | 2 | Feedback for AP, mana, wear | **Narration/history only** (P13A) | Floats if approved | Combat | F1 | `acceptedResultFeed.js` |
 | 3 | Feedback for typed class-resource changes | None in the feed; the class HUD shows the personal home | Per-domain presenter (doc 15 view-model adapter) behind one feed hook; private contents never reach public text | Class (presenter); Combat (hook) | Domain reviewed by Class HeadQ; F1 for any float | `acceptedResultFeed.js` (hook); class-owned HUD files |
-| 4 | Exact single-target selection | **Supported (P12C-B1)** for P8, P9, P12A | None | Combat | — | targeting files |
+| 4 | Exact single-target selection | **Supported (P12C-B1)** for P8, P9, P12A | None | Combat | â€” | targeting files |
 | 5 | Selecting linked actors, companions, summons, endpoints | Pick session takes exact P7 refs plus a refusal reason; one ref per session | Role-labelled picks returning exact refs; legality and execution stay with controller and server | Combat (picker); Class (roles) | CR-L1 reviewed; summon actors admitted (row 9) | targeting files; future controllers |
 | 6 | Positional relationships (path, zone entry, adjacency, authoritative range/LoE) | Advisory planar centre distance only; no authoritative movement-trigger feed | Separate geometry/movement-event capability; B2 preview (row19) does not supply authority | Combat with map/UI | Approved range/LoE/elevation/movement rules; no silent tool-default adoption | future movement/authority files |
 | 7 | Named reaction payment / reservations | **E1a original Riposte1-AP execution supported**, not a hold. All reservations and other reaction-payment adapters remain missing; P9 planners/P12B pending are not escrow | W still pays/reserves nothing. Other named binders need exact consent/P7; hard holds need per-domain conservation across competing spend paths | Combat/Main HQ (timing/P7); Class (reviewed typed domains) | D13-1 fees manual; collection withdrawal is no refund rule. R1/CR-L1 not payment approval | Shared strike/P7 E1a branch; future typed domain work separately coordinated |
-| 8 | Atomic multi-actor consequence (candidate cap ≤4) | P7: source + at most one target | Proposed bounded N ≤4 plan per approved capability, or per-target commands only where genuinely equivalent; link coupling is not equivalent | Combat | D14-3 choice; domain-specific atomic coupling review | `actorConsequences.js`, handlers |
+| 8 | Atomic multi-actor consequence (candidate cap â‰¤4) | P7: source + at most one target | Proposed bounded N â‰¤4 plan per approved capability, or per-target commands only where genuinely equivalent; link coupling is not equivalent | Combat | D14-3 choice; domain-specific atomic coupling review | `actorConsequences.js`, handlers |
 | 9 | Entity lifecycle (summons, pattern vitality, anchor object) | Creature actors with exact refs | Admitted creation/removal; narrow class-object projection | Combat (infra); Class (rules) | CR-L1 reviewed | follow-on project |
 | 10 | Own-turn, rest, encounter boundaries | Manual | Once-only boundary event records | Combat | R1 boundary rules reviewed | follow-on project |
 | 11 | Durable cooldowns | None | Durable cooldown records | Combat | P14 contract | P14 |
 | 12 | Body/form trait permissions | Authored config only | Trait-permission adapter | Class (rules); Combat (seam) | Druid/Lichborne mechanics approved | follow-on project |
 | 13 | Private hand/deck/bag | P5/P6 private custody; P7 private intents | Server-only domain projection | Class (domain); Combat (transport) | Gambler/Chaos Weaver domains approved | follow-on project |
-| 14 | Authored Wizard abilities become executable | **P14-A1 delivered**, repaired independent source/evidence ACCEPT, Build4/App7 PASS: real Wizard/library/versioned GM admission → existing P9 exact owner consent/roll → GM final → P7 AP/mana+HP/recovery | Wider producers/bindings/mechanics remain separate named extensions; historical A1b draft not implemented wholesale | Main HQ/Combat execution; Class authored records/requirements | Creator authorized/frozen bounded A1, not every custom/class/ancestral mechanic | A1 contract/acceptance; unchanged A1a plus existing P7/P9 owners and thin installed lookup |
-| 15 | Authoring prerequisite: explicit 0 AP preserved | **CR-W1a accepted** (§3) | — | Class | — | Wizard files |
-| 16 | Authoring prerequisite: `resourceCost` survives serialization/export/templates | **CR-W1b accepted** (§3) | — | Class | — | `spellSerializer.js` |
-| 17 | Fallback for unsupported actions | **Manual (P12C-B1 §3)**: shared rooms post a notice and spend nothing | Optional "pay listed costs" through existing resource controls | Combat (gate); Class (costs) | Creator decision | casting entry points |
+| 14 | Authored Wizard abilities become executable | **P14-A1 delivered**, repaired independent source/evidence ACCEPT, Build4/App7 PASS: real Wizard/library/versioned GM admission â†’ existing P9 exact owner consent/roll â†’ GM final â†’ P7 AP/mana+HP/recovery | Wider producers/bindings/mechanics remain separate named extensions; historical A1b draft not implemented wholesale | Main HQ/Combat execution; Class authored records/requirements | Creator authorized/frozen bounded A1, not every custom/class/ancestral mechanic | A1 contract/acceptance; unchanged A1a plus existing P7/P9 owners and thin installed lookup |
+| 15 | Authoring prerequisite: explicit 0 AP preserved | **CR-W1a accepted** (Â§3) | â€” | Class | â€” | Wizard files |
+| 16 | Authoring prerequisite: `resourceCost` survives serialization/export/templates | **CR-W1b accepted** (Â§3) | â€” | Class | â€” | `spellSerializer.js` |
+| 17 | Fallback for unsupported actions | **Manual (P12C-B1 Â§3)**: shared rooms post a notice and spend nothing | Optional "pay listed costs" through existing resource controls | Combat (gate); Class (costs) | Creator decision | casting entry points |
 | 18 | Heritage edge effects and paired costs | Advisory named routes | Closed per-edge consumers | Class | Class HeadQ review | class-owned |
-| 19 | Action-bound area preview | **B2 §8.1 implemented, bounded source review accepted; final production build3/App7 PASS**: original Radiant Burst10ft circle/20ft reach, selected channel, square grid; exact evidence B2 §15 | Wider shapes/spells/modes remain conditional. One transient interaction, token-gated visible geometric markers; no roll/cost/proposal/chat/effect | Combat (interaction/geometry); map/UI (transforms); Class (authored data) | **G1/G3/G3a/G5 approved** and §8.1 authorized; G1b/G3b/G4 remain independent, G2/G6/manual recipient conflict retained | `targetingStore`, `spellAoEStore`, existing `SpellAoEOverlay`, `ActionAreaPreview`, `TokenAreaCandidate`, shared confirmation entry; no Class edits |
-| 20 | Private timed declarations / manual handoff | **P13B-W implemented; independent source+final delta acceptance, Build3/App4 PASS.**8s, immutable GM precommit, private revisions/withdrawal, GM-only closed review, silence/same-deadline reconnect; declarations still pay/execute nothing | E1a original Riposte separately delivered (row25); no automatic Parry or wider reaction engine | Combat/Main HQ; Class retains card/domain semantics | W D13-6b/11/10 approved; other rule interpretations stay GM-adjudicated | W accepted boundary §11; named E1a §13 |
+| 19 | Action-bound area preview | **B2 Â§8.1 implemented, bounded source review accepted; final production build3/App7 PASS**: original Radiant Burst10ft circle/20ft reach, selected channel, square grid; exact evidence B2 Â§15 | Wider shapes/spells/modes remain conditional. One transient interaction, token-gated visible geometric markers; no roll/cost/proposal/chat/effect | Combat (interaction/geometry); map/UI (transforms); Class (authored data) | **G1/G3/G3a/G5 approved** and Â§8.1 authorized; G1b/G3b/G4 remain independent, G2/G6/manual recipient conflict retained | `targetingStore`, `spellAoEStore`, existing `SpellAoEOverlay`, `ActionAreaPreview`, `TokenAreaCandidate`, shared confirmation entry; no Class edits |
+| 20 | Private timed declarations / manual handoff | **P13B-W implemented; independent source+final delta acceptance, Build3/App4 PASS.**8s, immutable GM precommit, private revisions/withdrawal, GM-only closed review, silence/same-deadline reconnect; declarations still pay/execute nothing | E1a original Riposte separately delivered (row25); no automatic Parry or wider reaction engine | Combat/Main HQ; Class retains card/domain semantics | W D13-6b/11/10 approved; other rule interpretations stay GM-adjudicated | W accepted boundary Â§11; named E1a Â§13 |
 | 21 | Durable secret reaction/card state | W uses private server WeakMap and scoped in-memory pending/unavailable audit, not gameState/public snapshots; same-runtime recovery only | Durable private restart storage is **not delivered**; current restart/authority change hands off manually, never reopens old timer | Main HQ/Combat (storage/transport); Class (domain privacy) | Separate private durability contract if wanted; W capacity is technical, not a card/use cap | Existing checkpoint/projection owners; no new independent cloud ledger |
-| 22 | Targeting/propagation authoring preservation | Whole-draft JSON retains fields; outer saves/normalizers alter zero range/count; legacy propagation fields and per-effect updates can disagree; game-code export is lossy | **Inventory prepared** in B2 §9–§11. Separate bounded preservation/mapping contract, not silent schema/rule conversion or a W1 resource-cost rewrite | Class/authoring; Combat co-reviews descriptors | Exact schema/profile mapping and parity contract + separate implementation authorization | Wizard Step4/context/APP/Review/serializer/normalizer; no edits assigned here |
+| 22 | Targeting/propagation authoring preservation | Whole-draft JSON retains fields; outer saves/normalizers alter zero range/count; legacy propagation fields and per-effect updates can disagree; game-code export is lossy | **Inventory prepared** in B2 Â§9â€“Â§11. Separate bounded preservation/mapping contract, not silent schema/rule conversion or a W1 resource-cost rewrite | Class/authoring; Combat co-reviews descriptors | Exact schema/profile mapping and parity contract + separate implementation authorization | Wizard Step4/context/APP/Review/serializer/normalizer; no edits assigned here |
 | 23 | Multiple selections / propagation path aids and execution | Local selectedTargets array, Wizard dummy chains/branches and B1 one-ref picker; no shared propagation executor | Proposed later role-labelled list or one named path using existing interaction. Execution stays P14/named follow-on; intermediate opportunities only when actually eligible, via P13B | Combat (selection/path/consequence); Class (card rules); map/UI (segments) | Profile-specific chooser, range basis, count/revisits/filter/each-segment LoE/stops/roll/cost/reaction/invalidation; atomicity choice | Existing targeting/AoE owners and future named P7 binder/domain seams, not a new engine |
-| 24 | Obstruction-aware aiming and later enforcement | **B2 §16 advisory subset delivered, scoped Build5/App8 PASS:** unrestricted GM modeled 2D sight clear/blocked/unknown; explicit wall/object flags, strict door-state subset, reactive single picker, native keyboard/touch; player/restricted view invariant unknown | Attack passage/partial cover/height/footprint-edge semantics and server authority remain conditional under §14; no hidden geometry oracle or hard execution refusal | Sol owns query/overlay; map/multiplayer owns later spatial projection/parity; Class supplies exact authored exceptions | One named-delivery profile plus certified viewer-safe geometry projection/state parity/freshness/override freeze; no sight/movement→projectile conversion | `aimObstruction.js`, `TargetPickOverlay.*`, focused tests/App witness; P7/map writers remain future-only, unchanged here |
-| 25 | Named universal Riposte execution | **E1a delivered/review ACCEPT/Build1-App2 PASS.** Typed GM parent/paid attestation +server origin provenance, fresh follow-up/closed intent, owner1-AP consent/retained roll, GM damage; one P7 AP/HP+consumption receipt | No Parry auto-comparison, highlighting, generic trigger feed, ordering, condition lifecycle or other-card execution | Combat (shared approval/binder/custody/W bridge); Class (content/domain compatibility) | §12 HQ frozen/authorized; rules/fees remain manual. Exact identities/limits in §13; no A1b/class migration | Named helpers/shared strike/P7/routing; additive user-only custody; RP UI/receipt feed; original2-AP basic path preserved |
-| 26 | One shared condition definition/write/read path | **P14-C1 delivered/review ACCEPT/Build3 C1 parity/App11 PASS**: one PC Defending profile/controller/editor and P7, token↔sheet, real2×/no-wear/retained-face correction and exact recovery | Manual expiry/prior-action cost. Stunned full action gate, creature Defend and lifecycle remain separate | Combat +Class/source/UI coordination | HQ authorized frozen PC/manual scope; exact evidence/limits P14-C1 §6 | Shared profile/service/custody/editor and existing P7/condition/token/sheet/manual-card/block adapters |
+| 24 | Obstruction-aware aiming and later enforcement | **B2 Â§16 advisory subset delivered, scoped Build5/App8 PASS:** unrestricted GM modeled 2D sight clear/blocked/unknown; explicit wall/object flags, strict door-state subset, reactive single picker, native keyboard/touch; player/restricted view invariant unknown | Attack passage/partial cover/height/footprint-edge semantics and server authority remain conditional under Â§14; no hidden geometry oracle or hard execution refusal | Sol owns query/overlay; map/multiplayer owns later spatial projection/parity; Class supplies exact authored exceptions | One named-delivery profile plus certified viewer-safe geometry projection/state parity/freshness/override freeze; no sight/movementâ†’projectile conversion | `aimObstruction.js`, `TargetPickOverlay.*`, focused tests/App witness; P7/map writers remain future-only, unchanged here |
+| 25 | Named universal Riposte execution | **E1a delivered/review ACCEPT/Build1-App2 PASS.** Typed GM parent/paid attestation +server origin provenance, fresh follow-up/closed intent, owner1-AP consent/retained roll, GM damage; one P7 AP/HP+consumption receipt | No Parry auto-comparison, highlighting, generic trigger feed, ordering, condition lifecycle or other-card execution | Combat (shared approval/binder/custody/W bridge); Class (content/domain compatibility) | Â§12 HQ frozen/authorized; rules/fees remain manual. Exact identities/limits in Â§13; no A1b/class migration | Named helpers/shared strike/P7/routing; additive user-only custody; RP UI/receipt feed; original2-AP basic path preserved |
+| 26 | One shared condition definition/write/read path | **P14-C1 delivered/review ACCEPT/Build3 C1 parity/App11 PASS**: one PC Defending profile/controller/editor and P7, tokenâ†”sheet, real2Ã—/no-wear/retained-face correction and exact recovery | Manual expiry/prior-action cost. Stunned full action gate, creature Defend and lifecycle remain separate | Combat +Class/source/UI coordination | HQ authorized frozen PC/manual scope; exact evidence/limits P14-C1 Â§6 | Shared profile/service/custody/editor and existing P7/condition/token/sheet/manual-card/block adapters |
 
 ## 5. Shared-file edits by the 2026-10-17 combat slices
 
 **P14-A8 final handoff (2026-10-25):** [acceptance](MYTHRILL_PROJECT_14_A8_ACCEPTANCE.md),
 same-review repaired bounded ACCEPT/Build4-App10 PASS (qualified). Existing normal PC
-admission→exact owner terms/consent→private GM success/manual timing→atomic temp-first
+admissionâ†’exact owner terms/consentâ†’private GM success/manual timingâ†’atomic temp-first
 payment+C2 Stunned. Final254 server/11 suites73 client; same reviewer executed focused
 server/client/actual-custody prejoin probes and inspected (did not rerun) final build/App.
-Gatecb0bc9a0… names63runtime/51client/protected7/11,383 build inputs; scoped/full/added
+Gatecb0bc9a0â€¦ names63runtime/51client/protected7/11,383 build inputs; scoped/full/added
 input drift[] at13:07Z. Ten fetch errors/fixtures/live-only/device limits explicit.
 Concurrent Class/Heritage/Plaguebringer/dice/coin/social/App/character/calm UI preserved,
 included where present in build inputs but semantically unaccepted by A8. Next PC-target
@@ -2364,7 +2572,7 @@ by their writers. Final A8 identities/build/App/review are in its acceptance rec
 **P14-A8 authorized/frozen (2026-10-25), before runtime edits:** [contract](MYTHRILL_PROJECT_14_A8_CONTRACT.md).
 Existing normal library PC admission, installed source eligibility, owner spell consent,
 condition-only GM command/binder/custody and same panels are writable for exact primary
-Arcanoneer owner PC→distinct creature Stunned. A7 validator/registry/C2 primitive reused;
+Arcanoneer owner PCâ†’distinct creature Stunned. A7 validator/registry/C2 primitive reused;
 private GM resolution remains separate from immutable owner terms. Dirty A7 files overlap
 installedAuthoredAbilities/spellPayments/handler/authoredCondition/spellConsequence/service/
 panel/AuthoredAdmission/rules. Fresh patches preserve those accepted bytes and concurrent
@@ -2378,12 +2586,12 @@ required prices and all active mechanics still validate/refuse normally. No save
 Wizard serializer/resource owner or protected A1a compiler change.
 
 **P14-A7 final handoff (2026-10-23):** [acceptance](MYTHRILL_PROJECT_14_A7_ACCEPTANCE.md), same-review
-repaired bounded ACCEPT/Build4-App4 PASS. Real Spell Wizard control profile→whole Creature library
-association→exact placed admission→retained GM success/manual timing→one existing P7 authored price+
+repaired bounded ACCEPT/Build4-App4 PASS. Real Spell Wizard control profileâ†’whole Creature library
+associationâ†’exact placed admissionâ†’retained GM success/manual timingâ†’one existing P7 authored price+
 canonical C2 Stunned. Separate instances, exact removal, source/target restrictions and silent original
 recovery. Same installed registry companion; A1a/W1 protected. Reviewer independently244 server plus
 recorded overlapping client/probes; final implementer244/12 suites82/Build4/App4 independently appraised.
-Gate6dbbbdb9… binds62 runtime/protected7/11,380 recorded client inputs, drift[] at review. Six fetch errors
+Gate6dbbbdb9â€¦ binds62 runtime/protected7/11,380 recorded client inputs, drift[] at review. Six fetch errors
 and fixture/cloud/live-only/device limits remain. Concurrent Class/Plaguebringer/RI-8 work preserved and
 not accepted by this slice. New follow-ons remain recommendations; no PC/item condition consent widening.
 
@@ -2391,7 +2599,7 @@ not accepted by this slice. New follow-ons remain recommendations; no PC/item co
 Main HQ freezes a separately versioned `authored-condition:v1` control profile in the existing installed
 registry. Narrow Wizard control mapping, shared association inspection, canonical C2 manual-duration
 record, existing spell attempt/binder/panel/feed and P7 guard are writable. One exact admitted creature
-→ distinct creature, current GM, explicit successful outcome, atomic authored AP/mana+Stunned, manual
+â†’ distinct creature, current GM, explicit successful outcome, atomic authored AP/mana+Stunned, manual
 expiry only. A1a/W1/Class/Heritage/card bytes protected; existing five dirty docs preserved. No PC/item
 execution, mixed effects or C4 schedule widening. Exact bytes, focused evidence and one review follow.
 
@@ -2405,7 +2613,7 @@ Standalone providers keep their existing persistence behavior. No W1 serializer/
 PASS/Build2-App6 PASS. Exact Self healing reuses merged one-actor P7 path; narrow pending baseline,
 server-verified actual restoration, launcher/panel and public admission lifecycle projection. Final91
 server/4 suites29 client; reviewer independently18 A6+47 A4/A5/A1 and55/protected7/44-client hashes.
-Build/App independently appraised, not reviewer-executed. Gatea6018f87… at external HEAD76012be8;
+Build/App independently appraised, not reviewer-executed. Gatea6018f87â€¦ at external HEAD76012be8;
 unrelated Class drift and four fetch errors/fixture/live-only/device limits retained. [Next recommendation](MYTHRILL_PROJECT_14_AUTHORED_CONDITION_RECOMMENDATION.md)
 separates authored application/source from canonical mechanics, manual duration, atomic payment,
 independent instances and whole mixed-effect refusal. Class field mapping needs separate coordination;
@@ -2426,11 +2634,11 @@ custody families remain owners; no new engine/storage. A1a/W1/Class/Heritage and
 Entry master14b21cfe includes dirty accepted A4 fixes and concurrent Class/UI work, with fresh-context
 patches preserving them. Later RulesPage/ClassDetailDisplay/talent-tree/class-icon work is unrelated
 concurrent drift. [Final A5 acceptance](MYTHRILL_PROJECT_14_A5_ACCEPTANCE.md) records79 server/47 client,
-Build5/App6 PASS and same-review repaired qualified ACCEPT; gate269f83e2… binds53 runtime/protected7/
+Build5/App6 PASS and same-review repaired qualified ACCEPT; gate269f83e2â€¦ binds53 runtime/protected7/
 recorded client inputs. Independent static hashes/evidence appraisal, zero independent target execution;
 four fetch errors and provider/cloud/live-only/device limits retained. Class semantics remain separately
 owned and unreviewed by this execution slice despite their current bytes being included in Build5.
-Late map/drawing/touch work is also preserved: handoff drift6f23010f… at07:18:56Z names9 recorded
+Late map/drawing/touch work is also preserved: handoff drift6f23010fâ€¦ at07:18:56Z names9 recorded
 client inputs plus unlisted additions, with A5 runtime53/protected7 unchanged. Full-current-tree build
 parity is not claimed; same reviewer independently confirmed the late-drift addendum.
 
@@ -2445,11 +2653,11 @@ creature-only installed versions cannot inherit PC permission from compiler synt
 shared command custody, writer/receipt and C2 gates remain owners. Source, tests, optimized App/build,
 same-review repair/evidence provenance and concurrent external Git drift are in
 [A4 acceptance](MYTHRILL_PROJECT_14_A4_ACCEPTANCE.md). No Class/Heritage/RI-2/ancestral or overflow/progression
-edits by this agent. [Next creature→PC preparation](MYTHRILL_PROJECT_14_A5_CREATURE_PC_PREPARATION.md) reuses
+edits by this agent. [Next creatureâ†’PC preparation](MYTHRILL_PROJECT_14_A5_CREATURE_PC_PREPARATION.md) reuses
 P12B owner consent/block/wear; healing policy remains an explicit decision. No implementation assigned.
 
-**P14-A4 authorized/frozen, 2026-10-22 — before runtime writes:** exact GM-controlled placed
-creature → distinct placed creature only. [A4 contract](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md)
+**P14-A4 authorized/frozen, 2026-10-22 â€” before runtime writes:** exact GM-controlled placed
+creature â†’ distinct placed creature only. [A4 contract](MYTHRILL_PROJECT_14_A4_SOURCE_AUTHORITY_CONTRACT.md)
 freezes source-incarnation/association admission under protected actorContract, existing installed
 registry/P9 custody/payment/P7 atomic install and C2 rechecks. Shared writes: admission/controller/
 planner/host, CreatureAbilityDetails and inspect mount, handler/payment/installed lookup/socket set,
@@ -2461,8 +2669,8 @@ records scope before edits; [acceptance](MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md) p
 writes only shared compact form options, Creature Wizard/context/Step3 and whole-record preservation,
 duplicate/placement/propagation isolation, inspect/manual status, tests/witness/status docs. No Spell
 Wizard/export/W1/compiler/engine/Class/Heritage writes. Actual producer/admission delivered; no creature
-cast. One review F1–F3 repairs accepted; Build1/App9 independently appraised. Concurrent external commits
-and later overflow UI drift retained; no full current-tree build parity or deployment claim. §11 handoff.
+cast. One review F1â€“F3 repairs accepted; Build1/App9 independently appraised. Concurrent external commits
+and later overflow UI drift retained; no full current-tree build parity or deployment claim. Â§11 handoff.
 
 **P14-A1 closure, 2026-10-22:** [implementation/evidence](MYTHRILL_PROJECT_14_A1_CONTRACT.md#implementation-and-verification--2026-10-22),
 [same-reviewer repaired ACCEPT](MYTHRILL_PROJECT_14_A1_ACCEPTANCE.md). Real Wizard2 definitions, explicit0
@@ -2472,9 +2680,9 @@ free remote actions compare-and-set unchanged AP within existing P7 bounds.10 se
 seams and client checks pass; Build4 exit0/drift[]/16-client parity, App7 PASS/22-runtime parity. Reviewer
 independently read source/evidence and measured hashes, did not execute runs. Seven protected identities
 unchanged.3 fetch errors and provider/lease/cloud fixtures/live-only App limits retained. Entry/final
-master/ad93fd78 unchanged; no Git writes or Class/heritage content/grant/ID/migration changes. §9 handoff.
+master/ad93fd78 unchanged; no Git writes or Class/heritage content/grant/ID/migration changes. Â§9 handoff.
 
-**P14-A1 authorized/frozen, 2026-10-22 — before production writes:** user authorizes the bounded
+**P14-A1 authorized/frozen, 2026-10-22 â€” before production writes:** user authorizes the bounded
 Wizard-authored immediate ability pilot in [A1 contract](MYTHRILL_PROJECT_14_A1_CONTRACT.md).
 Main HQ owns installed authority/execution. Narrow coordinated Class-owned writes: Review retains whole
 draft and explicit range0; library mounts admission controls. W1 resource editor/manager/serializer and
@@ -2487,7 +2695,7 @@ Actual production Spellbook trace adds `ExternalLivePreview.jsx` (the visible Co
 `SpellwizardApp.jsx` normal save/reopen identity, Step2 explicit immediate ACTION selection and Step4
 range0 initializer/validation/control. These are narrow producer preservation/choice writes under the
 same A1 authorization. No resource editor/manager/serializer rewrite or other export cleanup.
-Production library→Wizard edit also needs a transient, owner-guarded request in the existing spellbook
+Production libraryâ†’Wizard edit also needs a transient, owner-guarded request in the existing spellbook
 UI store: the library tab unmounts the Wizard, so the old event-before-mount loses the edit. The same
 normal reopen mapping consumes the request after mount; no persistence family or authority is added.
 
@@ -2497,11 +2705,11 @@ removal, exact corrections and manual fallbacks. Fresh canonical own-turn PC Def
 named C3 Bash strictly-next-target-end only.8 server/15 client cases +4 independent probes; same-review
 capacity/retirement repairs ACCEPT; Build2 compilation0/recorded drift[] and production-App4 PASS.
 Source identity18 runtime/12 client dependencies, one clean receiver CRLF/LF caveat; external commits
-advanced9e653fc4→f23bab5b→ad93fd78, not this agent's Git write. Existing sandbox guards preserved.
-Ancestry directive/reuse/missing/owner/follow-on map in §8; heritage12 cross-link only. No grant/ID/number/
+advanced9e653fc4â†’f23bab5bâ†’ad93fd78, not this agent's Git write. Existing sandbox guards preserved.
+Ancestry directive/reuse/missing/owner/follow-on map in Â§8; heritage12 cross-link only. No grant/ID/number/
 Wizard/A1a/card/resource/migration changes; no recurring executor, general racial timers or A1b.
 
-**P14-C4 authorized/frozen, 2026-10-21 — before production writes:** creator authorizes bounded
+**P14-C4 authorized/frozen, 2026-10-21 â€” before production writes:** creator authorizes bounded
 authenticated turn expiry and ancestry interface handoff. [C4 contract](MYTHRILL_PROJECT_14_C4_CONTRACT.md)
 records verified timer seams, strict GM adoption/next occurrence, canonical PC Defending and named C3
 Shield Bash only, manual fallback/one-round preservation. Writable: new server sharedEffectLifecycle;
@@ -2523,14 +2731,14 @@ using the existing silent combat hydration owner; no recurring/resource behavior
 **P14-C3 closure, 2026-10-21:** [contract/evidence](MYTHRILL_PROJECT_14_C3_CONTRACT.md#implementation-and-evidence).
 GM-only named manual result, explicit source/target, one result/record/P7-command UUID; same shared
 controller/editor/custody/history, canonical C2 Stunned/end-target-next-turn manual expiry.6 production
-cases +9 controller tests (3 C3); one bounded F1 update-transition BLOCK→repaired ACCEPT. Build1 exit0/
+cases +9 controller tests (3 C3); one bounded F1 update-transition BLOCKâ†’repaired ACCEPT. Build1 exit0/
 C3 six-client-file parity[]; production-App2 PASS,4 blocked-provider fetch errors retained. Current
 `master/9e653fc4` advanced externally; unrelated RoomLobby build drift and concurrent Class/race/RI-2/
 account/room/spell edits are outside acceptance. Protected W1/A1a/universal cards unchanged, parent
 checkpoint preserved. C1/C2 acceptance reused. No new execution/payment/recovery path, A1b, agent Git
 writes or full Shield Bash/P14 completion claim.
 
-**P14-C3 authorized/frozen, 2026-10-21 — before writes:** creator authorizes named Shield Bash
+**P14-C3 authorized/frozen, 2026-10-21 â€” before writes:** creator authorizes named Shield Bash
 manual-result adapter. [C3 contract](MYTHRILL_PROJECT_14_C3_CONTRACT.md) freezes result/condition/P7
 command UUID identity, exact source/target and GM-only direct result administration. Writable: new pure
 `shieldBashResult.js`, additive sharedConditionService, thin ShieldBashResultForm in existing shared
@@ -2548,7 +2756,7 @@ provider/cloud fixtures and4 blocked-fetch errors retained.29 reviewed runtime d
 current `master/8d23e50b` comes from a concurrent external commit, not this agent's Git write.
 Class/race/RI-2 checkpoint and W1/A1a/card bytes preserved. P14/A1b/full lifecycle remain open.
 
-**P14-C2 authorized/frozen, 2026-10-21 — before source edits:** creator directs bounded Stunned
+**P14-C2 authorized/frozen, 2026-10-21 â€” before source edits:** creator directs bounded Stunned
 implementation using C1. [C2 contract](MYTHRILL_PROJECT_14_C2_CONTRACT.md) names exact writable files:
 closed profile/controller/editor/catalogue/token adapters; shared P7 stage/approval checks; token,
 character and creature movement handlers plus post-await debouncer settlement; focused tests/App witness
@@ -2561,16 +2769,16 @@ and routes exact HUD removal through the same shared controller; `riposteService
 `weaponStrikeService.js` and `spellConsequence.js` classify the new authoritative `actor_stunned`
 refusal truthfully while retaining command/roll custody. These are bounded adapters, not execution paths.
 
-**P14-C1 closure, 2026-10-21:** [§6](MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification)
-records one independent BLOCK→repair→ACCEPT review and final24-file identity. Adapter repairs hide/guard
+**P14-C1 closure, 2026-10-21:** [Â§6](MYTHRILL_PROJECT_14_C1_CONTRACT.md#6-implementation-and-verification)
+records one independent BLOCKâ†’repairâ†’ACCEPT review and final24-file identity. Adapter repairs hide/guard
 the old token X and preserve canonical Defending on custom-title collision. 50 server/33 client tests;
 final2 C1 restore/pruned-receipt cases pass. Build3 compilation exit0, C1 mismatches `[]`; concurrent
-Class `Step1CoreDraft.jsx` drift is disclosed, not accepted. Real-App11 token↔sheet/GM/observer,
+Class `Step1CoreDraft.jsx` drift is disclosed, not accepted. Real-App11 tokenâ†”sheet/GM/observer,
 actual doubled/no-wear blocks, pending exact removal/retained face, lost ACK/reload/same-command,
 reconnect and checkpoint-codec proof pass. Manual action/payment/expiry remains explicit. Class/race/
 RI-2 work and E1a/W/B2 acceptance preserved; external evidence only, no commit/push/deployment.
 
-**P14-C1 authorized/frozen, 2026-10-20 — source writes before edits:** Combat adds one shared pure
+**P14-C1 authorized/frozen, 2026-10-20 â€” source writes before edits:** Combat adds one shared pure
 `services/sharedConditionProfile.js` +closed JSON definition, `sharedConditionService.js`/custody and
 `SharedDefendingEditor.jsx`/entry/host with styles/tests. Existing P7 condition stage gets a strict named
 profile guard; both Defending predicates delegate to the same pure implementation. Normalizer preserves
@@ -2594,13 +2802,13 @@ the accepted resource/E1a/W/B2 paths. E1a acceptance is carried forward, not re-
 claim repairs and same-review identity handoff; original RED probes retained. Focused server58/client27,
 optimized Build1 exit0/drift[] and real GM/owner/observer App2 PASS. Both origins, exact1 AP/no second
 Parry debit, physical/digital retained rolls, AP competition/reapproval/paid miss, accepted HP floats/
-narration and lost ACK/delivery→real reconnect→same-command receipt are verified. No new broad audit.
+narration and lost ACK/deliveryâ†’real reconnectâ†’same-command receipt are verified. No new broad audit.
 Exact15 runtime/test/witness/evidence hashes and explicit build coverage:
-[P13B §13](MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19).
+[P13B Â§13](MYTHRILL_PROJECT_13B_CONTRACT.md#13-e1a-implementation-and-verification--2026-10-19).
 Concurrent commits advanced build HEAD to `f9527d31`; this agent made no commit/push/reset/deployment.
 Class/race edits were preserved and are not accepted by E1a verification.
 
-**E1a implementation authorized/frozen, 2026-10-19 — writable scope before edits:** Combat adds named
+**E1a implementation authorized/frozen, 2026-10-19 â€” writable scope before edits:** Combat adds named
 `server/services/riposteExecution.js` and focused tests, extends the existing `strikeApprovals.js`,
 `actorConsequenceHandlers.js` and P7 named-binder/receipt guards in `actorConsequences.js`; additive
 authoritative routing/rate limits in socketHandlers/rateLimitService. `reactionWindows.js` gains only
@@ -2616,10 +2824,10 @@ E1a custody registration is additive in `src/persistence/privateStorageRegistry.
 recoverable sibling family for Riposte bytes, using existing scoped-native helpers. No legacy key
 retirement, schema migration or change to basic-strike custody; focused registry checks only.
 
-**Historical E1a contract preparation (superseded by explicit authorization/delivery), 2026-10-19:** Main HQ writes existing P13B §12, this coordination
+**Historical E1a contract preparation (superseded by explicit authorization/delivery), 2026-10-19:** Main HQ writes existing P13B Â§12, this coordination
 document, ENGINEERING_STATE/CURRENT_PRIORITIES and the existing creator packet. Collector W remains
-complete at §11's accepted identity; no review/build repeated. Proposed future shared writes are
-bounded in §12; no application file is assigned for editing now. Class HQ retains card content,
+complete at Â§11's accepted identity; no review/build repeated. Proposed future shared writes are
+bounded in Â§12; no application file is assigned for editing now. Class HQ retains card content,
 private/domain semantics, Wizard/export work and RI-1 correction files/checkpoint. Universal card data
 is read-only and hash-pinned; no stable IDs, save migration or A1b integration. Execution code needs
 separate approval after this contract; other roadmap tracks remain visible, not delivered by E1a.
@@ -2634,10 +2842,10 @@ payments/effects/A1b or Class RI-1 correction writes. E1a below is a proposal re
 service regression: **BOUNDED DELTA ACCEPTANCE, no remaining blockers**;3 targeted probes only.
 Current W client bytes match retained Build3 (`exit0`, `drift[]`) and App4 (`PASS`) with asset manifest
 `84547e1ea7d908471eda1aee12d76cc833b48e1b9e56cb815b8acf482e5bbe01`. Exact integrated source/tests/witness,
-review and result hashes are centralized in [P13B §11](MYTHRILL_PROJECT_13B_CONTRACT.md#11-w-implementation-and-integrated-handoff--2026-10-19).
+review and result hashes are centralized in [P13B Â§11](MYTHRILL_PROJECT_13B_CONTRACT.md#11-w-implementation-and-integrated-handoff--2026-10-19).
 No runtime edits after that review; closure documentation updates do not alter the integrated bytes.
 
-**P13B-W creator-approved implementation, 2026-10-19 — source writes announced before edits:**
+**P13B-W creator-approved implementation, 2026-10-19 â€” source writes announced before edits:**
 new `server/services/reactionWindows.js`, `server/handlers/reactionWindowHandlers.js`, focused
 `server/tests/p13bWindows*.test.js`; additive registration in `server/handlers/socketHandlers.js` and
 event limits in `server/services/rateLimitService.js`. New client `services/reactionWindowService.js`,
@@ -2658,7 +2866,7 @@ Record the creator's completed B2 acceptance without widening or rerunning it. N
 no application, A1b, resource reservation, class or Laws edits. Parent active checkpoint belongs to
 RI-1 Phase2 (ClassResourceBar/detail/progression work); preserve its writable paths and recovery state.
 
-**B2 §8.1 creator-authorized implementation, 2026-10-18 (announced before source edits):** Combat writes
+**B2 Â§8.1 creator-authorized implementation, 2026-10-18 (announced before source edits):** Combat writes
 `store/spellAoEStore.js`, `store/targetingStore.js` (one mutually exclusive map interaction),
 `components/grid/SpellAoEOverlay.jsx` (existing mount routes the action mode), new
 `components/grid/ActionAreaPreview.jsx`/CSS and `services/areaPreview.js` (bounded profile/geometry),
@@ -2674,7 +2882,7 @@ The reviewer demonstrated stale overlay names before passive registry cleanup. R
 accepted receipt arithmetic, floats, narration, sockets and rejoin closure stay unchanged. Focused
 visibility/feed regressions cover this narrow mount.
 
-**B2 closure:** final identities/review/build/App are in B2 §15. Existing ledger/priorities are updated;
+**B2 closure:** final identities/review/build/App are in B2 Â§15. Existing ledger/priorities are updated;
 roadmap and next-slices receive only top-level current-status pointers. No new plan or wider authorization.
 
 Each change is bounded as stated; none touches class data, class IDs, class-resource state, the Spell Wizard or
@@ -2684,14 +2892,14 @@ A1a.
 |---|---|
 | `PartyHUD.jsx` | One line: mounts `<AcceptedResultNarration />` last in the actor-consequence layer; ClassResourceBar untouched |
 | `SpellActionBar.jsx`, `ActionBar.jsx` | In a shared room, an action without P8/P9/P12A support posts a manual notice and returns before any spend; supported routing and local play unchanged |
-| `SpellCastConfirmation.jsx` | Wording "Manual — the VTT applies nothing"; button "Post manual notice" |
+| `SpellCastConfirmation.jsx` | Wording "Manual â€” the VTT applies nothing"; button "Post manual notice" |
 | `CreatureToken.jsx`, `CharacterToken.jsx` | One mount of `TokenCombatFloats` |
 | `Grid.jsx` | Mounts `TargetPickOverlay` beside the area-template overlay |
 | `components/multiplayer/socketHandlers/roomLifecycleHandlers.js` (shared socket lifecycle) | Closure 2026-10-18: its `room_joined` listener is registered through `registerRoomJoinedListener` (join handling first, then the rejoin relay); no new listener |
 | `PartyHUD.jsx` (again) | Closure: the layer `div` mount became `<ActorConsequenceLayer>` (bounded, collapsible); ClassResourceBar untouched |
 | `SpellConsequencePanel.css` | Closure: layer height/width bounds, collapse styles |
 
-**Historical documentation-only takeover, 2026-10-18 (superseded for B2 §8.1 and P13B-W only):** prepare B2/P13B drafts; revise the
+**Historical documentation-only takeover, 2026-10-18 (superseded for B2 Â§8.1 and P13B-W only):** prepare B2/P13B drafts; revise the
 existing batch1 creator packet (retain revision1 as collapsed history); update this shared table, ledger,
 priorities, roadmap and next-slices pointers/status. No shared application-file edit is assigned or made.
 The pre-existing dirty combat/class/source/assets and staged deletions remain concurrent work. This
@@ -2704,22 +2912,22 @@ Class C1's concurrent correction files and main-space checkpoint remain owned by
 
 **Main HQ continuation, 2026-10-18:** documentation writes limited to this coordination document, B2,
 the existing decision packet, ENGINEERING_STATE and CURRENT_PRIORITIES. Prepare one ranged-circle
-freeze candidate (B2 §8.1), four immediate questions, and obstruction/revalidation/enforcement boundary
-(B2 §14); no application writes assigned. Class HeadQ retains the range0/maxTargets0/export-preservation
+freeze candidate (B2 Â§8.1), four immediate questions, and obstruction/revalidation/enforcement boundary
+(B2 Â§14); no application writes assigned. Class HeadQ retains the range0/maxTargets0/export-preservation
 investigation (row22): no semantics, correction or implementation handoff inferred. Main-space C1
 checkpoint is preserved; concurrent Main HQ recovery uses `projects/mythrill-vtt/targeting-contracts`.
 
 ## 6. Phase map
 
-- **P13A (done).** Generic HP feedback; class-resource presentation stays domain-specific (rows 2–3).
+- **P13A (done).** Generic HP feedback; class-resource presentation stays domain-specific (rows 2â€“3).
 - **P12C.** B1 (done) picks exact refs; the picker can later serve row5, with no execution claimed.
-  [B2 §8.1](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#15-first-slice-implementation-and-verification--2026-10-18)
+  [B2 Â§8.1](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#15-first-slice-implementation-and-verification--2026-10-18)
   complete/accepted at retained identities (row19); wider B2 remains conditional.
   Its [complete targeting/propagation inventory](MYTHRILL_PROJECT_12C_B2_CONTRACT.md#9-targeting-and-propagation-coverage-matrix)
-  keeps B2 static preview bounded; rows22–23 name authoring and later selection/path dependencies.
+  keeps B2 static preview bounded; rows22â€“23 name authoring and later selection/path dependencies.
 - **P13B.** [W declaration-only contract](MYTHRILL_PROJECT_13B_CONTRACT.md#11-declaration-only-first-slice--conditional-change-contract)
   delivered/reviewed/integrated under approved D13-6b/11/10 (rows7/20/21). **Collection, not automated
-  reactions.** E1a original Riposte is subsequently delivered (row25/§13): both entries share one fresh
+  reactions.** E1a original Riposte is subsequently delivered (row25/Â§13): both entries share one fresh
   opportunity and explicitly owner/GM-approved P7 execution. Parry truth/payment remains GM-attested.
   Four broader cases/automatic triggers stay manual; other typed execution still needs rule1.5.
 - **P14.** Approved consequence capabilities, one at a time. **P14 completion does not mean every reconstructed
@@ -2752,13 +2960,13 @@ checkpoint is preserved; concurrent Main HQ recovery uses `projects/mythrill-vtt
     piercing/prose ricochet, persistent movement and future recipients are inventoried, not automated.
     A chain drawing supplies no multi-actor payment or atomicity. Class/movement/lifecycle follow-ons stay
     separate; no universal next-recipient, range, visit, collision, decay, roll or payment rule is chosen.
-7. **Frozen/implemented first subset:** creator approved B2 §8.1 original ranged Radiant Burst
+7. **Frozen/implemented first subset:** creator approved B2 Â§8.1 original ranged Radiant Burst
    circle/channel and G1/G3/G3a/G5; recipient conflict explicit. G1b/G3b/G4
-   remain independent manual/out-of-subset decisions. B2 §14 prepares obstruction diagnostics and later
+   remain independent manual/out-of-subset decisions. B2 Â§14 prepares obstruction diagnostics and later
    server enforcement (row24), not wall/cover/elevation rules or implemented validation. Class C1 is
     concurrently under correction; its content/workshop work and parent-space checkpoint stay untouched.
 
-## 8. Ancestral Loadout directive — shared capability/interface handoff
+## 8. Ancestral Loadout directive â€” shared capability/interface handoff
 
 **Creator direction recorded 2026-10-21.** No saved loadout planning document was found during this
 focused handoff. This records the supplied directive in the existing coordination structure; it is not
@@ -2778,7 +2986,7 @@ decision; no production migration or automatic removal/replacement of existing g
 | Permanent loadout validation/finalization |25-row heritage registry; P5/P6 scoped drafts/save; existing grants/access contracts | No authoritative exactly-one-per-pair/permanent finalization receipt; **Class/Heritage +shared authority** | Freeze one definition-set/version and pure validator, then one immutable finalization command/compatibility decision; no backfill migration |
 | Selected ability identity/version | Stable heritage IDs, authored definition/hash groundwork (A1a), P7 exact provenance | No installed trusted ancestry definition/loadout registry; **Class authoring +Combat admission** | Exact core/pair/choice IDs and content hash interface, preserving legacy grants; installed admission only under separate authorization |
 | Active AP/HP consequences | P7 atomic actor CAS/receipts; named P9/P12/E1a paths and domain resource owners | No arbitrary ancestry execution; **Combat**, with **Class** authored prices/results | One named ability with exact consent, retained roll and typed price/result witnesses; no direct client HP write or racial payment service |
-| Conditions/temporary effects | C1–C3 shared definitions/controller/records; C4 bounded authenticated timing (only after delivery) | Other effect profiles/durations/source admission; **Combat**, shared source contracts | One source-supported canonical condition adapter or one reviewed timing profile through the same P7/timing owner |
+| Conditions/temporary effects | C1â€“C3 shared definitions/controller/records; C4 bounded authenticated timing (only after delivery) | Other effect profiles/durations/source admission; **Combat**, shared source contracts | One source-supported canonical condition adapter or one reviewed timing profile through the same P7/timing owner |
 | Turn-triggered regeneration | P7 common-pool result admission; combatStore currently proposes manual resource results | No accepted exactly-once authored recurring trigger/price semantics; **Combat +Class rules** | One regeneration definition/occurrence/idempotent AP/HP command, separate from C4 expiry; no client tick claiming an authoritative trigger |
 | Suppression/stacking | Structured effects and narrow Inquisitor assistance adapter; independent condition sources | No general suppression order/stack groups; **Class rules +Combat** | Freeze one named interaction and structured rule; presentation buff/debuff labels do not define stacking |
 | Movement/environment predicates | Exact actor refs, C2 voluntary-movement guard, advisory B1/B2 geometry | No authoritative environment/LoE/water/light/terrain predicates; **map/Combat +Class** | One settled predicate with authoritative source/freshness and manual unknown state; no inferred racial bonuses |
@@ -2810,13 +3018,13 @@ unsupported metadata but must not advertise it as executable. No second effects/
 **Producer extension delivered:** P14-A2 below adds Item Wizard authoring/access for the same shape and
 existing source eligibility. Future damage+conditions, self-costs/multiple components, specified-duration periodic
 changes, expiration outcomes, suppression/stacking/recharge, reaction chains, obstruction/propagation
-and environmental/tile predicates remain in roadmap §14. Class/Heritage owns its content,175 potential
+and environmental/tile predicates remain in roadmap Â§14. Class/Heritage owns its content,175 potential
 definitions, selection/finalization and legacy compatibility; Main HQ owns shared execution. No new
 Gambler/Fate Weaver/Chaos Weaver/ancestry admission, racial numbers/regen/edge grants, ID rename or migration.
 
 ## 10. P14-A2 Item producer ownership and Creature Wizard handoff
 
-[Frozen boundary, implementation and evidence](MYTHRILL_PROJECT_14_A2_CONTRACT.md) ·
+[Frozen boundary, implementation and evidence](MYTHRILL_PROJECT_14_A2_CONTRACT.md) Â·
 [bounded independent acceptance](MYTHRILL_PROJECT_14_A2_ACCEPTANCE.md).
 
 | Seam / owner | Delivered / protected boundary |
@@ -2833,14 +3041,14 @@ GM adjudicates unsupported item requirements/effects. Original mixed/passive/on-
 manual; only an explicitly separate supported activated definition can enter A1. Edits require explicit
 re-admission; installed history and other item copies do not silently change. Lost ACK uses shared custody.
 
-One review repaired F1–F4 and accepted final bytes. Build3/App10 pass at recorded identities, qualified by
+One review repaired F1â€“F4 and accepted final bytes. Build3/App10 pass at recorded identities, qualified by
 five fetch errors and unrelated persistent P13 disconnected notice visibly overlaying upper Inventory
 after fixture rejoin. This does not close P13/live-network/physical-device/cloud/deployment gates or
 reopen accepted phases. All initial concurrent Class/Heritage/RI-2/A1/C4 work is retained.
 
 ## 11. P14-A3 Creature producer and separate source-authority handoff
 
-[Delivered producer](MYTHRILL_PROJECT_14_A3_CONTRACT.md) · [acceptance](MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md).
+[Delivered producer](MYTHRILL_PROJECT_14_A3_CONTRACT.md) Â· [acceptance](MYTHRILL_PROJECT_14_A3_ACCEPTANCE.md).
 
 | Seam / owner | Delivered / protected boundary |
 |---|---|
@@ -2868,11 +3076,11 @@ M2A remains unfinished and is excluded from Sol's integrated build/App acceptanc
 
 M3A (composed effects on player characters) is installed in D:\VTT through guarded reconciliation: 18 paths, live hashes checked against capture before writing, installed hashes re-read and matching the candidate manifest. Records: `handoff/m3a-delivery/reconciled/` (RECONCILIATION_NOTE.md, M3A_MILESTONE_RECONCILED.md, RECONCILED_CANDIDATE_MANIFEST.json, SHA256SUMS.txt, evidence/). The original `m3a-delivery` archive and manifests are unchanged.
 
-- Comparable final identity of the original delivery: `d69413d11bdc610bb7bb0ddddf758146957aae02bd692c9ae0d9c828ff47feb8`; `3de8fc69…` was a superseded hashing method; the stale `server/logs` entry is runtime-log, separate from source verification (patch reproduces 17/17).
+- Comparable final identity of the original delivery: `d69413d11bdc610bb7bb0ddddf758146957aae02bd692c9ae0d9c828ff47feb8`; `3de8fc69â€¦` was a superseded hashing method; the stale `server/logs` entry is runtime-log, separate from source verification (patch reproduces 17/17).
 - Temporary policy gates (pending creator decisions): equipment-blocking-applicable bundles and zero-damage PC-target bundles are refused atomically with diagnostics; ordinary A5 blocking unchanged. Verified at offer, approval and final acceptance; UI-verified with retained custody and a following supported offer with no duplicate effects.
 - Evidence: M3A used throwaway browser sessions; no persistent-profile or resumability claim.
 - M2A: original installation snapshot preserved; later checksummed artifacts in `handoff/m2a-integration/` carry verification (229 server, 134 client, build 0, app5 pass, 133 checksums verified). Not rerun.
-- Auth: the M3A-verified build (files-hash `2f2195b3…`) EXCLUDED auth (authStore `745fa66f…`). A separate build (`4b14d748…`) contained final `authStore.js` `6591022a…` and `waveA_guestLoginCorrection.test.js` `6791ca08…` plus the M3A candidate; the guest walkthrough (Login → Guest → create → save → reload → edit) passed there with Firebase mocked at the network layer (not real Firebase). Private-scope isolation, race safety and the failed-second-attempt path are not established; uid-divergence recorded as a qualification. Live auth files were not modified by M3A.
+- Auth: the M3A-verified build (files-hash `2f2195b3â€¦`) EXCLUDED auth (authStore `745fa66fâ€¦`). A separate build (`4b14d748â€¦`) contained final `authStore.js` `6591022aâ€¦` and `waveA_guestLoginCorrection.test.js` `6791ca08â€¦` plus the M3A candidate; the guest walkthrough (Login â†’ Guest â†’ create â†’ save â†’ reload â†’ edit) passed there with Firebase mocked at the network layer (not real Firebase). Private-scope isolation, race safety and the failed-second-attempt path are not established; uid-divergence recorded as a qualification. Live auth files were not modified by M3A.
 - Class HeadQ notice: no reachable peer session; this entry is the notice.
 - Build slot: RELEASED by M3A (cloud-only scratch builds; no PC build, ports or profiles used).
 
@@ -2880,11 +3088,11 @@ M3A (composed effects on player characters) is installed in D:\VTT through guard
 
 Status: **client correction implemented and handler-tested; ordinary-UI verification of the production build ran only against a mocked-Firebase fixture backend (below). Real-Firebase and campaign-room guest verification are NOT done.**
 
-- authStore `6591022a…` unchanged. Guest user is a plain object (no `getIdToken`): production guests connect tokenless (server admits as guest; presence id `guest-<socketId>`; client uids ignored). `dev-token-<store uid>` is non-production only; the production middleware rejects it.
-- Defects fixed (only `vtt-react/src/store/presenceStore.js`, sha `0927dd4a…`): production dev-token send; no principal/generation check after `await getIdToken()`; connect_error fallback reused a captured token; unregistered auth store now fails closed (no socket).
+- authStore `6591022aâ€¦` unchanged. Guest user is a plain object (no `getIdToken`): production guests connect tokenless (server admits as guest; presence id `guest-<socketId>`; client uids ignored). `dev-token-<store uid>` is non-production only; the production middleware rejects it.
+- Defects fixed (only `vtt-react/src/store/presenceStore.js`, sha `0927dd4aâ€¦`): production dev-token send; no principal/generation check after `await getIdToken()`; connect_error fallback reused a captured token; unregistered auth store now fails closed (no socket).
 - Tests: `persistence/__tests__/waveA_guestPresenceSocketIdentity.test.js` (13: token, delayed token, fallback after logout / generation-only / guest A->B, unregistered store, retirement on logout), `server/tests/guestPresenceIdentity.test.js` (7, real socket.io + real middleware + real handlers; only token verification faked). One bounded reviewer pass over the first fix and one over the fallback/fail-closed repair.
 - Build/browser witness: identities and scripts in `handoff/guest-presence-witness/` (BUILD_IDENTITY.json, witness*.cjs, witness-evidence.json). Build made in an isolated cloud container (no PC build slot, ports or profiles used; no active reservation was recorded after M3A's 11-01 release). Real: production bundle (NODE_ENV=production), real socket.io + real production middleware/handlers (token verification stub only). Mocked: Firebase Auth/Installations/Firestore at the network layer (dummy config), unsigned structural JWT never sent to the backend.
-- Evidence: guest login -> tokenless socket; restored guest presence `guest-<socketId>`; transport drop -> old identity leaves presence, reconnect registers a fresh `guest-<newSocketId>`; reload -> single presence; logout -> presence gone and still gone 9 s later; local rooms/characters byte-identical; markers cleared. Guest create_room/join_room refused ("Authentication required") and `dev-token-*` handshake rejected — that is the campaign-room boundary, separate from social presence.
+- Evidence: guest login -> tokenless socket; restored guest presence `guest-<socketId>`; transport drop -> old identity leaves presence, reconnect registers a fresh `guest-<newSocketId>`; reload -> single presence; logout -> presence gone and still gone 9 s later; local rooms/characters byte-identical; markers cleared. Guest create_room/join_room refused ("Authentication required") and `dev-token-*` handshake rejected â€” that is the campaign-room boundary, separate from social presence.
 - Limits: first-login presence registration waits on a Firestore write ack not emulated here (witness reloads to exercise the restored-guest path); real Firebase, campaign-room guest play, failed-second-guest-attempt through the UI, and a build with the project's real env remain unverified. Multiplayer guest verification is therefore still pending (ordinary-UI, real services).
 
 ### Guest campaign-access contract comparison and correction (2026-11-02)
@@ -2893,14 +3101,14 @@ Status: **client correction implemented and handler-tested; ordinary-UI verifica
 - Adopted: the existing account-required campaign boundary. Future guest joining is not permanently rejected.
 - Client change only: local guests no longer get `dev-token-*` outside production (`useSocketConnection.js` x2 + catch, `presenceStore.js`); non-guest dev users, admin/dev bypass without a guest user, and verified registered tokens unchanged. `RoomLobby.jsx` (+`MultiplayerApp.jsx` pass-through of `onShowLogin`, `RoomLobby.css`) shows "Online campaigns need a signed-in account" with a "Sign in or register" action and refuses create/join client-side for local guests. Guest drafts/characters untouched. Docs: `COMMERCIAL_READINESS.md` guest bullet now separates current / intended future / unresolved; H2 freeze not edited.
 - Tests: `guestDevTokenParity.test.js`, `RoomLobby.accountRequired.test.jsx`, updated `waveA_guestPresenceSocketIdentity.test.js`. No server, ownership, tier or retention change.
-- Browser check (cloud rebuild of the 5 changed files onto the witnessed tree; build JS hash 4a505cb5…; presenceStore 0dda5896…; RoomLobby ef9c9c48…; mocked Firebase, real production middleware): guest -> /multiplayer shows the notice, Create Temporary Room shows the account-required banner, "Sign in or register" opens the existing auth modal, local rooms/characters byte-identical, all handshakes tokenless. Evidence: `handoff/guest-presence-witness/lobby-witness.cjs`, `lobby-notice.png`, `lobby-signin.png`. A pre-existing generic banner ("A shadow falls across your path") can also appear from a server refusal; not changed.
+- Browser check (cloud rebuild of the 5 changed files onto the witnessed tree; build JS hash 4a505cb5â€¦; presenceStore 0dda5896â€¦; RoomLobby ef9c9c48â€¦; mocked Firebase, real production middleware): guest -> /multiplayer shows the notice, Create Temporary Room shows the account-required banner, "Sign in or register" opens the existing auth modal, local rooms/characters byte-identical, all handshakes tokenless. Evidence: `handoff/guest-presence-witness/lobby-witness.cjs`, `lobby-notice.png`, `lobby-signin.png`. A pre-existing generic banner ("A shadow falls across your path") can also appear from a server refusal; not changed.
 - Still open: real Firebase; first-login presence registration without reload (Firestore write ack not emulated); guest-join policy decision.
 
 ### Guest identity / account-required closure: final identities and release (2026-11-02)
 
-- Refresh-path regression added to `guestDevTokenParity.test.js` (11 tests): with the old condition on the `setupAuthChangeHandler` refresh path the two guest assertions fail (`Received "dev-token-anon-1"`); with the correction all 11 pass. Old condition was applied temporarily and the file restored byte-exact (`useSocketConnection.js` `00ce6461…`). No production change was needed.
-- Final live source (sha256 prefixes): presenceStore `0dda5896…`, authStore `6591022a…` (unchanged), useSocketConnection `00ce6461…`, RoomLobby.jsx `ef9c9c48…`, MultiplayerApp.jsx `1d350654…`, RoomLobby.css `92ced84a…`; tests: guestDevTokenParity `c8789ed0…`, RoomLobby.accountRequired `f992f59a…`, waveA_guestPresenceSocketIdentity `05cf46d5…`.
-- Witnessed builds (cloud container, mocked Firebase, real production middleware): (1) presence witness: presenceStore `0927dd4a…`, build JS `d04fce25…` — predates the dev-token guest guard and the lobby change; (2) lobby witness: the live files above except the later test-only edits, build JS `4a505cb5…`. The refresh-path correction in useSocketConnection was already in build (2) (same hash `00ce6461…`); the refresh test itself was added after and is jest-only. The presence witness (reconnect/reload/logout) was not rerun on build (2).
+- Refresh-path regression added to `guestDevTokenParity.test.js` (11 tests): with the old condition on the `setupAuthChangeHandler` refresh path the two guest assertions fail (`Received "dev-token-anon-1"`); with the correction all 11 pass. Old condition was applied temporarily and the file restored byte-exact (`useSocketConnection.js` `00ce6461â€¦`). No production change was needed.
+- Final live source (sha256 prefixes): presenceStore `0dda5896â€¦`, authStore `6591022aâ€¦` (unchanged), useSocketConnection `00ce6461â€¦`, RoomLobby.jsx `ef9c9c48â€¦`, MultiplayerApp.jsx `1d350654â€¦`, RoomLobby.css `92ced84aâ€¦`; tests: guestDevTokenParity `c8789ed0â€¦`, RoomLobby.accountRequired `f992f59aâ€¦`, waveA_guestPresenceSocketIdentity `05cf46d5â€¦`.
+- Witnessed builds (cloud container, mocked Firebase, real production middleware): (1) presence witness: presenceStore `0927dd4aâ€¦`, build JS `d04fce25â€¦` â€” predates the dev-token guest guard and the lobby change; (2) lobby witness: the live files above except the later test-only edits, build JS `4a505cb5â€¦`. The refresh-path correction in useSocketConnection was already in build (2) (same hash `00ce6461â€¦`); the refresh test itself was added after and is jest-only. The presence witness (reconnect/reload/logout) was not rerun on build (2).
 - Limits kept: Firebase Auth/Installations/Firestore mocked; first-login presence registration without reload not verified (Firestore write ack not emulated); real Firebase unverified; guest-join policy undecided.
 - UX follow-up (not changed): the lobby can show the older generic banner ("A shadow falls across your path") alongside the account-required notice after a server refusal; unify it with the notice.
 - Ownership: guest identity / multiplayer auth closure owner released. No commit, push, deployment or migration. Cloud scratch (build, witness server) is disposable and holds no PC build slot, ports or profiles.
@@ -2913,7 +3121,7 @@ Scope: suspected `summonConfig` / `summoningConfig` consumer incompatibility (Wi
 - **One defect reproduced (display only):** the library card projection (`SpellLibrary.jsx` `mapSpellToUnifiedFormat`) used `summonConfig || summoningConfig`, the reverse of Wizard reopen, `spellNormalizer.normalizeSummoningConfig` and `UnifiedSpellCard` (`summoningConfig` first). When both names exist (e.g. a legacy record edited and saved in the Wizard) the library card showed the stale pre-edit summon while edit/reopen used the new one. RED before, GREEN after.
 - **Fix (one hunk, `SpellLibrary.jsx` only):** `summonConfig: spell.summoningConfig || spell.summonConfig || null` plus a 2-line comment. Stored records untouched; no field renamed or duplicated; alternate payload never merged.
 - **Ownership:** no M4B claim on `SpellLibrary.jsx` / `SpellwizardApp.jsx` is recorded here and neither was modified since 19:27Z. Because M4B is active in `components/library/` (`CataloguePreparation.jsx` 20:27Z), the edit was a guarded exact-string hunk (live sha checked first), not a file overwrite. `SpellwizardApp.jsx` and the Wizard context were not touched. M4B: if you hold an unsaved copy of `SpellLibrary.jsx`, re-apply this one hunk (search `summonConfig: spell.`).
-- **Identities (sha256):** `SpellLibrary.jsx` before `e3d38b03…ee5a44d`, after `29183381…c3609fe` (CRLF preserved); new test `__tests__/summonDefinitionPreservation.test.jsx` `a6cf9901…2b54`; `SpellwizardApp.jsx` unchanged `9a2e0aad…b921`.
+- **Identities (sha256):** `SpellLibrary.jsx` before `e3d38b03â€¦ee5a44d`, after `29183381â€¦c3609fe` (CRLF preserved); new test `__tests__/summonDefinitionPreservation.test.jsx` `a6cf9901â€¦2b54`; `SpellwizardApp.jsx` unchanged `9a2e0aadâ€¦b921`.
 - **Tests:** new file 7/7; `SharedSpellLibrary`, `SpellLibraryGrimoire`, `UnifiedSpellCard` suites still pass. Fixtures are in-memory disposable records; persistence stand-in replaces scoped storage only (plus Firebase/assets mocks); no user library read or written.
 - **Not done:** no identified-build browser check of Wizard controls/card (no coordinated slot claimed); no focused review (display-precedence alignment only, serialization unchanged). Observed but not reproduced or changed: `utils/creatureAbilityUtils.js` `transformAbilityToSpell` reads only `summonConfig` while `creatureAbilityBuilders.summon` writes `summoningConfig` (creature-ability workflow, outside this task).
 - Ownership of this task released. No commit, push, deployment, migration or dependency change.
@@ -2929,7 +3137,7 @@ Scope: sheet MH/OH weapon tooltip/table, action-bar fan companion table, explici
 - Reported, unchanged: class `<select>` on the in-game sheet (`CharacterPanel.jsx` ~1153).
 - Ownership released.
 
-**Sonnet weapon-info UI — fan Table touch repair; ONE browser check requested, 2026-11-03:** cause of the r13
+**Sonnet weapon-info UI â€” fan Table touch repair; ONE browser check requested, 2026-11-03:** cause of the r13
 finding: `index.css` `@media (hover:none) and (pointer:coarse) { button:active { transform: scale(.98) } }` replaced the
 Table button's `transform: translate(0,-50px)` on press, so the button jumped ~50px from the finger and the synthesized
 mousedown/mouseup/click landed on `#root`; ActionBar's window click dismiss then closed the fan. Repair is CSS only in
@@ -2952,7 +3160,7 @@ Raw sha256: `ActionFanOutMenu.css 1f85103a20f0fbb2962b496a6191287fc156dd83abafae
 Record as **Playwright emulated touch** only, not physical-device proof; the 768px width is the smallest the phone gate admits
 (gate untouched). Ownership released; whoever holds the next build slot may fold this check into it.
 
-## Prepared weapon-touch closeout preflight — 2026-11-03 18:55Z
+## Prepared weapon-touch closeout preflight â€” 2026-11-03 18:55Z
 
 **Result: BLOCKED before launch; no prepared-run PASS or failure claimed.** Native Windows
 PowerShell 5.1 / Node v20.11.0 are available and Chrome exists at
@@ -2987,7 +3195,7 @@ the offered 4182 slot is relinquished. Sol's existing build/4187 reservation rem
 active lane. No implementation or witness edits, additional build, M4B rerun, commit, push,
 deployment or migration were performed by this preflight.
 
-## Weapon-touch completed artifact handoff / build slot released — 2026-11-03
+## Weapon-touch completed artifact handoff / build slot released â€” 2026-11-03
 
 The existing guarded build has finished: **build.exit 0**, `build.json.exit:0`,
 `frozenDrift:[]`. Reuse this artifact; no second compilation is needed:
@@ -3032,7 +3240,7 @@ This entry establishes artifact/CSS identity and source assertions, not browser 
 Results must be labelled **Playwright emulated touch, not physical-device proof**. No unrelated
 acceptance rerun, implementation edit, commit, push, deployment or migration.
 
-## Weapon-touch artifact-only browser closeout — PASS, 2026-11-03
+## Weapon-touch artifact-only browser closeout â€” PASS, 2026-11-03
 
 Reused the identified production artifact without compilation. Capture
 `9e258eb97457ff07fbdfbb08aed474b526343f277fc2f74351392227cf34b445`, asset manifest
@@ -3045,7 +3253,7 @@ with `APP_BUILD_DIR=D:\AppData\Temp\opencode\weapon-touch-closeout-20261103\prod
 `artifact-only-r3/result.json`: **passed:true**. Final executed witness SHA256
 `14f13535872d5d60ec5e1bf6ab597f8db630f37ac1cffddfa30cf06f364cdcc2`.
 
-**Actual results — Playwright emulated touch, NOT physical-device proof (768x900):**
+**Actual results â€” Playwright emulated touch, NOT physical-device proof (768x900):**
 - Quick Table tap opened the pinned table; browser event interval 0ms (synthetic tap), below 250ms.
 - Held Table press opened the pinned table; actual touch event interval ~290.4ms, with the programmed
   250ms hold; pressed button geometry equalled its resting box.
@@ -3057,8 +3265,8 @@ with `APP_BUILD_DIR=D:\AppData\Temp\opencode\weapon-touch-closeout-20261103\prod
   resource snapshots and build/witness identities. Fixture console logs include demo-mode Firebase
   and external-provider/network errors; this is fixture UI evidence, not cloud/persistence proof.
 
-**Bounded witness repairs only:** live entry identity was `4c2bf31c…`, already beyond reported
-`5502c5b3…`. First run (`artifact-only-r1`) passed held-touch checks but failed at reset because
+**Bounded witness repairs only:** live entry identity was `4c2bf31câ€¦`, already beyond reported
+`5502c5b3â€¦`. First run (`artifact-only-r1`) passed held-touch checks but failed at reset because
 Escape opened the captured build's global exit confirmation. Replaced only this touch reset with
 a real tap on the table Close button; Escape behavior remains a separately reported captured-build
 defect, not repaired or accepted here. Second run (`artifact-only-r2`) opened both ways but its
@@ -3091,8 +3299,8 @@ Scope: authoring preservation only (Wizard -> review -> save -> library/card -> 
 
 Scope: presentation only. One read-only component explains a saved ability's Prism compatibility in the Wizard review step and on the library card, using the existing `definitionFromWizard` result. No shared validator, admission, registry, payment, class-rule or catalogue change; no `collectAll`; no commit, push, deploy, migration, dependency change, build, port or browser profile.
 
-- **Files (new):** `components/spellcrafting-wizard/utils/executionCompatibility.js` `edd0cf48…8414`; `components/common/ExecutionCompatibility.jsx` `adb58ada…2cea4`; `.css` `eb337a6c…8ee`; `__tests__/ExecutionCompatibility.test.jsx` `cda79ba5…d5050`.
-- **Narrow hunks:** `library/AuthoredAdmission.jsx` (one import, old "Unsupported/manual" line replaced) `bec943ef…` -> `b9cd48a6…f897f277`; `steps/Step10Review.jsx` (one import, one JSX line) `84bc7335…` -> `ebd7e106…65608`. If you hold an unsaved copy of either, re-apply those hunks.
+- **Files (new):** `components/spellcrafting-wizard/utils/executionCompatibility.js` `edd0cf48â€¦8414`; `components/common/ExecutionCompatibility.jsx` `adb58adaâ€¦2cea4`; `.css` `eb337a6câ€¦8ee`; `__tests__/ExecutionCompatibility.test.jsx` `cda79ba5â€¦d5050`.
+- **Narrow hunks:** `library/AuthoredAdmission.jsx` (one import, old "Unsupported/manual" line replaced) `bec943efâ€¦` -> `b9cd48a6â€¦f897f277`; `steps/Step10Review.jsx` (one import, one JSX line) `84bc7335â€¦` -> `ebd7e106â€¦65608`. If you hold an unsaved copy of either, re-apply those hunks.
 - **Automated evidence:** 26 new tests plus the existing SharedSpellLibrary and SpellLibraryGrimoire suites pass (29 total). Wording asserted: never claims full automation or current cast eligibility; people-confirmations stay visible on supported routes; unsupported results are labelled "first detected blocker, not a full diagnosis". Fixture screenshots (stubbed store, outside the app) are in `handoff/exec-compat/` and are not App evidence.
 - **Manual cast verified in source:** in a shared room an unrouted action posts a chat notice and applies nothing (`manualActionGate`); an admitted supported action opens the existing P9 owner-approval panel; outside a shared room the existing local cast is unchanged and may spend local AP and mana. The new UI has no handlers or writes.
 - **Request to build owners (Sol / Main HQ):** please include these hashes in the next planned identified build and run one App witness: Wizard review -> save -> reopen -> library explanation -> existing admission/manual route. Cover a supported spell (GM Admit vs player "ask the GM"), a periodic and a summon spell (kept unchanged on reopen, Admit disabled, first detected blocker shown), and a shared-room cast of an unsupported and of an unadmitted supported spell with AP, mana, HP and class resource unchanged. Record the result as App evidence and label fixtures.
@@ -3100,28 +3308,28 @@ Scope: presentation only. One read-only component explains a saved ability's Pri
 - **Released:** implementation ownership of the six files above. The next build owner may take them as they stand; this lane holds no build, port, profile or file reservation.
 - Handoff: `handoff/exec-compat/HANDOFF.md`.
 
-## Bestiary ability authoring → combat (2026-11-06, implementation released; identified-build App witness NOT run)
+## Bestiary ability authoring â†’ combat (2026-11-06, implementation released; identified-build App witness NOT run)
 
-Scope: the ordinary Spell Wizard/library → Creature Wizard association → save → reopen → place → placed Inspect → existing exact-source admit/Use route. Opus (immediate-plus-periodic) and Sol (catalogue activation) lanes, execution semantics, payment planners and admission rules untouched.
+Scope: the ordinary Spell Wizard/library â†’ Creature Wizard association â†’ save â†’ reopen â†’ place â†’ placed Inspect â†’ existing exact-source admit/Use route. Opus (immediate-plus-periodic) and Sol (catalogue activation) lanes, execution semantics, payment planners and admission rules untouched.
 - **Existing design preserved:** `creature.authoredAbility = {schemaVersion:1, record, librarySpellId}` is a **detached copy** (no reference, no version pin on the template, no automatic update). Placement deep-copies it to the token; template edits never add/replace/remove it on placed tokens; placed Inspect shows the instance (or the GM-only server snapshot); execution needs exact placed-source admission by the GM. No copy-vs-reference decision was needed or changed.
-- **Gaps found and repaired (3 runtime files + 1 comment):** (1) no way to remove an assigned ability — explicit two-step "Remove activated ability" in `CreatureAuthoredAbility.jsx` (template only; keyboard focus managed); (2) `creatureStore.addCreature/addCreatureToken` threw on `JSON.parse(JSON.stringify(undefined))` once a key existed with value undefined, and `updateCreature` now drops the library key on explicit undefined (instances still excluded); (3) `updateUserCreature` uses `deleteField()` for an explicit undefined `authoredAbility`, because `updateDoc` merges and the sanitizer strips undefined. Invariant comment in `CreatureWizardApp.handleSave`. Not found broken: picker, adapter, legacy `abilities`, save/reopen, placement, placed Inspect/Use gating.
+- **Gaps found and repaired (3 runtime files + 1 comment):** (1) no way to remove an assigned ability â€” explicit two-step "Remove activated ability" in `CreatureAuthoredAbility.jsx` (template only; keyboard focus managed); (2) `creatureStore.addCreature/addCreatureToken` threw on `JSON.parse(JSON.stringify(undefined))` once a key existed with value undefined, and `updateCreature` now drops the library key on explicit undefined (instances still excluded); (3) `updateUserCreature` uses `deleteField()` for an explicit undefined `authoredAbility`, because `updateDoc` merges and the sanitizer strips undefined. Invariant comment in `CreatureWizardApp.handleSave`. Not found broken: picker, adapter, legacy `abilities`, save/reopen, placement, placed Inspect/Use gating.
 - **Tests:** new `CreatureAbilityAuthoringToCombat.test.jsx` (15) + existing CreatureAuthoredAbility (6) = 21/21; neighbours creatureSummonDefinition/CreatureAbilityFanOut/EnhancedCreatureInspectView/DamageResistanceDisplay 68/68; scoped eslint clean. Fixtures disclosed in the file header (in-memory Spell Library records in Wizard shape; room authority = mocked spellConsequenceService calls and a fixture `actorContract` binding; Library persistence stand-in). Base-bytes RED not run (the store crash is shown by `JSON.parse(JSON.stringify(undefined))`).
-- **Bounded review:** ACCEPT-WITH-REPAIRS, no blocker. Repaired: focus handling, template-update guard test, unsaved-removal test, invariant comment. Open (Medium, PLAUSIBLE): if the cloud `updateUserCreature` fails offline, `useUserCreaturesPersistence` merges cloud over local and a removed association can return until the next full save; not changed (persistence merge owner). Unsaved removal is discarded when the window closes (nothing persists before Save) — documented by test.
+- **Bounded review:** ACCEPT-WITH-REPAIRS, no blocker. Repaired: focus handling, template-update guard test, unsaved-removal test, invariant comment. Open (Medium, PLAUSIBLE): if the cloud `updateUserCreature` fails offline, `useUserCreaturesPersistence` merges cloud over local and a removed association can return until the next full save; not changed (persistence merge owner). Unsaved removal is discarded when the window closes (nothing persists before Save) â€” documented by test.
 - **Identities:** `handoff/bestiary-ability-authoring/{BASE,FINAL}.sha256`, patch, base copies. No commit/push/deploy/migration/dependency change.
 - **Not done / disclosed:** no identified build and no ordinary-App witness (build needs the 8 GB-heap detached build and a coordinated slot; not available to this session). Prior A10 note that the Creature Wizard list rendered empty in a sandbox is unreproduced here (nested-provider sharing and picker verified in jest). Still witnessed only by earlier runs: Bestiary route for damage/healing (A3/A4), Stunned (A7), composed (A10, fixture fallback); Agility-effect via the Bestiary UI has **no** App witness yet. Nothing held.
 
-## Bestiary ability authoring → combat, follow-up: removal resurrection repaired; App witness PREPARED, NOT RUN (2026-11-06, ownership released)
+## Bestiary ability authoring â†’ combat, follow-up: removal resurrection repaired; App witness PREPARED, NOT RUN (2026-11-06, ownership released)
 
 **1. Removal resurrection (source + tests; no App run).**
-- **Reproduced** with the real `useUserCreaturesPersistence` + real `creatureStore` (mocked cloud service, in-memory cloud): assign → save → remove → cloud delete fails → merge. On the original hook 2 of 5 new tests fail (cloud copy silently restores the association; the failed removal is never retried). Base copy: `handoff/bestiary-ability-authoring/base/useUserCreaturesPersistence.js`.
+- **Reproduced** with the real `useUserCreaturesPersistence` + real `creatureStore` (mocked cloud service, in-memory cloud): assign â†’ save â†’ remove â†’ cloud delete fails â†’ merge. On the original hook 2 of 5 new tests fail (cloud copy silently restores the association; the failed removal is never retried). Base copy: `handoff/bestiary-ability-authoring/base/useUserCreaturesPersistence.js`.
 - **Repair (existing sync mechanism only):** `removalPending(local)` = local has no `authoredAbility` while the last synced snapshot did. While pending, the cloud-wins merge drops the cloud `authoredAbility`, and `syncedCreaturesRef` keeps the OLD snapshot, so the existing autosync sees the creature as changed and retries the full `setDoc`. No new store, no retention-rule change, other fields still cloud-wins. `CreatureWizardApp.handleSave` shows a warning when the cloud removal fails (that warning is **not covered by a test** and was **not reviewed**).
 - **Tests:** `src/hooks/__tests__/userCreaturesRemovalMerge.test.jsx` (5): failed delete not restored then retried; retry also failing still not restored; unrelated-field save keeps the association; never-had-association still merges the cloud one in; documented last-writer-wins. Detached-copy guards live in `CreatureAbilityAuthoringToCombat.test.jsx` (template removal/edit leaves placed tokens untouched).
 - **Delta review:** ACCEPT (existing reviewer, repair only).
 - **Known limitation / required contract (NOT built):** the pending marker lives in memory (`syncedCreaturesRef`). If the page is reloaded after a failed cloud delete and before autosync succeeds, the cloud copy still has the association and is restored. Closing that needs a persisted pending-removal marker (a per-creature tombstone, e.g. `{creatureId, field:'authoredAbility', removedAt}` in local storage, cleared only on confirmed cloud success and consulted by the merge). That is a new persistence contract and was not invented here. Also open: last-writer-wins between two devices that edit the same creature.
 
-**2. Acceptance witness (PREPARATION ONLY — it has not been run; no pass is claimed).**
+**2. Acceptance witness (PREPARATION ONLY â€” it has not been run; no pass is claimed).**
 - Script: `vtt-react/verification/p14/bestiary-agility-app-browser.cjs` (sha256 `e282880114c11f8bbfa827219effed016930a8ae2498fc5e45a29b7e8d4a759e`). Syntax-checked and its module requires resolve; selectors were taken from existing witnesses and source, not exercised.
-- Journey, ordinary controls only: Spell Wizard authors and saves a −2 Agility ability → Bestiary Create New → 3 Abilities → real "Compatible Spell Library definition" picker → Keep → Save → reload and reopen → real HTML5 drag from the library card's drag handle to `#grid-overlay` (no store write) → placed Inspect → Abilities & Spells → Bind → Admit for this creature → Use for this creature → GM confirm → asserts the Agility −2 condition (`gm-manual`) on Ally, 1 AP and 2 mana paid. Then a separate check: remove the ability from the template, save, reopen (none), reload (still none), and confirm the placed token keeps its detached copy in the client store, in the room, and in placed Inspect.
+- Journey, ordinary controls only: Spell Wizard authors and saves a âˆ’2 Agility ability â†’ Bestiary Create New â†’ 3 Abilities â†’ real "Compatible Spell Library definition" picker â†’ Keep â†’ Save â†’ reload and reopen â†’ real HTML5 drag from the library card's drag handle to `#grid-overlay` (no store write) â†’ placed Inspect â†’ Abilities & Spells â†’ Bind â†’ Admit for this creature â†’ Use for this creature â†’ GM confirm â†’ asserts the Agility âˆ’2 condition (`gm-manual`) on Ally, 1 AP and 2 mana paid. Then a separate check: remove the ability from the template, save, reopen (none), reload (still none), and confirm the placed token keeps its detached copy in the client store, in the room, and in placed Inspect.
 - **Empty picker:** if the real provider lists nothing the run FAILS with `PICKER_DID_NOT_LIST_SAVED_ABILITY` plus option text and library storage keys (`creature-wizard-picker-options.json`, `picker-empty.png`). There is no fallback. The earlier A10 "empty list in sandbox" is unreproduced in jest and remains to be checked here.
 - **Fixtures to disclose:** m4b catalogue fixture host (room `app-hall`, registered backend, fixture auth/ownership/lease/cloud); Ally as target; if the placed creature's mana is under 2 it is set to 10 on the room token (recorded in `checks.manaFixture`).
 - **Build requirements for the next build-capable owner (claim a build slot first; this session started none):** identified production build via the `m4-build.cjs` pattern (detached source capture, craco build, `NODE_OPTIONS=--max-old-space-size=8192`, `BUILD_PATH` outside the repo); env `APP_BUILD_DIR` (absolute, that build) and `BESTIARY_OUTPUT` (absolute, outside the repo); optional `BESTIARY_CHANNEL=chrome`; Playwright installed; run from `vtt-react/verification/p14` with `node bestiary-agility-app-browser.cjs`. The build must contain the files in `handoff/bestiary-ability-authoring/FINAL.sha256`. Result lands in `$BESTIARY_OUTPUT/result.json`; report the build identity, fixtures above and any `qualifications`.
@@ -3129,30 +3337,30 @@ Scope: the ordinary Spell Wizard/library → Creature Wizard association → sav
 
 **Identities:** `handoff/bestiary-ability-authoring/{BASE,FINAL}.sha256`, `bestiary-ability-authoring.patch` (store, authoring UI, cloud service, wizard save), `useUserCreaturesPersistence.patch`. No commit, push, deployment, migration or dependency change. Opus and Sol lanes untouched. Ownership released; nothing held.
 
-## Bestiary ability authoring → combat, third pass: durable removal + creature-source feedback implemented; App witness STILL NOT RUN (2026-11-06, ownership released)
+## Bestiary ability authoring â†’ combat, third pass: durable removal + creature-source feedback implemented; App witness STILL NOT RUN (2026-11-06, ownership released)
 
 **1. Pending removal now survives reload (source + tests; no App run).**
 - New owner-scoped storage family `library.creatureAbilityRemovals` (registered beside `library.deletedSpells`; same scoped-family mechanism) via `services/creatureAbilityRemoval.js`. One record per account + creature + removalId, written BEFORE the cloud write in `CreatureWizardApp.handleSave`; cleared only by a confirmed save/cloud state for the same removalId; a newer assignment supersedes it; per-creature cloud writes are serialized so a late old response cannot land after a newer assignment. No timer, no expiry, no global marker.
 - Both cloud-load paths honour it: `useUserCreaturesPersistence.loadCreatures` (also drops a response served before a removal was confirmed) and `CreatureLibraryContext` (now reads the live store, which also fixes a stale-snapshot overwrite of a just-saved removal). Retry uses the existing autosync full save. Deleting a creature prunes its record.
-- Failure warning is now tested: "…stays pending and is retried, including after a reload."
-- Tests: `CreatureAbilityRemovalDurability.test.jsx` (12): failed delete → reload → stale merge → retry (twice reloaded), warning text, successful retry clears, cloud-lacks-field confirmation, account isolation, remove → reassign → late old response (fails/succeeds) with call order, reassignment wins after reload, both provider-load paths, failed storage clear/supersede override, late stale load after confirmation, prune. Against the previous in-memory-only behavior 4 of the 5 selected tests fail (`handoff/bestiary-ability-authoring/delta2/RED-original-behavior.txt`). Neighbours pass: userCreaturesRemovalMerge, registry, storageContracts, CreatureAuthoredAbility, CreatureAbilityAuthoringToCombat.
+- Failure warning is now tested: "â€¦stays pending and is retried, including after a reload."
+- Tests: `CreatureAbilityRemovalDurability.test.jsx` (12): failed delete â†’ reload â†’ stale merge â†’ retry (twice reloaded), warning text, successful retry clears, cloud-lacks-field confirmation, account isolation, remove â†’ reassign â†’ late old response (fails/succeeds) with call order, reassignment wins after reload, both provider-load paths, failed storage clear/supersede override, late stale load after confirmation, prune. Against the previous in-memory-only behavior 4 of the 5 selected tests fail (`handoff/bestiary-ability-authoring/delta2/RED-original-behavior.txt`). Neighbours pass: userCreaturesRemovalMerge, registry, storageContracts, CreatureAuthoredAbility, CreatureAbilityAuthoringToCombat.
 - Review (existing reviewer): ACCEPT-WITH-REPAIRS; findings 1-5 repaired (failed supersede/confirm write, live-store read after await, stale load vs confirmation, stale sync snapshot, orphaned record). Finding 6 (durable flag wording on a forked draft) left as is.
 - **Boundaries kept/disclosed:** two devices stay last-writer-wins (a pending removal overwrites an association another device added); "reload" in tests = empty store + fresh hook with the stored record kept; a record for a creature deleted elsewhere stays inert; no migration.
 
 **2. Creature-source eligibility feedback.**
 - One shared check `creatureSourceRefusal(definition)` in `server/shared/services/authoredAbility.js` (client mirror identical) returns the exact refusal the room server applies (formula/health/deterministic/area, and immediate + periodic = primary owner PC source only). `installedAuthoredAbilities.js` admission and the approval re-check now CALL it instead of two inline conditions (same code and messages; no rule, payment or execution change; Opus/Sol semantics untouched). The server refusal remains the authority.
-- Bestiary: the picker still offers definition-compatible records; the editor says "compatible with the Spell Library adapter, but a creature source cannot execute it"; the saved/placed card says "Compatible definition, not executable by a creature source…" and offers no Admit/Use. Eligible definitions (damage, Agility) unchanged. Route not enabled.
+- Bestiary: the picker still offers definition-compatible records; the editor says "compatible with the Spell Library adapter, but a creature source cannot execute it"; the saved/placed card says "Compatible definition, not executable by a creature sourceâ€¦" and offers no Admit/Use. Eligible definitions (damage, Agility) unchanged. Route not enabled.
 - Tests: 4 new in `CreatureAbilityAuthoringToCombat.test.jsx` (19 total); server mocha p14m5Composition/CompositionFormula/Periodic/a1/a4/a5/a6/a10 = 105 passing; client m5Composition 3.
 
-**3. Identified-build witness: NOT RUN — blocked, build request posted.**
+**3. Identified-build witness: NOT RUN â€” blocked, build request posted.**
 - No other session or build owner was reachable (ListAgents empty) and no build slot is recorded. This session could not run it: the linked machine has 3.9 GB RAM (the craco build needs the 8 GB heap), and the cloud container (8 GB, no swap) cannot receive the 1.6 GB `public/` tree plus uncommitted working-tree changes. I started no compilation.
 - **Request to the next build-capable owner:** build once from a guarded capture (`m4-build.cjs`) that includes every hash in `handoff/bestiary-ability-authoring/FINAL.sha256` (this lane's files), keeping other owners' runtime changes as they stand, then run `vtt-react/verification/p14/bestiary-agility-app-browser.cjs` (env `BESTIARY_OUTPUT`, `APP_BUILD_DIR`; optional `BESTIARY_CHANNEL`). The script itself is unchanged since the previous entry. Known untested script assumptions to verify first: the library-card drag-handle drag onto `#grid-overlay`, the `Edit`/`Add activated ability`/`Remove activated ability` selectors, the placed token appearing in `hall.tokens`, and mana (fixture top-up recorded in `checks.manaFixture`). Template removal across reload while the placed copy stays intact is in the script's last step; the removal-across-reload-after-failed-cloud-write case is covered by jest only.
 - If the Creature Wizard picker is empty in the real App, the script fails with `PICKER_DID_NOT_LIST_SAVED_ABILITY` and diagnostics; that failure must be diagnosed in the real provider path (no bypass).
 
 **Identities:** `handoff/bestiary-ability-authoring/{BASE,FINAL}.sha256`, `bestiary-ability-authoring.patch`, `useUserCreaturesPersistence.patch`, `delta2/`. No commit, push, deployment, migration or dependency change. Ownership released; nothing held.
 
-## Bestiary ability authoring → combat: FINAL HANDOFF (2026-11-06, implementation ownership released)
-- Full handoff for the build-capable owner: `handoff/bestiary-ability-authoring/HANDOFF.md` (exact sha256 table, witness command, fixtures, 8-point acceptance checklist, build requirement). Identities: `handoff/bestiary-ability-authoring/FINAL.sha256` — this supersedes any hash quoted in the earlier Bestiary entries above.
-- **Server files changed (refactor):** `server/shared/services/authoredAbility.js` (+ byte-identical client mirror) gained `creatureSourceRefusal`; `server/services/installedAuthoredAbilities.js` admission and approval re-check call it in place of two inline conditions. Purpose: the Bestiary card and the server share one creature-source eligibility check. Tests: server mocha p14m5Composition/CompositionFormula/Periodic, p14a1/a4/a5/a6/a7/a10, authoredSpellDefinitions pass; client m5Composition and 4 new card tests pass. **Reviewer assessment ≠ proof:** the reviewer found it consistent with no counter-example but reported equivalence as not proven (no pre-refactor copy, no differential run).
+## Bestiary ability authoring â†’ combat: FINAL HANDOFF (2026-11-06, implementation ownership released)
+- Full handoff for the build-capable owner: `handoff/bestiary-ability-authoring/HANDOFF.md` (exact sha256 table, witness command, fixtures, 8-point acceptance checklist, build requirement). Identities: `handoff/bestiary-ability-authoring/FINAL.sha256` â€” this supersedes any hash quoted in the earlier Bestiary entries above.
+- **Server files changed (refactor):** `server/shared/services/authoredAbility.js` (+ byte-identical client mirror) gained `creatureSourceRefusal`; `server/services/installedAuthoredAbilities.js` admission and approval re-check call it in place of two inline conditions. Purpose: the Bestiary card and the server share one creature-source eligibility check. Tests: server mocha p14m5Composition/CompositionFormula/Periodic, p14a1/a4/a5/a6/a7/a10, authoredSpellDefinitions pass; client m5Composition and 4 new card tests pass. **Reviewer assessment â‰  proof:** the reviewer found it consistent with no counter-example but reported equivalence as not proven (no pre-refactor copy, no differential run).
 - **Limitation, still open:** multi-device cloud merge remains last-writer-wins; the single-device durable-removal tests do not close it.
 - **Status:** identified-build App witness NOT run. Ownership released; this lane re-opens only for demonstrated witness failures. No further refactoring.

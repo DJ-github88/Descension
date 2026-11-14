@@ -20,6 +20,7 @@ import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import useCreatureAbilityQuickUse from './CreatureAbilityQuickUse';
 import Button from '../common/Button';
 import ResourceOverflowModal from '../common/ResourceOverflowModal';
+import RecruitCompanionDialog from './RecruitCompanionDialog';
 import optimisticUpdatesService from '../../services/optimisticUpdatesService';
 import '../../styles/creature-token.css';
 import '../../styles/unified-context-menu.css';
@@ -167,6 +168,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [showGiveControlModal, setShowGiveControlModal] = useState(false);
+  const [showRecruitDialog, setShowRecruitDialog] = useState(false);
   const [isWindowReady, setIsWindowReady] = useState(false);
   const [pendingControlOffer, setPendingControlOffer] = useState(null); // { tokenId, tokenName, offeredBy }
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -1465,6 +1467,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setTimeout(() => setIsWindowReady(true), 150);
   };
 
+  // Handle opening the distinct GM recruitment dialog (canonical ownership transfer).
+  const handleOpenRecruit = () => {
+    setShowRecruitDialog(true);
+    setShowContextMenu(false);
+  };
+
   // Handle granting control to a player
   const handleGrantControl = (player) => {
     if (!token || !player) {
@@ -2604,6 +2612,26 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               }
             }
           );
+        }
+
+        // GM-only canonical recruitment: a distinct command from Give Control delegation.
+        if (isGMMode) {
+          const sourceRef = conditionActorRef(token);
+          const inRoom = isInMultiplayer && !!multiplayerSocket?.connected && !!useGameStore.getState().multiplayerRoom?.id;
+          tokenActionsSubmenu.push({
+            icon: <i className="fas fa-hand-holding-heart"></i>,
+            label: 'Recruit Companion…',
+            disabled: !sourceRef || !inRoom,
+            title: !sourceRef ? 'Bind this creature before recruiting it'
+              : !inRoom ? 'Join a multiplayer room before recruiting'
+                : 'Transfer ownership and record the companion roster',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (!sourceRef || !inRoom) return;
+              handleOpenRecruit();
+            }
+          });
         }
 
         // Allow non-GM players to remove their own tokens (character + summons)
@@ -4143,6 +4171,17 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             </div>
           </div>
         </MythrillWindow>
+      )}
+
+      {/* GM recruitment: canonical ownership transfer and companion roster, distinct from Give Control. */}
+      {showRecruitDialog && conditionActorRef(token) && (
+        <RecruitCompanionDialog
+          open={showRecruitDialog}
+          onClose={() => setShowRecruitDialog(false)}
+          roomId={useGameStore.getState().multiplayerRoom?.id}
+          sourceRef={conditionActorRef(token)}
+          sourceName={token.state?.customName || creature.name}
+        />
       )}
 
       {/* Token Control Offer Modal: shown to receiving player */}

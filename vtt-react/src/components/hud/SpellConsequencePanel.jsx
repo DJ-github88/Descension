@@ -21,6 +21,8 @@ import useTargetingStore from '../../store/targetingStore';
 import { useSharedConditionStore } from '../../services/sharedConditionService';
 import { TYPE as COOLDOWN_TYPE, status as cooldownStatus, procedure as cooldownProcedure } from '../../services/authoredCooldown';
 import './SpellConsequencePanel.css';
+import TriggerOfferPanel from './TriggerOfferPanel';
+import PassiveActivationPanel from './PassiveActivationPanel';
 import { actionId, readFormula as readAuthoredFormula, definitionSummary, FORMULA_CAPABILITY, isFormula, isFormulaBundle, isArea, MAX_AREA_TARGETS } from '../../services/authoredAbility';
 import { describe as describeEffect, conditionLabel, policyText, conditionPlan, combinationText, pcConsent, consentText, saveOf, branchLines as effectBranchLines, branchesFor as effectBranches } from '../../services/authoredEffect';
 import { manualText as saveManualText } from '../../services/saveBranch';
@@ -328,6 +330,7 @@ function OwnerPanel() {
     }}>
     <div className="p9-panel">
       <header><h3>{support?.name || owner.spellId}</h3><button type="button" onClick={closeOwnerPanel} aria-label="Close">×</button></header>
+      {owner.triggerOfferId && <p className="p9-note" role="status">Using follow-up offer {owner.triggerOfferId.slice(0, 8)}…: this cast is optional, pays its own listed price and cooldown, and uses its own target. If the offer lapses or is revoked, nothing is cast and nothing is paid.</p>}
       {owner.origin?.producer?.startsWith('item: ') && <p>From {owner.origin.producer}. Item requirements remain GM-managed.</p>}
       {!support?.supported ? <p className="p9-diagnostic">{support?.reason}</p> : <>
         <p className="p9-note">Supported room ability: nothing is spent until the GM accepts. {area ? 'M6A bounded area execution: one source payment, one shared roll (GM adjudicates each creature target’s final amount), and one atomic multi-actor result.' : composed ? 'Partially automated: one approved price, target and roll; the GM records one of the outcomes listed below.' : bundle ? 'One approved price, target, effect bundle and duration; one GM-confirmed result.' : condition ? 'One approved price and duration, one successful canonical condition.' : 'One roll, one payment, one result.'}</p>
@@ -829,5 +832,5 @@ export default function SpellConsequenceHost() {
   const shared = useGameStore(value => value.isInMultiplayer);
   useEffect(() => { if (shared) restoreOwnerStatus(); }, [shared]);
   if (!shared) return null;
-  return <><AdmittedAbilities /><TargetConditions /><OwnerPanel /><OwnerChip /><GmPanel /><CreaturePanel /></>;
+  return <><AdmittedAbilities /><TargetConditions /><TriggerOfferPanel /><PassiveActivationPanel /><OwnerPanel /><OwnerChip /><GmPanel /><CreaturePanel /></>;
 }

@@ -8,6 +8,8 @@ const { FORMULA_CAPABILITY, FORMULA_COMPILER, AREA_CAPABILITY, AREA_COMPILER, MA
 const { HEALTH_CAPABILITY, HEALTH_COMPILER, readHealthFormula } = require('../shared/services/authoredAbility');
 const { DETERMINISTIC_CAPABILITY, DETERMINISTIC_COMPILER, readDeterministicFormula } = require('../shared/services/authoredAbility');
 const catalogueAbility = require('../shared/services/catalogueAbility.cjs');
+const { FOLLOWUP_MARKERS } = require('../shared/services/authoredAbility');
+const pureAbility = require('../shared/services/authoredAbility');
 const { validMovementFeet, validOccurrences, supportedAttribute, validAttributeAmount, validDamageReductionAmount, validTickFormula } = require('../shared/services/sharedConditionProfile');
 // M2A: counted expiry policies (explicit target-turn boundary count 2…10) add exactly one key; every other policy keeps the exact A10 key set.
 const validEffectTiming = t => !!t && typeof t === 'object' && EFFECT_EXPIRY_POLICIES.includes(t.expiryPolicy) &&
@@ -137,7 +139,18 @@ function validEffectCondition(c) {
       : c.tick.kind === 'damage' && exact(c.tick, ['kind', 'formula', 'damageTypes']) && Array.isArray(c.tick.damageTypes) && c.tick.damageTypes.length === 1 && DAMAGE_TYPES.includes(c.tick.damageTypes[0]));
   return c?.kind === 'movement' && exact(c, ['kind', 'feet', 'label']) && validMovementFeet(c.feet) && text(c.label, 60) && c.label === c.label.trim();
 }
-function compileEffect(d, { verifyCatalogue = true } = {}) {
+// D1 = (a), creator approval 14 November 2026: a watched Direct Damage part. Structure is part of the canonical definition, so the exact
+// watched part is in the definition hash. NEW admission requires the creator policy; stored-registry decoding checks structure only
+// (like the catalogue pin and the area roll policy), and registration, offers and approval still require the policy at run time.
+function validComponentWatch(d) {
+  const w = d.componentWatch, part = w && pureAbility.COMPONENT_WATCH_PARTS[w.wizardKey];
+  return exact(w, ['contract', 'componentId', 'wizardKey']) && w.contract === pureAbility.COMPONENT_WATCH && !!part &&
+    Object.prototype.hasOwnProperty.call(pureAbility.COMPONENT_WATCH_PARTS, w.wizardKey) && w.componentId === part.componentId &&
+    d.followUp === undefined && !Object.hasOwn(d, 'cooldown') && d.classPayment === undefined && d.catalogueSource === undefined &&
+    d.effects?.direct?.kind === part.kind && pureAbility.COMPONENT_WATCH_CONDITIONS.includes(d.effects?.condition?.kind) &&
+    !scaledDirect(d.effects.direct);
+}
+function compileEffect(d, { verifyCatalogue = true, verifyComponentPolicy = true } = {}) {
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
   if (d?.classPayment !== undefined && d?.catalogueSource === undefined) return no('UNSUPPORTED_SHAPE');
@@ -150,8 +163,12 @@ function compileEffect(d, { verifyCatalogue = true } = {}) {
   const effectKeys = ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description', 'binding', 'spellType', 'castTimeType', 'targeting', 'resourceCost', 'effects', 'timing']
     .concat(d?.classPayment !== undefined ? ['classPayment'] : [])
     .concat(d?.catalogueSource !== undefined ? ['catalogueSource'] : [])
-    .concat(Object.hasOwn(d || {}, 'cooldown') ? ['cooldown'] : []);
-  if (!exact(d, effectKeys) || !validEffectCooldown(d) ||
+    .concat(Object.hasOwn(d || {}, 'cooldown') ? ['cooldown'] : [])
+    .concat(d?.followUp !== undefined ? ['followUp'] : [])
+    .concat(d?.componentWatch !== undefined ? ['componentWatch'] : []);
+  if (d?.componentWatch !== undefined && !validComponentWatch(d)) { return no('UNSUPPORTED_SHAPE'); }
+  if (d?.componentWatch !== undefined && verifyComponentPolicy && !require('../shared/services/componentScopePolicy').approved()) { return no('COMPONENT_SCOPE_UNAPPROVED'); }
+  if ((d?.followUp !== undefined && !FOLLOWUP_MARKERS.includes(d.followUp)) || !exact(d, effectKeys) || !validEffectCooldown(d) ||
       d.schemaVersion !== 3 || !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
       !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
       !exact(d.binding, ['rulesetId', 'rulesetVersion', 'classId']) || d.binding.rulesetId !== 'prism' || d.binding.rulesetVersion !== 'cr-a1a-pilot-1' || !CLASS_IDS.includes(d.binding.classId) ||
@@ -180,7 +197,9 @@ function compileEffect(d, { verifyCatalogue = true } = {}) {
   return { ok: true, canonicalDefinition, definitionHash, descriptor: Object.assign({ schemaVersion: 3, capabilityId: EFFECT_CAPABILITY, compilerVersion,
     definitionRef, binding: clone(d.binding), price: { ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana }, targeting: clone(d.targeting), effects: clone(d.effects), timing: clone(d.timing), executionEnabled: false },
   cooldown ? { cooldown: clone(d.cooldown) } : {},
-  d.classPayment !== undefined ? { classPayment: clone(d.classPayment), catalogueSource: clone(d.catalogueSource) } : {}) };
+  d.classPayment !== undefined ? { classPayment: clone(d.classPayment), catalogueSource: clone(d.catalogueSource) } : {},
+  d.followUp !== undefined ? { followUp: d.followUp } : {},
+  d.componentWatch !== undefined ? { componentWatch: clone(d.componentWatch) } : {}) };
 }
 function validClassPayment(payment, classId) {
   const domain = PAYMENT_DOMAINS[classId];
@@ -200,6 +219,7 @@ function validCatalogueSource(source, classId) {
 }
 function compileFormula(d, { verifyCatalogue = true } = {}) {
   const cooldown = d.cooldown !== undefined;
+  if (d.followUp !== undefined && !FOLLOWUP_MARKERS.includes(d.followUp)) { return no('UNSUPPORTED_SHAPE'); }
   if (cooldown && (!require('../shared/services/authoredCooldown').valid(d.cooldown) || d.catalogueSource !== undefined || d.classPayment !== undefined || d.targetRoute !== undefined || d.targeting?.restriction === 'self' || !int(d.targeting?.rangeFeet, 1, 300))) return no('UNSUPPORTED_SHAPE');
   const deterministic = d.capability === DETERMINISTIC_CAPABILITY;
   const health = d.capability === HEALTH_CAPABILITY;
@@ -231,6 +251,7 @@ function compileFormula(d, { verifyCatalogue = true } = {}) {
   const projection = clone(d); delete projection.capability;
   delete projection.cooldown;
   delete projection.classPayment; delete projection.targetRoute; delete projection.catalogueSource;
+  delete projection.followUp;
   projection.schemaVersion = 1;
   if (!projection.effect) return no('INVALID_DEFINITION');
   projection.effect.formula = '1d2';
@@ -245,6 +266,7 @@ function compileFormula(d, { verifyCatalogue = true } = {}) {
   if (d.classPayment !== undefined) descriptor.classPayment = clone(d.classPayment);
   if (d.targetRoute !== undefined) descriptor.targetRoute = d.targetRoute;
   if (d.catalogueSource !== undefined) descriptor.catalogueSource = clone(d.catalogueSource);
+  if (d.followUp !== undefined) { descriptor.followUp = d.followUp; }
   if (cooldown) { descriptor.cooldown = clone(d.cooldown); descriptor.compilerVersion = 'p14-wizard-cooldown-1'; }
   return { ok: true, canonicalDefinition, definitionHash, descriptor };
 }
@@ -254,8 +276,9 @@ function compileArea(d, { verifyCatalogue = true, verifyRollPolicy = true } = {}
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
   const rootKeys = ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description', 'binding', 'spellType', 'castTimeType', 'targeting', 'resourceCost', 'effect']
     .concat(d.classPayment !== undefined ? ['classPayment'] : [])
-    .concat(d.catalogueSource !== undefined ? ['catalogueSource'] : []);
-  if (!exact(d, rootKeys) || d.schemaVersion !== 5 || d.capability !== AREA_CAPABILITY ||
+    .concat(d.catalogueSource !== undefined ? ['catalogueSource'] : [])
+    .concat(d.followUp !== undefined ? ['followUp'] : []);
+  if ((d.followUp !== undefined && !FOLLOWUP_MARKERS.includes(d.followUp)) || !exact(d, rootKeys) || d.schemaVersion !== 5 || d.capability !== AREA_CAPABILITY ||
       !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
       !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
       !exact(d.binding, ['rulesetId', 'rulesetVersion', 'classId']) || d.binding.rulesetId !== 'prism' || d.binding.rulesetVersion !== 'cr-a1a-pilot-1' || !CLASS_IDS.includes(d.binding.classId) ||
@@ -296,6 +319,7 @@ function compileArea(d, { verifyCatalogue = true, verifyRollPolicy = true } = {}
     executionEnabled: false };
   if (d.classPayment !== undefined) descriptor.classPayment = clone(d.classPayment);
   if (d.catalogueSource !== undefined) descriptor.catalogueSource = clone(d.catalogueSource);
+  if (d.followUp !== undefined) { descriptor.followUp = d.followUp; }
   return { ok: true, canonicalDefinition, definitionHash, descriptor };
 }
 function compileDefinition(d, options) {
@@ -306,7 +330,9 @@ function compileDefinition(d, options) {
   if (d?.capability !== CONDITION_CAPABILITY) return legacy.compileDefinition(d);
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
-  if (!exact(d, ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description', 'binding', 'spellType', 'castTimeType', 'targeting', 'resourceCost', 'effect', 'timing']) ||
+  const conditionKeys = ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description', 'binding', 'spellType', 'castTimeType', 'targeting', 'resourceCost', 'effect', 'timing']
+    .concat(d.followUp !== undefined ? ['followUp'] : []);
+  if ((d.followUp !== undefined && !FOLLOWUP_MARKERS.includes(d.followUp)) || !exact(d, conditionKeys) ||
       d.schemaVersion !== 2 || !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
       !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
       !equal(d.binding, { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId: 'arcanoneer' }) || d.spellType !== 'ACTION' || d.castTimeType !== 'IMMEDIATE' ||
@@ -317,7 +343,8 @@ function compileDefinition(d, options) {
   const definitionHash = checkpoint.sha256Hex('mythrill:authored-condition:v1\n' + checkpoint.stableStringify(canonicalDefinition));
   const definitionRef = { roomId: d.scope.roomId, definitionId: d.definitionId, definitionVersion: d.definitionVersion, definitionHash };
   return { ok: true, canonicalDefinition, definitionHash, descriptor: { schemaVersion: 2, capabilityId: CONDITION_CAPABILITY, compilerVersion: VERSION,
-    definitionRef, binding: clone(d.binding), price: { ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana }, targeting: clone(d.targeting), effect: clone(d.effect), timing: clone(d.timing), executionEnabled: false } };
+    definitionRef, binding: clone(d.binding), price: { ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana }, targeting: clone(d.targeting), effect: clone(d.effect), timing: clone(d.timing),
+    ...(d.followUp !== undefined ? { followUp: d.followUp } : {}), executionEnabled: false } };
 }
 function validateRegistrySnapshot(r) {
   try { r = snapshot(r); } catch (_) { return no(); }
@@ -327,7 +354,7 @@ function validateRegistrySnapshot(r) {
   const entries = new Map(), requests = new Set(), admitted = new Set(), revoked = new Set(), versions = new Map();
   for (const e of r.definitions) {
     if (!exact(e, ['definitionRef', 'canonicalDefinition', 'compilerVersion', 'descriptor'])) return no();
-    const c = compileDefinition(e.canonicalDefinition, { verifyCatalogue: false, verifyRollPolicy: false }), ref = c.descriptor?.definitionRef;
+    const c = compileDefinition(e.canonicalDefinition, { verifyCatalogue: false, verifyRollPolicy: false, verifyComponentPolicy: false }), ref = c.descriptor?.definitionRef;
     if (!c.ok || ref.roomId !== r.roomId || !equal(e.definitionRef, ref) || e.compilerVersion !== c.descriptor.compilerVersion || !equal(e.descriptor, c.descriptor)) return no();
     const key = `${ref.definitionId}:${ref.definitionVersion}`;
     if (entries.has(key)) return no();

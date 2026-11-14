@@ -1,11 +1,15 @@
 /** Shared trigger foundation v1.1 — guarded rollback scrub for the diagnostic trigger ledger.
  * This is an offline rollback tool, not a runtime trigger engine. It removes the server-owned
- * triggerLedger (listeners, pending obligations, closed reasons, request history) and redacts only
- * the private contentHash derived from a trigger dismissal request; every unrelated receipt is kept
- * byte-identical. It updates the retained checkpoint manifest content hash and room-root manifest so
- * restored old code can still decode the scrubbed checkpoint. Nothing here executes a trigger. */
+ * triggerLedger (listeners, pending obligations, closed reasons, request history), redacts the
+ * private contentHash derived from a trigger dismissal request, and removes the private
+ * receipt.triggerOfferId link from consumed follow-up receipts. The receipts themselves and every
+ * unrelated receipt field are retained. It updates the retained checkpoint manifest content hash
+ * and room-root manifest so restored old code can still decode the scrubbed checkpoint. Nothing
+ * here executes a trigger. */
 const checkpoint = require('./roomCheckpoint');
 const CAPABILITY = 'committed-trigger-diagnostic:v1';
+const FOLLOWUP_CAPABILITY = 'committed-trigger-followup:v1';
+const CAPABILITIES = Object.freeze([CAPABILITY, FOLLOWUP_CAPABILITY]);
 const LEDGER_KEY = 'triggerLedger';
 const LEDGER_VERSION = 1;
 const SCRUB_VERSION = 1;
@@ -16,13 +20,26 @@ const clone = value => JSON.parse(JSON.stringify(value));
 const blocked = (code, reason) => ({ ok: false, code, reason: reason || code });
 const emptySummary = () => ({
   triggerLedger: { removed: false, listeners: 0, obligations: 0, closed: 0, requests: 0 },
-  receipts: { triggerDismissalsRedacted: 0, unrelatedReceiptsPreserved: 0 }
+  receipts: { triggerDismissalsRedacted: 0, triggerOfferLinksRemoved: 0, unrelatedReceiptsPreserved: 0 }
 });
-const isTriggerReceipt = receipt => isPlain(receipt) && receipt.adjudication?.definitionVersionOrHash === CAPABILITY;
+const isTriggerReceipt = receipt => isPlain(receipt) && CAPABILITIES.includes(receipt.adjudication?.definitionVersionOrHash);
+// Both approved follow-up markers (damage T1-T6, healing H1-H3) make a registry undecodable by a previous server.
+const MARKED_TRIGGERS = Object.freeze(['authored-followup-trigger:v1', 'authored-followup-healing-trigger:v1']);
+const hasMarkedRegistry = gameState => {
+  const registry = gameState?.authoredSpellRegistry;
+  if (!isPlain(registry) || !Array.isArray(registry.definitions)) {return false;}
+  return registry.definitions.some(entry => isPlain(entry) &&
+    (MARKED_TRIGGERS.includes(entry.canonicalDefinition?.followUp) || MARKED_TRIGGERS.includes(entry.descriptor?.followUp) ||
+      // A watched-part definition (D1 = a) is equally undecodable by a previous server.
+      entry.canonicalDefinition?.componentWatch !== undefined || entry.descriptor?.componentWatch !== undefined));
+};
+const markedRegistryBlocked = () => blocked('MARKED_REGISTRY_ROLLBACK_UNSAFE',
+  'A marked follow-up definition is retained in authoredSpellRegistry. A previous server cannot decode this room; revocation does not remove the entry. Do not roll back without an approved recovery procedure; do not strip the marker or restore an old checkpoint over newer gameplay.');
 
 /** Scrub one live/staged game-state object. The original object is never mutated. */
 function scrubGameState(gameState) {
   if (!isPlain(gameState)) {return blocked('GAME_STATE_INVALID', 'The supplied game state is not a plain record.');}
+  if (hasMarkedRegistry(gameState)) {return markedRegistryBlocked();}
   const out = clone(gameState);
   const summary = emptySummary();
   if (Object.prototype.hasOwnProperty.call(out, LEDGER_KEY)) {
@@ -47,15 +64,23 @@ function scrubGameState(gameState) {
     }
     for (const receipt of ledger.receipts) {
       if (!isPlain(receipt)) {return blocked('ACTOR_RECEIPT_INVALID', 'An actor consequence receipt is malformed; refusing a partial scrub.');}
-      if (!isTriggerReceipt(receipt)) {summary.receipts.unrelatedReceiptsPreserved += 1; continue;}
-      if (receipt.contentHash !== undefined && receipt.contentHash !== null) {
+      const dismissal = isTriggerReceipt(receipt);
+      let linkRemoved = false;
+      if (Object.prototype.hasOwnProperty.call(receipt, 'triggerOfferId')) {
+        // The private retained-receipt link must not survive rollback.
+        delete receipt.triggerOfferId;
+        summary.receipts.triggerOfferLinksRemoved += 1;
+        linkRemoved = true;
+      }
+      if (dismissal && receipt.contentHash !== undefined && receipt.contentHash !== null) {
         // The hash commits to the dismissal request, which contains the GM's private reason.
         receipt.contentHash = null;
         summary.receipts.triggerDismissalsRedacted += 1;
       }
+      if (!dismissal && !linkRemoved) {summary.receipts.unrelatedReceiptsPreserved += 1;}
     }
   }
-  return { ok: true, changed: summary.triggerLedger.removed || summary.receipts.triggerDismissalsRedacted > 0,
+  return { ok: true, changed: summary.triggerLedger.removed || summary.receipts.triggerDismissalsRedacted > 0 || summary.receipts.triggerOfferLinksRemoved > 0,
     gameState: out, summary };
 }
 
@@ -65,8 +90,9 @@ function scanMapFragment(mapRecord, mapId) {
     return blocked('TRIGGER_DATA_IN_MAP_FRAGMENT', `Map fragment ${mapId} unexpectedly carries ${LEDGER_KEY}.`);
   }
   const receipts = mapRecord.actorConsequences?.receipts;
-  if (Array.isArray(receipts) && receipts.some(isTriggerReceipt)) {
-    return blocked('TRIGGER_DATA_IN_MAP_FRAGMENT', `Map fragment ${mapId} unexpectedly carries a trigger dismissal receipt.`);
+  if (Array.isArray(receipts) && receipts.some(receipt => isTriggerReceipt(receipt) ||
+      (isPlain(receipt) && Object.prototype.hasOwnProperty.call(receipt, 'triggerOfferId')))) {
+    return blocked('TRIGGER_DATA_IN_MAP_FRAGMENT', `Map fragment ${mapId} unexpectedly carries trigger receipt provenance.`);
   }
   return { ok: true };
 }
@@ -136,8 +162,10 @@ function scrubCheckpointBundle(bundle, options = {}) {
   const retainedReceipts = verified.global.actorConsequences?.receipts || [];
   const unredactedDismissal = retainedReceipts.some(receipt => isTriggerReceipt(receipt) &&
     receipt.contentHash !== null && receipt.contentHash !== undefined);
-  if (Object.prototype.hasOwnProperty.call(verified.global, LEDGER_KEY) || unredactedDismissal) {
-    return blocked('SCRUB_INCOMPLETE', 'The scrubbed checkpoint still contains trigger ledger data or an unredacted dismissal hash.');
+  const retainedOfferLink = retainedReceipts.some(receipt => isPlain(receipt) &&
+    Object.prototype.hasOwnProperty.call(receipt, 'triggerOfferId'));
+  if (Object.prototype.hasOwnProperty.call(verified.global, LEDGER_KEY) || unredactedDismissal || retainedOfferLink) {
+    return blocked('SCRUB_INCOMPLETE', 'The scrubbed checkpoint still contains trigger ledger data, an unredacted dismissal hash or a private offer link.');
   }
   scrub.summary.contentHash = { before: manifest.contentHash, after: contentHash };
   scrub.summary.rootUpdated = !!out.rootDoc;
@@ -178,4 +206,4 @@ function planRollback({ live, liveProvided = false, serverStopped = false, bundl
     live: liveScrub, bundles: scrubbedBundles, summaries };
 }
 
-module.exports = { CAPABILITY, LEDGER_KEY, SCRUB_VERSION, isTriggerReceipt, scrubGameState, scrubCheckpointBundle, planRollback };
+module.exports = { CAPABILITY, CAPABILITIES, LEDGER_KEY, SCRUB_VERSION, isTriggerReceipt, scrubGameState, scrubCheckpointBundle, planRollback };

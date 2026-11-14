@@ -11,6 +11,7 @@ const effect = require('../../vtt-react/src/services/authoredEffect');
 const condition = require('../../vtt-react/src/services/authoredCondition');
 const profile = require('../../vtt-react/src/services/sharedConditionProfile');
 const timing = require('../../vtt-react/src/services/sharedEffectTiming');
+const relationships = require('../services/actorRelationships');
 const once = (s, e) => new Promise(r => s.once(e, r));
 const ack = (s, e, d) => new Promise((resolve, reject) => { const t = setTimeout(() => reject(Error(e)), 5000); s.emit(e, d, r => { clearTimeout(t); resolve(r); }); });
 
@@ -35,7 +36,7 @@ describe('P14-M5 composition — immediate + periodic, registered production han
     writer = new FirebaseBatchWriter(60000, 50, { shouldPersist: () => true, persist: async() => ({ outcome: 'confirmed' }) });
     server = createProductionStackServer({ firebaseBatchWriter: writer }); await server.start();
     for (const e of ['actor_bind', 'actor_snapshot', 'actor_consequence', 'actor_authored_admit', 'actor_authored_revoke', 'actor_spell_prepare_creature', 'actor_spell_approve',
-      'actor_spell_withdraw', 'actor_turn_boundary', 'actor_periodic_resolve', 'combat_started', 'combat_ended', 'actor_spell_list']) {server.setEventLimits(e, { maxPerMinute: 4000, maxPerSecond: 4000 });}
+      'actor_spell_withdraw', 'actor_turn_boundary', 'actor_periodic_resolve', 'combat_started', 'combat_ended', 'actor_relationship_set', 'actor_spell_list']) {server.setEventLimits(e, { maxPerMinute: 4000, maxPerSecond: 4000 });}
     const gmUid = server.nextUserId(); ownerUid = server.nextUserId();
     server.registerAuthToken('gm', gmUid); server.registerAuthToken('owner', ownerUid); server.registerAuthToken('observer', server.nextUserId());
     gm = server.connect({ token: 'gm' }); await once(gm, 'connect'); room = await server.seedRoom(gm.id, { gmUserId: gmUid });
@@ -126,6 +127,12 @@ describe('P14-M5 composition — immediate + periodic, registered production han
   async function cast(s = source, t = target, faces) { const a = creatureAttempt({ s, t, ...(faces ? { faces } : {}) }); await prepare(a); return a; }
   const withdraw = a => ack(a.source.kind === 'creature' ? gm : owner, 'actor_spell_withdraw', { roomId: room.id, approvalId: a.approvalId, approval: a });
   const scheduled = ref => Object.values(live().gameState.combat.effectLifecycle.schedules).filter(item => profile.sameRef(item.ref, ref));
+  async function setRelation(a, b, value) {
+    const result = await ack(gm, 'actor_relationship_set', { version: 1, roomId: room.id, commandId: uuid(),
+      actionEpoch: actors.epoch(live()), baseCommitSequence: actors.ledger(live()).commitSequence,
+      pairs: [{ a, b }], value, expectedRelationshipRevision: relationships.revision(live()) });
+    assert.equal(result.success, true, JSON.stringify(result));
+  }
 
 
   // ---- M2A helpers -------------------------------------------------------------------------------------------
@@ -248,6 +255,7 @@ describe('P14-M5 composition — immediate + periodic, registered production han
     await advanceTo(6); assert.equal(due()[0].final, true); await resolve(due()[0], { faces: [4] }); assert.equal(hp(target).current, startHp.current - 4);
     // Healing + healing: immediate healing is capped at max at cast; each healing tick is rolled and capped on its own.
     const heal = await admitPc(composedRecord({ name: 'Disposable Mending Bloom', kind: 'healing', formula: '1d4', occurrences: 2, label: 'Mending Bloom', restriction: 'ally' }));
+    await setRelation(pc, other, 'ally');
     token(other).state.currentHp = 25;
     const h = await ownerCast(heal, { t: other, faces: [4, 4] }); await accept(command(h, { res: privateRes(h) }));
     assert.deepEqual(hp(other), { current: 30, temp: 3 }, 'immediate healing caps at max');

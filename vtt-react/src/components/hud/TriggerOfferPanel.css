@@ -1,0 +1,12 @@
+.first-playable-trigger { margin-top: 8px; }
+.first-playable-trigger-box { border: 1px solid rgba(178, 140, 72, 0.55); border-radius: 8px; padding: 8px 10px; background: rgba(24, 20, 14, 0.92); color: #f1e6cf; }
+.first-playable-trigger-box summary { cursor: pointer; font-weight: 600; }
+.first-playable-trigger-row { border-top: 1px solid rgba(178, 140, 72, 0.25); padding: 7px 0; }
+.first-playable-trigger-row p { margin: 3px 0; }
+.first-playable-trigger-note { opacity: 0.8; font-size: 0.86em; }
+.first-playable-trigger-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.first-playable-trigger-actions input { min-width: 220px; flex: 1 1 220px; }
+.first-playable-trigger-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; }
+.first-playable-trigger-form label { display: flex; flex-direction: column; gap: 3px; font-size: 0.9em; }
+.first-playable-trigger-error { color: #ffb4a2; }
+.first-playable-trigger h4 { margin: 10px 0 4px; }

@@ -190,6 +190,16 @@ function delegationKey(room, tokenId, mapId) {
   return `${room.id}:${mapId}:${tokenId}`;
 }
 
+function clearTokenControl(room, tokenId, mapId) {
+  if (!room || !tokenId || !mapId) {return;}
+  const key = delegationKey(room, tokenId, mapId);
+  if (room.tokenControllers) {delete room.tokenControllers[key];}
+  if (room.pendingTokenControls) {
+    delete room.pendingTokenControls[key];
+    delete room.pendingTokenControls[tokenId];
+  }
+}
+
 function hasDelegation(room, tokenId, mapId, player, uid) {
   if (!room || !room.tokenControllers) {return false;}
 
@@ -215,6 +225,7 @@ function registerTokenHandlers(ctx) {
   const {
     io,
     socket,
+    players = null,
     logger,
     uuidv4,
     validateRoomMembership,
@@ -225,6 +236,79 @@ function registerTokenHandlers(ctx) {
     stripUndefined,
     authorityService = null
   } = ctx;
+
+  // C1-C7=A: an exact in-roster actor must leave combat before its token can be deleted. This guard
+  // runs before any delete/advance, so a refused removal changes neither token nor roster.
+  const combatRemovalGuard = (room, token, event) => {
+    const roster = require('../services/combatRoster');
+    const guard = roster.rosterEntryFor(room, token);
+    if (guard) {
+      socket.emit('room_error', {
+        code: guard.exact ? 'actor_in_combat' : 'turn_roster_unbound',
+        event,
+        message: guard.exact
+          ? 'This exact combatant is in the turn order. The GM must remove it from combat before deleting the token.'
+          : 'The turn order references an older incarnation of this token. Repair the roster before deleting it.'
+      });
+      return false;
+    }
+    const effects = roster.hasLiveCombatEffects(room, token);
+    if (effects) {
+      socket.emit('room_error', {
+        code: 'actor_has_combat_effects',
+        event,
+        message: 'This token still has a live scheduled effect or cooldown in the current clock. Resolve or remove the exact effect before deleting the token.',
+        details: effects
+      });
+      return false;
+    }
+    return true;
+  };
+  const applyRemovalOfferClosure = room => {
+    const before = room.gameState.triggerLedger ? actorConsequences.clone(room.gameState.triggerLedger) : undefined;
+    let closures = [];
+    try { closures = require('../services/committedTriggers').closeForRoster(room, room.gameState); }
+    catch (_) { /* malformed trigger ledger must not abort the token delete */ }
+    return { before, closures };
+  };
+  const rollbackRemovalOfferClosure = (room, before) => {
+    if (before === undefined) {delete room.gameState.triggerLedger;}
+    else {room.gameState.triggerLedger = before;}
+  };
+  const closeRemovalApprovals = (room, token) => {
+    const contract = token?.state?.actorContract;
+    const ref = contract ? actorConsequences.refFor(contract) : null;
+    if (!ref) {return;}
+    try {
+      const closed = require('../services/combatRoster').closeApprovalsForRef(room, ref, 'actor_removed');
+      for (const item of closed) {
+        const payload = { roomId: room.id, approvalId: item.approvalId, contentHash: item.contentHash, code: 'actor_removed' };
+        const uids = new Set([item.ownerUid, item.targetOwnerUid, room.gmId].filter(Boolean));
+        for (const [sid, member] of players || []) {
+          if (!uids.has(member.userId)) {continue;}
+          const peer = io.sockets.sockets.get(sid);
+          if (peer?.data?.authenticated && member.roomId === room.id) {io.to(sid).emit('actor_spell_closed', payload);}
+        }
+      }
+    } catch (_) { /* best-effort live-only cleanup; deletion remains the primary authority */ }
+  };
+  const commitRemovalClosure = (room, token, offerClosure) => {
+    const persistent = room.isPermanent === true || !!room.persistentRoomId;
+    let revision = null;
+    try { revision = firebaseBatchWriter.queueWrite(room.id, room.gameState); }
+    catch (error) {
+      rollbackRemovalOfferClosure(room, offerClosure.before);
+      logger.warn('[token removal] write threw; removal closure not committed', { roomId: room.id, error: error.message });
+      return false;
+    }
+    if (persistent && revision === null) {
+      rollbackRemovalOfferClosure(room, offerClosure.before);
+      logger.warn('[token removal] write not queued; removal closure not committed', { roomId: room.id });
+      return false;
+    }
+    closeRemovalApprovals(room, token);
+    return true;
+  };
 
   socket.on('token_created', async(data, ackCallback) => {
     try {
@@ -719,12 +803,16 @@ function registerTokenHandlers(ctx) {
         return;
       }
       if (record.kind === 'character_token') {socket.emit('room_error', { code: 'actor_binding_conflict', event: 'token_removed', message: 'Use character_token_removed for this exact kind' }); return;}
+      if (!combatRemovalGuard(room, record.token, 'token_removed')) {return;}
+      const removedRef = record.token.state?.actorContract ? actorConsequences.refFor(record.token.state.actorContract) : null;
 
       actorProjection.advance(room);
       delete record.store[data.tokenId];
       delete room.gameState.tokens[data.tokenId]; // Legacy support
-      if (room.tokenControllers) {delete room.tokenControllers[delegationKey(room, data.tokenId, mapId)];}
-      if (room.pendingTokenControls) {delete room.pendingTokenControls[delegationKey(room, data.tokenId, mapId)];}
+      clearTokenControl(room, data.tokenId, mapId);
+      if (removedRef) {require('../services/companionRoster').applyRemoval(room.gameState, removedRef);}
+      const offerClosure = applyRemovalOfferClosure(room);
+      commitRemovalClosure(room, record.token, offerClosure);
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('token_removed', {
@@ -736,7 +824,6 @@ function registerTokenHandlers(ctx) {
         });
       }
 
-      firebaseBatchWriter.queueWrite(room.id, room.gameState);
       if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState, authorityService, room.authorityToken || null);}
 
     } catch (error) {
@@ -764,12 +851,20 @@ function registerTokenHandlers(ctx) {
         return;
       }
       if (record.kind === 'character_token') {socket.emit('room_error', { code: 'actor_binding_conflict', event: 'token_dismissed', message: 'Use character_token_removed for this exact kind' }); return;}
+      if (!combatRemovalGuard(room, record.token, 'token_dismissed')) {return;}
+      const dismissedRef = record.token.state?.actorContract ? actorConsequences.refFor(record.token.state.actorContract) : null;
+      // Preserve the current canonical resources/conditions for a later placement.
+      // The companion-specific authoritative dismissal is actor_companion_dismiss;
+      // this legacy route keeps its existing write ordering but must not reset state.
+      const dismissedSnapshot = dismissedRef ? actorConsequences.clone(record.token) : null;
 
       actorProjection.advance(room);
       delete record.store[data.tokenId];
       delete room.gameState.tokens[data.tokenId];
-      if (room.tokenControllers) {delete room.tokenControllers[delegationKey(room, data.tokenId, mapId)];}
-      if (room.pendingTokenControls) {delete room.pendingTokenControls[delegationKey(room, data.tokenId, mapId)];}
+      clearTokenControl(room, data.tokenId, mapId);
+      if (dismissedRef) {require('../services/companionRoster').applyRecall(room.gameState, dismissedRef, Date.now(), dismissedSnapshot);}
+      const offerClosure = applyRemovalOfferClosure(room);
+      commitRemovalClosure(room, record.token, offerClosure);
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('token_dismissed', {
@@ -781,7 +876,6 @@ function registerTokenHandlers(ctx) {
         });
       }
 
-      firebaseBatchWriter.queueWrite(room.id, room.gameState);
       if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState, authorityService, room.authorityToken || null);}
 
     } catch (error) {
@@ -809,12 +903,15 @@ function registerTokenHandlers(ctx) {
         return;
       }
       if (record.kind !== 'character_token') {socket.emit('room_error', { code: 'actor_binding_conflict', event: 'character_token_removed', message: 'The addressed instance is not a character token' }); return;}
+      if (!combatRemovalGuard(room, record.token, 'character_token_removed')) {return;}
 
       actorProjection.advance(room);
       delete record.store[data.tokenId];
       delete room.gameState.characterTokens[data.tokenId]; // Legacy support
       if (room.tokenControllers) {delete room.tokenControllers[delegationKey(room, data.tokenId, mapId)];}
       if (room.pendingTokenControls) {delete room.pendingTokenControls[delegationKey(room, data.tokenId, mapId)];}
+      const offerClosure = applyRemovalOfferClosure(room);
+      commitRemovalClosure(room, record.token, offerClosure);
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('character_token_removed', {
@@ -826,7 +923,6 @@ function registerTokenHandlers(ctx) {
         });
       }
 
-      firebaseBatchWriter.queueWrite(room.id, room.gameState);
       if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState, authorityService, room.authorityToken || null);}
 
     } catch (error) {
@@ -838,4 +934,4 @@ function registerTokenHandlers(ctx) {
   void ackFailure;
 }
 
-module.exports = { registerTokenHandlers, resolveTokenAuthority, findProtectedKey, PROTECTED_TOKEN_KEYS };
+module.exports = { registerTokenHandlers, resolveTokenAuthority, findProtectedKey, PROTECTED_TOKEN_KEYS, clearTokenControl };
