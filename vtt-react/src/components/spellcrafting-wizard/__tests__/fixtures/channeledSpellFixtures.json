@@ -174,17 +174,17 @@
       ],
       "source": "wizard",
       "isCustom": true,
-      "id": "arcane-beam-mwpdu8o1-ce9a",
-      "authoredDefinitionId": "81bc4196-4595-4cd6-980d-5dde91c530a8",
+      "id": "arcane-beam-mwtem1d5-lwsz",
+      "authoredDefinitionId": "1aa1e835-3b2e-4992-8b3e-17e1aa169be3",
       "categoryIds": [
         "offensive"
       ],
       "categories": [
         "all"
       ],
-      "dateCreated": "2026-11-20T19:39:05.185Z",
-      "lastModified": "2026-11-20T19:39:05.186Z",
-      "lastSaved": "2026-11-20T19:39:05.185Z",
+      "dateCreated": "2026-11-23T15:11:46.793Z",
+      "lastModified": "2026-11-23T15:11:46.795Z",
+      "lastSaved": "2026-11-23T15:11:46.793Z",
       "authoredDraft": {
         "name": "Arcane Beam",
         "description": "Projects a sustained beam of arcane force onto one enemy.",
@@ -528,17 +528,17 @@
       ],
       "source": "wizard",
       "isCustom": true,
-      "id": "arcane-beam-mwpdu8o1-ce9a",
-      "authoredDefinitionId": "81bc4196-4595-4cd6-980d-5dde91c530a8",
+      "id": "arcane-beam-mwtem1d5-lwsz",
+      "authoredDefinitionId": "1aa1e835-3b2e-4992-8b3e-17e1aa169be3",
       "categoryIds": [
         "offensive"
       ],
       "categories": [
         "all"
       ],
-      "dateCreated": "2026-11-20T19:39:05.185Z",
-      "lastModified": "2026-11-20T19:39:05.726Z",
-      "lastSaved": "2026-11-20T19:39:05.726Z",
+      "dateCreated": "2026-11-23T15:11:46.793Z",
+      "lastModified": "2026-11-23T15:11:47.471Z",
+      "lastSaved": "2026-11-23T15:11:47.470Z",
       "authoredDraft": {
         "name": "Arcane Beam",
         "description": "Projects a sustained beam of arcane force onto one enemy.",
@@ -885,17 +885,17 @@
       ],
       "source": "wizard",
       "isCustom": true,
-      "id": "arcane-beam-mwpduapf-fimg",
-      "authoredDefinitionId": "976bb225-8135-4f8a-878b-cbb22eddee48",
+      "id": "arcane-beam-mwtem42f-6027",
+      "authoredDefinitionId": "df6de625-dd54-470b-8c09-81a23b87baa4",
       "categoryIds": [
         "offensive"
       ],
       "categories": [
         "all"
       ],
-      "dateCreated": "2026-11-20T19:39:07.827Z",
-      "lastModified": "2026-11-20T19:39:07.828Z",
-      "lastSaved": "2026-11-20T19:39:07.827Z",
+      "dateCreated": "2026-11-23T15:11:50.294Z",
+      "lastModified": "2026-11-23T15:11:50.299Z",
+      "lastSaved": "2026-11-23T15:11:50.294Z",
       "authoredDraft": {
         "name": "Arcane Beam",
         "description": "Projects a sustained beam of arcane force onto one enemy.",
@@ -1242,17 +1242,17 @@
       ],
       "source": "wizard",
       "isCustom": true,
-      "id": "arcane-beam-mwpduc9e-sq8i",
-      "authoredDefinitionId": "0f7783f3-64bd-47a3-8fb5-dc2f8bd5790a",
+      "id": "arcane-beam-mwtem64g-6ewf",
+      "authoredDefinitionId": "c0c980e0-2c1f-49c9-808c-f74a38d566c2",
       "categoryIds": [
         "offensive"
       ],
       "categories": [
         "all"
       ],
-      "dateCreated": "2026-11-20T19:39:09.842Z",
-      "lastModified": "2026-11-20T19:39:09.843Z",
-      "lastSaved": "2026-11-20T19:39:09.842Z",
+      "dateCreated": "2026-11-23T15:11:52.959Z",
+      "lastModified": "2026-11-23T15:11:52.962Z",
+      "lastSaved": "2026-11-23T15:11:52.959Z",
       "authoredDraft": {
         "name": "Arcane Beam",
         "description": "Projects a sustained beam of arcane force onto one enemy.",
@@ -1554,8 +1554,8 @@
       ],
       "source": "wizard",
       "isCustom": true,
-      "id": "soothing-beam-mwpdudtv-h64b",
-      "authoredDefinitionId": "926acd00-bc2f-460c-bd0f-92652aba32b4",
+      "id": "soothing-beam-mwtem85r-ln8p",
+      "authoredDefinitionId": "940fd4ef-ea8a-44b5-952e-03d4b3d22f0d",
       "categoryIds": [
         "offensive",
         "healing"
@@ -1563,9 +1563,9 @@
       "categories": [
         "all"
       ],
-      "dateCreated": "2026-11-20T19:39:11.875Z",
-      "lastModified": "2026-11-20T19:39:11.876Z",
-      "lastSaved": "2026-11-20T19:39:11.875Z",
+      "dateCreated": "2026-11-23T15:11:55.599Z",
+      "lastModified": "2026-11-23T15:11:55.600Z",
+      "lastSaved": "2026-11-23T15:11:55.599Z",
       "authoredDraft": {
         "name": "Soothing Beam",
         "description": "Channels restorative light onto an ally.",

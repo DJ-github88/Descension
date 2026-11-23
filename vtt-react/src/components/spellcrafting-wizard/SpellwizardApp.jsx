@@ -18,6 +18,8 @@ import {
 import {
   executeCanonicalSpellSave,
   generateCanonicalSpellId,
+  APPROVAL_REVISION_METADATA_KEYS,
+  OUTER_PERSISTENCE_METADATA_KEYS,
   DRAFT_EXCLUDED_KEYS,
   DERIVED_DISPLAY_KEYS
 } from './utils/canonicalSpellSave';
@@ -242,10 +244,14 @@ const AppContent = ({ hideHeader = false }) => {
   // Handle save spell to library via the canonical save path
   const handleSaveSpell = async () => {
     try {
+      const resolvedEditingSpellId = wizardState.editingSpellId ?? editingSpellId;
+      const resolvedIsEditing = Boolean(
+        (wizardState.editMode !== undefined ? wizardState.editMode : editMode) && resolvedEditingSpellId
+      );
       const result = await executeCanonicalSpellSave({
         wizardState,
-        isEditing: editMode,
-        editingSpellId,
+        isEditing: resolvedIsEditing,
+        editingSpellId: resolvedEditingSpellId,
         library,
         libraryDispatch,
         wizardDispatch,
@@ -283,6 +289,26 @@ const AppContent = ({ hideHeader = false }) => {
         Object.entries(rawDraft).filter(([key]) => !stripKeys.has(key))
       );
 
+      // Preserve outer approval/revision metadata across reopen -> edit -> save/export
+      // (canonicalSpellSave keeps these strictly on the outer record, never inside authoredDraft).
+      const preservedApprovalMeta = {};
+      for (const key of APPROVAL_REVISION_METADATA_KEYS) {
+        if (spellCopy[key] !== undefined) {
+          preservedApprovalMeta[key] = spellCopy[key];
+        } else if (rawDraft[key] !== undefined) {
+          preservedApprovalMeta[key] = rawDraft[key];
+        }
+      }
+
+      const preservedOuterPersistenceMeta = {};
+      if (isEditing) {
+        for (const key of OUTER_PERSISTENCE_METADATA_KEYS) {
+          if (spellCopy[key] !== undefined) {
+            preservedOuterPersistenceMeta[key] = spellCopy[key];
+          }
+        }
+      }
+
       // Prefer authoredDraft for authored fields; fall back to outer spellCopy for legacy records
       const pick = (key, fallback) => (
         cleanDraft[key] !== undefined
@@ -294,22 +320,39 @@ const AppContent = ({ hideHeader = false }) => {
         Object.keys(spellCopy.triggerConfig).length > 0 ? spellCopy.triggerConfig : null;
       const draftTriggerConfig = cleanDraft.triggerConfig && typeof cleanDraft.triggerConfig === 'object'
         ? cleanDraft.triggerConfig : null;
+      const hasDraftTriggerKeys = Boolean(draftTriggerConfig && Object.keys(draftTriggerConfig).length > 0);
 
       const resolvedLevel = pick('level', '');
       const resolvedCatalogueSource = pick('catalogueSource', spellCopy.catalogueSource);
+      const resolvedProphecyOptions = pick('prophecyOptions', undefined);
+      const resolvedResolution = pick('resolution', undefined);
+      const resolvedTags = pick('tags', undefined);
+      const resolvedStatusEffectsConfig = pick('statusEffectsConfig', undefined);
+      const resolvedManualOptions = pick('manualOptions', undefined);
+      const resolvedGmNotes = pick('gmNotes', undefined);
 
       // Ensure the spell data has all the required fields without outer coercions clobbering authoredDraft
       const formattedSpellData = {
         ...cleanDraft,
+        ...preservedApprovalMeta,
         // Editing an existing library record preserves library metadata separately from authoredDraft.
         ...(isEditing ? {
-          categoryIds: categorizeSpell(spellCopy),
+          ...preservedOuterPersistenceMeta,
+          categoryIds: (Array.isArray(spellCopy.categoryIds) && spellCopy.categoryIds.length > 0)
+            ? [...spellCopy.categoryIds]
+            : categorizeSpell(spellCopy),
           categories: Array.isArray(spellCopy.categories) ? [...spellCopy.categories] : spellCopy.categories,
           ...(spellCopy.source !== undefined ? { source: spellCopy.source } : {}),
           ...(spellCopy.isCustom !== undefined ? { isCustom: spellCopy.isCustom } : {})
         } : {}),
         authoredDefinitionId: spellCopy.authoredDefinitionId,
         ...(resolvedCatalogueSource !== undefined ? { catalogueSource: resolvedCatalogueSource } : {}),
+        ...(resolvedProphecyOptions !== undefined ? { prophecyOptions: resolvedProphecyOptions } : {}),
+        ...(resolvedResolution !== undefined ? { resolution: resolvedResolution } : {}),
+        ...(Array.isArray(resolvedTags) ? { tags: resolvedTags } : {}),
+        ...(resolvedStatusEffectsConfig !== undefined ? { statusEffectsConfig: resolvedStatusEffectsConfig } : {}),
+        ...(resolvedManualOptions !== undefined ? { manualOptions: resolvedManualOptions } : {}),
+        ...(resolvedGmNotes !== undefined ? { gmNotes: resolvedGmNotes } : {}),
         editMode: isEditing,
         editingSpellId: isEditing ? spellCopy.id : null,
         dateCreated: spellCopy.dateCreated,
@@ -396,7 +439,7 @@ const AppContent = ({ hideHeader = false }) => {
         cooldownConfig: pick('cooldownConfig', {}),
 
         // Trigger configuration (for REACTION, PASSIVE, or TRAP types)
-        triggerConfig: recordTriggerConfig || draftTriggerConfig || (spellCopy.catalogueSource ? {
+        triggerConfig: (hasDraftTriggerKeys ? draftTriggerConfig : null) || recordTriggerConfig || draftTriggerConfig || (spellCopy.catalogueSource ? {
           // Catalogue drafts keep the established inert load defaults; the pinned whole
           // catalogue record is the executable subject, not the Wizard trigger shape.
           global: {

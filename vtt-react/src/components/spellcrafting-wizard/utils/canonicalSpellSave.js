@@ -21,67 +21,28 @@ import { actionCreators } from '../context/spellWizardContext';
 import { extractSpellIcon } from '../core/utils/spellSerializer';
 import { categorizeSpell } from '../core/utils/libraryManager';
 import { saveUserSpell } from '../../../services/firebase/userSpellService';
+import {
+  TRANSIENT_WIZARD_KEYS,
+  APPROVAL_REVISION_METADATA_KEYS,
+  OUTER_PERSISTENCE_METADATA_KEYS,
+  LIBRARY_METADATA_KEYS,
+  DERIVED_DISPLAY_KEYS,
+  DRAFT_EXCLUDED_KEYS,
+  WIZARD_ONLY_KEYS,
+  cloneCanonicalJson,
+  sanitizeImportedSpellRecord
+} from './canonicalSpellContract';
 
-/** Transient Wizard editing/UI session flags — excluded from both draft and outer saved record. */
-export const TRANSIENT_WIZARD_KEYS = Object.freeze([
-  'editMode',
-  'editingSpellId',
-  'errors',
-  'warnings',
-  'validation',
-  'isValid',
-  'currentStep',
-  'completedSteps',
-  'wizardFlow'
-]);
-
-/** Outer library persistence/display metadata — excluded from authoredDraft and serializedData. */
-export const LIBRARY_METADATA_KEYS = Object.freeze([
-  'id',
-  'authoredDefinitionId',
-  'categoryIds',
-  'categories',
-  'source',
-  'isCustom',
-  'isUserCreated',
-  'createdAt',
-  'updatedAt',
-  'userId',
-  'lastSaved',
-  'dateCreated',
-  'lastModified',
-  'folderId',
-  'isShared',
-  'humanReadable',
-  'gameCode'
-]);
-
-/** Derived outer card-display keys synthesized from authored config; never stored in authoredDraft. */
-export const DERIVED_DISPLAY_KEYS = Object.freeze([
-  'specialMechanics',
-  'prophecyConfig',
-  'infernoRequired',
-  'infernoAscend',
-  'infernoDescend',
-  'timeShardGenerate',
-  'timeShardCost',
-  'temporalStrainGain',
-  'temporalStrainReduce',
-  'devotionRequired',
-  'devotionCost',
-  'devotionGain'
-]);
-
-/** Keys stripped from Wizard state when producing the executable authoredDraft subject. */
-export const DRAFT_EXCLUDED_KEYS = Object.freeze([
-  ...TRANSIENT_WIZARD_KEYS,
-  ...LIBRARY_METADATA_KEYS,
-  'authoredDraft',
-  'serializedData'
-]);
-
-/** Compatibility alias matching executionCompatibility.WIZARD_ONLY_KEYS. */
-export const WIZARD_ONLY_KEYS = DRAFT_EXCLUDED_KEYS;
+export {
+  TRANSIENT_WIZARD_KEYS,
+  APPROVAL_REVISION_METADATA_KEYS,
+  OUTER_PERSISTENCE_METADATA_KEYS,
+  LIBRARY_METADATA_KEYS,
+  DERIVED_DISPLAY_KEYS,
+  DRAFT_EXCLUDED_KEYS,
+  WIZARD_ONLY_KEYS,
+  sanitizeImportedSpellRecord
+};
 
 const ALL_DRAFT_STRIP_KEYS = new Set([
   ...DRAFT_EXCLUDED_KEYS,
@@ -101,7 +62,7 @@ const EFFECT_CONFIG_KEYS = Object.freeze([
   'restorationConfig'
 ]);
 
-const cloneJson = (value) => (value === undefined ? undefined : JSON.parse(JSON.stringify(value)));
+const cloneJson = cloneCanonicalJson;
 
 const safeIconValue = (value) => (
   typeof value === 'string' && value.trim() && !/[<>]/.test(value)
@@ -237,6 +198,14 @@ export function buildAuthoredDraft(wizardState) {
   for (const key of EFFECT_CONFIG_KEYS) {
     draft[key] = src[key] ? cloneJson(src[key]) : null;
   }
+  if (!draft.summoningConfig && src.summonConfig) {
+    draft.summoningConfig = cloneJson(src.summonConfig);
+  }
+  if (!draft.transformationConfig && src.transformConfig) {
+    draft.transformationConfig = cloneJson(src.transformConfig);
+  }
+  delete draft.summonConfig;
+  delete draft.transformConfig;
 
   draft.rollableTable = src.rollableTable ? cloneJson(src.rollableTable) : null;
   draft.effectResolutions = src.effectResolutions ? cloneJson(src.effectResolutions) : {};
@@ -458,6 +427,27 @@ export function buildCanonicalSpellRecord({
     : nowIso;
   record.lastModified = nowIso;
   record.lastSaved = nowIso;
+
+  // Preserve outer approval/revision metadata across both create and update without
+  // writing it into authoredDraft or serializedData.
+  for (const key of APPROVAL_REVISION_METADATA_KEYS) {
+    if (wizardState?.[key] !== undefined) {
+      record[key] = cloneJson(wizardState[key]);
+    } else if (isEditing && existingSpell?.[key] !== undefined) {
+      record[key] = cloneJson(existingSpell[key]);
+    }
+  }
+
+  // Preserve outer cloud/library persistence metadata when explicitly present on wizardState
+  // or existingSpell (during edit) so returned records and cloud sync payloads keep bindings intact.
+  for (const key of OUTER_PERSISTENCE_METADATA_KEYS) {
+    if (wizardState?.[key] !== undefined) {
+      record[key] = cloneJson(wizardState[key]);
+    } else if (isEditing && existingSpell?.[key] !== undefined) {
+      record[key] = cloneJson(existingSpell[key]);
+    }
+  }
+
   record.authoredDraft = authoredDraft;
   record.serializedData = serializedData;
 

@@ -9,6 +9,7 @@ import {
   loadSpellLibraryData,
   saveSpellLibraryData
 } from '../../../../persistence/spellLibraryScopedStorage';
+import { sanitizeImportedSpellRecord } from '../../utils/canonicalSpellContract';
 
 // Constants
 const LIBRARY_VERSION = 1; // For future migrations
@@ -60,6 +61,31 @@ export function saveLibraryToStorage(library) {
   }
 }
 
+function validatePreservingExplicitCategories(data) {
+  const rawSpells = Array.isArray(data?.spells) ? data.spells : [];
+  const validCategoryIds = new Set(createDefaultCategories().map(cat => cat.id));
+  const preservedCategoriesByIndex = rawSpells.map(spell => (
+    Array.isArray(spell?.categoryIds)
+      ? spell.categoryIds.filter(catId => validCategoryIds.has(catId))
+      : []
+  ));
+
+  const validated = validateLibraryIntegrity(data);
+  if (Array.isArray(validated.spells) && validated.spells.length === preservedCategoriesByIndex.length) {
+    validated.spells = validated.spells.map((spell, index) => {
+      const explicitValid = preservedCategoriesByIndex[index];
+      if (explicitValid && explicitValid.length > 0) {
+        return {
+          ...spell,
+          categoryIds: [...new Set(explicitValid)]
+        };
+      }
+      return spell;
+    });
+  }
+  return validated;
+}
+
 /**
  * Load the library from verified-owner scoped storage
  */
@@ -74,7 +100,7 @@ export function loadLibraryFromStorage() {
     // Handle version migrations if needed
     if (libraryData.version < LIBRARY_VERSION) {
       const migratedData = migrateLibraryVersion(libraryData).data;
-      return validateLibraryIntegrity(migratedData);
+      return validatePreservingExplicitCategories(migratedData);
     }
 
     // Ensure the data structure is valid
@@ -83,8 +109,8 @@ export function loadLibraryFromStorage() {
       return getDefaultLibrary();
     }
 
-    // Validate and fix any integrity issues
-    return validateLibraryIntegrity(libraryData.data);
+    // Validate and fix any integrity issues while preserving valid explicit categories
+    return validatePreservingExplicitCategories(libraryData.data);
   } catch (error) {
     console.error('Error loading library from storage:', error);
     return getDefaultLibrary();
@@ -97,14 +123,28 @@ export function loadLibraryFromStorage() {
 export function exportLibrary(library, format = 'json') {
   try {
     switch (format) {
-      case 'json':
+      case 'json': {
+        const cleanData = library && typeof library === 'object'
+          ? {
+              ...library,
+              ...(Array.isArray(library.spells)
+                ? {
+                    spells: library.spells
+                      .map(spell => sanitizeImportedSpellRecord(spell))
+                      .filter(Boolean)
+                  }
+                : {})
+            }
+          : library;
+
         const exportData = {
           version: LIBRARY_VERSION,
           timestamp: new Date().toISOString(),
-          data: library
+          data: cleanData
         };
 
         return JSON.stringify(exportData, null, 2);
+      }
 
       default:
         throw new Error(`Unsupported export format: ${format}`);
@@ -117,30 +157,55 @@ export function exportLibrary(library, format = 'json') {
 
 /**
  * Import a library from external data
+ * Accepts:
+ *   - Canonical export envelope `{ version, timestamp, data: { spells, categories } }`
+ *   - Unwrapped library `{ spells, categories }`
+ *   - Array of spells `[spell, ...]`
+ *   - Single serialized spell record `{ name, ... }`
  */
 export function importLibrary(data) {
   try {
-    let libraryData;
+    let parsed;
 
     // If string, parse it as JSON
     if (typeof data === 'string') {
-      libraryData = JSON.parse(data);
+      parsed = JSON.parse(data);
     } else {
-      libraryData = data;
+      parsed = data;
     }
 
-    // Validate the imported data
-    if (!libraryData || !libraryData.data) {
+    if (!parsed || typeof parsed !== 'object') {
+      throw new Error('Invalid library data format');
+    }
+
+    let libraryData;
+    if (Array.isArray(parsed)) {
+      libraryData = { version: LIBRARY_VERSION, data: { spells: parsed } };
+    } else if (parsed.data && typeof parsed.data === 'object') {
+      libraryData = parsed;
+    } else if (Array.isArray(parsed.spells)) {
+      libraryData = { version: parsed.version ?? LIBRARY_VERSION, data: parsed };
+    } else if (typeof parsed.name === 'string' || (parsed.authoredDraft && typeof parsed.authoredDraft === 'object')) {
+      libraryData = { version: LIBRARY_VERSION, data: { spells: [parsed] } };
+    } else {
       throw new Error('Invalid library data format');
     }
 
     // Handle version migrations if needed
-    if (libraryData.version < LIBRARY_VERSION) {
+    if (typeof libraryData.version === 'number' && libraryData.version < LIBRARY_VERSION) {
       libraryData = migrateLibraryVersion(libraryData);
     }
 
-    // Validate and fix integrity issues
-    return validateLibraryIntegrity(libraryData.data);
+    const rawSpells = Array.isArray(libraryData.data.spells) ? libraryData.data.spells : [];
+    const sanitizedSpells = rawSpells
+      .map(spell => sanitizeImportedSpellRecord(spell))
+      .filter(Boolean);
+
+    // Validate and fix integrity issues without mutating caller inputs, preserving valid explicit categories
+    return validatePreservingExplicitCategories({
+      ...libraryData.data,
+      spells: sanitizedSpells
+    });
   } catch (error) {
     console.error('Error importing library:', error);
     return null;
@@ -430,11 +495,11 @@ export function validateLibraryIntegrity(library) {
     validCategoryIds.includes(cat.id)
   );
 
-  // Recategorize all spells to use only the valid categories
-  validatedLibrary.spells.forEach(spell => {
-    // Recategorize all spells to use only the valid categories
-    spell.categoryIds = categorizeSpell(spell);
-  });
+  // Recategorize all spells to use only the valid categories without mutating caller inputs
+  validatedLibrary.spells = validatedLibrary.spells.map(spell => ({
+    ...spell,
+    categoryIds: categorizeSpell(spell)
+  }));
 
   // Validate each spell
   validatedLibrary.spells = validatedLibrary.spells.map(spell => {

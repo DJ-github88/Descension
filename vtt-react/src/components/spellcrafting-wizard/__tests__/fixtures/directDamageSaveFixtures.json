@@ -216,7 +216,7 @@
           "required": true
         }
       ],
-      "lastModified": "2026-11-20T19:38:38.149Z",
+      "lastModified": "2026-11-23T15:10:46.672Z",
       "isValid": false
     },
     "savedOuterRecord": {
@@ -384,17 +384,17 @@
       ],
       "source": "wizard",
       "isCustom": true,
-      "id": "ember-bolt-direct-save-mwpdtnvc-u324",
-      "authoredDefinitionId": "17e21968-8852-44ca-bcc4-8bcd843e5766",
+      "id": "ember-bolt-direct-save-mwtekr1y-tg27",
+      "authoredDefinitionId": "2fa0b44e-0ab9-47c0-9257-4712413c12b3",
       "categoryIds": [
         "offensive"
       ],
       "categories": [
         "all"
       ],
-      "dateCreated": "2026-11-20T19:38:38.231Z",
-      "lastModified": "2026-11-20T19:38:38.234Z",
-      "lastSaved": "2026-11-20T19:38:38.231Z",
+      "dateCreated": "2026-11-23T15:10:46.774Z",
+      "lastModified": "2026-11-23T15:10:46.775Z",
+      "lastSaved": "2026-11-23T15:10:46.774Z",
       "authoredDraft": {
         "name": "Ember Bolt (Direct Save)",
         "description": "Direct ember damage with a damage-local Agility save.",
@@ -776,7 +776,7 @@
           "required": true
         }
       ],
-      "lastModified": "2026-11-20T19:38:41.444Z",
+      "lastModified": "2026-11-23T15:10:50.051Z",
       "isValid": false
     },
     "savedOuterRecord": {
@@ -944,17 +944,17 @@
       ],
       "source": "wizard",
       "isCustom": true,
-      "id": "scorching-ray-save-for-half-mwpdtqep-u33y",
-      "authoredDefinitionId": "ebab60fc-28c8-424d-9036-d809d2c2680f",
+      "id": "scorching-ray-save-for-half-mwtektng-pjwa",
+      "authoredDefinitionId": "0c3ab8d9-794b-448f-b60b-9658dc28d49d",
       "categoryIds": [
         "offensive"
       ],
       "categories": [
         "all"
       ],
-      "dateCreated": "2026-11-20T19:38:41.521Z",
-      "lastModified": "2026-11-20T19:38:41.522Z",
-      "lastSaved": "2026-11-20T19:38:41.521Z",
+      "dateCreated": "2026-11-23T15:10:50.140Z",
+      "lastModified": "2026-11-23T15:10:50.141Z",
+      "lastSaved": "2026-11-23T15:10:50.140Z",
       "authoredDraft": {
         "name": "Scorching Ray (Save for Half)",
         "description": "Direct ember damage with Partial Effect on Successful Save (damage/2).",
@@ -1338,7 +1338,7 @@
           "required": true
         }
       ],
-      "lastModified": "2026-11-20T19:38:44.296Z",
+      "lastModified": "2026-11-23T15:10:52.963Z",
       "isValid": true
     },
     "savedOuterRecord": {
@@ -1511,8 +1511,8 @@
       ],
       "source": "wizard",
       "isCustom": true,
-      "id": "rime-snare-rider-save-control-mwpdtslv-s709",
-      "authoredDefinitionId": "2a95d77b-a856-4dd4-8b63-b76e914cc36a",
+      "id": "rime-snare-rider-save-control-mwtekvwf-xpix",
+      "authoredDefinitionId": "f36b311e-25a8-49c1-b504-b895f4f3b5aa",
       "categoryIds": [
         "offensive",
         "utility"
@@ -1520,9 +1520,9 @@
       "categories": [
         "all"
       ],
-      "dateCreated": "2026-11-20T19:38:44.371Z",
-      "lastModified": "2026-11-20T19:38:44.371Z",
-      "lastSaved": "2026-11-20T19:38:44.371Z",
+      "dateCreated": "2026-11-23T15:10:53.055Z",
+      "lastModified": "2026-11-23T15:10:53.056Z",
+      "lastSaved": "2026-11-23T15:10:53.055Z",
       "authoredDraft": {
         "name": "Rime Snare (Rider Save Control)",
         "description": "Direct rime damage with a supported rider-local Constitution negates save.",
@@ -1924,7 +1924,7 @@
           "required": true
         }
       ],
-      "lastModified": "2026-11-20T19:38:48.072Z",
+      "lastModified": "2026-11-23T15:10:57.122Z",
       "isValid": true
     },
     "savedOuterRecord": {
@@ -2110,8 +2110,8 @@
       ],
       "source": "wizard",
       "isCustom": true,
-      "id": "frostfire-paradox-unsupported-combo-mwpdtvin-mcnq",
-      "authoredDefinitionId": "7ad3f316-f2ac-4213-8ba0-b726e026eb9a",
+      "id": "frostfire-paradox-unsupported-combo-mwtekz3e-65py",
+      "authoredDefinitionId": "00064015-6cd5-4c29-ab70-7ad1bf26d8c7",
       "categoryIds": [
         "offensive",
         "utility"
@@ -2119,9 +2119,9 @@
       "categories": [
         "all"
       ],
-      "dateCreated": "2026-11-20T19:38:48.143Z",
-      "lastModified": "2026-11-20T19:38:48.143Z",
-      "lastSaved": "2026-11-20T19:38:48.143Z",
+      "dateCreated": "2026-11-23T15:10:57.194Z",
+      "lastModified": "2026-11-23T15:10:57.195Z",
+      "lastSaved": "2026-11-23T15:10:57.194Z",
       "authoredDraft": {
         "name": "Frostfire Paradox (Unsupported Combo)",
         "description": "Direct damage with a damage-local save AND a rider-local save.",

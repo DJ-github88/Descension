@@ -5,9 +5,10 @@ import { useSpellLibrary, useSpellLibraryDispatch } from '../../context/SpellLib
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import WizardStep from '../common/WizardStep';
 import ExecutionCompatibility from '../common/ExecutionCompatibility';
-import { draftSubject } from '../../utils/executionCompatibility';
-import { executeCanonicalSpellSave } from '../../utils/canonicalSpellSave';
+import { draftSubject, explainExecution } from '../../utils/executionCompatibility';
+import { executeCanonicalSpellSave, validateCanonicalSpellSave } from '../../utils/canonicalSpellSave';
 import useAuthStore from '../../../../store/authStore';
+import useGameStore from '../../../../store/gameStore';
 import { saveDisclosureForRecord } from '../common/spellSavePresentation';
 import { triggerDisclosureForRecord } from '../common/spellTriggerPresentation';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
@@ -51,6 +52,21 @@ const Step10Review = ({
   const libraryDispatch = useSpellLibraryDispatch();
   const authState = useAuthStore();
   const currentUser = authState?.user ?? null;
+  const storeShared = useGameStore(s => s.isInMultiplayer);
+  const storeGm = useGameStore(s => s.isGMMode);
+  const storeRoom = useGameStore(s => s.multiplayerRoom?.id);
+  const reviewSubject = useMemo(() => draftSubject(spellState), [spellState]);
+  const compatibilityView = useMemo(
+    () => explainExecution(reviewSubject, { roomId: storeRoom, shared: storeShared === true, gm: storeGm === true }),
+    [reviewSubject, storeRoom, storeShared, storeGm]
+  );
+  const blockerTarget = compatibilityView?.blockerTarget || null;
+  const canJumpToBlocker = Boolean(
+    blockerTarget &&
+    typeof onJumpToStep === 'function' &&
+    (!Array.isArray(spellState.wizardFlow) || spellState.wizardFlow.length === 0 ||
+      spellState.wizardFlow.some(step => step.id === blockerTarget.stepId))
+  );
 
   const isEditing = Boolean(spellState.editMode && spellState.editingSpellId);
   const editingSpellId = spellState.editingSpellId;
@@ -2520,9 +2536,10 @@ const Step10Review = ({
     const errors = {};
     const warnings = {};
 
-    // Check for required fields
-    if (!spellState.name || !spellState.name.trim()) {
-      errors.name = 'Spell name is required';
+    // Check for required fields via the canonical save validation gate
+    const canonicalValidation = validateCanonicalSpellSave(spellState);
+    if (!canonicalValidation.ok) {
+      errors.name = canonicalValidation.error || 'Spell name is required';
     }
 
     if (!spellState.description) {
@@ -2639,7 +2656,9 @@ const Step10Review = ({
 
   // Jump to a specific step to edit that section
   const handleEditSection = (sectionStep) => {
-    onJumpToStep(sectionStep);
+    if (typeof onJumpToStep === 'function') {
+      onJumpToStep(sectionStep);
+    }
   };
 
   // Create the mapped spell data for preview
@@ -2665,7 +2684,7 @@ const Step10Review = ({
             <UnifiedSpellCard
               key={`wizard-preview-${previewSpellData.name || 'unnamed'}-${previewSpellData.controlConfig ? JSON.stringify(previewSpellData.controlConfig) : 'no-control'}`}
               spell={previewSpellData}
-              behaviorRecord={draftSubject(spellState)}
+              behaviorRecord={reviewSubject}
               variant="wizard"
               showActions={false}
               showDescription={true}
@@ -2834,7 +2853,20 @@ const Step10Review = ({
               </div>
             </div>
 
-            <ExecutionCompatibility draft={spellState} variant="draft" />
+            <ExecutionCompatibility record={reviewSubject} variant="draft" view={compatibilityView}>
+              {canJumpToBlocker && (
+                <div className="exec-compat-blocker-action">
+                  <button
+                    type="button"
+                    className="exec-compat-jump-btn"
+                    onClick={() => handleEditSection(blockerTarget.stepId)}
+                  >
+                    <FontAwesomeIcon icon={faEdit} className="edit-icon" aria-hidden="true" />
+                    <span>{blockerTarget.actionLabel}</span>
+                  </button>
+                </div>
+              )}
+            </ExecutionCompatibility>
 
             {/* Action Buttons */}
             <div className="review-actions">

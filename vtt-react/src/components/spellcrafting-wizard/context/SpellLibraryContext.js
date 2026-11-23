@@ -4,11 +4,11 @@ import {
   saveLibraryToStorage,
   loadLibraryFromStorage,
   generateUniqueId,
-  validateLibraryIntegrity,
   createDefaultCategories,
   categorizeSpell,
   getDefaultLibrary
 } from '../core/utils/libraryManager';
+import { sanitizeImportedSpellRecord } from '../utils/canonicalSpellContract';
 
 // Action types
 export const LIBRARY_ACTION_TYPES = {
@@ -52,7 +52,9 @@ function spellLibraryReducer(state, action) {
   switch (action.type) {
     case LIBRARY_ACTION_TYPES.ADD_SPELL: {
       // Determine appropriate categories for the spell
-      const spellCategories = action.payload.categoryIds || categorizeSpell(action.payload);
+      const spellCategories = (Array.isArray(action.payload.categoryIds) && action.payload.categoryIds.length > 0)
+        ? [...action.payload.categoryIds]
+        : categorizeSpell(action.payload);
 
       const newSpell = {
         ...action.payload,
@@ -341,8 +343,12 @@ function spellLibraryReducer(state, action) {
     }
 
     case LIBRARY_ACTION_TYPES.IMPORT_LIBRARY: {
-      // Merge the imported library with the current one
-      const { spells = [], categories = [] } = action.payload || {};
+      // Merge the imported library with the current one (accepts unwrapped { spells, categories }
+      // or canonical export envelope { version, timestamp, data: { spells, categories } }).
+      const payloadData = (action.payload?.data && Array.isArray(action.payload.data.spells))
+        ? action.payload.data
+        : (action.payload || {});
+      const { spells = [], categories = [] } = payloadData;
 
       // Merge categories, ensuring we keep default ones
       const existingCategoryIds = state.categories.map(cat => cat.id);
@@ -363,7 +369,10 @@ function spellLibraryReducer(state, action) {
       };
 
       const newSpells = spells.map(spell => {
-        const source = JSON.parse(JSON.stringify(spell));
+        const source = sanitizeImportedSpellRecord(spell);
+        if (!source) {
+          return null;
+        }
         if (source.id && seenSpellIds.has(source.id)) {
           // A catalogue-bound record's name is part of its pinned whole-record projection, so keep
           // it unchanged. Wizard-authored drafts are local definitions; rename both the record and
@@ -395,7 +404,7 @@ function spellLibraryReducer(state, action) {
           seenSpellIds.add(source.id);
         }
         return source;
-      });
+      }).filter(Boolean);
 
       return {
         ...state,
@@ -443,7 +452,7 @@ const hydrationKeyOf = (gate) => {
 
 const loadHydrated = () => {
   const storedLibrary = loadLibraryFromStorage();
-  return storedLibrary ? validateLibraryIntegrity(storedLibrary) : initialState;
+  return storedLibrary || initialState;
 };
 
 // State is `{ key, library }`: the library is only ever the library of `key`. Actions carry the key they were dispatched for, so

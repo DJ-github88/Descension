@@ -9,7 +9,7 @@ import { loadUserSpells } from '../../../../services/firebase/userSpellService';
 import { getSkillAbilitiesForSpellbook } from '../../../../utils/skillAbilitiesIntegration';
 import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
 
-import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
+import { filterSpells, sortSpells, exportLibrary, importLibrary } from '../../core/utils/libraryManager';
 import { loadCustomSpells, saveCustomSpells, loadDeletedSpellIds, saveDeletedSpellIds } from '../../../../persistence/spellLibraryScopedStorage';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
@@ -1707,8 +1707,14 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     const reader = new FileReader();
     reader.onload = (event) => {
      try {
-      const data = JSON.parse(event.target.result);
-      dispatch(libraryActionCreators.importLibrary(data.data));
+      const imported = importLibrary(event.target.result);
+      if (!imported) {
+       throw new Error('Invalid library format');
+      }
+      dispatch(libraryActionCreators.importLibrary({
+       spells: imported.spells,
+       categories: imported.categories
+      }));
      } catch (error) {
       console.error('Error importing library:', error);
       alert('Failed to import library. The file may be invalid.');
@@ -1721,16 +1727,19 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
  };
 
  const handleExport = () => {
-  const exportData = {
-   version: 1,
-   timestamp: new Date().toISOString(),
-   data: {
+  const exportedJson = exportLibrary(
+   {
     spells: library.spells,
     categories: library.categories
-   }
-  };
+   },
+   'json'
+  );
+  if (!exportedJson) {
+   alert('Failed to export spell library.');
+   return;
+  }
 
-  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+  const blob = new Blob([exportedJson], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -2195,12 +2204,34 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         <div className="wow-spellbook-title">Spell Library</div>
        )}
 
-       {/* Page Info */}
-       {totalPages > 1 && (
-        <span className="wow-page-info-header">
-         Page {validCurrentPage} of {totalPages}
-        </span>
-       )}
+       {/* Page Info & Import/Export Controls */}
+       <div className="wow-header-pagination">
+        {totalPages > 1 && (
+         <span className="wow-page-info-header">
+          Page {validCurrentPage} of {totalPages}
+         </span>
+        )}
+        {!hideHeader && (
+         <>
+          <button
+           type="button"
+           className="wow-header-button"
+           onClick={handleImport}
+           title="Import spells from a JSON file"
+          >
+           <i className="fas fa-file-import"></i> Import
+          </button>
+          <button
+           type="button"
+           className="wow-header-button"
+           onClick={handleExport}
+           title="Export spells to a JSON file"
+          >
+           <i className="fas fa-file-export"></i> Export
+          </button>
+         </>
+        )}
+       </div>
       </div>
 
       {filteredSpells.length === 0 ? (
@@ -2585,6 +2616,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             <div className="review-spell-preview">
              <SpellCardWithProcs
               spell={transformedSpell}
+              behaviorRecord={spell}
               variant="wizard"
               rollableTableData={rollableTableData}
               showActions={false}

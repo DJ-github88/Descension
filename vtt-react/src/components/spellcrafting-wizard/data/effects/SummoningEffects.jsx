@@ -49,6 +49,76 @@ const DEFAULT_CREATURE_CONFIG = {
   abilities: []
 };
 
+const cloneJson = (value) => (value === undefined ? undefined : JSON.parse(JSON.stringify(value)));
+
+const createDefaultCreatureConfig = () => ({
+  ...DEFAULT_CREATURE_CONFIG,
+  attachedEffects: {},
+  abilities: []
+});
+
+const cloneCreatureConfig = (config) => {
+  const base = createDefaultCreatureConfig();
+  if (!config || typeof config !== 'object') {
+    return base;
+  }
+  const cloned = cloneJson(config);
+  return {
+    ...base,
+    ...cloned,
+    attachedEffects: cloned.attachedEffects && typeof cloned.attachedEffects === 'object'
+      ? cloned.attachedEffects
+      : {},
+    abilities: Array.isArray(cloned.abilities) ? cloned.abilities : []
+  };
+};
+
+const buildSelectedCreature = (incomingCreature, existingCreature) => {
+  if (!existingCreature) {
+    return {
+      ...incomingCreature,
+      config: createDefaultCreatureConfig()
+    };
+  }
+
+  if (existingCreature.id?.startsWith('custom-summon')) {
+    return {
+      ...incomingCreature,
+      ...existingCreature,
+      stats: existingCreature.stats ? cloneJson(existingCreature.stats) : incomingCreature.stats,
+      abilities: Array.isArray(existingCreature.abilities)
+        ? cloneJson(existingCreature.abilities)
+        : incomingCreature.abilities,
+      config: cloneCreatureConfig(existingCreature.config)
+    };
+  }
+
+  return {
+    ...incomingCreature,
+    ...(existingCreature.abilities !== undefined
+      ? { abilities: cloneJson(existingCreature.abilities) }
+      : {}),
+    config: cloneCreatureConfig(existingCreature.config)
+  };
+};
+
+const syncSummaryFromPrimaryCreature = (prev, nextCreatures) => {
+  const primaryConfig = nextCreatures?.[0]?.config || DEFAULT_CREATURE_CONFIG;
+  return {
+    ...prev,
+    creatures: nextCreatures,
+    quantity: primaryConfig.quantity ?? DEFAULT_CREATURE_CONFIG.quantity,
+    duration: primaryConfig.duration ?? DEFAULT_CREATURE_CONFIG.duration,
+    durationUnit: primaryConfig.durationUnit ?? DEFAULT_CREATURE_CONFIG.durationUnit,
+    hasDuration: primaryConfig.hasDuration ?? DEFAULT_CREATURE_CONFIG.hasDuration,
+    concentration: primaryConfig.concentration ?? DEFAULT_CREATURE_CONFIG.concentration,
+    controlType: primaryConfig.controlType ?? DEFAULT_CREATURE_CONFIG.controlType,
+    controlRange: primaryConfig.controlRange !== undefined
+      ? primaryConfig.controlRange
+      : DEFAULT_CREATURE_CONFIG.controlRange
+  };
+};
+
 // Difficulty levels
 const DIFFICULTY_LEVELS = [
   { id: 'easy', name: 'Easy (CR 1-2)', description: 'Simple creatures, manageable for novices' },
@@ -82,6 +152,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
 
   // State for creature selection window
   const [showCreatureSelection, setShowCreatureSelection] = useState(false);
+  const [selectionSession, setSelectionSession] = useState(0);
 
   // State for BasicAbilityCreator modal
   const [showAbilityCreator, setShowAbilityCreator] = useState(false);
@@ -131,7 +202,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
         ...summonConfig,
         // Include these for backward compatibility
         creatureId: summonConfig.creatures?.[0]?.id || null,
-        formula: getDefaultFormula ? getDefaultFormula() : '1d6'
+        formula: summonConfig.formula || (getDefaultFormula ? getDefaultFormula() : '1d6')
       };
 
       dispatch(actionCreators.updateSummonConfig(parentConfig));
@@ -245,20 +316,15 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
 
       if (creatureExists) {
         // Remove the creature
-        return {
-          ...prev,
-          creatures: creatures.filter(c => c.id !== creature.id)
-        };
+        return syncSummaryFromPrimaryCreature(
+          prev,
+          creatures.filter(c => c.id !== creature.id)
+        );
       } else {
-        // Add the creature
-        const newCreature = {
-          ...creature
-        };
+        // Add the creature with fresh defaults
+        const newCreature = buildSelectedCreature(creature, null);
 
-        return {
-          ...prev,
-          creatures: [...creatures, newCreature]
-        };
+        return syncSummaryFromPrimaryCreature(prev, [...creatures, newCreature]);
       }
     });
   };
@@ -270,61 +336,70 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
 
   // Function to remove a specific creature from selection
   const handleRemoveCreature = (creatureId) => {
-    setSummonConfig(prev => ({
-      ...prev,
-      creatures: (prev.creatures || []).filter(c => c.id !== creatureId)
-    }));
+    setSummonConfig(prev =>
+      syncSummaryFromPrimaryCreature(
+        prev,
+        (prev.creatures || []).filter(c => c.id !== creatureId)
+      )
+    );
   };
 
   // Function to clear all selected creatures
   const handleClearAllCreatures = () => {
-    setSummonConfig(prev => ({
-      ...prev,
-      creatures: []
-    }));
+    setSummonConfig(prev => syncSummaryFromPrimaryCreature(prev, []));
   };
 
   // Handle creature selection from the creature library
   const handleCreatureSelection = (selectedCreatures) => {
-    setSummonConfig(prev => ({
-      ...prev,
-      creatures: selectedCreatures.map(creature => ({
-        ...creature,
-        config: { ...DEFAULT_CREATURE_CONFIG }
-      }))
-    }));
+    const nextSelection = Array.isArray(selectedCreatures) ? selectedCreatures : [];
+    setSummonConfig(prev => {
+      const existingById = new Map(
+        (prev.creatures || [])
+          .filter(c => c && c.id != null)
+          .map(c => [c.id, c])
+      );
+
+      const nextCreatures = nextSelection.map(creature => {
+        const existing = creature?.id != null ? existingById.get(creature.id) : null;
+        return buildSelectedCreature(creature, existing);
+      });
+
+      return syncSummaryFromPrimaryCreature(prev, nextCreatures);
+    });
   };
 
   // Handle individual creature configuration changes
   const handleCreatureConfigChange = (creatureId, configKey, value) => {
-    setSummonConfig(prev => ({
-      ...prev,
-      creatures: prev.creatures.map(creature =>
+    setSummonConfig(prev => {
+      const nextCreatures = (prev.creatures || []).map(creature =>
         creature.id === creatureId
           ? {
               ...creature,
               config: {
+                ...createDefaultCreatureConfig(),
                 ...creature.config,
                 [configKey]: value
               }
             }
           : creature
-      )
-    }));
+      );
+      return syncSummaryFromPrimaryCreature(prev, nextCreatures);
+    });
   };
 
   // Handle attached effects changes
   const handleAttachedEffectChange = (creatureId, effectType, effectData) => {
     setSummonConfig(prev => ({
       ...prev,
-      creatures: prev.creatures.map(creature =>
+      creatures: (prev.creatures || []).map(creature =>
         creature.id === creatureId
           ? {
               ...creature,
               config: {
+                ...createDefaultCreatureConfig(),
                 ...creature.config,
                 attachedEffects: {
-                  ...creature.config.attachedEffects,
+                  ...(creature.config?.attachedEffects || {}),
                   [effectType]: effectData
                 }
               }
@@ -338,14 +413,15 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
   const handleRemoveAttachedEffect = (creatureId, effectKey) => {
     setSummonConfig(prev => ({
       ...prev,
-      creatures: prev.creatures.map(creature =>
+      creatures: (prev.creatures || []).map(creature =>
         creature.id === creatureId
           ? {
               ...creature,
               config: {
+                ...createDefaultCreatureConfig(),
                 ...creature.config,
                 attachedEffects: (() => {
-                  const newEffects = { ...creature.config.attachedEffects };
+                  const newEffects = { ...(creature.config?.attachedEffects || {}) };
                   delete newEffects[effectKey];
                   return newEffects;
                 })()
@@ -359,7 +435,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
   const handleRemoveAbility = (creatureId, abilityId) => {
     setSummonConfig(prev => ({
       ...prev,
-      creatures: prev.creatures.map(creature =>
+      creatures: (prev.creatures || []).map(creature =>
         creature.id === creatureId
           ? {
               ...creature,
@@ -372,6 +448,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
 
   // Open creature selection window
   const openCreatureSelection = () => {
+    setSelectionSession(prev => prev + 1);
     setShowCreatureSelection(true);
   };
 
@@ -468,14 +545,14 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                           type="text"
                           value={creature.name}
                           onChange={(e) => {
-                            const updatedCreatures = summonConfig.creatures.map(c =>
-                              c.id === creature.id
-                                ? { ...c, name: e.target.value }
-                                : c
-                            );
+                            const nextName = e.target.value;
                             setSummonConfig(prev => ({
                               ...prev,
-                              creatures: updatedCreatures
+                              creatures: (prev.creatures || []).map(c =>
+                                c.id === creature.id
+                                  ? { ...c, name: nextName }
+                                  : c
+                              )
                             }));
                           }}
                           className="creature-name-input"
@@ -514,20 +591,20 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                             max="1000"
                             value={creature.stats?.maxHp || 50}
                             onChange={(e) => {
-                              const updatedCreatures = summonConfig.creatures.map(c =>
-                                c.id === creature.id
-                                  ? {
-                                      ...c,
-                                      stats: {
-                                        ...c.stats,
-                                        maxHp: parseInt(e.target.value) || 50
-                                      }
-                                    }
-                                  : c
-                              );
+                              const nextMaxHp = parseInt(e.target.value, 10) || 50;
                               setSummonConfig(prev => ({
                                 ...prev,
-                                creatures: updatedCreatures
+                                creatures: (prev.creatures || []).map(c =>
+                                  c.id === creature.id
+                                    ? {
+                                        ...c,
+                                        stats: {
+                                          ...c.stats,
+                                          maxHp: nextMaxHp
+                                        }
+                                      }
+                                    : c
+                                )
                               }));
                             }}
                             className="stat-input"
@@ -545,20 +622,20 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                             max="1000"
                             value={creature.stats?.maxMana || 0}
                             onChange={(e) => {
-                              const updatedCreatures = summonConfig.creatures.map(c =>
-                                c.id === creature.id
-                                  ? {
-                                      ...c,
-                                      stats: {
-                                        ...c.stats,
-                                        maxMana: parseInt(e.target.value) || 0
-                                      }
-                                    }
-                                  : c
-                              );
+                              const nextMaxMana = parseInt(e.target.value, 10) || 0;
                               setSummonConfig(prev => ({
                                 ...prev,
-                                creatures: updatedCreatures
+                                creatures: (prev.creatures || []).map(c =>
+                                  c.id === creature.id
+                                    ? {
+                                        ...c,
+                                        stats: {
+                                          ...c.stats,
+                                          maxMana: nextMaxMana
+                                        }
+                                      }
+                                    : c
+                                )
                               }));
                             }}
                             className="stat-input"
@@ -576,20 +653,20 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                             max="20"
                             value={creature.stats?.maxAp || 6}
                             onChange={(e) => {
-                              const updatedCreatures = summonConfig.creatures.map(c =>
-                                c.id === creature.id
-                                  ? {
-                                      ...c,
-                                      stats: {
-                                        ...c.stats,
-                                        maxAp: parseInt(e.target.value) || 6
-                                      }
-                                    }
-                                  : c
-                              );
+                              const nextMaxAp = parseInt(e.target.value, 10) || 6;
                               setSummonConfig(prev => ({
                                 ...prev,
-                                creatures: updatedCreatures
+                                creatures: (prev.creatures || []).map(c =>
+                                  c.id === creature.id
+                                    ? {
+                                        ...c,
+                                        stats: {
+                                          ...c.stats,
+                                          maxAp: nextMaxAp
+                                        }
+                                      }
+                                    : c
+                                )
                               }));
                             }}
                             className="stat-input"
@@ -604,17 +681,17 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                           <select
                             value={creature.type || 'elemental'}
                             onChange={(e) => {
-                              const updatedCreatures = summonConfig.creatures.map(c =>
-                                c.id === creature.id
-                                  ? {
-                                      ...c,
-                                      type: e.target.value
-                                    }
-                                  : c
-                              );
+                              const nextType = e.target.value;
                               setSummonConfig(prev => ({
                                 ...prev,
-                                creatures: updatedCreatures
+                                creatures: (prev.creatures || []).map(c =>
+                                  c.id === creature.id
+                                    ? {
+                                        ...c,
+                                        type: nextType
+                                      }
+                                    : c
+                                )
                               }));
                             }}
                             className="stat-select"
@@ -719,29 +796,32 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                     </div>
                     <div className="creature-config-controls">
                       <div className="creature-config-control">
-                        <label>Quantity</label>
+                        <label htmlFor={`quantity-${creature.id}`}>Quantity</label>
                         <input
+                          id={`quantity-${creature.id}`}
                           type="number"
                           min="1"
                           max="10"
-                          value={creature.config?.quantity || DEFAULT_CREATURE_CONFIG.quantity}
-                          onChange={(e) => handleCreatureConfigChange(creature.id, 'quantity', parseInt(e.target.value) || 1)}
+                          value={creature.config?.quantity ?? DEFAULT_CREATURE_CONFIG.quantity}
+                          onChange={(e) => handleCreatureConfigChange(creature.id, 'quantity', parseInt(e.target.value, 10) || 1)}
                         />
                       </div>
                       <div className="creature-config-control">
-                        <label>Duration</label>
+                        <label htmlFor={`duration-${creature.id}`}>Duration</label>
                         <input
+                          id={`duration-${creature.id}`}
                           type="number"
                           min="1"
                           max="100"
-                          value={creature.config?.duration || DEFAULT_CREATURE_CONFIG.duration}
-                          onChange={(e) => handleCreatureConfigChange(creature.id, 'duration', parseInt(e.target.value) || 1)}
+                          value={creature.config?.duration ?? DEFAULT_CREATURE_CONFIG.duration}
+                          onChange={(e) => handleCreatureConfigChange(creature.id, 'duration', parseInt(e.target.value, 10) || 1)}
                         />
                       </div>
                       <div className="creature-config-control">
-                        <label>Duration Unit</label>
+                        <label htmlFor={`duration-unit-${creature.id}`}>Duration Unit</label>
                         <select
-                          value={creature.config?.durationUnit || DEFAULT_CREATURE_CONFIG.durationUnit}
+                          id={`duration-unit-${creature.id}`}
+                          value={creature.config?.durationUnit ?? DEFAULT_CREATURE_CONFIG.durationUnit}
                           onChange={(e) => handleCreatureConfigChange(creature.id, 'durationUnit', e.target.value)}
                         >
                           <option value="rounds">Rounds</option>
@@ -754,14 +834,15 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                         <input
                           id={`concentration-${creature.id}`}
                           type="checkbox"
-                          checked={creature.config?.concentration || DEFAULT_CREATURE_CONFIG.concentration}
+                          checked={creature.config?.concentration ?? DEFAULT_CREATURE_CONFIG.concentration}
                           onChange={(e) => handleCreatureConfigChange(creature.id, 'concentration', e.target.checked)}
                         />
                       </div>
                       <div className="creature-config-control">
-                        <label>Control Type</label>
+                        <label htmlFor={`control-type-${creature.id}`}>Control Type</label>
                         <select
-                          value={creature.config?.controlType || DEFAULT_CREATURE_CONFIG.controlType}
+                          id={`control-type-${creature.id}`}
+                          value={creature.config?.controlType ?? DEFAULT_CREATURE_CONFIG.controlType}
                           onChange={(e) => handleCreatureConfigChange(creature.id, 'controlType', e.target.value)}
                         >
                           <option value="verbal">Verbal Commands</option>
@@ -771,10 +852,11 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                         </select>
                       </div>
                       <div className="creature-config-control">
-                        <label>Control Range</label>
+                        <label htmlFor={`control-range-${creature.id}`}>Control Range</label>
                         <select
+                          id={`control-range-${creature.id}`}
                           value={creature.config?.controlRange !== undefined ? creature.config.controlRange : DEFAULT_CREATURE_CONFIG.controlRange}
-                          onChange={(e) => handleCreatureConfigChange(creature.id, 'controlRange', parseInt(e.target.value))}
+                          onChange={(e) => handleCreatureConfigChange(creature.id, 'controlRange', parseInt(e.target.value, 10))}
                         >
                           <option value={30}>30 feet</option>
                           <option value={60}>60 feet</option>
@@ -800,14 +882,14 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                         <textarea
                           value={creature.description || ''}
                           onChange={(e) => {
-                            const updatedCreatures = summonConfig.creatures.map(c =>
-                              c.id === creature.id
-                                ? { ...c, description: e.target.value }
-                                : c
-                            );
+                            const nextDescription = e.target.value;
                             setSummonConfig(prev => ({
                               ...prev,
-                              creatures: updatedCreatures
+                              creatures: (prev.creatures || []).map(c =>
+                                c.id === creature.id
+                                  ? { ...c, description: nextDescription }
+                                  : c
+                              )
                             }));
                           }}
                           placeholder="Describe your temporal entity..."
@@ -1486,12 +1568,11 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                   maxAp: 6
                 },
                 abilities: [],
-                config: { ...DEFAULT_CREATURE_CONFIG }
+                config: createDefaultCreatureConfig()
               };
-              setSummonConfig(prev => ({
-                ...prev,
-                creatures: [...(prev.creatures || []), customCreature]
-              }));
+              setSummonConfig(prev =>
+                syncSummaryFromPrimaryCreature(prev, [...(prev.creatures || []), customCreature])
+              );
             }}
           >
             <FaPlus style={{ marginRight: '6px' }} />
@@ -1537,6 +1618,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
 
       {/* Creature Selection Window */}
       <CreatureSelectionWindow
+        key={selectionSession}
         isOpen={showCreatureSelection}
         onClose={closeCreatureSelection}
         onSelect={handleCreatureSelection}

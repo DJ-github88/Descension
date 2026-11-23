@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { FaHeart, FaDroplet, FaBolt, FaFire, FaShield, FaHeartPulse, FaGaugeHigh, FaGauge, FaChevronDown } from 'react-icons/fa6';
 import IconSelectionCard from '../../components/common/IconSelectionCard';
@@ -107,14 +107,18 @@ const VariablesDisplay = ({ onVariableClick, resolution = 'DICE' }) => {
         onVariableClick(functionName);
       }
       // Copy to clipboard
-      navigator.clipboard.writeText(functionName);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(functionName);
+      }
     } else {
       // Normal variable handling
       if (onVariableClick) {
         onVariableClick(variable);
       }
       // Copy to clipboard
-      navigator.clipboard.writeText(variable);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(variable);
+      }
     }
 
     // Show tooltip
@@ -204,25 +208,112 @@ const VariablesDisplay = ({ onVariableClick, resolution = 'DICE' }) => {
   );
 };
 
-const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectType, config }) => {
-  // Create state for restoration config
-  const [restorationConfig, setRestorationConfig] = useState(() => {
-    return config || {
-      resourceType: config?.resourceType || 'mana', // Use config resourceType if available
-      resolution: 'DICE',
-      formula: '1d8 + INT',
-      duration: 'instant',
-      tickFrequency: 'round',
-      application: 'start',
-      scalingType: 'flat',
-      isOverTime: false,
-      overTimeFormula: '1d4 + INT/2',
-      overTimeDuration: 3,
-      overTimeTriggerType: 'periodic', // 'periodic' or 'trigger'
-      isProgressiveOverTime: false, // Flag for progressive over time effect
-      overTimeProgressiveStages: [] // Array of stages with formulas for each round
-    };
+const DEFAULT_RESTORATION_CONFIG = {
+  resourceType: 'mana',
+  resolution: 'DICE',
+  formula: '1d8 + INT',
+  duration: 'instant',
+  tickFrequency: 'round',
+  application: 'start',
+  scalingType: 'flat',
+  isOverTime: false,
+  overTimeFormula: '1d4 + INT/2',
+  overTimeDuration: 3,
+  overTimeTriggerType: 'periodic', // 'periodic' or 'trigger'
+  isProgressiveOverTime: false, // Flag for progressive over time effect
+  overTimeProgressiveStages: [] // Array of stages with formulas for each round
+};
+
+const isNonEmptyConfig = (value) => (
+  Boolean(value) &&
+  typeof value === 'object' &&
+  !Array.isArray(value) &&
+  Object.keys(value).some((key) => value[key] !== undefined)
+);
+
+const pickDefinedEntries = (source) => {
+  const defined = {};
+  if (!isNonEmptyConfig(source)) {
+    return defined;
+  }
+  Object.keys(source).forEach((key) => {
+    if (source[key] !== undefined) {
+      defined[key] = source[key];
+    }
   });
+  return defined;
+};
+
+const getIncomingRestorationConfig = (stateConfig, propConfig) => {
+  const hasStateConfig = isNonEmptyConfig(stateConfig);
+  const hasPropConfig = isNonEmptyConfig(propConfig);
+  if (!hasStateConfig && !hasPropConfig) {
+    return null;
+  }
+  return {
+    ...(hasPropConfig ? pickDefinedEntries(propConfig) : {}),
+    ...(hasStateConfig ? pickDefinedEntries(stateConfig) : {})
+  };
+};
+
+const mergeRestorationConfig = (incomingConfig, baseConfig = DEFAULT_RESTORATION_CONFIG) => {
+  const merged = {
+    ...DEFAULT_RESTORATION_CONFIG,
+    ...pickDefinedEntries(baseConfig)
+  };
+  if (isNonEmptyConfig(incomingConfig)) {
+    Object.assign(merged, pickDefinedEntries(incomingConfig));
+  }
+  return merged;
+};
+
+const serializeConfig = (value) => {
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return '';
+  }
+};
+
+const parseIntegerPreservingZero = (rawValue, fallback) => {
+  if (rawValue === '' || rawValue === null || rawValue === undefined) {
+    return fallback;
+  }
+  const parsed = parseInt(rawValue, 10);
+  return Number.isNaN(parsed) ? fallback : parsed;
+};
+
+const buildEffectData = (cfg) => ({
+  type: 'restoration',
+  resourceType: cfg.resourceType,
+  resolution: cfg.resolution,
+  formula: cfg.formula,
+  duration: cfg.duration,
+  isOverTime: cfg.isOverTime,
+  overTimeFormula: cfg.overTimeFormula,
+  overTimeDuration: cfg.overTimeDuration,
+  tickFrequency: cfg.tickFrequency,
+  application: cfg.application,
+  scalingType: cfg.scalingType,
+  overTimeTriggerType: cfg.overTimeTriggerType ?? 'periodic',
+  isProgressiveOverTime: cfg.isProgressiveOverTime ?? false,
+  overTimeProgressiveStages: cfg.overTimeProgressiveStages ?? []
+});
+
+const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectType, config, onConfigChange }) => {
+  const initialIncomingConfig = getIncomingRestorationConfig(state?.restorationConfig, config);
+
+  // Create state for restoration config without letting an empty config ({}) wipe initialized fields
+  const [restorationConfig, setRestorationConfig] = useState(() => (
+    mergeRestorationConfig(initialIncomingConfig)
+  ));
+
+  const latestConfigRef = useRef(restorationConfig);
+  latestConfigRef.current = restorationConfig;
+
+  const lastSyncedExternalJsonRef = useRef(
+    initialIncomingConfig ? serializeConfig(initialIncomingConfig) : null
+  );
 
   // State for UI toggles
   const [showComplexExamples, setShowComplexExamples] = useState(false);
@@ -234,21 +325,57 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [copyTooltip, setCopyTooltip] = useState({ show: false, text: '', x: 0, y: 0 });
 
-  // Update parent state when local state changes
-  useEffect(() => {
+  const emitConfig = useCallback((nextConfig) => {
     if (dispatch && actionCreators && actionCreators.updateRestorationConfig) {
-      // Use a timeout to prevent rapid state updates that might cause rendering issues
-      const timeoutId = setTimeout(() => {
-        dispatch(actionCreators.updateRestorationConfig(restorationConfig));
+      dispatch(actionCreators.updateRestorationConfig(nextConfig));
 
-        if (actionCreators.updateEffectData && effectId) {
-          dispatch(actionCreators.updateEffectData(effectId, getEffectData()));
-        }
-      }, 10);
-
-      return () => clearTimeout(timeoutId);
+      if (actionCreators.updateEffectData && effectId) {
+        dispatch(actionCreators.updateEffectData(effectId, buildEffectData(nextConfig)));
+      }
+    } else if (typeof onConfigChange === 'function') {
+      onConfigChange(nextConfig);
     }
-  }, [restorationConfig, dispatch, actionCreators, effectId]);
+  }, [dispatch, actionCreators, effectId, onConfigChange]);
+
+  const applyConfigUpdate = useCallback((updater) => {
+    const current = latestConfigRef.current;
+    const nextConfig = typeof updater === 'function' ? updater(current) : updater;
+    latestConfigRef.current = nextConfig;
+    setRestorationConfig(nextConfig);
+    emitConfig(nextConfig);
+  }, [emitConfig]);
+
+  // Seed parent state on mount only when parent state has not initialized restorationConfig yet
+  useEffect(() => {
+    const hasParentConfig = isNonEmptyConfig(state?.restorationConfig) || isNonEmptyConfig(config);
+    if (!hasParentConfig) {
+      emitConfig(latestConfigRef.current);
+    } else if (!isNonEmptyConfig(state?.restorationConfig) && dispatch && actionCreators?.updateRestorationConfig) {
+      emitConfig(latestConfigRef.current);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Sync from non-empty external config updates (e.g., loadSpell / parent init),
+  // ignoring empty configs ({} / null / undefined) so initialized fields are never wiped.
+  useEffect(() => {
+    const incoming = getIncomingRestorationConfig(state?.restorationConfig, config);
+    if (!incoming) {
+      return;
+    }
+
+    const incomingJson = serializeConfig(incoming);
+    if (incomingJson === lastSyncedExternalJsonRef.current) {
+      return;
+    }
+
+    lastSyncedExternalJsonRef.current = incomingJson;
+    const mergedIncoming = mergeRestorationConfig(incoming);
+    if (serializeConfig(mergedIncoming) !== serializeConfig(latestConfigRef.current)) {
+      latestConfigRef.current = mergedIncoming;
+      setRestorationConfig(mergedIncoming);
+    }
+  }, [state?.restorationConfig, config]);
 
   // Handle mouse events for tooltips
   const handleMouseEnter = (content, e) => {
@@ -271,7 +398,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
 
   // Update a specific config property
   const updateRestorationConfig = (key, value) => {
-    setRestorationConfig(prev => {
+    applyConfigUpdate((prev) => {
       const newConfig = {
         ...prev,
         [key]: value
@@ -303,7 +430,9 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
     // Show copy tooltip if a variable was clicked
     if (variable) {
       // Copy to clipboard
-      navigator.clipboard.writeText(variable);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(variable);
+      }
 
       // Get element position
       const element = document.getElementById(`var-${variable}`);
@@ -332,7 +461,9 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
     // Show copy tooltip if a variable was clicked
     if (variable) {
       // Copy to clipboard
-      navigator.clipboard.writeText(variable);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(variable);
+      }
 
       // Get element position
       const element = document.getElementById(`var-ot-${variable}`);
@@ -351,7 +482,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
 
   // Handle duration change
   const handleDurationChange = (duration) => {
-    updateRestorationConfig('overTimeDuration', parseInt(duration, 10) || 3);
+    updateRestorationConfig('overTimeDuration', parseIntegerPreservingZero(duration, 3));
   };
 
   // Handle tick frequency change
@@ -393,92 +524,86 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
 
   // Handle progressive over time toggle
   const handleProgressiveOverTimeToggle = (isEnabled) => {
-    // Create a new config with all the updated values, preserving all existing properties
-    const newConfig = {
-      ...restorationConfig,
-      isProgressiveOverTime: isEnabled,
-      scalingType: isEnabled ? 'progressive' : (restorationConfig.scalingType || 'flat'),
-      // Progressive stages require over time to be enabled
-      isOverTime: isEnabled ? true : restorationConfig.isOverTime
-    };
+    applyConfigUpdate((prev) => {
+      // Create a new config with all the updated values, preserving all existing properties
+      const newConfig = {
+        ...prev,
+        isProgressiveOverTime: isEnabled,
+        scalingType: isEnabled ? 'progressive' : (prev.scalingType ?? 'flat'),
+        // Progressive stages require over time to be enabled
+        isOverTime: isEnabled ? true : (prev.isOverTime ?? false)
+      };
 
-    // Initialize progressiveStages array when enabling progressive effect
-    if (isEnabled && (!restorationConfig.overTimeProgressiveStages || restorationConfig.overTimeProgressiveStages.length === 0)) {
-      newConfig.overTimeProgressiveStages = [{
-        triggerAt: 1,
-        formula: restorationConfig.overTimeFormula || `1d4 + ${getResourceCode(restorationConfig.resourceType)}/2`,
-        description: ''
-      }];
-    } else if (!isEnabled) {
-      // When disabling, keep the stages but don't use them
-      // This preserves user's work in case they toggle back on
-      newConfig.overTimeProgressiveStages = restorationConfig.overTimeProgressiveStages || [];
-    }
-
-    // Update the local config first
-    setRestorationConfig(newConfig);
-
-    // Then dispatch to global state - use a timeout to ensure local state is updated first
-    setTimeout(() => {
-      if (dispatch && actionCreators && actionCreators.updateRestorationConfig) {
-        dispatch(actionCreators.updateRestorationConfig(newConfig));
+      // Initialize progressiveStages array when enabling progressive effect
+      if (isEnabled && (!Array.isArray(prev.overTimeProgressiveStages) || prev.overTimeProgressiveStages.length === 0)) {
+        newConfig.overTimeProgressiveStages = [{
+          triggerAt: 1,
+          formula: prev.overTimeFormula ?? `1d4 + ${getResourceCode(prev.resourceType)}/2`,
+          description: ''
+        }];
+      } else if (!isEnabled) {
+        // When disabling, keep the stages but don't use them
+        // This preserves user's work in case they toggle back on
+        newConfig.overTimeProgressiveStages = prev.overTimeProgressiveStages ?? [];
       }
-    }, 0);
+
+      return newConfig;
+    });
   };
 
   // Handle adding a new progressive stage
   const handleAddProgressiveStage = () => {
-    const progressiveStages = restorationConfig.overTimeProgressiveStages || [];
-    const newStage = {
-      triggerAt: progressiveStages.length + 1,
-      formula: restorationConfig.overTimeFormula || `1d4 + ${getResourceCode(restorationConfig.resourceType)}/2`,
-      description: ''
-    };
-    updateRestorationConfig('overTimeProgressiveStages', [...progressiveStages, newStage]);
+    applyConfigUpdate((prev) => {
+      const progressiveStages = Array.isArray(prev.overTimeProgressiveStages) ? prev.overTimeProgressiveStages : [];
+      const newStage = {
+        triggerAt: progressiveStages.length + 1,
+        formula: prev.overTimeFormula ?? `1d4 + ${getResourceCode(prev.resourceType)}/2`,
+        description: ''
+      };
+      return {
+        ...prev,
+        overTimeProgressiveStages: [...progressiveStages, newStage]
+      };
+    });
   };
 
   // Handle updating a progressive stage
   const handleUpdateProgressiveStage = (index, field, value) => {
-    const progressiveStages = [...(restorationConfig.overTimeProgressiveStages || [])];
-    if (progressiveStages[index]) {
+    applyConfigUpdate((prev) => {
+      const progressiveStages = [...(Array.isArray(prev.overTimeProgressiveStages) ? prev.overTimeProgressiveStages : [])];
+      if (!progressiveStages[index]) {
+        return prev;
+      }
       progressiveStages[index] = {
         ...progressiveStages[index],
         [field]: value
       };
-      updateRestorationConfig('overTimeProgressiveStages', progressiveStages);
-    }
+      return {
+        ...prev,
+        overTimeProgressiveStages: progressiveStages
+      };
+    });
   };
 
   // Handle removing a progressive stage
   const handleRemoveProgressiveStage = (index) => {
-    const progressiveStages = [...(restorationConfig.overTimeProgressiveStages || [])];
-    progressiveStages.splice(index, 1);
-    // Update trigger numbers to be sequential
-    progressiveStages.forEach((stage, idx) => {
-      stage.triggerAt = idx + 1;
+    applyConfigUpdate((prev) => {
+      const progressiveStages = [...(Array.isArray(prev.overTimeProgressiveStages) ? prev.overTimeProgressiveStages : [])];
+      progressiveStages.splice(index, 1);
+      // Update trigger numbers to be sequential without mutating existing stage objects
+      const reindexedStages = progressiveStages.map((stage, idx) => ({
+        ...stage,
+        triggerAt: idx + 1
+      }));
+      return {
+        ...prev,
+        overTimeProgressiveStages: reindexedStages
+      };
     });
-    updateRestorationConfig('overTimeProgressiveStages', progressiveStages);
   };
 
   // Get effect data for spell creation
-  const getEffectData = () => {
-    return {
-      type: 'restoration',
-      resourceType: restorationConfig.resourceType,
-      resolution: restorationConfig.resolution,
-      formula: restorationConfig.formula,
-      duration: restorationConfig.duration,
-      isOverTime: restorationConfig.isOverTime,
-      overTimeFormula: restorationConfig.overTimeFormula,
-      overTimeDuration: restorationConfig.overTimeDuration,
-      tickFrequency: restorationConfig.tickFrequency,
-      application: restorationConfig.application,
-      scalingType: restorationConfig.scalingType,
-      overTimeTriggerType: restorationConfig.overTimeTriggerType || 'periodic',
-      isProgressiveOverTime: restorationConfig.isProgressiveOverTime || false,
-      overTimeProgressiveStages: restorationConfig.overTimeProgressiveStages || []
-    };
-  };
+  const getEffectData = () => buildEffectData(restorationConfig);
 
   // State for formula examples
   const [formulaExamples, setFormulaExamples] = useState([]);
@@ -823,7 +948,11 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
 
   // Render formula configuration section
   const renderFormulaConfiguration = () => {
-    const hasInstantRestoration = restorationConfig.duration === 'instant' || !restorationConfig.duration;
+    const hasInstantRestoration =
+      restorationConfig.duration === 'instant' ||
+      restorationConfig.duration === undefined ||
+      restorationConfig.duration === null ||
+      restorationConfig.duration === '';
 
     return (
       <div className="formula-configuration section">
@@ -846,7 +975,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
               <input
                 type="text"
                 className="formula-input"
-                value={restorationConfig.formula}
+                value={restorationConfig.formula ?? ''}
                 onChange={(e) => handleFormulaChange(e.target.value)}
                 placeholder={`Enter formula (e.g. 2d6 + ${getResourceCode(restorationConfig.resourceType)})`}
               />
@@ -938,7 +1067,8 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
         {/* Variables */}
         <VariablesDisplay
           onVariableClick={(variable) => {
-            const newFormula = restorationConfig.formula ? `${restorationConfig.formula} + ${variable}` : variable;
+            const hasFormula = restorationConfig.formula !== undefined && restorationConfig.formula !== null && restorationConfig.formula !== '';
+            const newFormula = hasFormula ? `${restorationConfig.formula} + ${variable}` : variable;
             handleFormulaChange(newFormula, variable);
           }}
           resolution={restorationConfig.resolution}
@@ -957,7 +1087,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
           <input
             id="over-time-cb"
             type="checkbox"
-            checked={restorationConfig.isOverTime}
+            checked={Boolean(restorationConfig.isOverTime)}
             onChange={(e) => handleOverTimeToggle(e.target.checked)}
           />
         </div>
@@ -970,7 +1100,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
                 <input
                   type="text"
                   className="formula-input"
-                  value={restorationConfig.overTimeFormula}
+                  value={restorationConfig.overTimeFormula ?? ''}
                   onChange={(e) => handleOverTimeFormulaChange(e.target.value)}
                   placeholder={`Enter formula (e.g. 1d4 + ${getResourceCode(restorationConfig.resourceType)}/2)`}
                 />
@@ -1042,7 +1172,8 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
               {/* Variables for Over Time Formula */}
               <VariablesDisplay
                 onVariableClick={(variable) => {
-                  const newFormula = restorationConfig.overTimeFormula ? `${restorationConfig.overTimeFormula} + ${variable}` : variable;
+                  const hasOverTimeFormula = restorationConfig.overTimeFormula !== undefined && restorationConfig.overTimeFormula !== null && restorationConfig.overTimeFormula !== '';
+                  const newFormula = hasOverTimeFormula ? `${restorationConfig.overTimeFormula} + ${variable}` : variable;
                   handleOverTimeFormulaChange(newFormula, variable);
                 }}
                 resolution={restorationConfig.resolution}
@@ -1053,9 +1184,9 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
               <h4>Duration (in rounds/turns)</h4>
               <input
                 type="number"
-                min="1"
+                min="0"
                 max="20"
-                value={restorationConfig.overTimeDuration}
+                value={restorationConfig.overTimeDuration ?? ''}
                 onChange={(e) => handleDurationChange(e.target.value)}
                 className="number-input"
               />
@@ -1160,7 +1291,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
                 <label className="toggle-switch">
                   <input
                     type="checkbox"
-                    checked={restorationConfig.isProgressiveOverTime}
+                    checked={Boolean(restorationConfig.isProgressiveOverTime)}
                     onChange={(e) => handleProgressiveOverTimeToggle(e.target.checked)}
                   />
                   <span className="toggle-slider"></span>
@@ -1171,14 +1302,14 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
               {restorationConfig.isProgressiveOverTime && (
                 <div className="progressive-stages">
                   <div className="stages-container">
-                    {restorationConfig.overTimeProgressiveStages.map((stage, index) => (
+                    {(restorationConfig.overTimeProgressiveStages || []).map((stage, index) => (
                       <div key={index} className="stage-item">
                         <div className="stage-header">
                           <h5>Stage {index + 1}</h5>
                           <button
                             className="remove-stage-button"
                             onClick={() => handleRemoveProgressiveStage(index)}
-                            disabled={restorationConfig.overTimeProgressiveStages.length <= 1}
+                            disabled={(restorationConfig.overTimeProgressiveStages || []).length <= 1}
                           >
                             � - 
                           </button>
@@ -1188,9 +1319,9 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
                             <label>Trigger At (round/turn):</label>
                             <input
                               type="number"
-                              min="1"
-                              value={stage.triggerAt}
-                              onChange={(e) => handleUpdateProgressiveStage(index, 'triggerAt', parseInt(e.target.value) || 1)}
+                              min="0"
+                              value={stage.triggerAt ?? ''}
+                              onChange={(e) => handleUpdateProgressiveStage(index, 'triggerAt', parseIntegerPreservingZero(e.target.value, 1))}
                               className="number-input"
                             />
                           </div>
@@ -1198,7 +1329,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
                             <label>Formula:</label>
                             <input
                               type="text"
-                              value={stage.formula}
+                              value={stage.formula ?? ''}
                               onChange={(e) => handleUpdateProgressiveStage(index, 'formula', e.target.value)}
                               className="formula-input"
                               placeholder={`Enter formula (e.g. 1d4 + ${getResourceCode(restorationConfig.resourceType)}/2)`}
@@ -1208,7 +1339,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
                             <label>Description (optional):</label>
                             <input
                               type="text"
-                              value={stage.description}
+                              value={stage.description ?? ''}
                               onChange={(e) => handleUpdateProgressiveStage(index, 'description', e.target.value)}
                               className="text-input"
                               placeholder="E.g., 'Stronger restoration in later rounds'"

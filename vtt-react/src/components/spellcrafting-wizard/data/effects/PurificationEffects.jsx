@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getAbilityIconUrl } from '../../../../utils/assetManager';
 
 
@@ -120,10 +120,38 @@ const PURIFICATION_EFFECT_DESCRIPTIONS = {
   resurrection: "Bring dead targets back to life"
 };
 
+// Default purification configuration
+const DEFAULT_PURIFICATION_CONFIG = {
+  purificationType: 'dispel',
+  duration: 'instant',
+  durationUnit: 'instant',
+  difficultyClass: 15,
+  abilitySave: 'spi',
+  difficulty: 'moderate',
+  selectedEffects: [],
+  resolution: 'DICE',
+  resurrectionFormula: '2d8 + SPI'
+};
+
+const normalizePurificationConfig = (incoming) => {
+  if (!incoming || typeof incoming !== 'object') {
+    return { ...DEFAULT_PURIFICATION_CONFIG, selectedEffects: [] };
+  }
+  const selectedEffects = Array.isArray(incoming.selectedEffects)
+    ? incoming.selectedEffects
+    : (Array.isArray(incoming.effects) ? incoming.effects : []);
+  return {
+    ...DEFAULT_PURIFICATION_CONFIG,
+    ...incoming,
+    purificationType: incoming.purificationType || DEFAULT_PURIFICATION_CONFIG.purificationType,
+    selectedEffects
+  };
+};
+
 const PurificationEffects = ({ state, dispatch, actionCreators }) => {
   // Initialize with default purification type from state or 'dispel'
   const [selectedPurificationType, setSelectedPurificationType] = useState(
-    state.purificationConfig?.purificationType || 'dispel'
+    () => state?.purificationConfig?.purificationType || 'dispel'
   );
 
   // Tooltip state
@@ -132,40 +160,62 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [effectPreview, setEffectPreview] = useState(null);
 
-  // Define default configuration
-  const defaultConfig = {
-    purificationType: 'dispel',
-    duration: 'instant',
-    durationUnit: 'instant',
-    difficultyClass: 15,
-    abilitySave: 'spi',
-    difficulty: 'moderate',
-    selectedEffects: [],
-    resolution: 'DICE',
-    resurrectionFormula: '2d8 + SPI'
+  // Initialize purification configuration with defaults while preserving existing fields
+  const [purificationConfig, setPurificationConfig] = useState(() =>
+    normalizePurificationConfig(state?.purificationConfig)
+  );
+
+  const configRef = useRef(purificationConfig);
+  const lastPropJsonRef = useRef(
+    state?.purificationConfig ? JSON.stringify(state.purificationConfig) : null
+  );
+  const initializedRef = useRef(false);
+
+  // Initialize wizard state once on mount only when purificationConfig is missing
+  useEffect(() => {
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      if (!state?.purificationConfig && dispatch && actionCreators?.updatePurificationConfig) {
+        const initial = configRef.current;
+        lastPropJsonRef.current = JSON.stringify(initial);
+        dispatch(actionCreators.updatePurificationConfig(initial));
+      }
+    }
+  }, [state?.purificationConfig, dispatch, actionCreators]);
+
+  // Sync local state when external state.purificationConfig changes (e.g. reopening a saved spell)
+  useEffect(() => {
+    if (!state?.purificationConfig || typeof state.purificationConfig !== 'object') {
+      if (lastPropJsonRef.current !== null) {
+        lastPropJsonRef.current = null;
+      }
+      return;
+    }
+
+    const nextPropJson = JSON.stringify(state.purificationConfig);
+    if (nextPropJson === lastPropJsonRef.current) {
+      return;
+    }
+
+    lastPropJsonRef.current = nextPropJson;
+    const normalized = normalizePurificationConfig(state.purificationConfig);
+    if (JSON.stringify(normalized) !== JSON.stringify(configRef.current)) {
+      configRef.current = normalized;
+      setPurificationConfig(normalized);
+    }
+    setSelectedPurificationType(normalized.purificationType || 'dispel');
+  }, [state?.purificationConfig]);
+
+  // Commit user edits to both local state and wizard context without effect feedback loops
+  const commitPurificationConfig = (updater) => {
+    const prev = configRef.current;
+    const next = typeof updater === 'function' ? updater(prev) : updater;
+    configRef.current = next;
+    setPurificationConfig(next);
+    if (dispatch && actionCreators?.updatePurificationConfig) {
+      dispatch(actionCreators.updatePurificationConfig(next));
+    }
   };
-
-  // Initialize purification configuration with defaults
-  const [purificationConfig, setPurificationConfig] = useState(state.purificationConfig || defaultConfig);
-
-  // Effect to update state when purification type changes
-  useEffect(() => {
-    if (selectedPurificationType !== purificationConfig.purificationType) {
-      const newConfig = {
-        ...purificationConfig,
-        purificationType: selectedPurificationType
-      };
-      setPurificationConfig(newConfig);
-      dispatch(actionCreators.updatePurificationConfig(newConfig));
-    }
-  }, [selectedPurificationType, purificationConfig.purificationType, dispatch]);
-
-  // Effect to sync state when configuration changes
-  useEffect(() => {
-    if (state.purificationConfig !== purificationConfig) {
-      dispatch(actionCreators.updatePurificationConfig(purificationConfig));
-    }
-  }, [purificationConfig, state.purificationConfig, dispatch, actionCreators]);
 
   // Handle mouse events for tooltips
   const handleMouseEnter = (content, e) => {
@@ -185,11 +235,14 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
 
   // Handle purification type change
   const handlePurificationTypeChange = (type) => {
+    const currentType = configRef.current.purificationType || selectedPurificationType;
+    if (type === currentType) return;
+
     setSelectedPurificationType(type);
 
     // Clear selected effects when changing purification type since they're type-specific
     // Each purification type has its own set of available effects
-    setPurificationConfig(prev => ({
+    commitPurificationConfig(prev => ({
       ...prev,
       purificationType: type,
       selectedEffects: [] // Clear effects when switching types
@@ -213,23 +266,27 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
 
   // Toggle an effect selection
   const toggleEffect = (effectId) => {
-    const effects = purificationConfig.selectedEffects || [];
-    const effectType = getEffectsForType(selectedPurificationType).find(e => e.id === effectId);
+    const activeType = configRef.current.purificationType || selectedPurificationType;
+    const effectType = getEffectsForType(activeType).find(e => e.id === effectId);
 
     if (!effectType) return;
 
-    // Check if this effect is already selected
-    const existingIndex = effects.findIndex(e => e.id === effectId);
+    commitPurificationConfig(prev => {
+      const effects = prev.selectedEffects || [];
 
-    if (existingIndex >= 0) {
-      // Remove the effect
-      const newEffects = [...effects];
-      newEffects.splice(existingIndex, 1);
-      setPurificationConfig(prev => ({
-        ...prev,
-        selectedEffects: newEffects
-      }));
-    } else {
+      // Check if this effect is already selected
+      const existingIndex = effects.findIndex(e => e.id === effectId);
+
+      if (existingIndex >= 0) {
+        // Remove the effect
+        const newEffects = [...effects];
+        newEffects.splice(existingIndex, 1);
+        return {
+          ...prev,
+          selectedEffects: newEffects
+        };
+      }
+
       // Create base effect configuration
       const baseEffect = {
         id: effectId,
@@ -238,138 +295,153 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
         description: effectType.description,
         customDuration: 60, // Default duration in seconds
         customEffects: 1, // Default number of effects to remove
-        purificationType: selectedPurificationType,
+        purificationType: activeType,
         specificEffectTypes: [] // For storing specific effect types (like bleed, poison, etc.)
       };
 
       // Add resurrection-specific properties if needed
-      if (selectedPurificationType === 'resurrection') {
-        baseEffect.resolution = purificationConfig.resolution || 'DICE';
+      if (activeType === 'resurrection') {
+        baseEffect.resolution = prev.resolution || 'DICE';
         baseEffect.resurrectionFormula = getDefaultResurrectionFormula(baseEffect.resolution);
       }
 
       // Add the effect with custom configuration
-      setPurificationConfig(prev => ({
+      return {
         ...prev,
         selectedEffects: [
           ...effects,
           baseEffect
         ]
-      }));
-    }
+      };
+    });
   };
 
   // Toggle a specific effect type for dispel
   const toggleSpecificEffectType = (effectId, specificType) => {
-    const effects = purificationConfig.selectedEffects || [];
-    const newEffects = effects.map(effect => {
-      if (effect.id === effectId) {
-        const currentSpecificTypes = effect.specificEffectTypes || [];
-        let newSpecificTypes;
+    commitPurificationConfig(prev => {
+      const effects = prev.selectedEffects || [];
+      const newEffects = effects.map(effect => {
+        if (effect.id === effectId) {
+          const currentSpecificTypes = effect.specificEffectTypes || [];
+          let newSpecificTypes;
 
-        if (currentSpecificTypes.includes(specificType)) {
-          // Remove the type if it's already selected
-          newSpecificTypes = currentSpecificTypes.filter(type => type !== specificType);
-        } else {
-          // Add the type if it's not already selected
-          newSpecificTypes = [...currentSpecificTypes, specificType];
+          if (currentSpecificTypes.includes(specificType)) {
+            // Remove the type if it's already selected
+            newSpecificTypes = currentSpecificTypes.filter(type => type !== specificType);
+          } else {
+            // Add the type if it's not already selected
+            newSpecificTypes = [...currentSpecificTypes, specificType];
+          }
+
+          return { ...effect, specificEffectTypes: newSpecificTypes };
         }
+        return effect;
+      });
 
-        return { ...effect, specificEffectTypes: newSpecificTypes };
-      }
-      return effect;
+      return {
+        ...prev,
+        selectedEffects: newEffects
+      };
     });
-
-    setPurificationConfig(prev => ({
-      ...prev,
-      selectedEffects: newEffects
-    }));
   };
 
   // Update effect custom range
   const updateEffectRange = (effectId, value) => {
-    const effects = purificationConfig.selectedEffects || [];
-    const newEffects = effects.map(effect => {
-      if (effect.id === effectId) {
-        return { ...effect, customRange: Math.max(5, Math.min(100, value)) };
-      }
-      return effect;
-    });
+    commitPurificationConfig(prev => {
+      const effects = prev.selectedEffects || [];
+      const newEffects = effects.map(effect => {
+        if (effect.id === effectId) {
+          return { ...effect, customRange: Math.max(5, Math.min(100, value)) };
+        }
+        return effect;
+      });
 
-    setPurificationConfig(prev => ({
-      ...prev,
-      selectedEffects: newEffects
-    }));
+      return {
+        ...prev,
+        selectedEffects: newEffects
+      };
+    });
   };
 
   // Update effect custom duration
   const updateEffectDuration = (effectId, value) => {
-    const effects = purificationConfig.selectedEffects || [];
-    const newEffects = effects.map(effect => {
-      if (effect.id === effectId) {
-        return { ...effect, customDuration: Math.max(0, value) };
-      }
-      return effect;
-    });
+    commitPurificationConfig(prev => {
+      const effects = prev.selectedEffects || [];
+      const newEffects = effects.map(effect => {
+        if (effect.id === effectId) {
+          return { ...effect, customDuration: Math.max(0, value) };
+        }
+        return effect;
+      });
 
-    setPurificationConfig(prev => ({
-      ...prev,
-      selectedEffects: newEffects
-    }));
+      return {
+        ...prev,
+        selectedEffects: newEffects
+      };
+    });
   };
 
   // Update effect custom effects count
   const updateEffectCount = (effectId, value) => {
-    const effects = purificationConfig.selectedEffects || [];
-    const newEffects = effects.map(effect => {
-      if (effect.id === effectId) {
-        return { ...effect, customEffects: Math.max(1, value) };
-      }
-      return effect;
-    });
+    if (Number.isNaN(value)) return;
+    commitPurificationConfig(prev => {
+      const effects = prev.selectedEffects || [];
+      const newEffects = effects.map(effect => {
+        if (effect.id === effectId) {
+          return { ...effect, customEffects: Math.max(1, value) };
+        }
+        return effect;
+      });
 
-    setPurificationConfig(prev => ({
-      ...prev,
-      selectedEffects: newEffects
-    }));
+      return {
+        ...prev,
+        selectedEffects: newEffects
+      };
+    });
   };
 
   // Update effect resolution method
   const updateEffectResolution = (effectId, resolution) => {
-    const effects = purificationConfig.selectedEffects || [];
-    const newEffects = effects.map(effect => {
-      if (effect.id === effectId) {
-        return {
-          ...effect,
-          resolution,
-          resurrectionFormula: getDefaultResurrectionFormula(resolution)
-        };
-      }
-      return effect;
-    });
+    const nextFormula = getDefaultResurrectionFormula(resolution);
+    commitPurificationConfig(prev => {
+      const effects = prev.selectedEffects || [];
+      const newEffects = effects.map(effect => {
+        if (effect.id === effectId) {
+          return {
+            ...effect,
+            resolution,
+            resurrectionFormula: nextFormula
+          };
+        }
+        return effect;
+      });
 
-    setPurificationConfig(prev => ({
-      ...prev,
-      resolution,
-      selectedEffects: newEffects
-    }));
+      return {
+        ...prev,
+        resolution,
+        resurrectionFormula: nextFormula,
+        selectedEffects: newEffects
+      };
+    });
   };
 
   // Update effect resurrection formula
   const updateEffectResurrectionFormula = (effectId, formula) => {
-    const effects = purificationConfig.selectedEffects || [];
-    const newEffects = effects.map(effect => {
-      if (effect.id === effectId) {
-        return { ...effect, resurrectionFormula: formula };
-      }
-      return effect;
-    });
+    commitPurificationConfig(prev => {
+      const effects = prev.selectedEffects || [];
+      const newEffects = effects.map(effect => {
+        if (effect.id === effectId) {
+          return { ...effect, resurrectionFormula: formula };
+        }
+        return effect;
+      });
 
-    setPurificationConfig(prev => ({
-      ...prev,
-      resurrectionFormula: formula,
-      selectedEffects: newEffects
-    }));
+      return {
+        ...prev,
+        resurrectionFormula: formula,
+        selectedEffects: newEffects
+      };
+    });
   };
 
   // Get default resurrection formula based on resolution type
@@ -465,29 +537,31 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
 
   // Remove an effect
   const removeEffect = (effectId) => {
-    const effects = purificationConfig.selectedEffects || [];
-    const newEffects = effects.filter(effect => effect.id !== effectId);
-
-    setPurificationConfig(prev => ({
-      ...prev,
-      selectedEffects: newEffects
-    }));
+    commitPurificationConfig(prev => {
+      const effects = prev.selectedEffects || [];
+      const newEffects = effects.filter(effect => effect.id !== effectId);
+      return {
+        ...prev,
+        selectedEffects: newEffects
+      };
+    });
   };
 
   // Get description for an effect
   const getEffectDescription = (effect) => {
-    if (!effect || !effect.purificationType) {
+    const effectPurificationType = effect?.purificationType || purificationConfig.purificationType;
+    if (!effect || !effectPurificationType) {
       return 'No description available';
     }
 
     // For resurrection effects
-    if (effect.purificationType === 'resurrection') {
+    if (effectPurificationType === 'resurrection') {
       const formula = effect.resurrectionFormula || purificationConfig.resurrectionFormula || '2d8 + SPI';
       return `${PURIFICATION_EFFECT_DESCRIPTIONS.resurrection} (${formula})`;
     }
 
     // For dispel effects
-    if (effect.purificationType === 'dispel' && effect.id) {
+    if (effectPurificationType === 'dispel' && effect.id) {
       let baseDescription = PURIFICATION_EFFECT_DESCRIPTIONS.dispel[effect.id] || 'Remove effects from a target';
 
       // Add specific effect types if any are selected
@@ -590,172 +664,193 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
       <div className="selected-effects section">
         <h3>Selected Effects</h3>
         <div className="selected-effects-list">
-          {purificationConfig.selectedEffects.map(effect => (
-            <div className="selected-effect" key={effect.id}>
-              <div className="effect-header">
-                <div className="effect-icon">
-                  <img src={getIconUrl(effect.icon)} alt={effect.name} />
-                </div>
-                <div className="effect-info">
-                  <div className="effect-name">{effect.name}</div>
-                  <div className="effect-description">{getEffectDescription(effect)}</div>
-                </div>
-                <div className="effect-actions">
-                  <button
-                    className="remove-effect"
-                    onClick={() => removeEffect(effect.id)}
-                    onMouseEnter={(e) => handleMouseEnter({name: 'Remove Effect', description: 'Remove this effect from the spell'}, e)}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseMove={handleMouseMove}
-                  >
-                    <FaCircleXmark />
-                  </button>
-                </div>
-              </div>
+          {purificationConfig.selectedEffects.map((effect, effectIndex) => {
+            const effectPurificationType = effect.purificationType || purificationConfig.purificationType;
+            const activeResolution = effect.resolution || purificationConfig.resolution || 'DICE';
+            const formulaValue = effect.resurrectionFormula !== undefined
+              ? effect.resurrectionFormula
+              : (purificationConfig.resurrectionFormula ?? '');
 
-              <div className="effect-custom-config">
-                {/* No power slider needed for dispel or resurrection */}
-
-                {/* Specific effect types for dispel */}
-                {effect.purificationType === 'dispel' && (
-                  <>
-                    {/* Show physical effect types if physical is selected */}
-                    {effect.id === 'physical' && (
-                      <div className="specific-effect-types">
-                        <div className="custom-config-label">Specific Physical Effects:</div>
-                        <div className="specific-types-grid">
-                          {PHYSICAL_EFFECT_TYPES.map(type => (
-                            <div
-                              key={type.id}
-                              className={`specific-type-option ${(effect.specificEffectTypes || []).includes(type.id) ? 'selected' : ''}`}
-                              onClick={() => toggleSpecificEffectType(effect.id, type.id)}
-                            >
-                              <img src={getIconUrl(type.icon)} alt={type.name} className="specific-type-icon" />
-                              <span className="specific-type-name">{type.name}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Show magical effect types if magic is selected */}
-                    {effect.id === 'magic' && (
-                      <div className="specific-effect-types">
-                        <div className="custom-config-label">Specific Magical Effects:</div>
-                        <div className="specific-types-grid">
-                          {MAGICAL_EFFECT_TYPES.map(type => (
-                            <div
-                              key={type.id}
-                              className={`specific-type-option ${(effect.specificEffectTypes || []).includes(type.id) ? 'selected' : ''}`}
-                              onClick={() => toggleSpecificEffectType(effect.id, type.id)}
-                            >
-                              <img src={getIconUrl(type.icon)} alt={type.name} className="specific-type-icon" />
-                              <span className="specific-type-name">{type.name}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Number of effects to remove */}
-                    <div className="custom-config-row">
-                      <div className="custom-config-label">Effects to remove:</div>
-                      <div className="custom-config-control">
-                        <button
-                          className="custom-button"
-                          onClick={() => updateEffectCount(effect.id, (effect.customEffects || 1) - 1)}
-                        >
-                          -
-                        </button>
-                        <input
-                          type="number"
-                          min="0"
-                          max="10"
-                          value={effect.customEffects || 1}
-                          onChange={(e) => updateEffectCount(effect.id, parseInt(e.target.value))}
-                          className="custom-number-input"
-                        />
-                        <button
-                          className="custom-button"
-                          onClick={() => updateEffectCount(effect.id, (effect.customEffects || 1) + 1)}
-                        >
-                          +
-                        </button>
-                        <span className="custom-hint">(0 = all)</span>
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                {/* No longer needed - removing purifying field option */}
-
-
-                {/* Resolution method for resurrection effects */}
-                {effect.purificationType === 'resurrection' && (
-                  <div className="resurrection-resolution">
-                    <div className="custom-config-row">
-                      <div className="custom-config-label">Resolution Method:</div>
-                      <div className="resolution-options">
-                        <button
-                          className={`resolution-option ${(effect.resolution || purificationConfig.resolution) === 'DICE' ? 'active' : ''}`}
-                          onClick={() => updateEffectResolution(effect.id, 'DICE')}
-                        >
-                          <FaDiceD20 className="resolution-icon" />
-                          <span>Dice</span>
-                        </button>
-                        <button
-                          className={`resolution-option ${(effect.resolution || purificationConfig.resolution) === 'CARDS' ? 'active' : ''}`}
-                          onClick={() => updateEffectResolution(effect.id, 'CARDS')}
-                        >
-                          <FaClone className="resolution-icon" />
-                          <span>Cards</span>
-                        </button>
-                        <button
-                          className={`resolution-option ${(effect.resolution || purificationConfig.resolution) === 'COINS' ? 'active' : ''}`}
-                          onClick={() => updateEffectResolution(effect.id, 'COINS')}
-                        >
-                          <FaCoins className="resolution-icon" />
-                          <span>Coins</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="custom-config-row">
-                      <div className="custom-config-label">Formula:</div>
-                      <div className="custom-config-control formula-input-row">
-                        <input
-                          type="text"
-                          className="formula-input"
-                          value={effect.resurrectionFormula || purificationConfig.resurrectionFormula || ''}
-                          onChange={(e) => updateEffectResurrectionFormula(effect.id, e.target.value)}
-                          placeholder={getDefaultResurrectionFormula((effect.resolution || purificationConfig.resolution))}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="formula-examples">
-                      <h4>Formula Examples:</h4>
-                      <div className="formula-examples-grid">
-                        {getResurrectionFormulaExamples((effect.resolution || purificationConfig.resolution)).map((example, index) => (
-                          <div
-                            key={index}
-                            className="formula-example"
-                            onClick={() => updateEffectResurrectionFormula(effect.id, example.formula)}
-                          >
-                            <div className="formula-example-name">{example.name}</div>
-                            <div className="formula-example-formula">{example.formula}</div>
-                            <div className="formula-example-description">{example.description}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+            return (
+              <div className="selected-effect" key={effect.id || `selected-effect-${effectIndex}`}>
+                <div className="effect-header">
+                  <div className="effect-icon">
+                    <img src={getIconUrl(effect.icon)} alt={effect.name} />
                   </div>
-                )}
+                  <div className="effect-info">
+                    <div className="effect-name">{effect.name}</div>
+                    <div className="effect-description">{getEffectDescription(effect)}</div>
+                  </div>
+                  <div className="effect-actions">
+                    <button
+                      type="button"
+                      className="remove-effect"
+                      aria-label={`Remove ${effect.name}`}
+                      title={`Remove ${effect.name}`}
+                      onClick={() => removeEffect(effect.id)}
+                      onMouseEnter={(e) => handleMouseEnter({name: 'Remove Effect', description: 'Remove this effect from the spell'}, e)}
+                      onMouseLeave={handleMouseLeave}
+                      onMouseMove={handleMouseMove}
+                    >
+                      <FaCircleXmark />
+                    </button>
+                  </div>
+                </div>
 
-                {/* No duration section needed */}
+                <div className="effect-custom-config">
+                  {/* No power slider needed for dispel or resurrection */}
+
+                  {/* Specific effect types for dispel */}
+                  {effectPurificationType === 'dispel' && (
+                    <>
+                      {/* Show physical effect types if physical is selected */}
+                      {effect.id === 'physical' && (
+                        <div className="specific-effect-types">
+                          <div className="custom-config-label">Specific Physical Effects:</div>
+                          <div className="specific-types-grid">
+                            {PHYSICAL_EFFECT_TYPES.map((type, index) => (
+                              <div
+                                key={`${type.id}-${index}`}
+                                className={`specific-type-option ${(effect.specificEffectTypes || []).includes(type.id) ? 'selected' : ''}`}
+                                onClick={() => toggleSpecificEffectType(effect.id, type.id)}
+                              >
+                                <img src={getIconUrl(type.icon)} alt={type.name} className="specific-type-icon" />
+                                <span className="specific-type-name">{type.name}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Show magical effect types if magic is selected */}
+                      {effect.id === 'magic' && (
+                        <div className="specific-effect-types">
+                          <div className="custom-config-label">Specific Magical Effects:</div>
+                          <div className="specific-types-grid">
+                            {MAGICAL_EFFECT_TYPES.map((type, index) => (
+                              <div
+                                key={`${type.id}-${index}`}
+                                className={`specific-type-option ${(effect.specificEffectTypes || []).includes(type.id) ? 'selected' : ''}`}
+                                onClick={() => toggleSpecificEffectType(effect.id, type.id)}
+                              >
+                                <img src={getIconUrl(type.icon)} alt={type.name} className="specific-type-icon" />
+                                <span className="specific-type-name">{type.name}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Number of effects to remove */}
+                      <div className="custom-config-row">
+                        <div className="custom-config-label">Effects to remove:</div>
+                        <div className="custom-config-control">
+                          <button
+                            type="button"
+                            className="custom-button"
+                            onClick={() => updateEffectCount(effect.id, (effect.customEffects || 1) - 1)}
+                          >
+                            -
+                          </button>
+                          <input
+                            type="number"
+                            min="0"
+                            max="10"
+                            value={effect.customEffects || 1}
+                            onChange={(e) => {
+                              const parsed = parseInt(e.target.value, 10);
+                              if (!Number.isNaN(parsed)) {
+                                updateEffectCount(effect.id, parsed);
+                              }
+                            }}
+                            className="custom-number-input"
+                          />
+                          <button
+                            type="button"
+                            className="custom-button"
+                            onClick={() => updateEffectCount(effect.id, (effect.customEffects || 1) + 1)}
+                          >
+                            +
+                          </button>
+                          <span className="custom-hint">(0 = all)</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {/* No longer needed - removing purifying field option */}
+
+
+                  {/* Resolution method for resurrection effects */}
+                  {effectPurificationType === 'resurrection' && (
+                    <div className="resurrection-resolution">
+                      <div className="custom-config-row">
+                        <div className="custom-config-label">Resolution Method:</div>
+                        <div className="resolution-options">
+                          <button
+                            type="button"
+                            className={`resolution-option ${activeResolution === 'DICE' ? 'active' : ''}`}
+                            onClick={() => updateEffectResolution(effect.id, 'DICE')}
+                          >
+                            <FaDiceD20 className="resolution-icon" />
+                            <span>Dice</span>
+                          </button>
+                          <button
+                            type="button"
+                            className={`resolution-option ${activeResolution === 'CARDS' ? 'active' : ''}`}
+                            onClick={() => updateEffectResolution(effect.id, 'CARDS')}
+                          >
+                            <FaClone className="resolution-icon" />
+                            <span>Cards</span>
+                          </button>
+                          <button
+                            type="button"
+                            className={`resolution-option ${activeResolution === 'COINS' ? 'active' : ''}`}
+                            onClick={() => updateEffectResolution(effect.id, 'COINS')}
+                          >
+                            <FaCoins className="resolution-icon" />
+                            <span>Coins</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="custom-config-row">
+                        <div className="custom-config-label">Formula:</div>
+                        <div className="custom-config-control formula-input-row">
+                          <input
+                            type="text"
+                            className="formula-input"
+                            value={formulaValue}
+                            onChange={(e) => updateEffectResurrectionFormula(effect.id, e.target.value)}
+                            placeholder={getDefaultResurrectionFormula(activeResolution)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="formula-examples">
+                        <h4>Formula Examples:</h4>
+                        <div className="formula-examples-grid">
+                          {getResurrectionFormulaExamples(activeResolution).map((example, index) => (
+                            <div
+                              key={index}
+                              className="formula-example"
+                              onClick={() => updateEffectResurrectionFormula(effect.id, example.formula)}
+                            >
+                              <div className="formula-example-name">{example.name}</div>
+                              <div className="formula-example-formula">{example.formula}</div>
+                              <div className="formula-example-description">{example.description}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* No duration section needed */}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     );
@@ -781,14 +876,19 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
             min="1"
             max="60"
             value={purificationConfig.duration || 1}
-            onChange={(e) => setPurificationConfig(prev => ({
-              ...prev,
-              duration: parseInt(e.target.value)
-            }))}
+            onChange={(e) => {
+              const parsed = parseInt(e.target.value, 10);
+              if (!Number.isNaN(parsed)) {
+                commitPurificationConfig(prev => ({
+                  ...prev,
+                  duration: parsed
+                }));
+              }
+            }}
           />
           <select
             value={purificationConfig.durationUnit || 'rounds'}
-            onChange={(e) => setPurificationConfig(prev => ({
+            onChange={(e) => commitPurificationConfig(prev => ({
               ...prev,
               durationUnit: e.target.value
             }))}
@@ -812,6 +912,9 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
 
       {/* Effect Selection */}
       {renderEffectSelection()}
+
+      {/* Selected Effects Configuration */}
+      {renderSelectedEffects()}
 
       {/* Duration Settings (conditional) */}
       {renderDurationSettings()}

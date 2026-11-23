@@ -1,0 +1,210 @@
+/* ==========================================================================
+   External Live Preview — Floating & Compact Docked Layout
+   Uses the calm parchment/leather --adventure-* tokens defined on
+   .adventurer-preview in styles/adventurer-windows.css and calm-shared.css.
+   ========================================================================== */
+
+.adventurer-preview.external-live-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+
+.adventurer-preview.external-live-preview--collapsed {
+  gap: 0;
+}
+
+/* Compact dock / header bar */
+.adventurer-preview .external-live-preview-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--adventure-paper, #f1ece1);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 3px;
+  padding: 4px 8px;
+  box-shadow: 0 3px 10px rgba(30, 21, 14, 0.22);
+  box-sizing: border-box;
+  min-height: 30px;
+}
+
+.adventurer-preview.external-live-preview--docked.external-live-preview--collapsed .external-live-preview-bar {
+  height: 30px;
+  min-height: 30px;
+  max-height: 30px;
+  padding: 2px 8px;
+  width: auto;
+  max-width: calc(100vw - 24px);
+}
+
+.adventurer-preview .external-live-preview-bar-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.adventurer-preview .external-live-preview-heading {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--adventure-muted, #68533e);
+  white-space: nowrap;
+}
+
+.adventurer-preview .external-live-preview-spell-name {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--adventure-ink, #34251a);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.adventurer-preview .external-live-preview-bar-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+/* Collapse / Expand toggle button */
+.adventurer-preview .external-live-preview-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 3px 9px;
+  min-height: 22px;
+  background: var(--adventure-panel, #e8e2d4);
+  color: var(--adventure-ink, #34251a);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 3px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.adventurer-preview .external-live-preview-toggle:hover {
+  background: var(--adventure-page, #f8f5ee);
+  border-color: var(--adventure-seal, #663c32);
+  color: var(--adventure-seal, #663c32);
+}
+
+.adventurer-preview .external-live-preview-toggle:focus-visible {
+  outline: 2px solid var(--adventure-seal, #663c32);
+  outline-offset: 2px;
+}
+
+.adventurer-preview .external-live-preview-chevron {
+  font-size: 9px;
+  line-height: 1;
+}
+
+/* Collapsible card container: stays in DOM for parity selectors while taking zero space when collapsed */
+.adventurer-preview .external-live-preview-card-region {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.adventurer-preview .external-live-preview-card-region[hidden],
+.adventurer-preview .external-live-preview-card-region--hidden {
+  display: none !important;
+}
+
+.adventurer-preview.external-live-preview--docked.external-live-preview--expanded .external-live-preview-card-region {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px;
+  background: var(--adventure-page, #f8f5ee);
+  border: 1px solid var(--adventure-rule, #b6a080);
+  border-radius: 3px;
+  box-shadow: 0 8px 24px rgba(30, 21, 14, 0.34);
+  scrollbar-width: thin;
+}
+
+/* Complete / Update Spell button — compact inside collapsed dock bar, full-width when expanded */
+.adventurer-preview .external-live-preview-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.adventurer-preview .adventurer-action {
+  background: var(--adventure-seal, #663c32);
+  color: var(--adventure-paper, #faf6ee);
+  border: 1px solid #956b5b;
+  border-radius: 3px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Cinzel', Georgia, serif;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 140ms ease, border-color 140ms ease, opacity 140ms ease;
+}
+
+.adventurer-preview .adventurer-action:hover:not(:disabled) {
+  background: #78493b;
+  border-color: #a77761;
+}
+
+.adventurer-preview .adventurer-action:disabled {
+  cursor: not-allowed;
+}
+
+.adventurer-preview .external-live-preview-bar .adventurer-action.external-live-preview-action--compact {
+  width: auto;
+  padding: 2px 10px;
+  min-height: 22px;
+  height: 24px;
+  font-size: 11px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* Completion feedback banner */
+.adventurer-preview .external-live-preview-message {
+  padding: 6px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: 'Cinzel', Georgia, serif;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.55);
+}
+
+.adventurer-preview .external-live-preview-message--success {
+  background: rgba(46, 139, 87, 0.94);
+  border: 1px solid #2e8b57;
+}
+
+.adventurer-preview .external-live-preview-message--error {
+  background: rgba(185, 38, 52, 0.94);
+  border: 1px solid #9e1f2b;
+}
+
+.adventurer-preview.external-live-preview--collapsed .external-live-preview-message {
+  margin-bottom: 4px;
+}
+
+.adventurer-preview.external-live-preview--dock-top.external-live-preview--collapsed .external-live-preview-message {
+  margin-bottom: 0;
+  margin-top: 4px;
+}

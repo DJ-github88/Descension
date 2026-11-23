@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellWizardState, useSpellWizardDispatch } from './context/spellWizardContext';
 import { useSpellLibrary, useSpellLibraryDispatch } from './context/SpellLibraryContext';
@@ -9,6 +9,117 @@ import { executeCanonicalSpellSave } from './utils/canonicalSpellSave';
 import useSpellbookStore from '../../store/spellbookStore';
 import useSettingsStore from '../../store/settingsStore';
 import useAuthStore from '../../store/authStore';
+import useWindowManagerStore from '../../store/windowManagerStore';
+import './styles/ExternalLivePreview.css';
+
+export const PREVIEW_WIDTH = 340;
+export const PREVIEW_EDGE_MARGIN = 12;
+export const PREVIEW_WINDOW_GAP = 24;
+export const DOCK_BAR_HEIGHT = 32;
+export const DOCK_EDGE_OFFSET = 2;
+
+export function computeExternalPreviewLayout({
+  viewportWidth,
+  viewportHeight,
+  windowPosition,
+  windowSize,
+  windowScale = 1,
+  measuredSpellbookRect = null
+}) {
+  const vw = Number.isFinite(viewportWidth) && viewportWidth > 0 ? viewportWidth : 1024;
+  const vh = Number.isFinite(viewportHeight) && viewportHeight > 0 ? viewportHeight : 768;
+  const scale = Number.isFinite(windowScale) && windowScale > 0 ? windowScale : 1;
+
+  const hasMeasuredRect = measuredSpellbookRect
+    && Number.isFinite(measuredSpellbookRect.width)
+    && Number.isFinite(measuredSpellbookRect.height)
+    && measuredSpellbookRect.width > 0
+    && measuredSpellbookRect.height > 0;
+
+  const rawWidth = windowSize?.width || 1000;
+  const rawHeight = windowSize?.height || 700;
+  const spellbookWidth = hasMeasuredRect
+    ? measuredSpellbookRect.width
+    : rawWidth * scale;
+  const spellbookHeight = hasMeasuredRect
+    ? measuredSpellbookRect.height
+    : rawHeight * scale;
+  const spellbookX = hasMeasuredRect
+    ? measuredSpellbookRect.left
+    : (typeof windowPosition?.x === 'number'
+      ? windowPosition.x
+      : Math.max(0, (vw - rawWidth) / 2));
+  const spellbookY = hasMeasuredRect
+    ? measuredSpellbookRect.top
+    : (typeof windowPosition?.y === 'number'
+      ? windowPosition.y
+      : Math.max(0, (vh - rawHeight) / 2));
+  const spellbookRight = spellbookX + spellbookWidth;
+  const spellbookBottom = spellbookY + spellbookHeight;
+
+  const scaledPreviewW = PREVIEW_WIDTH * scale;
+  const rightSideLeft = spellbookRight + PREVIEW_WINDOW_GAP;
+  const leftSideLeft = spellbookX - scaledPreviewW - PREVIEW_WINDOW_GAP;
+
+  const fitsRight = (rightSideLeft + scaledPreviewW) <= (vw - PREVIEW_EDGE_MARGIN);
+  const fitsLeft = leftSideLeft >= PREVIEW_EDGE_MARGIN;
+  const canFloatBeside = fitsRight || fitsLeft;
+
+  const spellbookRect = {
+    left: spellbookX,
+    top: spellbookY,
+    right: spellbookRight,
+    bottom: spellbookBottom,
+    width: spellbookWidth,
+    height: spellbookHeight
+  };
+
+  if (canFloatBeside) {
+    const side = fitsRight ? 'right' : 'left';
+    const left = fitsRight ? rightSideLeft : leftSideLeft;
+    const maxTop = Math.max(PREVIEW_EDGE_MARGIN, vh - 420);
+    const top = Math.max(PREVIEW_EDGE_MARGIN, Math.min(spellbookY + 60, maxTop));
+
+    return {
+      mode: 'floating',
+      canFloatBeside: true,
+      side,
+      dockEdge: null,
+      left,
+      top,
+      right: null,
+      bottom: null,
+      width: PREVIEW_WIDTH,
+      maxCardHeight: Math.max(260, vh - top - 108),
+      procPosition: side,
+      spellbookRect
+    };
+  }
+
+  // No room beside the Spellbook without covering the Wizard editor (e.g. 1024x768).
+  // Dock to the outer viewport edge outside the Spellbook footprint and collapse by default.
+  const spaceBelow = vh - spellbookBottom;
+  const spaceAbove = spellbookY;
+  const dockEdge = (spaceBelow < DOCK_BAR_HEIGHT + DOCK_EDGE_OFFSET && spaceAbove >= DOCK_BAR_HEIGHT + DOCK_EDGE_OFFSET)
+    ? 'top'
+    : 'bottom';
+  const dockedWidth = Math.min(PREVIEW_WIDTH, Math.max(260, vw - PREVIEW_EDGE_MARGIN * 2));
+
+  return {
+    mode: 'docked',
+    canFloatBeside: false,
+    side: 'docked',
+    dockEdge,
+    left: null,
+    top: dockEdge === 'top' ? DOCK_EDGE_OFFSET : null,
+    right: PREVIEW_EDGE_MARGIN,
+    bottom: dockEdge === 'bottom' ? DOCK_EDGE_OFFSET : null,
+    width: dockedWidth,
+    maxCardHeight: Math.max(220, vh - DOCK_BAR_HEIGHT - 84),
+    procPosition: 'below',
+    spellbookRect
+  };
+}
 
 // External Live Preview Component that renders outside any window
 const ExternalLivePreview = () => {
@@ -20,6 +131,7 @@ const ExternalLivePreview = () => {
   const { activeTab, windowPosition, windowSize } = useSpellbookStore();
   const windowScale = useSettingsStore(state => state.windowScale);
   const { user } = useAuthStore();
+  const registeredWindows = useWindowManagerStore(s => s.windows);
 
   const isEditing = Boolean(state.editMode && state.editingSpellId);
   const editingSpellId = state.editingSpellId;
@@ -27,6 +139,71 @@ const ExternalLivePreview = () => {
   // State for completion feedback
   const [isCompleting, setIsCompleting] = useState(false);
   const [completionMessage, setCompletionMessage] = useState('');
+
+  // Reactive viewport tracking for responsive docking/floating layout
+  const [viewport, setViewport] = useState(() => ({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1024,
+    height: typeof window !== 'undefined' ? window.innerHeight : 768
+  }));
+  const [measuredSpellbookRect, setMeasuredSpellbookRect] = useState(null);
+  const [toggleState, setToggleState] = useState({ forCanFloat: null, expanded: null });
+  const toggleButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const handleResize = () => {
+      const nextWidth = window.innerWidth;
+      const nextHeight = window.innerHeight;
+      setViewport(prev => (
+        prev.width === nextWidth && prev.height === nextHeight
+          ? prev
+          : { width: nextWidth, height: nextHeight }
+      ));
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (activeTab !== 'wizard' || typeof document === 'undefined') {
+      setMeasuredSpellbookRect(prev => (prev === null ? prev : null));
+      return undefined;
+    }
+    const el = document.querySelector('.wow-window[aria-label="Spellbook"]');
+    if (!el || typeof el.getBoundingClientRect !== 'function') {
+      setMeasuredSpellbookRect(prev => (prev === null ? prev : null));
+      return undefined;
+    }
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        const nextRect = {
+          left: Math.round(rect.left),
+          top: Math.round(rect.top),
+          width: Math.round(rect.width),
+          height: Math.round(rect.height)
+        };
+        setMeasuredSpellbookRect(prev => (
+          prev
+          && prev.left === nextRect.left
+          && prev.top === nextRect.top
+          && prev.width === nextRect.width
+          && prev.height === nextRect.height
+            ? prev
+            : nextRect
+        ));
+      } else {
+        setMeasuredSpellbookRect(prev => (prev === null ? prev : null));
+      }
+    };
+    measure();
+    if (typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(measure);
+      observer.observe(el);
+      return () => observer.disconnect();
+    }
+    return undefined;
+  }, [activeTab, viewport.width, viewport.height, windowPosition?.x, windowPosition?.y, windowSize?.width, windowSize?.height, windowScale]);
 
   // Only show when the wizard tab is active
   if (activeTab !== 'wizard') {
@@ -85,32 +262,76 @@ const ExternalLivePreview = () => {
     }
   };
 
-  // Calculate position with fallback values and live updates - REACTIVE
-  const spellbookWidth = (windowSize?.width || 1000) * windowScale;
-  const spellbookX = windowPosition?.x || ((window.innerWidth - 1000) / 2);
-  const spellbookY = windowPosition?.y || ((window.innerHeight - 700) / 2);
+  // Compute responsive layout: float beside Spellbook on wide viewports; dock and collapse
+  // at narrow viewports (such as 1024x768) so the floating preview never covers the Wizard.
+  const safeScale = (typeof windowScale === 'number' && windowScale > 0) ? windowScale : 1;
+  const layout = computeExternalPreviewLayout({
+    viewportWidth: viewport.width,
+    viewportHeight: viewport.height,
+    windowPosition,
+    windowSize,
+    windowScale: safeScale,
+    measuredSpellbookRect
+  });
 
-  // Keep the preview on screen: right of the window if it fits, else left of it,
-  // else pinned to the viewport edge.
-  const PREVIEW_W = 340;
-  const EDGE = 12;
-  const rightSideLeft = spellbookX + spellbookWidth + 24;
-  const leftSideLeft = spellbookX - PREVIEW_W - 24;
-  const maxLeft = Math.max(EDGE, window.innerWidth - PREVIEW_W - EDGE);
-  const previewLeft = rightSideLeft <= maxLeft
-    ? rightSideLeft
-    : (leftSideLeft >= EDGE ? leftSideLeft : maxLeft);
-  const previewTop = Math.max(EDGE, Math.min(spellbookY + 120, window.innerHeight - 420));
+  const isDocked = layout.mode === 'docked';
+  const dockBarAtBottom = isDocked && layout.dockEdge === 'bottom';
+  const isExpanded = (toggleState.forCanFloat === layout.canFloatBeside && toggleState.expanded !== null)
+    ? toggleState.expanded
+    : layout.canFloatBeside;
 
-  const position = {
-    left: previewLeft,
-    top: previewTop,
-    position: 'fixed',
-    zIndex: 9998,
-    width: '340px', // Slightly smaller width
-    maxHeight: 'none',
-    overflow: 'visible'
+  const handleTogglePreview = () => {
+    setToggleState({
+      forCanFloat: layout.canFloatBeside,
+      expanded: !isExpanded
+    });
   };
+
+  // Stay above regular windows (1000+) while staying strictly below MythrillWindow
+  // modals (2000+) and modal backdrops (1999+) so dialogs like Save Entry stay unobstructed.
+  let maxRegularWindowZ = 1000;
+  if (registeredWindows && typeof registeredWindows.forEach === 'function') {
+    registeredWindows.forEach((win) => {
+      if (win && win.type !== 'modal' && typeof win.zIndex === 'number' && win.zIndex > maxRegularWindowZ) {
+        maxRegularWindowZ = win.zIndex;
+      }
+    });
+  }
+  const previewZIndex = Math.min(1985, Math.max(1500, maxRegularWindowZ + 1));
+
+  const position = isDocked
+    ? {
+        position: 'fixed',
+        right: `${layout.right}px`,
+        ...(layout.dockEdge === 'top'
+          ? { top: `${layout.top}px` }
+          : { bottom: `${layout.bottom}px` }),
+        zIndex: previewZIndex,
+        width: isExpanded ? `${layout.width}px` : 'auto',
+        maxHeight: isExpanded ? `${Math.max(260, viewport.height - 16)}px` : `${DOCK_BAR_HEIGHT}px`,
+        overflow: 'visible',
+        ...(isExpanded && safeScale !== 1
+          ? {
+              transform: `scale(${safeScale})`,
+              transformOrigin: layout.dockEdge === 'top' ? 'top right' : 'bottom right'
+            }
+          : {})
+      }
+    : {
+        position: 'fixed',
+        left: `${layout.left}px`,
+        top: `${layout.top}px`,
+        zIndex: previewZIndex,
+        width: isExpanded ? `${layout.width}px` : 'auto',
+        maxHeight: 'none',
+        overflow: 'visible',
+        ...(isExpanded && safeScale !== 1
+          ? {
+              transform: `scale(${safeScale})`,
+              transformOrigin: 'top left'
+            }
+          : {})
+      };
 
 
 
@@ -576,116 +797,156 @@ const ExternalLivePreview = () => {
 
 
 
-  return ReactDOM.createPortal(
-    <div className="adventurer-preview" style={{
-      ...position,
-      border: 'none !important',
-      outline: 'none !important',
-      boxShadow: 'none !important',
-      transform: `scale(${windowScale})`,
-      transformOrigin: 'top left'
-    }}>
-      <style>
-        {`
-          /* Live preview uses the same unified-spell-tags-footer styling from cards.css */
-        `}
-      </style>
-      {(() => {
-        const lastModifiedTimestamp = state.lastModified instanceof Date
-          ? state.lastModified.getTime()
-          : (typeof state.lastModified === 'number'
-            ? state.lastModified
-            : (state.lastModified ? new Date(state.lastModified).getTime() : 0));
+  const cardRegionId = 'external-live-preview-card-region';
+  const previewTitle = (state.name && state.name.trim()) ? state.name.trim() : 'Unnamed Spell';
 
-        return (
-          <SpellCardWithProcs
-            key={`preview-${lastModifiedTimestamp}`}
-            spell={createPreviewSpell()}
-            behaviorRecord={draftSubject(state)}
-            variant="wizard"
-            showActions={false}
-            showDescription={true}
-            showStats={true}
-            showTags={true}
-            rollableTableData={state.rollableTable}
-            procPosition="right"
-            showProcs={true}
-            style={{
-              border: 'none !important',
-              outline: 'none !important'
-            }}
-          />
-        );
-      })()}
+  const lastModifiedTimestamp = state.lastModified instanceof Date
+    ? state.lastModified.getTime()
+    : (typeof state.lastModified === 'number'
+      ? state.lastModified
+      : (state.lastModified ? new Date(state.lastModified).getTime() : 0));
 
-      {/* Completion Button */}
-      <div style={{
-        marginTop: '12px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px'
-      }}>
-        <button
-          className="adventurer-action"
-          onClick={handleCompleteSpell}
-          disabled={isCompleting}
-          title={isEditing ? 'Finalize & Update Spell' : 'Complete Spell'}
-          style={{
-            background: isCompleting
-              ? 'linear-gradient(135deg, #666 0%, #888 50%, #666 100%)'
-              : 'linear-gradient(135deg, #2E8B57 0%, #3CB371 50%, #2E8B57 100%)',
-            border: '2px solid #228B22',
-            borderRadius: '6px',
-            padding: '10px 16px',
-            color: 'white',
-            fontSize: '14px',
-            fontWeight: '600',
-            fontFamily: 'Cinzel, serif',
-            cursor: isCompleting ? 'not-allowed' : 'pointer',
-            textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
-            boxShadow: '0 3px 6px rgba(0,0,0,0.3)',
-            transition: 'all 0.2s ease',
-            width: '100%'
-          }}
-          onMouseOver={(e) => {
-            if (!isCompleting) {
-              e.target.style.transform = 'translateY(-1px)';
-              e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.4)';
-            }
-          }}
-          onMouseOut={(e) => {
-            if (!isCompleting) {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 3px 6px rgba(0,0,0,0.3)';
-            }
-          }}
-        >
-          {isCompleting
-            ? (isEditing ? 'Updating Spell...' : 'Completing Spell...')
-            : (isEditing ? '✓ Update Spell' : '✓ Complete Spell')}
-        </button>
+  const renderCompleteButton = (compact = false) => (
+    <button
+      type="button"
+      className={compact ? 'adventurer-action external-live-preview-action--compact' : 'adventurer-action'}
+      onClick={handleCompleteSpell}
+      disabled={isCompleting}
+      title={isEditing ? 'Finalize & Update Spell' : 'Complete Spell'}
+    >
+      {isCompleting
+        ? (isEditing ? 'Updating Spell...' : 'Completing Spell...')
+        : (isEditing ? '✓ Update Spell' : '✓ Complete Spell')}
+    </button>
+  );
 
-        {/* Completion Message */}
-        {completionMessage && (
-          <div style={{
-            padding: '8px 12px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            fontFamily: 'Cinzel, serif',
-            textAlign: 'center',
-            background: completionMessage.includes('✓')
-              ? 'rgba(46, 139, 87, 0.9)'
-              : 'rgba(220, 20, 60, 0.9)',
-            color: 'white',
-            border: completionMessage.includes('✓')
-              ? '1px solid #2E8B57'
-              : '1px solid #DC143C',
-            textShadow: '1px 1px 2px rgba(0,0,0,0.7)'
-          }}>
-            {completionMessage}
-          </div>
+  const completionBanner = completionMessage ? (
+    <div
+      className={`external-live-preview-message ${
+        completionMessage.includes('✓')
+          ? 'external-live-preview-message--success'
+          : 'external-live-preview-message--error'
+      }`}
+      role="status"
+    >
+      {completionMessage}
+    </div>
+  ) : null;
+
+  const cardRegion = (
+    <div
+      id={cardRegionId}
+      className={`external-live-preview-card-region${isExpanded ? '' : ' external-live-preview-card-region--hidden'}`}
+      hidden={!isExpanded}
+      style={isExpanded && isDocked ? { maxHeight: `${layout.maxCardHeight}px` } : undefined}
+    >
+      <SpellCardWithProcs
+        key={`preview-${lastModifiedTimestamp}`}
+        spell={createPreviewSpell()}
+        behaviorRecord={draftSubject(state)}
+        variant="wizard"
+        showActions={false}
+        showDescription={true}
+        showStats={true}
+        showTags={true}
+        rollableTableData={state.rollableTable}
+        procPosition={layout.procPosition}
+        showProcs={true}
+        style={{
+          border: 'none',
+          outline: 'none'
+        }}
+      />
+    </div>
+  );
+
+  const handlePreviewKeyDown = (event) => {
+    if (event.key === 'Escape' && isDocked && isExpanded) {
+      event.stopPropagation();
+      event.preventDefault();
+      setToggleState({
+        forCanFloat: layout.canFloatBeside,
+        expanded: false
+      });
+      if (toggleButtonRef.current && typeof toggleButtonRef.current.focus === 'function') {
+        toggleButtonRef.current.focus();
+      }
+    }
+  };
+
+  const controlBar = (
+    <div className="external-live-preview-bar">
+      <div className="external-live-preview-bar-label">
+        <span className="external-live-preview-heading">Live Preview</span>
+        {!isExpanded && (
+          <span className="external-live-preview-spell-name" title={previewTitle}>
+            {previewTitle}
+          </span>
         )}
       </div>
+      <div className="external-live-preview-bar-controls">
+        {!isExpanded && renderCompleteButton(true)}
+        <button
+          ref={toggleButtonRef}
+          type="button"
+          className="external-live-preview-toggle"
+          onClick={handleTogglePreview}
+          aria-expanded={isExpanded}
+          aria-controls={cardRegionId}
+          title={isExpanded ? 'Collapse live spell preview' : 'Show live spell preview'}
+        >
+          <span>{isExpanded ? 'Hide Preview' : 'Show Preview'}</span>
+          <span className="external-live-preview-chevron" aria-hidden="true">
+            {dockBarAtBottom ? (isExpanded ? '▼' : '▲') : (isExpanded ? '▲' : '▼')}
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+
+  const rootClassName = [
+    'adventurer-preview',
+    'external-live-preview',
+    `external-live-preview--${layout.mode}`,
+    isExpanded ? 'external-live-preview--expanded' : 'external-live-preview--collapsed',
+    layout.dockEdge ? `external-live-preview--dock-${layout.dockEdge}` : ''
+  ].filter(Boolean).join(' ');
+
+  return ReactDOM.createPortal(
+    <div
+      className={rootClassName}
+      data-preview-layout={layout.mode}
+      data-preview-collapsed={String(!isExpanded)}
+      data-preview-dock-edge={layout.dockEdge || 'none'}
+      role="complementary"
+      aria-label="Live Spell Preview"
+      onKeyDown={handlePreviewKeyDown}
+      style={position}
+    >
+      {dockBarAtBottom ? (
+        <>
+          {!isExpanded && completionBanner}
+          {cardRegion}
+          {isExpanded && (
+            <div className="external-live-preview-actions">
+              {renderCompleteButton(false)}
+              {completionBanner}
+            </div>
+          )}
+          {controlBar}
+        </>
+      ) : (
+        <>
+          {controlBar}
+          {cardRegion}
+          {isExpanded ? (
+            <div className="external-live-preview-actions">
+              {renderCompleteButton(false)}
+              {completionBanner}
+            </div>
+          ) : completionBanner}
+        </>
+      )}
     </div>,
     document.body
   );

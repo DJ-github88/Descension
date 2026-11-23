@@ -27,6 +27,7 @@ import {
  } from '../../data/enhancedEffectSystemData';
 
  import { calculateTotalResources } from '../mechanics/resourceManager';
+ import { APPROVAL_REVISION_METADATA_KEYS } from '../../utils/canonicalSpellContract';
 
  /**
   * Serialize a spell configuration to JSON
@@ -176,9 +177,9 @@ import {
    id: spellConfig.id || `spell_${Date.now()}`,
    name: spellConfig.name || 'Unnamed Spell',
    description: spellConfig.description || '',
-   level: spellConfig.level || 1,
-   school: spellConfig.school || 'arcane',
-   castingTime: spellConfig.castingTime || '1 action',
+   level: spellConfig.level ?? 1,
+   school: spellConfig.school || spellConfig.typeConfig?.school || 'arcane',
+   castingTime: spellConfig.castingTime || spellConfig.typeConfig?.castTimeType || '1 action',
    range: spellConfig.range || '30 feet',
    components: spellConfig.components || {
     verbal: true,
@@ -192,6 +193,16 @@ import {
    targeting: serializeTargeting(spellConfig),
    tags: spellConfig.tags || []
   };
+
+  if (spellConfig.rollableTable) {
+   gameSpell.rollableTable = JSON.parse(JSON.stringify(spellConfig.rollableTable));
+  }
+
+  for (const key of APPROVAL_REVISION_METADATA_KEYS) {
+   if (spellConfig[key] !== undefined) {
+    gameSpell[key] = JSON.parse(JSON.stringify(spellConfig[key]));
+   }
+  }
 
   // Return formatted JSON
   return JSON.stringify(gameSpell, null, 2);
@@ -751,39 +762,48 @@ for (const [value] of Object.entries(config._validation.warnings)) {
   if (!spellConfig) return {};
 
   const effects = {};
-  const { targetingMode, targetingTags } = spellConfig;
+  const { targetingMode, targetingTags, effectTargeting } = spellConfig;
+  const attachEffectTarget = (effectKey, defaultTarget) => {
+   if (targetingMode === 'effect' && effectTargeting && effectTargeting[effectKey]) {
+    return JSON.parse(JSON.stringify(effectTargeting[effectKey]));
+   }
+   if (targetingMode === 'tagged' && targetingTags && targetingTags[effectKey]) {
+    return {
+     target: targetingTags[effectKey].targetOption || defaultTarget
+    };
+   }
+   return null;
+  };
 
   // Add damage effects
-  if (spellConfig.damageConfig && spellConfig.damageConfig.diceNotation) {
+  const damageFormula = spellConfig.damageConfig?.formula || spellConfig.damageConfig?.diceNotation;
+  if (spellConfig.damageConfig && damageFormula) {
    effects.damage = {
-    formula: spellConfig.damageConfig.diceNotation,
-    types: spellConfig.damageConfig.damageTypes || [],
+    formula: damageFormula,
+    types: spellConfig.damageConfig.damageTypes || (spellConfig.damageConfig.elementType ? [spellConfig.damageConfig.elementType] : []),
     critical: spellConfig.damageConfig.useCriticalEffect ?
      spellConfig.damageConfig.criticalConfig?.criticalMultiplier || '2x' : null
    };
 
-   // Add targeting information if using tag-based targeting
-   if (targetingMode === 'tagged' && targetingTags && targetingTags.damage) {
-    effects.damage.targeting = {
-     target: targetingTags.damage.targetOption || 'target'
-    };
+   const damageTarget = attachEffectTarget('damage', 'target');
+   if (damageTarget) {
+    effects.damage.targeting = damageTarget;
    }
   }
 
   // Add healing effects
-  if (spellConfig.healingConfig && spellConfig.healingConfig.diceNotation) {
+  const healingFormula = spellConfig.healingConfig?.formula || spellConfig.healingConfig?.diceNotation;
+  if (spellConfig.healingConfig && healingFormula) {
    effects.healing = {
-    formula: spellConfig.healingConfig.diceNotation,
+    formula: healingFormula,
     type: spellConfig.healingConfig.healingType || 'Standard',
     shield: spellConfig.healingConfig.useAbsorptionShield ?
      spellConfig.healingConfig.shieldConfig?.shieldAmount || true : false
    };
 
-   // Add targeting information if using tag-based targeting
-   if (targetingMode === 'tagged' && targetingTags && targetingTags.healing) {
-    effects.healing.targeting = {
-     target: targetingTags.healing.targetOption || 'self'
-    };
+   const healingTarget = attachEffectTarget('healing', 'self');
+   if (healingTarget) {
+    effects.healing.targeting = healingTarget;
    }
   }
 
@@ -794,11 +814,9 @@ for (const [value] of Object.entries(config._validation.warnings)) {
     statusEffects: spellConfig.buffConfig.statusEffects || []
    };
 
-   // Add targeting information if using tag-based targeting
-   if (targetingMode === 'tagged' && targetingTags && targetingTags.buff) {
-    effects.buff.targeting = {
-     target: targetingTags.buff.targetOption || 'self'
-    };
+   const buffTarget = attachEffectTarget('buff', 'self');
+   if (buffTarget) {
+    effects.buff.targeting = buffTarget;
    }
   }
 
@@ -809,11 +827,9 @@ for (const [value] of Object.entries(config._validation.warnings)) {
     statusEffects: spellConfig.debuffConfig.statusEffects || []
    };
 
-   // Add targeting information if using tag-based targeting
-   if (targetingMode === 'tagged' && targetingTags && targetingTags.debuff) {
-    effects.debuff.targeting = {
-     target: targetingTags.debuff.targetOption || 'target'
-    };
+   const debuffTarget = attachEffectTarget('debuff', 'target');
+   if (debuffTarget) {
+    effects.debuff.targeting = debuffTarget;
    }
   }
 
@@ -821,14 +837,15 @@ for (const [value] of Object.entries(config._validation.warnings)) {
   if (spellConfig.controlConfig) {
    effects.control = {
     controlType: spellConfig.controlConfig.controlType || 'stun',
-    duration: spellConfig.controlConfig.duration || 1
+    duration: spellConfig.controlConfig.duration ?? 1,
+    ...(spellConfig.controlConfig.authoredCondition
+     ? { authoredCondition: JSON.parse(JSON.stringify(spellConfig.controlConfig.authoredCondition)) }
+     : {})
    };
 
-   // Add targeting information if using tag-based targeting
-   if (targetingMode === 'tagged' && targetingTags && targetingTags.control) {
-    effects.control.targeting = {
-     target: targetingTags.control.targetOption || 'target'
-    };
+   const controlTarget = attachEffectTarget('control', 'target');
+   if (controlTarget) {
+    effects.control.targeting = controlTarget;
    }
   }
 
@@ -838,11 +855,9 @@ for (const [value] of Object.entries(config._validation.warnings)) {
     utilityType: spellConfig.utilityConfig.utilityType || 'movement'
    };
 
-   // Add targeting information if using tag-based targeting
-   if (targetingMode === 'tagged' && targetingTags && targetingTags.utility) {
-    effects.utility.targeting = {
-     target: targetingTags.utility.targetOption || 'target'
-    };
+   const utilityTarget = attachEffectTarget('utility', 'self');
+   if (utilityTarget) {
+    effects.utility.targeting = utilityTarget;
    }
   }
 
@@ -855,24 +870,28 @@ for (const [value] of Object.entries(config._validation.warnings)) {
   * @returns {Object} - Serialized targeting
   */
  function serializeTargeting(spellConfig) {
-  if (!spellConfig || !spellConfig.targetingConfig) return {};
+  if (!spellConfig || (!spellConfig.targetingConfig && !spellConfig.effectTargeting)) return {};
 
+  const tc = spellConfig.targetingConfig || {};
   const targeting = {
-   type: spellConfig.targetingConfig.targetingType || 'single',
-   range: spellConfig.targetingConfig.rangeDistance || 30,
-   restrictions: spellConfig.targetingConfig.targetRestrictions || ['any']
+   type: tc.targetingType || 'single',
+   range: tc.rangeDistance ?? 30,
+   restrictions: tc.targetRestrictions || ['any']
   };
 
   // Add area of effect details if applicable
-  if (spellConfig.targetingConfig.targetingType === 'area' && spellConfig.targetingConfig.aoeShape) {
+  if (tc.targetingType === 'area' && tc.aoeShape) {
    targeting.aoe = {
-    shape: spellConfig.targetingConfig.aoeShape || 'circle',
-    size: spellConfig.targetingConfig.aoeParameters?.radius || 10
+    shape: tc.aoeShape || 'circle',
+    size: tc.aoeParameters?.radius ?? 10
    };
   }
 
-  // Add information about tag-based targeting
-  if (spellConfig.targetingMode === 'tagged' && spellConfig.targetingTags) {
+  // Add information about effect-specific or tag-based targeting
+  if (spellConfig.targetingMode === 'effect' && spellConfig.effectTargeting) {
+   targeting.mode = 'effect';
+   targeting.effectTargets = JSON.parse(JSON.stringify(spellConfig.effectTargeting));
+  } else if (spellConfig.targetingMode === 'tagged' && spellConfig.targetingTags) {
    targeting.mode = 'tagged';
    targeting.effectTargets = {};
 
