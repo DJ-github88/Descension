@@ -7,6 +7,16 @@ const { CONDITION_CAPABILITY, EFFECT_CAPABILITY, EFFECT_EXPIRY_POLICIES, COUNTED
 const { FORMULA_CAPABILITY, FORMULA_COMPILER, AREA_CAPABILITY, AREA_COMPILER, MAX_AREA_TARGETS, isAreaRollProcedureApproved, readScaledFormula, formulaAttributes } = require('../shared/services/authoredAbility');
 const { HEALTH_CAPABILITY, HEALTH_COMPILER, readHealthFormula } = require('../shared/services/authoredAbility');
 const { DETERMINISTIC_CAPABILITY, DETERMINISTIC_COMPILER, readDeterministicFormula } = require('../shared/services/authoredAbility');
+const { FLOW_CAPABILITY, FLOW_COMPILER } = require('../shared/services/authoredAbility');
+const { PASSIVE_ENTRY_CAPABILITY, PASSIVE_ENTRY_COMPILER, PASSIVE_ENTRY_TRIGGER_ID, PASSIVE_ENTRY_TRIGGER } = require('../shared/services/authoredAbility');
+const { PASSIVE_TURN_CAPABILITY, PASSIVE_TURN_COMPILER, PASSIVE_TURN_TRIGGER_IDS, PASSIVE_TURN_WHOSE_VALUES, PASSIVE_TURN_TRIGGER } = require('../shared/services/authoredAbility');
+const { CHANNELED_CAPABILITY, CHANNELED_COMPILER } = require('../shared/services/authoredAbility');
+const authoredChanneled = require('../shared/services/authoredChanneled');
+const sharedProfile = require('../shared/services/sharedConditionProfile');
+const randomOutcome = require('../shared/services/randomOutcome');
+const OUTCOME_CAPABILITY = randomOutcome.CAPABILITY;
+const OUTCOME_COMPILER = randomOutcome.COMPILER;
+const hunterFlow = require('../shared/services/hunterFlow');
 const catalogueAbility = require('../shared/services/catalogueAbility.cjs');
 const { FOLLOWUP_MARKERS } = require('../shared/services/authoredAbility');
 const pureAbility = require('../shared/services/authoredAbility');
@@ -17,6 +27,8 @@ const validEffectTiming = t => !!t && typeof t === 'object' && EFFECT_EXPIRY_POL
     : exact(t, ['expiryPolicy', 'durationText', 'authoredDuration', 'gmNote']));
 const VERSION = 'p14-a7-condition-1';
 const EFFECT_VERSION = 'p14-a10-effect-1';
+const EFFECT_CRIT_GATE_VERSION = 'p14-a10-effect-crit-gate-1';
+const LOWEST_HP_IMMEDIATE_COMPILER = 'p14-lowest-hp-immediate-1';
 // M5: a periodic A10 bundle compiles under its own compiler version (same registry, custody, hash domain and admission).
 const PERIODIC_VERSION = 'p14-m5-periodic-1';
 // M5 composition: one immediate direct part (same kind as the tick) + one periodic tick. Same shape/hash domain; its own compiler id.
@@ -31,6 +43,11 @@ const SAVE_BRANCH_VERSION = 'p14-save-branch-1';
 // A pre-change server refuses such a registry (its validEffectSave required manual expiry), so roll back only while none is admitted.
 const SAVE_BRANCH_TIMED_VERSION = 'p14-save-branch-timed-1';
 const saveBranch = require('../shared/services/saveBranch');
+// Direct-damage save: a plain one-part immediate damage definition with one save on that part. Its own compiler labels; a pre-change
+// server refuses such a registry (A1a rejects the extra key), so roll back only while none is admitted.
+const directSave = require('../shared/services/directSave');
+const DIRECT_SAVE_COMPILER = 'p14-direct-save-1';
+const DIRECT_SAVE_WATCH_COMPILER = 'p14-direct-save-watch-1';
 // Formula-rider saves: the direct part may also be attribute-scaled when the rider is movement OR Stunned (validDirect admits the scaled
 // reader only next to periodic/movement/Stunned, and periodic never carries a save). Its own descriptor labels below. A pre-change server
 // refuses such a registry (its validEffectSave required a plain direct part), so roll back only while none is admitted.
@@ -159,6 +176,28 @@ function validComponentWatch(d) {
     Number.isSafeInteger(d.targeting?.rangeFeet) && d.targeting.rangeFeet >= 1;
 }
 const IMMEDIATE_WATCH_COMPILER = 'p14-component-watch-immediate-1';
+function validSingleTargeting(t, allowSelf = false) {
+  if (!t || typeof t !== 'object') return false;
+  const hasSel = Object.hasOwn(t, 'selectionMethod');
+  if (!exact(t, hasSel ? ['kind', 'maxTargets', 'rangeFeet', 'restriction', 'selectionMethod'] : ['kind', 'maxTargets', 'rangeFeet', 'restriction'])) return false;
+  if (t.kind !== 'single' || t.maxTargets !== 1 || !int(t.rangeFeet, allowSelf ? 0 : 1, 300)) return false;
+  const allowedRestrictions = allowSelf ? ['any', 'ally', 'enemy', 'self'] : ['any', 'ally', 'enemy'];
+  if (!allowedRestrictions.includes(t.restriction)) return false;
+  if (hasSel && (t.selectionMethod !== 'lowest_health' || t.restriction === 'self' || !int(t.rangeFeet, 1, 300))) return false;
+  return true;
+}
+function validEffectCritGate(d) {
+  if (!d?.effects || !Object.hasOwn(d.effects, 'critGate')) return true;
+  const g = d.effects.critGate;
+  if (!exact(g, ['trigger', 'source', 'rule']) || g.trigger !== 'critical_hit' || g.source !== 'effects:direct' || g.rule !== 'max-die-face') return false;
+  if (d.effects.direct?.kind !== 'damage' || Object.hasOwn(d.effects, 'save') || d.classPayment !== undefined || d.catalogueSource !== undefined) return false;
+  const formula = d.effects.direct.formula;
+  const stats = Object.fromEntries(CLASS_ATTRIBUTES.map(name => [name, 10]));
+  const reading = formulaAttributes(formula).length
+    ? (FORMULA_CONDITIONS.includes(d.effects.condition?.kind) ? readScaledFormula(formula, stats) : { supported: false })
+    : (() => { try { return { supported: true, dice: readFormula(formula).dice }; } catch (_) { return { supported: false }; } })();
+  return Boolean(reading.supported && Array.isArray(reading.dice) && reading.dice.length === 1 && reading.dice[0].count === 1);
+}
 function compileEffect(d, { verifyCatalogue = true, verifyComponentPolicy = true } = {}) {
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
@@ -182,9 +221,9 @@ function compileEffect(d, { verifyCatalogue = true, verifyComponentPolicy = true
       !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
       !exact(d.binding, ['rulesetId', 'rulesetVersion', 'classId']) || d.binding.rulesetId !== 'prism' || d.binding.rulesetVersion !== 'cr-a1a-pilot-1' || !CLASS_IDS.includes(d.binding.classId) ||
       d.spellType !== 'ACTION' || d.castTimeType !== 'IMMEDIATE' ||
-      !exact(d.targeting, ['kind', 'maxTargets', 'rangeFeet', 'restriction']) || d.targeting.kind !== 'single' || d.targeting.maxTargets !== 1 || !int(d.targeting.rangeFeet, 1, 300) || !['any', 'ally', 'enemy'].includes(d.targeting.restriction) ||
+      !validSingleTargeting(d.targeting, false) ||
       !exact(d.resourceCost, ['actionPoints', 'mana']) || !int(d.resourceCost.actionPoints, 0, 20) || !int(d.resourceCost.mana, 0, 10000) ||
-      !(exact(d.effects, ['direct', 'condition']) || exact(d.effects, ['direct', 'condition', 'save'])) || !validEffectSave(d.effects, d.timing) ||
+      !(exact(d.effects, ['direct', 'condition']) || exact(d.effects, ['direct', 'condition', 'save']) || exact(d.effects, ['direct', 'condition', 'critGate'])) || !validEffectSave(d.effects, d.timing) || !validEffectCritGate(d) ||
       !validDirect(d.effects.direct, FORMULA_CONDITIONS.includes(d.effects.condition?.kind)) || !validEffectCondition(d.effects.condition) ||
       (d.effects.condition.kind === 'periodic' && ((d.effects.direct !== null && d.effects.direct.kind !== d.effects.condition.tick.kind) || d.timing?.expiryPolicy === 'gm-manual')) ||
       !validEffectTiming(d.timing) ||
@@ -199,7 +238,8 @@ function compileEffect(d, { verifyCatalogue = true, verifyComponentPolicy = true
   const definitionHash = checkpoint.sha256Hex('mythrill:authored-effect:v1\n' + checkpoint.stableStringify(canonicalDefinition));
   const definitionRef = { roomId: d.scope.roomId, definitionId: d.definitionId, definitionVersion: d.definitionVersion, definitionHash };
   const cooldown = Object.hasOwn(d, 'cooldown');
-  const compilerVersion = cooldown && d.effects.condition.kind === 'damageReduction' ? FLAT_DR_COOLDOWN_VERSION : cooldown && d.effects.condition.kind === 'attribute' ? ATTRIBUTE_COOLDOWN_VERSION : d.effects.condition.kind === 'periodic'
+  const compilerVersion = Object.hasOwn(d.effects, 'critGate') ? EFFECT_CRIT_GATE_VERSION
+    : cooldown && d.effects.condition.kind === 'damageReduction' ? FLAT_DR_COOLDOWN_VERSION : cooldown && d.effects.condition.kind === 'attribute' ? ATTRIBUTE_COOLDOWN_VERSION : d.effects.condition.kind === 'periodic'
     ? (d.effects.direct ? (scaledDirect(d.effects.direct) ? (cooldown ? COMPOSITION_FORMULA_COOLDOWN_VERSION : COMPOSITION_FORMULA_VERSION) : (cooldown ? COMPOSITION_COOLDOWN_VERSION : COMPOSITION_VERSION)) : (cooldown ? PERIODIC_COOLDOWN_VERSION : PERIODIC_VERSION))
     : Object.hasOwn(d.effects, 'save') ? (scaledDirect(d.effects.direct) ? (d.timing.expiryPolicy === 'gm-manual' ? (cooldown ? SAVE_BRANCH_FORMULA_COOLDOWN_VERSION : SAVE_BRANCH_FORMULA_VERSION) : (cooldown ? SAVE_BRANCH_TIMED_FORMULA_COOLDOWN_VERSION : SAVE_BRANCH_TIMED_FORMULA_VERSION))
       : d.timing.expiryPolicy === 'gm-manual' ? (cooldown ? SAVE_BRANCH_COOLDOWN_VERSION : SAVE_BRANCH_VERSION) : (cooldown ? SAVE_BRANCH_TIMED_COOLDOWN_VERSION : SAVE_BRANCH_TIMED_VERSION)) : (cooldown ? (scaledRider(d.effects) ? EFFECT_FORMULA_COOLDOWN_VERSION : EFFECT_COOLDOWN_VERSION) : scaledRider(d.effects) ? EFFECT_FORMULA_VERSION : EFFECT_VERSION);
@@ -264,6 +304,10 @@ function compileFormula(d, { verifyCatalogue = true, verifyComponentPolicy = tru
   delete projection.classPayment; delete projection.targetRoute; delete projection.catalogueSource;
   delete projection.followUp;
   delete projection.componentWatch;
+  if (projection.targeting && projection.targeting.selectionMethod !== undefined) {
+    if (projection.targeting.selectionMethod !== 'lowest_health' || projection.targeting.restriction === 'self' || !int(projection.targeting.rangeFeet, 1, 300)) return no('UNSUPPORTED_SHAPE');
+    delete projection.targeting.selectionMethod;
+  }
   projection.schemaVersion = 1;
   if (!projection.effect) return no('INVALID_DEFINITION');
   projection.effect.formula = '1d2';
@@ -274,6 +318,7 @@ function compileFormula(d, { verifyCatalogue = true, verifyComponentPolicy = tru
   const definitionRef = Object.assign({}, base.descriptor.definitionRef, { definitionHash });
   const descriptor = Object.assign({}, base.descriptor, { schemaVersion: d.schemaVersion, capabilityId: d.capability,
     compilerVersion: deterministic ? DETERMINISTIC_COMPILER : health ? HEALTH_COMPILER : extended ? FORMULA_PAYMENT_COMPILER : FORMULA_COMPILER, definitionRef,
+    targeting: clone(d.targeting),
     effect: Object.assign({}, clone(d.effect), { dice: reading.dice, attributes: require('../shared/services/classEffect').formulaAttributes(d.effect.formula) }) });
   if (d.classPayment !== undefined) descriptor.classPayment = clone(d.classPayment);
   if (d.targetRoute !== undefined) descriptor.targetRoute = d.targetRoute;
@@ -291,14 +336,22 @@ function compileArea(d, { verifyCatalogue = true, verifyRollPolicy = true } = {}
     .concat(d.classPayment !== undefined ? ['classPayment'] : [])
     .concat(d.catalogueSource !== undefined ? ['catalogueSource'] : [])
     .concat(d.followUp !== undefined ? ['followUp'] : []);
+  const validAreaTargeting = d.targeting && typeof d.targeting === 'object' && d.targeting.kind === 'area' && (
+    (d.targeting.aoeShape === 'circle' &&
+      exact(d.targeting, ['kind', 'aoeShape', 'radiusFeet', 'rangeFeet', 'maxTargets', 'restriction']) &&
+      int(d.targeting.radiusFeet, 5, 60) && d.targeting.radiusFeet % 5 === 0) ||
+    (d.targeting.aoeShape === 'line' &&
+      d.effect?.kind === 'damage' &&
+      exact(d.targeting, ['kind', 'aoeShape', 'lengthFeet', 'widthFeet', 'rangeFeet', 'maxTargets', 'restriction']) &&
+      int(d.targeting.lengthFeet, 5, 120) && d.targeting.lengthFeet % 5 === 0 &&
+      int(d.targeting.widthFeet, 5, 20) && d.targeting.widthFeet % 5 === 0)
+  );
   if ((d.followUp !== undefined && !FOLLOWUP_MARKERS.includes(d.followUp)) || !exact(d, rootKeys) || d.schemaVersion !== 5 || d.capability !== AREA_CAPABILITY ||
       !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
       !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
       !exact(d.binding, ['rulesetId', 'rulesetVersion', 'classId']) || d.binding.rulesetId !== 'prism' || d.binding.rulesetVersion !== 'cr-a1a-pilot-1' || !CLASS_IDS.includes(d.binding.classId) ||
       d.spellType !== 'ACTION' || d.castTimeType !== 'IMMEDIATE' ||
-      !exact(d.targeting, ['kind', 'aoeShape', 'radiusFeet', 'rangeFeet', 'maxTargets', 'restriction']) ||
-      d.targeting.kind !== 'area' || d.targeting.aoeShape !== 'circle' ||
-      !int(d.targeting.radiusFeet, 5, 60) || d.targeting.radiusFeet % 5 !== 0 ||
+      !validAreaTargeting ||
       !int(d.targeting.rangeFeet, 1, 300) || !Number.isSafeInteger(d.targeting.maxTargets) || d.targeting.maxTargets < 1 ||
       !['any', 'ally', 'enemy'].includes(d.targeting.restriction) ||
       !exact(d.resourceCost, ['actionPoints', 'mana']) || !int(d.resourceCost.actionPoints, 0, 20) || !int(d.resourceCost.mana, 0, 10000) ||
@@ -335,12 +388,219 @@ function compileArea(d, { verifyCatalogue = true, verifyRollPolicy = true } = {}
   if (d.followUp !== undefined) { descriptor.followUp = d.followUp; }
   return { ok: true, canonicalDefinition, definitionHash, descriptor };
 }
+function compileHunterFlow(d) {
+  const canonical = checkpoint.canonicalize(d, 'definition');
+  if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
+  const rootKeys = ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description',
+    'binding', 'spellType', 'castTimeType', 'targeting', 'resourceCost', 'effect', 'hunterFlow', 'classPayment'];
+  if (!exact(d, rootKeys) || d.schemaVersion !== 8 || d.capability !== FLOW_CAPABILITY ||
+      !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
+      !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
+      !equal(d.binding, { rulesetId: 'prism', rulesetVersion: 'cr-a1a-pilot-1', classId: 'hunter' }) ||
+      d.spellType !== 'ACTION' || d.castTimeType !== 'IMMEDIATE' ||
+      !equal(d.targeting, { kind: 'single', maxTargets: 1, rangeFeet: 30, restriction: 'enemy' }) ||
+      !equal(d.resourceCost, { actionPoints: 1, mana: 0 }) ||
+      !equal(d.effect, { kind: 'damage', formula: '1d6', damageTypes: ['stabbing'] }) ||
+      !equal(d.hunterFlow, {
+        version: 1,
+        bonusDamageOnHit: hunterFlow.QUICK_DRAW_SLICE_POLICY.bonusDamageOnHit,
+        bonusDamageType: hunterFlow.QUICK_DRAW_SLICE_POLICY.bonusDamageType,
+        rollDice: { count: 2, sides: 6 },
+        updateOnMiss: true,
+        encounterResetTo: hunterFlow.FLOW_START,
+        approvalRef: hunterFlow.QUICK_DRAW_APPROVAL_REF
+      }) ||
+      !equal(d.classPayment, { domain: hunterFlow.FLOW_DOMAIN, mode: 'flow-state' })) {
+    return no('INVALID_DEFINITION');
+  }
+  const canonicalDefinition = canonical.value;
+  const definitionHash = checkpoint.sha256Hex('mythrill:authored-hunter-flow:v1\n' + checkpoint.stableStringify(canonicalDefinition));
+  const definitionRef = { roomId: d.scope.roomId, definitionId: d.definitionId, definitionVersion: d.definitionVersion, definitionHash };
+  const descriptor = {
+    schemaVersion: 8,
+    capabilityId: FLOW_CAPABILITY,
+    compilerVersion: FLOW_COMPILER,
+    definitionRef,
+    binding: clone(d.binding),
+    price: { ap: 1, mana: 0 },
+    targeting: clone(d.targeting),
+    effect: { kind: 'damage', formula: '1d6', damageTypes: ['stabbing'], dice: [{ count: 1, sides: 6 }], constant: 0 },
+    hunterFlow: clone(d.hunterFlow),
+    classPayment: clone(d.classPayment),
+    executionEnabled: false
+  };
+  return { ok: true, canonicalDefinition, definitionHash, descriptor };
+}
+function compilePassiveEnvelope(d, { schemaVersion, capability, compilerVersion, hashPrefix, validateSpecific }) {
+  const canonical = checkpoint.canonicalize(d, 'definition');
+  if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
+  const rootKeys = ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description',
+    'binding', 'spellType', 'targeting', 'trigger', 'effects', 'timing'];
+  if (!exact(d, rootKeys) || d.schemaVersion !== schemaVersion || d.capability !== capability ||
+      !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
+      !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
+      !exact(d.binding, ['rulesetId', 'rulesetVersion', 'classId']) || d.binding.rulesetId !== 'prism' || d.binding.rulesetVersion !== 'cr-a1a-pilot-1' || !CLASS_IDS.includes(d.binding.classId) ||
+      d.spellType !== 'PASSIVE' || !validateSpecific(d) ||
+      !exact(d.effects, ['direct', 'condition']) || d.effects.direct !== null || !validEffectCondition(d.effects.condition) || d.effects.condition.kind === 'periodic' ||
+      !validEffectTiming(d.timing) || d.timing.expiryPolicy !== 'gm-manual' ||
+      !text(d.timing.durationText, 300) || !text(d.timing.gmNote, 1000) ||
+      ![null, '{}', '{"durationType":"instant"}'].includes(d.timing.authoredDuration === null ? null : JSON.stringify(d.timing.authoredDuration))) {
+    return no('INVALID_DEFINITION');
+  }
+  const canonicalDefinition = canonical.value;
+  const definitionHash = checkpoint.sha256Hex(hashPrefix + checkpoint.stableStringify(canonicalDefinition));
+  const definitionRef = { roomId: d.scope.roomId, definitionId: d.definitionId, definitionVersion: d.definitionVersion, definitionHash };
+  const descriptor = {
+    schemaVersion,
+    capabilityId: capability,
+    compilerVersion,
+    definitionRef,
+    binding: clone(d.binding),
+    targeting: clone(d.targeting),
+    trigger: clone(d.trigger),
+    effects: clone(d.effects),
+    timing: clone(d.timing),
+    executionEnabled: false
+  };
+  return { ok: true, canonicalDefinition, definitionHash, descriptor };
+}
+function compilePassiveEntry(d) {
+  return compilePassiveEnvelope(d, {
+    schemaVersion: 9,
+    capability: PASSIVE_ENTRY_CAPABILITY,
+    compilerVersion: PASSIVE_ENTRY_COMPILER,
+    hashPrefix: 'mythrill:authored-passive-entry:v1\n',
+    validateSpecific: def => exact(def.targeting, ['kind', 'aoeShape', 'radiusFeet', 'restriction']) &&
+      def.targeting.kind === 'self_centered_radius' && def.targeting.aoeShape === 'circle' &&
+      int(def.targeting.radiusFeet, 5, 60) && def.targeting.radiusFeet % 5 === 0 && ['enemy', 'ally', 'any'].includes(def.targeting.restriction) &&
+      exact(def.trigger, ['kind', 'contract']) && def.trigger.kind === PASSIVE_ENTRY_TRIGGER_ID && def.trigger.contract === PASSIVE_ENTRY_TRIGGER
+  });
+}
+function compilePassiveTurn(d) {
+  return compilePassiveEnvelope(d, {
+    schemaVersion: 11,
+    capability: PASSIVE_TURN_CAPABILITY,
+    compilerVersion: PASSIVE_TURN_COMPILER,
+    hashPrefix: 'mythrill:authored-passive-turn:v1\n',
+    validateSpecific: def => exact(def.targeting, ['kind', 'restriction']) &&
+      def.targeting.kind === 'self' && def.targeting.restriction === 'self' &&
+      exact(def.trigger, ['kind', 'whoseTurn', 'contract']) &&
+      PASSIVE_TURN_TRIGGER_IDS.includes(def.trigger.kind) &&
+      PASSIVE_TURN_WHOSE_VALUES.includes(def.trigger.whoseTurn) &&
+      def.trigger.contract === PASSIVE_TURN_TRIGGER
+  });
+}
+function compileOutcome(d) {
+  const canonical = checkpoint.canonicalize(d, 'definition');
+  if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
+  const rootKeys = ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description',
+    'binding', 'spellType', 'castTimeType', 'targeting', 'resourceCost', 'outcomeTable'];
+  if (!exact(d, rootKeys) || d.schemaVersion !== randomOutcome.SCHEMA_VERSION || d.capability !== OUTCOME_CAPABILITY ||
+      !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
+      !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
+      !exact(d.binding, ['rulesetId', 'rulesetVersion', 'classId']) || d.binding.rulesetId !== 'prism' || d.binding.rulesetVersion !== 'cr-a1a-pilot-1' || !CLASS_IDS.includes(d.binding.classId) ||
+      d.spellType !== 'ACTION' || d.castTimeType !== 'IMMEDIATE' ||
+      !exact(d.targeting, ['kind', 'maxTargets', 'rangeFeet', 'restriction']) || d.targeting.kind !== 'single' || d.targeting.maxTargets !== 1 ||
+      !int(d.targeting.rangeFeet, 1, 300) || !['enemy', 'ally', 'any'].includes(d.targeting.restriction) ||
+      !exact(d.resourceCost, ['actionPoints', 'mana']) || !int(d.resourceCost.actionPoints, 0, 20) || !int(d.resourceCost.mana, 0, 10000)) {
+    return no('INVALID_DEFINITION');
+  }
+  if (!randomOutcome.validOutcomeTable(d.outcomeTable)) return no('UNSUPPORTED_SHAPE');
+  const canonicalDefinition = canonical.value;
+  const definitionHash = checkpoint.sha256Hex('mythrill:authored-outcome:v1\n' + checkpoint.stableStringify(canonicalDefinition));
+  const definitionRef = { roomId: d.scope.roomId, definitionId: d.definitionId, definitionVersion: d.definitionVersion, definitionHash };
+  const descriptor = {
+    schemaVersion: randomOutcome.SCHEMA_VERSION,
+    capabilityId: OUTCOME_CAPABILITY,
+    compilerVersion: OUTCOME_COMPILER,
+    definitionRef,
+    binding: clone(d.binding),
+    price: { ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana },
+    targeting: clone(d.targeting),
+    outcomeTable: clone(d.outcomeTable),
+    executionEnabled: false
+  };
+  return { ok: true, canonicalDefinition, definitionHash, descriptor };
+}
+function compileChanneled(d) {
+  const canonical = checkpoint.canonicalize(d, 'definition');
+  if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
+  const rootKeys = ['schemaVersion', 'capability', 'scope', 'definitionId', 'definitionVersion', 'name', 'description',
+    'binding', 'spellType', 'targeting', 'resourceCost', 'tickEffect', 'channel', 'timing'];
+  if (!exact(d, rootKeys) || d.schemaVersion !== 10 || d.capability !== CHANNELED_CAPABILITY ||
+      !exact(d.scope, ['roomId']) || !text(d.scope.roomId, 200) || !uuid(d.definitionId) || !int(d.definitionVersion, 1, 1000000) ||
+      !text(d.name, 120) || typeof d.description !== 'string' || d.description.length > 4000 ||
+      !exact(d.binding, ['rulesetId', 'rulesetVersion', 'classId']) || d.binding.rulesetId !== 'prism' || d.binding.rulesetVersion !== 'cr-a1a-pilot-1' || !CLASS_IDS.includes(d.binding.classId) ||
+      d.spellType !== 'CHANNELED' ||
+      !exact(d.targeting, ['kind', 'maxTargets', 'rangeFeet', 'restriction']) || d.targeting.kind !== 'single' || d.targeting.maxTargets !== 1 ||
+      !int(d.targeting.rangeFeet, 1, 300) || !['enemy', 'ally', 'any'].includes(d.targeting.restriction) ||
+      !exact(d.resourceCost, ['actionPoints', 'mana']) || !int(d.resourceCost.actionPoints, 0, 20) || !int(d.resourceCost.mana, 0, 10000)) {
+    return no('INVALID_DEFINITION');
+  }
+  const tick = d.tickEffect;
+  if (!tick || typeof tick !== 'object' || Array.isArray(tick) || !['damage', 'healing'].includes(tick.kind)) return no('INVALID_DEFINITION');
+  if (tick.kind === 'damage') {
+    if (!exact(tick, ['kind', 'formula', 'damageTypes']) || !Array.isArray(tick.damageTypes) || tick.damageTypes.length !== 1 ||
+        !sharedProfile.PERIODIC.damageTypes.includes(tick.damageTypes[0])) return no('INVALID_DEFINITION');
+  } else if (!exact(tick, ['kind', 'formula'])) {
+    return no('INVALID_DEFINITION');
+  }
+  try { readFormula(tick.formula); } catch (_) { return no('INVALID_DEFINITION'); }
+  if (!sharedProfile.validTick(authoredChanneled.tickSpec(tick))) return no('INVALID_DEFINITION');
+
+  const ch = d.channel;
+  if (!ch || typeof ch !== 'object' || Array.isArray(ch)) return no('INVALID_DEFINITION');
+  const maxDur = ch.maxChannelDuration;
+  const expectCounted = int(maxDur, 2, 10);
+  const hasConc = Object.hasOwn(ch, 'concentrationDC') || Object.hasOwn(ch, 'dcType');
+  const expectedChannelKeys = ['maxChannelDuration', 'durationUnit', 'tickFrequency', 'timing', 'rangeFeet', 'interruptible', 'movementAllowed', 'breakEffect']
+    .concat(expectCounted ? ['occurrences'] : [])
+    .concat(hasConc ? ['concentrationDC', 'dcType'] : []);
+  if (!exact(ch, expectedChannelKeys) || !int(maxDur, 1, 10) || ch.durationUnit !== 'TURNS' ||
+      !['START_OF_TURN', 'END_OF_TURN'].includes(ch.tickFrequency) ||
+      ch.timing !== authoredChanneled.timingKeyFor(ch.tickFrequency, maxDur) ||
+      ch.rangeFeet !== d.targeting.rangeFeet || ch.interruptible !== true || ch.movementAllowed !== false || ch.breakEffect !== 'none') {
+    return no('INVALID_DEFINITION');
+  }
+  if (expectCounted && ch.occurrences !== maxDur) return no('INVALID_DEFINITION');
+  if (hasConc && (!int(ch.concentrationDC, 5, 20) || !authoredChanneled.DC_ATTRIBUTES.includes(ch.dcType))) return no('INVALID_DEFINITION');
+
+  const tm = d.timing;
+  const expectedTimingKeys = ['expiryPolicy', 'durationText', 'gmNote'].concat(expectCounted ? ['occurrences'] : []);
+  if (!tm || !exact(tm, expectedTimingKeys) || tm.expiryPolicy !== ch.timing || !text(tm.durationText, 300) || !text(tm.gmNote, 1000)) {
+    return no('INVALID_DEFINITION');
+  }
+  if (expectCounted && tm.occurrences !== maxDur) return no('INVALID_DEFINITION');
+
+  const canonicalDefinition = canonical.value;
+  const definitionHash = checkpoint.sha256Hex('mythrill:authored-channeled:v1\n' + checkpoint.stableStringify(canonicalDefinition));
+  const definitionRef = { roomId: d.scope.roomId, definitionId: d.definitionId, definitionVersion: d.definitionVersion, definitionHash };
+  const descriptor = {
+    schemaVersion: 10,
+    capabilityId: CHANNELED_CAPABILITY,
+    compilerVersion: CHANNELED_COMPILER,
+    definitionRef,
+    binding: clone(d.binding),
+    price: { ap: d.resourceCost.actionPoints, mana: d.resourceCost.mana },
+    targeting: clone(d.targeting),
+    tickEffect: clone(d.tickEffect),
+    channel: clone(d.channel),
+    timing: clone(d.timing),
+    executionEnabled: false
+  };
+  return { ok: true, canonicalDefinition, definitionHash, descriptor };
+}
 function compileDefinition(d, options) {
   try { d = snapshot(d); } catch (_) { return no('INVALID_DEFINITION'); }
+  if (d?.capability === CHANNELED_CAPABILITY) return compileChanneled(d);
+  if (d?.capability === OUTCOME_CAPABILITY) return compileOutcome(d);
+  if (d?.capability === PASSIVE_ENTRY_CAPABILITY) return compilePassiveEntry(d);
+  if (d?.capability === PASSIVE_TURN_CAPABILITY) return compilePassiveTurn(d);
+  if (d?.capability === FLOW_CAPABILITY) return compileHunterFlow(d);
   if (d?.capability === AREA_CAPABILITY) return compileArea(d, options);
   if ([FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY].includes(d?.capability)) return compileFormula(d, options);
   if (d?.capability === EFFECT_CAPABILITY) return compileEffect(d, options);
-  if (d?.capability === undefined && d?.componentWatch !== undefined) { return compileImmediateWatch(d, options); }
+  if (d?.capability === undefined && (d?.componentWatch !== undefined || d?.save !== undefined || d?.targeting?.selectionMethod === 'lowest_health')) { return compileImmediateWatch(d, options); }
   if (d?.capability !== CONDITION_CAPABILITY) return legacy.compileDefinition(d);
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) return no('INVALID_DEFINITION');
@@ -363,20 +623,35 @@ function compileDefinition(d, options) {
 /** Family expansion: a plain (A1a, schema 1) immediate damage definition that carries a watch on its only part. The protected A1a
  * compiler validates every other field of the same definition without the watch; the watch is then inside the canonical definition and
  * its hash (same A1a hash domain and capability), so a watched copy is always a different definition from its unwatched twin. */
-function compileImmediateWatch(d, { verifyComponentPolicy = true } = {}) {
-  if (!d || typeof d !== 'object' || Array.isArray(d) || !validComponentWatch(d) || d.schemaVersion !== 1) { return no('UNSUPPORTED_SHAPE'); }
-  if (verifyComponentPolicy && !require('../shared/services/componentScopePolicy').approved()) { return no('COMPONENT_SCOPE_UNAPPROVED'); }
-  const projection = clone(d); delete projection.componentWatch;
+function compileImmediateWatch(d, { verifyComponentPolicy = true, verifyDirectSavePolicy = true } = {}) {
+  const watched = d?.componentWatch !== undefined, saved = d?.save !== undefined, lowestHp = d?.targeting?.selectionMethod === 'lowest_health';
+  if (!d || typeof d !== 'object' || Array.isArray(d) || (watched && !validComponentWatch(d)) || d.schemaVersion !== 1) { return no('UNSUPPORTED_SHAPE'); }
+  if (d?.targeting?.selectionMethod !== undefined && !lowestHp) { return no('UNSUPPORTED_SHAPE'); }
+  if (lowestHp && !validSingleTargeting(d.targeting, false)) { return no('UNSUPPORTED_SHAPE'); }
+  if (watched && verifyComponentPolicy && !require('../shared/services/componentScopePolicy').approved()) { return no('COMPONENT_SCOPE_UNAPPROVED'); }
+  // Direct-damage save (handoff/direct-damage-save/CONTRACT.md): one exact save term on the only, plain damage part of a single-target
+  // immediate definition with a distinct creature target. It is inside the canonical definition and its hash, so a saved copy is always a
+  // different definition from its unsaved twin and an admitted record's meaning never changes. Admission requires the outcome's creator
+  // policy; stored-registry validation checks structure only (a later policy change never makes a stored registry undecodable).
+  if (saved && (!directSave.validSave(d.save) || d.effect?.kind !== 'damage' || d.cooldown !== undefined || d.targeting?.restriction === 'self' ||
+      !int(d.targeting?.rangeFeet, 1, 300))) { return no('UNSUPPORTED_SHAPE'); }
+  if (saved && verifyDirectSavePolicy && directSave.policyRefusal(d.save)) { return no('DIRECT_SAVE_POLICY_UNANSWERED'); }
+  const projection = clone(d); delete projection.componentWatch; delete projection.save;
+  if (lowestHp && projection.targeting) delete projection.targeting.selectionMethod;
   const base = legacy.compileDefinition(projection);
   if (!base.ok) { return base; }
   const canonical = checkpoint.canonicalize(d, 'definition');
   if (canonical.error || Buffer.byteLength(JSON.stringify(d)) > 16384 || !equal(d, canonical.value)) { return no('INVALID_DEFINITION'); }
-  const bare = clone(canonical.value); delete bare.componentWatch;
+  const bare = clone(canonical.value); delete bare.componentWatch; delete bare.save;
+  if (lowestHp && bare.targeting) delete bare.targeting.selectionMethod;
   if (!equal(bare, base.canonicalDefinition)) { return no('INVALID_DEFINITION'); }
   const canonicalDefinition = canonical.value;
   const definitionHash = checkpoint.sha256Hex('mythrill:authored-definition:v1\n' + checkpoint.stableStringify(canonicalDefinition));
   const definitionRef = Object.assign({}, base.descriptor.definitionRef, { definitionHash });
-  const descriptor = Object.assign(clone(base.descriptor), { compilerVersion: IMMEDIATE_WATCH_COMPILER, definitionRef, componentWatch: clone(d.componentWatch) });
+  const compilerVersion = saved ? (watched ? DIRECT_SAVE_WATCH_COMPILER : DIRECT_SAVE_COMPILER) : watched ? IMMEDIATE_WATCH_COMPILER : LOWEST_HP_IMMEDIATE_COMPILER;
+  const descriptor = Object.assign(clone(base.descriptor), { compilerVersion, definitionRef },
+    lowestHp ? { targeting: clone(d.targeting) } : {},
+    watched ? { componentWatch: clone(d.componentWatch) } : {}, saved ? { save: clone(d.save) } : {});
   return { ok: true, canonicalDefinition, definitionHash, descriptor };
 }
 function validateRegistrySnapshot(r) {
@@ -387,7 +662,7 @@ function validateRegistrySnapshot(r) {
   const entries = new Map(), requests = new Set(), admitted = new Set(), revoked = new Set(), versions = new Map();
   for (const e of r.definitions) {
     if (!exact(e, ['definitionRef', 'canonicalDefinition', 'compilerVersion', 'descriptor'])) return no();
-    const c = compileDefinition(e.canonicalDefinition, { verifyCatalogue: false, verifyRollPolicy: false, verifyComponentPolicy: false }), ref = c.descriptor?.definitionRef;
+    const c = compileDefinition(e.canonicalDefinition, { verifyCatalogue: false, verifyRollPolicy: false, verifyComponentPolicy: false, verifyDirectSavePolicy: false }), ref = c.descriptor?.definitionRef;
     if (!c.ok || ref.roomId !== r.roomId || !equal(e.definitionRef, ref) || e.compilerVersion !== c.descriptor.compilerVersion || !equal(e.descriptor, c.descriptor)) return no();
     const key = `${ref.definitionId}:${ref.definitionVersion}`;
     if (entries.has(key)) return no();
@@ -413,7 +688,7 @@ function decodeRegistry(json) { try { return validateRegistrySnapshot(JSON.parse
 function createDefinitionRegistry({ authorize }) {
   async function plan(operation, input, request) {
     try { input = snapshot(input); request = snapshot(request); } catch (_) { return no('INVALID_DEFINITION'); }
-    if (input.schemaVersion !== 2 && request.definition?.componentWatch === undefined && ![CONDITION_CAPABILITY, EFFECT_CAPABILITY, FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY, AREA_CAPABILITY].includes(request.definition?.capability)) return legacy.createDefinitionRegistry({ authorize })[operation === 'admit' ? 'planAdmit' : 'planRevoke'](input, request);
+    if (input.schemaVersion !== 2 && request.definition?.componentWatch === undefined && request.definition?.save === undefined && request.definition?.targeting?.selectionMethod === undefined && ![CONDITION_CAPABILITY, EFFECT_CAPABILITY, FORMULA_CAPABILITY, HEALTH_CAPABILITY, DETERMINISTIC_CAPABILITY, AREA_CAPABILITY, FLOW_CAPABILITY, PASSIVE_ENTRY_CAPABILITY, PASSIVE_TURN_CAPABILITY, OUTCOME_CAPABILITY, CHANNELED_CAPABILITY].includes(request.definition?.capability)) return legacy.createDefinitionRegistry({ authorize })[operation === 'admit' ? 'planAdmit' : 'planRevoke'](input, request);
     const valid = validateRegistrySnapshot(input);
     if (!valid.ok) return valid;
     const r = clone(valid.registry);

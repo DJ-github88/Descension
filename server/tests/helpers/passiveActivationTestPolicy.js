@@ -19,6 +19,7 @@ const shippedSource = fs.readFileSync(shippedPath, 'utf8');
 const sandbox = { module: { exports: {} }, exports: {}, Object };
 vm.runInNewContext(shippedSource, sandbox, { filename: shippedPath });
 const shipped = sandbox.module.exports;
+const LOADER_SYMBOL = Symbol.for('mythrill.passiveActivationTestLoader');
 
 let testApproved = true;
 let testStackingMode = null;
@@ -75,7 +76,7 @@ const POLICY = Object.freeze({
   })
 });
 
-module.exports = Object.freeze({
+const exportedPolicy = Object.freeze({
   ...shipped,
   POLICY,
   approved,
@@ -83,5 +84,31 @@ module.exports = Object.freeze({
   describePassiveStatus,
   setApprovedForTest,
   setStackingModeForTest,
-  resetPolicyForTest
+  resetPolicyForTest,
+  isPolicySwapLoaderActive,
+  requirePolicySwapLoader
 });
+
+function isPolicySwapLoaderActive() {
+  if (process[LOADER_SYMBOL] !== true) {
+    return false;
+  }
+  const resolved = require('../../shared/services/passiveActivationPolicy');
+  return resolved === exportedPolicy;
+}
+
+function requirePolicySwapLoader(ctx, reason) {
+  if (isPolicySwapLoaderActive()) {
+    return true;
+  }
+  const message = reason || 'Requires test-only policy-swap loader (--require tests/helpers/passiveActivationTestLoader.cjs)';
+  if (process.env.PASSIVE_REQUIRE_TEST_LOADER === '1') {
+    throw new Error(`Required test-only loader is not active: ${message}`);
+  }
+  if (ctx && typeof ctx.skip === 'function') {
+    ctx.skip(message);
+  }
+  return false;
+}
+
+module.exports = exportedPolicy;

@@ -135,3 +135,28 @@ test('a removed or replaced target clears the selection and never silently retar
   expect(screen.getByRole('button', { name: 'Use target' })).toBeDisabled();
   expect(onPick).not.toHaveBeenCalled();
 });
+
+test('isHidden tokens stay hidden from non-GM map picker candidates and options, while GM sees them', () => {
+  const refIsHidden = refOf('is-hidden');
+  const tokenIsHidden = {
+    id: refIsHidden.tokenId,
+    creatureId: 'goblin',
+    mapId: refIsHidden.mapId,
+    position: { x: 300, y: 100 },
+    state: { customName: 'Goblin', actorContract: { ...refIsHidden, version: 1 }, isHidden: true }
+  };
+  const { view, select } = setup({
+    tokens: [tokenA, tokenIsHidden],
+    candidates: [refA, refIsHidden]
+  });
+  const playerOptions = within(select()).getAllByRole('option');
+  expect(playerOptions.some(option => option.textContent.includes('alpha'))).toBe(true);
+  expect(playerOptions.some(option => option.textContent.includes('is-hidden'))).toBe(false);
+  expect(document.querySelectorAll('.tpo-candidate')).toHaveLength(1);
+
+  act(() => useGameStore.setState({ isGMMode: true }));
+  view.rerender(<TargetPickOverlay gridSystem={gridSystem} currentMapId="map" gridSize={50} feetPerTile={5} />);
+  const gmOptions = within(select()).getAllByRole('option');
+  expect(gmOptions.some(option => option.textContent.includes('is-hidden'))).toBe(true);
+  expect(document.querySelectorAll('.tpo-candidate')).toHaveLength(2);
+});

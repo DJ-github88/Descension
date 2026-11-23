@@ -265,7 +265,7 @@ const Step5Resources = () => {
   },
   {
    id: 'marks',
-   name: 'Marks',
+    name: 'Apex Marks',
    description: 'Apex tracking and coordination mechanics',
    icon: faCrosshairs,
    color: '#8B4513',
@@ -499,6 +499,7 @@ const Step5Resources = () => {
    } else if (!updatedResourceValues[resourceType]) {
     updatedResourceValues[resourceType] = 1; // Default value
    }
+   setResourceValues(updatedResourceValues);
   }
 
   selectedResourcesRef.current = updatedResources;
@@ -790,7 +791,10 @@ const Step5Resources = () => {
         ))}
 
         {/* Class Resource Categories (Expandable) */}
-        {classResourceCategories.map(category => (
+         {state.mechanicsConfig?.hunterFlow?.enabled && (
+          <p role="note">Flow is a stage, not a cost or gain. Configure the printed bonus in Mechanics. Only Quick Draw has a reviewed combat action.</p>
+         )}
+         {classResourceCategories.filter(category => !state.mechanicsConfig?.hunterFlow?.enabled || category.subcategories.some(sub => selectedResources.includes(sub.id))).map(category => (
          <div key={category.id} className="resource-category-container">
           <div
            className={`resource-type-option category ${expandedCategory === category.id ? 'expanded' : ''}`}
@@ -809,7 +813,7 @@ const Step5Resources = () => {
           {/* Subcategory Panel */}
           {expandedCategory === category.id && (
            <div className="resource-subcategory-panel">
-            {category.subcategories.map(sub => (
+             {category.subcategories.filter(sub => !state.mechanicsConfig?.hunterFlow?.enabled || selectedResources.includes(sub.id)).map(sub => (
              <div
               key={sub.id}
               className={`resource-subcategory-option ${selectedResources.includes(sub.id) ? 'selected' : ''}`}

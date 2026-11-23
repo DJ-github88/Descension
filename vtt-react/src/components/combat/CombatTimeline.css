@@ -3,8 +3,21 @@
 .combat-timeline-window-compact .timeline-button { min-height: 32px; }
 .combat-timeline-window-compact .timeline-button:focus-visible { outline: 2px solid var(--adventure-ink, #34251a); outline-offset: 2px; }
 .combat-timeline-window-compact.timeline-collapsed .timeline-combatants,
+.combat-timeline-window-compact.timeline-collapsed .timeline-ongoing-effects,
 .combat-timeline-window-compact.timeline-collapsed .timeline-controls > :not(.timeline-toggle),
 .combat-timeline-window-compact.timeline-collapsed > .react-resizable-handle { display: none; }
+.timeline-ongoing-effects { margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(155, 131, 94, 0.35); font-size: 12px; color: var(--adventure-ink, #34251a); }
+.timeline-effects-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.timeline-effects-toggle { background: none; border: none; padding: 2px 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font: inherit; font-weight: 700; color: inherit; }
+.timeline-effects-clock { font-size: 11px; color: var(--adventure-muted, #68533e); }
+.timeline-effects-body { margin-top: 6px; max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.timeline-effects-empty { margin: 0; font-size: 11px; color: var(--adventure-muted, #68533e); }
+.timeline-effects-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.timeline-effect-item { padding: 4px 6px; border: 1px solid rgba(155, 131, 94, 0.3); border-radius: 3px; background: rgba(255, 252, 245, 0.65); }
+.timeline-effect-title { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.timeline-effect-actor { font-size: 11px; color: var(--adventure-muted, #68533e); }
+.timeline-effect-timing { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: 11px; margin-top: 2px; }
+.timeline-effect-badge { font-weight: 700; }
 @media (pointer: coarse) {
   .combat-timeline-window-compact .timeline-button { min-height: 44px; min-width: 44px; }
 }

@@ -196,6 +196,25 @@ const Step7Mechanics = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }
     ? state.effectMechanicsConfigs?.[selectedEffect.id] || {}
     : {};
 
+  // Hunter Flow authoring state (Checkpoint 25 base vs. 2d6 Flow bonus; manual until creator decisions close)
+  const hunterFlow = state.mechanicsConfig?.hunterFlow || {
+    enabled: false,
+    ruleset: 'checkpoint-25-flow',
+    abilityKind: 'flow_eligible',
+    baseEffectSummary: '',
+    flowBonusSummary: '',
+    companionShared: true
+  };
+
+  const updateHunterFlow = (patch) => {
+    const next = { ...hunterFlow, ...patch };
+    if (!next.enabled) {
+      dispatch(actionCreators.updateMechanicsConfig({ hunterFlow: undefined }));
+      return;
+    }
+    dispatch(actionCreators.updateMechanicsConfig({ hunterFlow: next }));
+  };
+
   return (
     <WizardStep
       title="Configure Mechanics"
@@ -244,6 +263,65 @@ const Step7Mechanics = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }
             />
           </div>
         )}
+
+        {/* Hunter Flow (Checkpoint 25): Base Effect vs. 2d6 Flow Bonus */}
+        <div className="mechanics-config-container" style={{ marginTop: 12, padding: 12, border: '1px solid #8a7456', borderRadius: 4 }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 600, cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={Boolean(hunterFlow.enabled)}
+              onChange={(e) => updateHunterFlow({ enabled: e.target.checked })}
+            />
+            Hunter Flow (Base Effect vs. 2d6 Printed Flow Bonus)
+          </label>
+          <p style={{ margin: '6px 0 8px', fontSize: '0.85rem' }}>
+            Shared Hunter/companion Flow (1–4). Natural doubles activate the printed Flow bonus and raise Flow +1 (cap 4); otherwise difference ≤ pre-roll Flow activates the bonus and maintains Flow; outside resolves the ordinary effect and lowers Flow −1 (floor 1).
+          </p>
+          {hunterFlow.enabled && (
+            <div style={{ display: 'grid', gap: 8 }}>
+              <label style={{ display: 'grid', gap: 4 }}>
+                <span>Ability Flow Role</span>
+                <select
+                  value={hunterFlow.abilityKind || 'flow_eligible'}
+                  onChange={(e) => updateHunterFlow({ abilityKind: e.target.value })}
+                >
+                  <option value="flow_eligible">Flow-eligible (rolls 2d6)</option>
+                  <option value="preparation">AP preparation (direction approved; cost/frequency open)</option>
+                  <option value="ordinary">Ordinary Hunter action (no 2d6 roll)</option>
+                </select>
+              </label>
+              <label style={{ display: 'grid', gap: 4 }}>
+                <span>Ordinary Base Effect</span>
+                <input
+                  type="text"
+                  value={hunterFlow.baseEffectSummary || ''}
+                  placeholder="e.g., Deal 1d6 stabbing damage (normal hit/save/crit applies)"
+                  onChange={(e) => updateHunterFlow({ baseEffectSummary: e.target.value })}
+                />
+              </label>
+              <label style={{ display: 'grid', gap: 4 }}>
+                <span>Printed Flow Bonus (2d6 qualifying outcome)</span>
+                <input
+                  type="text"
+                  value={hunterFlow.flowBonusSummary || ''}
+                  placeholder="e.g., +1d4 stabbing damage or printed Flow bonus"
+                  onChange={(e) => updateHunterFlow({ flowBonusSummary: e.target.value })}
+                />
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <input
+                  type="checkbox"
+                  checked={hunterFlow.companionShared !== false}
+                  onChange={(e) => updateHunterFlow({ companionShared: e.target.checked })}
+                />
+                <span>Shared between Hunter and bonded companion (1–4)</span>
+              </label>
+              <div role="note" style={{ fontSize: '0.8rem', opacity: 0.85 }}>
+                Authoring &amp; card presentation only: eligibility, 2d6 roll ordering, and reset boundaries await creator decision. Unsupported records are preserved whole.
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </WizardStep>
   );

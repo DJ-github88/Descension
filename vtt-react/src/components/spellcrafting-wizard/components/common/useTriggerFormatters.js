@@ -406,15 +406,22 @@ const useTriggerFormatters = ({ spell, library }) => {
    };
    displayText = `When ${whoMap[perspective] || 'I enter'} ${areaType}`;
   } else if (trigger.id === 'proximity') {
-   const distance = trigger.parameters?.distance || 30;
-   const entityType = trigger.parameters?.entity_type || 'any';
+   const isTrapProximity = trigger.category === 'trap';
+   const distance = trigger.parameters?.distance || (isTrapProximity ? (spell?.trapConfig?.placementRadius || spell?.targetingConfig?.aoeParameters?.radius) : 30);
+   const entityType = trigger.parameters?.entity_type || trigger.parameters?.creature_type || 'any';
    const entityMap = {
-    'any': 'anyone',
+    'any': isTrapProximity ? 'any creature' : 'anyone',
     'ally': 'an ally',
     'enemy': 'an enemy',
-    'self': 'I'
+    'self': 'I',
+    'player': 'a player',
+    'npc': 'an NPC'
    };
-   displayText = `When ${entityMap[entityType] || 'anyone'} comes within ${distance} ft`;
+   displayText = distance
+    ? `When ${entityMap[entityType] || (isTrapProximity ? 'any creature' : 'anyone')} comes within ${distance} ft`
+    : `When ${entityMap[entityType] || 'any creature'} enters the trap radius`;
+  } else if (trigger.id === 'moves_into_radius') {
+   displayText = 'When a matching actor moves into this passive\'s radius';
   } else if (trigger.id === 'health_threshold') {
    const perspective = trigger.parameters?.perspective || 'self';
    const percentage = trigger.parameters?.percentage || 50;
@@ -466,7 +473,7 @@ const useTriggerFormatters = ({ spell, library }) => {
    };
    displayText = `When ${whoMap[perspective] || 'a spell is interrupted'}`;
   } else if (trigger.id === 'turn_start') {
-   const perspective = trigger.parameters?.perspective || 'self';
+   const perspective = trigger.parameters?.whose_turn || trigger.parameters?.perspective || 'self';
    const whoMap = {
     'self': 'my turn starts',
     'target': 'target\'s turn starts',
@@ -476,7 +483,7 @@ const useTriggerFormatters = ({ spell, library }) => {
    };
    displayText = `When ${whoMap[perspective] || 'my turn starts'}`;
   } else if (trigger.id === 'turn_end') {
-   const perspective = trigger.parameters?.perspective || 'self';
+   const perspective = trigger.parameters?.whose_turn || trigger.parameters?.perspective || 'self';
    const whoMap = {
     'self': 'my turn ends',
     'target': 'target\'s turn ends',

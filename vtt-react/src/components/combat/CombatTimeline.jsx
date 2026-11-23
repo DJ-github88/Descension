@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
+import useCharacterTokenStore from '../../store/characterTokenStore';
 import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
 import { getCreatureTokenIconUrl, getIconUrl } from '../../utils/assetManager';
@@ -11,7 +12,12 @@ import TurnTimer from './TurnTimer';
 import CombatConfigModal from './CombatConfigModal';
 import CombatRosterControls from '../gm-tools/CombatRosterControls';
 import useWindowManagerStore from '../../store/windowManagerStore';
+import { useSharedConditionStore } from '../../services/sharedConditionService';
+import { useSpellConsequenceStore } from '../../services/spellConsequenceService';
+import { projectOngoingEffects } from '../../services/ongoingEffectsProjection';
 import './CombatTimeline.css';
+
+const EMPTY_LIST = [];
 
 const CombatTimeline = () => {
     const {
@@ -19,6 +25,8 @@ const CombatTimeline = () => {
         turnOrder,
         currentTurnIndex,
         round,
+        effectLifecycle,
+        retiredPeriodicTicks,
         nextTurn,
         endCombat,
         timelinePosition,
@@ -30,9 +38,14 @@ const CombatTimeline = () => {
         combatConfig
     } = useCombatStore();
 
-    const { creatures } = useCreatureStore();
+    const { creatures, creatureTokens = EMPTY_LIST } = useCreatureStore();
+    const characterTokens = useCharacterTokenStore(state => state.characterTokens) || EMPTY_LIST;
     const isGMMode = useGameStore(state => state.isGMMode);
     const isInMultiplayer = useGameStore(state => state.isInMultiplayer);
+    const roomId = useGameStore(state => state.multiplayerRoom?.id || null);
+    const clockPhase = useSharedConditionStore(state => state.clockPhase);
+    const sharedCombat = useSharedConditionStore(state => state.combat);
+    const registryRevision = useSpellConsequenceStore(state => state.registryRevision);
     const windowScale = useSettingsStore(state => state.windowScale);
 
     const [showTooltip, setShowTooltip] = useState(false);
@@ -49,6 +62,7 @@ const CombatTimeline = () => {
     const nodeRef = useRef(null);
     const toggleRef = useRef(null);
     const [collapsed, setCollapsed] = useState(false);
+    const [effectsExpanded, setEffectsExpanded] = useState(true);
     const [viewport, setViewport] = useState(() => ({ width: window.innerWidth, height: window.innerHeight }));
     const zIndex = useWindowManagerStore(s => s.windows.get('combat-timeline')?.zIndex || 1000);
     const collapse = useCallback(() => { setCollapsed(true); toggleRef.current?.focus(); }, []);
@@ -198,6 +212,34 @@ const CombatTimeline = () => {
     const handleDragEnd = () => {
         setDraggedItem(null);
     };
+
+    const ongoingEffects = useMemo(() => {
+        if (!isInCombat) {
+            return { clock: null, effects: [], dueTicks: [], cooldowns: [] };
+        }
+        const combatSnapshot = {
+            isActive: true,
+            turnOrder,
+            currentTurnIndex,
+            round,
+            effectLifecycle: effectLifecycle ?? sharedCombat?.effectLifecycle ?? null,
+            retiredPeriodicTicks: retiredPeriodicTicks ?? sharedCombat?.retiredPeriodicTicks ?? null
+        };
+        return projectOngoingEffects({
+            combat: combatSnapshot,
+            turnOrder,
+            currentTurnIndex,
+            round,
+            isInCombat,
+            isInMultiplayer,
+            clockPhase,
+            characterTokens,
+            creatureTokens,
+            isGMMode,
+            roomId,
+            registryRevision
+        });
+    }, [isInCombat, turnOrder, currentTurnIndex, round, effectLifecycle, retiredPeriodicTicks, sharedCombat, isInMultiplayer, clockPhase, characterTokens, creatureTokens, isGMMode, roomId, registryRevision]);
 
     // Don't render if not in combat
     if (!isInCombat) {
@@ -396,6 +438,100 @@ const CombatTimeline = () => {
                                         </div>
                                     )}
                                 </div>
+
+                                <section className="timeline-ongoing-effects" aria-label="Ongoing effects and cooldowns">
+                                    <div className="timeline-effects-header">
+                                        <button
+                                            type="button"
+                                            className="timeline-effects-toggle"
+                                            aria-expanded={effectsExpanded}
+                                            onClick={() => setEffectsExpanded(value => !value)}
+                                        >
+                                            <span>Ongoing Effects &amp; Cooldowns ({ongoingEffects.effects.length + ongoingEffects.dueTicks.length + ongoingEffects.cooldowns.length})</span>
+                                            <span>{effectsExpanded ? '▾' : '▸'}</span>
+                                        </button>
+                                        <span className="timeline-effects-clock" role="status">
+                                            {ongoingEffects.clock
+                                                ? `Turn boundary ${ongoingEffects.clock.sequence}`
+                                                : 'Timing unavailable'}
+                                        </span>
+                                    </div>
+                                    {effectsExpanded && (
+                                        <div className="timeline-effects-body">
+                                            {ongoingEffects.effects.length === 0 && ongoingEffects.dueTicks.length === 0 && ongoingEffects.cooldowns.length === 0 ? (
+                                                <p className="timeline-effects-empty">No active tracked effects or cooldowns.</p>
+                                            ) : (
+                                                <>
+                                                    {ongoingEffects.effects.length > 0 && (
+                                                        <ul className="timeline-effects-list" aria-label="Active effects">
+                                                            {ongoingEffects.effects.map(item => (
+                                                                <li key={item.id} className={`timeline-effect-item timeline-effect-${item.timingStatus}`}>
+                                                                    <div className="timeline-effect-title">
+                                                                        <strong>{item.effectName}</strong>
+                                                                        <span className="timeline-effect-actor">{item.actorName}</span>
+                                                                    </div>
+                                                                    {item.timingStatus === 'scheduled' ? (
+                                                                        <div className="timeline-effect-timing">
+                                                                            <span>{item.remainingText}</span>
+                                                                            <span>{item.nextOccurrenceText}</span>
+                                                                            <span>{item.finalExpiryText}</span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="timeline-effect-timing">
+                                                                            <span className="timeline-effect-badge">{item.timingLabel}</span>
+                                                                            <span>{item.detailText}</span>
+                                                                        </div>
+                                                                    )}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                    {ongoingEffects.dueTicks.length > 0 && (
+                                                        <ul className="timeline-effects-list" aria-label="Due periodic ticks">
+                                                            {ongoingEffects.dueTicks.map(tick => (
+                                                                <li key={tick.tickId} className={`timeline-effect-item timeline-effect-${tick.live ? 'tick' : 'unavailable'}`}>
+                                                                    <div className="timeline-effect-title">
+                                                                        <strong>{tick.label}</strong>
+                                                                        <span className="timeline-effect-actor">{tick.actorName}</span>
+                                                                    </div>
+                                                                    <div className="timeline-effect-timing">
+                                                                        <span>{tick.occurrenceText}</span>
+                                                                        <span>{tick.boundaryText}</span>
+                                                                        <span>{tick.statusText}</span>
+                                                                    </div>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                    {ongoingEffects.cooldowns.length > 0 && (
+                                                        <ul className="timeline-effects-list" aria-label="Active cooldowns">
+                                                            {ongoingEffects.cooldowns.map(cd => (
+                                                                <li key={cd.id} className={`timeline-effect-item timeline-effect-${cd.timingStatus}`}>
+                                                                    <div className="timeline-effect-title">
+                                                                        <strong>Cooldown: {cd.abilityName}</strong>
+                                                                        <span className="timeline-effect-actor">{cd.actorName}</span>
+                                                                    </div>
+                                                                    {cd.timingStatus === 'scheduled' ? (
+                                                                        <div className="timeline-effect-timing">
+                                                                            <span>{cd.remainingText}</span>
+                                                                            <span>{cd.nextOccurrenceText}</span>
+                                                                            <span>{cd.releaseText}</span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="timeline-effect-timing">
+                                                                            <span className="timeline-effect-badge">{cd.timingLabel}</span>
+                                                                            <span>{cd.detailText}</span>
+                                                                        </div>
+                                                                    )}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
+                                    )}
+                                </section>
                             </div>
                         </Resizable>
                     </div>

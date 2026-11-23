@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from './context/spellWizardContext';
-import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from './context/SpellLibraryContext';
+import { useSpellWizardState, useSpellWizardDispatch } from './context/spellWizardContext';
+import { useSpellLibrary, useSpellLibraryDispatch } from './context/SpellLibraryContext';
 import { useClassSpellLibrary } from '../../hooks/useClassSpellLibrary';
 import SpellCardWithProcs from './components/common/SpellCardWithProcs';
+import { draftSubject } from './utils/executionCompatibility';
+import { executeCanonicalSpellSave } from './utils/canonicalSpellSave';
 import useSpellbookStore from '../../store/spellbookStore';
 import useSettingsStore from '../../store/settingsStore';
 import useAuthStore from '../../store/authStore';
-import { saveUserSpell } from '../../services/firebase/userSpellService';
 
 // External Live Preview Component that renders outside any window
 const ExternalLivePreview = () => {
@@ -32,243 +33,44 @@ const ExternalLivePreview = () => {
     return null;
   }
 
-  // Handle spell completion
+  // Handle spell completion via the canonical save path
   const handleCompleteSpell = async () => {
-    if (!state.name || state.name.trim() === '') {
-      setCompletionMessage('Please enter a spell name before completing.');
-      setTimeout(() => setCompletionMessage(''), 3000);
-      return;
-    }
-
     setIsCompleting(true);
     setCompletionMessage('');
 
     try {
-      // Extract damage types properly - same logic as createPreviewSpell
-      const extractedDamageTypes = [];
-      if (state.typeConfig?.school) {
-        extractedDamageTypes.push(state.typeConfig.school);
-      }
-      if (state.typeConfig?.secondaryElement) {
-        extractedDamageTypes.push(state.typeConfig.secondaryElement);
-      }
-      if (extractedDamageTypes.length === 0 && state.damageConfig?.damageType) {
-        if (state.damageConfig.elementType) {
-          extractedDamageTypes.push(state.damageConfig.elementType);
-        }
-      }
+      const result = await executeCanonicalSpellSave({
+        wizardState: state,
+        isEditing,
+        editingSpellId,
+        library,
+        libraryDispatch,
+        wizardDispatch,
+        addCustomSpell,
+        user
+      });
 
-      // Ensure targetingConfig has all required fields
-      const fullTargetingConfig = {
-        ...state.targetingConfig,
-        aoeType: state.targetingConfig?.aoeType || state.targetingConfig?.aoeShape || 'sphere',
-        targetingType: state.targetingConfig?.targetingType || 'single',
-        rangeType: state.targetingConfig?.rangeType || 'ranged',
-        rangeDistance: state.targetingConfig?.rangeDistance,
-        targetRestrictions: state.targetingConfig?.targetRestrictions ||
-                          (state.targetingConfig?.targetRestriction ? [state.targetingConfig.targetRestriction] : ['any'])
-      };
-
-      // Create a clean version of state without transient edit-mode metadata or library-only fields in draft
-      const {
-        editMode: _em,
-        editingSpellId: _esi,
-        categoryIds: _cids,
-        categories: _cats,
-        source: _src,
-        isCustom: _ic,
-        isUserCreated: _iuc,
-        createdAt: _ca,
-        updatedAt: _ua,
-        userId: _uid,
-        lastSaved: _ls,
-        dateCreated: _dc,
-        ...cleanState
-      } = state;
-      const authoredDraft = JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(cleanState).filter(([key]) => key !== 'authoredDraft'))));
-      authoredDraft.targetingConfig = JSON.parse(JSON.stringify(fullTargetingConfig));
-
-      // Create spell data from wizard state
-      const spellData = {
-        ...cleanState,
-        categoryIds: state.categoryIds || ['uncategorized'],
-        categories: state.categories || ['all'],
-        source: state.source || 'wizard',
-        isCustom: state.isCustom ?? true,
-        authoredDraft,
-        authoredDefinitionId: state.authoredDefinitionId || crypto.randomUUID(),
-        id: (isEditing && editingSpellId) ? editingSpellId : `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-        dateCreated: (isEditing && state.dateCreated) ? state.dateCreated : new Date().toISOString(),
-        lastModified: new Date().toISOString(),
-        // Ensure we have all necessary properties
-        icon: state.icon || 'inv_misc_questionmark',
-        spellType: state.spellType || 'ACTION',
-        typeConfig: state.typeConfig || {},
-        effectType: state.effectTypes && state.effectTypes.length > 0 ? state.effectTypes[0] : 'utility',
-        effectTypes: state.effectTypes || [],
-        // Use properly extracted damage types
-        damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes :
-          (state.damageTypes ||
-            (state.damageConfig?.elementType ? [state.damageConfig.elementType] : ['arcane'])),
-        targetingConfig: fullTargetingConfig,
-        tags: [
-          ...(state.typeConfig?.tags || []),
-          ...(state.effectTypes || []),
-          ...(state.tags || []),
-          'custom'
-        ].filter(Boolean),
-        // Ensure ALL effect configurations are saved
-        damageConfig: state.damageConfig || null,
-        healingConfig: state.healingConfig || null,
-        buffConfig: state.buffConfig || null,
-        debuffConfig: state.debuffConfig || null,
-        utilityConfig: state.utilityConfig || null,
-        controlConfig: state.controlConfig || null,
-        summoningConfig: state.summoningConfig || null,
-        transformationConfig: state.transformationConfig || null,
-        purificationConfig: state.purificationConfig || null,
-        restorationConfig: state.restorationConfig || null,
-        effectMechanicsConfigs: state.effectMechanicsConfigs || {},
-        mechanicsConfig: state.mechanicsConfig || null
-      };
-
-      // Transform Prophecy Options to prophecyConfig (Harbinger)
-      if (state.prophecyOptions && state.prophecyOptions.enabled !== false) {
-        const po = state.prophecyOptions;
-        const parseRangeDice = (dice) => {
-          if (Array.isArray(dice)) return dice;
-          if (typeof dice === 'string' && dice.includes('+')) return dice.split('+').map(d => d.trim());
-          return Array.isArray(dice) ? dice : [dice];
-        };
-        const buildEffect = (outcome) => {
-          if (!outcome || !outcome.effectName) return undefined;
-          const effect = { name: outcome.effectName };
-          if (outcome.duration > 0) effect.duration = outcome.duration;
-          if (outcome.durationUnit && outcome.durationUnit !== 'rounds') effect.unit = outcome.durationUnit;
-          if (outcome.damagePerRound) {
-            effect.damagePerRound = outcome.damagePerRound;
-            if (outcome.damagePerRoundType) effect.damageType = outcome.damagePerRoundType;
-          }
-          if (outcome.statModifiers && outcome.statModifiers.length > 0) effect.statModifiers = outcome.statModifiers;
-          if (outcome.healingBlock) effect.healingBlock = true;
-          if (outcome.bonusDamageTaken) {
-            effect.bonusDamageTaken = outcome.bonusDamageTaken;
-            if (outcome.bonusDamageType) effect.bonusDamageType = outcome.bonusDamageType;
-          }
-          if (outcome.saveDC > 0) {
-            effect.saveDC = outcome.saveDC;
-            if (outcome.saveType) effect.saveType = outcome.saveType;
-          }
-          if (outcome.instantKill) effect.instantKill = true;
-          if (outcome.instantKillThreshold > 0) effect.instantKillThreshold = outcome.instantKillThreshold;
-          if (outcome.cascadeDamage) {
-            effect.cascadeDamage = outcome.cascadeDamage;
-            effect.cascadeRange = outcome.cascadeRange || 10;
-          }
-          if (outcome.description) effect.description = outcome.description;
-          return effect;
-        };
-        const buildOutcome = (outcome) => {
-          if (!outcome) return undefined;
-          const result = {};
-          if (outcome.damage) result.damage = outcome.damage;
-          const effect = buildEffect(outcome);
-          if (effect) result.effect = effect;
-          if (outcome.havocGain !== undefined) result.havocGain = outcome.havocGain;
-          if (outcome.description) result.description = outcome.description;
-          return result;
-        };
-        spellData.prophecyConfig = {
-          rangeDice: parseRangeDice(po.rangeDice),
-          resolutionDie: po.resolutionDie,
-          prophesied: buildOutcome(po.prophesied) || { havocGain: po.prophesied?.havocGain || 3 },
-          base: buildOutcome(po.base) || { havocGain: po.base?.havocGain || 1 },
-          outside: (() => {
-            const o = po.outside || {};
-            const result = {};
-            if (o.backlash) result.backlash = o.backlash;
-            if (o.havocGain !== undefined) result.havocGain = o.havocGain;
-            if (o.description) result.description = o.description;
-            return result;
-          })()
-        };
-        spellData.resolution = 'PROPHECY';
+      if (!result.ok) {
+        setCompletionMessage(result.error || 'Please enter a spell name before completing.');
+        setTimeout(() => setCompletionMessage(''), 3000);
+        return;
       }
 
-      // Transform Devotion Level resources to specialMechanics (Martyr)
-      const resourceValues = state.resourceCost?.resourceValues || {};
-      if (resourceValues.devotion_required !== undefined ||
-        resourceValues.devotion_cost !== undefined ||
-        resourceValues.devotion_gain !== undefined) {
-        spellData.specialMechanics = {
-          ...spellData.specialMechanics,
-          devotionLevel: {
-            required: resourceValues.devotion_required || 0,
-            cost: resourceValues.devotion_cost || 0,
-            amplifiedCost: resourceValues.devotion_cost || 0,
-            gain: resourceValues.devotion_gain || 0
-          }
-        };
-
-        // Also add flat properties for spell card display
-        spellData.devotionRequired = resourceValues.devotion_required;
-        spellData.devotionCost = resourceValues.devotion_cost;
-        spellData.devotionGain = resourceValues.devotion_gain;
-      }
-
-      // Ensure spell has an ID
-      if (!spellData.id) {
-        const generateSpellId = (name) => {
-          const base = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-          const timestamp = Date.now().toString(36);
-          return `${base}-${timestamp}`;
-        };
-        spellData.id = generateSpellId(spellData.name || 'Unnamed Spell');
-        spellData.dateCreated = new Date().toISOString();
-        spellData.lastModified = new Date().toISOString();
-      }
-
-      if (isEditing && editingSpellId) {
-        // Canonical update: preserve identity, do not mint a new spell
-        libraryDispatch(libraryActionCreators.updateSpell(editingSpellId, spellData));
-        wizardDispatch(actionCreators.setEditMode(false, null));
-
-        // Save to Firebase if user is logged in (for cloud sync)
-        if (user?.uid) {
-          const result = await saveUserSpell(user.uid, spellData);
-          if (result.success) {
-            console.log('✅ Spell updated in user account in Firebase');
-            setCompletionMessage('✓ Spell updated in library and saved to your account!');
-          } else if (result.localOnly) {
-            console.log('⚠️ Spell updated locally only (Firebase not available)');
-            setCompletionMessage('✓ Spell updated in library (will sync when online)');
-          }
+      const noun = result.mode === 'update' ? 'updated in' : 'added to';
+      if (user?.uid && !user?.isGuest) {
+        if (result.cloudResult?.success) {
+          setCompletionMessage(`✓ Spell ${noun} library and saved to your account!`);
+        } else if (result.cloudResult?.localOnly) {
+          setCompletionMessage(`✓ Spell ${noun} library (will sync when online)`);
         } else {
-          console.log('✓ Spell updated in local library');
-          setCompletionMessage('✓ Spell updated in library!');
+          setCompletionMessage(`✓ Spell ${noun} library!`);
         }
       } else {
-        // Add to spell library context (shows in spell library immediately)
-        // This works whether logged in or not - saves to localStorage
-        libraryDispatch(libraryActionCreators.addSpell(spellData));
-
-        // Add to custom spells (for character-specific spell library)
-        addCustomSpell(spellData);
-
-        // Save to Firebase if user is logged in (for cloud sync)
-        if (user?.uid) {
-          const result = await saveUserSpell(user.uid, spellData);
-          if (result.success) {
-            console.log('✅ Spell saved to user account in Firebase');
-            setCompletionMessage('✓ Spell added to library and saved to your account!');
-          } else if (result.localOnly) {
-            console.log('⚠️ Spell saved locally only (Firebase not available)');
-            setCompletionMessage('✓ Spell added to library (will sync when online)');
-          }
-        } else {
-          console.log('✓ Spell added to local library (not logged in - spell will not persist after page refresh)');
-          setCompletionMessage('✓ Spell added to library! (Login to save to your account)');
-        }
+        setCompletionMessage(
+          result.mode === 'update'
+            ? '✓ Spell updated in library!'
+            : '✓ Spell added to library! (Login to save to your account)'
+        );
       }
 
       // Clear the message after 3 seconds
@@ -680,7 +482,16 @@ const ExternalLivePreview = () => {
       // Resource costs
       resourceConfig: spellState.resourceConfig || null,
       resourceCost: spellState.resourceCost || null,
-      manaCost: spellState.resourceConfig?.resourceAmount || 25,
+      manaCost: (() => {
+        const candidates = [
+          spellState.resourceCost?.resourceValues?.mana,
+          spellState.resourceCost?.mana,
+          spellState.resourceConfig?.resourceAmount
+        ];
+        const explicit = candidates.find(v => v !== undefined && v !== null && v !== '' && !(typeof v === 'number' && Number.isNaN(v)));
+        if (explicit !== undefined) return explicit;
+        return spellState.resourceCost?.resourceTypes ? undefined : 25;
+      })(),
 
       // Pyrofiend Inferno Veil costs - extract from resourceCost.resourceValues
       infernoRequired: spellState.resourceCost?.resourceValues?.inferno_required || 0,
@@ -790,6 +601,7 @@ const ExternalLivePreview = () => {
           <SpellCardWithProcs
             key={`preview-${lastModifiedTimestamp}`}
             spell={createPreviewSpell()}
+            behaviorRecord={draftSubject(state)}
             variant="wizard"
             showActions={false}
             showDescription={true}

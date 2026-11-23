@@ -224,8 +224,8 @@ describe('M6A isolated activation delta verification', function() {
       }
     });
 
-    it('strictly refuses non-circle AoE shapes (cone, line, cube, sphere)', () => {
-      for (const badShape of ['cone', 'line', 'cube', 'sphere']) {
+    it('strictly refuses non-circle AoE shapes (cone, cube, sphere) and incomplete line parameters', () => {
+      for (const badShape of ['cone', 'cube', 'sphere']) {
         const record = makeWizardAreaRecord({
           targetingConfig: {
             targetingType: 'area',
@@ -243,8 +243,26 @@ describe('M6A isolated activation delta verification', function() {
           definitionVersion: 1
         });
         assert.equal(mapped.ok, false, `Expected failure for shape ${badShape}`);
-        assert.match(mapped.reason, /area shape/);
+        assert.match(mapped.reason, /circle required/);
       }
+      const incompleteLine = makeWizardAreaRecord({
+        targetingConfig: {
+          targetingType: 'area',
+          aoeShape: 'line',
+          aoeParameters: { radius: 15 },
+          rangeType: 'ranged',
+          rangeDistance: 30,
+          targetRestrictions: ['enemy'],
+          maxTargets: 8
+        }
+      });
+      const mappedLine = pure.definitionFromWizard(incompleteLine, {
+        roomId: 'room-test',
+        classId: 'arcanoneer',
+        definitionVersion: 1
+      });
+      assert.equal(mappedLine.ok, false);
+      assert.match(mappedLine.reason, /line requires explicit length and width/);
     });
 
     it('strictly refuses non-ranged range types or out-of-bound range distances', () => {
@@ -412,7 +430,13 @@ describe('M6A isolated activation delta verification', function() {
       const panelContent = fs.readFileSync(panelPath, 'utf8');
       const testContent = fs.readFileSync(testPath, 'utf8');
 
-      const EXPECTED_PANEL_SHA = 'd1d95f66876b854f596a1331d2e3f89090e884feb0df65e521183139135e16a2';
+      // Reconciled against handoff/line-aoe-slice-20261118 (built atop direct-damage-save-combined + hunter-flow-isolated).
+      // Re-pinned 2026-11-19 (handoff/line-aoe-d-line-1-20261119, creator rule D-LINE-1): Line origin anchored to the caster in the cast panel. Previous pin 57274978302d (Line AoE FINAL).
+      // Re-pinned 2026-11-19 (Hunter Flow r3 release acceptance candidate): SpellConsequencePanel reads public Flow projections, resets 2d6 Flow input on open, and requires confirmed committedHunterFlow. Previous D-LINE-1 pin 119c890659ac37e601747b6638afc57db184c8d236807dfcae9d33c52b482c29.
+      // Re-pinned 2026-11-20 (Circle AoE server-authoritative geometry verification): Circle catalog footprint parity, relationship-aware capacity/auto-select, required placed origin, and updated Circle server-verification copy; Line unchanged. Previous live pin c03c8211193ee6ce8747c3386c492cb9148f3217ec5db14a9a1564430c53ef41.
+      // Re-pinned 2026-11-21 (handoff/arcane-beam-release-composition-20261121, channeled approval receipt fix merged onto the Circle pin): a reopened spell excludes its prior accepted approval so a fresh cast can be approved without refresh; Circle and Line hunks unchanged. Previous live pin 90962c2d2cc67042abf9ac909b54f7062aeddd25a7a92ba3e154f3091a4e3c5c.
+      // Re-pinned 2026-11-23 (live-tree sync: <PlacedEffectPanel /> and integrated area/relationship/channeled updates). Previous live pin 910c49b09df5ad084e523b0ad295756c939d428ed8078557e5e3e52b03e2b213.
+      const EXPECTED_PANEL_SHA = 'da591097d5467d27213b356e87cf3b6ed99e39bfb57acea5b2bb16c5df118a64';
       const EXPECTED_TEST_SHA = 'ae8869e7fa3c31f4fca62714edc88240146621be238949521749d82c75d6537e';
 
       assert.equal(sha256(panelContent), EXPECTED_PANEL_SHA, 'SpellConsequencePanel.jsx identity drifted');

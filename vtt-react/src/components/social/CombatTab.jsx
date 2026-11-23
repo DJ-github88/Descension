@@ -10,7 +10,9 @@ import useChatStore from '../../store/chatStore';
 
 // Helper function to format timestamps
 const formatTimestamp = (timestamp) => {
+  if (!timestamp) return '';
   const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return '';
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 };
 
@@ -246,6 +248,25 @@ const CombatTab = () => {
             </div>
           </div>
         );
+
+      case 'combat': {
+        const content = notification.content || notification.message || notification.customMessage;
+        if (!content) return null;
+        const senderName = typeof notification.sender === 'string'
+          ? notification.sender.trim() || 'Combat'
+          : notification.sender?.name || notification.attacker || 'Combat';
+        return (
+          <div key={notification.id} className="chat-message combat-message">
+            <div className="message-header">
+              <span className="sender-name">{senderName}</span>
+              <span className="timestamp">{formatTimestamp(timestamp)}</span>
+            </div>
+            <div className="message-content">
+              {content}
+            </div>
+          </div>
+        );
+      }
 
       default:
         return null;

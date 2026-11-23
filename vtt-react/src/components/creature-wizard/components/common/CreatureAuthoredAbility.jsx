@@ -13,15 +13,18 @@ import { creatureSelfHealing, definitionSummary, creatureSourceRefusal } from '.
 
 export function CreatureAbilityDetails({ association: suppliedAssociation, saved = false, token }) {
   const gm = useGameStore(s => s.isGMMode), shared = useGameStore(s => s.isInMultiplayer);
+  const roomId = useGameStore(s => s.multiplayerRoom?.id);
   const [message, setMessage] = useState(''), [busy, setBusy] = useState(false);
   const liveToken = useCreatureStore(s => token && s.creatureTokens.find(t => t.id === token.id && t.mapId === token.mapId));
-  const sourceRef = refOf(liveToken || token);
-  const sources = useSpellConsequenceStore(s => s.creatureSources) || [];
-  const association = token && sourceRef ? sources.find(e => e.source.instanceId === sourceRef.instanceId && e.source.tokenId === sourceRef.tokenId && e.source.mapId === sourceRef.mapId)?.association ?? suppliedAssociation : suppliedAssociation;
+  const inspectedToken = token ? (liveToken || null) : null;
+  const rawRef = refOf(inspectedToken);
+  const sourceRef = rawRef && rawRef.kind === 'creature' && rawRef.tokenId === inspectedToken.id && rawRef.mapId === inspectedToken.mapId && (!roomId || rawRef.roomId === roomId) ? rawRef : null;
+  const sources = useSpellConsequenceStore(s => (!roomId || s.authoredRoomId === roomId) ? s.creatureSources : null) || [];
+  const association = inspectedToken && sourceRef ? sources.find(e => e.source.instanceId === sourceRef.instanceId && e.source.tokenId === sourceRef.tokenId && e.source.mapId === sourceRef.mapId && (!e.source.roomId || e.source.roomId === sourceRef.roomId))?.association ?? suppliedAssociation : suppliedAssociation;
   const sourceInstance = sourceRef?.instanceId;
-  useEffect(() => { if (token && sourceInstance && gm && shared) refreshAuthoredAbilities(); }, [token, sourceInstance, gm, shared]);
+  useEffect(() => { if (inspectedToken && sourceInstance && gm && shared) refreshAuthoredAbilities(); }, [inspectedToken, sourceInstance, gm, shared]);
   const perform = async action => { setBusy(true); try { const r = await action(); if (r?.success === false) setMessage(r.error || r.code); else setMessage(''); } catch (e) { setMessage(e.message); } finally { setBusy(false); } };
-  if (association === undefined) return token && shared && gm && !sourceRef ? <section className="item-ability" aria-label="Creature activated ability"><h3>Placed creature ability</h3><p>Bind this exact placed actor to inspect its saved association securely. Binding spends nothing.</p><button type="button" disabled={busy} onClick={() => perform(() => bindActor(token.id, 'creature'))}>Bind this placed creature</button>{message && <p role="status">{message}</p>}</section> : null;
+  if (association === undefined) return inspectedToken && shared && gm && !sourceRef ? <section className="item-ability" aria-label="Creature activated ability"><h3>Placed creature ability</h3><p>Bind this exact placed actor to inspect its saved association securely. Binding spends nothing.</p><button type="button" disabled={busy} onClick={() => perform(() => bindActor(inspectedToken.id, 'creature'))}>Bind this placed creature</button>{message && <p role="status">{message}</p>}</section> : null;
    const support = itemAbilitySupport(association), d = support.definition;
    const selfAllowed = creatureSelfHealing(d, association?.record);
   // Definition compatibility (Spell Library adapter) is not creature-source eligibility; the room server stays the authority at admission.
@@ -37,8 +40,8 @@ export function CreatureAbilityDetails({ association: suppliedAssociation, saved
     {/* Route-refused Inspect cards deliberately omit admission controls; keep the shared explanation visible. */}
     {saved && support.ok && refusal && <ExecutionCompatibility record={association.record} context={{ shared, gm, sourceRef, route: 'creature' }} />}
     {saved && support.ok && !refusal && (!token || sourceRef) && <AuthoredAdmission spell={association.record} sourceRef={sourceRef} />}
-    {token && shared && gm && !sourceRef && <button type="button" disabled={busy} onClick={() => perform(() => bindActor(token.id, 'creature'))}>Bind this placed creature</button>}
-    {token && shared && gm && sourceRef && support.ok && !refusal && <button type="button" disabled={busy || (!selfAllowed && (d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self'))} onClick={() => perform(() => openCreatureAbility(sourceRef))}>Use for this creature</button>}
+    {inspectedToken && shared && gm && !sourceRef && <button type="button" disabled={busy} onClick={() => perform(() => bindActor(inspectedToken.id, 'creature'))}>Bind this placed creature</button>}
+    {inspectedToken && shared && gm && sourceRef && support.ok && !refusal && <button type="button" disabled={busy || (!selfAllowed && (d.targeting.rangeFeet === 0 || d.targeting.restriction === 'self'))} onClick={() => perform(() => openCreatureAbility(sourceRef))}>Use for this creature</button>}
     {message && <p role="status">{message}</p>}
     {!saved && <p>Not saved/admitted from this editor. Save the creature, then inspect its library entry for explicit room admission.</p>}
   </section>;

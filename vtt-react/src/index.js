@@ -9,6 +9,7 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { isDevelopment } from './config/env';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import { installTooltipShim } from './utils/tooltipShim';
 
 initStoreRegistry();
 
@@ -37,33 +38,7 @@ window.addEventListener('contextmenu', (e) => {
 }, false);
 
 // Suppress native browser tooltips so unstyled "no CSS" default boxes never clash with custom tooltips
-window.addEventListener('mouseover', (e) => {
-    let el = e.target;
-    while (el && el !== document.body) {
-        if (el.hasAttribute && el.hasAttribute('title')) {
-            const titleVal = el.getAttribute('title');
-            if (titleVal) {
-                el.setAttribute('data-original-title', titleVal);
-                if (!el.hasAttribute('aria-label')) {
-                    el.setAttribute('aria-label', titleVal);
-                }
-                el.removeAttribute('title');
-            }
-        }
-        el = el.parentElement;
-    }
-}, true);
-
-window.addEventListener('mouseout', (e) => {
-    let el = e.target;
-    while (el && el !== document.body) {
-        if (el.hasAttribute && el.hasAttribute('data-original-title')) {
-            el.setAttribute('title', el.getAttribute('data-original-title'));
-            el.removeAttribute('data-original-title');
-        }
-        el = el.parentElement;
-    }
-}, true);
+installTooltipShim(window);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

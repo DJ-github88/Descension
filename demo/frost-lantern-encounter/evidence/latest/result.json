@@ -1,0 +1,181 @@
+{
+  "demoContent": true,
+  "label": "DEMO CONTENT — Sunken Shrine Skirmish (non-canonical)",
+  "buildDir": "d:\\VTT\\vtt-react\\build",
+  "assetManifestSha256": "7f669ee41210210ccf0bf3cff92fe3a22c842e6d678e2d9a6534e7027de1635e",
+  "passed": false,
+  "steps": [
+    {
+      "index": 1,
+      "name": "0. Author and admit the 5 demo spells via Spell Wizard & Spell Library",
+      "at": "2026-11-17T19:39:23.286Z"
+    },
+    {
+      "index": 2,
+      "name": "1. Set explicit relationships for creatures <-> two PCs via RecruitCompanionDialog",
+      "at": "2026-11-17T19:44:00.740Z"
+    },
+    {
+      "index": 3,
+      "name": "2. Activate Heightened Senses, start combat, and enable Authenticated turn expiry",
+      "at": "2026-11-17T19:44:45.457Z"
+    },
+    {
+      "index": 4,
+      "name": "3. Open component-watch setup from Spellbook and register it",
+      "at": "2026-11-17T19:45:05.043Z"
+    },
+    {
+      "index": 5,
+      "name": "4. Cast Demo Frost Grip at Shade Stalker A and accept Demo Echo Lance at Shade Stalker B",
+      "at": "2026-11-17T19:45:21.668Z"
+    },
+    {
+      "index": 6,
+      "name": "5. Revoke component watch, register Demo Healing Echo, cast Demo Healing Lantern at Wounded Scout C, and accept Demo Healing Echo at Mira (Demo)",
+      "at": "2026-11-17T19:45:47.664Z"
+    },
+    {
+      "index": 7,
+      "name": "6. Cast Demo Searing Frost (ongoing periodic effect) and observe Tick 1 of 2 display",
+      "at": "2026-11-17T19:46:28.260Z"
+    },
+    {
+      "index": 8,
+      "name": "7. Reload/rejoin owner during encounter; verify retained identity/state and advance to expiry",
+      "at": "2026-11-17T19:46:56.493Z"
+    },
+    {
+      "index": 9,
+      "name": "8. Leave pending approval open, End Combat, verify closure, and restart combat cleanly",
+      "at": "2026-11-17T19:47:26.109Z"
+    }
+  ],
+  "usabilityGaps": [
+    {
+      "step": 1,
+      "gap": "No rendered PC-to-PC relationship UI exists in CharacterToken or PartyHUD; Ilse <-> Mira (ally) was seeded by demo-server.cjs."
+    }
+  ],
+  "errors": [],
+  "networkFixtures": {
+    "fonts": [
+      {
+        "uid": "demo-gm",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IM+Fell+English:ital@0;1&family=MedievalSharp&family=Press+Start+2P&family=Uncial+Antiqua&family=VT323&display=swap"
+      },
+      {
+        "uid": "demo-gm",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
+      },
+      {
+        "uid": "demo-gm",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
+      },
+      {
+        "uid": "demo-gm",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IM+Fell+English:ital@0;1&family=MedievalSharp&family=Press+Start+2P&family=Uncial+Antiqua&family=VT323&display=swap"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      },
+      {
+        "uid": "demo-ally",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IM+Fell+English:ital@0;1&family=MedievalSharp&family=Press+Start+2P&family=Uncial+Antiqua&family=VT323&display=swap"
+      },
+      {
+        "uid": "demo-ally",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
+      },
+      {
+        "uid": "demo-ally",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
+      },
+      {
+        "uid": "demo-ally",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IM+Fell+English:ital@0;1&family=MedievalSharp&family=Press+Start+2P&family=Uncial+Antiqua&family=VT323&display=swap"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      }
+    ],
+    "assets": [
+      {
+        "uid": "demo-gm",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      },
+      {
+        "uid": "demo-gm",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2"
+      },
+      {
+        "uid": "demo-gm",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2"
+      },
+      {
+        "uid": "demo-ally",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      },
+      {
+        "uid": "demo-ally",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2"
+      },
+      {
+        "uid": "demo-ally",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2"
+      },
+      {
+        "uid": "demo-owner",
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2"
+      }
+    ]
+  },
+  "url": "http://127.0.0.1:4196",
+  "fatal": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('dialog', { name: 'Supported spell cast', exact: true }).getByRole('combobox', { name: 'Target', exact: true }) to be visible\u001b[22m\n\n    at main (d:\\VTT\\demo\\frost-lantern-encounter\\verify-encounter.cjs:731:19)"
+}

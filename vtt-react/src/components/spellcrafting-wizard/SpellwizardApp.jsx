@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import MythrillWindow from '../windows/MythrillWindow';
 import { showConfirm } from '../../utils/dialogService';
 import useSpellbookStore from '../../store/spellbookStore';
+import useAuthStore from '../../store/authStore';
 import {
   SpellWizardProvider,
   useSpellWizardState,
@@ -12,9 +13,14 @@ import {
 import {
   SpellLibraryProvider,
   useSpellLibrary,
-  useSpellLibraryDispatch,
-  libraryActionCreators
+  useSpellLibraryDispatch
 } from './context/SpellLibraryContext';
+import {
+  executeCanonicalSpellSave,
+  generateCanonicalSpellId,
+  DRAFT_EXCLUDED_KEYS,
+  DERIVED_DISPLAY_KEYS
+} from './utils/canonicalSpellSave';
 
 // Import wizard steps
 import Step1BasicInfo from './components/steps/Step1BasicInfo';
@@ -120,6 +126,8 @@ const AppContent = ({ hideHeader = false }) => {
   const wizardDispatch = useSpellWizardDispatch();
   const library = useSpellLibrary();
   const libraryDispatch = useSpellLibraryDispatch();
+  const authState = useAuthStore();
+  const currentUser = authState?.user ?? null;
 
   // Sync edit mode with wizard context state
   useEffect(() => {
@@ -231,279 +239,30 @@ const AppContent = ({ hideHeader = false }) => {
     }
   };
 
-  // Handle save spell to library
-  const handleSaveSpell = () => {
+  // Handle save spell to library via the canonical save path
+  const handleSaveSpell = async () => {
     try {
-      // Extract damage types properly - same logic as Step10Review
-      const extractedDamageTypes = [];
-      if (wizardState.typeConfig?.school) {
-        extractedDamageTypes.push(wizardState.typeConfig.school);
-      }
-      if (wizardState.typeConfig?.secondaryElement) {
-        extractedDamageTypes.push(wizardState.typeConfig.secondaryElement);
-      }
-      if (extractedDamageTypes.length === 0 && wizardState.damageConfig?.damageType) {
-        if (wizardState.damageConfig.elementType) {
-          extractedDamageTypes.push(wizardState.damageConfig.elementType);
-        }
-      }
-      
-      // Ensure targetingConfig has all required fields, including aoeType
-      const fullTargetingConfig = {
-        ...wizardState.targetingConfig,
-        aoeType: wizardState.targetingConfig?.aoeType || wizardState.targetingConfig?.aoeShape || 'sphere',
-        targetingType: wizardState.targetingConfig?.targetingType || 'single',
-        rangeType: wizardState.targetingConfig?.rangeType || 'ranged',
-        rangeDistance: wizardState.targetingConfig?.rangeDistance,
-        aoeShape: wizardState.targetingConfig?.aoeShape || 'circle',
-        aoeParameters: wizardState.targetingConfig?.aoeParameters || {},
-        targetRestrictions: wizardState.targetingConfig?.targetRestrictions || 
-                          (wizardState.targetingConfig?.targetRestriction ? [wizardState.targetingConfig.targetRestriction] : ['any']),
-        maxTargets: wizardState.targetingConfig?.maxTargets,
-        selectionMethod: wizardState.targetingConfig?.selectionMethod || 
-                        wizardState.targetingConfig?.targetSelectionMethod || 'manual',
-        targetSelectionMethod: wizardState.targetingConfig?.targetSelectionMethod || 
-                              wizardState.targetingConfig?.selectionMethod || 'manual',
-        movementBehavior: wizardState.targetingConfig?.movementBehavior || 'static'
-      };
-      
-      // Create a clean version of wizardState without transient edit-mode metadata or library-only fields in draft
-      const {
-        editMode: _em,
-        editingSpellId: _esi,
-        categoryIds: _cids,
-        categories: _cats,
-        source: _src,
-        isCustom: _ic,
-        isUserCreated: _iuc,
-        createdAt: _ca,
-        updatedAt: _ua,
-        userId: _uid,
-        lastSaved: _ls,
-        dateCreated: _dc,
-        lastModified: _lm,
-        ...cleanWizardState
-      } = wizardState;
-      
-      // The draft is the executable subject: library-only fields and transient edit metadata stay
-      // out, and serializedData is regenerated from the same draft so a reopened record cannot
-      // keep a stale secondary serialization after an Update.
-      const authoredDraft = JSON.parse(JSON.stringify(Object.fromEntries(
-        Object.entries(cleanWizardState).filter(([key]) => key !== 'authoredDraft' && key !== 'serializedData')
-      )));
-      authoredDraft.targetingConfig = JSON.parse(JSON.stringify(fullTargetingConfig));
+      const result = await executeCanonicalSpellSave({
+        wizardState,
+        isEditing: editMode,
+        editingSpellId,
+        library,
+        libraryDispatch,
+        wizardDispatch,
+        user: currentUser
+      });
 
-      // Create a serialized version of the spell
-      const spellData = {
-        ...cleanWizardState,
-        categoryIds: wizardState.categoryIds || ['uncategorized'],
-        categories: wizardState.categories || ['all'],
-        source: wizardState.source || 'wizard',
-        isCustom: wizardState.isCustom ?? true,
-        authoredDraft,
-        serializedData: JSON.stringify(authoredDraft, null, 2),
-        authoredDefinitionId: wizardState.authoredDefinitionId || crypto.randomUUID(),
-        lastModified: new Date().toISOString(),
-        lastSaved: new Date().toISOString(),
-        // Ensure we have all the necessary properties for the spell card
-        icon: wizardState.icon || 'inv_misc_questionmark',
-        spellType: wizardState.spellType || 'ACTION',
-        typeConfig: wizardState.typeConfig || {},
-        effectType: wizardState.effectTypes && wizardState.effectTypes.length > 0 ? wizardState.effectTypes[0] : 'utility',
-        effectTypes: wizardState.effectTypes || [],
-        // Use properly extracted damage types
-        damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes : 
-                    (wizardState.damageTypes || 
-                    (wizardState.damageConfig?.elementType ? [wizardState.damageConfig.elementType] : ['arcane'])),
-        tags: [
-          ...(wizardState.typeConfig?.tags || []),
-          ...(wizardState.effectTypes || []),
-          ...(wizardState.tags || [])
-        ].filter(Boolean),
-        // Ensure targeting configuration is included with ALL fields
-        targetingConfig: fullTargetingConfig,
-        // Ensure resource configuration is included
-        resourceCost: wizardState.resourceCost || {
-          actionPoints: 1,
-          components: []
-        },
-        // Ensure cooldown configuration is included
-        cooldownConfig: wizardState.cooldownConfig || {
-          cooldownType: 'turn_based',
-          cooldownValue: 0
-        },
-        // CRITICAL: Ensure ALL effect configurations are saved with full properties
-        damageConfig: wizardState.damageConfig || null,
-        healingConfig: wizardState.healingConfig || null,
-        buffConfig: wizardState.buffConfig || null,
-        debuffConfig: wizardState.debuffConfig || null,
-        utilityConfig: wizardState.utilityConfig || null,
-        controlConfig: wizardState.controlConfig || null,
-        summoningConfig: wizardState.summoningConfig || null,
-        transformationConfig: wizardState.transformationConfig || null,
-        purificationConfig: wizardState.purificationConfig || null,
-        restorationConfig: wizardState.restorationConfig || null
-      };
-
-      // Transform Inferno Veil resources to specialMechanics
-      const resourceValues = wizardState.resourceCost?.resourceValues || {};
-      if (resourceValues.inferno_required !== undefined ||
-          resourceValues.inferno_ascend !== undefined ||
-          resourceValues.inferno_descend !== undefined) {
-
-        spellData.specialMechanics = {
-          ...spellData.specialMechanics,
-          infernoLevel: {
-            required: resourceValues.inferno_required || 0,
-            ascendBy: resourceValues.inferno_ascend || 0,
-            descendBy: resourceValues.inferno_descend || 0
-          }
-        };
-
-        // Also add flat properties for spell card display
-        spellData.infernoRequired = resourceValues.inferno_required;
-        spellData.infernoAscend = resourceValues.inferno_ascend;
-        spellData.infernoDescend = resourceValues.inferno_descend;
+      if (!result.ok) {
+        showNotification(result.error || 'Failed to save spell', 'error');
+        return;
       }
 
-      // Transform Temporal Mechanics resources to specialMechanics
-      // Handle Time Shard generation (basic spells)
-      if (resourceValues.time_shards_generate !== undefined && resourceValues.time_shards_generate > 0) {
-        spellData.specialMechanics = {
-          ...spellData.specialMechanics,
-          timeShards: {
-            generated: resourceValues.time_shards_generate
-          }
-        };
-        spellData.timeShardGenerate = resourceValues.time_shards_generate;
-      }
-
-      // Handle Temporal Flux abilities (cost Time Shards, gain Temporal Strain)
-      if (resourceValues.time_shards_cost !== undefined ||
-          resourceValues.temporal_strain_gain !== undefined ||
-          resourceValues.temporal_strain_reduce !== undefined) {
-
-        spellData.specialMechanics = {
-          ...spellData.specialMechanics,
-          temporalFlux: {
-            shardCost: resourceValues.time_shards_cost || 0,
-            strainGained: resourceValues.temporal_strain_gain || 0,
-            strainReduced: resourceValues.temporal_strain_reduce || 0
-          }
-        };
-
-        // Also add flat properties for spell card display
-        spellData.timeShardCost = resourceValues.time_shards_cost;
-        spellData.temporalStrainGain = resourceValues.temporal_strain_gain;
-        spellData.temporalStrainReduce = resourceValues.temporal_strain_reduce;
-      }
-
-      // Transform Devotion Level resources to specialMechanics (Martyr)
-      if (resourceValues.devotion_required !== undefined ||
-          resourceValues.devotion_cost !== undefined ||
-          resourceValues.devotion_gain !== undefined) {
-
-        spellData.specialMechanics = {
-          ...spellData.specialMechanics,
-          devotionLevel: {
-            required: resourceValues.devotion_required || 0,
-            cost: resourceValues.devotion_cost || 0,
-            amplifiedCost: resourceValues.devotion_cost || 0, // Alias for compatibility
-            gain: resourceValues.devotion_gain || 0
-          }
-        };
-
-        // Also add flat properties for spell card display
-        spellData.devotionRequired = resourceValues.devotion_required;
-        spellData.devotionCost = resourceValues.devotion_cost;
-        spellData.devotionGain = resourceValues.devotion_gain;
-      }
-
-      // Transform Prophecy Options to prophecyConfig (Doomsayer)
-      if (wizardState.prophecyOptions) {
-        const po = wizardState.prophecyOptions;
-        const parseRangeDice = (dice) => {
-          if (Array.isArray(dice)) return dice;
-          if (typeof dice === 'string' && dice.includes('+')) return dice.split('+').map(d => d.trim());
-          return Array.isArray(dice) ? dice : [dice];
-        };
-        const buildEffect = (outcome) => {
-          if (!outcome || !outcome.effectName) return undefined;
-          const effect = { name: outcome.effectName };
-          if (outcome.duration > 0) effect.duration = outcome.duration;
-          if (outcome.durationUnit && outcome.durationUnit !== 'rounds') effect.unit = outcome.durationUnit;
-          if (outcome.damagePerRound) {
-            effect.damagePerRound = outcome.damagePerRound;
-            if (outcome.damagePerRoundType) effect.damageType = outcome.damagePerRoundType;
-          }
-          if (outcome.statModifiers && outcome.statModifiers.length > 0) effect.statModifiers = outcome.statModifiers;
-          if (outcome.healingBlock) effect.healingBlock = true;
-          if (outcome.bonusDamageTaken) {
-            effect.bonusDamageTaken = outcome.bonusDamageTaken;
-            if (outcome.bonusDamageType) effect.bonusDamageType = outcome.bonusDamageType;
-          }
-          if (outcome.saveDC > 0) {
-            effect.saveDC = outcome.saveDC;
-            if (outcome.saveType) effect.saveType = outcome.saveType;
-          }
-          if (outcome.instantKill) effect.instantKill = true;
-          if (outcome.instantKillThreshold > 0) effect.instantKillThreshold = outcome.instantKillThreshold;
-          if (outcome.cascadeDamage) {
-            effect.cascadeDamage = outcome.cascadeDamage;
-            effect.cascadeRange = outcome.cascadeRange || 10;
-          }
-          if (outcome.description) effect.description = outcome.description;
-          return effect;
-        };
-        const buildOutcome = (outcome) => {
-          if (!outcome) return undefined;
-          const result = {};
-          if (outcome.damage) result.damage = outcome.damage;
-          const effect = buildEffect(outcome);
-          if (effect) result.effect = effect;
-          if (outcome.havocGain !== undefined) result.havocGain = outcome.havocGain;
-          if (outcome.description) result.description = outcome.description;
-          return result;
-        };
-        spellData.prophecyConfig = {
-          rangeDice: parseRangeDice(po.rangeDice),
-          resolutionDie: po.resolutionDie,
-          prophesied: buildOutcome(po.prophesied) || { havocGain: po.prophesied?.havocGain || 3 },
-          base: buildOutcome(po.base) || { havocGain: po.base?.havocGain || 1 },
-          outside: (() => {
-            const o = po.outside || {};
-            const result = {};
-            if (o.backlash) result.backlash = o.backlash;
-            if (o.havocGain !== undefined) result.havocGain = o.havocGain;
-            if (o.description) result.description = o.description;
-            return result;
-          })()
-        };
-        spellData.resolution = 'PROPHECY';
-      }
-
-      if (editMode && editingSpellId) {
-        // Update existing spell
-        libraryDispatch(libraryActionCreators.updateSpell(editingSpellId, spellData));
-
-        showNotification('Spell updated in library', 'success');
-      } else {
-        // Add new spell
-        const newSpellData = {
-          ...spellData,
-          id: generateSpellId(wizardState.name || 'Unnamed Spell'),
-          dateCreated: new Date().toISOString(),
-        };
-        libraryDispatch(libraryActionCreators.addSpell(newSpellData));
-
-        showNotification('New spell saved to library', 'success');
-      }
-
-      // Reset edit mode after saving
-      if (editMode) {
+      if (result.mode === 'update') {
         setEditMode(false);
         setEditingSpellId(null);
-        wizardDispatch(actionCreators.setEditMode(false, null));
+        showNotification('Spell updated in library', 'success');
+      } else {
+        showNotification('New spell saved to library', 'success');
       }
     } catch (error) {
       console.error('Failed to save spell:', error);
@@ -511,97 +270,107 @@ const AppContent = ({ hideHeader = false }) => {
     }
   };
 
-  // Generate a unique ID for the spell based on its name
-  const generateSpellId = (name) => {
-    const base = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    const timestamp = Date.now().toString(36);
-    return `${base}-${timestamp}`;
-  };
-
   // Handle load spell from library
   const handleLoadSpell = (spellData, isEditing = false) => {
     try {
-
-
-      // Make a deep copy of the spell data to avoid reference issues
+      // Deep copy so reopening never mutates stored records
       const spellCopy = JSON.parse(JSON.stringify(spellData));
+      const stripKeys = new Set([...DRAFT_EXCLUDED_KEYS, ...DERIVED_DISPLAY_KEYS]);
+      const rawDraft = (spellCopy.authoredDraft && typeof spellCopy.authoredDraft === 'object')
+        ? spellCopy.authoredDraft
+        : {};
+      const cleanDraft = Object.fromEntries(
+        Object.entries(rawDraft).filter(([key]) => !stripKeys.has(key))
+      );
+
+      // Prefer authoredDraft for authored fields; fall back to outer spellCopy for legacy records
+      const pick = (key, fallback) => (
+        cleanDraft[key] !== undefined
+          ? cleanDraft[key]
+          : (spellCopy[key] !== undefined ? spellCopy[key] : fallback)
+      );
+
       const recordTriggerConfig = spellCopy.triggerConfig && typeof spellCopy.triggerConfig === 'object' &&
         Object.keys(spellCopy.triggerConfig).length > 0 ? spellCopy.triggerConfig : null;
+      const draftTriggerConfig = cleanDraft.triggerConfig && typeof cleanDraft.triggerConfig === 'object'
+        ? cleanDraft.triggerConfig : null;
 
+      const resolvedLevel = pick('level', '');
+      const resolvedCatalogueSource = pick('catalogueSource', spellCopy.catalogueSource);
 
-
-      // Ensure the spell data has all the required fields
+      // Ensure the spell data has all the required fields without outer coercions clobbering authoredDraft
       const formattedSpellData = {
-        ...spellCopy.authoredDraft,
-        // Editing an existing library record keeps the library's own categorization rule instead
-        // of resetting the record to 'uncategorized' on Update. New/create paths keep their
-        // existing defaults.
+        ...cleanDraft,
+        // Editing an existing library record preserves library metadata separately from authoredDraft.
         ...(isEditing ? {
           categoryIds: categorizeSpell(spellCopy),
-          categories: Array.isArray(spellCopy.categories) ? [...spellCopy.categories] : spellCopy.categories
+          categories: Array.isArray(spellCopy.categories) ? [...spellCopy.categories] : spellCopy.categories,
+          ...(spellCopy.source !== undefined ? { source: spellCopy.source } : {}),
+          ...(spellCopy.isCustom !== undefined ? { isCustom: spellCopy.isCustom } : {})
         } : {}),
         authoredDefinitionId: spellCopy.authoredDefinitionId,
-        catalogueSource: spellCopy.catalogueSource,
+        ...(resolvedCatalogueSource !== undefined ? { catalogueSource: resolvedCatalogueSource } : {}),
         editMode: isEditing,
         editingSpellId: isEditing ? spellCopy.id : null,
         dateCreated: spellCopy.dateCreated,
-        // Create a default state with all required fields
-        // Basic information
-        name: spellCopy.name || '',
-        description: spellCopy.description || '',
-        level: spellCopy.level || 1,
+
+        // Basic information (authoredDraft preferred; explicit 0 level preserved)
+        name: pick('name', ''),
+        description: pick('description', ''),
+        level: resolvedLevel !== undefined && resolvedLevel !== null ? resolvedLevel : '',
+        icon: pick('icon', ''),
 
         // Type configuration
-        spellType: spellCopy.spellType || 'ACTION', // ACTION, CHANNELED, PASSIVE, REACTION, TRAP, STATE
-        typeConfig: spellCopy.typeConfig || {
+        spellType: pick('spellType', 'ACTION'), // ACTION, CHANNELED, PASSIVE, REACTION, TRAP, STATE
+        typeConfig: pick('typeConfig', {
           school: spellCopy.school || spellCopy.damageTypes?.[0] || '',
-          icon: spellCopy.icon || '',
+          icon: pick('icon', ''),
           tags: spellCopy.tags || []
-        },
+        }),
 
         // Effects configuration
-        effectTypes: spellCopy.effectTypes || [], // Selected effect types
-        effectsMap: spellCopy.effectsMap || {}, // Map of effect types to boolean (enabled/disabled)
-        damageConfig: spellCopy.damageConfig || null,
-        healingConfig: spellCopy.healingConfig || null,
-        buffConfig: spellCopy.buffConfig || null,
-        debuffConfig: spellCopy.debuffConfig || null,
-        utilityConfig: spellCopy.utilityConfig || null,
-        controlConfig: spellCopy.controlConfig || null,
-        summoningConfig: spellCopy.summoningConfig || spellCopy.summonConfig || null,
-        transformationConfig: spellCopy.transformationConfig || spellCopy.transformConfig || null,
-        purificationConfig: spellCopy.purificationConfig || null,
-        restorationConfig: spellCopy.restorationConfig || null,
-        rollableTable: spellCopy.rollableTable || null, // Rollable table configuration
+        effectTypes: pick('effectTypes', []), // Selected effect types
+        effectsMap: pick('effectsMap', {}), // Map of effect types to boolean (enabled/disabled)
+        damageConfig: pick('damageConfig', null),
+        healingConfig: pick('healingConfig', null),
+        buffConfig: pick('buffConfig', null),
+        debuffConfig: pick('debuffConfig', null),
+        utilityConfig: pick('utilityConfig', null),
+        controlConfig: pick('controlConfig', null),
+        summoningConfig: cleanDraft.summoningConfig ?? cleanDraft.summonConfig ?? spellCopy.summoningConfig ?? spellCopy.summonConfig ?? null,
+        transformationConfig: cleanDraft.transformationConfig ?? cleanDraft.transformConfig ?? spellCopy.transformationConfig ?? spellCopy.transformConfig ?? null,
+        purificationConfig: pick('purificationConfig', null),
+        restorationConfig: pick('restorationConfig', null),
+        rollableTable: pick('rollableTable', null), // Rollable table configuration
 
         // Resolution mechanics for effects
-        effectResolutions: spellCopy.effectResolutions || {}, // Resolution types for each effect
+        effectResolutions: pick('effectResolutions', {}), // Resolution types for each effect
 
         // Step mechanics for effects
-        effectMechanicsConfigs: spellCopy.effectMechanicsConfigs || {}, // Step mechanics configurations for each effect
+        effectMechanicsConfigs: pick('effectMechanicsConfigs', {}), // Step mechanics configurations for each effect
 
         // Effects available for Mechanics
-        mechanicsAvailableEffects: spellCopy.mechanicsAvailableEffects || [], // Effects made available for class mechanics
+        mechanicsAvailableEffects: pick('mechanicsAvailableEffects', []), // Effects made available for class mechanics
 
         // Combined effects
-        combinedEffects: spellCopy.combinedEffects || [], // Combined effects
-        mechanicsAvailableCombinedEffects: spellCopy.mechanicsAvailableCombinedEffects || [], // Combined effects available for class mechanics
+        combinedEffects: pick('combinedEffects', []), // Combined effects
+        mechanicsAvailableCombinedEffects: pick('mechanicsAvailableCombinedEffects', []), // Combined effects available for class mechanics
 
         // Targeting configuration
-        targetingConfig: spellCopy.targetingConfig || {},
-        targetingMode: spellCopy.targetingMode || 'unified', // 'unified' or 'effect'
-        targetingTags: spellCopy.targetingTags || {},
-        effectTargeting: spellCopy.effectTargeting || {},
+        targetingConfig: pick('targetingConfig', {}),
+        targetingMode: pick('targetingMode', 'unified'), // 'unified' or 'effect'
+        targetingTags: pick('targetingTags', {}),
+        effectTargeting: pick('effectTargeting', {}),
 
         // Duration configuration
-        durationConfig: spellCopy.durationConfig || {},
-        persistentConfig: spellCopy.persistentConfig || {},
+        durationConfig: pick('durationConfig', {}),
+        persistentConfig: pick('persistentConfig', {}),
 
         // Propagation configuration
-        propagation: spellCopy.propagation || null,
+        propagation: pick('propagation', null),
 
         // Resource configuration
-        resourceCost: spellCopy.resourceCost || {
+        resourceCost: pick('resourceCost', {
           components: [],
           materialComponents: '',
           actionPoints: 1,
@@ -610,10 +379,10 @@ const AppContent = ({ hideHeader = false }) => {
           resourceValues: {}, // Object mapping resource types to values
           resourceFormulas: {}, // Object mapping resource types to formulas
           useFormulas: {} // Object mapping resource types to boolean (use formula or not)
-        },
+        }),
 
         // Class mechanics
-        mechanicsConfig: spellCopy.mechanicsConfig || {
+        mechanicsConfig: pick('mechanicsConfig', {
           cards: null,
           combos: null,
           coins: null,
@@ -621,13 +390,13 @@ const AppContent = ({ hideHeader = false }) => {
           stateOptions: {
             thresholds: []
           }
-        },
+        }),
 
         // Cooldown configuration
-        cooldownConfig: spellCopy.cooldownConfig || {},
+        cooldownConfig: pick('cooldownConfig', {}),
 
         // Trigger configuration (for REACTION, PASSIVE, or TRAP types)
-        triggerConfig: recordTriggerConfig || spellCopy.authoredDraft?.triggerConfig || (spellCopy.catalogueSource ? {
+        triggerConfig: recordTriggerConfig || draftTriggerConfig || (spellCopy.catalogueSource ? {
           // Catalogue drafts keep the established inert load defaults; the pinned whole
           // catalogue record is the executable subject, not the Wizard trigger shape.
           global: {
@@ -661,10 +430,10 @@ const AppContent = ({ hideHeader = false }) => {
         }),
 
         // Trap placement configuration
-        trapConfig: spellCopy.trapConfig || {},
+        trapConfig: pick('trapConfig', {}),
 
         // Channeling configuration
-        channelingConfig: spellCopy.channelingConfig || {},
+        channelingConfig: pick('channelingConfig', {}),
 
         // Validation results
         errors: {},
@@ -676,7 +445,7 @@ const AppContent = ({ hideHeader = false }) => {
         wizardFlow: spellCopy.wizardFlow || [], // Dynamic step sequence
 
         // Meta information
-        id: spellCopy.id || generateSpellId(spellCopy.name || 'unnamed-spell'),
+        id: spellCopy.id || generateCanonicalSpellId(pick('name', 'unnamed-spell')),
         lastModified: new Date(),
         isValid: true
       };
@@ -687,8 +456,8 @@ const AppContent = ({ hideHeader = false }) => {
       wizardDispatch(actionCreators.loadSpell(formattedSpellData));
 
       // Explicitly set the name and description
-      wizardDispatch(actionCreators.setName(spellCopy.name || ''));
-      wizardDispatch(actionCreators.setDescription(spellCopy.description || ''));
+      wizardDispatch(actionCreators.setName(formattedSpellData.name));
+      wizardDispatch(actionCreators.setDescription(formattedSpellData.description));
 
       // Update the wizard flow based on the spell type
       const flow = determineWizardFlow(formattedSpellData);

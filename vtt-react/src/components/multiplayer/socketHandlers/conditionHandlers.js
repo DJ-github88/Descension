@@ -1,3 +1,5 @@
+import { adoptBroadcastFeetPerTile } from '../roomJoinHandler';
+
 export function registerConditionHandlers(ctx) {
   const {
     socket, addNotification, currentPlayerRef, currentPlayer
@@ -56,9 +58,8 @@ export function registerConditionHandlers(ctx) {
         const characterTokenStore = useCharacterTokenStore.getState();
 
         // Update settings in both stores to ensure consistency
-        if (data.feetPerTile !== undefined) {
-          settingsStore.setFeetPerTile(data.feetPerTile);
-          gameStore.setFeetPerTile(data.feetPerTile);
+        // Grid scale: adopted unless it is this socket's own echo or older than a scale already seen (see adoptBroadcastFeetPerTile).
+        if (data.feetPerTile !== undefined && adoptBroadcastFeetPerTile(data, socket?.id)) {
           console.log(`ðŸ“ Synced Grid Scale: ${data.feetPerTile} ft`);
         }
 

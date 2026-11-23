@@ -343,6 +343,10 @@ function registerTokenHandlers(ctx) {
         ...(data.creature && Object.prototype.hasOwnProperty.call(data.creature, 'authoredAbility') ? { authoredAbility: require('../services/actorConsequences').clone(data.creature.authoredAbility) } : {}),
         ...Object.fromEntries(['resistances', 'vulnerabilities', 'abilities'].filter(key => data.creature && Object.prototype.hasOwnProperty.call(data.creature, key)).map(key => [key, require('../services/actorConsequences').clone(data.creature[key])])),
         ...(typeof data.creature?.name === 'string' ? { name: data.creature.name } : {}),
+        ...(typeof (data.creature?.size ?? supplied.size) === 'string' &&
+            ['tiny', 'small', 'medium', 'large', 'huge', 'gargantuan', 'colossal'].includes((data.creature?.size ?? supplied.size).trim().toLowerCase())
+          ? { size: (data.creature?.size ?? supplied.size).trim().toLowerCase() }
+          : {}),
         ...(Number.isFinite(data.position?.x) && Number.isFinite(data.position?.y) ? { position: { x: data.position.x, y: data.position.y } } : {}),
         // Owning creature snapshot supplies bounds; P7 never invents maxima.
         ...(data.creature?.stats ? { stats: stripUndefined(data.creature.stats) } : {}),
@@ -412,7 +416,10 @@ function registerTokenHandlers(ctx) {
         velocity: data.velocity,
         playerId: socket.id,
         mapId: mapId,
-        actionId: data.actionId
+        actionId: data.actionId,
+        movementKind: player.isGM ? data.movementKind : undefined,
+        isTeleport: player.isGM ? data.isTeleport : undefined,
+        forcedMovement: player.isGM ? data.forcedMovement : undefined
       }, room.authorityToken || null, {
         playerRef: player,
         userId: uid,
@@ -735,8 +742,25 @@ function registerTokenHandlers(ctx) {
         return;
       }
 
-      const projectedCharacter = data.character && typeof data.character === 'object'
-        ? roomAccess.projectCharacterForClient(data.character)
+      // The committed Flow token owns its classResource. A generic portrait/state refresh
+      // (including a raw legacy Evidence record) must not replace it or erase its snapshot.
+      let characterUpdate = data.character;
+      if (characterUpdate && typeof characterUpdate === 'object' && Object.prototype.hasOwnProperty.call(characterUpdate, 'classResource')) {
+        const binding = record.token.state?.actorContract;
+        const judged = require('../services/hunterFlowSheets').judgeClassResource(room, {
+          ownerUid: binding?.ownerUid || record.token.ownerUserId || uid,
+          characterId: binding?.characterId || record.token.character?.id,
+          existing: record.token.character?.classResource,
+          incoming: characterUpdate.classResource
+        });
+        if (judged.action !== 'pass') {
+          characterUpdate = { ...characterUpdate };
+          if (judged.action === 'replace') characterUpdate.classResource = judged.value;
+          else delete characterUpdate.classResource;
+        }
+      }
+      const projectedCharacter = characterUpdate && typeof characterUpdate === 'object'
+        ? roomAccess.projectCharacterForClient(characterUpdate)
         : null;
       // R8.4: positive projection of state updates; private/unknown nested
       // blobs are never stored or relayed raw.
@@ -746,7 +770,7 @@ function registerTokenHandlers(ctx) {
       actorConsequences.assertCanMove(record.token, player, data.stateUpdates || {});
       actorConsequences.validateBuildEnvelope('character_token_updated', data);
       actorConsequences.prepareBuildUpdate(record.token, {
-        ...(data.character ? { character: data.character } : {}),
+        ...(characterUpdate ? { character: characterUpdate } : {}),
         ...(data.stateUpdates ? { state: data.stateUpdates } : {})
       }, 'character');
       const prepared = actorConsequences.prepareBuildUpdate(record.token, {

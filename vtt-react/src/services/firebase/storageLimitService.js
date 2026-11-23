@@ -261,7 +261,7 @@ class StorageLimitService {
       // Use setDoc with merge to create document if it doesn't exist
       await setDoc(userRef, {
         storageUsage: newUsage,
-        lastModified: serverTimestamp()
+        updatedAt: serverTimestamp()
       }, { merge: true });
 
       return newUsage;

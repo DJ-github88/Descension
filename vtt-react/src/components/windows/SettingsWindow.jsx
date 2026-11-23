@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import useSettingsStore from '../../store/settingsStore';
@@ -290,6 +290,30 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     setHasScaleChanges(Math.abs(0.8 - windowScale) > 0.01);
   };
 
+  // The grid scale is sent once the slider settles (trailing 250 ms) rather than on every step, so a fast drag is not
+  // cut short by the event rate limit; a pending value is still sent if the window closes first.
+  const scaleSync = useRef({ timer: null, value: null, send: null });
+  const flushScaleSync = () => {
+    const pending = scaleSync.current;
+    if (pending.timer) clearTimeout(pending.timer);
+    pending.timer = null;
+    if (pending.value === null) return;
+    const value = pending.value;
+    pending.value = null;
+    pending.send?.({ feetPerTile: value });
+  };
+  const queueScaleSync = (value) => {
+    const pending = scaleSync.current;
+    pending.value = value;
+    if (pending.timer) clearTimeout(pending.timer);
+    pending.timer = setTimeout(flushScaleSync, 250);
+  };
+  scaleSync.current.flush = flushScaleSync;
+  useEffect(() => {
+    const pending = scaleSync.current;
+    return () => pending.flush?.();
+  }, []);
+
   // Helper to sync gameplay settings in multiplayer
   const syncGameplaySettings = (settings) => {
     if (isGMMode && isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
@@ -299,6 +323,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
       });
     }
   };
+  scaleSync.current.send = syncGameplaySettings; // always the current socket, room and GM state
 
   // Handle XP award (with multiplayer player targeting)
   const handleAwardXP = (amount) => {
@@ -550,7 +575,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                 const value = parseInt(e.target.value, 10);
                 setFeetPerTile(value);
                 setGameFeetPerTile(value);
-                syncGameplaySettings({ feetPerTile: value });
+                queueScaleSync(value);
               }}
               className="settings-slider"
             />

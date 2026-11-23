@@ -11,6 +11,7 @@ import TagBasedTargeting from '../targeting/TagBasedTargeting';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
 
 // Pathfinder styles imported via main.css
+import { passiveTurnTriggerFor } from '../../../../services/authoredAbility';
 import {
   TARGETING_TYPES as ALL_TARGETING_TYPES,
   AOE_SHAPES,
@@ -37,6 +38,17 @@ const TARGETING_TYPES = [
     actionPointModifier: 0
   }
 ];
+
+const SELF_TARGETING_TYPE = getTargetingTypeById('self');
+
+const isSupportedPassiveTurnDraft = (spellType, triggerConfig) => {
+  if (spellType !== 'PASSIVE') return false;
+  try {
+    return Boolean(passiveTurnTriggerFor(triggerConfig));
+  } catch (_) {
+    return false;
+  }
+};
 
 // Targeting restrictions options
 const TARGET_RESTRICTIONS = [
@@ -198,7 +210,11 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
   const [selectionMethod, setSelectionMethod] = useState(targetingConfig.selectionMethod || 'manual');
   const [targetSelectionMethod, setTargetSelectionMethod] = useState(targetingConfig.targetSelectionMethod || 'manual');
   const [aoeShape, setAoeShape] = useState(targetingConfig.aoeShape || 'circle');
-  const [selectedEffect, setSelectedEffect] = useState(null);
+  const [selectedEffect, setSelectedEffect] = useState(() =>
+    state.targetingMode === 'effect' && Array.isArray(effectTypes) && effectTypes.length > 0
+      ? effectTypes[0]
+      : null
+  );
   const [aoeParameters, setAoeParameters] = useState(targetingConfig.aoeParameters || {
     radius: 20,
     size: 15,
@@ -246,32 +262,58 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
   const [animationActive, setAnimationActive] = useState(false);
   const [animationTimer, setAnimationTimer] = useState(null);
 
+  const isSupportedTurnPassive = isSupportedPassiveTurnDraft(spellType, state.triggerConfig);
+
   // Filter out targeting types that don't make sense for the current spell type
-  const availableTargetingTypes = TARGETING_TYPES.filter(type => {
-    // For passive spells, only self targeting makes sense
-    if (spellType === 'PASSIVE' && type.id !== 'self') {
-      return false;
-    }
+  const availableTargetingTypes = spellType === 'PASSIVE'
+    ? [
+        ...(isSupportedTurnPassive || targetingType === 'self' ? [SELF_TARGETING_TYPE] : []),
+        ...TARGETING_TYPES.filter(type => type.id === 'self_centered')
+      ].filter(Boolean)
+    : TARGETING_TYPES.filter(type => {
+        // For reactive spells, consider the trigger type
+        if (spellType === 'REACTION') {
+          // Add more specific logic based on trigger types if needed
+          return true;
+        }
 
-    // For reactive spells, consider the trigger type
-    if (spellType === 'REACTION') {
-      // Add more specific logic based on trigger types if needed
-      return true;
-    }
+        return true;
+      });
 
-    return true;
-  });
-
-  // Initialize targetingConfig with touch as default if not set
+  // Initialize targetingConfig defaults when not set (never clobber in per-effect mode)
   useEffect(() => {
     // Only initialize if targetingConfig is empty or doesn't have rangeType set
-    // This ensures touch is set as default when the wizard first loads
-    if (!targetingConfig?.rangeType) {
-      const defaultConfig = {
-        ...targetingConfig,
-        rangeType: 'touch',
-        rangeDistance: 5
-      };
+    if (state.targetingMode !== 'effect' && !targetingConfig?.rangeType) {
+      const defaultConfig = spellType === 'PASSIVE'
+        ? isSupportedTurnPassive
+          ? {
+              ...targetingConfig,
+              targetingType: 'self',
+              rangeType: 'self',
+              rangeDistance: 0,
+              maxTargets: 1,
+              selectionMethod: 'manual',
+              targetSelectionMethod: 'manual',
+              aoeShape: '',
+              aoeType: '',
+              aoeParameters: {},
+              movementBehavior: 'static',
+              targetRestrictions: ['self']
+            }
+          : {
+              ...targetingConfig,
+              targetingType: targetingConfig?.targetingType || 'self_centered',
+              rangeType: 'self_centered',
+              rangeDistance: 0,
+              aoeShape: targetingConfig?.aoeShape || 'circle',
+              aoeParameters: targetingConfig?.aoeParameters?.radius ? targetingConfig.aoeParameters : { ...(targetingConfig?.aoeParameters || {}), radius: 10 },
+              targetRestrictions: Array.isArray(targetingConfig?.targetRestrictions) && targetingConfig.targetRestrictions.length ? targetingConfig.targetRestrictions : ['enemy']
+            }
+        : {
+            ...targetingConfig,
+            rangeType: 'touch',
+            rangeDistance: 5
+          };
       dispatch(actionCreators.updateTargetingConfig(defaultConfig));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -337,15 +379,22 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
   useEffect(() => {
     if (targetingType === 'self') {
       setTargetRestrictions(['self']);
+      if (rangeType !== 'self') setRangeType('self');
+      if (rangeDistance !== 0) setRangeDistance(0);
       setSelectedPropagation('none'); // Self-targeting spells cannot propagate
-    } else if (targetingType === 'area') {
-      // Default to circle for area effects if not already set
+    } else if (targetingType === 'area' || targetingType === 'self_centered') {
+      // Default to circle for area/self-centered effects if not already set
       if (!aoeShape) {
+        const defaultRadius = targetingType === 'self_centered' ? 10 : 20;
         setAoeShape('circle');
-        setAoeParameters({
-          ...aoeParameters,
-          radius: 20
-        });
+        setAoeParameters(prev => ({
+          ...prev,
+          radius: prev?.radius || defaultRadius
+        }));
+      }
+      if (targetingType === 'self_centered') {
+        if (rangeType !== 'self_centered') setRangeType('self_centered');
+        if (rangeDistance !== 0) setRangeDistance(0);
       }
     }
   }, [targetingType, aoeShape]);
@@ -394,7 +443,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
       newErrors.maxTargets = 'Please specify a valid number of targets';
     }
 
-    if (targetingType === 'area' && !aoeShape) {
+    if ((targetingType === 'area' || targetingType === 'self_centered') && !aoeShape) {
       newErrors.aoeShape = 'Please select an area shape';
     }
 
@@ -418,11 +467,11 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
       newErrors.targetingType = 'Please select a targeting type';
     }
 
-    if (targetingType === 'area' && !aoeShape) {
+    if ((targetingType === 'area' || targetingType === 'self_centered') && !aoeShape) {
       newErrors.aoeShape = 'Please select an AoE shape';
     }
 
-    if (!rangeType) {
+    if (!rangeType && targetingType !== 'self' && targetingType !== 'self_centered') {
       newErrors.rangeType = 'Please select a range type';
     }
 
@@ -435,22 +484,33 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
     }
 
     if (Object.keys(newErrors).length === 0) {
+      if (state.targetingMode === 'effect') {
+        onNext();
+        return;
+      }
+
+      const isSelf = targetingType === 'self';
+      const isAreaLike = targetingType === 'area' || targetingType === 'self_centered';
+
       // Form is valid, save configuration
       const config = {
         targetingType,
-        targetRestrictions,
+        targetRestrictions: isSelf ? ['self'] : targetRestrictions,
+        ...(isSelf && targetingConfig.targetRestriction !== undefined ? { targetRestriction: 'self' } : {}),
         maxTargets: targetingType === 'multi' ? maxTargets : 1,
         // Use the selected method for both single and multi-target spells
         selectionMethod: (targetingType === 'multi' || targetingType === 'single') ? selectionMethod : 'manual',
         // Also save targetSelectionMethod for consistency
-        targetSelectionMethod: targetSelectionMethod,
-        aoeShape: targetingType === 'area' ? aoeShape : '',
-        aoeParameters: targetingType === 'area' ? aoeParameters : {},
-        rangeType,
-        rangeDistance: rangeType === 'ranged' ? rangeDistance :
+        targetSelectionMethod: (isAreaLike || targetingType === 'trail' || isSelf) ? 'manual' : targetSelectionMethod,
+        aoeShape: isAreaLike ? aoeShape : '',
+        ...(isSelf ? { aoeType: '' } : {}),
+        aoeParameters: isAreaLike ? aoeParameters : {},
+        movementBehavior: (targetingType === 'area' || targetingType === 'trail') ? movementBehavior : 'static',
+        rangeType: isSelf ? 'self' : targetingType === 'self_centered' ? 'self_centered' : rangeType,
+        rangeDistance: (isSelf || targetingType === 'self_centered') ? 0 :
+                      rangeType === 'ranged' ? rangeDistance :
                       rangeType === 'touch' ? 5 :
-                      rangeType === 'sight' ? 60 :
-                      rangeType === 'self_centered' ? 0 : -1
+                      rangeType === 'sight' ? 60 : -1
       };
 
       // Dispatch action to update the targeting configuration
@@ -472,10 +532,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
 
       dispatch(actionCreators.updatePropagation(propagationConfig));
 
-      // If we're in unified mode, make sure all effects use the spell's targeting
-      if (state.targetingMode === 'unified') {
-        // Nothing to do, all effects will use the spell's targeting
-      } else {
+      if (state.targetingMode === 'tagged') {
         // Make sure all effect types have targeting tags
         const DEFAULT_TAGS = {
           damage: ['enemy'],
@@ -533,7 +590,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
         propagation: propagationConfig
       };
       dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
-    } else {
+    } else if (state.targetingMode === 'unified') {
       // Update unified propagation
       dispatch(actionCreators.updatePropagation(propagationConfig));
     }
@@ -555,7 +612,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
           aoeParameters: updatedParams
         };
         dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
-      } else {
+      } else if (state.targetingMode === 'unified') {
         // Update unified targeting
         const config = {
           ...targetingConfig,
@@ -2557,6 +2614,40 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                   key={type.id}
                   className={`targeting-option-card ${isSelected ? 'selected' : ''}`}
                   onClick={() => {
+                    const isSelf = type.id === 'self';
+                    const isAreaLike = type.id === 'area' || type.id === 'trail' || type.id === 'self_centered';
+                    const nextAoeShape = isAreaLike ? (aoeShape || 'circle') : '';
+                    const nextAoeParams = isAreaLike
+                      ? (aoeParameters && Object.keys(aoeParameters).length ? aoeParameters : (type.id === 'self_centered' ? { radius: 10 } : { radius: 20 }))
+                      : {};
+                    const nextRangeType = isSelf
+                      ? 'self'
+                      : type.id === 'self_centered'
+                        ? 'self_centered'
+                        : (rangeType === 'self_centered' || rangeType === 'self' ? 'touch' : rangeType);
+                    const nextRangeDistance = (isSelf || type.id === 'self_centered')
+                      ? 0
+                      : (rangeType === 'self_centered' || rangeType === 'self' ? 5 : rangeDistance);
+                    const nextRestrictions = isSelf
+                      ? ['self']
+                      : (spellType === 'PASSIVE' && type.id === 'self_centered' && targetingType === 'self')
+                        ? ['enemy']
+                        : null;
+                    if (isAreaLike && !aoeShape) setAoeShape('circle');
+                    if (isSelf) {
+                      setAoeShape('');
+                      setAoeParameters({});
+                      setRangeType('self');
+                      setRangeDistance(0);
+                      setTargetRestrictions(['self']);
+                      setSelectedPropagation('none');
+                      setSelectedBehavior('');
+                    } else if (type.id === 'self_centered') {
+                      if (!aoeParameters?.radius) setAoeParameters(prev => ({ ...prev, radius: 10 }));
+                      setRangeType('self_centered');
+                      setRangeDistance(0);
+                      if (nextRestrictions) setTargetRestrictions(nextRestrictions);
+                    }
                     if (state.targetingMode === 'unified') {
                       // Update unified targeting
                       setTargetingType(type.id);
@@ -2567,12 +2658,31 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                         maxTargets: type.id === 'multi' ? maxTargets : 1,
                         // Use the selected method for both single and multi-target spells
                         selectionMethod: (type.id === 'multi' || type.id === 'single') ? selectionMethod : 'manual',
-                        aoeShape: (type.id === 'area' || type.id === 'trail') ? aoeShape : '',
-                        aoeParameters: (type.id === 'area' || type.id === 'trail') ? aoeParameters : {},
+                        aoeShape: nextAoeShape,
+                        ...(isSelf ? { aoeType: '' } : {}),
+                        aoeParameters: nextAoeParams,
+                        rangeType: nextRangeType,
+                        rangeDistance: nextRangeDistance,
                         movementBehavior: (type.id === 'area' || type.id === 'trail') ? movementBehavior : 'static',
-                        targetSelectionMethod: (type.id === 'area' || type.id === 'trail') ? 'manual' : targetSelectionMethod
+                        targetSelectionMethod: (isAreaLike || isSelf) ? 'manual' : targetSelectionMethod,
+                        ...(nextRestrictions ? { targetRestrictions: nextRestrictions } : {}),
+                        ...(targetingConfig.targetRestriction !== undefined && nextRestrictions ? { targetRestriction: nextRestrictions[0] } : {})
                       };
                       dispatch(actionCreators.updateTargetingConfig(config));
+                      if (isSelf && propagation && propagation.method && propagation.method !== 'none') {
+                        dispatch(actionCreators.updatePropagation({
+                          method: 'none',
+                          behavior: '',
+                          parameters: {
+                            count: propagationCount,
+                            range: propagationRange,
+                            decay: propagationDecay,
+                            secondaryRadius: secondaryRadius,
+                            spreadRate: spreadRate,
+                            forkCount: forkCount
+                          }
+                        }));
+                      }
                     } else if (selectedEffect) {
                       // Update effect-specific targeting
                       const effectConfig = {
@@ -2580,11 +2690,18 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                         maxTargets: type.id === 'multi' ? maxTargets : 1,
                         // Use the selected method for both single and multi-target spells
                         selectionMethod: (type.id === 'multi' || type.id === 'single') ? selectionMethod : 'manual',
-                        aoeShape: (type.id === 'area' || type.id === 'trail') ? aoeShape : '',
-                        aoeParameters: (type.id === 'area' || type.id === 'trail') ? aoeParameters : {},
+                        aoeShape: nextAoeShape,
+                        ...(isSelf ? { aoeType: '' } : {}),
+                        aoeParameters: nextAoeParams,
+                        rangeType: nextRangeType,
+                        rangeDistance: nextRangeDistance,
                         movementBehavior: (type.id === 'area' || type.id === 'trail') ? movementBehavior : 'static',
-                        targetRestrictions: (selectedEffect && state.effectTargeting && state.effectTargeting[selectedEffect] && state.effectTargeting[selectedEffect].targetRestrictions) || ['enemies'],
-                        targetSelectionMethod: (selectedEffect && state.effectTargeting && state.effectTargeting[selectedEffect] && state.effectTargeting[selectedEffect].targetSelectionMethod) || 'manual'
+                        targetRestrictions: isSelf
+                          ? ['self']
+                          : (selectedEffect && state.effectTargeting && state.effectTargeting[selectedEffect] && state.effectTargeting[selectedEffect].targetRestrictions) || ['any'],
+                        targetSelectionMethod: isSelf
+                          ? 'manual'
+                          : (selectedEffect && state.effectTargeting && state.effectTargeting[selectedEffect] && state.effectTargeting[selectedEffect].targetSelectionMethod) || 'manual'
                       };
 
                       dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
@@ -2695,8 +2812,12 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                 <div className="targeting-section">
                   <h3 className="targeting-section-title">Range Configuration</h3>
                   <div className="targeting-options">
-                    {/* Only show range types if not self-centered */}
-                    {targetingType === 'self_centered' ? (
+                    {/* Only show range types if not self or self-centered */}
+                    {targetingType === 'self' ? (
+                      <div className="targeting-info-box">
+                        <p>Self-targeted effects always affect only the caster and do not require range selection.</p>
+                      </div>
+                    ) : targetingType === 'self_centered' ? (
                       <div className="targeting-info-box">
                         <p>Self-centered effects always originate from the caster and do not require range selection.</p>
                       </div>
@@ -2720,7 +2841,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               rangeDistance: newRangeDistance
                             };
                             dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
-                          } else {
+                          } else if (state.targetingMode === 'unified') {
                             // Update unified targeting
                             const config = {
                               ...targetingConfig,
@@ -2749,7 +2870,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                     }
                   </div>
 
-                  {rangeType === 'ranged' && (
+                  {rangeType === 'ranged' && targetingType !== 'self' && targetingType !== 'self_centered' && (
                     <div className="targeting-params">
                       <label className="param-label">Range Distance (feet)</label>
                       <div className="range-slider">
@@ -2771,7 +2892,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 rangeDistance: newValue
                               };
                               dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
-                            } else {
+                            } else if (state.targetingMode === 'unified') {
                               // Update unified targeting
                               const config = {
                                 ...targetingConfig,
@@ -2833,7 +2954,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 targetRestrictions: newRestrictions
                               };
                               dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
-                            } else {
+                            } else if (state.targetingMode === 'unified') {
                               // Update unified targeting
                               const config = {
                                 ...targetingConfig,
@@ -2897,7 +3018,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 maxTargets: newValue
                               };
                               dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
-                            } else {
+                            } else if (state.targetingMode === 'unified') {
                               // Update unified targeting
                               const config = {
                                 ...targetingConfig,
@@ -2952,7 +3073,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 }
                               };
                               dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
-                            } else {
+                            } else if (state.targetingMode === 'unified') {
                               // Update unified targeting
                               const config = {
                                 ...targetingConfig,
@@ -3153,12 +3274,20 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 value={movementBehavior}
                                 onChange={e => {
                                   setMovementBehavior(e.target.value);
-                                  // Update the global state immediately
-                                  const config = {
-                                    ...targetingConfig,
-                                    movementBehavior: e.target.value
-                                  };
-                                  dispatch(actionCreators.updateTargetingConfig(config));
+                                  if (state.targetingMode === 'effect' && selectedEffect) {
+                                    const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+                                    dispatch(actionCreators.updateEffectTargeting(selectedEffect, {
+                                      ...currentConfig,
+                                      movementBehavior: e.target.value
+                                    }));
+                                  } else if (state.targetingMode === 'unified') {
+                                    // Update the global state immediately
+                                    const config = {
+                                      ...targetingConfig,
+                                      movementBehavior: e.target.value
+                                    };
+                                    dispatch(actionCreators.updateTargetingConfig(config));
+                                  }
                                 }}
                               >
                                 <option value="static">Static (stays in place)</option>
@@ -3190,6 +3319,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                 )}
 
                 {/* Propagation Configuration */}
+                {targetingType !== 'self' && (
                 <div className="targeting-section propagation-section">
                   <h3 className="targeting-section-title propagation-section-title">Propagation Method</h3>
                   <div className="propagation-methods">
@@ -3227,7 +3357,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               propagation: propagationConfig
                             };
                             dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
-                          } else {
+                          } else if (state.targetingMode === 'unified') {
                             // Update unified propagation
                             dispatch(actionCreators.updatePropagation(propagationConfig));
                           }
@@ -3288,7 +3418,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                   propagation: propagationConfig
                                 };
                                 dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
-                              } else {
+                              } else if (state.targetingMode === 'unified') {
                                 // Update unified propagation
                                 dispatch(actionCreators.updatePropagation(propagationConfig));
                               }
@@ -3395,21 +3525,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               onChange={e => {
                                 const newRange = Number(e.target.value);
                                 setPropagationRange(newRange);
-
-                                // Update global state immediately
-                                const propagationConfig = {
-                                  method: selectedPropagation,
-                                  behavior: selectedBehavior,
-                                  parameters: {
-                                    count: propagationCount,
-                                    range: newRange,
-                                    decay: propagationDecay,
-                                    secondaryRadius: secondaryRadius,
-                                    spreadRate: spreadRate,
-                                    forkCount: forkCount
-                                  }
-                                };
-                                dispatch(actionCreators.updatePropagation(propagationConfig));
+                                updatePropagationConfig({ range: newRange });
                               }}
                               className="param-input"
                             />
@@ -3484,6 +3600,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                     </div>
                   )}
                 </div>
+                )}
               </div>
             </div>
 

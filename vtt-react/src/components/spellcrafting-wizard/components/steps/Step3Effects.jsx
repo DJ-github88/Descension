@@ -138,6 +138,7 @@ const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActiv
     dispatch(actionCreators.updateHealingConfig({
      formula: '2d8 + spir',
      healingType: 'direct',
+     resolution: 'DICE',
      targetType: 'single',
      shieldType: 'standard',
      shieldDuration: 3,
@@ -299,7 +300,7 @@ const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActiv
  const getCompatibleEffectTypes = () => {
   // Define incompatible combinations
   const incompatibleCombinations = {
-   'PASSIVE': ['control', 'transformation'],
+   'PASSIVE': ['transformation'],
    'REACTION': ['summoning', 'transformation'],
   };
 
@@ -359,10 +360,30 @@ const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActiv
   return effectTypes.every(isEffectConfigured);
  };
 
- // Check if step is valid (has at least one effect type selected and configured)
+ // Check if step is valid (has at least one effect type selected and configured, OR Rollable Table mode is enabled)
+ const usingRollableTableOutcomes = Boolean(state.rollableTable?.enabled && (!state.effectTypes || state.effectTypes.length === 0));
  const isStepValid = () => {
+  if (usingRollableTableOutcomes) return true;
   if (state.effectTypes.length === 0) return false;
   return state.effectTypes.every(effectType => isEffectConfigured(effectType));
+ };
+
+ const enableRollableTableOutcomes = () => {
+  for (const t of [...(state.effectTypes || [])]) {
+   dispatch(actionCreators.removeEffectType(t));
+  }
+  dispatch(actionCreators.updateEffectsMap({}));
+  const existing = state.rollableTable;
+  dispatch(actionCreators.updateRollableTable({
+   ...(existing && typeof existing === 'object' ? existing : {
+    name: 'Random Effects',
+    description: '',
+    resolutionType: 'DICE',
+    resolutionConfig: { diceType: 'd6', cardCount: 1, coinCount: 1, deckType: 'standard', coinType: 'standard' },
+    entries: []
+   }),
+   enabled: true
+  }));
  };
 
  // Calculate the total resource cost based on selected effects
@@ -578,7 +599,7 @@ const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActiv
     <p className="effect-description">{getEffectTypeDescription(selectedEffectType)}</p>
 
      {selectedEffectType === 'control' && !state.controlConfig?.authoredCondition && <button type="button" onClick={() => dispatch(actionCreators.replaceControlConfig({ authoredCondition: newAuthoredCondition() }))}>Use canonical Stunned profile (replace control configuration)</button>}
-     {selectedEffectType === 'control' && !state.controlConfig?.authoredCondition && <button type="button" onClick={() => dispatch(actionCreators.replaceControlConfig({ authoredCondition: newAuthoredEffect() }))}>Use composed effect profile — Stunned or movement change, structured expiry (replace control configuration)</button>}
+     {selectedEffectType === 'control' && !state.controlConfig?.authoredCondition && <button type="button" onClick={() => dispatch(actionCreators.replaceControlConfig({ authoredCondition: state.spellType === 'PASSIVE' ? { ...newAuthoredEffect(), expiryPolicy: 'gm-manual' } : newAuthoredEffect() }))}>Use composed effect profile — Stunned, movement, attribute, flat DR, or periodic tick, structured expiry (replace control configuration)</button>}
      {selectedEffectType === 'control' && state.controlConfig?.authoredCondition ? <AuthoredConditionFields value={state.controlConfig.authoredCondition} onChange={authoredCondition => dispatch(actionCreators.updateControlConfig({ authoredCondition }))} /> : selectedEffectType === 'damage' ? (
      <DamageEffects
       currentEffect={{ id: effectId, type: selectedEffectType }}
@@ -605,7 +626,7 @@ const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActiv
 
  // Handle next button click
  const handleNext = () => {
-  if (state.effectTypes.length > 0 && areAllEffectsConfigured()) {
+  if (isStepValid()) {
    onNext();
   }
  };
@@ -637,6 +658,24 @@ const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActiv
     )}
     {/* Effect Type Selection */}
     <div className="effect-type-grid">
+     <SelectionCard
+      key="rollable-table-outcomes"
+      title="Outcome Table (Dice / Coin / Card)"
+      description="Resolve a die roll, fair coin flip, or card draw in the Rollable Table step to choose which effect happens."
+      icon={FaDice}
+      iconColor="#8b5cf6"
+      selected={usingRollableTableOutcomes}
+      disabled={false}
+      highlighted={usingRollableTableOutcomes}
+      onClick={enableRollableTableOutcomes}
+      additionalInfo={{
+       actionCost: '0 AP',
+       category: 'Outcome',
+       configured: usingRollableTableOutcomes
+      }}
+      showDetails={true}
+      selectionMode="single"
+     />
      {getCompatibleEffectTypes().map((effectType) => (
       <SelectionCard
        key={effectType.id}

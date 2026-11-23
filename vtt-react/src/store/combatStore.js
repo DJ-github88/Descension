@@ -30,6 +30,8 @@ const useCombatStore = create((set, get) => ({
     // Turn timer state
     turnTimers: new Map(), // tokenId -> { startTime, totalTime, isActive }
     currentTurnStartTime: null,
+    effectLifecycle: null,
+    retiredPeriodicTicks: null,
 
     // Movement tracking
     movementThisTurn: new Map(), // tokenId -> { startPosition: {x, y}, totalDistance: number }
@@ -646,6 +648,7 @@ const useCombatStore = create((set, get) => ({
             turnTimers: new Map(),
             currentTurnStartTime: null,
             effectLifecycle: null,
+            retiredPeriodicTicks: null,
             turnMovementUsed: new Map(),
             movementUnlocked: new Set(),
             turnStartPositions: new Map(),
@@ -688,6 +691,7 @@ const useCombatStore = create((set, get) => ({
         set({
             isInCombat: false,
             effectLifecycle: null,
+            retiredPeriodicTicks: null,
             isSelectionMode: false,
             round: 1,
             turnOrder: [],

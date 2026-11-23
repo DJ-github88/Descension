@@ -2,6 +2,9 @@
 const definitions = require('./installedDefinitionRegistry');
 const actors = require('./actorConsequences');
 const pure = require('../shared/services/authoredAbility');
+const authoredChanneled = require('../shared/services/authoredChanneled');
+const sharedProfile = require('../shared/services/sharedConditionProfile');
+const randomOutcome = require('../shared/services/randomOutcome');
 const catalogueAbility = require('../shared/services/catalogueAbility.cjs');
 function registry(room) {
   if (room.gameState.authoredSpellRegistry === undefined) return definitions.emptyRegistry(room.id);
@@ -131,16 +134,29 @@ function checkCreatureAuthority(room, approval, primaryPc = false) {
   } else if (entry.canonicalDefinition.targeting.rangeFeet === 0 || entry.canonicalDefinition.targeting.restriction === 'self') actors.fail('distinct_target_range_required');
   return entry;
 }
-function checkApproval(room, approval, primaryPc = false) {
+function checkApproval(room, approval, primaryPc = false, stage = 'approval') {
   const entry = lookup(room, approval.spell), d = entry.canonicalDefinition, desc = entry.descriptor;
   require('./authoredCooldowns').check(room, approval, d);
   const condition = desc.capabilityId === pure.CONDITION_CAPABILITY, effect = desc.capabilityId === pure.EFFECT_CAPABILITY;
   const deterministic = desc.capabilityId === pure.DETERMINISTIC_CAPABILITY;
   const health = desc.capabilityId === pure.HEALTH_CAPABILITY || (deterministic && pure.readDeterministicFormula(d.effect.formula, Object.fromEntries(require('../shared/services/classEffect').ATTRIBUTES.map(n => [n, 10])), { current: 0, max: 0 }).readsHealth === true);
   const formula = desc.capabilityId === pure.FORMULA_CAPABILITY || health || deterministic, area = desc.capabilityId === pure.AREA_CAPABILITY;
+  const isHunterFlow = desc.capabilityId === pure.FLOW_CAPABILITY;
+  const outcome = desc.capabilityId === pure.OUTCOME_CAPABILITY;
+  const channeled = desc.capabilityId === pure.CHANNELED_CAPABILITY;
   const wanted = { definitionId: pure.actionId(entry.definitionRef), definitionHash: `${desc.capabilityId}/${entry.definitionRef.definitionHash}`, name: d.name,
-    kind: effect ? 'effect' : d.effect.kind, damageTypes: effect ? desc.effects.direct?.damageTypes || [] : desc.effect.damageTypes || [] };
+    kind: channeled ? 'channeled' : outcome ? 'outcome' : effect ? 'effect' : d.effect.kind,
+    damageTypes: channeled ? desc.tickEffect.damageTypes || [] : outcome ? [] : effect ? desc.effects.direct?.damageTypes || [] : desc.effect.damageTypes || [] };
   if (actors.hash(approval.spell) !== actors.hash(wanted) || actors.hash(approval.price) !== actors.hash(desc.price)) actors.fail('authored_approval_mismatch');
+  // Direct-damage save (handoff/direct-damage-save/CONTRACT.md): the approval carries exactly the admitted save term, or none. Checked at
+  // owner approval and again at GM confirmation; while the outcome's creator policy is unanswered nothing is approved or applied.
+  const directSave = pure.directSaveOf(d);
+  if (directSave ? actors.hash(approval.saveTerms) !== actors.hash(directSave) : approval.saveTerms !== undefined) actors.fail('authored_approval_mismatch');
+  if (directSave) {
+    const unanswered = require('../shared/services/directSave').policyRefusal(directSave);
+    if (unanswered) actors.fail('direct_save_policy_unanswered', unanswered);
+    if (approval.source.kind !== 'character' || approval.target.kind !== 'creature' || actors.hash(approval.source) === actors.hash(approval.target)) actors.fail('unsupported_source_route', 'A GM-recorded save on the Direct Damage part is supported for a primary owner PC source and one other creature only.');
+  }
   if (area) {
     if (!pure.isAreaRollProcedureApproved()) {
       actors.fail('area_roll_procedure_unapproved', pure.AREA_ROLL_UNAPPROVED_REASON);
@@ -172,7 +188,7 @@ function checkApproval(room, approval, primaryPc = false) {
       if (seen.has(th)) actors.fail('duplicate_target_actor');
       seen.add(th);
       const located = actors.locate(room, t);
-      if (located.token?.state?.hiddenFromPlayers === true || located.token?.hiddenFromPlayers === true) actors.fail('actor_not_found');
+      if (located.token?.state?.hiddenFromPlayers === true || located.token?.hiddenFromPlayers === true || located.token?.state?.isHidden === true || located.token?.isHidden === true) actors.fail('actor_not_found');
     }
     const names = pure.formulaAttributes(d.effect.formula);
     const attrs = names.length ? approval.rollAttributes : (approval.rollAttributes || {});
@@ -227,6 +243,20 @@ function checkApproval(room, approval, primaryPc = false) {
       const source = actors.locate(room, approval.source);
       if (approval.source.kind !== 'character' || !source.contract.primary || approval.target.kind !== 'creature' ||
         require('../shared/services/classEffect').classIdOf(source.token.character?.class) !== d.binding.classId) actors.fail('unsupported_source_route');
+    }
+  } else if (isHunterFlow) {
+    const source = actors.locate(room, approval.source);
+    const self = actors.hash(approval.source) === actors.hash(approval.target);
+    if (approval.source.kind !== 'character' || !source.contract.primary || approval.target.kind !== 'creature' || self) {
+      actors.fail('unsupported_source_route', 'Quick Draw Flow execution requires a primary Hunter owner PC targeting one creature.');
+    }
+    if (!approval.classPayment || approval.classPayment.domain !== 'hunterFlow') {
+      actors.fail('authored_approval_mismatch');
+    }
+    const reading = pure.readFormula(d.effect.formula), roll = approval.roll;
+    if (!roll || roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== 1 ||
+        roll.dice[0].sides !== reading.dice[0].sides || roll.dice[0].faces.length !== reading.dice[0].count) {
+      actors.fail('authored_roll_mismatch');
     }
   } else if (approval.classPayment !== null) actors.fail('authored_approval_mismatch');
   if (effect) {
@@ -283,7 +313,41 @@ function checkApproval(room, approval, primaryPc = false) {
     if (!approval.rollAttributes || typeof approval.rollAttributes !== 'object' || Array.isArray(approval.rollAttributes) || Object.keys(approval.rollAttributes).sort().join() !== names.join() || !reading.supported || !roll ||
       roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== reading.dice.length ||
       reading.dice.some((group, i) => roll.dice[i].sides !== group.sides || roll.dice[i].faces.length !== group.count)) actors.fail('authored_roll_mismatch');
-  } else if (!area) {
+  } else if (outcome) {
+    if (approval.source.kind !== 'character' || approval.target.kind !== 'creature' || actors.hash(approval.source) === actors.hash(approval.target)) {
+      actors.fail('unsupported_source_route', 'Outcome-branched spells require a primary owner PC source and one distinct creature target.');
+    }
+    if (approval.classPayment !== null) actors.fail('authored_approval_mismatch');
+    const resolved = randomOutcome.resolveBranch(d.outcomeTable, approval.outcome);
+    if (!resolved.ok) actors.fail(resolved.code || 'authored_outcome_mismatch', resolved.reason);
+    if (actors.hash(approval.chosenBranch) !== actors.hash(resolved.branch)) actors.fail('authored_outcome_mismatch');
+    const reading = randomOutcome.readBranchFormula(resolved.branch.effect.formula), roll = approval.roll;
+    const validRoll = reading.dice.length === 0
+      ? (roll && roll.mode === 'deterministic' && Array.isArray(roll.dice) && roll.dice.length === 0 &&
+          roll.constant === reading.constant && roll.total === reading.constant && roll.reading === reading.reading)
+      : (roll && ['digital', 'physical'].includes(roll.mode) && roll.constant === reading.constant && roll.reading === reading.reading &&
+          roll.dice.length === 1 && roll.dice[0].sides === reading.dice[0].sides && roll.dice[0].faces.length === reading.dice[0].count);
+    if (!validRoll) actors.fail('authored_roll_mismatch');
+  } else if (channeled) {
+    if (approval.classPayment !== null || approval.roll !== null) actors.fail('authored_approval_mismatch');
+    if (approval.target?.kind !== 'creature' || actors.hash(approval.source) === actors.hash(approval.target)) {
+      actors.fail('channeled_target_unsupported', 'Channeled spells currently support one distinct placed creature target only.');
+    }
+    if (actors.hash(approval.channelTerms) !== actors.hash(authoredChanneled.termsFor(d))) actors.fail('authored_approval_mismatch');
+    if (approval.source.kind === 'creature' && (approval.resolution?.gmConfirmed !== true || actors.hash(approval.resolution?.timing) !== actors.hash(d.timing))) {
+      actors.fail('authored_approval_mismatch');
+    }
+    const activeChannels = findActiveChannelsByCaster(room, approval.source);
+    if (activeChannels.some(c => !sharedProfile.sameRef(c.target, approval.target))) {
+      actors.fail('caster_already_channeling', 'This caster is already channeling on another target; end or break that channel before starting a new one.');
+    }
+    const rangeCheck = verifyChannelRange(room, approval.source, approval.target, d.channel.rangeFeet);
+    if (!rangeCheck.ok) {
+      actors.fail('target_out_of_range', Number.isFinite(rangeCheck.distanceFeet)
+        ? `Target is ${Math.round(rangeCheck.distanceFeet * 10) / 10} ft away, beyond the spell's ${d.channel.rangeFeet} ft range.`
+        : `Target range cannot be verified on this map (requires within ${d.channel.rangeFeet} ft).`);
+    }
+  } else if (!area && !isHunterFlow) {
     const reading = pure.readFormula(d.effect.formula), roll = approval.roll;
     if (roll.constant !== reading.constant || roll.reading !== reading.reading || roll.dice.length !== 1 || roll.dice[0].sides !== reading.dice[0].sides || roll.dice[0].faces.length !== reading.dice[0].count) actors.fail('authored_roll_mismatch');
   }
@@ -297,11 +361,256 @@ function checkApproval(room, approval, primaryPc = false) {
   if (!area && d.targeting.restriction === 'self' && (actors.hash(approval.source) !== actors.hash(approval.target) || d.effect?.kind !== 'healing' || d.targeting?.rangeFeet !== 0)) actors.fail('authored_target_mismatch');
   if (!area && actors.hash(approval.source) === actors.hash(approval.target) &&
       (d.effect?.kind !== 'healing' || !['self', 'any'].includes(d.targeting?.restriction) ||
-       (approval.source.kind === 'character' && d.targeting?.restriction !== 'self' && (formula || d.targeting?.rangeFeet !== 0)))) {
+       (approval.source.kind === 'character' && d.targeting?.restriction !== 'self'))) {
     actors.fail('authored_target_mismatch');
   }
   checkRelationshipTargets(room, approval, d);
+  if (!area && d.targeting?.selectionMethod === 'lowest_health') {
+    verifyLowestHealthTarget(room, approval, d.targeting, stage);
+  }
+  if (area && d.targeting?.aoeShape === 'line') {
+    verifyLineAreaGeometry(room, approval, d.targeting, stage);
+  } else if (area && d.targeting?.aoeShape === 'circle') {
+    verifyCircleAreaGeometry(room, approval, d.targeting, stage);
+  }
   return entry;
+}
+/** Server-authoritative range, relationship, visibility, and base-HP ranking check for selectionMethod === 'lowest_health'.
+ * Visibility, relationship, and planar range filters apply strictly BEFORE ranking by current base HP. */
+function verifyLowestHealthTarget(room, approval, targeting, stage = 'approval') {
+  if (targeting?.selectionMethod !== 'lowest_health') return;
+  if (approval.source?.kind !== 'character') {
+    actors.fail('unsupported_source_route', 'Lowest-health target selection requires a primary owner PC source.');
+  }
+  if (!approval.target || approval.target.kind !== 'creature' || actors.hash(approval.source) === actors.hash(approval.target)) {
+    actors.fail('authored_target_mismatch', 'Lowest-health target selection requires one distinct creature target.');
+  }
+  const source = actors.locate(room, approval.source);
+  const target = actors.locate(room, approval.target);
+  const targetHidden = Boolean(target.token?.state?.hiddenFromPlayers === true || target.token?.hiddenFromPlayers === true || target.token?.state?.isHidden === true || target.token?.isHidden === true);
+  if (targetHidden) actors.fail('actor_not_found');
+  const { map, gridSize, feetPerTile } = mapGridMetrics(room, approval.source.mapId);
+  if (![source.token?.position?.x, source.token?.position?.y, target.token?.position?.x, target.token?.position?.y].every(Number.isFinite) ||
+      !Number.isFinite(gridSize) || gridSize <= 0 || !Number.isFinite(feetPerTile) || feetPerTile <= 0) {
+    actors.fail('manual_targeting_geometry_required', 'Caster and target tokens need valid grid coordinates to verify lowest-health range.');
+  }
+  const distFeet = (Math.hypot(target.token.position.x - source.token.position.x, target.token.position.y - source.token.position.y) / gridSize) * feetPerTile;
+  if (distFeet > targeting.rangeFeet + 1e-6) {
+    if (stage === 'commit') {
+      actors.fail('owner_reapproval_required', 'The selected target moved out of range after approval. Nothing was applied or spent; review and approve again.');
+    }
+    actors.fail('target_out_of_range', `Target is ${distFeet.toFixed(1)} ft away, outside the authored ${targeting.rangeFeet} ft range. Nothing was applied or spent.`);
+  }
+  const relationships = require('./actorRelationships');
+  const candidates = [];
+  for (const [tokenId, tok] of Object.entries(map?.tokens || {})) {
+    const c = tok?.state?.actorContract;
+    if (!c || c.version !== 1 || c.kind !== 'creature') continue;
+    const candRef = actors.refFor(c);
+    if (candRef.mapId !== approval.source.mapId || candRef.roomId !== room.id || candRef.tokenId !== tokenId) continue;
+    if (actors.hash(candRef) === actors.hash(approval.source)) continue;
+    const hidden = Boolean(tok?.state?.hiddenFromPlayers === true || tok?.hiddenFromPlayers === true || tok?.state?.isHidden === true || tok?.isHidden === true);
+    const hp = actors.resources(tok, 'creature').hp;
+    candidates.push({
+      key: actors.hash(candRef),
+      kind: 'creature',
+      position: tok.position,
+      currentHp: hp.current,
+      hidden,
+      relationship: relationships.get(room, approval.source, candRef)
+    });
+  }
+  const evalResult = pure.evaluateLowestHealthCandidates({
+    sourcePos: source.token.position,
+    rangeFeet: targeting.rangeFeet,
+    restriction: targeting.restriction,
+    gridSize,
+    feetPerTile,
+    candidates
+  });
+  if (!evalResult.ok) {
+    if (stage === 'commit') {
+      actors.fail('owner_reapproval_required', 'No eligible lowest-health target remains in range after approval. Nothing was applied or spent; review and approve again.');
+    }
+    actors.fail(evalResult.code, 'No eligible target found within range.');
+  }
+  const submittedKey = actors.hash(approval.target);
+  if (!evalResult.lowest.some(item => item.key === submittedKey)) {
+    if (stage === 'commit') {
+      actors.fail('owner_reapproval_required', 'Eligible targets or HP changed after approval so the approved target is no longer lowest HP in range. Nothing was applied or spent; review and approve again.');
+    }
+    actors.fail('target_not_lowest_hp', 'Selected target does not have the lowest base HP among eligible targets in range. Nothing was applied or spent.');
+  }
+}
+function mapGridMetrics(room, mapId) {
+  const map = room?.gameState?.maps?.[mapId] || {};
+  const gs = map.gridSettings || room?.gameState?.gridSettings || map.mapData?.gridSettings || {};
+  const gridType = gs.gridType || gs.type || map.gridType || room?.gameState?.gridType || 'square';
+  const gridSize = [gs.gridSize, gs.size, map.gridSize, room?.gameState?.gridSize].find(v => typeof v === 'number' && Number.isFinite(v) && v > 0) || 50;
+  // The GM's configured grid scale (sync_gameplay_settings -> room.gameState.feetPerTile) is authoritative; map-level values and
+  // the 5 ft default apply only when no scale has been configured.
+  const feetPerTile = [room?.gameState?.feetPerTile, gs.feetPerTile, map.feetPerTile].find(v => typeof v === 'number' && Number.isFinite(v) && v > 0) || 5;
+  const offsetX = [gs.gridOffsetX, gs.offsetX, map.gridOffsetX, room?.gameState?.gridOffsetX].find(v => typeof v === 'number' && Number.isFinite(v)) ?? 0;
+  const offsetY = [gs.gridOffsetY, gs.offsetY, map.gridOffsetY, room?.gameState?.gridOffsetY].find(v => typeof v === 'number' && Number.isFinite(v)) ?? 0;
+  return { map, gridType, gridSize, feetPerTile, offsetX, offsetY };
+}
+/** Server-authoritative geometry and target resolver for bounded Line AoE (uses shared pure.lineCellOverlap).
+ * Client target lists are never trusted: verifies the origin is the caster (D-LINE-1), direction, positive-area overlap (G3/G3a),
+ * and completeness against visible eligible creature tokens in the current room state. */
+function verifyLineAreaGeometry(room, approval, targeting, stage = 'approval') {
+  if (targeting?.aoeShape !== 'line') return;
+  const origin = approval?.areaOrigin, aim = approval?.areaTarget;
+  if (!origin || !aim || ![origin.x, origin.y, aim.x, aim.y].every(Number.isFinite)) {
+    actors.fail('invalid_spell_approval', 'Line area placement requires finite origin and aim coordinates.');
+  }
+  const { map, gridType, gridSize, feetPerTile, offsetX, offsetY } = mapGridMetrics(room, approval.source.mapId);
+  if (gridType !== 'square') {
+    actors.fail('manual_area_geometry_required', 'Line geometry automation requires a calibrated square grid.');
+  }
+  if (Math.hypot(aim.x - origin.x, aim.y - origin.y) <= gridSize * 1e-8) {
+    actors.fail('area_direction_required', 'Line placement requires a non-zero aim direction.');
+  }
+  const source = actors.locate(room, approval.source);
+  if (![source.token?.position?.x, source.token?.position?.y].every(Number.isFinite)) {
+    actors.fail('manual_area_geometry_required', 'Caster token must have a valid grid position to authorize a Line area.');
+  }
+  // Creator rule (2026-11-19): a Line starts at the caster. The origin must be the caster's position; only the direction is chosen.
+  // A movable origin is a separate, unapproved rule.
+  if (Math.hypot(origin.x - source.token.position.x, origin.y - source.token.position.y) > gridSize * 1e-6) {
+    if (stage === 'commit') {
+      actors.fail('owner_reapproval_required', 'The caster moved after approval; a Line starts at the caster. Re-aim and approve again.');
+    }
+    actors.fail('area_origin_out_of_range', 'A Line starts at the caster: the origin must be the caster position.');
+  }
+  const lengthPx = (targeting.lengthFeet / feetPerTile) * gridSize;
+  const widthPx = (targeting.widthFeet / feetPerTile) * gridSize;
+  const creaturesCatalog = map?.creatures || room?.gameState?.combat?.creatures || room?.gameState?.creatures || [];
+  for (const tRef of approval.targets) {
+    const located = actors.locate(room, tRef);
+    if (![located.token?.position?.x, located.token?.position?.y].every(Number.isFinite)) {
+      actors.fail('manual_area_geometry_required', 'Target token must have a valid grid position for Line resolution.');
+    }
+    const footprint = pure.tokenFootprintForArea(located.token, creaturesCatalog);
+    const cells = pure.occupiedGridCells(located.token.position, footprint, gridSize, offsetX, offsetY);
+    if (!cells) {
+      actors.fail('manual_area_geometry_required', 'Target token is off-grid or has an unsupported footprint.');
+    }
+    const states = cells.map(cell => pure.lineCellOverlap(origin, aim, lengthPx, widthPx, cell, gridSize, offsetX, offsetY));
+    if (!states.includes('candidate')) {
+      if (stage === 'commit') {
+        actors.fail('owner_reapproval_required', 'A target moved outside the placed line after approval; owner must re-aim and approve again.');
+      }
+      actors.fail('stale_area_placement', 'Submitted target list does not match the authoritative line geometry on the current map state.');
+    }
+  }
+  const submittedHashes = new Set(approval.targets.map(t => actors.hash(t)));
+  const relationships = require('./actorRelationships');
+  const eligibleInLineHashes = [];
+  for (const [tokenId, tok] of Object.entries(map?.tokens || {})) {
+    const c = tok?.state?.actorContract;
+    if (!c || c.version !== 1 || c.kind !== 'creature') continue;
+    if (tok?.state?.hiddenFromPlayers === true || tok?.hiddenFromPlayers === true || tok?.state?.isHidden === true || tok?.isHidden === true) continue;
+    const candRef = actors.refFor(c);
+    if (candRef.mapId !== approval.source.mapId || candRef.roomId !== room.id || candRef.tokenId !== tokenId) continue;
+    if (['ally', 'enemy'].includes(targeting.restriction) && relationships.get(room, approval.source, candRef) !== targeting.restriction) continue;
+    if (![tok.position?.x, tok.position?.y].every(Number.isFinite)) continue;
+    const footprint = pure.tokenFootprintForArea(tok, creaturesCatalog);
+    const cells = pure.occupiedGridCells(tok.position, footprint, gridSize, offsetX, offsetY);
+    if (!cells) continue;
+    const states = cells.map(cell => pure.lineCellOverlap(origin, aim, lengthPx, widthPx, cell, gridSize, offsetX, offsetY));
+    if (!states.includes('candidate')) continue;
+    eligibleInLineHashes.push(actors.hash(candRef));
+  }
+  if (eligibleInLineHashes.length > targeting.maxTargets || eligibleInLineHashes.length > pure.MAX_AREA_TARGETS) {
+    actors.fail('area_target_capacity_exceeded', 'Technical limit of creature targets in the placed line exceeded; re-aim or keep manual.');
+  }
+  if (eligibleInLineHashes.some(h => !submittedHashes.has(h))) {
+    if (stage === 'commit') {
+      actors.fail('owner_reapproval_required', 'An eligible creature entered the placed line after approval; owner must re-aim and approve again.');
+    }
+    actors.fail('stale_area_placement', 'Authoritative line resolution found eligible creature targets in the line omitted from the request.');
+  }
+}
+/** Server-authoritative geometry and target resolver for bounded Circle AoE (uses approved G1/G3/G3a/G5 and shared pure.circleCellOverlap).
+ * Client target lists are never trusted: verifies placed origin & G1 placement range (G5 free point), positive-area overlap (G3/G3a),
+ * and completeness against visible eligible creature tokens in the current room state. */
+function verifyCircleAreaGeometry(room, approval, targeting, stage = 'approval') {
+  if (targeting?.aoeShape !== 'circle') return;
+  const origin = approval?.areaOrigin;
+  if (!origin || ![origin.x, origin.y].every(Number.isFinite)) {
+    actors.fail('invalid_spell_approval', 'Circle area placement requires finite origin coordinates.');
+  }
+  const { map, gridType, gridSize, feetPerTile, offsetX, offsetY } = mapGridMetrics(room, approval.source.mapId);
+  if (gridType !== 'square') {
+    actors.fail('manual_area_geometry_required', 'Circle geometry automation requires a calibrated square grid.');
+  }
+  const source = actors.locate(room, approval.source);
+  if (![source.token?.position?.x, source.token?.position?.y].every(Number.isFinite)) {
+    actors.fail('manual_area_geometry_required', 'Caster token must have a valid grid position to authorize a Circle area.');
+  }
+  // Undecided G1b: Large / multi-cell caster origin range anchor awaits creator settlement; fail closed.
+  const casterFootprint = pure.tokenFootprintForArea(source.token, []);
+  if (casterFootprint.width > 1 || casterFootprint.height > 1) {
+    actors.fail('manual_area_geometry_required', 'Large / multi-cell caster origin range (G1b) is undecided; resolve manually.');
+  }
+  // Approved G1 + G5: free-point circle center measured from caster position against authored rangeFeet.
+  const originDistFeet = (Math.hypot(origin.x - source.token.position.x, origin.y - source.token.position.y) / gridSize) * feetPerTile;
+  if (originDistFeet > targeting.rangeFeet + 1e-8) {
+    if (stage === 'commit') {
+      actors.fail('owner_reapproval_required', 'The placed circle origin is now outside the authored placement range; owner must re-place and approve again.');
+    }
+    actors.fail('area_origin_out_of_range', `Placed circle origin is ${Math.round(originDistFeet * 10) / 10} ft away, outside the authored ${targeting.rangeFeet} ft placement range.`);
+  }
+  const radiusPx = (targeting.radiusFeet / feetPerTile) * gridSize;
+  const creaturesCatalog = map?.creatures || room?.gameState?.combat?.creatures || room?.gameState?.creatures || [];
+  for (const tRef of approval.targets) {
+    const located = actors.locate(room, tRef);
+    if (![located.token?.position?.x, located.token?.position?.y].every(Number.isFinite)) {
+      actors.fail('manual_area_geometry_required', 'Target token must have a valid grid position for Circle resolution.');
+    }
+    const footprint = pure.tokenFootprintForArea(located.token, creaturesCatalog);
+    const cells = pure.occupiedGridCells(located.token.position, footprint, gridSize, offsetX, offsetY);
+    if (!cells) {
+      actors.fail('manual_area_geometry_required', 'Target token is off-grid or has an unsupported footprint.');
+    }
+    const states = cells.map(cell => pure.circleCellOverlap(origin, radiusPx, cell, gridSize, offsetX, offsetY));
+    if (!states.includes('candidate')) {
+      if (stage === 'commit') {
+        actors.fail('owner_reapproval_required', 'A target moved outside the placed circle after approval; owner must re-place and approve again.');
+      }
+      actors.fail('stale_area_placement', 'Submitted target list does not match the authoritative circle geometry on the current map state.');
+    }
+  }
+  const submittedHashes = new Set(approval.targets.map(t => actors.hash(t)));
+  const relationships = require('./actorRelationships');
+  const eligibleInCircleHashes = [];
+  for (const [tokenId, tok] of Object.entries(map?.tokens || {})) {
+    const c = tok?.state?.actorContract;
+    if (!c || c.version !== 1 || c.kind !== 'creature') continue;
+    if (tok?.state?.hiddenFromPlayers === true || tok?.hiddenFromPlayers === true || tok?.state?.isHidden === true || tok?.isHidden === true) continue;
+    const candRef = actors.refFor(c);
+    if (candRef.mapId !== approval.source.mapId || candRef.roomId !== room.id || candRef.tokenId !== tokenId) continue;
+    if (['ally', 'enemy'].includes(targeting.restriction) && relationships.get(room, approval.source, candRef) !== targeting.restriction) continue;
+    if (![tok.position?.x, tok.position?.y].every(Number.isFinite)) continue;
+    const footprint = pure.tokenFootprintForArea(tok, creaturesCatalog);
+    const cells = pure.occupiedGridCells(tok.position, footprint, gridSize, offsetX, offsetY);
+    if (!cells) continue;
+    const states = cells.map(cell => pure.circleCellOverlap(origin, radiusPx, cell, gridSize, offsetX, offsetY));
+    if (!states.includes('candidate')) continue;
+    eligibleInCircleHashes.push(actors.hash(candRef));
+  }
+  if (eligibleInCircleHashes.length > targeting.maxTargets || eligibleInCircleHashes.length > pure.MAX_AREA_TARGETS) {
+    if (stage === 'commit') {
+      actors.fail('owner_reapproval_required', 'More eligible creatures are now inside the placed circle than the area target limit allows; owner must re-place or resolve manually.');
+    }
+    actors.fail('area_target_capacity_exceeded', 'Technical limit of creature targets in the placed circle exceeded; re-place or keep manual.');
+  }
+  if (eligibleInCircleHashes.some(h => !submittedHashes.has(h))) {
+    if (stage === 'commit') {
+      actors.fail('owner_reapproval_required', 'An eligible creature entered the placed circle after approval; owner must re-place and approve again.');
+    }
+    actors.fail('stale_area_placement', 'Authoritative circle resolution found eligible creature targets in the circle omitted from the request.');
+  }
 }
 // Approved source-relative symmetric relationship semantics: absent pair = neutral.
 // Only admitted ally-only/enemy-only restrictions consult the store; self/any rules are unchanged.
@@ -320,4 +629,44 @@ function checkRelationshipTargets(room, approval, definition) {
       `The admitted ability targets ${restriction === 'ally' ? 'allies' : 'enemies'} only${scope}. The selected target does not have that source-relative relationship. Nothing was applied or spent.`);
   }
 }
-module.exports = { registry, list, lookup, checkApproval, creatureSource, creatureSources, planCreatureAdmission, checkCreatureAuthority };
+function findActiveChannelsByCaster(room, sourceRef) {
+  const out = [], seen = new Set();
+  for (const map of Object.values(room?.gameState?.maps || {})) {
+    for (const field of ['tokens', 'characterTokens']) {
+      for (const token of Object.values(map?.[field] || {})) {
+        const conditions = Array.isArray(token?.state?.conditions) ? token.state.conditions : [];
+        for (const record of conditions) {
+          if (sharedProfile.isChanneledTick(record) && sharedProfile.sameRef(record.sourceActor, sourceRef) && !seen.has(record.recordId)) {
+            seen.add(record.recordId);
+            out.push(record);
+          }
+        }
+      }
+    }
+  }
+  return out;
+}
+function verifyChannelRange(room, sourceRef, targetRef, rangeFeet) {
+  if (!sourceRef || !targetRef || sourceRef.mapId !== targetRef.mapId || sourceRef.roomId !== room?.id) {
+    return { ok: false, distanceFeet: Infinity, rangeFeet, reason: 'cross_map_or_room' };
+  }
+  let source, target;
+  try {
+    source = actors.locate(room, sourceRef);
+    target = actors.locate(room, targetRef);
+  } catch (_) {
+    return { ok: false, distanceFeet: Infinity, rangeFeet, reason: 'actor_not_found' };
+  }
+  const sPos = source.token?.position, tPos = target.token?.position;
+  if (![sPos?.x, sPos?.y, tPos?.x, tPos?.y].every(Number.isFinite)) {
+    return { ok: false, distanceFeet: Infinity, rangeFeet, reason: 'missing_position' };
+  }
+  const metrics = mapGridMetrics(room, sourceRef.mapId);
+  const dist = authoredChanneled.distanceFeet(sPos, tPos, metrics);
+  return {
+    ok: authoredChanneled.withinRange(sPos, tPos, metrics, rangeFeet),
+    distanceFeet: dist,
+    rangeFeet
+  };
+}
+module.exports = { registry, list, lookup, checkApproval, creatureSource, creatureSources, planCreatureAdmission, checkCreatureAuthority, verifyLineAreaGeometry, verifyCircleAreaGeometry, verifyLowestHealthTarget, mapGridMetrics, verifyChannelRange, findActiveChannelsByCaster };

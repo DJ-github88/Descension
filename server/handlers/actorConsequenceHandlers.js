@@ -375,12 +375,27 @@ function registerActorConsequenceHandlers(ctx) {
     // A racing identical request may have committed while authority was checked.
     const afterConfirm = actors.knownReceipt(captured.room, captured.uid, data);
     if (afterConfirm) {respondInstalled(ack, resultFor(captured.room, afterConfirm)); return;}
+    const priorCombat = captured.room.gameState?.combat;
+    const outgoingRef = data.mode === 'advance' ? priorCombat?.turnOrder?.[priorCombat.currentTurnIndex]?.actorRef || null : null;
     const staged = lifecycle.stage(captured.room, captured.player, captured.uid, data, confirmed(captured.room));
     current(captured);
     admit(captured.room, staged);
     const result = resultFor(captured.room, staged.receipt);
     publishInstalled(captured.room, 'actor_consequence_accepted', result, ack);
     deliver(captured.room, 'combat_state_sync', { combat: result.combat });
+    if (data.mode === 'advance') {
+      try {
+        const liveCombat = captured.room.gameState?.combat;
+        const incomingRef = liveCombat?.turnOrder?.[liveCombat.currentTurnIndex]?.actorRef || null;
+        require('../services/passiveTurnTrigger').evaluateTurnBoundary(captured.room, {
+          combatId: liveCombat?.effectLifecycle?.id || null,
+          sequence: liveCombat?.effectLifecycle?.sequence || null,
+          round: liveCombat?.round ?? null,
+          outgoingRef,
+          incomingRef
+        }, { io, players, rooms, firebaseBatchWriter: writer });
+      } catch (_) { /* Turn-boundary passives must not fail committed turn transitions */ }
+    }
   });
   // C1-C7=A: one authoritative GM-only roster transaction. C8=B is separate and not implemented here.
   run('actor_combat_roster', async(data, ack) => {
@@ -662,10 +677,13 @@ function registerActorConsequenceHandlers(ctx) {
       const home = actors.locate(captured.room, actor.ref).token.state.classPayment;
       for (const member of new Set([...captured.room.players.values(), captured.room.gm].filter(Boolean))) {
         if (member.userId === actor.ref.ownerUid && member.character?.id === actor.ref.characterId) {
+          // Hunter Flow: the sheet mirror is a copy of the committed token record, never a merge with client data.
+          if (home.domain === 'hunterFlow') {continue;}
           member.character = { ...member.character, classResource: { ...(member.character.classResource || {}), ...actors.clone(home.value) } };
         }
       }
     }
+    require('../services/hunterFlowSheets').mirrorCommittedFlow(captured.room);
     const result = resultFor(captured.room, staged.receipt);
     publishInstalled(captured.room, 'actor_consequence_accepted', result, ack);
   });
@@ -690,6 +708,8 @@ function registerActorConsequenceHandlers(ctx) {
   require('./committedTriggerHandlers').registerCommittedTriggerHandlers({ run, context, current, confirm, confirmed, liveOnly, admit, resultFor, respond, respondInstalled, publishInstalled, toUid, toGm });
   // First playable passive activation v1 (Heightened Senses +2 flat initiative, fail-closed until creator approval).
   require('./passiveHandlers').registerPassiveHandlers({ run, context, current, confirm, confirmed, liveOnly, admit, writer, resultFor, respond, respondInstalled, publishInstalled, toUid, toGm });
+  // Shared placed-effect foundation v1 (traps, inscriptions, totems — unarmed in production until PE1-PE4 creator approval).
+  require('./placedEffectHandlers').registerPlacedEffectHandlers({ run, context, current, confirm, confirmed, liveOnly, admit, writer, resultFor, respond, respondInstalled, publishInstalled, deliver, toUid, toGm });
   // P9 owner approval: the owner authorizes their own price/typed result; the GM
   // later adjudicates the cross-actor outcome through one strict actor_consequence.
   for (const event of ['actor_spell_approve', 'actor_spell_prepare_creature']) run(event, async(approval, ack) => {
@@ -799,7 +819,8 @@ function registerActorConsequenceHandlers(ctx) {
     respond(ack, { success: true, code: 'declined', approvalId: data.approvalId });
   });
   run('actor_spell_list', async(data, ack) => {
-    actors.keys(data, ['roomId']);
+    actors.keys(data, ['roomId', 'approvalId']);
+    if (data.approvalId !== undefined && (typeof data.approvalId !== 'string' || !data.approvalId || data.approvalId.length > 128)) {actors.fail('invalid_spell_approval');}
     const { room, player, uid } = context(data.roomId);
     const pending = [];
     for (const entry of [...(payments.pendingFor(room, uid) ? [payments.pendingFor(room, uid)] : [])]) {pending.push({ approval: actors.clone(entry.approval), contentHash: entry.contentHash, own: true });}
@@ -807,7 +828,19 @@ function registerActorConsequenceHandlers(ctx) {
       for (const entry of payments.listAll(room)) {pending.push({ approval: payments.gmProjection(entry), contentHash: entry.contentHash, submitterUid: entry.ownerUid, targetProposal: payments.targetProposal(entry) });}
     }
     const targetProposals = payments.listAll(room).filter(e => e.approval.target?.ownerUid === uid && e.approval.target?.characterId === player.character?.id && e.targetPolicy?.mode === 'voluntary').map(payments.targetProposal);
-    respond(ack, { success: true, roomId: room.id, pending, targetProposals });
+    let closedApproval = null, consumedReceipt = null;
+    if (data.approvalId && !payments.get(room, data.approvalId)) {
+      const consumed = payments.consumedReceipt(room, data.approvalId);
+      if (consumed && (consumed.source?.ownerUid === uid || (consumed.source?.kind === 'creature' && player.isGM && consumed.submitterUid === uid) || player.isGM)) {
+        consumedReceipt = resultFor(room, consumed);
+      } else {
+        const closed = payments.closedEntry(room, data.approvalId);
+        if (closed && (closed.ownerUid === uid || player.isGM)) {
+          closedApproval = { roomId: room.id, approvalId: data.approvalId, contentHash: closed.contentHash ?? null, code: closed.code };
+        }
+      }
+    }
+    respond(ack, { success: true, roomId: room.id, pending, targetProposals, ...(closedApproval ? { closedApproval } : {}), ...(consumedReceipt ? { consumedReceipt } : {}) });
   });
   run('actor_spell_target_designate', async(data, ack) => {
     actors.keys(data, ['roomId', 'approvalId', 'contentHash']);

@@ -5,15 +5,16 @@ import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
 import { isSocketRetired } from '../../../persistence/handoff/socketPrincipalRetirement';
 import { registerRoomJoinedListener } from '../../../services/roomRejoinBus';
+import { applyRoomFeetPerTile, noteRoomScaleSnapshot } from '../roomJoinHandler';
 
 export function registerRoomLifecycleHandlers(ctx) {
   const {
     socket,
     setActualPlayerCount, setConnectedPlayers, setIsGM,
     setPendingRoomData, setIsRoomReady, setConnectionStatus,
-    setLoadingStatusMessage,
+    setLoadingStatusMessage, setJoinFailure,
     currentRoomRef, currentPlayerRef, pendingRoomDataRef,
-    activeJoinIdRef, isAutoJoinSequenceRef, isGMRef,
+    activeJoinIdRef, isAutoJoinSequenceRef, isGMRef, roomPasswordRef,
     useDeltaSyncTokensRef,
     addPartyMember, updatePartyMember, removePartyMember,
     addUser, removeUser, addNotification,
@@ -44,6 +45,12 @@ export function registerRoomLifecycleHandlers(ctx) {
         console.log('ðŸ”„ [MultiplayerApp] Already in room, refreshing party members from reconnect');
 
         if (data.room) {
+          // The grid scale may have changed while this client was disconnected: adopt the room's configured scale
+          // (a GM restates their own only when the room has none yet).
+          if (!currentRoomRef.current?.id || data.room.id === currentRoomRef.current.id) {
+            noteRoomScaleSnapshot(data.room); // a reconnect snapshot is current: it replaces whatever revision was seen before
+            applyRoomFeetPerTile(data.room, { isGameMaster: !!(data.isGM || data.isGMReconnect), socket });
+          }
           const serverPlayerCount = data.playerCount || 1;
           setActualPlayerCount(serverPlayerCount);
 
@@ -183,6 +190,8 @@ export function registerRoomLifecycleHandlers(ctx) {
 
       // Mark this join as active
       activeJoinIdRef.current = joinId;
+      // The grid scale in this snapshot is the baseline for this join; broadcasts that arrive while the join completes are newer.
+      noteRoomScaleSnapshot(data.room);
 
       // Use server's playerCount directly (already includes GM - avoids double-counting)
       setActualPlayerCount(data.playerCount || 1);
@@ -193,12 +202,13 @@ export function registerRoomLifecycleHandlers(ctx) {
       // CRITICAL FIX: Sync isGM state immediately so condition checks in Effects are accurate
       setIsGM(isGameMaster);
 
-      // Get password from localStorage (auto-join flow stores it there)
-      const usedPassword = sessionStorage.getItem('selectedRoomPassword') || '';
+      // Get password from in-memory ref (fallback to legacy sessionStorage if present from RoomManager)
+      const usedPassword = roomPasswordRef?.current || sessionStorage.getItem('selectedRoomPassword') || '';
 
-      // Clear auto-join flags
+      // Clear auto-join flags and any transient failure state
       localStorage.removeItem('selectedRoomId');
       sessionStorage.removeItem('selectedRoomPassword');
+      setJoinFailure?.(null);
 
       // DETECT AUTO-CONTINUE INTENT
       // Skip "Continue" button for:

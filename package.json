@@ -30,7 +30,7 @@
     "concurrently": "^9.2.1",
     "wait-on": "^9.0.3"
   },
-  "description": "A virtual tabletop application for Dungeons & Dragons and other tabletop RPGs, built with React.",
+  "description": "Mythrill — an original fantasy tabletop RPG and real-time virtual tabletop platform.",
   "main": ".eslintrc.js",
   "directories": {
     "doc": "docs"

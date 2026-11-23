@@ -2,9 +2,10 @@ import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import { CLASS_DATA_MAP } from '../../../../../data/classSpellGenerator';
 import { catalogueDraft } from '../../../../../services/catalogueAbility.cjs';
-import { setAreaRollProposalForTest, setAreaRollApprovalForTest, EFFECT_CAPABILITY } from '../../../../../services/authoredAbility';
+import { definitionFromWizard, setAreaRollProposalForTest, setAreaRollApprovalForTest, EFFECT_CAPABILITY } from '../../../../../services/authoredAbility';
+import { WEIGHTED_COIN_REFUSAL } from '../../../../../services/randomOutcome';
 import { serializeSpell, deserializeSpell } from '../../../core/utils/spellSerializer';
-import { explainExecution, authoredInventory, readableReason, isCreatureRef, STATES } from '../../../utils/executionCompatibility';
+import { explainExecution, blockerTargetFor, authoredInventory, readableReason, isCreatureRef, STATES } from '../../../utils/executionCompatibility';
 import ExecutionCompatibility from '../ExecutionCompatibility';
 import AuthoredAdmission from '../../library/AuthoredAdmission';
 import useGameStore from '../../../../../store/gameStore';
@@ -287,5 +288,111 @@ describe('route-specific execution compatibility', () => {
     render(<AuthoredAdmission spell={wrap(base())} sourceRef={sourceRef} />);
     const admitBtn = screen.getByRole('button', { name: 'Admit for this creature' });
     expect(admitBtn).toBeEnabled();
+  });
+});
+
+describe('blocker step links, weighted coins, and GM-managed traps', () => {
+  const coinSpell = (coinType = 'weighted') => ({
+    name: 'Coin of Fate',
+    description: 'Flips a coin to strike or heal.',
+    spellType: 'ACTION',
+    typeConfig: { castTimeType: 'IMMEDIATE', school: 'arcane' },
+    effectTypes: [],
+    rollableTable: {
+      enabled: true,
+      name: 'Fate Flip',
+      description: 'Heads or tails outcome.',
+      resolutionType: 'COINS',
+      resolutionConfig: { diceType: 'd6', cardCount: 1, deckType: 'standard', coinCount: 1, coinType },
+      entries: [
+        { id: 'c1', coinPattern: 'Heads', name: 'Rime Snap', effectType: 'damage', effectConfig: { damageFormula: '1d8', damageType: 'rime' } },
+        { id: 'c2', coinPattern: 'Tails', name: 'Warm Balm', effectType: 'healing', effectConfig: { healingFormula: '1d6' } }
+      ]
+    },
+    resourceCost: { actionPoints: 1, mana: 3 },
+    targetingConfig: { targetingType: 'single', maxTargets: 1, rangeDistance: 30, rangeType: 'ranged', targetRestrictions: ['enemy'] }
+  });
+
+  const trapSpell = () => ({
+    name: 'Ember Snare',
+    description: 'A hidden fiery rune placed on a doorway.',
+    spellType: 'TRAP',
+    typeConfig: { placementTime: 1, visibility: 'hidden', maxTriggers: 1, school: 'ember' },
+    effectTypes: ['damage'],
+    damageConfig: { damageType: 'direct', elementType: 'ember', formula: '2d6', resolution: 'DICE' },
+    trapConfig: { placementPosition: { x: 5, y: 5 }, placementRadius: 10, detectionDC: 17, disarmDC: 15, visibility: 'hidden', trapDuration: 'permanent', maxTriggers: 1 },
+    triggerConfig: {
+      global: { logicType: 'AND', compoundTriggers: [{ id: 'proximity', category: 'movement', name: 'Proximity Trigger', parameters: {} }] },
+      effectTriggers: {}, conditionalEffects: {}, buffDebuffTriggers: {},
+      requiredConditions: { enabled: false, logicType: 'AND', conditions: [] },
+      triggerRole: { mode: 'CONDITIONAL' }
+    },
+    resourceCost: { actionPoints: 1, mana: 3 },
+    targetingConfig: { targetingType: 'location', maxTargets: 0, rangeDistance: 0, rangeType: 'self', targetRestrictions: ['any'], aoeShape: 'circle', aoeParameters: { radius: 10 } }
+  });
+
+  test('weighted coin blocker explains GM adjudication, links to Rollable Table Coin settings, and switching to standard makes it executable', () => {
+    const rec = wrap(coinSpell('weighted'));
+    const before = JSON.stringify(rec);
+    const view = explainExecution(rec, ctx);
+    expect(view.state).toBe(STATES.UNSUPPORTED);
+    expect(view.reasons[0].label).toBe('First detected blocker');
+    expect(view.reasons[0].text).toMatch(/Weighted coins require GM adjudication/i);
+    expect(view.summary).toMatch(/Weighted coins require GM adjudication/i);
+    expect(view.blockerTarget).toEqual({
+      stepId: 'rollable-table',
+      stepName: 'Rollable Table',
+      settingLabel: 'Coin settings',
+      actionLabel: 'Go to Coin Settings (Rollable Table)'
+    });
+    expect(blockerTargetFor(rec, { ok: false, reason: WEIGHTED_COIN_REFUSAL })).toEqual(view.blockerTarget);
+    expect(view.next.join(' ')).toMatch(/Rollable Table.*Standard \(Heads\/Tails\)/i);
+    expect(JSON.stringify(rec)).toBe(before);
+
+    // Standalone ExecutionCompatibility renders zero buttons or links even for weighted coins
+    const { container } = render(<ExecutionCompatibility record={rec} context={ctx} />);
+    expect(container.querySelectorAll('button, a, input, select, textarea, [role="button"]')).toHaveLength(0);
+
+    // Compiler support rule is unchanged
+    const refused = definitionFromWizard(rec, { roomId: ctx.roomId, classId: ctx.classId, definitionVersion: 1 });
+    expect(refused.ok).toBe(false);
+    expect(refused.reason).toBe(WEIGHTED_COIN_REFUSAL);
+
+    // Switching only coinType to standard flips Review to executable with no blockerTarget
+    const fair = explainExecution(wrap(coinSpell('standard')), ctx);
+    expect(fair.state).toBe(STATES.EXECUTABLE);
+    expect(fair.blockerTarget).toBeNull();
+  });
+
+  test('trap spell explains whole spell type is GM-managed, has no setting-fix link, preserves draft across roundtrips, and leaves compiler unchanged', () => {
+    const rec = wrap(trapSpell());
+    const before = JSON.stringify(rec);
+    const view = explainExecution(rec, ctx);
+    expect(view.state).toBe(STATES.UNSUPPORTED);
+    expect(view.reasons[0].label).toBe('First detected blocker');
+    expect(view.reasons[0].text).toMatch(/Whole spell type is GM-managed.*Trap/i);
+    expect(view.summary).toMatch(/Trap is a GM-managed spell type as a whole/i);
+    expect(view.blockerTarget).toBeNull();
+    expect(view.next.join(' ')).toMatch(/whole Trap spell type is GM-managed/i);
+    expect(view.preserved.map(i => i.label)).toEqual(expect.arrayContaining([
+      'Damage',
+      'Triggers and conditions',
+      'Trap placement',
+      'Spell type: TRAP'
+    ]));
+    expect(JSON.stringify(rec)).toBe(before);
+
+    // Identical across 3 serialize/deserialize cycles
+    let d = trapSpell();
+    for (let i = 0; i < 3; i++) d = deserializeSpell(serializeSpell(d));
+    const afterRoundtrip = explainExecution(wrap(d), ctx);
+    expect(afterRoundtrip.state).toBe(view.state);
+    expect(afterRoundtrip.reasons).toEqual(view.reasons);
+    expect(afterRoundtrip.blockerTarget).toBeNull();
+
+    // Compiler support rule for TRAP is unchanged
+    const compiled = definitionFromWizard(rec, { roomId: ctx.roomId, classId: ctx.classId, definitionVersion: 1 });
+    expect(compiled.ok).toBe(false);
+    expect(compiled.reason).toMatch(/Immediate ACTION required/);
   });
 });

@@ -60,6 +60,12 @@ function progress(record, combat) {
 function label(record, combat) {
   const item = scheduleFor(record, combat);
   if (!item) return null;
+  if (profile.isChanneledTick(record)) {
+    const info = progress(record, combat), unit = item.boundary === 'start' ? 'start' : 'end';
+    return `Channeled — ticks recorded automatically at the ${unit} of the caster's turns (up to ${record.channelRangeFeet} ft) — ${info.counted} of ${info.total} recorded, ${info.remaining} still to come` +
+      `${info.nextSequence !== null ? `; next at authenticated boundary ${info.nextSequence}` : ''}; the last tick (boundary ${info.finalSequence}), moving out of range, or interruption ends the channel (combat ${item.combatId}). ` +
+      'Each tick changes HP only when the GM resolves it with its roll. GM removal/interruption of this exact instance remains available.';
+  }
   if (profile.isPeriodicTick(record)) {
     // M5: every scheduled boundary (the last included) records one due tick; none changes HP until the GM resolves it.
     const info = progress(record, combat), unit = item.boundary === 'start' ? 'start' : 'end';
@@ -91,7 +97,7 @@ function dueTicks(combat) {
   return Object.values(all).filter(t => t && typeof t.tickId === 'string').map(t => Object.assign({}, t, { live: !!live && t.combatId === live.id }))
     .sort((a, b) => a.sequence - b.sequence || a.occurrence - b.occurrence || (a.tickId < b.tickId ? -1 : 1));
 }
-const tickLabel = t => `${t.label}: tick ${t.occurrence} of ${t.of} — ${t.tick.kind === 'damage' ? `${t.tick.damageType} damage` : 'healing'} ${t.tick.formula}, due at authenticated boundary ${t.sequence}${t.final ? ' (last tick; the effect has ended)' : ''}`;
+const tickLabel = t => `${t.channeled ? '[Channeled] ' : ''}${t.label}: tick ${t.occurrence} of ${t.of} — ${t.tick.kind === 'damage' ? `${t.tick.damageType} damage` : 'healing'} ${t.tick.formula}, due at authenticated boundary ${t.sequence}${t.final ? ' (last tick; the effect has ended)' : ''}`;
 exports.PERIODIC_DEFINITION_ID = PERIODIC_DEFINITION_ID;
 exports.tickKey = tickKey;
 exports.dueTicks = dueTicks;

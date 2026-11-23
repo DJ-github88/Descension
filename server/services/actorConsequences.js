@@ -17,11 +17,12 @@ const hash = value => checkpoint.canonicalHash(value);
 const POOLS = { hp: ['currentHp', 'health', 'tempHealth', 'maxHp'], mana: ['currentMana', 'mana', 'tempMana', 'maxMana'], ap: ['currentActionPoints', 'actionPoints', 'tempActionPoints', 'maxAP'] };
 const MODIFIERS = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'armor', 'damageReduction', 'movementSpeed', 'healthRegen', 'manaRegen', 'maxHp', 'maxMana', 'maxAP', 'attackBonus', 'damageBonus', 'saveBonus'];
 const CONDITION_FIELDS = ['version', 'id', 'recordId', 'conditionKey', 'originalName', 'name', 'type', 'kind', 'target', 'targetId', 'targetType', 'source', 'sourceActor', 'sourceEntityId', 'effectOrigin', 'isMagical', 'icon', 'color', 'description', 'effectSummary', 'effects', 'duration', 'durationType', 'durationValue', 'remainingRounds', 'startTime', 'endTime', 'stackable', 'hasOverTimeEffect', 'overTimeType', 'overTimeFormula', 'overTimeElement', 'tickFrequency', 'tickFrequencyValue', 'tickFrequencyUnit', 'clockBoundary', 'sharedTiming'];
+const CHANNELED_CONDITION_FIELDS = ['channelRangeFeet', 'channelInterruptible', 'channelMovementAllowed', 'channelBreakEffect', 'concentrationDC', 'dcType'];
 const REF_KEYS = ['kind', 'roomId', 'mapId', 'tokenId', 'instanceId', 'ownerUid', 'characterId'];
 const MAX_STANDARD_ACTORS = 2;
 const MAX_AREA_TARGETS = 8;
 const MAX_AREA_ACTORS = 9;
-const PROTECTED = new Set(['triggerLedger', 'passiveLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
+const PROTECTED = new Set(['triggerLedger', 'passiveLedger', 'placedEffectLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'classPayment', 'equipmentBlocking','health', 'mana', 'actionPoints', 'currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'hp', 'maxHp', 'maxMana', 'maxAP', 'maxActionPoints', 'conditions', 'buffs', 'debuffs', 'finalResources', 'expectedRevision']);
 const runtimeEpochs = new WeakMap();
 
 function epoch(room) {
@@ -100,7 +101,9 @@ function assertCanMove(token, player, updates) {
   }
 }
 function validateRecord(record, ref) {
-  keys(record, [...CONDITION_FIELDS, 'authoredDuration', 'effectDefinition', 'clockOccurrences']);
+  const sharedProfile = require('../shared/services/sharedConditionProfile');
+  const channeledOrigin = record?.effectOrigin === sharedProfile.CHANNELED.origin;
+  keys(record, [...CONDITION_FIELDS, 'authoredDuration', 'effectDefinition', 'clockOccurrences', ...(channeledOrigin ? CHANNELED_CONDITION_FIELDS : [])]);
   if (record.version !== 1 || !string(record.id) || record.id !== record.recordId || !string(record.name) ||
     typeof record.originalName !== 'string' || !record.originalName.trim() || typeof record.source !== 'string' || !record.source.trim() ||
      !['buff', 'debuff', 'marker'].includes(record.type) || !['effect', 'marker', 'legacy-manual'].includes(record.kind) ||
@@ -119,7 +122,8 @@ function validateRecord(record, ref) {
       require('../shared/services/sharedConditionProfile').isMovementModifier(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').ATTRIBUTE.origin &&
       require('../shared/services/sharedConditionProfile').isAttributeModifier(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').DAMAGE_REDUCTION.origin &&
       require('../shared/services/sharedConditionProfile').isDamageReductionModifier(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').PERIODIC.origin &&
-      require('../shared/services/sharedConditionProfile').isPeriodicTick(record))) {fail('invalid_condition');}
+      require('../shared/services/sharedConditionProfile').isPeriodicTick(record)) && !(record.effectOrigin === require('../shared/services/sharedConditionProfile').CHANNELED.origin &&
+      require('../shared/services/sharedConditionProfile').isChanneledTick(record))) {fail('invalid_condition');}
   // M2A: the explicit occurrence count exists only on validated authored records with a counted structured boundary.
   if (own(record, 'clockOccurrences') && (!require('../shared/services/sharedConditionProfile').validOccurrences(record.clockOccurrences) ||
       !require('../shared/services/sharedConditionProfile').isCountedTiming(record.clockBoundary) || !require('../shared/services/sharedConditionProfile').structuredBoundary(record))) {fail('invalid_condition');}
@@ -138,7 +142,7 @@ function validateRecord(record, ref) {
   if (!['rounds', 'manual'].includes(record.durationType) && (!Number.isFinite(record.startTime) || !Number.isFinite(record.endTime) || record.endTime < record.startTime)) {fail('invalid_condition');}
   return clone(record);
 }
-function validateCommand(command) {
+function validateCommand(command, route = null) {
   keys(command, ['version', 'roomId', 'commandId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'targets', 'actors', 'adjudication', 'approval']);
   if (command.version !== 1 || !string(command.roomId) || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(command.commandId || '') || !string(command.actionEpoch) || !integer(command.baseCommitSequence) ||
     !Array.isArray(command.actors) || command.actors.length < 1 || bytes(command) > 65536 || !hash(command)) {fail('invalid_consequence');}
@@ -214,7 +218,8 @@ function validateCommand(command) {
     }
   } else {
     for (const role of ['source', 'target']) {
-      if (command[role] && (!seen.has(hash(command[role])) || !validateRefOrTrue(command[role]))) {fail('invalid_consequence');}
+      const allowExternalSource = role === 'source' && route === PASSIVE_TRIGGER_STAGE && command.source?.roomId === command.roomId;
+      if (command[role] && ((!allowExternalSource && !seen.has(hash(command[role]))) || !validateRefOrTrue(command[role]))) {fail('invalid_consequence');}
     }
     if (command.actors.length === 2 && (!command.source || !command.target)) {fail('invalid_consequence');}
   }
@@ -240,7 +245,8 @@ function knownReceipt(room, uid, command) {
 function publicCondition(record) {
   if (!record || typeof record !== 'object') {return null;}
   const out = {};
-  for (const key of [...CONDITION_FIELDS, 'authoredDuration', 'effectDefinition', 'clockOccurrences']) {
+  const channeledOrigin = record.effectOrigin === require('../shared/services/sharedConditionProfile').CHANNELED.origin;
+  for (const key of [...CONDITION_FIELDS, 'authoredDuration', 'effectDefinition', 'clockOccurrences', ...(channeledOrigin ? CHANNELED_CONDITION_FIELDS : [])]) {
     if (!own(record, key)) {continue;}
     const value = record[key];
     if (key === 'target' || key === 'sourceActor') {
@@ -394,6 +400,26 @@ function publicReceipt(receipt) {
       ...(Number.isSafeInteger(actor.blocking?.revision) ? { blocking: { revision: actor.blocking.revision } } : {}),
       ...(actor.equipmentWear ? { equipmentWear: require('./blockApprovals').publicWear(actor.equipmentWear) } : {}) };
   });
+  if (String(receipt.adjudication?.definitionVersionOrHash || '').startsWith('authored-channeled:v1/') && out.adjudication) {
+    try {
+      const c = JSON.parse(out.adjudication.chosenResult), r = c.resolution;
+      c.resolution = { gmConfirmed: r.gmConfirmed, ...(receipt.source?.kind === 'creature' ? { timingNote: r.timingNote } : {}), timing: Object.assign({ durationText: r.timing.durationText, expiryPolicy: r.timing.expiryPolicy }, r.timing.occurrences !== undefined ? { occurrences: r.timing.occurrences } : {}) };
+      out.adjudication.chosenResult = JSON.stringify(c);
+    } catch (_) { out.readOnly = true; delete out.adjudication.chosenResult; }
+    delete out.contentHash; delete out.authorization.approvalHash;
+  }
+  if (Array.isArray(receipt.concentrationChecks) && receipt.concentrationChecks.length) {
+    out.concentrationChecks = receipt.concentrationChecks.map(entry => ({
+      caster: clone(entry.caster),
+      target: clone(entry.target),
+      recordId: entry.recordId,
+      spellName: entry.spellName,
+      damageTaken: entry.damageTaken,
+      concentrationDC: entry.concentrationDC ?? null,
+      dcType: entry.dcType ?? null,
+      resolution: 'gm_manual'
+    }));
+  }
   if (out.adjudication?.definitionVersionOrHash === 'authored-effect:v1/undisclosed') out.actors = out.actors.filter(a => hash(a.ref) === hash(receipt.target));
   if (out.adjudication?.definitionVersionOrHash === 'authored-condition:v1/undisclosed') out.actors = out.actors.filter(a => hash(a.ref) === hash(receipt.target));
   return out;
@@ -405,19 +431,28 @@ function publicClassPayment(payment) {
     const payments = require('./spellPayments');
     if (!payments.DOMAINS.includes(payment.domain)) {return null;}
     const out = { mode: payment.mode, domain: payment.domain, public: {} };
-    for (const key of ['type', 'current', 'max']) {if (typeof payment.public?.[key] === 'string' || Number.isFinite(payment.public?.[key])) {out.public[key] = payment.public[key];}}
+    for (const key of ['type', 'current', 'max', 'min']) {if (typeof payment.public?.[key] === 'string' || Number.isFinite(payment.public?.[key])) {out.public[key] = payment.public[key];}}
+    if (payment.domain === 'hunterFlow' && typeof payment.public?.sharedWithCompanion === 'boolean') {out.public.sharedWithCompanion = payment.public.sharedWithCompanion;}
     if (payment.domain === 'elementalSpheres' && Array.isArray(payment.public?.spheres)) {out.public.spheres = payment.public.spheres.filter(item => payments.ELEMENTS.includes(item));}
     return out;
   } catch (_) {return null;}
 }
 // M5 review F2: the periodic-tick result id is reserved for the lifecycle service; a generic command cannot forge one.
 const PERIODIC_STAGE = Symbol('m5-periodic-stage');
+const PASSIVE_TRIGGER_STAGE = Symbol('p14-passive-entry-stage');
 function stage(room, player, uid, command, authorization, confirmedRevision, route = null) {
-  validateCommand(command);
+  validateCommand(command, route);
   if (command.adjudication?.definitionId === 'shared-periodic-tick:v1' || command.adjudication?.definitionVersionOrHash === 'shared-periodic-tick:v1') {
     if (route !== PERIODIC_STAGE) {fail('periodic_tick_route_required', 'Periodic ticks are resolved only through the due-tick controls. Nothing changed.');}
   }
-  if ((String(command.adjudication?.definitionId || '').startsWith('authored:') || /^(authored-immediate:v[1234]|authored-area:v1)\//.test(String(command.adjudication?.definitionVersionOrHash || ''))) && !command.approval) {fail('approval_required');}
+  const passiveHash = String(command.adjudication?.definitionVersionOrHash || '');
+  if (passiveHash.startsWith('authored-passive-entry:v1/') && route !== PASSIVE_TRIGGER_STAGE) {
+    fail('passive_trigger_route_required', 'Passive movement-entry consequences are resolved only by the server movement evaluator.');
+  }
+  if (passiveHash.startsWith('authored-passive-turn:v1/') && route !== PASSIVE_TRIGGER_STAGE) {
+    fail('passive_trigger_route_required', 'Passive turn-boundary consequences are resolved only by the server turn-boundary evaluator.');
+  }
+  if (route !== PASSIVE_TRIGGER_STAGE && (String(command.adjudication?.definitionId || '').startsWith('authored:') || /^(authored-immediate:v[1234]|authored-area:v1|authored-hunter-flow:v1|authored-channeled:v1)\//.test(String(command.adjudication?.definitionVersionOrHash || ''))) && !command.approval) {fail('approval_required');}
   const riposte = require('./riposteExecution');
   if (riposte.isCommand(command)) {
     if (command.adjudication?.definitionId !== riposte.DEFINITION_ID || command.adjudication?.definitionVersionOrHash !== riposte.DEFINITION_HASH) {fail('riposte_definition_mismatch');}
@@ -457,12 +492,14 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
   const conditionProfile = require('../shared/services/sharedConditionProfile');
   const authoredCondition = require('../shared/services/authoredCondition');
   const authoredEffect = require('../shared/services/authoredEffect');
+  const authoredChanneled = require('../shared/services/authoredChanneled');
   const classEffect = require('../shared/services/classEffect');
   // M3A: an owner-answered A5 offer whose attempt is an authored-effect bundle installs its rider through the same vouched path.
-  const authoredApplication = (!!approved && binder === require('./spellPayments') && (authoredCondition.isCondition(approved.approval) || authoredEffect.isEffect(approved.approval) || classEffect.isClassEffect(approved.approval))) ||
+  const authoredApplication = (route === PASSIVE_TRIGGER_STAGE) ||
+    (!!approved && binder === require('./spellPayments') && (authoredCondition.isCondition(approved.approval) || authoredEffect.isEffect(approved.approval) || authoredChanneled.isChanneled(approved.approval) || classEffect.isClassEffect(approved.approval))) ||
     (!!approved && binder === blocks && !!blocks.bundleAttempt(room, approved.approval));
   // M1: class-effect instances carry the same paid-provenance protections as A10 authored effects.
-  const paidEffect = record => authoredEffect.namedRecord(record) || classEffect.namedRecord(record);
+  const paidEffect = record => authoredEffect.namedRecord(record) || authoredChanneled.namedRecord(record) || classEffect.namedRecord(record);
   const shieldBash = require('../shared/services/shieldBashResult');
   const shieldResult = shieldBash.readResult(command);
   const shieldAdd = command.actors.some(actor => actor.conditions?.some(op => op.op === 'add' && shieldBash.namedRecord(op.record)));
@@ -472,15 +509,36 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
     if (prior.receipts.some(receipt => receipt.commandId === command.commandId)) {fail('shield_bash_already_recorded');}
     locate(room, shieldResult.source); // Current source incarnation after handler authority awaits.
   }
+  const defendAction =
+    command.adjudication?.definitionId === conditionProfile.DEFEND_ACTION.definitionId ||
+    command.adjudication?.definitionVersionOrHash === conditionProfile.DEFEND_ACTION.version ||
+    command.actors.some(actor => actor.conditions?.some(op => op.record?.source === conditionProfile.DEFEND_ACTION.source));
+  if (defendAction) {
+    const act = command.actors[0];
+    const ops = act?.conditions;
+    const pools = act?.finalResources ? Object.keys(act.finalResources) : [];
+    if (command.actors.length !== 1 || act.ref.kind !== 'character' || command.approval || act.classPayment || act.equipmentWear || act.blockingDeclaration ||
+        command.adjudication?.definitionId !== conditionProfile.DEFEND_ACTION.definitionId ||
+        command.adjudication?.definitionVersionOrHash !== conditionProfile.DEFEND_ACTION.version ||
+        !command.source || !command.target || hash(command.source) !== hash(act.ref) || hash(command.target) !== hash(act.ref) ||
+        pools.length !== 1 || pools[0] !== 'ap' ||
+        !Array.isArray(ops) || ops.length !== 1 || ops[0].op !== 'add' ||
+        ops[0].record?.effectOrigin !== conditionProfile.DEFENDING.origin ||
+        ops[0].record?.source !== conditionProfile.DEFEND_ACTION.source ||
+        !conditionProfile.validManagedRecord(ops[0].record, act.ref)) {
+      fail('invalid_defend_action');
+    }
+  }
   const namedProfile = [conditionProfile.DEFENDING, conditionProfile.STUNNED].find(profile =>
     command.adjudication?.definitionVersionOrHash === profile.origin || command.actors.some(actor => actor.conditions?.some(op => op.record?.effectOrigin === profile.origin)));
-  const namedCondition = !!namedProfile && !authoredApplication;
+  const namedCondition = !!namedProfile && !authoredApplication && !defendAction;
   if (namedCondition && (command.actors.length !== 1 || namedProfile === conditionProfile.DEFENDING && command.actors[0].ref.kind !== 'character' || command.actors[0].finalResources ||
       command.actors[0].classPayment || command.actors[0].equipmentWear || command.actors[0].blockingDeclaration || command.approval ||
        command.adjudication?.definitionId !== namedProfile.definitionId ||
        command.adjudication?.definitionVersionOrHash !== namedProfile.origin)) {fail('invalid_shared_condition');}
   const next = clone(room.gameState);
   const entries = [];
+  const damagedActors = [];
   for (const actor of command.actors) {
     const resolved = locate(room, actor.ref);
     if (!player.isGM && !permitted(room, player, uid, actor.ref, resolved.token)) {fail('authorization_required');}
@@ -488,6 +546,16 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
     if (!Number.isSafeInteger(actor.expectedRevision + 1)) {fail('revision_exhausted');}
     const token = next.maps[actor.ref.mapId][resolved.field][actor.ref.tokenId];
     const bounds = resources(resolved.token, actor.ref.kind);
+    if (defendAction) {
+      assertCanAct(room, actor.ref);
+      const window = blocks.selectionWindow(room, actor.ref);
+      if (window?.outOfCombat) {fail('not_your_turn');}
+      const ap = bounds.ap;
+      if (![ap.current, ap.temp, ap.max].every(v => Number.isSafeInteger(v) && v >= 0) || ap.current > ap.max) {fail('invalid_resources');}
+      const expectedAp = require('./spellPayments').tempFirst(ap.current, ap.temp, conditionProfile.DEFEND_ACTION.apCost);
+      if (actor.finalResources.ap.current !== expectedAp.current || actor.finalResources.ap.temp !== expectedAp.temp) {fail('invalid_resources');}
+    }
+    const beforeHp = clone(bounds.hp);
     for (const [pool, values] of Object.entries(actor.finalResources || {})) {
       const [stateKey, pcKey, tempKey] = POOLS[pool];
       if (!Number.isFinite(bounds[pool].max) || bounds[pool].max < 0 || values.current > bounds[pool].max) {fail('invalid_resources');}
@@ -498,6 +566,11 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
         token.state[stateKey] = values.current;
         token.state[tempKey] = values.temp;
       }
+    }
+    const afterHp = resources(token, actor.ref.kind).hp;
+    const hpLost = (beforeHp.current + beforeHp.temp) - (afterHp.current + afterHp.temp);
+    if (hpLost > 0) {
+      damagedActors.push({ ref: actor.ref, damageTaken: hpLost });
     }
     const records = token.state.conditions || [];
     if (!Array.isArray(records)) {fail('legacy_reconciliation_required');}
@@ -544,6 +617,18 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
       const plan = conditionProfile.periodicCombination(records, periodicAdds[0].record);
       if (!plan.ok) {fail(plan.code, plan.message);}
     }
+    const channeledAdds = (actor.conditions || []).filter(op => op?.op === 'add' && op.record?.effectOrigin === conditionProfile.CHANNELED.origin);
+    if (channeledAdds.length) {
+      if (!authoredApplication) {fail('authored_effect_approval_required');}
+      if (channeledAdds.length !== 1) {fail('modifier_combination_changed');}
+      if (actor.ref.kind !== 'creature') {fail('channeled_target_unsupported');}
+      const casterChannels = require('./installedAuthoredAbilities').findActiveChannelsByCaster(room, channeledAdds[0].record.sourceActor);
+      const plan = conditionProfile.channeledCombination(records, channeledAdds[0].record, casterChannels);
+      if (!plan.ok) {fail(plan.code, plan.message);}
+      const expectedOps = plan.replaces ? [{ op: 'remove', recordId: plan.replaces }, channeledAdds[0]] : [channeledAdds[0]];
+      if (hash(actor.conditions) !== hash(expectedOps)) {fail('modifier_combination_changed', 'The target\'s channeled effects changed since this action was planned. Nothing was applied; review and confirm again.');}
+      refreshRemoval = plan.replaces;
+    }
     for (const operation of actor.conditions || []) {
       if (operation?.op !== 'add' && operation?.op !== 'update') {continue;}
       if (operation.record?.effectOrigin === conditionProfile.ATTRIBUTE.origin || operation.record?.effectOrigin === conditionProfile.DAMAGE_REDUCTION.origin) {continue;}
@@ -578,15 +663,15 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
       }
       // A10: a generic add cannot manufacture authored-effect provenance. An accepted instance is never rewritten
       // (its paid content and C4 schedule are what the receipt vouches for); the only correction is exact GM removal.
-      if ((paidEffect(operation.record) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.DAMAGE_REDUCTION.origin, conditionProfile.PERIODIC.origin].includes(operation.record?.effectOrigin)) && operation.op === 'add' && !authoredApplication) fail('authored_effect_approval_required');
-      if (operation.op === 'update' && (paidEffect(operation.record) || paidEffect(records[index]) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.DAMAGE_REDUCTION.origin, conditionProfile.PERIODIC.origin].includes(operation.record?.effectOrigin) || conditionProfile.isAttributeModifier(records[index]) || conditionProfile.isDamageReductionModifier(records[index]) || conditionProfile.isPeriodicTick(records[index]))) fail('authored_effect_correction_is_removal', 'Accepted authored effects are not edited. The GM removes the exact instance (and re-applies through a new approved action if needed).');
+      if ((paidEffect(operation.record) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.DAMAGE_REDUCTION.origin, conditionProfile.PERIODIC.origin, conditionProfile.CHANNELED.origin].includes(operation.record?.effectOrigin)) && operation.op === 'add' && !authoredApplication) fail('authored_effect_approval_required');
+      if (operation.op === 'update' && (paidEffect(operation.record) || paidEffect(records[index]) || [conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.DAMAGE_REDUCTION.origin, conditionProfile.PERIODIC.origin, conditionProfile.CHANNELED.origin].includes(operation.record?.effectOrigin) || conditionProfile.isAttributeModifier(records[index]) || conditionProfile.isDamageReductionModifier(records[index]) || conditionProfile.isPeriodicTick(records[index]) || conditionProfile.isChanneledTick(records[index]))) fail('authored_effect_correction_is_removal', 'Accepted authored effects are not edited. The GM removes the exact instance (and re-applies through a new approved action if needed).');
       // A11: the one instance a binder-vouched refresh replaces is the only non-GM-correction removal.
       if (operation.op === 'remove' && paidEffect(records[index]) && (!player.isGM || authorization?.kind !== 'gm') &&
           !(authoredApplication && refreshRemoval && operation.recordId === refreshRemoval)) fail('authored_effect_gm_removal_required');
       // C3 correction may retain a named identity, never introduce it by updating a generic marker.
       if (operation.op === 'update' && shieldBash.namedRecord(operation.record) &&
           (!conditionProfile.isStunned(records[index]) || !shieldBash.namedRecord(records[index]))) {fail('invalid_shield_bash_result');}
-      if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin, conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.DAMAGE_REDUCTION.origin, conditionProfile.PERIODIC.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
+      if (operation.record && [conditionProfile.DEFENDING.origin, conditionProfile.STUNNED.origin, conditionProfile.MOVEMENT.origin, conditionProfile.ATTRIBUTE.origin, conditionProfile.DAMAGE_REDUCTION.origin, conditionProfile.PERIODIC.origin, conditionProfile.CHANNELED.origin].includes(operation.record.effectOrigin) && !conditionProfile.validManagedRecord(operation.record, actor.ref)) {fail('invalid_shared_condition');}
       if (namedCondition && (actor.conditions.length !== 1 || !['add', 'remove', ...(namedProfile === conditionProfile.STUNNED ? ['update'] : [])].includes(operation.op) ||
           operation.op !== 'remove' && operation.record?.effectOrigin !== namedProfile.origin ||
           operation.op === 'remove' && index !== -1 && !(namedProfile === conditionProfile.DEFENDING ? conditionProfile.isDefending(records[index]) : conditionProfile.isStunned(records[index])))) {fail('invalid_shared_condition');}
@@ -625,7 +710,26 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
         token.state.classPayment = { version: 1, domain: actor.classPayment.domain, value: clone(approved.approval.classPayment.after) };
       }
       const value = token.state.classPayment.value;
-      token.character = { ...token.character, classResource: { ...(token.character?.classResource || {}), ...clone(value) } };
+      if (token.state.classPayment.domain === 'hunterFlow') {
+        const hunterFlow = require('../shared/services/hunterFlow');
+        const prev = token.character?.classResource || {};
+        const companion = prev.state?.companion ? clone(prev.state.companion) : null;
+        const legacy = hunterFlow.carryLegacyEvidence(prev);
+        token.character = {
+          ...token.character,
+          classResource: {
+            type: hunterFlow.FLOW_RESOURCE_TYPE,
+            current: value.flow,
+            min: hunterFlow.FLOW_MIN,
+            max: hunterFlow.FLOW_MAX,
+            sharedWithCompanion: true,
+            state: hunterFlow.createSharedFlowState({ flow: value.flow, companion, resetBoundaryPolicy: 'encounter-end-1' }),
+            ...legacy
+          }
+        };
+      } else {
+        token.character = { ...token.character, classResource: { ...(token.character?.classResource || {}), ...clone(value) } };
+      }
       classPayment = { mode: actor.classPayment.mode, domain: token.state.classPayment.domain, public: payments.publicValue(token.state.classPayment.domain, value) };
     }
     let blocking = null, equipmentWear = null;
@@ -642,11 +746,37 @@ function stage(room, player, uid, command, authorization, confirmedRevision, rou
     entries.push({ ref: actor.ref, beforeRevision: actor.expectedRevision, afterRevision: actor.expectedRevision + 1, finalResources: resources(token, actor.ref.kind), conditions: clone(records),
       ...(classPayment ? { classPayment } : {}), ...(blocking ? { blocking } : {}), ...(equipmentWear ? { equipmentWear } : {}) });
   }
+  const concentrationChecks = [];
+  if (damagedActors.length) {
+    const seenIds = new Set();
+    for (const map of Object.values(next.maps || {})) {
+      for (const field of ['tokens', 'characterTokens']) {
+        for (const tok of Object.values(map?.[field] || {})) {
+          for (const cond of Array.isArray(tok?.state?.conditions) ? tok.state.conditions : []) {
+            if (!conditionProfile.isChanneledTick(cond) || seenIds.has(cond.recordId)) {continue;}
+            const hit = damagedActors.find(d => conditionProfile.sameRef(d.ref, cond.sourceActor));
+            if (!hit) {continue;}
+            seenIds.add(cond.recordId);
+            concentrationChecks.push({
+              caster: clone(hit.ref),
+              target: clone(cond.target),
+              recordId: cond.recordId,
+              spellName: cond.name,
+              damageTaken: hit.damageTaken,
+              concentrationDC: cond.concentrationDC !== undefined ? cond.concentrationDC : null,
+              dcType: cond.dcType !== undefined ? cond.dcType : null,
+              resolution: 'gm_manual'
+            });
+          }
+        }
+      }
+    }
+  }
   return finishStage(room, uid, command, approved ? { kind: binder === require('./spellPayments') && approved.approval.source.kind === 'creature' ? 'gm-creature-ability' : 'owner-approval-gm', authorizerUid: uid, proposalId: approved.approval.approvalId, approvalHash: approved.contentHash } : authorization,
-    confirmedRevision, next, entries, approved, binder);
+    confirmedRevision, next, entries, approved, binder, concentrationChecks.length ? { concentrationChecks } : null);
 }
 // Same ledger/pruning/projection finalizer for actor effects and bounded administrative turn state.
-function finishStage(room, uid, command, authorization, confirmedRevision, next, entries, approved = null, binder = null) {
+function finishStage(room, uid, command, authorization, confirmedRevision, next, entries, approved = null, binder = null, extra = null) {
   if (approved && binder === require('./spellPayments') && require('../shared/services/authoredAbility').isAuthored(approved.approval.spell))
     require('./authoredCooldowns').start(room, next, approved.approval, command.commandId);
   const prior = ledger(room);
@@ -654,6 +784,9 @@ function finishStage(room, uid, command, authorization, confirmedRevision, next,
     commitSequence: prior.commitSequence + 1, checkpointRevision: 0, actors: entries,
     authorization,
     acceptedAt: Date.now() };
+  if (extra && Array.isArray(extra.concentrationChecks) && extra.concentrationChecks.length) {
+    receipt.concentrationChecks = clone(extra.concentrationChecks);
+  }
   if (command.source) {receipt.source = clone(command.source);}
   if (command.target) {receipt.target = clone(command.target);}
   if (command.targets) {receipt.targets = command.targets.map(clone);}
@@ -752,6 +885,10 @@ function validateBuildEnvelope(event, data) {
     }
   }
 }
+const SECONDARY_COSMETIC_CHARACTER_KEYS = new Set([
+  'id', 'name', 'race', 'subrace', 'raceDisplayName', 'class',
+  'alignment', 'background', 'tokenSettings', 'lore', 'isPlayerToken', 'playerId'
+]);
 function prepareBuildUpdate(token, updates, kind) {
   validateBuildEnvelope('token_updated', { updates });
   const blocked = protectedPath({ updates }, 0, buildPaths('token_updated')) || authorityMetadataPath(updates) || require('./actorProjection').metadataPath(updates);
@@ -791,15 +928,39 @@ function prepareBuildUpdate(token, updates, kind) {
     }
   }
   const contract = token.state?.actorContract;
-  if (hasBounds && contract) {
+  if (kind === 'character' && contract && own(updates.character, 'id') && updates.character.id !== contract.characterId) {
+    fail('actor_binding_conflict');
+  }
+  const projectSkillRanks = value => (value && typeof value === 'object' && !Array.isArray(value))
+    ? (require('./roomAccessService').projectCharacterForClient({ skillRanks: value })?.skillRanks ?? null)
+    : null;
+  const priorSkillRanks = kind === 'character' ? projectSkillRanks(token.character?.skillRanks || {}) : null;
+  const nextSkillRanks = kind === 'character' && own(updates.character, 'skillRanks')
+    ? projectSkillRanks(next.character?.skillRanks)
+    : priorSkillRanks;
+  const skillRanksChanged = kind === 'character' && own(updates.character, 'skillRanks') &&
+    hash(priorSkillRanks) !== hash(nextSkillRanks);
+  const hasSecondaryMechanical = kind === 'character' && contract && !contract.primary && (
+    hasBounds ||
+    skillRanksChanged ||
+    own(updates, 'stats') ||
+    own(updates, 'creature') ||
+    (own(updates, 'character') && Object.keys(updates.character).some(key =>
+      key !== 'skillRanks' && !SECONDARY_COSMETIC_CHARACTER_KEYS.has(key)
+    ))
+  );
+  if ((hasBounds || skillRanksChanged || hasSecondaryMechanical) && contract) {
     if (contract.version !== 1 || !integer(contract.revision)) {fail('unsupported_actor_contract');}
     if (kind === 'character' && !contract.primary) {fail('secondary_attachment');}
-    if (boundsChanged) {
+    if (boundsChanged || skillRanksChanged) {
       if (!Number.isSafeInteger(contract.revision + 1)) {fail('revision_exhausted');}
       next.state = { ...next.state, actorContract: { ...contract, revision: contract.revision + 1 } };
     }
   }
-  return { token: next, boundsChanged };
+  if (kind === 'character' && contract && !contract.primary && own(updates.character, 'skillRanks') && !skillRanksChanged) {
+    next.character.skillRanks = token.character?.skillRanks;
+  }
+  return { token: next, boundsChanged: boundsChanged || skillRanksChanged };
 }
 function installBuildUpdate(room, map, field, id, prepared) {
   // Preflight exhaustion before mutation; installation and cut advance have no await.
@@ -830,7 +991,7 @@ function authorityMetadataPath(value, depth = 0) {
   if (!value || typeof value !== 'object') {return null;}
   if (depth > 20) {return 'depth_limit';}
   for (const [key, child] of Object.entries(value)) {
-    if (['triggerLedger', 'passiveLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'actorRelationships', 'companionRoster'].includes(key)) {return key;}
+    if (['triggerLedger', 'passiveLedger', 'placedEffectLedger', 'authoredCooldowns', 'authoredSpellRegistry', 'effectLifecycle', 'actorContract', 'actorConsequences', 'actorRelationships', 'companionRoster'].includes(key)) {return key;}
     const found = authorityMetadataPath(child, depth + 1);
     if (found) {return `${key}.${found}`;}
   }
@@ -844,6 +1005,10 @@ function preserveImportedActorMetadata(gameState) {
   if (own(gameState, 'passiveLedger')) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedPassiveLedger: gameState.passiveLedger, reason: 'untrusted-local-import' };
     delete gameState.passiveLedger;
+  }
+  if (own(gameState, 'placedEffectLedger')) {
+    gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedPlacedEffectLedger: gameState.placedEffectLedger, reason: 'untrusted-local-import' };
+    delete gameState.placedEffectLedger;
   }
   if (own(gameState, 'authoredSpellRegistry')) {
     gameState.actorConsequenceRecovery = { ...gameState.actorConsequenceRecovery, importedAuthoredSpellRegistry: gameState.authoredSpellRegistry, reason: 'untrusted-local-import' };
@@ -890,4 +1055,4 @@ function preserveImportedActorMetadata(gameState) {
   }
   return gameState;
 }
-module.exports = { PERIODIC_STAGE, finishStage, assertCanAct, assertCanMove, epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, buildPaths, validateBuildEnvelope, prepareBuildUpdate, installBuildUpdate, CONDITION_FIELDS, POOLS, MAX_STANDARD_ACTORS, MAX_AREA_TARGETS, MAX_AREA_ACTORS };
+module.exports = { PERIODIC_STAGE, PASSIVE_TRIGGER_STAGE, finishStage, assertCanAct, assertCanMove, epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, buildPaths, validateBuildEnvelope, prepareBuildUpdate, installBuildUpdate, CONDITION_FIELDS, POOLS, MAX_STANDARD_ACTORS, MAX_AREA_TARGETS, MAX_AREA_ACTORS };

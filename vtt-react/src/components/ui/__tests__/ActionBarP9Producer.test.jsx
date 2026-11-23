@@ -94,3 +94,53 @@ test('offline play is unchanged: the supported spell uses the existing local con
   expect(screen.getByText('Cast Spell')).toBeInTheDocument();
   expect(screen.queryByText(/Manual — not applied/)).toBeNull();
 });
+
+test('Wizard-saved manual-only spell shows its exact blocker reason and posts a manual notice with zero spend', () => {
+  const addCombatNotification = jest.fn();
+  registerStore('chatStore', hookOf({ notifications: { combat: [] }, addNotification: jest.fn(), addCombatNotification }));
+  const coneDraft = {
+    name: 'Searing Cone',
+    description: '20 ft fire cone.',
+    spellType: 'ACTION',
+    typeConfig: { castTimeType: 'IMMEDIATE', school: 'ember' },
+    effectTypes: ['damage'],
+    damageConfig: { damageType: 'direct', elementType: 'ember', formula: '2d6', resolution: 'DICE' },
+    targetingConfig: {
+      targetingType: 'area',
+      aoeShape: 'cone',
+      aoeType: 'cone',
+      aoeParameters: { range: 20, angle: 60 },
+      rangeType: 'ranged',
+      rangeDistance: 20,
+      targetRestrictions: ['enemy'],
+      selectionMethod: 'manual',
+      targetSelectionMethod: 'manual',
+      movementBehavior: 'static'
+    },
+    resourceCost: { actionPoints: 1, mana: 5 }
+  };
+  mockActionSlots[2] = {
+    ...JSON.parse(JSON.stringify(coneDraft)),
+    type: 'spell',
+    id: 'searing-cone-slot',
+    authoredDefinitionId: '00000000-0000-4000-8000-000000000099',
+    cooldown: 0,
+    maxCooldown: 0,
+    authoredDraft: JSON.parse(JSON.stringify(coneDraft))
+  };
+  const { container } = render(<ActionBar />);
+  fireEvent.click(slotButton(container, 2), { button: 0 });
+  expect(useSpellConsequenceStore.getState().owner).toBeNull();
+  const note = screen.getByRole('note');
+  expect(note.textContent).toMatch(/Manual — the VTT applies nothing in this room/);
+  expect(note.textContent).toMatch(/area shape \(circle required; bounded damage line also supported\)/i);
+  expect(note.textContent).not.toMatch(/Use Admitted abilities/);
+  fireEvent.click(screen.getByRole('button', { name: 'Post manual notice' }));
+  expect(addCombatNotification).toHaveBeenCalledTimes(1);
+  expect(addCombatNotification.mock.calls[0][0].content).toMatch(/Ilse uses Searing Cone — manual: resolved at the table; nothing applied by the VTT \(area shape \(circle required; bounded damage line also supported\)/i);
+  expect(mockCharacter.updateResource).not.toHaveBeenCalled();
+  expect(mockCharacter.consumeClassResource).not.toHaveBeenCalled();
+  expect(mockCharacter.updateClassResource).not.toHaveBeenCalled();
+  expect(mockGame.setCooldown).not.toHaveBeenCalled();
+  expect(mockSocket.emit).not.toHaveBeenCalled();
+});

@@ -6,8 +6,8 @@
 import { create } from 'zustand';
 import { getStore } from '../store/storeRegistry';
 import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
-import { spellContext } from './spellConsequenceCustody';
-import { ownerSource } from './spellConsequenceService';
+import { spellContext, loadLatestSpell, retainLatestSpell } from './spellConsequenceCustody';
+import { ownerSource, useSpellConsequenceStore } from './spellConsequenceService';
 import { findActor, refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, requestActorEvent } from './actorConsequenceService';
 import { captureActorDelivery, currentActorDelivery } from './actorProjectionOrder';
 import { createInventoryItem } from '../utils/equipmentUtils';
@@ -471,6 +471,13 @@ export function consumeBlockReceipt(result, { historical = false } = {}) {
   }
   const commandId = view.receipt.commandId, kept = loadBlockingCustody(context)?.gm?.[commandId];
   if (kept && game().isGMMode) keepGm(context, commandId, { phase: 'accepted', message: acceptedBlockText(result) });
+  if (game().isGMMode) {
+    const creature = loadLatestSpell(context);
+    if (creature?.route === 'creature' && creature.pcOffer && creature.approval?.approvalId === commandId) {
+      retainLatestSpell(context, { ...creature, phase: 'accepted', draft: null, result });
+      useSpellConsequenceStore.setState(s => ({ draftVersion: (s.draftVersion || 0) + 1 }));
+    }
+  }
   set(s => { const gmPending = { ...s.gmPending }, gmOffers = { ...s.gmOffers }, offers = { ...s.offers }; delete gmPending[view.approvalId]; delete gmOffers[commandId]; delete offers[commandId]; return { gmPending, gmOffers, offers }; });
   const chat = getStore('chatStore'), notificationId = `p12b:${view.receipt.roomId}:${commandId}`;
   let line = acceptedBlockText(result); try {line = chatLineFor(result, line);} catch (_) { line = null; } // P13A §4: never name actors this viewer cannot see

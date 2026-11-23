@@ -485,4 +485,49 @@ describe('SpellConsequencePanel relationship-aware target picker', () => {
     await waitFor(() => expect(screen.getByRole('alert').textContent).toContain('This spell requires an ally. This target is an enemy of the caster.'));
     expect(approveBtn().disabled).toBe(true);
   });
+
+  test('direct-damage save, Hunter Flow, and class-paid authored-effect bundles exclude primary PCs in OwnerPanel while plain PC-eligible bundles keep them', () => {
+    const allyPc = pcToken('pc-ally', 'ally-pc-1', 'Ally Cleric', 'owner-2');
+    useCharacterTokenStore.setState({ characterTokens: [casterPc, allyPc] });
+    readTargetRelationship.mockResolvedValue({ success: true, revision: 1, value: 'enemy' });
+
+    const optionNames = () => Array.from(screen.getByLabelText(/Target/).querySelectorAll('option')).map(o => o.textContent);
+
+    mockSupport = singleSupport('enemy', { saveTerms: { scope: 'direct', ability: 'agility', dc: 15, outcome: 'halves' } });
+    const view = render(<SpellConsequencePanel />);
+    expect(optionNames().some(t => t.includes('Goblin Raider'))).toBe(true);
+    expect(optionNames().some(t => t.includes('Ally Cleric'))).toBe(false);
+
+    mockSupport = singleSupport('enemy', { isHunterFlow: true, hunterFlow: { mechanic: 'quick_draw' }, damageTypes: ['stabbing'] });
+    view.rerender(<SpellConsequencePanel />);
+    expect(optionNames().some(t => t.includes('Goblin Raider'))).toBe(true);
+    expect(optionNames().some(t => t.includes('Ally Cleric'))).toBe(false);
+
+    const beneficialTerms = {
+      direct: null,
+      condition: { kind: 'attribute', attribute: 'agility', amount: 2, label: 'Quickened' },
+      timing: { expiryPolicy: 'gm-manual', durationText: 'Until removed' }
+    };
+    mockSupport = singleSupport('ally', {
+      kind: 'effect',
+      effectTerms: beneficialTerms,
+      timing: beneficialTerms.timing,
+      classPaymentSpec: { domain: 'musicalNotes', costs: ['I'] },
+      payment: { affordable: true, domain: 'none', classPayment: null }
+    });
+    view.rerender(<SpellConsequencePanel />);
+    expect(optionNames().some(t => t.includes('Ward Hound'))).toBe(true);
+    expect(optionNames().some(t => t.includes('Ally Cleric'))).toBe(false);
+
+    // Positive control: plain beneficial bundle without classPaymentSpec keeps primary PCs eligible
+    mockSupport = singleSupport('ally', {
+      kind: 'effect',
+      effectTerms: beneficialTerms,
+      timing: beneficialTerms.timing,
+      classPaymentSpec: null,
+      payment: { affordable: true, domain: 'none', classPayment: null }
+    });
+    view.rerender(<SpellConsequencePanel />);
+    expect(optionNames().some(t => t.includes('Ally Cleric'))).toBe(true);
+  });
 });

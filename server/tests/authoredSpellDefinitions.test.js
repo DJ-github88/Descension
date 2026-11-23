@@ -1322,9 +1322,12 @@ describe('CR-A1a authoredSpellDefinitions', () => {
   });
 
   describe('module hygiene', () => {
-    it('requires only the read-only roomCheckpoint helpers', () => {
+    it('requires only the read-only roomCheckpoint and authoredAbility helpers', () => {
       const requires = serviceSource.match(/require\([^)]*\)/g) || [];
-      assert.deepStrictEqual(requires, ['require(\'./roomCheckpoint\')']);
+      assert.deepStrictEqual(requires, [
+        'require(\'./roomCheckpoint\')',
+        'require(\'../shared/services/authoredAbility\')'
+      ]);
     });
 
     it('contains no execution, network, filesystem or dynamic code paths', () => {

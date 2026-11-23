@@ -94,6 +94,7 @@ function registerCombatHandlers(ctx) {
       const clockApprovals = require('../services/combatClockApprovals');
       const closed = closesApprovals ? clockApprovals.closePending(room) : [];
       room.gameState.combat = nextCombat;
+      resetAndPublishHunterFlow(io, room);
       if (closed.length) {clockApprovals.notify({ io, players, rooms, logger }, room, closed);}
 
       io.to(room.id).emit('combat_started', {
@@ -155,6 +156,7 @@ function registerCombatHandlers(ctx) {
       const clockApprovals = require('../services/combatClockApprovals');
       const closed = closesApprovals ? clockApprovals.closePending(room) : [];
       room.gameState.combat = nextCombat;
+      resetAndPublishHunterFlow(io, room);
       if (closed.length) {clockApprovals.notify({ io, players, rooms, logger }, room, closed);}
 
       io.to(room.id).emit('combat_ended');
@@ -602,3 +604,20 @@ function registerCombatHandlers(ctx) {
 }
 
 module.exports = { registerCombatHandlers };
+function resetAndPublishHunterFlow(io, room) {
+  const flow = require('../shared/services/hunterFlow');
+  const sheets = require('../services/hunterFlowSheets');
+  const changed = Object.values(room.gameState.maps || {}).flatMap(map => Object.values(map.characterTokens || {})).filter(token => {
+    if (!token.state?.actorContract || !sheets.isFlowToken(token)) return false;
+    const home = token.state?.classPayment;
+    const current = home?.domain === flow.FLOW_DOMAIN ? home.value?.flow : token.character?.classResource?.current;
+    return current !== flow.FLOW_START;
+  });
+  flow.resetRoomHunterFlow(room.gameState);
+  sheets.mirrorCommittedFlow(room);
+  if (!changed.length) return;
+  const projection = require('../services/actorProjection');
+  for (const token of changed) token.state.actorContract.revision += 1;
+  projection.advance(room);
+  io.to(room.id).emit('character_token_updated', { roomId: room.id, actorSnapshot: projection.snapshot(room) });
+}

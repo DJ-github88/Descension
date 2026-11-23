@@ -110,10 +110,12 @@ function componentsOf(definition) {
   if (!plain(definition)) { refuse('plan_definition_invalid'); }
   const out = [];
   if (plain(definition.effect)) { out.push({ componentId: 'effect', kind: String(definition.effect.kind || 'effect') }); }
+  if (plain(definition.tickEffect)) { out.push({ componentId: 'tickEffect', kind: String(definition.tickEffect.kind || 'channeled') }); }
   if (plain(definition.effects)) {
     Object.keys(definition.effects).sort().forEach(key => {
       if (!KEY.test(key)) { refuse('plan_component_invalid'); }
       const part = definition.effects[key];
+      if (part === null && (definition.capability === authored.PASSIVE_ENTRY_CAPABILITY || definition.capability === authored.PASSIVE_TURN_CAPABILITY)) { return; }
       out.push({ componentId: 'effects:' + key, kind: String((plain(part) && part.kind) || key) });
     });
   }
@@ -161,7 +163,7 @@ function validatePlan(plan) {
       plan.subscriptions.length > LIMITS.subscriptions) { refuse('plan_invalid'); }
   const componentIds = new Set();
   plan.components.forEach(c => {
-    if (!exact(c, ['componentId', 'kind']) || typeof c.componentId !== 'string' || !/^(effect|effects:[A-Za-z][A-Za-z0-9_-]{0,63})$/.test(c.componentId) ||
+    if (!exact(c, ['componentId', 'kind']) || typeof c.componentId !== 'string' || !/^(effect|tickEffect|effects:[A-Za-z][A-Za-z0-9_-]{0,63})$/.test(c.componentId) ||
         typeof c.kind !== 'string' || !c.kind || componentIds.has(c.componentId)) { refuse('plan_component_invalid'); }
     componentIds.add(c.componentId);
   });
@@ -309,13 +311,23 @@ function globalMarker(globalSection) {
  * own scope; nothing is dropped, merged or promoted. `status` is 'supported-shape' only for a single whole-spell
  * trigger whose own syntax the compiler accepts; that says nothing about the rest of the record, so it is never an
  * executable claim. Everything else is 'preserved-refused' with a reason code. */
+function globalPassiveProbe(globalSection, probeFn) {
+  try {
+    return probeFn({ global: globalSection, effectTriggers: {}, conditionalEffects: {}, buffDebuffTriggers: {},
+      requiredConditions: { enabled: false, logicType: 'AND', conditions: [] }, triggerRole: { mode: 'CONDITIONAL' } });
+  } catch (_) { return null; }
+}
 function authoredScopes(record) {
   const draft = plain(record) && plain(record.authoredDraft) ? record.authoredDraft : record;
   const config = plain(draft) ? draft.triggerConfig : undefined;
   const entries = [], refusals = [], edges = [];
   const spellType = plain(draft) ? draft.spellType : undefined;
-  if (spellType === 'PASSIVE') { refusals.push({ scope: { kind: SCOPE_WHOLE }, section: 'spellType', code: 'passive_activation_unapproved' }); }
-  else if (spellType !== undefined && spellType !== 'ACTION') { refusals.push({ scope: { kind: SCOPE_WHOLE }, section: 'spellType', code: 'spell_type_unsupported' }); }
+  const compoundList = plain(config) && plain(config.global) && Array.isArray(config.global.compoundTriggers) ? config.global.compoundTriggers : [];
+  const hasMovesIntoRadius = compoundList.some(t => t && t.id === authored.PASSIVE_ENTRY_TRIGGER_ID);
+  const hasTurnBoundary = compoundList.some(t => t && authored.PASSIVE_TURN_TRIGGER_IDS.includes(t.id));
+  const hasSupportedPassive = hasMovesIntoRadius || hasTurnBoundary;
+  if (spellType === 'PASSIVE' && !hasSupportedPassive) { refusals.push({ scope: { kind: SCOPE_WHOLE }, section: 'spellType', code: 'passive_activation_unapproved' }); }
+  else if (spellType !== undefined && !['ACTION', 'CHANNELED'].includes(spellType) && !(spellType === 'PASSIVE' && hasSupportedPassive)) { refusals.push({ scope: { kind: SCOPE_WHOLE }, section: 'spellType', code: 'spell_type_unsupported' }); }
   if (emptyish(config)) { return finishScopes(entries, refusals, edges); }
   if (!plain(config)) { refusals.push({ scope: { kind: SCOPE_WHOLE }, section: 'triggerConfig', code: 'malformed_trigger_data' }); return finishScopes(entries, refusals, edges); }
   Object.keys(config).sort().forEach(section => {
@@ -324,9 +336,13 @@ function authoredScopes(record) {
   const global = triggerList(config.global);
   if (config.global !== undefined && !global) { refusals.push({ scope: { kind: SCOPE_WHOLE }, section: 'global', code: 'malformed_trigger_data' }); }
   const marker = global ? globalMarker(config.global) : null, approved = marker ? subscriptionForMarker(marker) : null;
+  const passiveMarker = spellType === 'PASSIVE' && global ? globalPassiveProbe(config.global, authored.passiveEntryTriggerFor) : null;
+  const passiveTurn = spellType === 'PASSIVE' && global ? globalPassiveProbe(config.global, authored.passiveTurnTriggerFor) : null;
   (global || []).forEach((trigger, index, list) => {
     const entry = triggerEntry({ kind: SCOPE_WHOLE }, 'global', trigger, index, list);
-    if (approved && list.length === 1) { entry.status = 'supported-shape'; entry.subscriptionId = approved.subscriptionId; }
+    if (passiveMarker === authored.PASSIVE_ENTRY_TRIGGER && list.length === 1) { entry.status = 'supported-shape'; entry.passiveEntry = true; }
+    else if (passiveTurn && passiveTurn.contract === authored.PASSIVE_TURN_TRIGGER && list.length === 1) { entry.status = 'supported-shape'; entry.passiveTurn = true; }
+    else if (approved && list.length === 1) { entry.status = 'supported-shape'; entry.subscriptionId = approved.subscriptionId; }
     else { entry.status = 'preserved-refused'; entry.code = FOLLOWUP_TRIGGER_IDS.includes(entry.triggerId) ? 'trigger_combination_unsupported' : 'unsupported_trigger_predicate'; }
     entries.push(entry);
   });
@@ -336,8 +352,16 @@ function authoredScopes(record) {
       if (!KEY.test(key) || !list) { refusals.push({ scope: scope, section: 'effectTriggers', code: 'malformed_trigger_data' }); return; }
       list.forEach((trigger, index, all) => {
         const entry = triggerEntry(scope, 'effectTriggers', trigger, index, all);
-        entry.status = 'preserved-refused';
-        entry.code = FOLLOWUP_TRIGGER_IDS.includes(entry.triggerId) ? 'component_scope_unapproved' : 'unsupported_trigger_predicate';
+        const isCritGate = key === 'control' && all.length === 1 && plain(trigger) && trigger.id === authored.CRIT_GATE_TRIGGER_ID &&
+          trigger.category === 'combat' && plain(trigger.parameters) &&
+          (Object.keys(trigger.parameters).length === 0 || (Object.keys(trigger.parameters).length === 1 && trigger.parameters.perspective === 'self'));
+        if (isCritGate) {
+          entry.status = 'supported-shape';
+          entry.critGate = true;
+        } else {
+          entry.status = 'preserved-refused';
+          entry.code = FOLLOWUP_TRIGGER_IDS.includes(entry.triggerId) ? 'component_scope_unapproved' : 'unsupported_trigger_predicate';
+        }
         entries.push(entry);
       });
       const override = config.effectTriggers[key].targetingOverride;
@@ -416,25 +440,65 @@ const EVENT_TEXT = {
  * A supported trigger shape is reported executable only when the whole record compiled and carries its marker.
  * The result is a static reading of a saved record, so its `authority` is always 'stored': it can say what Prism
  * would run once the GM pairs it, never that anything is admitted, paired, subscribed or permitted in a room. */
+function explainPassivePlan(scopes, heading, fallbackName, lines) {
+  return deepFreeze({
+    version: PLAN_VERSION,
+    authority: AUTHORITY_STATES[0],
+    wholeExecutable: true,
+    wholeRefusal: null,
+    planHash: null,
+    scopeIdentity: scopes.identity,
+    order: [],
+    triggers: scopes.entries.map(entry => ({ entryId: entry.entryId, name: entry.name || entry.triggerId || fallbackName, governs: scopeLabel(entry.scope), scope: entry.scope, executable: entry.status === 'supported-shape', optional: false, code: null, reason: null })),
+    manual: [],
+    flow: lines.map(line => line.text),
+    heading: heading,
+    lines: lines,
+    executableClaim: false
+  });
+}
 function explain(record, compiled) {
   const scopes = authoredScopes(record);
   const wholeOk = !!(compiled && compiled.ok === true && plain(compiled.definition));
+  if (wholeOk && compiled.definition.capability === authored.PASSIVE_ENTRY_CAPABILITY) {
+    const def = compiled.definition;
+    const effectDesc = require('./authoredEffect').describe({ direct: null, condition: def.effects.condition, timing: def.timing });
+    return explainPassivePlan(scopes, 'Passive movement-entry trigger', 'Moves Into Passive Radius', [
+      { kind: 'event', text: 'While this passive is active on a bound primary player character, when a matching (' + def.targeting.restriction + ') actor moves from outside into its ' + def.targeting.radiusFeet + ' ft self-centered radius, Prism applies: ' + effectDesc + '.' },
+      { kind: 'pairing', text: 'Saving or admitting this passive does not turn it on. The GM admits the saved version and explicitly activates it in Passive ability activation.' },
+      { kind: 'open-rules', text: 'Teleport, forced movement, and re-entry behavior remain open and unsettled in this version (not auto-fired as normal movement entry).' }
+    ]);
+  }
+  if (wholeOk && compiled.definition.capability === authored.PASSIVE_TURN_CAPABILITY) {
+    const def = compiled.definition;
+    const effectDesc = require('./authoredEffect').describe({ direct: null, condition: def.effects.condition, timing: def.timing });
+    const boundaryLabel = def.trigger.kind === 'turn_start' ? 'turn starts' : 'turn ends';
+    return explainPassivePlan(scopes, 'Passive turn-boundary trigger', def.trigger.kind === 'turn_start' ? 'Turn Start' : 'Turn End', [
+      { kind: 'event', text: 'While this passive is active on a bound primary player character, when an authenticated combat turn advance reaches a matching (' + def.trigger.whoseTurn + ') actor\'s ' + boundaryLabel + ', Prism automatically applies on self: ' + effectDesc + '.' },
+      { kind: 'pairing', text: 'Saving or admitting this passive does not turn it on. The GM admits the saved version and explicitly activates it in Passive ability activation.' },
+      { kind: 'timing', text: 'Applies automatically at the authenticated turn boundary (no 8-second reaction declaration window, and does not stack while this condition is already active on self).' }
+    ]);
+  }
   let plan = null;
   if (wholeOk) { try { plan = planFromDefinition(compiled.definition); } catch (_) { plan = null; } }
   const subscription = subscriptionOf(plan), watch = watchOf(plan);
   const d = wholeOk ? compiled.definition : null;
+  const critGate = d && d.effects && d.effects.critGate ? d.effects.critGate : null;
   const watches = entry => !!watch && entry.scope.kind === SCOPE_COMPONENT && entry.triggerId === authored.FOLLOWUP_TRIGGER_ID &&
     entry.scope.componentId === 'effectTriggers:' + watch.wizardKey;
+  const isCritEntry = entry => !!critGate && entry.scope.kind === SCOPE_COMPONENT && entry.triggerId === authored.CRIT_GATE_TRIGGER_ID &&
+    entry.scope.componentId === 'effectTriggers:control';
   const triggers = scopes.entries.map(entry => {
-    const executable = watches(entry) || (entry.status === 'supported-shape' && !!subscription && subscription.provenance === 'authored-marker' &&
+    const executable = watches(entry) || isCritEntry(entry) || (entry.status === 'supported-shape' && !!subscription && subscription.provenance === 'authored-marker' &&
       subscription.subscriptionId === entry.subscriptionId);
     const code = executable ? null : entry.status === 'supported-shape' ? 'whole_definition_refused' : entry.code;
     return { entryId: entry.entryId, name: entry.name || entry.triggerId || 'Unnamed trigger', governs: scopeLabel(entry.scope), scope: entry.scope, executable: executable,
-      optional: executable ? (watches(entry) ? true : subscription.response.optional) : null, code: code, reason: code ? reasonFor(code) : null };
+      optional: executable ? (isCritEntry(entry) ? false : watches(entry) ? true : subscription.response.optional) : null, code: code, reason: code ? reasonFor(code) : null };
   });
   const manual = scopes.refusals.map(r => ({ entryId: r.entryId, governs: scopeLabel(r.scope), scope: r.scope, section: r.section, code: r.code, reason: REASONS[r.code] }));
   const watchRuns = !!watch && triggers.some(t => t.executable && t.scope.kind === SCOPE_COMPONENT);
-  const runs = watchRuns || (!!subscription && triggers.some(t => t.executable));
+  const critRuns = !!critGate && triggers.some(t => t.executable && t.scope.kind === SCOPE_COMPONENT);
+  const runs = watchRuns || critRuns || (!!subscription && triggers.some(t => t.executable));
   const lines = [];
   if (watchRuns) {
     const part = partName(watch.wizardKey), condition = d.effects && d.effects.condition;
@@ -442,7 +506,8 @@ function explain(record, compiled) {
     lines.push({ kind: 'event', text: 'When this spell\'s ' + part + ' part removes at least 1 base HP from a creature, a follow-up spell that the GM pairs with this watch can be offered to me.' });
     lines.push({ kind: 'scope', text: condition
       ? 'Only the ' + part + ' part is watched. ' + other + (d.effects && d.effects.save ? ', its saving throw' : '') + ' and any other part never count, and this is never treated as a whole-spell trigger.'
-      : 'Only the ' + part + ' part is watched; it is this spell\'s only part. The watch is not this spell\'s own follow-up trigger and is never treated as a whole-spell trigger.' });
+      : 'Only the ' + part + ' part is watched; it is this spell\'s only part. The watch is not this spell\'s own follow-up trigger and is never treated as a whole-spell trigger.' +
+        (d.save ? ' Its saving throw changes how much damage this part deals; only base HP the part actually removes after the recorded save counts, so a negated or fully absorbed hit sets off nothing.' : '') });
     lines.push({ kind: 'qualifies', text: 'What counts is the base HP that part actually removed after temporary HP. A proposed or adjusted amount, damage absorbed by temporary HP and GM corrections do not count.' });
     lines.push({ kind: 'pairing', text: 'Saving or admitting this spell does not switch the watch on. The GM pairs it with one character and one follow-up spell first; this spell is never offered as its own follow-up.' });
     lines.push({ kind: 'optional', text: 'Using the follow-up is optional; declining costs nothing.' });
@@ -451,6 +516,10 @@ function explain(record, compiled) {
     lines.push({ kind: 'lapse', text: 'One offer per cast of this spell. The offer lapses at the next authenticated turn start of the source.' });
     lines.push({ kind: 'chain', text: 'It cannot chain: a follow-up never sets off another follow-up.' });
     lines.push({ kind: 'unsupported', text: 'Not supported: watching a healing, movement, condition, attribute, damage-reduction or periodic part, a watch on an area spell or next to periodic ticks, more than one watched part, and casting only part of a spell.' });
+  } else if (critRuns) {
+    lines.push({ kind: 'event', text: 'When this spell\'s Direct Damage die rolls its maximum face value (critical hit), the configured follow-up effect applies once to the target.' });
+    lines.push({ kind: 'scope', text: 'Normal (non-crit) hits apply Direct Damage only and do not trigger the follow-up effect. Critical hits from other spells never trigger this spell\'s follow-up.' });
+    lines.push({ kind: 'cast', text: 'Swapping the follow-up effect in Step 3 updates what this spell applies on a critical hit.' });
   } else if (runs) {
     lines.push({ kind: 'event', text: EVENT_TEXT[subscription.subscriptionId] });
     lines.push({ kind: 'scope', text: 'The trigger belongs to the whole spell.' });
@@ -469,7 +538,7 @@ function explain(record, compiled) {
   const flow = runs ? lines.map(line => line.text) : [];
   return deepFreeze({ version: PLAN_VERSION, authority: AUTHORITY_STATES[0], wholeExecutable: wholeOk, wholeRefusal: wholeOk ? null : String((compiled && compiled.reason) || 'This spell is resolved manually.'),
     planHash: plan ? planHash(plan) : null, scopeIdentity: scopes.identity, order: plan ? orderedStages(plan) : [], triggers: triggers, manual: manual, flow: flow,
-    heading: watchRuns ? 'Watched part trigger' : runs ? 'Follow-up trigger' : lines.length ? 'Stored, not run by Prism' : null, lines: lines,
+    heading: watchRuns ? 'Watched part trigger' : critRuns ? 'Critical-hit follow-up trigger' : runs ? 'Follow-up trigger' : lines.length ? 'Stored, not run by Prism' : null, lines: lines,
     executableClaim: runs });
 }
 

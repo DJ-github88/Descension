@@ -25,6 +25,7 @@ const view = (token, field) => {
     ownerUid: token.ownerUserId || null, characterId: field === 'characterTokens' ? token.character?.id : undefined,
     values: field === 'characterTokens' ? Object.fromEntries(['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].map(k => [k, token.character?.[k]]))
       : Object.fromEntries(['currentHp', 'currentMana', 'currentActionPoints', 'tempHealth', 'tempMana', 'tempActionPoints', 'maxHp', 'maxMana', 'maxAP'].map(k => [k, state[k]])),
+    ...(token.committedHunterFlow !== undefined ? { committedHunterFlow: token.committedHunterFlow } : {}),
     conditions: state.conditions || [] };
 };
 const collection = (map, field) => map?.[field] || {};

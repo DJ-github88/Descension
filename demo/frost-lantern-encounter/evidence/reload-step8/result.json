@@ -1,0 +1,18 @@
+{
+  "kind": "frost-lantern-reload-step8-repro",
+  "buildDir": "D:\\AppData\\Temp\\opencode\\trigger-ui-release-build-20261116T1901Z\\build",
+  "assetManifestSha256": "a8c13d320a693965f41d16acc25e93fe01db303bb34a6a461a8910489238a0c3",
+  "passed": true,
+  "diagnosis": {
+    "cause": "After browser reload with attachOwner=false, actorConsequenceService active attachment is null in the new tab; OwnerPanel shows source.error and the \"Use this owner attachment\" button instead of Target <select>.",
+    "preAttachPromptVisible": true
+  },
+  "steps": [
+    "authored_and_admitted_spell",
+    "combat_started",
+    "diagnosed_missing_target_after_reload",
+    "pending_approval_closed_without_spending",
+    "combat_restarted_cleanly"
+  ],
+  "errors": []
+}

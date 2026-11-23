@@ -85,7 +85,10 @@ const validationSchemas = {
     isDragging: Joi.boolean().optional(),
     roomId: Joi.string().min(1).max(100).optional(),
     mapId: Joi.string().max(200).optional().allow(null, ''),
-    actionId: Joi.string().max(200).optional()
+    actionId: Joi.string().max(200).optional(),
+    movementKind: Joi.string().valid('normal', 'teleport', 'forced').optional(),
+    isTeleport: Joi.boolean().optional(),
+    forcedMovement: Joi.boolean().optional()
   }),
 
   token_dismissed: Joi.object({
@@ -108,7 +111,10 @@ const validationSchemas = {
     velocity: Joi.object().optional(),
     roomId: Joi.string().min(1).max(100).optional(),
     mapId: Joi.string().max(200).optional().allow(null, ''),
-    actionId: Joi.string().max(200).optional()
+    actionId: Joi.string().max(200).optional(),
+    movementKind: Joi.string().valid('normal', 'teleport', 'forced').optional(),
+    isTeleport: Joi.boolean().optional(),
+    forcedMovement: Joi.boolean().optional()
   }),
 
   // Combat: legacy combat_action event (kept for back-compat; not emitted by current clients)
@@ -177,13 +183,22 @@ const validationSchemas = {
   }),
 
   // Map management
-  map_update: Joi.object({
-    roomId: Joi.string().min(1).max(100).optional(),
-    mapUpdates: Joi.object().required(),
-    mapData: Joi.object().optional(),
-    targetMapId: Joi.string().required(),
-    sequence: Joi.number().optional()
-  }),
+  map_update: Joi.alternatives().try(
+    Joi.object({
+      roomId: Joi.string().min(1).max(100).optional(),
+      mapUpdates: Joi.object().required(),
+      mapData: Joi.object().optional(),
+      targetMapId: Joi.string().required(),
+      sequence: Joi.number().optional()
+    }),
+    Joi.object({
+      roomId: Joi.string().min(1).max(100).optional(),
+      action: Joi.string().valid('create', 'delete').required(),
+      map: Joi.object().optional(),
+      mapId: Joi.string().optional(),
+      sequence: Joi.number().optional()
+    })
+  ),
 
   sync_map_state: Joi.object({
     mapId: Joi.string().required(),
@@ -207,7 +222,9 @@ const validationSchemas = {
   }),
 
   sync_level_editor_state: Joi.object({
+    roomId: Joi.string().min(1).max(100).optional(),
     mapId: Joi.string().required(),
+    mapName: Joi.string().optional().allow(''),
     levelEditor: Joi.object().optional(),
     gridSettings: Joi.object().optional(),
     elevationData: Joi.object().optional(),

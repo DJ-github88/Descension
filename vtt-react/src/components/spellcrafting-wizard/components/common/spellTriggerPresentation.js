@@ -36,6 +36,30 @@ export function triggerPlanForRecord(record, result) {
   try {
     const explained = explain(record, result);
     if (!explained.heading) return null;
+    if (!explained.executableClaim && result && !result.ok && /^triggers?\b/i.test(String(result.reason || ''))) {
+      const scopes = authoredScopes(record);
+      const entries = scopes?.entries || [];
+      const triggerRefusals = (scopes?.refusals || []).filter(r => r.section !== 'spellType');
+      const hasWhole = entries.some(e => e.scope?.kind === 'whole-spell') || triggerRefusals.some(r => r.scope?.kind === 'whole-spell');
+      const hasPart = entries.some(e => e.scope?.kind === 'component') || triggerRefusals.some(r => r.scope?.kind === 'component');
+      if ((hasWhole && hasPart) || (entries.length + triggerRefusals.length > 1)) {
+        const lines = [
+          {
+            kind: 'mixed-trigger-combination',
+            text: 'Mixed trigger combination: Prism runs at most one single approved trigger scope per spell (one whole-spell follow-up, one watched Direct Damage part, or one critical-hit rider gate) with no combined or extra trigger rules. All stored triggers stay preserved as written and GM-manual.'
+          },
+          ...explained.triggers.map(t => ({
+            kind: 'stored-trigger',
+            text: `"${t.name}" on ${t.governs}: kept as written; not run by Prism while combined with other triggers or rules.`
+          })),
+          ...explained.manual.map(m => ({
+            kind: 'stored-section',
+            text: (m.scope?.kind === 'whole-spell' ? '' : `On ${m.governs}: `) + m.reason
+          }))
+        ];
+        return { runs: false, heading: explained.heading, lines };
+      }
+    }
     return { runs: explained.executableClaim === true, heading: explained.heading, lines: explained.lines.map(line => ({ kind: line.kind, text: line.text })) };
   } catch (_) {
     return null;

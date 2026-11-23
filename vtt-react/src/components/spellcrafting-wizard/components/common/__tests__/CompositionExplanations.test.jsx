@@ -130,14 +130,20 @@ describe('Wizard Review explains the installed classes from the real Wizard stat
   });
 });
 
-describe('Draft check wraps the Wizard state the way the save path does', () => {
-  test('the Wizard-only keys are exactly the ones Step10Review removes before it stores the record', () => {
-    const source = require('fs').readFileSync(require.resolve('../../steps/Step10Review.jsx'), 'utf8');
-    const start = source.indexOf('Create a clean version of spellState'), end = source.indexOf('...cleanSpellState', start);
-    expect(start).toBeGreaterThan(0);
-    const removed = [...source.slice(start, end).matchAll(/^\s*(\w+): _\w+,?\s*$/gm)].map(m => m[1]);
-    expect(removed.length).toBeGreaterThan(5);
-    expect([...WIZARD_ONLY_KEYS].sort()).toEqual(removed.sort());
+describe('Draft check wraps the Wizard state the way the canonical save path does', () => {
+  test('WIZARD_ONLY_KEYS matches DRAFT_EXCLUDED_KEYS and all three save entrypoints delegate to canonicalSpellSave', () => {
+    const fs = require('fs');
+    const { DRAFT_EXCLUDED_KEYS } = require('../../../utils/canonicalSpellSave');
+    expect([...WIZARD_ONLY_KEYS].sort()).toEqual([...DRAFT_EXCLUDED_KEYS].sort());
+
+    for (const rel of [
+      '../../../SpellwizardApp.jsx',
+      '../../steps/Step10Review.jsx',
+      '../../../ExternalLivePreview.jsx'
+    ]) {
+      const source = fs.readFileSync(require.resolve(rel), 'utf8');
+      expect(source).toMatch(/executeCanonicalSpellSave/);
+    }
   });
 });
 

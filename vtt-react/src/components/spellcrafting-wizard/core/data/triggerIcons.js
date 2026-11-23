@@ -46,6 +46,7 @@ export const TRIGGER_ICONS = {
     enter_area: 'Utility/Point',
     leave_area: 'Utility/Blue Door',
     proximity: 'Utility/All Seeing Eye',
+    moves_into_radius: 'Utility/Point',
     forced_movement: 'Utility/Motion Swoosh',
     high_ground: 'Utility/Mountain Summit',
     falling: 'General/Trip',

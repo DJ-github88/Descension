@@ -81,7 +81,7 @@ const TargetPickOverlay = ({ gridSystem, feetPerTile = 5, gridSize = 50, current
   const entries = useMemo(() => [
     ...(creatureTokens || []).map(token => ({ token, name: token.state?.customName || creatures?.find(c => c.id === token.creatureId)?.name || 'Creature' })),
     ...(characterTokens || []).map(token => ({ token, name: token.character?.name || token.name || 'Character' }))
-   ].filter(({ token }) => unrestrictedGM || (!token.state?.hiddenFromPlayers && !token.hiddenFromPlayers))
+   ].filter(({ token }) => unrestrictedGM || (!token.state?.hiddenFromPlayers && !token.hiddenFromPlayers && !token.state?.isHidden && !token.isHidden))
     .map(({ token, name }) => ({ ref: refOfToken(token), position: token.position, name, mapId: token.mapId || 'default' }))
     .filter(entry => entry.ref && entry.ref.mapId === currentMapId && entry.mapId === currentMapId), [creatureTokens, characterTokens, creatures, currentMapId, unrestrictedGM]);
   const visible = useCallback(ref => (rendered[actorKey(ref)] || 0) > 0 || (unrestrictedGM && !!ref), [rendered, unrestrictedGM]);

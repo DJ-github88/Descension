@@ -43,6 +43,7 @@ import TokenVisibilityCalculator from "./level-editor/TokenVisibilityCalculator"
 import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import ImageDropMenu from "./dialogs/ImageDropMenu";
 import SpellAoEOverlay from "./grid/SpellAoEOverlay";
+import PlacedEffectOverlay from "./grid/PlacedEffectOverlay";
 import TargetPickOverlay from "./grid/TargetPickOverlay";
 import CameraCompass from "./grid/CameraCompass";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
@@ -3781,6 +3782,9 @@ function GridComponent({
     {/* P12C-B1: map picking for supported single-target controllers (preview only). */}
     {!isEditorMode && (
      <TargetPickOverlay gridSystem={gridSystem} feetPerTile={feetPerTile} gridSize={gridSize} currentMapId={currentMapId} />
+    )}
+    {!isEditorMode && (
+     <PlacedEffectOverlay gridSystem={gridSystem} feetPerTile={feetPerTile} gridSize={gridSize} currentMapId={currentMapId} />
     )}
 
     {/* Local camera orientation control (per-player; GM default comes from the map) */}

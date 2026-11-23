@@ -666,8 +666,8 @@ export default function useTriggerConfig() {
         triggerWithParams.parameters[param] = 'health';
       } else if (param === 'target_type') {
         triggerWithParams.parameters[param] = 'self';
-      } else if (param === 'perspective') {
-        triggerWithParams.parameters[param] = 'self'; // Default to self, can be changed to 'target', 'ally', 'enemy'
+      } else if (param === 'perspective' || param === 'whose_turn') {
+        triggerWithParams.parameters[param] = 'self'; // Default to self, can be changed per trigger options
       } else if (param === 'stack_count') {
         triggerWithParams.parameters[param] = 3; // Default stack count
       } else if (param === 'duration') {
@@ -678,6 +678,12 @@ export default function useTriggerConfig() {
         triggerWithParams.parameters[param] = 10; // Default damage threshold
       } else if (param === 'damage_type' || param === 'type') { // Handle both 'damage_type' and legacy 'type'
         triggerWithParams.parameters[param] = 'any'; // Default to any damage type
+      } else if (param === 'creature_type' || param === 'entity_type' || param === 'magic_type') {
+        triggerWithParams.parameters[param] = 'any'; // Match first <option> in Step7Triggers
+      } else if (param === 'area_type') {
+        triggerWithParams.parameters[param] = 'combat'; // Match first <option> in Step7Triggers
+      } else if (param === 'interaction_type') {
+        triggerWithParams.parameters[param] = 'touch'; // Match first <option> in Step7Triggers
       } else {
         triggerWithParams.parameters[param] = '';
       }
@@ -960,21 +966,32 @@ export default function useTriggerConfig() {
       const updatedTriggers = [...(newEffectTriggers[selectedEffect].compoundTriggers || [])];
       updatedTriggers.splice(index, 1);
 
-      newEffectTriggers[selectedEffect] = {
-        ...newEffectTriggers[selectedEffect],
-        compoundTriggers: updatedTriggers
-      };
+      if (updatedTriggers.length === 0 && !newEffectTriggers[selectedEffect].targetingOverride) {
+        delete newEffectTriggers[selectedEffect];
+        setEffectTriggers(newEffectTriggers);
+        dispatch({
+          type: ACTION_TYPES.REMOVE_EFFECT_TRIGGER,
+          payload: {
+            effectType: selectedEffect
+          }
+        });
+      } else {
+        newEffectTriggers[selectedEffect] = {
+          ...newEffectTriggers[selectedEffect],
+          compoundTriggers: updatedTriggers
+        };
 
-      setEffectTriggers(newEffectTriggers);
+        setEffectTriggers(newEffectTriggers);
 
-      // Update the context with the new effect triggers
-      dispatch({
-        type: ACTION_TYPES.UPDATE_EFFECT_TRIGGER,
-        payload: {
-          effectType: selectedEffect,
-          triggerConfig: newEffectTriggers[selectedEffect]
-        }
-      });
+        // Update the context with the new effect triggers
+        dispatch({
+          type: ACTION_TYPES.UPDATE_EFFECT_TRIGGER,
+          payload: {
+            effectType: selectedEffect,
+            triggerConfig: newEffectTriggers[selectedEffect]
+          }
+        });
+      }
     }
   };
 

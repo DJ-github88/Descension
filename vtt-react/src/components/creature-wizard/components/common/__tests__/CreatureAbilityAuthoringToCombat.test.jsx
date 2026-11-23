@@ -309,6 +309,55 @@ describe('placement → inspect → supported cast entry (placed creature, GM/sh
     // A different placed creature copy of the NEW template shows 'Changed since admitted version' for that source until re-admitted.
     expect(canonical(definitionFromWizard(v2, { roomId: 'room-1', classId: 'arcanoneer', definitionVersion: 1 }).definition)).not.toBe(canonical(v1Definition));
   });
+
+  test('Inspect rejects mismatched actorContract (e.g. from duplicate copy) and removed tokens instead of inheriting Bind/Admit/Use', () => {
+    useGameStore.setState({ isGMMode: true, isInMultiplayer: true, multiplayerRoom: { id: 'room-1' } });
+    const record = ember();
+    const { token } = place(record, 'lib-ember', 'token-original');
+    const origRef = bind(token);
+    const v1Def = definitionFromWizard(record, { roomId: 'room-1', classId: 'arcanoneer', definitionVersion: 1 }).definition;
+    const definitionRef = { definitionId: record.authoredDefinitionId, roomId: 'room-1', definitionVersion: 1, definitionHash: 'h1' };
+    consequence.useSpellConsequenceStore.setState({
+      authoredRoomId: 'room-1',
+      authoredEntries: [{ definitionRef, canonicalDefinition: v1Def, revoked: false }],
+      creatureSources: [{ source: origRef, association: clone(token.authoredAbility), admission: { definitionRef } }]
+    });
+
+    // Duplicate an admitted/bound token whose local authoredAbility may have been stripped by snapshot hydration.
+    useCreatureStore.setState(s => ({
+      creatureTokens: s.creatureTokens.map(t => t.id === token.id ? { ...t, authoredAbility: undefined, state: { ...t.state, actorRecovery: { snapshot: true } } } : t)
+    }));
+    const beforeIds = new Set(useCreatureStore.getState().creatureTokens.map(t => t.id));
+    useCreatureStore.getState().duplicateToken(token.id);
+    const dup = useCreatureStore.getState().creatureTokens.find(t => !beforeIds.has(t.id));
+    expect(dup).toBeDefined();
+    expect(dup.state.actorContract).toBeUndefined();
+    expect(dup.state.actorRecovery).toBeUndefined();
+    expect(dup.authoredAbility).toEqual(clone({ schemaVersion: 1, record, librarySpellId: 'lib-ember' }));
+
+    const dupView = render(<CreatureAbilityDetails association={dup.authoredAbility} token={dup} saved />);
+    expect(screen.getByRole('button', { name: 'Bind this placed creature' })).toBeInTheDocument();
+    expect(screen.queryByText(/Admitted for/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Use for this creature' })).not.toBeInTheDocument();
+    dupView.unmount();
+
+    // Even if a stale or forged actorContract naming another tokenId were attached, Inspect must refuse it.
+    useCreatureStore.setState(s => ({
+      creatureTokens: s.creatureTokens.map(t => t.id === dup.id ? { ...t, state: { ...t.state, actorContract: { ...origRef } } } : t)
+    }));
+    const poisonedDup = useCreatureStore.getState().creatureTokens.find(t => t.id === dup.id);
+    const poisonedView = render(<CreatureAbilityDetails association={poisonedDup.authoredAbility} token={poisonedDup} saved />);
+    expect(screen.getByRole('button', { name: 'Bind this placed creature' })).toBeInTheDocument();
+    expect(screen.queryByText(/Admitted for/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Use for this creature' })).not.toBeInTheDocument();
+    poisonedView.unmount();
+
+    // If the inspected token is removed from creatureStore while its card is mounted, Inspect stops exposing Bind/Admit/Use.
+    const liveOriginal = useCreatureStore.getState().creatureTokens.find(t => t.id === token.id);
+    useCreatureStore.getState().removeCreatureToken(token.id, false);
+    render(<CreatureAbilityDetails association={token.authoredAbility} token={liveOriginal} saved />);
+    expect(screen.queryByRole('button', { name: /Use for this creature|Bind this placed creature|Admit for this creature/ })).not.toBeInTheDocument();
+  });
 });
 
 // Opus's immediate + periodic composition is definition-compatible but, for now, automated for a primary owner PC source only.

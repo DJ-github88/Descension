@@ -6,7 +6,8 @@ const ResolutionTypeSelector = ({
   selectedType,
   onTypeChange,
   config,
-  onConfigChange
+  onConfigChange,
+  coinTypeNotice = null
 }) => {
   const handleDiceTypeChange = (e) => {
     onConfigChange({ diceType: e.target.value });
@@ -33,6 +34,7 @@ const ResolutionTypeSelector = ({
       <div className="resolution-type-selector">
         <div className="resolution-type-option">
           <button
+            type="button"
             className={`resolution-type-button ${selectedType === 'DICE' ? 'active' : ''}`}
             onClick={() => onTypeChange('DICE')}
           >
@@ -45,6 +47,7 @@ const ResolutionTypeSelector = ({
 
         <div className="resolution-type-option">
           <button
+            type="button"
             className={`resolution-type-button ${selectedType === 'CARDS' ? 'active' : ''}`}
             onClick={() => onTypeChange('CARDS')}
           >
@@ -57,6 +60,7 @@ const ResolutionTypeSelector = ({
 
         <div className="resolution-type-option">
           <button
+            type="button"
             className={`resolution-type-button ${selectedType === 'COINS' ? 'active' : ''}`}
             onClick={() => onTypeChange('COINS')}
           >
@@ -110,8 +114,9 @@ const ResolutionTypeSelector = ({
               />
             </div>
             <div className="form-group">
-              <label>Deck Type</label>
+              <label htmlFor="deck-type">Deck Type</label>
               <select
+                id="deck-type"
                 className="pf-input"
                 value={config.deckType || 'standard'}
                 onChange={handleDeckTypeChange}
@@ -138,8 +143,9 @@ const ResolutionTypeSelector = ({
               />
             </div>
             <div className="form-group">
-              <label>Coin Type</label>
+              <label htmlFor="coin-type">Coin Type</label>
               <select
+                id="coin-type"
                 className="pf-input"
                 value={config.coinType || 'standard'}
                 onChange={handleCoinTypeChange}
@@ -147,6 +153,7 @@ const ResolutionTypeSelector = ({
                 <option value="standard">Standard (Heads/Tails)</option>
                 <option value="weighted">Weighted</option>
               </select>
+              {coinTypeNotice}
             </div>
           </div>
         )}

@@ -3,32 +3,98 @@ import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../
 import WizardStep from '../common/WizardStep';
 import { FaEye, FaEyeSlash, FaLock, FaLockOpen, FaHourglassHalf, FaInfinity } from 'react-icons/fa6';
 
+const DEFAULT_TRAP_CONFIG = {
+ placementPosition: null,
+ placementRadius: 5,
+ detectionMethod: 'perception',
+ disarmMethod: 'thieves_tools',
+ resetTime: 0,
+ trapDuration: 'permanent',
+ durationValue: 1,
+ durationUnit: 'turns',
+ visibility: 'hidden',
+ maxTriggers: 1,
+ detectionDC: 15,
+ disarmDC: 15
+};
+
+const buildInitialTrapConfig = (savedTrapConfig, typeConfig) => {
+ const merged = { ...DEFAULT_TRAP_CONFIG };
+ if (typeConfig && typeof typeConfig === 'object') {
+  if (typeConfig.visibility !== undefined) {
+   merged.visibility = typeConfig.visibility;
+  }
+  if (Number.isFinite(typeConfig.maxTriggers) && typeConfig.maxTriggers >= 1) {
+   merged.maxTriggers = typeConfig.maxTriggers;
+  }
+ }
+ if (savedTrapConfig && typeof savedTrapConfig === 'object') {
+  for (const [key, value] of Object.entries(savedTrapConfig)) {
+   if (value !== undefined) {
+    merged[key] = value;
+   }
+  }
+ }
+ return merged;
+};
+
 const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) => {
  const state = useSpellWizardState();
  const dispatch = useSpellWizardDispatch();
 
- // Initialize local state from global state
- const [trapConfig, setTrapConfig] = useState(state.trapConfig || {
-  placementPosition: null,
-  placementRadius: 5,
-  detectionMethod: 'perception',
-  disarmMethod: 'thieves_tools',
-  resetTime: 0,
-  trapDuration: 'permanent',
-  durationValue: 0,
-  durationUnit: 'hours',
-  visibility: 'hidden',
-  maxTriggers: 1,
-  detectionDC: 15,
-  disarmDC: 15
- });
+ // Initialize local state from global state, preserving explicit 0/null while filling missing defaults
+ const [trapConfig, setTrapConfig] = useState(() => buildInitialTrapConfig(state.trapConfig, state.typeConfig));
 
- // Update global state when local state changes
+ // Keep global trapConfig, targetingConfig, and propagation synced without relying on WizardStep's unused onNext
  useEffect(() => {
-  if (trapConfig && Object.keys(trapConfig).length > 0) {
+  if (!trapConfig || Object.keys(trapConfig).length === 0) return;
+
+  const currentTrap = state.trapConfig || {};
+  const trapDiffers = Object.keys(trapConfig).some(
+   (key) => JSON.stringify(currentTrap[key]) !== JSON.stringify(trapConfig[key])
+  );
+  if (trapDiffers) {
    dispatch(actionCreators.updateTrapConfig(trapConfig));
   }
- }, [trapConfig, dispatch]);
+
+  const radius = Number(trapConfig.placementRadius) > 0 ? Number(trapConfig.placementRadius) : 5;
+  const nextTargeting = {
+   targetingType: 'location',
+   targetRestriction: 'any',
+   targetRestrictions: ['any'],
+   aoeShape: 'circle',
+   aoeParameters: { radius },
+   rangeType: 'self',
+   rangeDistance: 0,
+   maxTargets: 0,
+   selectionMethod: 'manual',
+   targetSelectionMethod: 'manual'
+  };
+  const currentTargeting = state.targetingConfig || {};
+  const targetingDiffers =
+   currentTargeting.targetingType !== nextTargeting.targetingType ||
+   currentTargeting.targetRestriction !== nextTargeting.targetRestriction ||
+   JSON.stringify(currentTargeting.targetRestrictions) !== JSON.stringify(nextTargeting.targetRestrictions) ||
+   currentTargeting.aoeShape !== nextTargeting.aoeShape ||
+   JSON.stringify(currentTargeting.aoeParameters) !== JSON.stringify(nextTargeting.aoeParameters) ||
+   currentTargeting.rangeType !== nextTargeting.rangeType ||
+   currentTargeting.rangeDistance !== nextTargeting.rangeDistance ||
+   currentTargeting.maxTargets !== nextTargeting.maxTargets ||
+   currentTargeting.selectionMethod !== nextTargeting.selectionMethod ||
+   currentTargeting.targetSelectionMethod !== nextTargeting.targetSelectionMethod;
+
+  if (targetingDiffers) {
+   dispatch(actionCreators.updateTargetingConfig(nextTargeting));
+  }
+
+  if (!state.propagation || state.propagation.method !== 'none') {
+   dispatch(actionCreators.updatePropagation({
+    method: 'none',
+    behavior: '',
+    parameters: {}
+   }));
+  }
+ }, [trapConfig, state.trapConfig, state.targetingConfig, state.propagation, dispatch]);
 
  // Handle form changes
  const handleConfigChange = (e) => {
@@ -39,10 +105,10 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
               type === 'number' ? Number(value) :
               value;
 
-  setTrapConfig({
-   ...trapConfig,
+  setTrapConfig(prev => ({
+   ...prev,
    [name]: processedValue
-  });
+  }));
  };
 
  // Canvas reference and state for trap placement
@@ -76,43 +142,15 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
  // Handle canvas click for trap placement
  const handleCanvasClick = () => {
   if (hoveredCell) {
-   setTrapConfig({
-    ...trapConfig,
+   setTrapConfig(prev => ({
+    ...prev,
     placementPosition: hoveredCell
-   });
+   }));
   }
  };
 
  // Handle proceeding to the next step
  const handleNext = () => {
-  // For traps, we use a simplified targeting configuration
-  // Traps usually affect targets that trigger them or are in their vicinity
-  const targetingConfig = {
-   targetingType: 'location', // Traps target a location, not specific entities
-   targetRestriction: 'any', // Can affect any valid target
-   aoeShape: 'circle',    // Default shape for trap effect
-   aoeParameters: {
-    // The trap's effect radius might be different from its physical size
-    // but we'll use the same value as a default
-    radius: trapConfig.placementRadius || 5
-   },
-   rangeType: 'self',     // Trap effects originate from the trap itself
-   rangeDistance: 0,     // No range since it's self-centered
-   maxTargets: 0,       // Unlimited targets can be affected
-   selectionMethod: 'auto'  // Targets are automatically selected when trap triggers
-  };
-
-  // Update the targeting configuration in the global state
-  dispatch(actionCreators.updateTargetingConfig(targetingConfig));
-
-  // Traps don't use propagation effects
-  dispatch(actionCreators.updatePropagation({
-   method: 'none',
-   behavior: '',
-   parameters: {}
-  }));
-
-  // Proceed to the next step
   onNext();
  };
 
@@ -177,7 +215,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
   ctx.stroke();
 
   // Draw trap placement radius
-  const radius = trapConfig.placementRadius / 5 * cellSize; // Convert feet to grid cells (5ft per cell)
+  const radius = ((Number(trapConfig.placementRadius) > 0 ? Number(trapConfig.placementRadius) : 5) / 5) * cellSize; // Convert feet to grid cells (5ft per cell)
 
   // Draw trap area
   ctx.beginPath();
@@ -234,7 +272,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
  return (
   <WizardStep
    title="Trap Placement"
-   description="Configure how your trap is placed and detected in the environment."
+   description="Configure GM-managed reference notes for how this trap is placed, detected, and tracked at the table."
    onNext={handleNext}
    onPrevious={onPrevious}
    stepNumber={stepNumber}
@@ -246,8 +284,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
     <div className="trap-placement-section">
      <h3 className="section-title">Trap Placement</h3>
      <p className="section-description">
-      Click on the grid to place your trap. This represents where the trap will be positioned in the environment.
-      The trap size determines how large the trap is, not necessarily its area of effect when triggered.
+      GM-managed reference only — Prism does not automatically place, arm, trigger, or expire traps on the battlemap. Click the preview grid to sketch a reference layout; trap size records the trap's radius note.
      </p>
 
      <div className="targeting-grid-wrapper">
@@ -388,21 +425,21 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
        <div className="icon-selection-row">
         <div
          className={`icon-selection-item ${trapConfig.visibility === 'hidden' ? 'selected' : ''}`}
-         onClick={() => setTrapConfig({...trapConfig, visibility: 'hidden'})}
+         onClick={() => setTrapConfig(prev => ({...prev, visibility: 'hidden'}))}
         >
          <FaEyeSlash />
          <span>Hidden</span>
         </div>
         <div
          className={`icon-selection-item ${trapConfig.visibility === 'visible' ? 'selected' : ''}`}
-         onClick={() => setTrapConfig({...trapConfig, visibility: 'visible'})}
+         onClick={() => setTrapConfig(prev => ({...prev, visibility: 'visible'}))}
         >
          <FaEye />
          <span>Visible</span>
         </div>
         <div
          className={`icon-selection-item ${trapConfig.visibility === 'magical' ? 'selected' : ''}`}
-         onClick={() => setTrapConfig({...trapConfig, visibility: 'magical'})}
+         onClick={() => setTrapConfig(prev => ({...prev, visibility: 'magical'}))}
         >
          <FaLock />
          <span>Magical Aura</span>
@@ -415,7 +452,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
     <div className="trap-duration-section">
      <h3 className="section-title">Duration & Triggers</h3>
      <p className="section-description">
-      Configure how long the trap remains active and how many times it can be triggered.
+      Configure GM-managed reference notes for how long the trap lasts and how many times it can be resolved.
      </p>
 
      <div className="spell-wizard-form-row">
@@ -426,27 +463,32 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
        <div className="icon-selection-row">
         <div
          className={`icon-selection-item ${trapConfig.trapDuration === 'permanent' ? 'selected' : ''}`}
-         onClick={() => setTrapConfig({...trapConfig, trapDuration: 'permanent'})}
+         onClick={() => setTrapConfig(prev => ({...prev, trapDuration: 'permanent'}))}
         >
          <FaInfinity />
          <span>Permanent</span>
-         <small className="icon-selection-description">Remains until triggered or dispelled</small>
+         <small className="icon-selection-description">GM-tracked until resolved or dispelled</small>
         </div>
         <div
          className={`icon-selection-item ${trapConfig.trapDuration === 'timed' ? 'selected' : ''}`}
-         onClick={() => setTrapConfig({...trapConfig, trapDuration: 'timed'})}
+         onClick={() => setTrapConfig(prev => ({
+          ...prev,
+          trapDuration: 'timed',
+          durationValue: Number(prev.durationValue) > 0 ? prev.durationValue : 1,
+          durationUnit: prev.durationUnit || 'turns'
+         }))}
         >
          <FaHourglassHalf />
          <span>Timed</span>
-         <small className="icon-selection-description">Expires after set duration</small>
+         <small className="icon-selection-description">GM tracks expiration after set duration</small>
         </div>
         <div
          className={`icon-selection-item ${trapConfig.trapDuration === 'conditional' ? 'selected' : ''}`}
-         onClick={() => setTrapConfig({...trapConfig, trapDuration: 'conditional', conditionType: 'combat_end'})}
+         onClick={() => setTrapConfig(prev => ({...prev, trapDuration: 'conditional', conditionType: prev.conditionType || 'combat_end'}))}
         >
          <FaLockOpen />
          <span>Conditional</span>
-         <small className="icon-selection-description">Expires when condition is met</small>
+         <small className="icon-selection-description">GM ends trap when condition is met</small>
         </div>
        </div>
       </div>
@@ -513,7 +555,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
          <option value="caster_leaves">Caster Leaves Area</option>
         </select>
         <small className="spell-wizard-help-text">
-         The trap will expire when this condition is met
+         Reference note: the GM ends the trap when this condition is met
         </small>
        </div>
       </div>
@@ -535,7 +577,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
         onChange={handleConfigChange}
        />
        <small className="spell-wizard-help-text">
-        How many times the trap can be triggered before disappearing
+        Reference note: how many times the GM resolves the trap before removing it
        </small>
       </div>
 
@@ -554,7 +596,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
         onChange={handleConfigChange}
        />
        <small className="spell-wizard-help-text">
-        Time before the trap can be triggered again (0 = no reset)
+        Reference note: time before the GM resets the trap (0 = no reset)
        </small>
       </div>
      </div>
@@ -612,7 +654,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
         <span className="property-label">Duration:</span>
         <span className="property-value">
          {trapConfig.trapDuration === 'permanent' ? 'Permanent' :
-          trapConfig.trapDuration === 'timed' ? `${trapConfig.durationValue} ${trapConfig.durationUnit}` :
+          trapConfig.trapDuration === 'timed' ? `${trapConfig.durationValue || 1} ${trapConfig.durationUnit || 'turns'}` :
           trapConfig.trapDuration === 'conditional' ? `Conditional: ${trapConfig.conditionType === 'combat_end' ? 'Combat Ends' :
           trapConfig.conditionType === 'dawn' ? 'Next Dawn' :
           trapConfig.conditionType === 'dusk' ? 'Next Dusk' :

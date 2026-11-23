@@ -10,3 +10,11 @@
 .first-playable-trigger-form label { display: flex; flex-direction: column; gap: 3px; font-size: 0.9em; }
 .first-playable-trigger-error { color: #ffb4a2; }
 .first-playable-trigger h4 { margin: 10px 0 4px; }
+.fpt-choice-banner { margin: 6px 0; padding: 7px 9px; border-radius: 6px; border: 1px solid rgba(178, 140, 72, 0.45); border-left: 4px solid #c99d4b; background: rgba(40, 33, 22, 0.92); }
+.fpt-choice-banner.is-after-close { border-color: rgba(111, 178, 118, 0.65); border-left-color: #6fb276; background: rgba(24, 42, 26, 0.92); }
+.fpt-choice-banner.is-disconnected { border-color: rgba(255, 180, 162, 0.6); border-left-color: #ffb4a2; background: rgba(52, 26, 22, 0.92); }
+.fpt-choice-banner.fpt-empty-member { border-left-color: #8c7a5b; background: rgba(30, 25, 18, 0.9); }
+.fpt-choice-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 5px; }
+.fpt-choice-pill { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 700; line-height: 1.35; border: 1px solid rgba(178, 140, 72, 0.6); background: rgba(65, 52, 33, 0.95); color: #f6ead2; }
+.fpt-choice-pill.is-ready { background: #2f5d34; border-color: #6fb276; color: #f4fbf1; }
+.fpt-instruction { margin: 0; font-size: 0.94em; color: #f7eedb; }

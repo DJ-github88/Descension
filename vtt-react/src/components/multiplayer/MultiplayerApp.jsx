@@ -121,6 +121,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer, onShowLogin }) => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStatusMessage, setLoadingStatusMessage] = useState(null);
   const [showContinue, setShowContinue] = useState(false);
+  const [joinFailure, setJoinFailure] = useState(null);
   const [joinStartTime, setJoinStartTime] = useState(null);
   const joinStartTimeRef = useRef(null); // Ref to avoid race condition with state
   const MIN_LOADING_DURATION = 1500; // 1.5 seconds minimum loading time
@@ -504,6 +505,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer, onShowLogin }) => {
 
   const isGMRef = useRef(isGM);
   const roomPasswordRef = useRef('');
+  const lastAttemptedRoomIdRef = useRef('');
   const deltaSyncTokensRef = useRef(false);
   const addPartyMemberRef = useRef(addPartyMember);
   const removePartyMemberRef = useRef(removePartyMember);
@@ -705,6 +707,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer, onShowLogin }) => {
 
       // Mark as auto-continue sequence
       isAutoJoinSequenceRef.current = true;
+      lastAttemptedRoomIdRef.current = selectedRoomId;
+      roomPasswordRef.current = selectedRoomPassword || '';
 
       // Clear auto-join flags immediately to prevent loops on error/reconnect
       localStorage.removeItem('selectedRoomId');
@@ -936,7 +940,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer, onShowLogin }) => {
       activeJoinIdRef, autoJoinAttemptedRef, isAutoJoinSequenceRef,
       isGMRef, addNotificationRef, addUserRef, removeUserRef,
       addPartyMemberRef, removePartyMemberRef, playerCurrentMapIdRef,
-      isInitialMapLoadRef, joinStartTimeRef, roomPasswordRef,
+      isInitialMapLoadRef, joinStartTimeRef, roomPasswordRef, lastAttemptedRoomIdRef, setJoinFailure,
       checkAutoJoin, handleJoinRoom, handleLeaveRoom, handleLoadingContinue,
       startJoiningRoom, getActiveCharacter, clearAllMultiplayerStores,
       navigate, showMapTransitions, showCursorTracking,
@@ -1038,6 +1042,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer, onShowLogin }) => {
 
     setIsGM(false);
     setConnectedPlayers([]);
+    roomPasswordRef.current = '';
+    lastAttemptedRoomIdRef.current = '';
+    setJoinFailure(null);
 
     // Clear party members so HUD doesn't persist stale player entries
     usePartyStore.getState().clearPartyMembers();
@@ -1256,13 +1263,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer, onShowLogin }) => {
     return (
       <RoomLobby
         socket={socket}
+        initialRoomId={roomCode || joinFailure?.roomId || ''}
+        initialJoinError={joinFailure}
+        onClearJoinError={() => setJoinFailure(null)}
         onJoinRoom={handleJoinRoom}
         onReturnToLanding={onReturnToSinglePlayer}
         onShowLogin={onShowLogin}
-        onJoinAttempt={(roomId) => {
+        onJoinAttempt={(attemptedRoomId, attemptedPassword) => {
+          setJoinFailure(null);
           sessionStorage.setItem('enteringMultiplayer', 'true');
           isAutoJoinSequenceRef.current = true;
-          startJoiningRoom();
+          roomPasswordRef.current = attemptedPassword || '';
+          if (attemptedRoomId) {
+            lastAttemptedRoomIdRef.current = attemptedRoomId;
+          }
         }}
       />
     );

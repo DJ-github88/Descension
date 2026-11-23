@@ -29,6 +29,7 @@ import DoomsayerResourceDisplay from './DoomsayerResourceDisplay';
 import OracleResourceDisplay from './OracleResourceDisplay';
 import DruidResourceDisplay from './DruidResourceDisplay';
 import HunterResourceDisplay from './HunterResourceDisplay';
+import { FLOW_RESOURCE_TYPE, isFlowResourceRecord } from '../../services/hunterFlow';
 import CovenbaneResourceDisplay from './CovenbaneResourceDisplay';
 import ExorcistResourceDisplay from './ExorcistResourceDisplay';
 import DreadnaughtResourceDisplay from './DreadnaughtResourceDisplay';
@@ -2017,6 +2018,10 @@ const ClassResourceBar = ({
         'bog_tallow',           // Witch Doctor: bog tallow
         'witch-doctor-tallow'
     ]);
+    if (characterClass === 'Hunter' && isFlowResourceRecord(finalClassResource)) {
+        // A stage is inspected, never adjusted through the generic resource menu.
+        return <HunterResourceDisplay resource={{ ...finalClassResource, type: FLOW_RESOURCE_TYPE }} isOwner={isOwner} />;
+    }
     const hasDedicatedBar = DEDICATED_BAR_TYPES.has(finalConfig.visual?.type);
 
     // Hide CR bar if class has no resource system (max === 0)

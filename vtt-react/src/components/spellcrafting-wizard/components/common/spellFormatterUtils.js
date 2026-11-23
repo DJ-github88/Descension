@@ -752,6 +752,9 @@ const extractSpellResourceCosts = (spell) => {
   if (spell.id === 'minstrel_resolving_strike' && Array.isArray(spell.musicalCombo?.requires)) {
     const recipe = spell.musicalCombo.requires;
     costs.push(`${recipe.reduce((sum, entry) => sum + entry.count, 0)} Musical Notes (${recipe.map(entry => `${entry.note}×${entry.count}`).join(', ')})`);
+  } else if (spell.id === 'minstrel_opening_chord' && Array.isArray(spell.musicalCombo?.generates)) {
+    const generates = spell.musicalCombo.generates;
+    costs.push(`+${generates.reduce((sum, entry) => sum + entry.count, 0)} Musical Notes (${generates.map(entry => `${entry.note}×${entry.count}`).join(', ')})`);
   } else if (rawClassRes && typeof rawClassRes === 'object') {
     const rawType = rawClassRes.name || rawClassRes.type;
     if (rawType && typeof rawType === 'string') {

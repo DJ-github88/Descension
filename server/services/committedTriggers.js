@@ -4,6 +4,7 @@
  * condition, payment or approval is ever produced here. */
 const crypto = require('crypto');
 const actors = require('./actorConsequences');
+const randomOutcome = require('../shared/services/randomOutcome');
 const { fail, hash, clone, own, keys } = actors;
 const CAPABILITY = 'committed-trigger-diagnostic:v1';
 const FOLLOWUP_MODE = 'follow-up';
@@ -27,7 +28,7 @@ const FOLLOWUP_APPROVALS = Object.freeze({ 'follow-up-after-damage': FOLLOWUP_PO
 const LAPSE_CAPABILITY = 'authenticated-source-next-turn:v1';
 const LAPSE_KEYS = ['capability', 'clockId', 'startSequence', 'dueSequence', 'rosterHash'];
 const MAX_LISTENERS = 32, MAX_OPEN = 64, MAX_CLOSED = 256, MAX_REQUESTS = 256; // engineering limits, never game rules
-const EVIDENCE = { 'immediate-damage': ['committed', 'adjudicatedAmount', 'baseHpLost', 'tempHpAbsorbed'], 'immediate-healing': ['committed', 'adjudicatedAmount', 'hpRestored'] };
+const EVIDENCE = { 'immediate-damage': ['committed', 'adjudicatedAmount', 'baseHpLost', 'tempHpAbsorbed'], 'immediate-healing': ['committed', 'adjudicatedAmount', 'hpRestored'], 'random-outcome': ['committed', 'dice', 'coin', 'card'] };
 const DISMISS_REASON = 'Diagnostic trigger obligation dismissed by the GM. Nothing was applied, paid or executed.';
 const FOLLOWUP_DISMISS_REASON = 'Trigger offer closed by the GM. Nothing was applied, paid or executed.';
 const FOLLOWUP_EXPIRED_REASON = 'Trigger offer lapsed at the source\'s authenticated turn start. Nothing was applied, paid or executed.';
@@ -130,7 +131,7 @@ function ledger(gameState) {
 function validateOn(on) {
   keys(on, ['occurrence', 'role', 'evidence']);
   if (!own(EVIDENCE, on.occurrence) || !['source', 'target'].includes(on.role) || !EVIDENCE[on.occurrence].includes(on.evidence)) {
-    fail('unsupported_trigger_predicate', 'Only an immediate-damage or immediate-healing occurrence, the listener as its source or target, and one named evidence field are supported.');
+    fail('unsupported_trigger_predicate', 'Only an immediate-damage, immediate-healing, or random-outcome occurrence, the listener as its source or target, and one named evidence field are supported.');
   }
 }
 function validateDefinitionRef(room, ref) {
@@ -159,23 +160,52 @@ function eligibility(room, listener) {
     return { ok: true };
   } catch (error) { return { ok: false, code: error.code || 'trigger_listener_ineligible' }; }
 }
+/** Common trigger-engine outcome reader: normalizes dice, coin, or card outcomes into one envelope while preserving native facts. */
+function readOutcomeFacts(rawOutcome, branch = null) {
+  return randomOutcome.outcomeFacts(rawOutcome, branch);
+}
+function readCommittedOutcome(approval) {
+  const authored = require('../shared/services/authoredAbility');
+  if (!authored.isOutcome(approval)) {return null;}
+  return readOutcomeFacts(approval.outcome, approval.chosenBranch);
+}
+/** Typed occurrence of one committed random-outcome resolution (preserving mechanic-specific facts under a common envelope), or null. */
+function outcomeOccurrenceOf(room, receipt, command, approved, binder, entries) {
+  if (!approved || binder !== require('./spellPayments')) {return null;}
+  const approval = approved.approval, authored = require('../shared/services/authoredAbility');
+  if (!authored.isOutcome(approval) || !approval.target) {return null;}
+  if (!entries.some(item => hash(item.ref) === hash(approval.target))) {return null;}
+  const facts = readCommittedOutcome(approval);
+  return { occurrenceId: hash(['committed-occurrence:v1', room.id, receipt.submitterUid, receipt.commandId, receipt.commitSequence, 'random-outcome', approval.target]), kind: 'random-outcome',
+    source: clone(approval.source), target: clone(approval.target), evidence: { committed: 1, mechanic: facts.mechanic, outcome: facts }, cause: { definitionId: approval.spell.definitionId } };
+}
 /** Typed occurrence of one binder-approved single-target immediate damage/healing consequence, or null. */
 function occurrenceOf(room, receipt, command, approved, binder, entries) {
   if (!approved || binder !== require('./spellPayments')) {return null;}
   const approval = approved.approval, authored = require('../shared/services/authoredAbility');
+  const isOutcome = authored.isOutcome(approval);
+  const effectKind = isOutcome ? approval.chosenBranch?.effect?.kind : approval.spell?.kind;
   if (require('../shared/services/authoredCondition').isCondition(approval) || require('../shared/services/authoredEffect').isEffect(approval) ||
-      require('../shared/services/classEffect').isClassEffect(approval) || authored.isArea(approval) || !['damage', 'healing'].includes(approval.spell?.kind) || !approval.target) {return null;}
+      require('../shared/services/classEffect').isClassEffect(approval) || authored.isArea(approval) || !['damage', 'healing'].includes(effectKind) || !approval.target) {return null;}
   const entry = entries.find(item => hash(item.ref) === hash(approval.target));
   if (!entry) {return null;}
   const before = actors.resources(actors.locate(room, approval.target).token, approval.target.kind).hp, after = entry.finalResources.hp;
-  const adjudicatedAmount = command.adjudication?.finalAmount, damage = approval.spell.kind === 'damage';
+  // Direct-damage save (handoff/direct-damage-save/CONTRACT.md): the adjudicated amount of a saved part is the amount applied after the
+  // recorded save, re-derived from the approved terms exactly as the binder pinned it (the GM's pre-save final is not a damage fact).
+  let adjudicatedAmount = command.adjudication?.finalAmount;
+  const damage = effectKind === 'damage';
+  if (approval.saveTerms !== undefined) {
+    let branch = null; try { branch = JSON.parse(command.adjudication.chosenResult).branch; } catch (_) { branch = null; }
+    try { adjudicatedAmount = require('../shared/services/directSave').appliedAmount(approval.saveTerms, branch, adjudicatedAmount); } catch (_) { fail('trigger_evidence_inconsistent', 'The recorded save outcome does not match the approved terms. Nothing changed.'); }
+  }
   const evidence = damage ? { proposedTotal: approval.roll.total, adjudicatedAmount, baseHpLost: before.current - after.current, tempHpAbsorbed: before.temp - after.temp }
     : { proposedTotal: approval.roll.total, adjudicatedAmount, hpRestored: after.current - before.current };
   // The binder pins this arithmetic; anything else is not a fact this ledger may record.
   if (!Object.values(evidence).every(amount) || (!damage && before.temp !== after.temp)) {fail('trigger_evidence_inconsistent', 'The committed pools do not match the approved immediate damage or healing. Nothing changed.');}
   const kind = damage ? 'immediate-damage' : 'immediate-healing';
   return { occurrenceId: hash(['committed-occurrence:v1', room.id, receipt.submitterUid, receipt.commandId, receipt.commitSequence, kind, approval.target]), kind,
-    source: clone(approval.source), target: clone(approval.target), evidence, cause: { definitionId: approval.spell.definitionId } };
+    source: clone(approval.source), target: clone(approval.target), evidence, cause: { definitionId: approval.spell.definitionId },
+    ...(isOutcome ? { outcome: readCommittedOutcome(approval) } : {}) };
 }
 /** D1 = (a), family expansion (handoff/component-trigger-family-expansion/CONTRACT.md): the committed result of ONE watched part of a
  * binder-approved cast whose admitted definition carries a watch on that part, or null. It is read from the ONE component-result contract
@@ -188,10 +218,12 @@ function componentOccurrenceOf(room, receipt, command, approved, binder, entries
   if (!approved || binder !== require('./spellPayments')) {return null;}
   const approval = approved.approval, pure = require('../shared/services/authoredAbility'), effect = require('../shared/services/authoredEffect');
   if (!approval.target || approval.source?.kind !== 'character') {return null;}
+  const rawResults = require('./spellPayments').componentResultsFor(command, approved);
+  if (!rawResults.length) {return null;}
   const admitted = require('./installedAuthoredAbilities').list(room).entries.find(item => pure.actionId(item.definitionRef) === approval.spell.definitionId);
   const watch = admitted?.canonicalDefinition?.componentWatch;
   if (!admitted || watch === undefined || approval.spell.definitionHash !== `${admitted.descriptor.capabilityId}/${admitted.definitionRef.definitionHash}`) {return null;}
-  const results = require('./spellPayments').componentResultsFor(command, approved).filter(item => item.componentId === watch.componentId);
+  const results = rawResults.filter(item => item.componentId === watch.componentId);
   if (results.length !== 1) {
     if (!results.length) {return null;}
     fail('trigger_evidence_inconsistent', 'The binder recorded more than one result for the watched part. Nothing changed.');
@@ -213,8 +245,10 @@ function componentOccurrenceOf(room, receipt, command, approved, binder, entries
   const bundle = effect.isEffect(approval), saved = bundle && effect.saveOf(approval.effectTerms);
   let branch = null;
   if (saved) { try { branch = JSON.parse(command.adjudication.chosenResult).branch || null; } catch (_) { branch = null; } }
+  // Direct-damage save: the binder's own record of the save that set THIS part's amount (handoff/direct-damage-save/CONTRACT.md).
+  const directGate = !bundle && result.save ? { recorded: result.save.recorded, appliesTo: 'effect', outcome: result.save.terms.outcome } : null;
   const component = { definitionRef: clone(admitted.definitionRef), componentId: watch.componentId, wizardKey: watch.wizardKey,
-    gates: { save: saved ? { recorded: branch, appliesTo: 'effects:condition' } : null } };
+    gates: { save: saved ? { recorded: branch, appliesTo: 'effects:condition' } : directGate } };
   return { occurrenceId: hash(['committed-component-occurrence:v1', room.id, receipt.submitterUid, receipt.commandId, receipt.commitSequence, 'immediate-damage', approval.target, watch.componentId]),
     kind: 'immediate-damage', source: clone(approval.source), target: clone(approval.target), evidence, cause: { definitionId: approval.spell.definitionId }, component };
 }
@@ -359,12 +393,16 @@ function consumeOffer(room, next, receipt, approved) {
 function sweepExpired(room, next) {
   const stored = ledger(next);
   if (!stored) {return;}
-  const view = { ...room, gameState: next }, remaining = clone(stored.obligations), closures = [];
-  for (const [obligationId, offer] of Object.entries(remaining)) {
+  const entries = Object.entries(stored.obligations);
+  if (!entries.length) {return;}
+  const view = { ...room, gameState: next }, closures = [];
+  let remaining = null;
+  for (const [obligationId, offer] of entries) {
     if (!isPlain(offer) || offer.mode !== FOLLOWUP_MODE || !isPlain(offer.listener)) {continue;}
     let state;
     try { state = lapseState(view, offer); } catch (_) { continue; }
     if (state.ok || state.code !== 'trigger_offer_expired') {continue;}
+    if (!remaining) {remaining = clone(stored.obligations);}
     delete remaining[obligationId];
     closures.push({ obligationId, state: 'expired', listenerId: offer.listener.listenerId, origin: clone(offer.origin),
       clockId: offer.lapse.clockId, dueSequence: offer.lapse.dueSequence });
@@ -402,6 +440,105 @@ function closeForRoster(room, next, reason = FOLLOWUP_ROSTER_REASON) {
     closed: [...clone(stored.closed), ...closures].slice(-MAX_CLOSED) };
   return closures;
 }
+/** Disposable derived index over `stored.listeners`, never persisted or exposed. Keyed by array identity in a WeakMap
+ * and verified by length/listenerId/mode so registration, revocation, source replacement and checkpoint recovery
+ * always rebuild cleanly. */
+const listenerIndexCache = new WeakMap();
+function sameListenerList(listeners, cached) {
+  if (!cached || !Array.isArray(listeners) || listeners.length !== cached.len) {return false;}
+  for (let i = 0; i < cached.len; i++) {
+    const item = listeners[i];
+    if (item?.listenerId !== cached.ids[i] || item?.mode !== cached.modes[i]) {return false;}
+  }
+  return true;
+}
+function sameRawListeners(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) {return false;}
+  for (let i = 0; i < a.length; i++) {
+    if (a[i]?.listenerId !== b[i]?.listenerId || a[i]?.mode !== b[i]?.mode) {return false;}
+  }
+  return true;
+}
+function buildListenerIndex(listeners) {
+  const pure = require('../shared/services/authoredAbility');
+  const sorted = [...listeners].sort((a, b) => a.listenerId.localeCompare(b.listenerId));
+  const buckets = new Map(), execCounts = new Map(), executableDefsBySource = new Map();
+  const ids = new Array(listeners.length), modes = new Array(listeners.length);
+  for (let i = 0; i < listeners.length; i++) {
+    ids[i] = listeners[i].listenerId;
+    modes[i] = listeners[i].mode;
+  }
+  for (const item of sorted) {
+    const sourceHash = hash(item.source);
+    const modeGroup = item.mode === COMPONENT_MODE ? 'component' : 'whole';
+    const key = `${modeGroup}|${item.on.occurrence}|${item.on.role}|${sourceHash}`;
+    let bucket = buckets.get(key);
+    if (!bucket) { bucket = []; buckets.set(key, bucket); }
+    bucket.push(item);
+    if (executableMode(item.mode)) {
+      execCounts.set(sourceHash, (execCounts.get(sourceHash) || 0) + 1);
+      let defs = executableDefsBySource.get(sourceHash);
+      if (!defs) { defs = new Set(); executableDefsBySource.set(sourceHash, defs); }
+      defs.add(pure.actionId(item.definitionRef));
+    }
+  }
+  const conflictedSources = new Set();
+  for (const [sourceHash, count] of execCounts.entries()) {
+    if (count > 1) {conflictedSources.add(sourceHash);}
+  }
+  return { len: listeners.length, ids, modes, buckets, conflictedSources, executableDefsBySource };
+}
+function listenerIndexFor(room, stored) {
+  const liveListeners = room?.gameState?.triggerLedger?.listeners;
+  if (Array.isArray(liveListeners)) {
+    const cached = listenerIndexCache.get(liveListeners);
+    if (cached && sameListenerList(stored.listeners, cached)) {return cached;}
+    if (sameRawListeners(liveListeners, stored.listeners)) {
+      const built = buildListenerIndex(liveListeners);
+      listenerIndexCache.set(liveListeners, built);
+      return built;
+    }
+  }
+  const cached = listenerIndexCache.get(stored.listeners);
+  if (cached && sameListenerList(stored.listeners, cached)) {return cached;}
+  const built = buildListenerIndex(stored.listeners);
+  listenerIndexCache.set(stored.listeners, built);
+  return built;
+}
+function candidateListeners(index, whole, part, occSourceHash, occTargetHash, outcomeOcc = null) {
+  const matched = [];
+  if (whole) {
+    const bSrc = index.buckets.get(`whole|${whole.kind}|source|${occSourceHash}`);
+    if (bSrc) {matched.push(bSrc);}
+    if (occTargetHash) {
+      const bTgt = index.buckets.get(`whole|${whole.kind}|target|${occTargetHash}`);
+      if (bTgt) {matched.push(bTgt);}
+    }
+  }
+  if (outcomeOcc) {
+    const oSrc = index.buckets.get(`whole|${outcomeOcc.kind}|source|${occSourceHash}`);
+    if (oSrc) {matched.push(oSrc);}
+    if (occTargetHash) {
+      const oTgt = index.buckets.get(`whole|${outcomeOcc.kind}|target|${occTargetHash}`);
+      if (oTgt) {matched.push(oTgt);}
+    }
+  }
+  if (part) {
+    const bSrc = index.buckets.get(`component|${part.kind}|source|${occSourceHash}`);
+    if (bSrc) {matched.push(bSrc);}
+    if (occTargetHash) {
+      const bTgt = index.buckets.get(`component|${part.kind}|target|${occTargetHash}`);
+      if (bTgt) {matched.push(bTgt);}
+    }
+  }
+  if (!matched.length) {return [];}
+  if (matched.length === 1) {return matched[0];}
+  const combined = [];
+  for (const bucket of matched) {
+    for (const item of bucket) {combined.push(item);}
+  }
+  return combined.sort((a, b) => a.listenerId.localeCompare(b.listenerId));
+}
 /** finishStage hook. Mutates only `next.triggerLedger`, and only when a listener or named offer is involved. */
 function record(room, next, receipt, command, approved, binder, entries) {
   sweepExpired(room, next);
@@ -410,27 +547,36 @@ function record(room, next, receipt, command, approved, binder, entries) {
   if (!stored || !stored.listeners.length) {return;}
   // Scope separation: the whole-cast occurrence (if any) and the watched-part occurrence (if any) are separate facts of the same
   // commit. A one-part watched spell yields both; each listener reads only the one its mode names (below).
-  const whole = occurrenceOf(room, receipt, command, approved, binder, entries), part = componentOccurrenceOf(room, receipt, command, approved, binder, entries);
-  const occurrence = whole || part;
-  if (!occurrence) {return;}
+  const whole = occurrenceOf(room, receipt, command, approved, binder, entries), part = componentOccurrenceOf(room, receipt, command, approved, binder, entries), outcomeOcc = outcomeOccurrenceOf(room, receipt, command, approved, binder, entries);
+  const baseOccurrence = whole || part || outcomeOcc;
+  if (!baseOccurrence) {return;}
+  const index = listenerIndexFor(room, stored);
+  const occSourceHash = hash(baseOccurrence.source);
+  const occTargetHash = baseOccurrence.target ? hash(baseOccurrence.target) : null;
+  const candidates = candidateListeners(index, whole, part, occSourceHash, occTargetHash, outcomeOcc);
+  if (!candidates.length) {return;}
   const view = { ...room, gameState: next }, pure = require('../shared/services/authoredAbility'), added = {};
   // T4/F2: a persisted multiple-pairing state never selects a winner and never produces executable offers.
-  const conflicted = new Set(registrationConflicts(stored).map(group => hash(group.source)));
+  const conflicted = index.conflictedSources;
   // T5: an offer-bound response and ordinary casts of a currently bound follow-up pair create no executable child.
   const suppressed = approved?.approval?.triggerOfferId !== undefined ||
-    stored.listeners.some(item => executableMode(item.mode) && hash(item.source) === hash(occurrence.source) &&
-      pure.actionId(item.definitionRef) === occurrence.cause.definitionId);
-  for (const listener of [...stored.listeners].sort((a, b) => a.listenerId.localeCompare(b.listenerId))) {
-    const occurrence = listener.mode === COMPONENT_MODE ? part : whole;
+    (index.executableDefsBySource.get(occSourceHash)?.has(baseOccurrence.cause.definitionId) ?? false);
+  for (const listener of candidates) {
+    const occurrence = listener.mode === COMPONENT_MODE ? part : listener.on.occurrence === 'random-outcome' ? outcomeOcc : whole;
     if (!occurrence) {continue;}
-    if (listener.on.occurrence !== occurrence.kind || hash(listener.source) !== hash(occurrence[listener.on.role])) {continue;}
+    const listenerSourceHash = listener.on.role === 'source' ? occSourceHash : occTargetHash;
+    if (listener.on.occurrence !== occurrence.kind || !listenerSourceHash) {continue;}
     if (pure.actionId(listener.definitionRef) === occurrence.cause.definitionId) {continue;} // self-generated exclusion
     // Scope separation: a part occurrence is read only by a watch of exactly that part of exactly that admitted definition;
     // whole-spell and diagnostic listeners never read it, and a watch never reads a whole-cast occurrence.
     if ((listener.mode === COMPONENT_MODE) !== (occurrence.component !== undefined)) {continue;}
     if (occurrence.component && (hash(listener.watch?.definitionRef) !== hash(occurrence.component.definitionRef) || listener.watch?.componentId !== occurrence.component.componentId)) {continue;}
-    const value = listener.on.evidence === 'committed' ? null : occurrence.evidence[listener.on.evidence];
-    if (value !== null && value < 1) {continue;}
+    const value = occurrence.kind === 'random-outcome'
+      ? (listener.on.evidence === 'committed' ? null : occurrence.evidence.mechanic)
+      : (listener.on.evidence === 'committed' ? null : occurrence.evidence[listener.on.evidence]);
+    if (occurrence.kind === 'random-outcome') {
+      if (!randomOutcome.matchesOutcomeEvidence(listener.on.evidence, occurrence.evidence)) {continue;}
+    } else if (value !== null && value < 1) {continue;}
     if (!eligibility(view, listener).ok) {continue;}
     const obligationId = hash(['trigger-obligation:v1', occurrence.occurrenceId, listener.listenerId]);
     if (own(stored.obligations, obligationId) || stored.closed.some(item => item.obligationId === obligationId)) {fail('trigger_obligation_conflict');}
@@ -439,7 +585,7 @@ function record(room, next, receipt, command, approved, binder, entries) {
     const planned = executable ? planFor(view, listener.definitionRef) : null, subscription = planned?.subscription;
     if (listener.mode === COMPONENT_MODE && (watchRefusal(view, listener) || subscription?.subscriptionId !== 'follow-up-after-damage')) {continue;}
     if (executable && (!followUpAvailable() || !subscription || !subscribed(subscription, listener) || !plans.matches(subscription, occurrence) ||
-        !targetQualifies(view, subscription, occurrence) || (subscription.chain === 'none' && suppressed) || conflicted.has(hash(listener.source)))) {continue;}
+        !targetQualifies(view, subscription, occurrence) || (subscription.chain === 'none' && suppressed) || conflicted.has(listenerSourceHash))) {continue;}
     const lapse = executable ? lapseFor(view, listener) : null;
     // Approved T4: no authenticated source-next-turn lapse means no executable offer. The parent cast still commits.
     if (executable && !lapse) {continue;}
@@ -694,6 +840,6 @@ function audience(room) {
   return [...new Set([...stored.listeners.map(item => item.source), ...Object.values(stored.obligations).map(item => item.listener.source)].filter(ref => ref.kind === 'character').map(ref => ref.ownerUid))];
 }
 module.exports = { COMPONENT_MODE, executableMode, watchPlanFor, watchRefusal, componentOccurrenceOf, planFor, authorityOf, sameBinding, HEALING_FOLLOWUP_POLICY, FOLLOWUP_APPROVALS, CAPABILITY, DISMISS_REASON, FOLLOWUP_MODE, FOLLOWUP_CAPABILITY, FOLLOWUP_DISMISS_REASON, FOLLOWUP_EXPIRED_REASON, FOLLOWUP_ROSTER_REASON, FOLLOWUP_TARGET_REASON, FOLLOWUP_POLICY, LAPSE_CAPABILITY, followUpAvailable, MAX_LISTENERS, MAX_OPEN, MAX_CLOSED, EVIDENCE,
-  ledger, eligibility, occurrenceOf, validateOffer, lapseFor, lapseState, checkOfferApproval, record, closeForRoster, planRegister, planRevoke, validateDismiss, stageDismiss, isReceipt, project, describe, obligationMode, audience };
+  ledger, eligibility, occurrenceOf, readOutcomeFacts, readCommittedOutcome, outcomeOccurrenceOf, validateOffer, lapseFor, lapseState, checkOfferApproval, record, closeForRoster, planRegister, planRevoke, validateDismiss, stageDismiss, isReceipt, project, describe, obligationMode, audience };
 
 

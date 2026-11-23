@@ -58,6 +58,20 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
 
     dispatch(actionCreators.setSpellType(type));
     dispatch(actionCreators.updateTypeConfig(newConfig));
+    if (type === 'PASSIVE') {
+      dispatch(actionCreators.updateResourceCost({
+        actionPoints: 0,
+        actionPointsSelected: false,
+        mana: 0,
+        resourceTypes: [],
+        resourceValues: { actionPoints: 0, mana: 0 }
+      }));
+      dispatch({
+        type: 'UPDATE_COOLDOWN_CONFIG',
+        replace: true,
+        payload: { cooldownType: 'none', cooldownValue: 0 }
+      });
+    }
   };
 
   // Handle type-specific configuration changes
@@ -72,6 +86,24 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
     dispatch(actionCreators.updateTypeConfig({
       [name]: processedValue
     }));
+
+    if (state.spellType === 'CHANNELED' && state.channelingConfig && Object.keys(state.channelingConfig).length > 0) {
+      const syncMap = {
+        maxChannelDuration: ['maxDuration', processedValue],
+        durationUnit: ['durationUnit', String(processedValue).toLowerCase()],
+        tickFrequency: ['tickFrequency', processedValue],
+        concentrationDC: ['concentrationDC', processedValue],
+        dcType: ['dcType', processedValue],
+        breakEffect: ['breakEffect', processedValue]
+      };
+      if (syncMap[name]) {
+        const [ccKey, ccVal] = syncMap[name];
+        dispatch({
+          type: 'UPDATE_CHANNELING_CONFIG',
+          payload: { ...state.channelingConfig, [ccKey]: ccVal }
+        });
+      }
+    }
   };
 
 
@@ -88,7 +120,7 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
       case 'REACTION':
         return "Quick response spells that can be cast in response to specific triggers or conditions.";
       case 'TRAP':
-        return "Placed effects that activate when triggered by specific conditions. Perfect for controlling areas or setting ambushes.";
+        return "GM-managed placed effects resolved at the table when trigger conditions are met (not automatically placed or fired by Prism).";
       case 'STATE':
         return "Always-present spells that activate automatically when specific conditions are met, such as low health or resource thresholds.";
       case 'ZONE':
@@ -280,7 +312,7 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                     </label>
                   </div>
                   <small className="spell-wizard-help-text">
-                    Whether the passive effect can be turned on and off
+                    Whether the passive effect can be turned on and off. For an executable movement-entry passive: select Control (composed effect with Manual expiry), add Moves Into Passive Radius in Triggers, and set Self-Centered Circle radius + Target Restrictions in Targeting (teleport, forced movement, and re-entry remain unsettled/open).
                   </small>
                 </div>
               </div>
@@ -413,7 +445,7 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
               </div>
 
               <div className="spell-wizard-info-box">
-                <p>Additional trap configuration options will be available in the Trap Placement and Triggers steps.</p>
+                <p>Trap spells are saved as GM-managed reference notes only — Prism does not automatically place, arm, charge, or fire traps. Configure additional notes in the Triggers and Trap Placement steps.</p>
               </div>
             </>
           )}

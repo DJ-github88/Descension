@@ -60,11 +60,13 @@ describe('M6A bounded area / multi-target execution production authority tests',
     server.setCharacterOwner('ally-c', obsUid);
 
     const map = room.gameState.maps.default;
+    map.gridSettings = { gridType: 'square', gridSize: 50, feetPerTile: 5, gridOffsetX: 0, gridOffsetY: 0 };
     room.gameState.maps.dungeon = { tokens: {}, characterTokens: {} };
 
     map.characterTokens.pc = {
       id: 'pc',
       ownerUserId: uid,
+      position: { x: 125, y: 125 },
       character: {
         id: 'c',
         name: 'Lyra',
@@ -81,6 +83,7 @@ describe('M6A bounded area / multi-target execution production authority tests',
     map.characterTokens.ally = {
       id: 'ally',
       ownerUserId: obsUid,
+      position: { x: 125, y: 175 },
       character: {
         id: 'ally-c',
         name: 'Bram',
@@ -93,11 +96,23 @@ describe('M6A bounded area / multi-target execution production authority tests',
       state: { conditions: [] }
     };
 
+    const foePositions = [
+      { x: 175, y: 125 },
+      { x: 225, y: 125 },
+      { x: 375, y: 125 },
+      { x: 1025, y: 125 },
+      { x: 1075, y: 125 },
+      { x: 1125, y: 125 },
+      { x: 1175, y: 125 },
+      { x: 1225, y: 125 },
+      { x: 2025, y: 125 }
+    ];
     for (let i = 1; i <= 9; i++) {
       const id = `foe${i}`;
       map.tokens[id] = {
         id,
         name: `Construct ${i}`,
+        position: foePositions[i - 1],
         stats: { maxHp: 50, maxMana: 0, maxAP: 4 },
         state: { currentHp: 30, currentMana: 0, currentActionPoints: 4, tempHealth: i === 1 ? 3 : 0, conditions: [] }
       };
@@ -203,7 +218,7 @@ describe('M6A bounded area / multi-target execution production authority tests',
     return entry;
   }
 
-  function buildAreaApproval(e, targetRefs, { faces = [4, 5], classPayment = null, areaOrigin = { x: 150, y: 150 } } = {}) {
+  function buildAreaApproval(e, targetRefs, { faces = [4, 5], classPayment = null, areaOrigin = { x: 175, y: 125 } } = {}) {
     const names = pure.formulaAttributes(e.canonicalDefinition.effect.formula);
     const projected = require('../services/roomAccessService').projectTokenForClient(token(pc));
     const rollAttributes = {};
@@ -368,7 +383,7 @@ describe('M6A bounded area / multi-target execution production authority tests',
     assert.equal(registry.decodeRegistry(registry.encodeRegistry(installed.registry(room)).json).ok, true);
 
     const targets = [foes[0], foes[1], foes[2]];
-    const a = buildAreaApproval(e, targets, { faces: [4, 5] });
+    const a = buildAreaApproval(e, targets, { faces: [4, 5], areaOrigin: { x: 275, y: 125 } });
     // 2d6 (4+5=9) + floor(18/2)=9 => 18 proposed per target
     assert.equal(a.roll.total, 18);
 
@@ -664,7 +679,7 @@ describe('M6A bounded area / multi-target execution production authority tests',
 
   it('3. stale, deleted or recreated actor refuses atomically with zero partial payment or HP changes', async () => {
     const e = await admitArea();
-    const a = buildAreaApproval(e, [foes[0], foes[1], foes[2]]);
+    const a = buildAreaApproval(e, [foes[0], foes[1], foes[2]], { areaOrigin: { x: 275, y: 125 } });
     const approved = await ack(owner, 'actor_spell_approve', a);
     const staleCmd = buildAreaCommand(a, approved.contentHash);
 
@@ -794,7 +809,18 @@ describe('M6A bounded area / multi-target execution production authority tests',
     assert.deepEqual(room.gameState.maps, before);
 
     // 8 targets (9 actors including caster) succeed atomically
-    const a8 = buildAreaApproval(e, foes.slice(0, 8));
+    const clusterPositions = [
+      { x: 275, y: 175 },
+      { x: 225, y: 175 },
+      { x: 175, y: 175 },
+      { x: 325, y: 175 },
+      { x: 325, y: 125 }
+    ];
+    for (let i = 0; i < clusterPositions.length; i++) {
+      token(foes[3 + i]).position = clusterPositions[i];
+    }
+    const a8 = buildAreaApproval(e, foes.slice(0, 8), { areaOrigin: { x: 275, y: 125 } });
+    const before8 = actors.clone(room.gameState.maps);
     const approved8 = await ack(owner, 'actor_spell_approve', a8);
     assert.equal(approved8.code, 'awaiting_gm', JSON.stringify(approved8));
 
@@ -804,7 +830,7 @@ describe('M6A bounded area / multi-target execution production authority tests',
     const rOversized = await ack(gm, 'actor_consequence', oversizedCmd);
     assert.equal(rOversized.success, false);
     assert.equal(rOversized.code, 'invalid_adjudication');
-    assert.deepEqual(room.gameState.maps, before);
+    assert.deepEqual(room.gameState.maps, before8);
 
     const validCmd8 = buildAreaCommand(a8, approved8.contentHash);
     const accepted8 = await ack(gm, 'actor_consequence', validCmd8);

@@ -11,12 +11,75 @@ import { useReactionWindowStore, bindReactionWindows, openReactionWindow, change
 import { reactionPrincipal } from '../../services/reactionWindowService';
 import { getBootstrapGateState, isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyGate';
 import { phaseLabel } from '../combat-narration-preview/narrationQueue';
+import { useTriggerOfferStore } from '../../services/triggerOfferService';
+import { useSpellConsequenceStore, ownerSource } from '../../services/spellConsequenceService';
+import { sameExactRef } from '../../services/featherSlash';
+import { actionId } from '../../services/authoredAbility';
 import './ReactionWindowPanel.css';
 
 const MOMENTS = ['targeting', 'before_roll', 'after_roll', 'on_hit', 'after_damage', 'follow_up'];
 const words = value => value.replace(/_/g, ' ');
 const key = ref => `${ref.kind}:${ref.mapId}:${ref.tokenId}:${ref.instanceId}`;
 const name = token => token.character?.name || token.state?.customName || token.name || token.id;
+
+function summarizeFollowUpState({ roomId, projection, declined = [], authoredEntries }) {
+  const empty = { usable: [], otherCharacter: [], hasAvailable: false, hasOtherCharacter: false, primaryName: '' };
+  if (!projection || (projection.roomId && projection.roomId !== roomId) || projection.viewerRole !== 'member') return empty;
+  const declinedIds = Array.isArray(declined) ? declined : [];
+  const offers = (Array.isArray(projection.obligations) ? projection.obligations : [])
+    .filter(offer => offer && offer.mode === 'follow-up' && offer.obligationId && !declinedIds.includes(offer.obligationId));
+  if (!offers.length) return empty;
+  const refKey = ref => (ref && ref.definitionId ? actionId(ref) : '');
+  const entries = Array.isArray(authoredEntries) ? authoredEntries : [];
+  const byAction = Object.fromEntries(
+    entries
+      .filter(entry => entry && !entry.revoked && !entry.creatureOnly && refKey(entry.definitionRef) && (!entry.definitionRef?.roomId || entry.definitionRef.roomId === roomId))
+      .map(entry => [refKey(entry.definitionRef), entry])
+  );
+  const listeners = Array.isArray(projection.listeners) ? projection.listeners.filter(Boolean) : [];
+  let currentSource = { error: 'unavailable' };
+  try {
+    if (typeof ownerSource === 'function') currentSource = ownerSource() || { error: 'unavailable' };
+  } catch (_) {
+    currentSource = { error: 'unavailable' };
+  }
+  const usable = [];
+  const otherCharacter = [];
+  for (const offer of offers) {
+    const defRef = offer.definitionRef || offer.listener?.definitionRef;
+    const keyId = refKey(defRef);
+    const entry = keyId ? byAction[keyId] : null;
+    const offerName = entry?.canonicalDefinition?.name || defRef?.definitionId || 'follow-up ability';
+    const offerSource = listeners.find(item => item.listenerId === offer.listenerId)?.source;
+    const sourceMatches = Boolean(offerSource && !currentSource.error && currentSource.ref && sameExactRef(currentSource.ref, offerSource));
+    const serverAvailable = Boolean(keyId) && offer.available === true && offer.lapse !== 'expired' && offer.lapse !== 'invalid' && offer.lapse !== 'conflict';
+    if (!serverAvailable) continue;
+    if (sourceMatches) usable.push({ offer, name: offerName });
+    else if (offerSource) otherCharacter.push({ offer, name: offerName });
+  }
+  const primaryName = usable[0]?.name || otherCharacter[0]?.name || '';
+  return {
+    usable,
+    otherCharacter,
+    hasAvailable: usable.length > 0,
+    hasOtherCharacter: usable.length === 0 && otherCharacter.length > 0,
+    primaryName
+  };
+}
+
+function focusFollowUpPanel() {
+  if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') {
+    window.dispatchEvent(new CustomEvent('mythrill:open-trigger-registration'));
+  }
+  if (typeof document === 'undefined') return;
+  const panel = document.querySelector('section.first-playable-trigger[aria-label="Follow-up trigger offers"]');
+  if (!panel) return;
+  const box = panel.querySelector('details.first-playable-trigger-box');
+  if (box && !box.open) box.open = true;
+  panel.scrollIntoView?.({ block: 'nearest' });
+  const target = panel.querySelector('button:not(:disabled)') || panel.querySelector('summary');
+  target?.focus?.();
+}
 function GMPrepare({ perform, busy, windows, epoch }) {
   const creatures = useCreatureStore(s => s.creatureTokens), characters = useCharacterTokenStore(s => s.characterTokens);
   const uid = useAuthStore(s => s.user?.uid);
@@ -76,9 +139,73 @@ function OwnerIntent({ window: w, perform, busy, closed }) {
     </details>; })}
   </>;
 }
-function WindowCard({ window: w, gm, perform, busy, tick }) {
+function WindowCard({ window: w, gm, perform, busy, tick, followUp }) {
   const remaining = Math.max(0, w.remainingMs - (tick - w.receivedAt)), closed = w.status !== 'open' || remaining <= 0;
   useEffect(() => { if (w.status === 'open' && remaining <= 0) refreshReactionWindows(false); }, [w.status, remaining <= 0]); // eslint-disable-line react-hooks/exhaustive-deps
+  const renderPostHitGuide = () => {
+    if (gm) return null;
+    if (w.status === 'open' && remaining > 0) {
+      return <div className="rw-post-hit-guide" data-post-hit-state="open">
+        <p className="rw-choice-row">
+          <span className="rw-choice-pill is-urgent">React now · 8s window</span>
+          {followUp?.hasAvailable && <span className="rw-choice-pill is-followup">Follow-up stays available: {followUp.primaryName}</span>}
+        </p>
+        <p className="rw-instruction">
+          {followUp?.hasAvailable
+            ? `Declare a reaction before the timer ends; ${followUp.primaryName} stays available after it closes.`
+            : followUp?.hasOtherCharacter
+              ? 'Declare a reaction before the timer ends; a follow-up stays available on another character.'
+              : 'Declare a reaction before the timer ends, or stay silent to skip.'}
+        </p>
+      </div>;
+    }
+    if (w.status === 'open' && remaining <= 0) {
+      return <div className="rw-post-hit-guide is-closed-none" data-post-hit-state="closing">
+        <p className="rw-choice-row"><span className="rw-choice-pill is-closed">8s window ended</span></p>
+        <p className="rw-instruction">Checking server cutoff now; follow-up status will update automatically.</p>
+      </div>;
+    }
+    if (w.status === 'closed') {
+      if (followUp?.hasAvailable) {
+        return <div className="rw-post-hit-guide is-followup-ready" data-post-hit-state="closed-followup-available">
+          <p className="rw-choice-row">
+            <span className="rw-choice-pill is-closed">8s window closed</span>
+            <span className="rw-choice-pill is-followup">Follow-up still available: {followUp.primaryName}</span>
+          </p>
+          <p className="rw-instruction">Use {followUp.primaryName} in Follow-up offers now, or wait for the GM.</p>
+          <button type="button" className="rw-followup-jump" onClick={focusFollowUpPanel}>Go to Follow-up offers</button>
+        </div>;
+      }
+      if (followUp?.hasOtherCharacter) {
+        return <div className="rw-post-hit-guide is-followup-ready" data-post-hit-state="closed-followup-other-character">
+          <p className="rw-choice-row">
+            <span className="rw-choice-pill is-closed">8s window closed</span>
+            <span className="rw-choice-pill is-followup">Follow-up on another character</span>
+          </p>
+          <p className="rw-instruction">Select that primary character to use {followUp.primaryName}, or wait for the GM.</p>
+        </div>;
+      }
+      return <div className="rw-post-hit-guide is-closed-none" data-post-hit-state="closed-no-followup">
+        <p className="rw-choice-row">
+          <span className="rw-choice-pill is-closed">8s window closed</span>
+          <span className="rw-choice-pill is-none">No follow-up available</span>
+        </p>
+        <p className="rw-instruction">No follow-up is available; wait for the GM to adjudicate.</p>
+      </div>;
+    }
+    return <div className={`rw-post-hit-guide ${followUp?.hasAvailable ? 'is-followup-ready' : 'is-closed-none'}`} data-post-hit-state="interrupted">
+      <p className="rw-choice-row">
+        <span className="rw-choice-pill is-closed">8s window interrupted</span>
+        {followUp?.hasAvailable && <span className="rw-choice-pill is-followup">Follow-up still available: {followUp.primaryName}</span>}
+      </p>
+      <p className="rw-instruction">
+        {followUp?.hasAvailable
+          ? `Use ${followUp.primaryName} in Follow-up offers, or wait for GM takeover.`
+          : 'No follow-up is available; wait for GM takeover.'}
+      </p>
+      {followUp?.hasAvailable && <button type="button" className="rw-followup-jump" onClick={focusFollowUpPanel}>Go to Follow-up offers</button>}
+    </div>;
+  };
   return <article className="rw-card" aria-label={`${words(w.moment)} declaration window ${w.windowId.slice(0, 8)}`}>
     <h3>{words(w.moment)} · declaration collection</h3>
     <p>Window {w.windowId.slice(0, 8)}</p>
@@ -86,6 +213,7 @@ function WindowCard({ window: w, gm, perform, busy, tick }) {
     <p>{w.status === 'closed' ? 'Collection closed — GM manual adjudication required. No execution or payment confirmed.' :
       w.status === 'interrupted' ? 'Collection interrupted — manual GM takeover. No cancellation or refund is implied.' :
         'Full eight-second server window. No Pass required; no normal early close.'}</p>
+    {renderPostHitGuide()}
     {gm ? <>
       <p>GM bundle sealed and immutable. Player choices remain private until cutoff; display order is not resolution priority.</p>
       <details><summary>Your precommitted GM choices</summary><p>{w.gmCommit.note || 'Explicitly no GM declarations.'}</p></details>
@@ -102,13 +230,39 @@ export default function ReactionWindowHost() {
   const gm = useGameStore(s => s.isGMMode), uid = useAuthStore(s => s.user?.uid), selected = useCharacterStore(s => s.currentCharacterId);
   const state = useReactionWindowStore(), [busy, setBusy] = useState(false), [error, setError] = useState(''), [tick, setTick] = useState(performance.now());
   const [selectedWindowId, setSelectedWindowId] = useState('');
+  const [connected, setConnected] = useState(() => socket?.connected !== false);
+  const triggerProjection = useTriggerOfferStore(s => s?.projection);
+  const triggerDeclined = useTriggerOfferStore(s => s?.declined);
+  const authoredEntries = useSpellConsequenceStore(s => (!s?.authoredRoomId || s.authoredRoomId === roomId) ? s.authoredEntries : null);
+  const followUp = summarizeFollowUpState({ roomId, projection: triggerProjection, declined: triggerDeclined, authoredEntries });
   const generation = getBootstrapGateState().accountGeneration;
   const active = state.windows.some(w => w.status === 'open');
   useEffect(() => { if (socket && roomId && uid) return bindReactionWindows(socket); }, [socket, roomId, uid, selected, gm, generation]);
   useEffect(() => { if (!active) return; const t = setInterval(() => setTick(performance.now()), 100); return () => clearInterval(t); }, [active]);
+  useEffect(() => {
+    if (!socket) { setConnected(false); return undefined; }
+    setConnected(socket.connected !== false);
+    if (typeof socket.on !== 'function' || typeof socket.off !== 'function') return undefined;
+    const onConnect = () => setConnected(true);
+    const onDisconnect = () => setConnected(false);
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+    };
+  }, [socket]);
   const perform = async fn => { setBusy(true); setError(''); try { await fn(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
   if (!socket || !roomId || !uid || isPrivateProjectionIsolated() || state.principal !== reactionPrincipal()) return null;
-  if (!socket.connected) return createPortal(<section className="rw-overlay rw-panel" role="status">Collection disconnected/unavailable — the original deadline continues. Reconnect checks status, never resubmits.</section>, document.body);
+  if (!connected || !socket.connected) {
+    return createPortal(
+      <section className="rw-overlay rw-panel rw-disconnected" role="status" data-post-hit-state="disconnected">
+        <p className="rw-choice-row"><span className="rw-choice-pill is-closed">React now · Disconnected</span></p>
+        <p className="rw-instruction">Collection disconnected/unavailable — the 8-second timer keeps running; reconnect to check reaction and follow-up status (never resubmits).</p>
+      </section>,
+      document.body
+    );
+  }
   const selectedWindow = state.windows.find(w => w.windowId === selectedWindowId) || state.windows[state.windows.length - 1];
   const windows = state.windows.filter(w => w.status === 'open');
   if (selectedWindow && selectedWindow.status !== 'open') windows.push(selectedWindow);
@@ -128,7 +282,7 @@ export default function ReactionWindowHost() {
         <p>These records were not moved into a new window. No execution, payment, cancellation or refund is confirmed.</p>
         {state.interrupted.map(item => <pre key={item.request.payload.requestId}>{JSON.stringify(item.request.payload, null, 2)}</pre>)}
       </details>}
-      {windows.map(w => <WindowCard key={w.windowId} {...{ window: w, gm, perform, busy, tick }} />)}
+      {windows.map(w => <WindowCard key={w.windowId} {...{ window: w, gm, perform, busy, tick, followUp }} />)}
     </section>, document.body)}
   </>;
 }

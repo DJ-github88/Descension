@@ -5,7 +5,7 @@ import { captureActorDelivery, currentActorDelivery } from './actorProjectionOrd
 import { getBootstrapGateState, isPrivateProjectionIsolated } from '../persistence/bootstrapPrivacyGate';
 import { conditionContext, loadConditionCustody, retainConditionCommand, clearRetainedPeriodicEntries, clearRetainedPeriodicEntry } from './sharedConditionCustody';
 import { refreshActorSnapshot, prepareActorCommand, submitPreparedActorCommand, requestActorEvent, findActor, refOf } from './actorConsequenceService';
-import { DEFENDING, STUNNED, MOVEMENT, ATTRIBUTE, DAMAGE_REDUCTION, PERIODIC, isPeriodicTick, canonical, sameRef, recordsFor, makeDefendingRecord, makeStunnedRecord, stunnedRecordsFor, sameStunnedSource, movementRecordsFor, attributeRecordsFor, damageReductionRecordsFor } from './sharedConditionProfile';
+import { DEFENDING, DEFEND_ACTION, STUNNED, MOVEMENT, ATTRIBUTE, DAMAGE_REDUCTION, PERIODIC, CHANNELED, isPeriodicTick, isChanneledTick, canonical, sameRef, recordsFor, makeDefendingRecord, makeStunnedRecord, stunnedRecordsFor, sameStunnedSource, movementRecordsFor, attributeRecordsFor, damageReductionRecordsFor } from './sharedConditionProfile';
 import { onRoomRejoined } from './roomRejoinBus';
 import * as shieldBash from './shieldBashResult';
 import * as timing from './sharedEffectTiming';
@@ -74,7 +74,7 @@ function accepted(result, s = scope()) {
     if (entry.command.commandId !== receipt.commandId || (!['turn-boundary', 'periodic-tick'].includes(entry.kind) && !receipt.actors.some(actor => sameRef(actor.ref, entry.ref)))) continue;
     const summary = Object.fromEntries(['success', 'receipt', 'status', 'durability'].filter(k => result[k] !== undefined).map(k => [k, result[k]]));
     retainConditionCommand(s.context, key, { ...entry, phase: 'accepted', result: summary }); restore(s.context);
-    message(key, { outcome: 'Accepted condition command. Current state below comes from the room, not this historical receipt.' });
+    message(key, { outcome: receipt.adjudication?.definitionVersionOrHash === DEFEND_ACTION.version ? 'Accepted Defend (1 AP): double equipment DR and no wear until your next turn.' : 'Accepted condition command. Current state below comes from the room, not this historical receipt.' });
   }
 }
 export async function checkConditionCommand(ref) {
@@ -88,7 +88,7 @@ export async function checkConditionCommand(ref) {
   if (loadConditionCustody(s.context)?.entries?.[key]?.command?.commandId !== entry.command.commandId) return result;
   if (result.success && result.receipt) accepted(result, s);
   else if (loadConditionCustody(s.context)?.entries?.[key]?.phase !== 'accepted') {
-    const definitive = ['authored_effect_correction_is_removal', 'authored_effect_gm_removal_required', 'authored_effect_approval_required', 'stale_turn_state', 'stale_turn_occurrence', 'turn_state_unavailable', 'turn_roster_unbound', 'turn_clock_already_active', 'turn_gm_required', 'invalid_turn_boundary', 'stale_effect_schedule', 'turn_expiry_capacity', 'condition_operation_limit', 'shield_bash_gm_required', 'invalid_shield_bash_result', 'shield_bash_already_recorded', 'stale_actor_revision', 'condition_already_active', 'condition_not_found', 'invalid_condition', 'invalid_shared_condition', 'invalid_consequence', 'invalid_resources', 'actor_binding_conflict', 'secondary_attachment',
+    const definitive = ['authored_effect_correction_is_removal', 'authored_effect_gm_removal_required', 'authored_effect_approval_required', 'stale_turn_state', 'stale_turn_occurrence', 'turn_state_unavailable', 'turn_roster_unbound', 'turn_clock_already_active', 'turn_gm_required', 'invalid_turn_boundary', 'stale_effect_schedule', 'turn_expiry_capacity', 'condition_operation_limit', 'shield_bash_gm_required', 'invalid_shield_bash_result', 'shield_bash_already_recorded', 'stale_actor_revision', 'condition_already_active', 'condition_not_found', 'invalid_condition', 'invalid_shared_condition', 'invalid_defend_action', 'insufficient_resources', 'not_your_turn', 'actor_stunned', 'combat_binding_required', 'combat_turn_ambiguous', 'invalid_consequence', 'invalid_resources', 'actor_binding_conflict', 'secondary_attachment',
       'tick_already_resolved', 'tick_not_found', 'periodic_tick_stale', 'periodic_tick_retired', 'periodic_roll_mismatch', 'periodic_target_down', 'periodic_tick_capacity', 'invalid_periodic_resolution', 'adjustment_reason_required', 'invalid_spell_approval'].includes(result.code);
     // M5 recovery review F1: for a tick command whose outcome was already uncertain, "already resolved"/"not found" can mean this
     // very command was admitted (its first copy still in flight or its ACK lost). That is never shown as a refusal.
@@ -222,6 +222,38 @@ export async function submitTurnBoundary(mode = 'advance') {
     return checkTurnBoundary();
   } finally { locks.delete(lock); }
 }
+export async function performDefendAction(ref) {
+  if (!ref || ref.kind !== 'character') throw Error('Exact primary PC required for Defend.');
+  const s = scope(), key = conditionKey(ref), lock = `${s.principal}:${key}`;
+  if (locks.has(lock)) throw Error('Condition preparation already pending. No duplicate command created.');
+  locks.add(lock);
+  try {
+    const before = loadConditionCustody(s.context)?.entries?.[key];
+    if (before?.command && !['accepted', 'failed'].includes(before.phase)) throw Error('Check the retained unknown condition command before another edit.');
+    const snapshot = await refreshConditionActor(ref);
+    if (!live(s)) return;
+    if (!snapshot?.success || !resolveConditionActor({ targetRef: ref })) throw Error('Exact current primary PC unavailable; no fallback target.');
+    const latest = loadConditionCustody(s.context)?.entries?.[key];
+    if (latest?.command && !['accepted', 'failed'].includes(latest.phase)) throw Error('Another unknown command owns this condition lane.');
+    const token = findActor(ref), active = recordsFor(token);
+    if (active.length) { message(key, { outcome: 'Already Defending — no extra 1 AP spent.' }); return { success: true, code: 'already_active' }; }
+    const apCurrent = token.character?.actionPoints?.current, apTemp = token.character?.tempActionPoints ?? 0;
+    if (!Number.isSafeInteger(apCurrent) || apCurrent < 0 || !Number.isSafeInteger(apTemp) || apTemp < 0) throw Error('Action Points unavailable for this character.');
+    if (apCurrent + apTemp < DEFEND_ACTION.apCost) throw Error('Insufficient Action Points: Defend costs 1 AP.');
+    const fromTemp = Math.min(apTemp, DEFEND_ACTION.apCost);
+    const finalAp = { current: apCurrent - (DEFEND_ACTION.apCost - fromTemp), temp: apTemp - fromTemp };
+    const id = crypto.randomUUID(), record = makeDefendingRecord(ref, id, 'defend-action');
+    const command = prepareActorCommand([{ ref, expectedRevision: token.state.actorContract.revision, finalResources: { ap: finalAp }, conditions: [{ op: 'add', recordId: id, record }] }], {
+      source: ref, target: ref,
+      adjudication: { definitionId: DEFEND_ACTION.definitionId, definitionVersionOrHash: DEFEND_ACTION.version,
+        chosenResult: JSON.stringify({ conditionKey: DEFENDING.conditionKey, action: 'defend', apCost: DEFEND_ACTION.apCost, recordId: id }),
+        finalAmount: DEFEND_ACTION.apCost, adjustmentReason: 'PC Defend action (1 AP): double equipment DR and no wear until next turn.' }
+    });
+    retainConditionCommand(s.context, key, { ref, operation: 'add', recordId: id, command, phase: 'unknown' }); restore(s.context);
+    message(key, { outcome: 'Pending Defend (1 AP) — no optimistic AP or condition change.' });
+    return checkConditionCommand(ref);
+  } finally { locks.delete(lock); }
+}
 export async function editDefending(ref, operation, { recordId, sourceMode = 'manual' } = {}) {
   return editSharedCondition(ref, operation, { recordId, sourceMode, profile: 'defending' });
 }
@@ -243,17 +275,18 @@ export async function editSharedCondition(ref, operation, { recordId, sourceMode
       if (!resolveConditionActor({ targetRef: sourceActor })) throw Error('Exact Shield Bash source unavailable; no replacement incarnation or sheet fallback.');
       if (shieldBashResults().some(r => !['accepted', 'failed'].includes(r.phase))) throw Error('Check the retained unknown Shield Bash result before another result.');
     }
-    if (!['stunned', 'defending', 'movement', 'attribute', 'damageReduction', 'periodic'].includes(profile) || (profile === 'defending' && ref.kind !== 'character')) throw Error('Unsupported condition profile/actor.');
-    // M5: an accepted periodic instance has exactly one correction — exact GM removal (later ticks are then never recorded).
-    if (profile === 'periodic' && (operation !== 'remove' || !game().isGMMode)) throw Error('Periodic effects are removed by the current GM only (exact instance).');
+    if (!['stunned', 'defending', 'movement', 'attribute', 'damageReduction', 'periodic', 'channeled'].includes(profile) || (profile === 'defending' && ref.kind !== 'character')) throw Error('Unsupported condition profile/actor.');
+    // M5 / Channeled: an accepted periodic/channeled instance has exactly one correction — exact GM removal (later ticks are then never recorded).
+    if ((profile === 'periodic' || profile === 'channeled') && (operation !== 'remove' || !game().isGMMode)) throw Error('Periodic and channeled effects are removed by the current GM only (exact instance).');
     // A10 review finding 2: an accepted authored movement change has exactly one correction — exact GM removal.
     if (profile === 'movement' && (operation !== 'remove' || !game().isGMMode)) throw Error('Authored movement changes are removed by the current GM only (exact instance).');
     // Attribute family: the same single correction — exact GM removal; base attributes are never edited here.
     if (profile === 'attribute' && (operation !== 'remove' || !game().isGMMode)) throw Error('Authored attribute changes are removed by the current GM only (exact instance).');
     // Flat DR family: the same single correction — exact GM removal; base stats and equipment are never edited here.
     if (profile === 'damageReduction' && (operation !== 'remove' || !game().isGMMode)) throw Error('Authored flat damage-reduction changes are removed by the current GM only (exact instance).');
-    const definition = profile === 'stunned' ? STUNNED : profile === 'movement' ? MOVEMENT : profile === 'attribute' ? ATTRIBUTE : profile === 'damageReduction' ? DAMAGE_REDUCTION : profile === 'periodic' ? PERIODIC : DEFENDING;
+    const definition = profile === 'stunned' ? STUNNED : profile === 'movement' ? MOVEMENT : profile === 'attribute' ? ATTRIBUTE : profile === 'damageReduction' ? DAMAGE_REDUCTION : profile === 'channeled' ? CHANNELED : profile === 'periodic' ? PERIODIC : DEFENDING;
     const token = findActor(ref), active = profile === 'stunned' ? stunnedRecordsFor(token) : profile === 'movement' ? movementRecordsFor(token) : profile === 'attribute' ? attributeRecordsFor(token) : profile === 'damageReduction' ? damageReductionRecordsFor(token)
+      : profile === 'channeled' ? (token?.state?.conditions || []).filter(r => isChanneledTick(r) && sameRef(r.target, token.state?.actorContract))
       : profile === 'periodic' ? (token?.state?.conditions || []).filter(r => isPeriodicTick(r) && sameRef(r.target, token.state?.actorContract)) : recordsFor(token);
     const candidate = shieldBashResult ? shieldBash.makeRecord(sourceActor, ref, crypto.randomUUID()) : profile === 'stunned' && operation === 'add' ? makeStunnedRecord(ref, crypto.randomUUID(), { sourceOccurrence, timing, sourceActor }) : null;
     if (operation === 'add' && (profile === 'defending' ? active.length : active.some(r => sameStunnedSource(r, candidate)))) { message(key, { outcome: 'Already active in accepted room state — no new instance, refresh or payment.' }); return { success: true, code: 'already_active' }; }

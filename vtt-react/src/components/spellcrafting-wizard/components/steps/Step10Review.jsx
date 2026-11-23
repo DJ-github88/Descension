@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
-import { LIBRARY_ACTION_TYPES, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
+import { reviewManaValue } from '../../utils/reviewResourceDisplay';
+import { useSpellWizardState, useSpellWizardDispatch } from '../../context/spellWizardContext';
+import { useSpellLibrary, useSpellLibraryDispatch } from '../../context/SpellLibraryContext';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import WizardStep from '../common/WizardStep';
 import ExecutionCompatibility from '../common/ExecutionCompatibility';
-import { draftSubject, finalizeTargetingConfig } from '../../utils/executionCompatibility';
+import { draftSubject } from '../../utils/executionCompatibility';
+import { executeCanonicalSpellSave } from '../../utils/canonicalSpellSave';
+import useAuthStore from '../../../../store/authStore';
 import { saveDisclosureForRecord } from '../common/spellSavePresentation';
 import { triggerDisclosureForRecord } from '../common/spellTriggerPresentation';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 // Pathfinder styles imported via main.css
 import {
-  serializeSpell,
-  deserializeSpell,
-  generateHumanReadable,
-  generateGameCode,
-  createSpellTemplate,
   extractSpellIcon
 } from '../../core/utils/spellSerializer';
 import { formatFormulaToPlainEnglish } from '../common/SpellCardUtils';
@@ -49,7 +47,10 @@ const Step10Review = ({
 }) => {
   const spellState = useSpellWizardState();
   const wizardDispatch = useSpellWizardDispatch();
+  const library = useSpellLibrary();
   const libraryDispatch = useSpellLibraryDispatch();
+  const authState = useAuthStore();
+  const currentUser = authState?.user ?? null;
 
   const isEditing = Boolean(spellState.editMode && spellState.editingSpellId);
   const editingSpellId = spellState.editingSpellId;
@@ -454,9 +455,7 @@ const Step10Review = ({
       resourceCost: {
         ...spellState.resourceCost,
         // Use the formula if useFormulas.mana is true, otherwise use the value
-        mana: spellState.resourceCost?.useFormulas?.mana
-          ? spellState.resourceCost?.resourceFormulas?.mana || "1d10+2"
-          : spellState.resourceCost?.resourceValues?.mana || spellState.resourceCost?.mana || spellState.resourceConfig?.resourceAmount || "1d10+2",
+        mana: reviewManaValue(spellState),
         actionPoints: spellState.resourceCost?.actionPoints || spellState.resourceConfig?.actionPoints || 1,
         primaryResourceType: spellState.resourceCost?.primaryResourceType || spellState.resourceConfig?.resourceType || 'Mana',
         classResourceCost: spellState.resourceCost?.classResourceCost || spellState.resourceConfig?.classResourceCost || 0,
@@ -514,61 +513,22 @@ const Step10Review = ({
 
       // Channeling configuration
       channelingConfig: spellState.spellType === 'CHANNELED' || spellState.spellType === 'channeled' ? {
-        type: spellState.channelingConfig?.type || 'power_up',
-        maxDuration: spellState.channelingConfig?.maxDuration || 3,
-        durationUnit: spellState.channelingConfig?.durationUnit || 'turns',
-        interruptible: spellState.channelingConfig?.interruptible !== undefined ? spellState.channelingConfig.interruptible : true,
-        movementAllowed: spellState.channelingConfig?.movementAllowed !== undefined ? spellState.channelingConfig.movementAllowed : false,
-        costValue: spellState.channelingConfig?.costValue || 1,
+        ...(spellState.channelingConfig || {}),
+        type: spellState.channelingConfig?.type || 'channeled',
+        maxDuration: spellState.channelingConfig?.maxDuration ?? spellState.typeConfig?.maxChannelDuration ?? 3,
+        durationUnit: spellState.channelingConfig?.durationUnit || String(spellState.typeConfig?.durationUnit || 'TURNS').toLowerCase(),
+        tickFrequency: spellState.channelingConfig?.tickFrequency || spellState.typeConfig?.tickFrequency || 'END_OF_TURN',
+        concentrationDC: spellState.channelingConfig?.concentrationDC ?? spellState.typeConfig?.concentrationDC ?? null,
+        dcType: spellState.channelingConfig?.dcType || spellState.typeConfig?.dcType || null,
+        interruptible: spellState.channelingConfig?.interruptible !== undefined ? spellState.channelingConfig.interruptible : (spellState.typeConfig?.interruptible !== undefined ? spellState.typeConfig.interruptible : true),
+        movementAllowed: spellState.channelingConfig?.movementAllowed !== undefined ? spellState.channelingConfig.movementAllowed : (spellState.typeConfig?.movementAllowed !== undefined ? spellState.typeConfig.movementAllowed : false),
+        breakEffect: spellState.channelingConfig?.breakEffect || spellState.typeConfig?.breakEffect || 'none',
+        costValue: spellState.channelingConfig?.costValue ?? 0,
         costType: spellState.channelingConfig?.costType ||
                  (spellState.resourceCost?.resourceValues && Object.keys(spellState.resourceCost.resourceValues).length > 0 ?
                   Object.keys(spellState.resourceCost.resourceValues)[0].toLowerCase() :
                   (spellState.resourceCost?.primaryResourceType?.toLowerCase() || 'mana')),
-        costTrigger: spellState.channelingConfig?.costTrigger || 'per_turn',
-        // Include the per-round formulas for channeled effects
-        perRoundFormulas: (() => {
-          // Get the existing perRoundFormulas
-          const formulas = spellState.channelingConfig?.perRoundFormulas || {};
-
-          // Check if we have a HoT effect with channeled trigger type but no formulas
-          if (spellState.healingConfig?.hasHotEffect &&
-              spellState.healingConfig?.hotTriggerType === 'channeled' &&
-              (!formulas.hot_healing || formulas.hot_healing.length === 0)) {
-
-            // Add default formulas for HoT
-            formulas.hot_healing = [
-              { round: 1, formula: spellState.healingConfig.hotFormula || '1d4', description: 'Round 1 healing' },
-              { round: 2, formula: spellState.healingConfig.hotFormula || '1d4', description: 'Round 2 healing' },
-              { round: 3, formula: spellState.healingConfig.hotFormula || '1d4', description: 'Round 3 healing' }
-            ];
-          }
-
-          // Check if we have a DoT effect with channeled trigger type but no formulas
-          if (spellState.damageConfig?.hasDotEffect &&
-              spellState.damageConfig?.dotTriggerType === 'channeled' &&
-              (!formulas.dot_damage || formulas.dot_damage.length === 0)) {
-
-            // Add default formulas for DoT
-            formulas.dot_damage = [
-              { round: 1, formula: spellState.damageConfig.dotFormula || '1d4', description: 'Round 1 damage' },
-              { round: 2, formula: spellState.damageConfig.dotFormula || '1d4', description: 'Round 2 damage' },
-              { round: 3, formula: spellState.damageConfig.dotFormula || '1d4', description: 'Round 3 damage' }
-            ];
-          }
-
-          return formulas;
-        })(),
-        // Area expansion properties
-        initialRadius: spellState.channelingConfig?.initialRadius || 5,
-        maxRadius: spellState.channelingConfig?.maxRadius || 30,
-        expansionRate: spellState.channelingConfig?.expansionRate || 5,
-        // Defensive properties
-        maxDamageReduction: spellState.channelingConfig?.maxDamageReduction || 50,
-        // Persistent effect properties
-        persistentRadius: spellState.channelingConfig?.persistentRadius || 10,
-        persistentEffectType: spellState.channelingConfig?.persistentEffectType || 'aura',
-        // Staged effect properties
-        stages: spellState.channelingConfig?.stages || []
+        costTrigger: spellState.channelingConfig?.costTrigger || 'none'
       } : null,
 
       // Chance on hit configuration
@@ -2561,7 +2521,7 @@ const Step10Review = ({
     const warnings = {};
 
     // Check for required fields
-    if (!spellState.name) {
+    if (!spellState.name || !spellState.name.trim()) {
       errors.name = 'Spell name is required';
     }
 
@@ -2574,7 +2534,8 @@ const Step10Review = ({
     }
 
     // Effect validation
-    if (!spellState.effectTypes || spellState.effectTypes.length === 0) {
+    if ((!spellState.effectTypes || spellState.effectTypes.length === 0) &&
+        !(spellState.rollableTable?.enabled && spellState.rollableTable.entries?.length >= 2)) {
       warnings.effects = 'Spell has no effects defined';
     }
 
@@ -2591,8 +2552,8 @@ const Step10Review = ({
     }));
   };
 
-  // Handle saving the spell to library
-  const handleSaveSpell = () => {
+  // Handle saving the spell to library via the canonical save path
+  const handleSaveSpell = async () => {
     if (Object.keys(validationResults.errors).length > 0) {
       // Don't save if there are errors
       alert('Please fix all errors before saving the spell.');
@@ -2602,184 +2563,20 @@ const Step10Review = ({
     setSaving(true);
 
     try {
-      // Extract damage types properly - same logic as preview function
-      const extractedDamageTypes = [];
-      
-      // First check if we have a primary type selected in Step 1
-      if (spellState.typeConfig?.school) {
-        extractedDamageTypes.push(spellState.typeConfig.school);
-      }
-      
-      // Check for secondary type in Step 1
-      if (spellState.typeConfig?.secondaryElement) {
-        extractedDamageTypes.push(spellState.typeConfig.secondaryElement);
-      }
-      
-      // If no types are set in Step 1, check damage config
-      if (extractedDamageTypes.length === 0 && spellState.damageConfig?.damageType) {
-        // For direct damage
-        if (spellState.damageConfig.damageType === 'direct' && spellState.damageConfig.elementType) {
-          extractedDamageTypes.push(spellState.damageConfig.elementType);
-        }
-        // For DoT damage
-        else if (spellState.damageConfig.damageType === 'dot' && spellState.damageConfig.elementType) {
-          extractedDamageTypes.push(spellState.damageConfig.elementType);
-        }
-        // For combined damage (direct + DoT)
-        else if (spellState.damageConfig.hasDotEffect && spellState.damageConfig.elementType) {
-          extractedDamageTypes.push(spellState.damageConfig.elementType);
-        }
-        // Fallback if elementType is not set
-        else if (spellState.damageConfig.elementType) {
-          extractedDamageTypes.push(spellState.damageConfig.elementType);
-        }
-      }
-      
-      // Ensure targetingConfig has all required fields, including aoeType
-      const fullTargetingConfig = finalizeTargetingConfig(spellState.targetingConfig);
-      
-      // Create a clean version of spellState without transient edit-mode metadata or library-only fields in draft
-      const {
-        editMode: _em,
-        editingSpellId: _esi,
-        categoryIds: _cids,
-        categories: _cats,
-        source: _src,
-        isCustom: _ic,
-        isUserCreated: _iuc,
-        createdAt: _ca,
-        updatedAt: _ua,
-        userId: _uid,
-        lastSaved: _ls,
-        dateCreated: _dc,
-        ...cleanSpellState
-      } = spellState;
-      
-      const authoredDraft = JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(cleanSpellState).filter(([key]) => key !== 'authoredDraft' && key !== 'serializedData'))));
-      authoredDraft.targetingConfig = JSON.parse(JSON.stringify(fullTargetingConfig));
+      const result = await executeCanonicalSpellSave({
+        wizardState: spellState,
+        isEditing,
+        editingSpellId,
+        library,
+        libraryDispatch,
+        wizardDispatch,
+        user: currentUser
+      });
 
-      const safeIcon = (value) => (typeof value === 'string' && value.trim() && !/[<>]/.test(value) ? value : null);
-      const resolvedIcon = safeIcon(spellState.typeConfig?.icon) ||
-        safeIcon(spellState.icon) ||
-        extractSpellIcon({ ...spellState, icon: safeIcon(spellState.icon) });
-
-      // Create a complete spell object for the library
-      const librarySpell = {
-        ...cleanSpellState,
-        categoryIds: spellState.categoryIds || ['uncategorized'],
-        categories: spellState.categories || ['all'],
-        source: spellState.source || 'wizard',
-        isCustom: spellState.isCustom ?? true,
-        authoredDraft,
-        authoredDefinitionId: spellState.authoredDefinitionId || crypto.randomUUID(),
-        id: isEditing && editingSpellId ? editingSpellId : generateSpellId(spellState.name),
-        dateCreated: (isEditing && spellState.dateCreated) ? spellState.dateCreated : new Date().toISOString(),
-        lastModified: new Date().toISOString(),
-        icon: resolvedIcon,
-        serializedData: JSON.stringify(authoredDraft, null, 2),
-        humanReadable: generateHumanReadable(cleanSpellState),
-        gameCode: generateGameCode(cleanSpellState),
-        
-        // Spell type and type configuration - ensure ALL properties are saved
-        spellType: spellState.spellType || 'ACTION',
-        typeConfig: spellState.typeConfig || {},
-        
-        // Ensure trap and trigger configurations are included
-        trapConfig: spellState.trapConfig,
-        triggerConfig: spellState.triggerConfig,
-        
-        // Ensure we have all the necessary properties for the spell card
-        effectType: spellState.effectTypes && spellState.effectTypes.length > 0 ? spellState.effectTypes[0] : 'utility',
-        effectTypes: spellState.effectTypes || [],
-        
-        // Damage types - use properly extracted array
-        damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes : 
-                    (spellState.damageTypes || 
-                    (spellState.damageConfig?.elementType ? [spellState.damageConfig.elementType] : ['arcane'])),
-        
-        tags: [
-          ...(spellState.typeConfig?.tags || []),
-          ...(spellState.effectTypes || []),
-          ...(spellState.tags || [])
-        ].filter(Boolean),
-        
-        // Ensure targeting configuration is included with ALL fields
-        targetingConfig: fullTargetingConfig,
-        
-        // Ensure resource configuration is included
-        resourceCost: spellState.resourceCost || {
-          mana: 0,
-          rage: 0,
-          energy: 0,
-          focus: 0,
-          runic: 0
-        },
-        
-        // Ensure cooldown configuration is included
-        cooldownConfig: spellState.cooldownConfig || {
-          cooldown: 0,
-          charges: 1
-        },
-        
-        // CRITICAL: Ensure ALL effect configurations are saved with full properties
-        damageConfig: spellState.damageConfig || null,
-        healingConfig: spellState.healingConfig || null,
-        buffConfig: spellState.buffConfig || null,
-        debuffConfig: spellState.debuffConfig || null,
-        utilityConfig: spellState.utilityConfig || null,
-        controlConfig: spellState.controlConfig || null,
-        summoningConfig: spellState.summoningConfig || null,
-        transformationConfig: spellState.transformationConfig || null,
-        purificationConfig: spellState.purificationConfig || null,
-        restorationConfig: spellState.restorationConfig || null,
-
-        effectResolutions: spellState.effectResolutions || {},
-        combinedEffects: spellState.combinedEffects || [],
-        persistentConfig: spellState.persistentConfig || {},
-        durationConfig: spellState.durationConfig || {},
-        targetingMode: spellState.targetingMode || 'unified',
-        effectTargeting: spellState.effectTargeting || {},
-        targetingTags: spellState.targetingTags || {},
-        effectMechanicsConfigs: spellState.effectMechanicsConfigs || {},
-        mechanicsConfig: spellState.mechanicsConfig || {},
-        channelingConfig: spellState.channelingConfig || {},
-        rollableTable: spellState.rollableTable || null,
-        propagation: spellState.propagation || null,
-        statusEffectsConfig: spellState.statusEffectsConfig || []
-      };
-
-      // Transform Devotion Level resources to specialMechanics
-      const resourceValues = spellState.resourceCost?.resourceValues || {};
-      if (resourceValues.devotion_required !== undefined ||
-          resourceValues.devotion_cost !== undefined ||
-          resourceValues.devotion_gain !== undefined) {
-        librarySpell.specialMechanics = {
-          ...librarySpell.specialMechanics,
-          devotionLevel: {
-            required: resourceValues.devotion_required || 0,
-            cost: resourceValues.devotion_cost || 0,
-            amplifiedCost: resourceValues.devotion_cost || 0, // Alias for compatibility
-            gain: resourceValues.devotion_gain || 0
-          }
-        };
-
-        // Also add flat properties for spell card display
-        librarySpell.devotionRequired = resourceValues.devotion_required;
-        librarySpell.devotionCost = resourceValues.devotion_cost;
-        librarySpell.devotionGain = resourceValues.devotion_gain;
-      }
-      
-
-      // Dispatch to library context using the proper action creator
-      if (isEditing && editingSpellId) {
-        console.log('Updating spell in library:', editingSpellId, librarySpell);
-        libraryDispatch(libraryActionCreators.updateSpell(editingSpellId, librarySpell));
-        wizardDispatch(actionCreators.setEditMode(false, null));
-        console.log('Spell updated in library');
-      } else {
-        console.log('Saving spell to library:', librarySpell);
-        libraryDispatch(libraryActionCreators.addSpell(librarySpell));
-        console.log('Spell saved to library');
+      if (!result.ok) {
+        setSaving(false);
+        alert(result.error || 'Please fix all errors before saving the spell.');
+        return;
       }
 
       setSaving(false);
@@ -2794,13 +2591,6 @@ const Step10Review = ({
       setSaving(false);
       alert('Failed to save spell. Please try again.');
     }
-  };
-
-  // Generate a unique ID for the spell based on its name
-  const generateSpellId = (name) => {
-    const base = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    const timestamp = Date.now().toString(36);
-    return `${base}-${timestamp}`;
   };
 
   // Check if the triggerConfig has actual triggers
@@ -2875,6 +2665,7 @@ const Step10Review = ({
             <UnifiedSpellCard
               key={`wizard-preview-${previewSpellData.name || 'unnamed'}-${previewSpellData.controlConfig ? JSON.stringify(previewSpellData.controlConfig) : 'no-control'}`}
               spell={previewSpellData}
+              behaviorRecord={draftSubject(spellState)}
               variant="wizard"
               showActions={false}
               showDescription={true}
@@ -2883,7 +2674,9 @@ const Step10Review = ({
               rollableTableData={(spellState.rollableTable && spellState.rollableTable.enabled === true) ? {
                 enabled: true,
                 name: spellState.rollableTable.name || 'Random Effects',
+                description: spellState.rollableTable.description || '',
                 resolutionType: spellState.rollableTable.resolutionType || 'DICE',
+                resolutionConfig: spellState.rollableTable.resolutionConfig || {},
                 entries: spellState.rollableTable.entries || []
               } : null}
             />

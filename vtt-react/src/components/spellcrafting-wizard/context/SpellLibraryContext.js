@@ -342,26 +342,59 @@ function spellLibraryReducer(state, action) {
 
     case LIBRARY_ACTION_TYPES.IMPORT_LIBRARY: {
       // Merge the imported library with the current one
-      const { spells, categories } = action.payload;
+      const { spells = [], categories = [] } = action.payload || {};
 
       // Merge categories, ensuring we keep default ones
       const existingCategoryIds = state.categories.map(cat => cat.id);
       const newCategories = categories.filter(cat => !existingCategoryIds.includes(cat.id));
 
-      // Ensure all spells have unique IDs
-      const existingSpellIds = state.spells.map(spell => spell.id);
-      const newSpells = spells.map(spell => {
-        if (existingSpellIds.includes(spell.id)) {
-          // Create a new ID for duplicate spells
-          return {
-            ...spell,
-            id: generateUniqueId(),
-            name: `${spell.name} (Imported)`,
-            dateCreated: new Date().toISOString(),
-            lastModified: new Date().toISOString()
-          };
+      // Ensure all spells have unique IDs (against both existing library entries and earlier
+      // entries in the same import batch) and own deep-cloned nested data.
+      const seenSpellIds = new Set(state.spells.map(spell => spell.id));
+      const allocateUniqueId = () => {
+        let nextId = generateUniqueId();
+        if (seenSpellIds.has(nextId)) {
+          let suffix = 2;
+          while (seenSpellIds.has(`${nextId}_${suffix}`)) suffix += 1;
+          nextId = `${nextId}_${suffix}`;
         }
-        return spell;
+        seenSpellIds.add(nextId);
+        return nextId;
+      };
+
+      const newSpells = spells.map(spell => {
+        const source = JSON.parse(JSON.stringify(spell));
+        if (source.id && seenSpellIds.has(source.id)) {
+          // A catalogue-bound record's name is part of its pinned whole-record projection, so keep
+          // it unchanged. Wizard-authored drafts are local definitions; rename both the record and
+          // its draft/serializedData so the record/draft admission invariant stays satisfied.
+          const importedName = source.catalogueSource ? source.name : `${source.name} (Imported)`;
+          const now = new Date().toISOString();
+          const importedSpell = {
+            ...source,
+            id: allocateUniqueId(),
+            name: importedName,
+            dateCreated: now,
+            lastModified: now
+          };
+
+          if (!source.catalogueSource && source.authoredDraft && typeof source.authoredDraft === 'object' && !Array.isArray(source.authoredDraft)) {
+            const importedDraft = { ...source.authoredDraft, name: importedName };
+            importedSpell.authoredDraft = importedDraft;
+            if (typeof source.serializedData === 'string') {
+              importedSpell.serializedData = JSON.stringify(importedDraft, null, 2);
+            }
+          }
+
+          return importedSpell;
+        }
+
+        if (!source.id) {
+          source.id = allocateUniqueId();
+        } else {
+          seenSpellIds.add(source.id);
+        }
+        return source;
       });
 
       return {

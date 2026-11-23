@@ -313,6 +313,7 @@ const useCreatureStore = create((set, get) => ({
 
   // Remove creature token from grid
   removeCreatureToken: (tokenId, sendToServer = true) => set(state => {
+    const removedToken = (state.creatureTokens || []).find(token => token.id === tokenId);
     const updatedTokens = (state.creatureTokens || []).filter(token => token.id !== tokenId);
 
     // Clear movement tracking for this token
@@ -323,8 +324,12 @@ const useCreatureStore = create((set, get) => ({
       try {
         const gameStore = getStore('gameStore').getState();
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
-          console.log('ðŸ“¤ Emitting token_removed:', { tokenId });
-          gameStore.multiplayerSocket.emit('token_removed', { tokenId });
+          console.log('ðŸ“¤ Emitting token_removed:', { tokenId, roomId: gameStore.multiplayerRoom?.id, mapId: removedToken?.mapId });
+          gameStore.multiplayerSocket.emit('token_removed', {
+            tokenId,
+            roomId: gameStore.multiplayerRoom?.id,
+            mapId: removedToken?.mapId
+          });
         }
       } catch (error) {
         console.warn('Could not broadcast token removal:', error);
@@ -347,18 +352,26 @@ const useCreatureStore = create((set, get) => ({
     const token = get().creatureTokens.find(t => t.id === tokenId);
     if (!token) return;
 
+    const template = (get().creatures || []).find(c => c.id === token.creatureId);
+    const { actorContract, actorRecovery, ...cleanState } = token.state || {};
+    const authoredAbility = token.authoredAbility !== undefined
+      ? token.authoredAbility
+      : template?.authoredAbility;
+
     // Offset slightly for the new token
     const newPosition = {
       x: token.position.x + 20,
       y: token.position.y + 20
     };
 
-    // Use regular addCreatureToken to add the duplicate
+    // Use regular addCreatureToken to add the duplicate without copying prior actor bindings
     get().addCreatureToken({
       ...token,
+      ...(authoredAbility !== undefined ? { authoredAbility } : {}),
+      state: cleanState,
       tokenId: undefined, // Let it generate a new one
       id: token.creatureId // Use original creatureId as the base
-    }, newPosition);
+    }, newPosition, true, null, false, token.mapId);
   },
 
   // Window management actions

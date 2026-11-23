@@ -1,5 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
+import useGameStore from '../../../../store/gameStore';
+import { draftSubject, explainExecution } from '../../utils/executionCompatibility';
+import StepCompatibilityNotice from '../common/StepCompatibilityNotice';
 import WizardStep from '../common/WizardStep';
 import { RESOLUTION_TYPES } from '../../core/mechanics/resolutionMechanics';
 import ResolutionTypeSelector from '../mechanics/ResolutionTypeSelector';
@@ -11,6 +14,14 @@ const RollableTableStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
   const state = useSpellWizardState();
   const dispatch = useSpellWizardDispatch();
   const { rollableTable } = state;
+  const storeShared = useGameStore(s => s.isInMultiplayer);
+  const storeGm = useGameStore(s => s.isGMMode);
+  const storeRoom = useGameStore(s => s.multiplayerRoom?.id);
+  const draft = useMemo(() => draftSubject(state), [state]);
+  const compat = useMemo(
+    () => explainExecution(draft, { roomId: storeRoom, shared: storeShared === true, gm: storeGm === true }),
+    [draft, storeRoom, storeShared, storeGm]
+  );
 
   // Initialize rollable table if not already set
   useEffect(() => {
@@ -21,9 +32,11 @@ const RollableTableStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
         description: '',
         resolutionType: 'DICE',
         resolutionConfig: {
-          diceType: 'd100',
-          cardCount: 3,
-          coinCount: 5,
+          diceType: 'd6',
+          cardCount: 1,
+          deckType: 'standard',
+          coinCount: 1,
+          coinType: 'standard',
         },
         entries: []
       }));
@@ -43,50 +56,12 @@ const RollableTableStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
     };
 
     if (newEnabled && (!rollableTable.entries || rollableTable.entries.length === 0)) {
-      updatedTable.name = 'Random Effects';
-      updatedTable.description = 'Roll for random magical effects';
-      updatedTable.entries = [
-        {
-          id: 'sample-1',
-          range: { min: 1, max: 25 },
-          customName: 'Minor Healing',
-          effect: 'Heals 1d4 hit points',
-          modifiesBaseSpell: false,
-          spellReference: null,
-          effectModifications: {},
-          formulaOverrides: {}
-        },
-        {
-          id: 'sample-2',
-          range: { min: 26, max: 50 },
-          customName: 'Spark Damage',
-          effect: 'Deals 1d6 lightning damage',
-          modifiesBaseSpell: false,
-          spellReference: null,
-          effectModifications: {},
-          formulaOverrides: {}
-        },
-        {
-          id: 'sample-3',
-          range: { min: 51, max: 75 },
-          customName: 'Speed Boost',
-          effect: 'Increases movement speed by 10 feet for 1 round',
-          modifiesBaseSpell: false,
-          spellReference: null,
-          effectModifications: {},
-          formulaOverrides: {}
-        },
-        {
-          id: 'sample-4',
-          range: { min: 76, max: 100 },
-          customName: 'Magic Resistance',
-          effect: 'Grants advantage on next saving throw',
-          modifiesBaseSpell: false,
-          spellReference: null,
-          effectModifications: {},
-          formulaOverrides: {}
-        }
-      ];
+      updatedTable.name = rollableTable.name || 'Random Effects';
+      updatedTable.description = rollableTable.description || 'Resolve outcome branches with different effects';
+      updatedTable.entries = generatePlaceholderEntries(
+        updatedTable.resolutionType || 'DICE',
+        updatedTable.resolutionConfig || { diceType: 'd6', cardCount: 1, coinCount: 1, coinType: 'standard', deckType: 'standard' }
+      );
     }
 
     dispatch(actionCreators.updateRollableTable(updatedTable));
@@ -106,102 +81,104 @@ const RollableTableStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
     }));
   };
 
+  const settledCoinPatternsForCount = (coinCount, entryCount) => {
+    const count = Math.max(1, Number(coinCount) || 1);
+    if (count === 1 && entryCount <= 2) {
+      return ['Heads', 'Tails'];
+    }
+    if (entryCount === 2 && count % 2 === 1) {
+      return ['Majority Heads', 'Majority Tails'];
+    }
+    if (entryCount === 3 && count % 2 === 0) {
+      return ['Majority Heads', 'Tie', 'Majority Tails'];
+    }
+    const base = [
+      'All Heads',
+      'All Tails',
+      'Majority Heads',
+      'Majority Tails',
+      ...(count % 2 === 0 ? ['Tie'] : []),
+      ...Array.from({ length: Math.max(0, count - 1) }, (_, idx) => `Exactly ${idx + 1} ${idx + 1 === 1 ? 'Head' : 'Heads'}`),
+      ...Array.from({ length: Math.max(0, count - 1) }, (_, idx) => `Exactly ${idx + 1} ${idx + 1 === 1 ? 'Tail' : 'Tails'}`)
+    ];
+    return base;
+  };
+
   // Generate placeholder entries when resolution type is first selected
   const generatePlaceholderEntries = (resolutionType, config) => {
     const placeholders = [];
 
     switch (resolutionType) {
-      case 'DICE':
-        const diceType = config.diceType || 'd100';
-        const maxValue = parseInt(diceType.substring(1));
-        const exampleCount = Math.min(6, maxValue); // Generate up to 6 examples
-        const rangeSize = Math.floor(maxValue / exampleCount);
-
-        for (let i = 0; i < exampleCount; i++) {
-          const min = (i * rangeSize) + 1;
-          const max = i === exampleCount - 1 ? maxValue : (i + 1) * rangeSize;
-          placeholders.push({
-            id: `placeholder-${i}`,
-            range: { min, max },
-            name: `Example Effect ${i + 1}`,
-            description: `Placeholder effect for range ${min}-${max}`,
+      case 'DICE': {
+        const diceType = config?.diceType || 'd6';
+        const maxValue = Math.max(2, parseInt(String(diceType).replace(/^d/i, ''), 10) || 6);
+        const mid = Math.floor(maxValue / 2);
+        placeholders.push(
+          {
+            id: 'outcome-1',
+            range: { min: 1, max: mid },
+            name: 'Ember Lash',
+            description: 'Scorches the target on a low roll.',
             effectType: 'damage',
-            effectConfig: {
-              damageFormula: '2d6',
-              damageType: 'ember',
-              healingFormula: '2d8',
-              creatureType: '',
-              quantity: 1,
-              buffType: '',
-              duration: 3
-            }
-          });
-        }
+            effectConfig: { damageFormula: '1d6', damageType: 'ember' }
+          },
+          {
+            id: 'outcome-2',
+            range: { min: mid + 1, max: maxValue },
+            name: 'Vital Surge',
+            description: 'Mends the target on a high roll.',
+            effectType: 'healing',
+            effectConfig: { healingFormula: '1d6' }
+          }
+        );
         break;
+      }
 
-      case 'CARDS':
-        const cardExamples = [
-          { pattern: 'Hearts', name: 'Hearts Effect', desc: 'Effect when drawing Hearts' },
-          { pattern: 'Diamonds', name: 'Diamonds Effect', desc: 'Effect when drawing Diamonds' },
-          { pattern: 'Clubs', name: 'Clubs Effect', desc: 'Effect when drawing Clubs' },
-          { pattern: 'Spades', name: 'Spades Effect', desc: 'Effect when drawing Spades' },
-          { pattern: 'Red Cards', name: 'Red Cards Effect', desc: 'Effect when drawing Red Cards' },
-          { pattern: 'Black Cards', name: 'Black Cards Effect', desc: 'Effect when drawing Black Cards' },
-          { pattern: 'Face Cards', name: 'Face Cards Effect', desc: 'Effect when drawing Face Cards' },
-          { pattern: 'Aces', name: 'Aces Effect', desc: 'Effect when drawing Aces' }
-        ];
-
-        cardExamples.forEach((example, i) => {
-          placeholders.push({
-            id: `placeholder-${i}`,
-            cardPattern: example.pattern,
-            name: example.name,
-            description: example.desc,
+      case 'CARDS': {
+        placeholders.push(
+          {
+            id: 'outcome-card-1',
+            cardPattern: 'Red Cards',
+            name: 'Crimson Flare',
+            description: 'Deals fire damage when drawing a red card.',
             effectType: 'damage',
-            effectConfig: {
-              damageFormula: '2d6',
-              damageType: 'ember',
-              healingFormula: '2d8',
-              creatureType: '',
-              quantity: 1,
-              buffType: '',
-              duration: 3
-            }
-          });
-        });
+            effectConfig: { damageFormula: '1d8', damageType: 'ember' }
+          },
+          {
+            id: 'outcome-card-2',
+            cardPattern: 'Black Cards',
+            name: 'Velvet Ward',
+            description: 'Restores health when drawing a black card.',
+            effectType: 'healing',
+            effectConfig: { healingFormula: '1d6' }
+          }
+        );
         break;
+      }
 
-      case 'COINS':
-        const coinExamples = [
-          { pattern: 'All Heads', name: 'All Heads Effect', desc: 'Effect when all coins are heads' },
-          { pattern: 'All Tails', name: 'All Tails Effect', desc: 'Effect when all coins are tails' },
-          { pattern: 'Majority Heads (3+)', name: 'Majority Heads Effect', desc: 'Effect when majority are heads' },
-          { pattern: 'Majority Tails (3+)', name: 'Majority Tails Effect', desc: 'Effect when majority are tails' },
-          { pattern: 'Exactly 2 Heads', name: 'Two Heads Effect', desc: 'Effect when exactly 2 heads' },
-          { pattern: 'Exactly 2 Tails', name: 'Two Tails Effect', desc: 'Effect when exactly 2 tails' },
-          { pattern: 'Alternating Pattern (H-T-H-T)', name: 'Alternating Effect', desc: 'Effect for alternating pattern' },
-          { pattern: 'Mixed (No Pattern)', name: 'Mixed Effect', desc: 'Effect for mixed results' }
-        ];
-
-        coinExamples.forEach((example, i) => {
-          placeholders.push({
-            id: `placeholder-${i}`,
-            coinPattern: example.pattern,
-            name: example.name,
-            description: example.desc,
+      case 'COINS': {
+        const count = Math.max(1, Number(config?.coinCount) || 1);
+        const patterns = settledCoinPatternsForCount(count, 2);
+        placeholders.push(
+          {
+            id: 'outcome-coin-1',
+            coinPattern: patterns[0],
+            name: 'Sun Strike',
+            description: 'Deals radiant damage on heads.',
             effectType: 'damage',
-            effectConfig: {
-              damageFormula: '2d6',
-              damageType: 'ember',
-              healingFormula: '2d8',
-              creatureType: '',
-              quantity: 1,
-              buffType: '',
-              duration: 3
-            }
-          });
-        });
+            effectConfig: { damageFormula: '1d6', damageType: 'sacred' }
+          },
+          {
+            id: 'outcome-coin-2',
+            coinPattern: patterns[1],
+            name: 'Moon Mending',
+            description: 'Restores health on tails.',
+            effectType: 'healing',
+            effectConfig: { healingFormula: '1d6' }
+          }
+        );
         break;
+      }
 
       default:
         break;
@@ -231,59 +208,46 @@ const RollableTableStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
       };
 
       switch (newType) {
-        case 'DICE':
-          // Convert to dice ranges (distribute evenly across d100)
-          const rangeSize = Math.floor(100 / entries.length);
-          const min = (index * rangeSize) + 1;
-          const max = index === entries.length - 1 ? 100 : (index + 1) * rangeSize;
+        case 'DICE': {
+          const sides = Math.max(2, parseInt(String(config?.diceType || 'd6').replace(/^d/i, ''), 10) || 6);
+          const count = entries.length;
+          const rangeSize = Math.max(1, Math.floor(sides / count));
+          const min = Math.min(sides, (index * rangeSize) + 1);
+          const max = index === count - 1 ? sides : Math.min(sides, (index + 1) * rangeSize);
           return {
             ...baseEntry,
             range: { min, max },
             cardPattern: undefined,
             coinPattern: undefined
           };
+        }
 
-        case 'CARDS':
-          // Convert to card patterns - expanded options
+        case 'CARDS': {
           const cardPatterns = [
+            'Red Cards', 'Black Cards',
             'Hearts', 'Diamonds', 'Clubs', 'Spades',
-            'Red Cards', 'Black Cards', 'Face Cards', 'Number Cards',
-            'Aces', 'Kings', 'Queens', 'Jacks',
-            'Ace of Spades', 'Ace of Hearts', 'Ace of Diamonds', 'Ace of Clubs',
-            'King of Spades', 'King of Hearts', 'King of Diamonds', 'King of Clubs',
-            'Queen of Spades', 'Queen of Hearts', 'Queen of Diamonds', 'Queen of Clubs',
-            'Jack of Spades', 'Jack of Hearts', 'Jack of Diamonds', 'Jack of Clubs',
-            'Red Face Cards', 'Black Face Cards', 'Odd Numbers', 'Even Numbers',
-            '2-5 (Low)', '6-9 (Mid)', '10-K (High)', 'Joker'
+            'Face Cards', 'Aces'
           ];
           const cardPattern = cardPatterns[index % cardPatterns.length] || `Pattern ${index + 1}`;
           return {
             ...baseEntry,
             range: undefined,
-            cardPattern: cardPattern,
+            cardPattern,
             coinPattern: undefined
           };
+        }
 
-        case 'COINS':
-          // Convert to coin patterns - clearer wording for sequences and majorities
-          const coinPatterns = [
-            'All Heads', 'All Tails',
-            'Majority Heads (3+)', 'Majority Tails (3+)',
-            'Exactly 2 Heads', 'Exactly 2 Tails',
-            'Exactly 3 Heads', 'Exactly 3 Tails',
-            'Exactly 4 Heads', 'Exactly 4 Tails',
-            'Alternating Pattern (H-T-H-T)', 'Alternating Pattern (T-H-T-H)',
-            'Sequence: H-H-T', 'Sequence: T-T-H',
-            'Sequence: H-T-T', 'Sequence: T-H-H',
-            'Mixed (No Pattern)', 'Any Single Heads', 'Any Single Tails'
-          ];
+        case 'COINS': {
+          const count = Math.max(1, Number(config?.coinCount) || 1);
+          const coinPatterns = settledCoinPatternsForCount(count, entries.length);
           const coinPattern = coinPatterns[index % coinPatterns.length] || `Pattern ${index + 1}`;
           return {
             ...baseEntry,
             range: undefined,
             cardPattern: undefined,
-            coinPattern: coinPattern
+            coinPattern
           };
+        }
 
         default:
           return baseEntry;
@@ -390,6 +354,9 @@ const RollableTableStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
     "The spellcard live preview immediately displays the interactive table summary with live rolling."
   ];
 
+  const compatControlId = compat.stepGuidance?.controlId || null;
+  const compatNotice = <StepCompatibilityNotice view={compat} readySummary={compat.outcomeSummary} />;
+
   return (
     <WizardStep
       title="Rollable Table Configuration"
@@ -463,6 +430,7 @@ const RollableTableStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
                   rows={2}
                 />
               </div>
+              {compatControlId === 'table-details' && compatNotice}
             </div>
 
             <div className="config-section">
@@ -474,13 +442,16 @@ const RollableTableStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
                 onTypeChange={handleResolutionTypeChange}
                 config={rollableTable.resolutionConfig}
                 onConfigChange={handleResolutionConfigChange}
+                coinTypeNotice={compatControlId === 'coin-type' ? compatNotice : null}
               />
+              {compatControlId !== 'coin-type' && compatControlId !== 'table-details' && compatControlId !== 'entries' && compatNotice}
             </div>
 
             <div className="config-section">
               <div className="config-section-header">
                 <h5>Table Entries ({rollableTable.entries?.length || 0})</h5>
               </div>
+              {compatControlId === 'entries' && compatNotice}
               <TableEntryEditor
                 entries={rollableTable.entries || []}
                 resolutionType={rollableTable.resolutionType}

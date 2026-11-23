@@ -69,10 +69,12 @@ export function primaryPcTargets() {
 
 export async function activatePassive({
   target,
+  definitionRef,
   passiveId = HEIGHTENED_SENSES_PASSIVE.passiveId,
   sourceRecordId = HEIGHTENED_SENSES_PASSIVE.sourceRecordId
 } = {}) {
-  if (!approved()) {
+  const isAuthoredPassive = Boolean(definitionRef);
+  if (!isAuthoredPassive && !approved()) {
     return fail('passive_activation_unapproved', 'Creator approval pending: passive activation is disabled.');
   }
   const id = roomId();
@@ -80,15 +82,10 @@ export async function activatePassive({
   const current = usePassiveActivationStore.getState().projection;
   const revision = current?.roomId === id ? current.revision : (await refreshPassiveLedger()).revision;
   if (!Number.isSafeInteger(revision)) return fail('passive_list_refused');
-  const result = await requestActorEvent('actor_passive_activate', {
-    version: 1,
-    roomId: id,
-    requestId: crypto.randomUUID(),
-    expectedRevision: revision,
-    target,
-    passiveId,
-    sourceRecordId
-  });
+  const payload = isAuthoredPassive
+    ? { version: 1, roomId: id, requestId: crypto.randomUUID(), expectedRevision: revision, target, definitionRef }
+    : { version: 1, roomId: id, requestId: crypto.randomUUID(), expectedRevision: revision, target, passiveId, sourceRecordId };
+  const result = await requestActorEvent('actor_passive_activate', payload);
   if (result.success) await refreshPassiveLedger();
   return result.success ? result : fail(result.code || 'passive_activate_refused', result.error);
 }

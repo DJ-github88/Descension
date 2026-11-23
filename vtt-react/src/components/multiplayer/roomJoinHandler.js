@@ -3,6 +3,7 @@ import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
+import useSettingsStore from '../../store/settingsStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useTravelStore from '../../store/travelStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
@@ -20,6 +21,73 @@ import {
 import { getBootstrapGateState } from '../../persistence/bootstrapPrivacyGate';
 import { safeLocalStorageGet, safeLocalStorageRemove } from '../../utils/storageUtils';
 let currentJoin = 0;
+
+// The GM's grid scale (feet per square) as the server resolves it. Same bounds as the GM slider, settingsStore.setFeetPerTile
+// and the server's sync_gameplay_settings guard (1..20 ft); the server measures 5 ft per square until a scale is configured.
+export const DEFAULT_FEET_PER_TILE = 5;
+const validFeetPerTile = feet => typeof feet === 'number' && Number.isFinite(feet) && feet >= 1 && feet <= 20;
+
+// Applied on every room join so area previews measure exactly as the server resolves them:
+// - the room has a configured scale: every member (GM included) adopts it;
+// - no scale yet, GM: the GM's own Settings value becomes the room's scale (sent to the server, which stores and broadcasts it);
+// - no scale yet, player: the server default, so a value left over from another room cannot linger.
+// The newest scale broadcast this client has seen (gameplay_settings_updated), so a room snapshot captured before it
+// (room_joined delivered while still joining) cannot roll the scale back.
+let latestScaleBroadcast = null;
+const adoptScale = feet => {
+  useGameStore.getState().setFeetPerTile(feet);
+  useSettingsStore.getState().setFeetPerTile(feet);
+  return feet;
+};
+
+// Applied by the gameplay_settings_updated listener. Ignores this socket's own echo (the GM's slider may already have
+// moved on) and any broadcast not newer than one already seen for the same room. Returns true when the scale was adopted.
+export function adoptBroadcastFeetPerTile(data, ownSocketId = null) {
+  const feet = data?.feetPerTile;
+  if (!validFeetPerTile(feet)) return false;
+  if (data.sourceSocketId && ownSocketId && data.sourceSocketId === ownSocketId) return false;
+  const revision = Number.isInteger(data.feetPerTileRevision) ? data.feetPerTileRevision : null;
+  if (revision !== null && data.roomId) {
+    if (latestScaleBroadcast?.roomId === data.roomId && latestScaleBroadcast.revision >= revision) return false;
+    latestScaleBroadcast = { roomId: data.roomId, revision, feet };
+  }
+  adoptScale(feet);
+  return true;
+}
+export function resetScaleBroadcastsForTests() { latestScaleBroadcast = null; }
+// Called synchronously when room_joined arrives (fresh join or reconnect): the snapshot's revision becomes the baseline,
+// replacing any revision remembered from earlier, so a server-side revision that went down (restored checkpoint) cannot
+// pin this client to an old scale.
+export function noteRoomScaleSnapshot(room) {
+  if (!room?.id) return;
+  const revision = Number.isInteger(room.gameState?.feetPerTileRevision) ? room.gameState.feetPerTileRevision : 0;
+  const feet = room.gameState?.feetPerTile;
+  latestScaleBroadcast = { roomId: room.id, revision, feet: validFeetPerTile(feet) ? feet : null };
+}
+
+export function applyRoomFeetPerTile(room, { isGameMaster = false, socket = null } = {}) {
+  const configured = room?.gameState?.feetPerTile;
+  // A scale broadcast seen while this join was completing is newer than the snapshot, whether or not the snapshot had a
+  // scale yet (a scale-less snapshot counts as revision 0).
+  const snapshotRevision = Number.isInteger(room?.gameState?.feetPerTileRevision) ? room.gameState.feetPerTileRevision : 0;
+  const newer = !!room?.id && latestScaleBroadcast?.roomId === room.id && latestScaleBroadcast.revision > snapshotRevision && validFeetPerTile(latestScaleBroadcast.feet);
+  if (newer) return adoptScale(latestScaleBroadcast.feet);
+  if (validFeetPerTile(configured)) {
+    if (room.id && snapshotRevision > 0) latestScaleBroadcast = { roomId: room.id, revision: snapshotRevision, feet: configured };
+    return adoptScale(configured);
+  }
+  if (isGameMaster) {
+    const own = useSettingsStore.getState().feetPerTile;
+    const feet = validFeetPerTile(own) ? own : DEFAULT_FEET_PER_TILE;
+    useGameStore.getState().setFeetPerTile(feet);
+    if (socket && typeof socket.emit === 'function' && room?.id) {
+      socket.emit('sync_gameplay_settings', { feetPerTile: feet, roomId: room.id });
+    }
+    return feet;
+  }
+  useGameStore.getState().setFeetPerTile(DEFAULT_FEET_PER_TILE);
+  return DEFAULT_FEET_PER_TILE;
+}
 
 export async function handleJoinRoom(room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse, ctx) {
   const {
@@ -180,6 +248,9 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
         window._isReceivingMapUpdate = false;
       }
     }
+
+    // The GM's grid scale (feet per square) is server-authoritative (room.gameState.feetPerTile, set by sync_gameplay_settings).
+    applyRoomFeetPerTile(room, { isGameMaster, socket: socketConnection });
 
     let currentPlayerData;
 

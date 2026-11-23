@@ -1,7 +1,7 @@
 /** P13A accepted-result feed (MYTHRILL_PROJECT_13A_CONTRACT.md): exact-revision numbers, absorption
  * wording, visibility on every surface, live vs historical, deduplication. */
 import { registerStore } from '../../store/storeRegistry';
-import { buildFeed, chatLineFor, exactDeltas, hpParts, actorKey, publishAcceptedResult, registerRendered, resetCombatFeed, useCombatFeedStore, captureBefore, STRIKE, BLOCK } from '../acceptedResultFeed';
+import { buildFeed, chatLineFor, exactDeltas, hpParts, actorKey, publishAcceptedResult, registerRendered, resetCombatFeed, useCombatFeedStore, captureBefore, STRIKE, BLOCK, TURN_BOUNDARY } from '../acceptedResultFeed';
 import { narrationReducer, emptyNarration } from '../../components/combat-narration-preview/narrationQueue';
 
 const ref = (kind, tokenId, extra = {}) => ({ kind, roomId: 'room', mapId: 'map', tokenId, instanceId: `${tokenId}-1`, ...(kind === 'character' ? { ownerUid: 'u-owner', characterId: tokenId } : {}), ...extra });
@@ -168,5 +168,131 @@ describe('review 1: liveness without hydration; older receipts never live', () =
     expect(narration.current.id).toBe('p13a:room:n');
     expect(narration.waiting).toHaveLength(0);
     expect(narration.history.find(h => h.id === 'p13a:room:o').historical).toBe(true);
+  });
+});
+
+describe('shared-turn-boundary:v1 endedChannels narration and combat log', () => {
+  const recId = 'rec-beam-1';
+  const boundaryReceipt = (entryOverrides = {}, commandId = 'cmd-tb', commitSequence = 12) => ({
+    success: true,
+    receipt: {
+      version: 1,
+      roomId: 'room',
+      commandId,
+      commitSequence,
+      acceptedAt: 1795209000000,
+      authorization: { kind: 'gm' },
+      adjudication: {
+        definitionId: TURN_BOUNDARY,
+        definitionVersionOrHash: TURN_BOUNDARY,
+        chosenResult: JSON.stringify({
+          mode: 'advance',
+          combatId: 'combat-1',
+          sequence: 4,
+          expired: [recId],
+          endedChannels: [{
+            recordId: recId,
+            ref: foe,
+            sourceActor: pc,
+            reason: 'target_out_of_range',
+            sequence: 4,
+            distanceFeet: 35,
+            rangeFeet: 30,
+            ...entryOverrides
+          }]
+        })
+      },
+      actors: [{ ref: foe, beforeRevision: 7, afterRevision: 8, finalResources: pools(36, 0, 3) }]
+    }
+  });
+
+  test('out-of-range channel interruption names spell, actors, reason and range in narration and channelEndLine', () => {
+    const prior = {
+      [actorKey(pc)]: before(3, 30, 0, 4, 'Lyra'),
+      [actorKey(foe)]: { ...before(7, 36, 0, 3, 'Branvig'), conditionNames: { [recId]: 'Arcane Beam' } }
+    };
+    const feed = buildFeed({ result: boundaryReceipt(), before: prior, viewer: allVisible, live: true });
+    expect(feed.channelEndLine).toBe('Arcane Beam (Lyra → Branvig) ended: target moved out of range (35 ft > 30 ft).');
+    expect(feed.narration.text).toBe('Arcane Beam (Lyra → Branvig) ended: target moved out of range (35 ft > 30 ft).');
+  });
+
+  test('formats stunned, down and unavailable continuity reasons clearly', () => {
+    const prior = {
+      [actorKey(pc)]: before(3, 30, 0, 4, 'Lyra'),
+      [actorKey(foe)]: { ...before(7, 36, 0, 3, 'Branvig'), conditionNames: { [recId]: 'Arcane Beam' } }
+    };
+    const stunned = buildFeed({ result: boundaryReceipt({ reason: 'caster_stunned', distanceFeet: undefined, rangeFeet: undefined }), before: prior, viewer: allVisible, live: true });
+    expect(stunned.narration.text).toBe('Arcane Beam (Lyra → Branvig) ended: caster is Stunned.');
+    const down = buildFeed({ result: boundaryReceipt({ reason: 'caster_down', distanceFeet: undefined, rangeFeet: undefined }), before: prior, viewer: allVisible, live: true });
+    expect(down.narration.text).toBe('Arcane Beam (Lyra → Branvig) ended: caster is down (0 HP).');
+    const unavailable = buildFeed({ result: boundaryReceipt({ reason: 'caster_unavailable', distanceFeet: undefined, rangeFeet: undefined }), before: prior, viewer: allVisible, live: true });
+    expect(unavailable.narration.text).toBe('Arcane Beam (Lyra → Branvig) ended: caster is unavailable.');
+  });
+
+  test('P13A §4 privacy: hidden sourceActor hides spell, caster and reason behind neutral target update', () => {
+    const prior = {
+      [actorKey(pc)]: before(3, 30, 0, 4, 'Lyra'),
+      [actorKey(foe)]: { ...before(7, 36, 0, 3, 'Branvig'), conditionNames: { [recId]: 'Arcane Beam' } }
+    };
+    const viewer = { reportable: r => r.kind === 'creature', rendered: () => true };
+    const feed = buildFeed({ result: boundaryReceipt(), before: prior, viewer, live: true });
+    expect(feed.channelEndLine).toBeUndefined();
+    expect(feed.narration.text).toBe('Branvig updated.');
+    expect(feed.narration.text).not.toMatch(/Arcane Beam|Lyra|range/i);
+  });
+
+  test('captureBefore captures both target conditionNames and sourceActor even when absent from receipt.actors', () => {
+    registerStore('creatureStore', {
+      getState: () => ({
+        creatures: [{ id: 'grimm', name: 'Branvig' }],
+        creatureTokens: [{
+          id: 'foe',
+          creatureId: 'grimm',
+          state: {
+            currentHp: 36, tempHealth: 0, currentMana: 0, tempMana: 0, currentActionPoints: 3, tempActionPoints: 0,
+            conditions: [{ recordId: recId, id: recId, originalName: 'Arcane Beam', name: 'Arcane Beam' }],
+            actorContract: { version: 1, ...foe, revision: 7 }
+          }
+        }]
+      })
+    });
+    registerStore('characterTokenStore', {
+      getState: () => ({
+        characterTokens: [{
+          id: 'ilsa',
+          character: { name: 'Lyra', health: { current: 30 }, mana: { current: 20 }, actionPoints: { current: 4 }, tempHealth: 0, tempMana: 0, tempActionPoints: 0 },
+          state: { actorContract: { version: 1, ...pc, revision: 3 } }
+        }]
+      })
+    });
+    const prior = captureBefore(boundaryReceipt().receipt);
+    expect(prior[actorKey(foe)]).toMatchObject({ revision: 7, name: 'Branvig', conditionNames: { [recId]: 'Arcane Beam' } });
+    expect(prior[actorKey(pc)]).toMatchObject({ revision: 3, name: 'Lyra' });
+  });
+
+  test('publishAcceptedResult emits one combat chat notification on live boundary and stays silent on duplicate or historical delivery', () => {
+    const combatNotes = [];
+    registerStore('gameStore', { getState: () => ({ multiplayerRoom: { id: 'room' }, isGMMode: true }) });
+    registerStore('authStore', { getState: () => ({ user: { uid: 'gm' } }) });
+    registerStore('chatStore', {
+      getState: () => ({
+        notifications: { combat: combatNotes },
+        addNotification: (tab, entry) => { if (tab === 'combat') combatNotes.push(entry); }
+      })
+    });
+    resetCombatFeed('room');
+    const prior = {
+      [actorKey(pc)]: before(3, 30, 0, 4, 'Lyra'),
+      [actorKey(foe)]: { ...before(7, 36, 0, 3, 'Branvig'), conditionNames: { [recId]: 'Arcane Beam' } }
+    };
+    const res = boundaryReceipt();
+    publishAcceptedResult({ result: res, before: prior, live: true });
+    publishAcceptedResult({ result: res, before: prior, live: true });
+    expect(combatNotes).toHaveLength(1);
+    expect(combatNotes[0].id).toBe('c4:room:cmd-tb');
+    expect(combatNotes[0].content).toBe('Arcane Beam (Lyra → Branvig) ended: target moved out of range (35 ft > 30 ft). Accepted receipt cmd-tb.');
+
+    publishAcceptedResult({ result: boundaryReceipt({}, 'cmd-old', 11), before: prior, live: false });
+    expect(combatNotes).toHaveLength(1);
   });
 });

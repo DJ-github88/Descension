@@ -23,12 +23,12 @@ describe('first playable passive implementation — Heightened Senses (+2 flat i
   let h;
 
   beforeEach(async() => {
-    testPolicy.resetPolicyForTest();
+    if (testPolicy.isPolicySwapLoaderActive()) { testPolicy.resetPolicyForTest(); }
     h = await createPassiveHarness();
   });
 
   afterEach(async() => {
-    testPolicy.resetPolicyForTest();
+    if (testPolicy.isPolicySwapLoaderActive()) { testPolicy.resetPolicyForTest(); }
     if (h) {await h.stop();}
   });
 
@@ -60,31 +60,6 @@ describe('first playable passive implementation — Heightened Senses (+2 flat i
       assert.equal(shipped.HEIGHTENED_SENSES_PASSIVE.sourceRecordId, 'skill_perception_heightened_senses');
       assert.equal(shipped.HEIGHTENED_SENSES_PASSIVE.effect.magnitude, 2);
       assert.equal(shipped.HEIGHTENED_SENSES_PASSIVE.effect.stat, 'initiative');
-    });
-
-    it('refuses actor_passive_activate with passive_activation_unapproved and applies +0 initiative when policy is unapproved', async() => {
-      testPolicy.setApprovedForTest(false);
-      h.token(h.pc).character.stats.agility = 14;
-      h.token(h.pc).character.stats.initiativeMod = 2;
-
-      let writerCalled = 0;
-      const realAdmit = h.writer.admitConsequence.bind(h.writer);
-      h.writer.admitConsequence = (...args) => { writerCalled += 1; return realAdmit(...args); };
-
-      await h.refused(h.gm, 'actor_passive_activate', h.activationPayload(h.pc), 'passive_activation_unapproved');
-      assert.equal(writerCalled, 0);
-      assert.equal(h.live().gameState.passiveLedger, undefined);
-
-      const listed = await h.list(h.gm);
-      assert.equal(listed.success, true);
-      assert.equal(listed.capability, 'unapproved');
-      assert.equal(listed.status, 'inactive');
-      assert.equal(listed.displayStatus, 'Inactive — creator approval pending');
-      assert.equal(listed.executableClaim, false);
-
-      const entry = await h.startCombat({ pc: 12, foe: 9 });
-      assert.equal(entry.initiative, 12);
-      assert.equal(entry.initiativeMod, undefined);
     });
   });
 
@@ -203,30 +178,6 @@ describe('first playable passive implementation — Heightened Senses (+2 flat i
         h.activationPayload(h.ally, { expectedRevision: 99 }),
         'REVISION_CONFLICT'
       );
-    });
-
-    it('supports all three P4 stacking modes in isolated test policy', async() => {
-      h.token(h.pc).character.stats.agility = 14;
-      h.token(h.pc).character.stats.initiativeMod = 2;
-
-      // Default P4-a: one-copy-additive
-      testPolicy.setStackingModeForTest('one-copy-additive');
-      const first = await h.activate(h.pc);
-      assert.equal(first.success, true);
-      await h.refused(h.gm, 'actor_passive_activate', h.activationPayload(h.pc), 'passive_already_active');
-
-      // P4-c: both-copies allows a second copy and stacks +4
-      testPolicy.setStackingModeForTest('both-copies');
-      const second = await h.activate(h.pc);
-      assert.equal(second.success, true);
-      const entryBoth = await h.startCombat({ pc: 10, foe: 8 });
-      assert.equal(entryBoth.initiativeMod, 6);
-      assert.equal(entryBoth.initiative, 16);
-      await h.endCombat();
-
-      // P4-b: exclusive refuses a second copy when one is already active
-      testPolicy.setStackingModeForTest('exclusive');
-      await h.refused(h.gm, 'actor_passive_activate', h.activationPayload(h.pc), 'passive_already_active');
     });
   });
 
@@ -496,6 +447,65 @@ describe('first playable passive implementation — Heightened Senses (+2 flat i
       });
       assert.equal(decodedAfterScrub.ok, true);
       assert.equal(decodedAfterScrub.global.passiveLedger, undefined);
+    });
+  });
+
+  describe('Policy-swap engineering tests (requires passiveActivationTestLoader)', function() {
+    it('refuses actor_passive_activate with passive_activation_unapproved and applies +0 initiative when policy is unapproved', async function() {
+      testPolicy.requirePolicySwapLoader(
+        this,
+        'Requires test-only policy-swap loader (--require tests/helpers/passiveActivationTestLoader.cjs) to simulate unapproved policy'
+      );
+      testPolicy.setApprovedForTest(false);
+      h.token(h.pc).character.stats.agility = 14;
+      h.token(h.pc).character.stats.initiativeMod = 2;
+
+      let writerCalled = 0;
+      const realAdmit = h.writer.admitConsequence.bind(h.writer);
+      h.writer.admitConsequence = (...args) => { writerCalled += 1; return realAdmit(...args); };
+
+      await h.refused(h.gm, 'actor_passive_activate', h.activationPayload(h.pc), 'passive_activation_unapproved');
+      assert.equal(writerCalled, 0);
+      assert.equal(h.live().gameState.passiveLedger, undefined);
+
+      const listed = await h.list(h.gm);
+      assert.equal(listed.success, true);
+      assert.equal(listed.capability, 'unapproved');
+      assert.equal(listed.status, 'inactive');
+      assert.equal(listed.displayStatus, 'Inactive — creator approval pending');
+      assert.equal(listed.executableClaim, false);
+
+      const entry = await h.startCombat({ pc: 12, foe: 9 });
+      assert.equal(entry.initiative, 12);
+      assert.equal(entry.initiativeMod, undefined);
+    });
+
+    it('supports all three P4 stacking modes in isolated test policy', async function() {
+      testPolicy.requirePolicySwapLoader(
+        this,
+        'Requires test-only policy-swap loader (--require tests/helpers/passiveActivationTestLoader.cjs) to swap P4 stacking modes'
+      );
+      h.token(h.pc).character.stats.agility = 14;
+      h.token(h.pc).character.stats.initiativeMod = 2;
+
+      // Default P4-a: one-copy-additive
+      testPolicy.setStackingModeForTest('one-copy-additive');
+      const first = await h.activate(h.pc);
+      assert.equal(first.success, true);
+      await h.refused(h.gm, 'actor_passive_activate', h.activationPayload(h.pc), 'passive_already_active');
+
+      // P4-c: both-copies allows a second copy and stacks +4
+      testPolicy.setStackingModeForTest('both-copies');
+      const second = await h.activate(h.pc);
+      assert.equal(second.success, true);
+      const entryBoth = await h.startCombat({ pc: 10, foe: 8 });
+      assert.equal(entryBoth.initiativeMod, 6);
+      assert.equal(entryBoth.initiative, 16);
+      await h.endCombat();
+
+      // P4-b: exclusive refuses a second copy when one is already active
+      testPolicy.setStackingModeForTest('exclusive');
+      await h.refused(h.gm, 'actor_passive_activate', h.activationPayload(h.pc), 'passive_already_active');
     });
   });
 });

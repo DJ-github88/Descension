@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import useGameStore from '../../../../store/gameStore';
 import { explainExecution, draftSubject, STATES } from '../../utils/executionCompatibility';
+import SpellBehaviorFlow from './SpellBehaviorFlow';
 import './ExecutionCompatibility.css';
 
 const ICON = { [STATES.EXECUTABLE]: 'fa-check', [STATES.PARTIAL]: 'fa-adjust', [STATES.BLOCKED]: 'fa-hourglass-half', [STATES.UNSUPPORTED]: 'fa-hand-paper' };
@@ -13,21 +14,24 @@ const ICON = { [STATES.EXECUTABLE]: 'fa-check', [STATES.PARTIAL]: 'fa-adjust', [
  * variant "draft": the unsaved Wizard state (the saved copy is checked again in the library, and that result counts).
  * variant "saved": the stored library record.
  */
-export default function ExecutionCompatibility({ record, draft, context, variant = 'saved' }) {
+export default function ExecutionCompatibility({ record, draft, context, variant = 'saved', view: providedView, children }) {
   // Display context only (read-only selectors). Callers may override each value.
   const storeShared = useGameStore(s => s.isInMultiplayer), storeGm = useGameStore(s => s.isGMMode), storeRoom = useGameStore(s => s.multiplayerRoom?.id);
   const roomId = context?.roomId ?? storeRoom, classId = context?.classId, shared = context?.shared ?? storeShared === true, gm = context?.gm ?? storeGm === true, definitionVersion = context?.definitionVersion;
   const sourceRef = context?.sourceRef, route = context?.route, sourceKind = context?.sourceKind;
+  const subject = useMemo(() => record || draftSubject(draft), [record, draft]);
   const view = useMemo(() => {
+    if (providedView) return providedView;
     // An unsaved Wizard state is wrapped exactly as the save path wraps it (Wizard-only keys removed, authoredDraft a plain copy).
-    const subject = record || draftSubject(draft);
     return explainExecution(subject, { roomId, classId, shared, gm, definitionVersion, sourceRef, route, sourceKind });
-  }, [record, draft, roomId, classId, shared, gm, definitionVersion, sourceRef, route, sourceKind]);
+  }, [providedView, subject, roomId, classId, shared, gm, definitionVersion, sourceRef, route, sourceKind]);
   return <section className={`exec-compat exec-compat-${view.state}`} aria-label="Execution compatibility" data-state={view.state}>
     <p className="exec-compat-title" role="status"><i className={`fas ${ICON[view.state]}`} aria-hidden="true" /> {view.title}</p>
     <p>{view.summary}</p>
     {variant === 'draft' && <p className="exec-compat-note">Draft check. The saved library copy is checked again, and that result is the one that counts.</p>}
+    <SpellBehaviorFlow record={subject} context={{ roomId, classId, shared, gm, definitionVersion, sourceRef, route, sourceKind }} compact />
     {view.reasons.length > 0 && <dl className="exec-compat-reasons">{view.reasons.map(r => <React.Fragment key={r.label}><dt>{r.label}</dt><dd>{r.text}</dd></React.Fragment>)}</dl>}
+    {children}
     {view.automated.length > 0 && <><p className="exec-compat-head">Prism runs</p><ul>{view.automated.map(t => <li key={t}>{t}</li>)}</ul></>}
     {view.confirm.length > 0 && <><p className="exec-compat-head">Still confirmed by people</p><ul>{view.confirm.map(t => <li key={t}>{t}</li>)}</ul></>}
     {view.manual.length > 0 && <><p className="exec-compat-head">Played by hand</p><ul>{view.manual.map(t => <li key={t}>{t}</li>)}</ul></>}

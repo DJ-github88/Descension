@@ -1,7 +1,7 @@
 {
   "name": "mythrill-server",
   "version": "1.0.0",
-  "description": "Multiplayer backend for Mythrill D&D VTT",
+  "description": "Multiplayer backend for Mythrill VTT",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -10,13 +10,20 @@
     "lint:fix": "eslint *.js services/*.js handlers/*.js --fix",
     "sync:shared": "node scripts/sync-shared.js",
     "check:shared": "node scripts/sync-shared.js --check",
-    "test": "mocha tests/**/*.test.js --require tests/helpers/passiveActivationTestLoader.cjs --timeout 10000 --exit",
+    "test": "mocha tests/**/*.test.js --timeout 10000 --exit",
+    "test:passive": "mocha tests/firstPlayablePassive.production.test.js tests/helpers/heightenedSenses.control.test.js tests/helpers/heightenedSenses.acceptance.test.js --timeout 10000 --exit",
+    "test:passive:acceptance": "node tests/helpers/runPassiveAcceptance.cjs",
+    "test:passive:verify-runner": "node tests/helpers/checkPassiveRunner.cjs",
+    "test:placed": "mocha tests/placedEffectFoundation.production.test.js --timeout 15000 --exit",
+    "test:placed:isolated": "node tests/helpers/runPlacedIsolated.cjs",
+    "test:composition": "node tests/helpers/runCompositionGate.cjs",
+    "test:composition:verify-gate": "node tests/helpers/checkCompositionGate.cjs",
     "test:socket": "mocha tests/socketHandlers.test.js --timeout 10000",
     "test:room": "mocha tests/roomHandlers.test.js --timeout 10000",
     "test:integration": "node tests/integration-test.js"
   },
   "keywords": [
-    "dnd",
+    "ttrpg",
     "vtt",
     "multiplayer",
     "socket.io"

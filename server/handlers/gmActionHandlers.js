@@ -454,14 +454,41 @@ function registerGmActionHandlers(ctx) {
 
       const { room } = validation;
 
+      const storedFeetPerTile = room.settings?.feetPerTile;
       room.settings = {
         ...room.settings,
         ...data.settings
       };
+      // feetPerTile is only ever stored through the validated path below; a nested value never lands unchecked.
+      if (storedFeetPerTile === undefined) {delete room.settings.feetPerTile;} else {room.settings.feetPerTile = storedFeetPerTile;}
+
+      // The GM's grid scale (feet per square). The Settings window sends it top-level; accept that or settings.feetPerTile.
+      // Server-authoritative copy for rules that measure distance (Line AoE geometry): room.gameState.feetPerTile.
+      // Same bounds as the GM slider and settingsStore.setFeetPerTile (1..20 ft); anything else is ignored.
+      const requestedFeet = data.feetPerTile !== undefined ? data.feetPerTile : data.settings?.feetPerTile;
+      let feetPerTile;
+      if (requestedFeet !== undefined) {
+        if (typeof requestedFeet === 'number' && Number.isFinite(requestedFeet) && requestedFeet >= 1 && requestedFeet <= 20) {
+          feetPerTile = requestedFeet;
+          room.gameState.feetPerTile = feetPerTile;
+          // Monotonic revision so a client can tell a newer broadcast from an older room snapshot.
+          const previousRevision = room.gameState.feetPerTileRevision;
+          room.gameState.feetPerTileRevision = (Number.isInteger(previousRevision) && previousRevision > 0 ? previousRevision : 0) + 1;
+          room.settings = { ...room.settings, feetPerTile };
+        } else {
+          logger.warn('[sync_gameplay_settings] Ignored invalid feetPerTile', { roomId: room.id, value: String(requestedFeet).slice(0, 20) });
+        }
+      }
 
       io.to(data.roomId).emit('gameplay_settings_updated', {
-        settings: room.settings
+        settings: room.settings,
+        ...(feetPerTile !== undefined ? {
+          feetPerTile, feetPerTileRevision: room.gameState.feetPerTileRevision, roomId: room.id, sourceSocketId: socket.id
+        } : {})
       });
+      if (feetPerTile !== undefined && room.gameState?.placedEffectLedger?.placements?.length > 0) {
+        io.to(room.id).emit('actor_placed_effect_changed', { roomId: room.id });
+      }
 
       if (room.isPermanent) {
         firebaseBatchWriter.queueWrite(data.roomId, room.gameState);

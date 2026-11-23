@@ -520,13 +520,26 @@ describe('Socket Handlers', function() {
       });
       userToParty.set('player-1', partyId);
       
+      const invitationId = 'invite-1';
+      partyInvitations.set(invitationId, {
+        id: invitationId,
+        kind: 'party',
+        partyId,
+        fromUserId: 'player-1',
+        toUserId: 'player-2',
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 60000
+      });
+
       const socket2 = getConnectedSocket('socket-2');
+      socket2.data.authenticated = true;
       socket2.data.userId = 'player-2';
 
-      await socket2.handlers['join_party']({ partyId });
+      await socket2.handlers['accept_party_invite']({ invitationId });
 
       const party = parties.get(partyId);
       expect(Object.keys(party.members)).to.have.lengthOf(2);
+      expect(party.members['player-2']).to.exist;
       expect(userToParty.get('player-2')).to.equal(partyId);
     });
 

@@ -221,4 +221,69 @@ describe('P9 S3/S5 approval and GM command preparation', () => {
     expect(sha256Hex('abc')).toBe('ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
     expect(sha256Hex('')).toBe('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855');
   });
+  test('Wizard-saved manual-only spell surfaces its exact refusal reason without mutating authoredDraft', () => {
+    const draft = {
+      name: 'Searing Cone',
+      description: 'Releases a 20 ft cone of fire.',
+      spellType: 'ACTION',
+      typeConfig: { castTimeType: 'IMMEDIATE', school: 'ember' },
+      effectTypes: ['damage'],
+      damageConfig: { damageType: 'direct', elementType: 'ember', formula: '2d6', resolution: 'DICE' },
+      targetingConfig: {
+        targetingType: 'area',
+        aoeShape: 'cone',
+        aoeType: 'cone',
+        aoeParameters: { range: 20, angle: 60 },
+        rangeType: 'ranged',
+        rangeDistance: 20,
+        targetRestrictions: ['enemy'],
+        selectionMethod: 'manual',
+        targetSelectionMethod: 'manual',
+        movementBehavior: 'static'
+      },
+      resourceCost: { actionPoints: 1, mana: 5 }
+    };
+    const wizardSlotCopy = {
+      ...JSON.parse(JSON.stringify(draft)),
+      id: 'searing-cone-1',
+      authoredDefinitionId: '00000000-0000-4000-8000-000000000099',
+      type: 'spell',
+      cooldown: 0,
+      maxCooldown: 0,
+      authoredDraft: JSON.parse(JSON.stringify(draft))
+    };
+    const before = JSON.stringify(wizardSlotCopy);
+    const coneSupport = supportSpell(wizardSlotCopy, { class: 'Arcanoneer', stats });
+    expect(coneSupport.supported).toBe(false);
+    expect(coneSupport.reason).toMatch(/area shape \(circle required; bounded damage line also supported\)/i);
+    expect(coneSupport.reason).not.toMatch(/Use Admitted abilities/);
+    expect(JSON.stringify(wizardSlotCopy)).toBe(before);
+
+    const compatibleDraft = {
+      ...draft,
+      name: 'Ember Bolt',
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        maxTargets: 1,
+        targetRestrictions: ['enemy'],
+        selectionMethod: 'manual',
+        targetSelectionMethod: 'manual',
+        movementBehavior: 'static',
+        aoeShape: 'circle',
+        aoeType: 'sphere',
+        aoeParameters: {}
+      }
+    };
+    const unadmittedCompatible = {
+      ...JSON.parse(JSON.stringify(compatibleDraft)),
+      id: 'ember-bolt-1',
+      authoredDefinitionId: '00000000-0000-4000-8000-000000000100',
+      authoredDraft: JSON.parse(JSON.stringify(compatibleDraft))
+    };
+    const compatibleSupport = supportSpell(unadmittedCompatible, { class: 'Arcanoneer', stats });
+    expect(compatibleSupport.supported).toBe(false);
+    expect(compatibleSupport.reason).toMatch(/Use Admitted abilities/);
+  });
 });

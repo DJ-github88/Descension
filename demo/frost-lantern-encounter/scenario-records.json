@@ -1,0 +1,214 @@
+{
+  "demoContent": true,
+  "canonical": false,
+  "label": "DEMO CONTENT — Sunken Shrine Skirmish (non-canonical)",
+  "note": "Reusable demonstration encounter using existing released mechanics. Does not alter canonical class or catalogue records. Spells are authored via the ordinary Spell Wizard and admitted via the Spell Library.",
+  "room": {
+    "mapId": "demo-shrine",
+    "mapName": "Demo: Sunken Shrine Courtyard"
+  },
+  "characters": [
+    {
+      "tokenId": "pc",
+      "characterId": "demo-ilse",
+      "ownerUid": "demo-owner",
+      "name": "Ilse (Demo)",
+      "class": "Arcanoneer",
+      "level": 3,
+      "eligiblePassives": ["Heightened Senses"],
+      "skillRanks": {
+        "perception": "NOVICE"
+      },
+      "stats": {
+        "strength": 10,
+        "agility": 14,
+        "constitution": 10,
+        "intelligence": 16,
+        "spirit": 14,
+        "charisma": 10,
+        "initiativeMod": 2
+      },
+      "health": { "current": 34, "max": 40 },
+      "mana": { "current": 50, "max": 60 },
+      "actionPoints": { "current": 30, "max": 40 },
+      "position": { "x": 640, "y": 300 }
+    },
+    {
+      "tokenId": "pc2",
+      "characterId": "demo-mira",
+      "ownerUid": "demo-ally",
+      "name": "Mira (Demo)",
+      "class": "Arcanoneer",
+      "level": 3,
+      "skillRanks": {},
+      "stats": {
+        "strength": 10,
+        "agility": 12,
+        "constitution": 10,
+        "intelligence": 16,
+        "spirit": 12,
+        "charisma": 10,
+        "initiativeMod": 1
+      },
+      "health": { "current": 18, "max": 30 },
+      "mana": { "current": 30, "max": 30 },
+      "actionPoints": { "current": 10, "max": 10 },
+      "position": { "x": 680, "y": 300 }
+    }
+  ],
+  "creatures": [
+    {
+      "tokenId": "A",
+      "creatureId": "grimmstalk",
+      "name": "Shade Stalker A",
+      "health": { "current": 40, "max": 40 },
+      "position": { "x": 400, "y": 300 },
+      "role": "Primary enemy target for Demo Frost Grip"
+    },
+    {
+      "tokenId": "B",
+      "creatureId": "grimmstalk",
+      "name": "Shade Stalker B",
+      "health": { "current": 30, "max": 30 },
+      "position": { "x": 480, "y": 300 },
+      "role": "Secondary enemy target for Demo Echo Lance follow-up"
+    },
+    {
+      "tokenId": "C",
+      "creatureId": "grimmstalk",
+      "name": "Wounded Scout C",
+      "health": { "current": 16, "max": 30 },
+      "position": { "x": 560, "y": 300 },
+      "role": "Wounded allied creature target for Demo Healing Lantern"
+    }
+  ],
+  "relationships": [
+    { "a": "pc", "b": "pc2", "relationship": "ally" },
+    { "a": "pc", "b": "C", "relationship": "ally" },
+    { "a": "pc2", "b": "C", "relationship": "ally" },
+    { "a": "pc", "b": "A", "relationship": "enemy" },
+    { "a": "pc", "b": "B", "relationship": "enemy" },
+    { "a": "pc2", "b": "A", "relationship": "enemy" },
+    { "a": "pc2", "b": "B", "relationship": "enemy" }
+  ],
+  "spells": {
+    "componentWatchDamageParent": {
+      "name": "Demo Frost Grip",
+      "description": "DEMO: Direct damage (1d8+3) plus Frozen Limbs (-10 ft movement, Constitution DC 12 negates). Follow-up After My Damage watches Direct Damage only.",
+      "effects": {
+        "damage": {
+          "formula": "1d8+3",
+          "damageType": "direct"
+        },
+        "control": {
+          "profile": "authored-effect:v1",
+          "effect": "movement",
+          "movementFeet": -10,
+          "label": "Frozen Limbs",
+          "expiryPolicy": "gm-manual",
+          "durationText": "for 1 round",
+          "gmNote": "The table rolls the Constitution save; the GM records saved or failed and removes the effect.",
+          "save": { "ability": "constitution", "dc": 12, "outcome": "negates" }
+        }
+      },
+      "targeting": {
+        "type": "Single Target",
+        "range": "Ranged",
+        "rangeFeet": 30,
+        "restriction": "Enemies"
+      },
+      "price": { "ap": 1, "mana": 2 },
+      "trigger": {
+        "mode": "effect-specific",
+        "effectOption": "Direct Damage",
+        "category": "Combat",
+        "id": "follow_up_after_damage",
+        "name": "Follow-up After My Damage"
+      },
+      "gmWatch": {
+        "watchedComponent": "effects:direct",
+        "pairedFollowUp": "Demo Echo Lance"
+      }
+    },
+    "damageFollowUp": {
+      "name": "Demo Echo Lance",
+      "description": "DEMO: Paid optional follow-up spell (1d6+1 direct damage) triggered after Demo Frost Grip's Direct Damage.",
+      "effects": {
+        "damage": {
+          "formula": "1d6+1",
+          "damageType": "direct"
+        }
+      },
+      "targeting": {
+        "type": "Single Target",
+        "range": "Ranged",
+        "rangeFeet": 30,
+        "restriction": "Enemies"
+      },
+      "price": { "ap": 1, "mana": 2 },
+      "trigger": {
+        "mode": "global",
+        "category": "Combat",
+        "id": "follow_up_after_damage",
+        "name": "Follow-up After My Damage"
+      }
+    },
+    "healingParent": {
+      "name": "Demo Healing Lantern",
+      "description": "DEMO: Immediate healing (1d8+1) for an allied target.",
+      "effect": "healing",
+      "healingType": "Immediate Healing",
+      "resolution": "Dice",
+      "formula": "1d8+1",
+      "targeting": {
+        "type": "Single Target",
+        "range": "Ranged",
+        "rangeFeet": 30,
+        "restriction": "Allies"
+      },
+      "price": { "ap": 2, "mana": 1 },
+      "trigger": null
+    },
+    "healingFollowUp": {
+      "name": "Demo Healing Echo",
+      "description": "DEMO: Paid optional healing follow-up (1d8+1) triggered after qualifying immediate healing.",
+      "effect": "healing",
+      "healingType": "Immediate Healing",
+      "resolution": "Dice",
+      "formula": "1d8+1",
+      "targeting": {
+        "type": "Single Target",
+        "range": "Ranged",
+        "rangeFeet": 30,
+        "restriction": "Allies"
+      },
+      "price": { "ap": 1, "mana": 3 },
+      "trigger": {
+        "mode": "global",
+        "category": "Health",
+        "categoryLabel": "Health, Resources & Death",
+        "id": "follow_up_after_healing",
+        "name": "Follow-up After My Healing"
+      }
+    },
+    "ongoingPeriodic": {
+      "name": "Demo Searing Frost",
+      "description": "DEMO: Periodic frost damage (1d4, 2 target-start ticks) to verify ongoing-effects tick and expiry display.",
+      "effect": "periodic",
+      "periodicKind": "damage",
+      "periodicFormula": "1d4",
+      "periodicDamageType": "arcane",
+      "label": "Searing Frost",
+      "expiryPolicy": "target-start-count",
+      "occurrences": 2,
+      "targeting": {
+        "type": "Single Target",
+        "range": "Ranged",
+        "rangeFeet": 30,
+        "restriction": "Enemies"
+      },
+      "price": { "ap": 1, "mana": 1 },
+      "trigger": null
+    }
+  }
+}

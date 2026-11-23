@@ -159,7 +159,10 @@ function stage(room, player, uid, request, confirmedRevision) {
       if (located.contract.revision !== data.expectedTargetRevision) {actors.fail('stale_actor_revision');}
       if (clock) {
         const scheduled = Object.values(clock.schedules || {})
-          .filter(item => item?.combatId === clock.id && item.ref && actors.hash(item.ref) === targetHash)
+          .filter(item => item?.combatId === clock.id && (
+            (item.ref && actors.hash(item.ref) === targetHash) ||
+            (item.anchorRef && actors.hash(item.anchorRef) === targetHash)
+          ))
           .map(item => item.recordId);
         if (scheduled.length) {
           failWithDetails('combatant_has_scheduled_effects',
@@ -262,9 +265,9 @@ function hasLiveCombatEffects(room, token) {
   const h = ref ? actors.hash(ref) : null;
   const clock = room.gameState?.combat?.effectLifecycle;
   if (!clock) { return null; }
+  const matchesActor = (candidate) => candidate && (h ? actors.hash(candidate) === h : candidate.tokenId === token.id);
   const scheduled = Object.values(clock.schedules || {})
-    .filter(item => item?.combatId === clock.id && item.ref &&
-      (h ? actors.hash(item.ref) === h : item.ref.tokenId === token.id))
+    .filter(item => item?.combatId === clock.id && (matchesActor(item.ref) || matchesActor(item.anchorRef)))
     .map(item => item.recordId);
   const cooldowns = Object.entries(token.state?.authoredCooldowns || {})
     .filter(([, item]) => item?.combatId === clock.id).map(([key]) => key);

@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useSettingsStore from '../../store/settingsStore';
 import ClassResourceBar from './ClassResourceBar';
+import RoomHunterResource from './RoomHunterResource';
+import useGameStore from '../../store/gameStore';
 import '../../styles/party-hud.css';
 import './styles/ClassResourceBar.css';
 
@@ -51,6 +53,7 @@ const CharacterPortraitHUD = ({
     const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
 
     const characterData = isCurrentPlayer ? currentPlayerData : character;
+    const roomHunter = useGameStore(state => state.isInMultiplayer) && characterData.class === 'Hunter';
 
     // Use calculated max values from derivedStats if available, otherwise fall back to stored values
     const maxHealth = characterData.derivedStats?.maxHealth || characterData.health.max;
@@ -276,7 +279,7 @@ const CharacterPortraitHUD = ({
                     )}
 
                     {/* Class Resource Bar - Only show if character has a class and class resource */}
-                    {characterData.class && characterData.classResource && (
+                    {roomHunter ? <RoomHunterResource self={isCurrentPlayer} ownerUid={characterData.ownerUserId} characterId={characterData.id} /> : characterData.class && characterData.classResource && (
                         <ClassResourceBar
                             characterClass={characterData.class}
                             classResource={characterData.classResource}

@@ -11,6 +11,7 @@
 const assert = require('assert/strict');
 const { createPassiveHarness } = require('./passiveReadinessHarness');
 const profile = require('./profiles');
+const testPolicy = require('./passiveActivationTestPolicy');
 
 const HEIGHTENED_SENSES = profile.readFixture('heightened-senses.record.json');
 const clone = value => JSON.parse(JSON.stringify(value));
@@ -182,7 +183,11 @@ describe('First playable passive - ACCEPTANCE (PENDING)', function() {
   });
 
   it('STACKING exclusive: one copy; no combination with another passive initiative modifier (a non-passive sheet base still applies)', async function() {
-    if (profile.STACKING !== 'exclusive') { this.skip(); }
+    if (profile.STACKING !== 'exclusive') { this.skip('Requires PASSIVE_STACKING=exclusive (and test-only policy-swap loader)'); }
+    testPolicy.requirePolicySwapLoader(
+      this,
+      'Requires test-only policy-swap loader (--require tests/helpers/passiveActivationTestLoader.cjs) for PASSIVE_STACKING=exclusive'
+    );
     skipUnlessApproved(this);
     assert.equal((await h.activate(h.pc)).success, true);
     const duplicate = await h.activate(h.pc);
@@ -195,7 +200,11 @@ describe('First playable passive - ACCEPTANCE (PENDING)', function() {
   });
 
   it('STACKING both-copies: two copies of the same passive both apply', async function() {
-    if (profile.STACKING !== 'both-copies') { this.skip(); }
+    if (profile.STACKING !== 'both-copies') { this.skip('Requires PASSIVE_STACKING=both-copies (and test-only policy-swap loader)'); }
+    testPolicy.requirePolicySwapLoader(
+      this,
+      'Requires test-only policy-swap loader (--require tests/helpers/passiveActivationTestLoader.cjs) for PASSIVE_STACKING=both-copies'
+    );
     skipUnlessApproved(this);
     const first = await h.activate(h.pc);
     assert.equal(first.success, true, JSON.stringify(first));

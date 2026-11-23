@@ -17,6 +17,8 @@ import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import { isOffHandDisabled, normalizeEquipment } from '../../utils/equipmentUtils';
 import { calculateDerivedStats, getExhaustionEffectsList } from '../../utils/characterUtils';
 import { getClassResourceConfig } from '../../data/classResources';
+import { isFlowResourceRecord } from '../../services/hunterFlow';
+import RoomHunterResource from '../hud/RoomHunterResource';
 import { getRaceList, getSubraceList, getRacialSavingThrowModifiers, formatSavingThrowModifier, getHeritageCrest } from '../../data/raceData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import {   getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory } from '../../utils/raceDisciplineSpellUtils';
@@ -804,6 +806,9 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
 
     // Class resource config (shared across render functions)
     const classResourceConfig = characterClass ? getClassResourceConfig(characterClass) : null;
+    const sharedRoom = useGameStore(state => state.isInMultiplayer);
+    const roomHunter = characterClass === 'Hunter' && sharedRoom && !inspectionData;
+    const showsFlow = roomHunter || (characterClass === 'Hunter' && isFlowResourceRecord(classResource));
 
     // Get current character ID from store
     const currentCharacterId = characterStore?.currentCharacterId || null;
@@ -1985,6 +1990,22 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             <aside className="equipment-side equipment-side--right" data-column-label="Magic & Defense">
                 {renderSpellStatsPanel()}
                 {renderModifiedResistances()}
+                {showsFlow && (
+                    <div className="class-resource-section">
+                        <h4 className="resource-section-title">Hunter Flow</h4>
+                        <div className="class-resource-display">
+                            <React.Suspense fallback={<div className="class-resource-loading">Loading...</div>}>
+                                {roomHunter ? <RoomHunterResource self /> : <ClassResourceBar
+                                    characterClass={characterClass}
+                                    classResource={classResource}
+                                    character={{ health, mana, actionPoints }}
+                                    size="small"
+                                    onClassResourceUpdate={dataSource.updateClassResource || null}
+                                />}
+                            </React.Suspense>
+                        </div>
+                    </div>
+                )}
             </aside>
         </div>
     </div>
@@ -2294,21 +2315,21 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     </div>
 
                     {/* Class Resource - Show if character has a class and class resource */}
-                    {characterClass && classResource && classResourceConfig && (
+                    {characterClass && (classResource || roomHunter) && classResourceConfig && (
                         <div className="class-resource-section">
-                            <h4 className="resource-section-title">{classResourceConfig.name}</h4>
+                            <h4 className="resource-section-title">{showsFlow ? 'Hunter Flow' : classResourceConfig.name}</h4>
                             <div className="class-resource-display">
                                 <React.Suspense fallback={<div className="class-resource-loading">Loading...</div>}>
-                                    <ClassResourceBar
+                                    {roomHunter ? <RoomHunterResource self /> : <ClassResourceBar
                                         characterClass={characterClass}
                                         classResource={classResource}
                                         character={{ health, mana, actionPoints }}
                                         size="large"
                                         onClassResourceUpdate={dataSource.updateClassResource || null}
-                                    />
+                                    />}
                                 </React.Suspense>
                             </div>
-                            <div className="class-resource-details">
+                            {!showsFlow && <div className="class-resource-details">
                                 <div className="resource-description">
                                     {classResourceConfig.description}
                                 </div>
@@ -2340,7 +2361,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                         </div>
                                     )}
                                 </div>
-                            </div>
+                            </div>}
                         </div>
                     )}
                 </div>

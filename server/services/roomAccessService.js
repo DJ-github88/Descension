@@ -928,10 +928,13 @@ function projectPlayersForClient(playersSource) {
 // Supported root token keys. Unknown keys (including unknown nested objects,
 // alternate asset keys and secret blobs) are dropped at the outbound boundary.
 const SUPPORTED_TOKEN_KEYS = Object.freeze([
-  'id', 'name', 'position', 'velocity', 'lastMoved', 'updatedAt', 'createdAt', 'addedAt',
+  'id', 'name', 'size', 'position', 'velocity', 'lastMoved', 'updatedAt', 'createdAt', 'addedAt',
   'state', 'character', 'creatureId', 'targetMapId', 'mapId', 'isPlayerToken',
   'ownerUserId', 'ownerId', 'ownerPlayerId', 'playerId',
   'conditions', 'customName', 'x', 'y'
+]);
+const SUPPORTED_TOKEN_SIZES = Object.freeze([
+  'tiny', 'small', 'medium', 'large', 'huge', 'gargantuan', 'colossal'
 ]);
 
 // Supported state-update scalar keys.
@@ -1048,8 +1051,21 @@ function projectTokenCharacter(token) {
       if (projected !== null) {out.conditions = projected;}
       continue;
     }
+    if (key === 'size') {
+      if (typeof value === 'string' && SUPPORTED_TOKEN_SIZES.includes(value.trim().toLowerCase())) {
+        out.size = value.trim().toLowerCase();
+      }
+      continue;
+    }
     if (key === 'character') {
       out.character = projectCharacterForClient(value);
+      const binding = token.state?.actorContract;
+      if (out.character && value.class === 'Hunter' && binding?.version === 1 && binding.kind === 'character' && binding.primary === true) {
+        const flow = require('../shared/services/hunterFlow');
+        const home = token.state?.classPayment;
+        const current = !home ? flow.FLOW_START : home.version === 1 && home.domain === flow.FLOW_DOMAIN && home.value?.type === flow.FLOW_DOMAIN ? home.value.flow : null;
+        if (Number.isSafeInteger(current) && current >= flow.FLOW_MIN && current <= flow.FLOW_MAX) out.committedHunterFlow = current;
+      }
       continue;
     }
     if (isScalarValue(value)) {out[key] = value;}
@@ -1110,6 +1126,7 @@ function projectGameStateForClient(gameState) {
   delete out.authoredSpellRegistry; // P14-A1: explicit public capability lookup, no raw decisions.
   delete out.triggerLedger; // Shared trigger foundation v1: explicit viewer projection only (actor_trigger_list).
   delete out.passiveLedger; // First playable passive activation v1: explicit viewer projection only (actor_passive_list).
+  delete out.placedEffectLedger; // Shared placed-effect foundation v1: explicit viewer projection only (actor_placed_effect_list).
   delete out.actorRelationships; // Recruitment relationship store: explicit viewer projection only.
   delete out.companionRoster; // Recruitment roster store: explicit safe projection only.
   if (out.actorConsequences) {

@@ -796,6 +796,7 @@ const HealingEffects = (props) => {
    // and preserve all other properties from the global state
    const updatedConfig = {
     ...state.healingConfig,
+    resolution: state.healingConfig.resolution || 'DICE',
     hasHotEffect: state.healingConfig.hasHotEffect === true,
     hasShieldEffect: state.healingConfig.hasShieldEffect === true
    };

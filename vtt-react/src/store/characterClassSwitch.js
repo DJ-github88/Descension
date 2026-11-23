@@ -1,5 +1,6 @@
 import { ALL_CLASSES_DATA } from '../data/classes';
 import { initializeClassResource } from '../data/classResources';
+import { normalizeFlowResourceRecord, FLOW_RESOURCE_TYPE, FLOW_START } from '../services/hunterFlow';
 import { pruneTalentsForChange, removedTalentGrantIds } from './characterSlices/progressionSlice';
 
 /**
@@ -43,7 +44,9 @@ export const buildClassSwitchPatch = (existingCharacter, nextClass, options = {}
             class: nextClass,
             class_spells: { known_spells: [...knownSpells] },
             talents,
-            classResource: initializeClassResource(nextClass, { ...stats, level }),
+            classResource: nextClass === 'Hunter'
+                ? normalizeFlowResourceRecord({ type: FLOW_RESOURCE_TYPE, current: FLOW_START })
+                : initializeClassResource(nextClass, { ...stats, level }),
             primarySpecialization: '',
             selectedAbility: '',
             levelUpHistory

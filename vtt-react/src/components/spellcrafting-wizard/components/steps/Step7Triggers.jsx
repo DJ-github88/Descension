@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ResourceThresholdSlider from '../common/ResourceThresholdSlider';
 import { useSpellWizardState } from '../../context/spellWizardContext';
+import useGameStore from '../../../../store/gameStore';
+import { draftSubject, explainExecution, STATES } from '../../utils/executionCompatibility';
+import { hasStoredTriggers } from '../common/spellTriggerPresentation';
+import StepCompatibilityNotice from '../common/StepCompatibilityNotice';
 import WizardStep from '../common/WizardStep';
 import { getTriggerIconUrl } from '../../core/data/triggerIcons';
 import { triggerCategories, getTriggersByCategory, RESOURCE_TYPES } from '../../core/data/triggerData';
@@ -12,6 +16,18 @@ import EffectConfigPanel from '../common/EffectConfigPanel';
 
 const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   const state = useSpellWizardState();
+  const storeShared = useGameStore(s => s.isInMultiplayer);
+  const storeGm = useGameStore(s => s.isGMMode);
+  const storeRoom = useGameStore(s => s.multiplayerRoom?.id);
+  const draft = useMemo(() => draftSubject(state), [state]);
+  const compat = useMemo(
+    () => explainExecution(draft, { roomId: storeRoom, shared: storeShared === true, gm: storeGm === true }),
+    [draft, storeRoom, storeShared, storeGm]
+  );
+  const isTriggerBlocker = (compat.state === STATES.UNSUPPORTED || compat.state === STATES.BLOCKED) && compat.stepGuidance?.stepId === 'triggers';
+  const isTriggerReady = (compat.state === STATES.EXECUTABLE || compat.state === STATES.PARTIAL) && hasStoredTriggers(state.triggerConfig);
+  const showModeNotice = isTriggerBlocker && (compat.stepGuidance?.controlId === 'required-state' || compat.stepGuidance?.controlId === 'trigger-logic');
+  const showSelectedNotice = (isTriggerBlocker && !showModeNotice) || isTriggerReady;
 
   // Generate trigger recommendations based on spell type and effects
   const getTriggerRecommendations = () => {
@@ -49,12 +65,12 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
     if (spellType === 'TRAP') {
       if (effectTypes.includes('damage')) {
-        return "For damage-dealing traps, consider proximity or interaction triggers like 'Stepped On' or 'Proximity'.";
+        return "For damage-dealing traps, consider proximity or interaction reference notes like 'Stepped On' or 'Proximity' for when the GM should resolve it (Prism does not automatically fire traps).";
       }
       if (effectTypes.includes('debuff') || effectTypes.includes('control')) {
-        return "For control traps, consider triggers like 'Proximity' or 'Interaction' to catch enemies unaware.";
+        return "For control traps, consider reference conditions like 'Proximity' or 'Interaction' for when the GM should resolve it (Prism does not automatically fire traps).";
       }
-      return "Select conditions that will cause your trap to activate when enemies encounter it.";
+      return "Select reference trigger conditions for when the GM should resolve this trap (Prism does not automatically fire traps).";
     }
 
     return "Select conditions that will cause your spell to trigger automatically.";
@@ -84,7 +100,9 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
   const shouldShowStep = true; // Show for all spell types
   const hintsList = [
-    "Triggers define when your spell activates automatically.",
+    state.spellType === 'TRAP'
+      ? "For traps, triggers are GM-managed reference notes rather than automatic Prism firing."
+      : "Triggers define when your spell activates automatically.",
     "For combat spells, consider 'Damage Taken' or 'Health Threshold' triggers.",
     "For utility spells, environmental triggers like 'Weather Change' can create unique effects.",
     "Combining multiple triggers with AND logic creates more specific activation conditions.",
@@ -125,6 +143,11 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
       showHints={true}
     >
       <div className="spell-effects-container">
+        {state.spellType === 'TRAP' && (
+          <div className="spell-wizard-info-box mb-md">
+            <p>GM-managed reference only — Prism does not automatically arm or fire trap triggers. Selected triggers record when the GM should resolve this trap at the table.</p>
+          </div>
+        )}
 
         {errors.length > 0 && (
           <div className="pf-config-group mb-md">
@@ -337,6 +360,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
               </div>
             )}
           </div>
+          {showModeNotice && <StepCompatibilityNotice view={compat} />}
         </div>
 
         <EffectConfigPanel
@@ -444,6 +468,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   }
                 })()}
           </h4>
+          {showSelectedNotice && <StepCompatibilityNotice view={compat} />}
 
           {editingMode === 'global' && triggerMode === 'required' && (!requiredConditions.conditions || requiredConditions.conditions.length === 0) ? (
             <div className="pf-empty-abilities">
@@ -1005,7 +1030,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         summary += ' spell';
 
                       } else if (trigger.id === 'turn_start') {
-                        const perspective = trigger.parameters.perspective || 'self';
+                        const perspective = trigger.parameters.whose_turn || trigger.parameters.perspective || 'self';
                         const whoMap = {
                           'self': 'my turn starts',
                           'target': 'target\'s turn starts',
@@ -1016,7 +1041,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         summary = `When ${whoMap[perspective] || 'my turn starts'}`;
 
                       } else if (trigger.id === 'turn_end') {
-                        const perspective = trigger.parameters.perspective || 'self';
+                        const perspective = trigger.parameters.whose_turn || trigger.parameters.perspective || 'self';
                         const whoMap = {
                           'self': 'my turn ends',
                           'target': 'target\'s turn ends',
@@ -1095,15 +1120,20 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         summary = `When ${whoMap[perspective] || 'I enter'} ${areaType}`;
 
                       } else if (trigger.id === 'proximity') {
-                        const distance = trigger.parameters.distance || 30;
-                        const entityType = trigger.parameters.entity_type || 'any';
+                        const isTrapProximity = trigger.category === 'trap';
+                        const distance = trigger.parameters.distance || (isTrapProximity ? state.trapConfig?.placementRadius : 30);
+                        const entityType = trigger.parameters.entity_type || trigger.parameters.creature_type || 'any';
                         const entityMap = {
-                          'any': 'anyone',
+                          'any': isTrapProximity ? 'any creature' : 'anyone',
                           'ally': 'an ally',
                           'enemy': 'an enemy',
-                          'self': 'I'
+                          'self': 'I',
+                          'player': 'a player',
+                          'npc': 'an NPC'
                         };
-                        summary = `When ${entityMap[entityType] || 'anyone'} comes within ${distance} ft`;
+                        summary = distance
+                          ? `When ${entityMap[entityType] || (isTrapProximity ? 'any creature' : 'anyone')} comes within ${distance} ft`
+                          : `When ${entityMap[entityType] || 'any creature'} enters the trap radius`;
 
                       } else if (trigger.id === 'movement_start') {
                         const perspective = trigger.parameters.perspective || 'self';

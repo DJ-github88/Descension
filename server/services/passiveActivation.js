@@ -5,17 +5,23 @@ const crypto = require('crypto');
 const actors = require('./actorConsequences');
 const checkpoint = require('./roomCheckpoint');
 const policy = require('../shared/services/passiveActivationPolicy');
+const pure = require('../shared/services/authoredAbility');
+const authoredEffect = require('../shared/services/authoredEffect');
+const installedAuthoredAbilities = require('./installedAuthoredAbilities');
 
 const CAPABILITY = policy.CONTRACT;
 const LEDGER_KEY = 'passiveLedger';
 const LEDGER_VERSION = 1;
 const MAX_ACTIVATIONS = 64;
 const MAX_REQUESTS = 128;
+const MAX_PROCESSED_MOVES = 256;
+const MAX_PROCESSED_BOUNDARIES = 256;
+const AUTHORED_PASSIVE_CAPABILITIES = Object.freeze([pure.PASSIVE_ENTRY_CAPABILITY, pure.PASSIVE_TURN_CAPABILITY]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const ACTIVATE_KEYS = Object.freeze([
   'version', 'roomId', 'requestId', 'expectedRevision',
-  'target', 'passiveId', 'sourceRecordId', 'profile', 'record'
+  'target', 'passiveId', 'sourceRecordId', 'profile', 'record', 'definitionRef'
 ]);
 const REVOKE_KEYS = Object.freeze([
   'version', 'roomId', 'requestId', 'expectedRevision', 'activationId'
@@ -39,13 +45,26 @@ function emptyLedger() {
   return { version: LEDGER_VERSION, revision: 0, activations: [], requests: [] };
 }
 
+function validProcessedHashes(value, max) {
+  return Array.isArray(value) && value.length <= max && value.every(v => typeof v === 'string');
+}
+
+function preserveProcessed(source) {
+  return {
+    ...(Array.isArray(source?.processedMoves) ? { processedMoves: clone(source.processedMoves) } : {}),
+    ...(Array.isArray(source?.processedBoundaries) ? { processedBoundaries: clone(source.processedBoundaries) } : {})
+  };
+}
+
 function ledger(gameState) {
   if (!isPlain(gameState)) { return null; }
   const raw = gameState[LEDGER_KEY];
   if (raw === undefined) { return null; }
   if (!isPlain(raw) || raw.version !== LEDGER_VERSION || !amount(raw.revision) ||
       !Array.isArray(raw.activations) || raw.activations.length > MAX_ACTIVATIONS ||
-      !Array.isArray(raw.requests) || raw.requests.length > MAX_REQUESTS) {
+      !Array.isArray(raw.requests) || raw.requests.length > MAX_REQUESTS ||
+      (raw.processedMoves !== undefined && !validProcessedHashes(raw.processedMoves, MAX_PROCESSED_MOVES)) ||
+      (raw.processedBoundaries !== undefined && !validProcessedHashes(raw.processedBoundaries, MAX_PROCESSED_BOUNDARIES))) {
     fail('unsupported_passive_ledger', 'The stored passive ledger is not a supported v1 shape. Nothing changed.');
   }
   return raw;
@@ -63,9 +82,67 @@ function requestOf(storedLedger, requestId, requestHash) {
   return prior || null;
 }
 
+function staleAuthored(base, code, reason) {
+  return {
+    ok: false,
+    state: 'stale',
+    code,
+    reason,
+    projected: { ...base, state: 'stale', reason, displayStatus: `Inactive — ${reason}`, eligibility: { ok: false, code, reason } }
+  };
+}
+
+function evaluateAuthoredActivation(room, item, base) {
+  if (item.gmUid !== room.gmId) {
+    return staleAuthored(base, 'passive_gm_changed', 'GM authority changed since activation');
+  }
+  let entry = null;
+  try {
+    const entries = installedAuthoredAbilities.list(room).entries || [];
+    entry = entries.find(e => hash(e.definitionRef) === hash(item.definitionRef)) || null;
+  } catch (_) {
+    entry = null;
+  }
+  if (!entry) {
+    return staleAuthored(base, 'definition_not_admitted', 'admitted passive definition not found');
+  }
+  if (entry.revoked) {
+    return staleAuthored(base, 'definition_revoked', 'admitted passive definition was revoked');
+  }
+  if (entry.creatureOnly || !AUTHORED_PASSIVE_CAPABILITIES.includes(entry.descriptor?.capabilityId) ||
+      entry.descriptor?.capabilityId !== item.passiveKind) {
+    return staleAuthored(base, 'unsupported_passive', 'unsupported passive definition');
+  }
+  let located;
+  try {
+    located = actors.locate(room, item.target);
+  } catch (_) {
+    return staleAuthored(base, 'passive_binding_stale', 'character ownership or incarnation changed');
+  }
+  if (!located.contract?.primary ||
+      located.token.ownerUserId !== item.target.ownerUid ||
+      located.token.character?.id !== item.target.characterId) {
+    return staleAuthored(base, 'passive_binding_stale', 'character ownership or primary attachment changed');
+  }
+  const effectSummary = authoredEffect.describe({ direct: null, condition: item.effects.condition, timing: item.timing });
+  const displayStatus = item.passiveKind === pure.PASSIVE_TURN_CAPABILITY
+    ? `Active — ${item.trigger?.kind === 'turn_start' ? 'Turn Start' : 'Turn End'} (${item.trigger?.whoseTurn}) · ${effectSummary}`
+    : `Active — ${item.targeting.radiusFeet} ft radius (${item.targeting.restriction} moves in) · ${effectSummary}`;
+  return {
+    ok: true,
+    state: 'active',
+    code: null,
+    reason: null,
+    projected: { ...base, state: 'active', reason: null, displayStatus, eligibility: { ok: true } }
+  };
+}
+
 /** Re-validate one stored activation against current policy, canonical descriptor identity, GM authority, exact actor incarnation, revision, and skill eligibility. */
 function evaluateActivation(room, item) {
   const base = clone(item);
+  if (isPlain(item) && AUTHORED_PASSIVE_CAPABILITIES.includes(item.passiveKind)) {
+    return evaluateAuthoredActivation(room, item, base);
+  }
   if (!policy.approved()) {
     const desc = policy.describePassiveStatus({ activation: { state: 'inactive', reason: policy.UNAPPROVED_REASON }, policyApproved: false });
     return {
@@ -185,11 +262,132 @@ function validateActivatePayload(room, data) {
   }
 }
 
+function locatePrimaryCharacter(room, target) {
+  let located;
+  try {
+    located = actors.locate(room, target);
+  } catch (error) {
+    if (error && error.code === 'secondary_attachment') {
+      fail('secondary_attachment', 'Only the primary player character token can receive a passive activation.');
+    }
+    fail('target_incarnation_missing', error.message);
+  }
+  if (!located.contract?.primary) {
+    fail('secondary_attachment', 'Only the primary player character token can receive a passive activation.');
+  }
+  if (located.token.ownerUserId !== target.ownerUid ||
+      located.token.character?.id !== target.characterId) {
+    fail('unsupported_passive_target', 'The character token ownership or identity does not match the bound ref.');
+  }
+  return located;
+}
+
+function planActivateAuthoredPassive(room, uid, data) {
+  if (data.passiveId !== undefined || data.sourceRecordId !== undefined || data.record !== undefined || data.profile !== undefined) {
+    fail('invalid_passive_activation', 'The passive activation payload contains conflicting passive fields. Nothing changed.');
+  }
+  if (!isPlain(data.definitionRef) || data.definitionRef.roomId !== room.id ||
+      !UUID.test(data.definitionRef.definitionId || '') ||
+      !Number.isSafeInteger(data.definitionRef.definitionVersion) || data.definitionRef.definitionVersion < 1 ||
+      typeof data.definitionRef.definitionHash !== 'string' || !/^[0-9a-f]{64}$/.test(data.definitionRef.definitionHash)) {
+    fail('invalid_passive_activation', 'A valid admitted definitionRef is required. Nothing changed.');
+  }
+  if (data.target.kind !== 'character') {
+    fail('unsupported_passive_target', 'Only a bound primary player character can receive a passive activation.');
+  }
+  const currentLedger = stored(room);
+  const requestHash = hash(data);
+  const prior = requestOf(currentLedger, data.requestId, requestHash);
+  if (prior) {
+    const existing = currentLedger.activations.find(item => item.activationId === prior.activationId);
+    if (prior.op !== 'activate' || !existing) {
+      fail('passive_activation_changed', 'That activation request was already processed and the activation has since been revoked.');
+    }
+    return { activation: evaluateActivation(room, existing).projected };
+  }
+  if (data.expectedRevision !== (currentLedger?.revision || 0)) {
+    fail('REVISION_CONFLICT', 'The passive ledger revision has changed; refresh before activating.');
+  }
+
+  const entries = installedAuthoredAbilities.list(room).entries || [];
+  const entry = entries.find(e => hash(e.definitionRef) === hash(data.definitionRef)) || null;
+  if (!entry) {
+    fail('definition_not_admitted', 'That passive ability version is not admitted in this room.');
+  }
+  if (entry.revoked) {
+    fail('definition_revoked', 'That admitted passive ability version has been revoked.');
+  }
+  if (entry.creatureOnly || !AUTHORED_PASSIVE_CAPABILITIES.includes(entry.descriptor?.capabilityId)) {
+    fail('unsupported_passive', 'Only admitted PC passive movement-entry or turn-boundary definitions can be activated here.');
+  }
+
+  const located = locatePrimaryCharacter(room, data.target);
+  const capabilityId = entry.descriptor.capabilityId;
+  const existingForDefinition = (currentLedger?.activations || []).filter(item =>
+    AUTHORED_PASSIVE_CAPABILITIES.includes(item.passiveKind) &&
+    item.definitionRef?.definitionId === entry.definitionRef.definitionId &&
+    (item.target.characterId === data.target.characterId ||
+      (item.target.mapId === data.target.mapId && item.target.tokenId === data.target.tokenId))
+  );
+  const evaluatedExisting = existingForDefinition.map(item => evaluateActivation(room, item));
+  if (evaluatedExisting.some(item => !item.ok)) {
+    fail('passive_activation_stale', 'An existing passive activation for this character is stale or revoked. Revoke it before activating the updated version.');
+  }
+  if (evaluatedExisting.some(item => item.ok)) {
+    fail('passive_already_active', 'This passive ability is already active for this character. Revoke the active version before activating another version.');
+  }
+
+  const baseLedger = currentLedger || emptyLedger();
+  if (baseLedger.activations.length >= MAX_ACTIVATIONS) {
+    fail('passive_activation_capacity', `At most ${MAX_ACTIVATIONS} passive activations per room. Revoke one first.`);
+  }
+
+  const def = entry.canonicalDefinition;
+  const activation = {
+    activationId: crypto.randomUUID(),
+    passiveKind: capabilityId,
+    passiveId: `authored_passive:${entry.definitionRef.definitionId}`,
+    sourceRecordId: pure.actionId(entry.definitionRef),
+    definitionRef: clone(entry.definitionRef),
+    name: def.name,
+    target: clone(data.target),
+    targetRevision: located.contract.revision,
+    gmUid: uid,
+    targeting: clone(def.targeting),
+    trigger: clone(def.trigger),
+    effects: clone(def.effects),
+    timing: clone(def.timing),
+    activatedAtCommit: actors.ledger(room).commitSequence
+  };
+
+  const next = clone(room.gameState);
+  next[LEDGER_KEY] = {
+    version: LEDGER_VERSION,
+    revision: baseLedger.revision + 1,
+    activations: [...clone(baseLedger.activations), activation],
+    requests: [...clone(baseLedger.requests), {
+      requestId: data.requestId,
+      requestHash,
+      op: 'activate',
+      activationId: activation.activationId
+    }].slice(-MAX_REQUESTS),
+    ...preserveProcessed(baseLedger)
+  };
+
+  return {
+    activation: evaluateActivation({ ...room, gameState: next }, activation).projected,
+    next
+  };
+}
+
 /** Plan one explicit GM passive activation. Returns { activation, next? } where `next` is omitted on exact replay. */
 function planActivate(room, uid, data) {
   validateActivatePayload(room, data);
   if (uid !== room.gmId) {
     fail('forbidden', 'Only the current GM can activate a passive modifier.');
+  }
+  if (data.definitionRef !== undefined) {
+    return planActivateAuthoredPassive(room, uid, data);
   }
   if (!policy.approved()) {
     fail('passive_activation_unapproved', policy.UNAPPROVED_REASON);
@@ -228,22 +426,7 @@ function planActivate(room, uid, data) {
     fail('REVISION_CONFLICT', 'The passive ledger revision has changed; refresh before activating.');
   }
 
-  let located;
-  try {
-    located = actors.locate(room, data.target);
-  } catch (error) {
-    if (error && error.code === 'secondary_attachment') {
-      fail('secondary_attachment', 'Only the primary player character token can receive a passive activation.');
-    }
-    fail('target_incarnation_missing', error.message);
-  }
-  if (!located.contract?.primary) {
-    fail('secondary_attachment', 'Only the primary player character token can receive a passive activation.');
-  }
-  if (located.token.ownerUserId !== data.target.ownerUid ||
-      located.token.character?.id !== data.target.characterId) {
-    fail('unsupported_passive_target', 'The character token ownership or identity does not match the bound ref.');
-  }
+  const located = locatePrimaryCharacter(room, data.target);
 
   const existingForCharacter = (currentLedger?.activations || []).filter(item =>
     item.passiveId === resolved.descriptor.passiveId &&
@@ -294,7 +477,8 @@ function planActivate(room, uid, data) {
       requestHash,
       op: 'activate',
       activationId: activation.activationId
-    }].slice(-MAX_REQUESTS)
+    }].slice(-MAX_REQUESTS),
+    ...preserveProcessed(baseLedger)
   };
 
   return {
@@ -348,7 +532,8 @@ function planRevoke(room, uid, data) {
       requestHash,
       op: 'revoke',
       activationId: data.activationId
-    }].slice(-MAX_REQUESTS)
+    }].slice(-MAX_REQUESTS),
+    ...preserveProcessed(currentLedger)
   };
   return { activationId: data.activationId, next };
 }
@@ -360,12 +545,21 @@ function projectActivationForViewer(item, isGM) {
     passiveId: item.passiveId,
     sourceRecordId: item.sourceRecordId,
     target: clone(item.target),
-    stacking: item.stacking,
-    effect: clone(item.effect),
+    ...(item.stacking !== undefined ? { stacking: item.stacking } : {}),
+    ...(item.effect !== undefined ? { effect: clone(item.effect) } : {}),
+    ...(item.passiveKind ? {
+      passiveKind: item.passiveKind,
+      ...(item.definitionRef !== undefined ? { definitionRef: clone(item.definitionRef) } : {}),
+      name: item.name,
+      ...(item.targeting !== undefined ? { targeting: clone(item.targeting) } : {}),
+      ...(item.trigger !== undefined ? { trigger: clone(item.trigger) } : {}),
+      ...(item.effects !== undefined ? { effects: clone(item.effects) } : {}),
+      ...(item.timing !== undefined ? { timing: clone(item.timing) } : {})
+    } : {}),
     state: item.state,
     reason: item.reason,
     displayStatus: item.displayStatus,
-    eligibility: clone(item.eligibility)
+    ...(item.eligibility !== undefined ? { eligibility: clone(item.eligibility) } : {})
   };
 }
 
@@ -394,18 +588,24 @@ function project(room, viewer) {
 
   const activeItems = visible.filter(item => item.state === 'active');
   const staleItems = visible.filter(item => item.state !== 'active');
+  const heightenedActive = activeItems.filter(item => !item.passiveKind && item.passiveId === policy.HEIGHTENED_SENSES_PASSIVE.passiveId);
 
   let status = 'stored';
   let effectText = null;
   let displayStatus = 'Stored — not active';
 
-  if (!policyOn) {
-    status = 'inactive';
-    displayStatus = 'Inactive — creator approval pending';
-  } else if (activeItems.length > 0) {
+  if (heightenedActive.length > 0 && policyOn) {
     status = 'active';
     effectText = '+2 initiative';
     displayStatus = 'Active — +2 initiative';
+  } else if (activeItems.some(item => AUTHORED_PASSIVE_CAPABILITIES.includes(item.passiveKind))) {
+    const first = activeItems.find(item => AUTHORED_PASSIVE_CAPABILITIES.includes(item.passiveKind));
+    status = 'active';
+    effectText = first.displayStatus;
+    displayStatus = first.displayStatus;
+  } else if (!policyOn) {
+    status = 'inactive';
+    displayStatus = 'Inactive — creator approval pending';
   } else if (staleItems.length > 0) {
     status = 'inactive';
     effectText = null;
@@ -446,7 +646,7 @@ function activeInitiativeBonus(room, targetRef) {
   }
   const targetKey = hash(targetRef);
   const activeMatching = currentLedger.activations
-    .filter(item => hash(item.target) === targetKey)
+    .filter(item => !item.passiveKind && item.passiveId === policy.HEIGHTENED_SENSES_PASSIVE.passiveId && hash(item.target) === targetKey)
     .map(item => evaluateActivation(room, item))
     .filter(item => item.ok && item.state === 'active');
 
@@ -573,6 +773,8 @@ module.exports = {
   LEDGER_VERSION,
   MAX_ACTIVATIONS,
   MAX_REQUESTS,
+  MAX_PROCESSED_BOUNDARIES,
+  AUTHORED_PASSIVE_CAPABILITIES,
   emptyLedger,
   ledger,
   stored,

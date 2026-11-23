@@ -10,8 +10,9 @@ const { fail, keys, own, clone, hash } = actors;
 const ELEMENTS = Object.freeze(['arcane', 'sacred', 'blight', 'ember', 'rime', 'primal', 'storm', 'wyrd']);
 const PITCHES = Object.freeze(['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']);
 const THRESHOLDS = Object.freeze([0, 10, 20, 40, 60, 80, 100]);
-const DOMAINS = Object.freeze(['elementalSpheres', 'musicalNotes', 'devotionGauge']);
+const DOMAINS = Object.freeze(['elementalSpheres', 'musicalNotes', 'devotionGauge', 'hunterFlow']);
 const CAPABILITY = 'p9-spell:v1';
+const hunterFlow = require('../shared/services/hunterFlow');
 // One server-held table authorizes both the Minstrel specs and every other reviewed P9 definition.
 const p9Definitions = require('./p9AbilityDefinitions');
 const APPROVED_MINSTREL_SPELLS = p9Definitions.specsForClass('minstrel');
@@ -19,8 +20,12 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const approvals = new WeakMap();
 const condition = require('../shared/services/authoredCondition');
 const effect = require('../shared/services/authoredEffect');
+const authoredChanneled = require('../shared/services/authoredChanneled');
 const classEffect = require('../shared/services/classEffect');
 const saveBranch = require('../shared/services/saveBranch');
+// Direct-damage save (handoff/direct-damage-save/CONTRACT.md): one GM-recorded save on the only part of a single-target immediate damage spell.
+const directSave = require('../shared/services/directSave');
+const randomOutcome = require('../shared/services/randomOutcome');
 // Closed (withdrawn/declined/re-approval) IDs are never silently re-registered.
 const closedApprovals = new WeakMap();
 const int = (value, min = 0, max = Number.MAX_SAFE_INTEGER) => Number.isSafeInteger(value) && value >= min && value <= max;
@@ -35,6 +40,9 @@ function validateValue(domain, value) {
   } else if (domain === 'musicalNotes') {
     keys(value, ['type', 'notes']);
     if (value.type !== domain || !Array.isArray(value.notes) || value.notes.length !== 7 || value.notes.some(item => !int(item, 0, 5))) {fail('invalid_class_payment');}
+  } else if (domain === 'hunterFlow') {
+    keys(value, ['type', 'flow']);
+    if (value.type !== domain || !int(value.flow, 1, 4)) {fail('invalid_class_payment');}
   } else {
     keys(value, ['type', 'current', 'max', 'damage', 'earnedLevels', 'spentLevels', 'bonusLevels']);
     const { current, max, damage, earnedLevels, spentLevels, bonusLevels } = value;
@@ -45,7 +53,10 @@ function validateValue(domain, value) {
   return value;
 }
 function validatePrice(domain, price) {
-  if (domain === 'devotionGauge') {
+  if (domain === 'hunterFlow') {
+    keys(price, ['kind']);
+    if (price.kind !== 'flow-check') {fail('invalid_class_payment');}
+  } else if (domain === 'devotionGauge') {
     keys(price, ['cost', 'gain', 'required']);
     if (!int(price.cost, 0, 6) || !int(price.gain, 0, 6) || !int(price.required, 0, 6)) {fail('invalid_class_payment');}
   } else {
@@ -88,6 +99,9 @@ function validateMinstrelSpellApproval(approval) {
  * price applied to the authoritative before-state (list arithmetic / ledger form). */
 function conserve(domain, before, after, price) {
   validateValue(domain, before); validateValue(domain, after); validatePrice(domain, price);
+  if (domain === 'hunterFlow') {
+    return true;
+  }
   if (domain === 'devotionGauge') {
     if (before.current < Math.max(price.cost, price.required)) {fail('insufficient_class_resource');}
     // Spend records spent levels; a later gain first restores spent levels, and
@@ -112,6 +126,7 @@ function conserve(domain, before, after, price) {
   return true;
 }
 function publicValue(domain, value) {
+  if (domain === 'hunterFlow') {return { type: domain, current: value.flow, min: 1, max: 4, sharedWithCompanion: true };}
   if (domain === 'elementalSpheres') {return { type: domain, spheres: [...value.spheres], current: value.spheres.length, max: 12 };}
   if (domain === 'musicalNotes') {return { type: domain, current: value.notes.reduce((sum, count) => sum + count, 0), max: 35 };}
   return { type: domain, current: value.current, max: 6 };
@@ -134,6 +149,9 @@ function validateEntry(payment) {
   if (payment.mode === 'sync') {
     if (!own(payment, 'before') || !own(payment, 'after') || own(payment, 'domain') || own(payment, 'approvalHash')) {fail('invalid_class_payment');}
     validateHomeShape(payment.before, true); validateHomeShape(payment.after, false);
+    if (payment.after.domain === 'hunterFlow' || payment.before?.domain === 'hunterFlow') {
+      fail('invalid_class_payment', 'Hunter Flow cannot be set by client sync; it updates only through approved Flow actions or encounter reset.');
+    }
   } else if (payment.mode === 'spell') {
     if (own(payment, 'before') || own(payment, 'after') || !DOMAINS.includes(payment.domain) || !/^[0-9a-f]{64}$/.test(payment.approvalHash || '')) {fail('invalid_class_payment');}
   } else {fail('invalid_class_payment');}
@@ -154,19 +172,37 @@ function validateRoll(roll, deterministic = false) {
 }
 function validateApprovalShape(approval, creature = false) {
   const bundle = effect.isEffect(approval), composed = classEffect.isClassEffect(approval);
+  const channeled = authoredChanneled.isChanneled(approval);
   const authored = require('../shared/services/authoredAbility');
   const formula = authored.isFormula(approval), area = authored.isArea(approval);
   if (area) {
     if (creature) fail('unsupported_source_route');
     if (!authored.isAreaRollProcedureApproved()) fail('area_roll_procedure_unapproved', authored.AREA_ROLL_UNAPPROVED_REASON);
-    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'targets', 'areaTerms', 'areaOrigin', 'areaRollProcedure', 'spell', 'roll', 'rollAttributes', 'formulaSourceRevision', 'formulaSourceHash', 'price', 'classPayment', 'triggerOfferId']);
+    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'targets', 'areaTerms', 'areaOrigin', 'areaTarget', 'areaRollProcedure', 'spell', 'roll', 'rollAttributes', 'formulaSourceRevision', 'formulaSourceHash', 'price', 'classPayment', 'triggerOfferId']);
     if (approval.triggerOfferId !== undefined && !/^[0-9a-f]{64}$/.test(approval.triggerOfferId)) {fail('invalid_spell_approval');}
     if (approval.version !== 1 || !text(approval.roomId) || !UUID.test(approval.approvalId || '') || !text(approval.actionEpoch) || !int(approval.baseCommitSequence) ||
       actors.bytes(approval) > 32768 || !authored.isAuthored(approval.spell) || approval.areaRollProcedure !== authored.AREA_ROLL_PROCEDURE) fail('invalid_spell_approval');
-    keys(approval.areaTerms, ['kind', 'aoeShape', 'radiusFeet', 'rangeFeet', 'maxTargets', 'restriction']);
-    if (approval.areaTerms.kind !== 'area' || approval.areaTerms.aoeShape !== 'circle' || !int(approval.areaTerms.radiusFeet, 5, 60) || approval.areaTerms.radiusFeet % 5 !== 0 ||
-      !int(approval.areaTerms.rangeFeet, 1, 300) || !int(approval.areaTerms.maxTargets, 1, authored.MAX_AREA_TARGETS) || !['any', 'ally', 'enemy'].includes(approval.areaTerms.restriction)) fail('invalid_spell_approval');
-    if (approval.areaOrigin !== undefined && approval.areaOrigin !== null) {
+    const shape = approval.areaTerms?.aoeShape;
+    if (shape === 'line') {
+      keys(approval.areaTerms, ['kind', 'aoeShape', 'lengthFeet', 'widthFeet', 'rangeFeet', 'maxTargets', 'restriction']);
+      if (approval.spell.kind !== 'damage' ||
+        approval.areaTerms.kind !== 'area' || !int(approval.areaTerms.lengthFeet, 5, 120) || approval.areaTerms.lengthFeet % 5 !== 0 ||
+        !int(approval.areaTerms.widthFeet, 5, 20) || approval.areaTerms.widthFeet % 5 !== 0 ||
+        !int(approval.areaTerms.rangeFeet, 1, 300) || !int(approval.areaTerms.maxTargets, 1, authored.MAX_AREA_TARGETS) || !['any', 'ally', 'enemy'].includes(approval.areaTerms.restriction)) {
+        fail('invalid_spell_approval');
+      }
+      if (!approval.areaOrigin || !approval.areaTarget) fail('invalid_spell_approval');
+      keys(approval.areaOrigin, ['x', 'y']);
+      keys(approval.areaTarget, ['x', 'y']);
+      if (![approval.areaOrigin.x, approval.areaOrigin.y, approval.areaTarget.x, approval.areaTarget.y].every(v => typeof v === 'number' && Number.isFinite(v))) {
+        fail('invalid_spell_approval');
+      }
+    } else {
+      if (approval.areaTarget !== undefined) fail('invalid_spell_approval');
+      keys(approval.areaTerms, ['kind', 'aoeShape', 'radiusFeet', 'rangeFeet', 'maxTargets', 'restriction']);
+      if (approval.areaTerms.kind !== 'area' || shape !== 'circle' || !int(approval.areaTerms.radiusFeet, 5, 60) || approval.areaTerms.radiusFeet % 5 !== 0 ||
+        !int(approval.areaTerms.rangeFeet, 1, 300) || !int(approval.areaTerms.maxTargets, 1, authored.MAX_AREA_TARGETS) || !['any', 'ally', 'enemy'].includes(approval.areaTerms.restriction)) fail('invalid_spell_approval');
+      if (!approval.areaOrigin) fail('invalid_spell_approval');
       keys(approval.areaOrigin, ['x', 'y']);
       if (typeof approval.areaOrigin.x !== 'number' || !Number.isFinite(approval.areaOrigin.x) || typeof approval.areaOrigin.y !== 'number' || !Number.isFinite(approval.areaOrigin.y)) fail('invalid_spell_approval');
     }
@@ -189,7 +225,14 @@ function validateApprovalShape(approval, creature = false) {
     if (approval.formulaSourceRevision !== undefined && !int(approval.formulaSourceRevision)) fail('invalid_spell_approval');
     if (approval.formulaSourceHash !== undefined && !/^[0-9a-f]{64}$/.test(approval.formulaSourceHash || '')) fail('invalid_spell_approval');
   } else {
-    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment', ...(creature ? ['sourceAuthority', ...(condition.isCondition(approval) || bundle ? ['resolution'] : [])] : condition.isCondition(approval) ? ['conditionTerms'] : []), ...(bundle ? ['effectTerms'] : []), ...(authored.isFormulaBundle(approval) ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(composed ? ['effectTerms', 'disclosure', 'rollAttributes'] : []), ...(formula ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(authored.isHealth(approval) ? ['rollHealth'] : []), ...(creature ? [] : ['triggerOfferId'])]);
+    const isFlow = !creature && authored.isHunterFlow(approval);
+    const isOutcome = !creature && authored.isOutcome(approval);
+    if (creature && authored.isOutcome(approval)) fail('unsupported_source_route');
+    keys(approval, ['version', 'roomId', 'approvalId', 'actionEpoch', 'baseCommitSequence', 'source', 'target', 'spell', 'roll', 'price', 'classPayment', ...(isFlow ? ['flowCheck'] : []), ...(isOutcome ? ['outcome', 'chosenBranch'] : []), ...(creature ? ['sourceAuthority', ...(condition.isCondition(approval) || bundle || channeled ? ['resolution'] : [])] : condition.isCondition(approval) ? ['conditionTerms'] : []), ...(bundle ? ['effectTerms'] : []), ...(channeled ? ['channelTerms'] : []), ...(authored.isFormulaBundle(approval) ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(composed ? ['effectTerms', 'disclosure', 'rollAttributes'] : []), ...(formula ? ['rollAttributes', 'formulaSourceRevision', 'formulaSourceHash'] : []), ...(authored.isHealth(approval) ? ['rollHealth'] : []), ...(creature ? [] : ['triggerOfferId', 'saveTerms'])]);
+    // Direct-damage save: the exact save term of the admitted definition, owner PC -> one creature, plain immediate damage, no class price.
+    if (approval.saveTerms !== undefined && (creature || formula || bundle || composed || condition.isCondition(approval) || !authored.isAuthored(approval.spell) ||
+      !approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`) || approval.spell.kind !== 'damage' || !directSave.validSave(approval.saveTerms) ||
+      approval.target?.kind !== 'creature' || approval.classPayment !== null)) {fail('invalid_spell_approval');}
     if (!creature && approval.triggerOfferId !== undefined && !/^[0-9a-f]{64}$/.test(approval.triggerOfferId)) {fail('invalid_spell_approval');}
     if (authored.isHealth(approval)) {
       keys(approval.rollHealth, ['current', 'max']);
@@ -205,8 +248,9 @@ function validateApprovalShape(approval, creature = false) {
       approval.target.mapId !== approval.source.mapId) {fail('invalid_spell_approval');}
   }
   keys(approval.spell, ['definitionId', 'definitionHash', 'name', 'kind', 'damageTypes']);
-  if (!text(approval.spell.definitionId) || !/^(p9-spell:v1|authored-immediate:v[1234]|authored-area:v1|authored-condition:v1|authored-effect:v1|class-effect:v1)\/[0-9a-f]{64}$/.test(approval.spell.definitionHash || '') || !text(approval.spell.name) ||
-    !(condition.isCondition(approval) ? approval.spell.kind === 'condition' && approval.spell.damageTypes?.length === 0 : bundle ? approval.spell.kind === 'effect' : composed ? approval.spell.kind === 'class-effect' : ['damage', 'healing'].includes(approval.spell.kind)) || !Array.isArray(approval.spell.damageTypes) || approval.spell.damageTypes.length > 8 ||
+  const isOutcome = !creature && authored.isOutcome(approval);
+  if (!text(approval.spell.definitionId) || !/^(p9-spell:v1|authored-immediate:v[1234]|authored-area:v1|authored-condition:v1|authored-effect:v1|authored-channeled:v1|class-effect:v1|authored-hunter-flow:v1|authored-outcome:v1)\/[0-9a-f]{64}$/.test(approval.spell.definitionHash || '') || !text(approval.spell.name) ||
+    !(condition.isCondition(approval) ? approval.spell.kind === 'condition' && approval.spell.damageTypes?.length === 0 : bundle ? approval.spell.kind === 'effect' : channeled ? approval.spell.kind === 'channeled' : composed ? approval.spell.kind === 'class-effect' : isOutcome ? approval.spell.kind === 'outcome' && approval.spell.damageTypes?.length === 0 : ['damage', 'healing'].includes(approval.spell.kind)) || !Array.isArray(approval.spell.damageTypes) || approval.spell.damageTypes.length > 8 ||
     approval.spell.damageTypes.some(type => !text(type, 40)) || (approval.spell.kind === 'damage' && !approval.spell.damageTypes.length)) {fail('invalid_spell_approval');}
   if (composed) {
     // M1: the whole composed effect is pinned by a reviewed profile entry; nothing here is taken from the client.
@@ -216,9 +260,19 @@ function validateApprovalShape(approval, creature = false) {
   } else if (bundle) {
     // A10: whole-bundle terms; exact equality with the installed definition is checked against the room.
     const saved = approval.effectTerms && Object.hasOwn(approval.effectTerms, 'save');
-    keys(approval.effectTerms, ['direct', 'condition', 'timing', ...(saved ? ['save'] : [])]);
-    // Reconciliation gate: the reviewed class-paid composition route never combines with the reviewed save branch.
+    const critGated = approval.effectTerms && Object.hasOwn(approval.effectTerms, 'critGate');
+    keys(approval.effectTerms, ['direct', 'condition', 'timing', ...(saved ? ['save'] : []), ...(critGated ? ['critGate'] : [])]);
+    // Reconciliation gate: the reviewed class-paid composition route never combines with the reviewed save branch or crit gate.
     if (saved && approval.classPayment !== null) fail('unsupported_class_payment_route', 'A typed class payment with a GM-recorded save branch is not a reviewed combination; nothing was registered.');
+    if (critGated && saved) fail('invalid_spell_approval');
+    if (critGated && approval.classPayment !== null) fail('unsupported_class_payment_route', 'A typed class payment with a critical-hit gated follow-up is not supported; nothing was registered.');
+    if (critGated && creature) fail('unsupported_source_route', 'A critical-hit gated follow-up currently requires a primary owner PC source.');
+    if (critGated && approval.target.kind !== 'creature') fail('pc_target_crit_gate_unsupported', effect.PC_REFUSALS.pc_target_crit_gate_unsupported);
+    if (critGated && (!approval.effectTerms.direct || approval.effectTerms.direct.kind !== 'damage')) fail('invalid_spell_approval');
+    if (critGated) {
+      keys(approval.effectTerms.critGate, ['trigger', 'source', 'rule']);
+      if (approval.effectTerms.critGate.trigger !== 'critical_hit' || approval.effectTerms.critGate.source !== 'effects:direct' || approval.effectTerms.critGate.rule !== 'max-die-face') fail('invalid_spell_approval');
+    }
     if ((approval.classPayment !== null && (creature || approval.target.kind !== 'creature')) || (approval.effectTerms.direct === null) !== (approval.roll === null) || !approval.effectTerms.condition || !approval.effectTerms.timing) fail('invalid_spell_approval');
     // Shared GM-recorded save branch: one rider-local "negates" save, owner PC → one creature, with a direct part.
     // Timing is the installed definition's own (manual or a structured target-turn expiry; termsFor equality and the registry check it).
@@ -237,7 +291,27 @@ function validateApprovalShape(approval, creature = false) {
       keys(approval.conditionTerms, ['conditionKey', 'timing']);
       if (approval.conditionTerms.conditionKey !== 'stunned' || !approval.conditionTerms.timing) fail('invalid_spell_approval');
     }
+  } else if (isOutcome) {
+    if (approval.classPayment !== null || approval.target?.kind !== 'creature' || hash(approval.source) === hash(approval.target)) {fail('invalid_spell_approval');}
+    try { randomOutcome.validateSettledOutcome(approval.outcome); } catch (err) { fail(err.code || 'invalid_spell_approval', err.message); }
+    keys(approval.chosenBranch, ['branchId', 'label', 'matcher', 'effect']);
+    if (!approval.chosenBranch.effect || !['damage', 'healing'].includes(approval.chosenBranch.effect.kind) || typeof approval.chosenBranch.effect.formula !== 'string') {
+      fail('invalid_spell_approval');
+    }
+    validateRoll(approval.roll, approval.roll?.mode === 'deterministic');
+  } else if (channeled) {
+    if (approval.roll !== null || approval.classPayment !== null || approval.target?.kind !== 'creature' || hash(approval.source) === hash(approval.target)) fail('invalid_spell_approval');
+    if (!approval.channelTerms || typeof approval.channelTerms !== 'object' || Array.isArray(approval.channelTerms)) fail('invalid_spell_approval');
+    keys(approval.channelTerms, ['tickEffect', 'channel', 'timing']);
+    if (!approval.channelTerms.tickEffect || !approval.channelTerms.channel || !approval.channelTerms.timing) fail('invalid_spell_approval');
+    if (creature) validateConditionResolution(approval.resolution);
   } else validateRoll(approval.roll, authored.isDeterministic(approval));
+  if (authored.isHunterFlow(approval)) {
+    const flowFaces = hunterFlow.validateFlowCheckRoll(approval.flowCheck);
+    if (!approval.classPayment || approval.classPayment.domain !== 'hunterFlow') fail('invalid_spell_approval');
+    const flowRes = hunterFlow.resolveFlowRoll({ preRollFlow: approval.classPayment.before.flow, dice: flowFaces });
+    if (approval.classPayment.after.flow !== flowRes.postRollFlow) fail('class_payment_mismatch');
+  }
   keys(approval.price, ['ap', 'mana']);
   if (!int(approval.price.ap, 0, 100) || !int(approval.price.mana, 0, 10000)) {fail('invalid_spell_approval');}
   if (approval.classPayment !== null) {
@@ -283,9 +357,10 @@ function validateConditionResolution(resolution) {
 function validateCreatureApproval(approval, primaryPc = false) {
   validateApprovalShape(approval, true);
   keys(approval.sourceAuthority, ['admissionId', 'associationHash', 'gmUid']);
+  const channeled = authoredChanneled.isChanneled(approval);
   if (!UUID.test(approval.sourceAuthority.admissionId || '') || !/^[0-9a-f]{64}$/.test(approval.sourceAuthority.associationHash || '') || !text(approval.sourceAuthority.gmUid) ||
-    (!condition.isCondition(approval) && !(effect.isEffect(approval) ? ['character', 'creature'].includes(approval.target.kind) : approval.target.kind === (primaryPc ? 'character' : 'creature'))) || (hash(approval.source) === hash(approval.target) && (primaryPc || approval.spell.kind !== 'healing')) || approval.classPayment !== null ||
-    !(approval.spell.definitionHash.startsWith('authored-immediate:v1/') || condition.isCondition(approval) || effect.isEffect(approval))) fail('unsupported_creature_target');
+    (!condition.isCondition(approval) && !(effect.isEffect(approval) ? ['character', 'creature'].includes(approval.target.kind) : channeled ? approval.target.kind === 'creature' : approval.target.kind === (primaryPc ? 'character' : 'creature'))) || (hash(approval.source) === hash(approval.target) && (primaryPc || approval.spell.kind !== 'healing')) || approval.classPayment !== null ||
+    !(approval.spell.definitionHash.startsWith('authored-immediate:v1/') || condition.isCondition(approval) || effect.isEffect(approval) || channeled)) fail('unsupported_creature_target');
   return approval;
 }
 /** Temporary pools are counted and spent first (approved creator rule). */
@@ -305,7 +380,7 @@ function validPool(pool) {
 }
 // A6 validation evidence belongs to the existing pending attempt, not a second actor/store.
 function selfState(room, approval) {
-  if ((condition.isCondition(approval) || effect.isEffect(approval)) && approval.source.kind === 'creature') return hash([approval.source, approval.target].map(ref => { const a = actors.locate(room, ref); return { contract: a.contract, resources: actors.resources(a.token, ref.kind), conditions: a.token.state?.conditions || [] }; }));
+  if ((condition.isCondition(approval) || effect.isEffect(approval) || authoredChanneled.isChanneled(approval)) && approval.source.kind === 'creature') return hash([approval.source, approval.target].map(ref => { const a = actors.locate(room, ref); return { contract: a.contract, resources: actors.resources(a.token, ref.kind), conditions: a.token.state?.conditions || [] }; }));
   if (approval.source.kind !== 'creature' || !approval.target || hash(approval.source) !== hash(approval.target)) return null;
   const source = actors.locate(room, approval.source);
   return hash({ contract: source.contract, resources: actors.resources(source.token, 'creature'), conditions: source.token.state?.conditions || [] });
@@ -314,7 +389,7 @@ function selfState(room, approval) {
  * Unrestricted/self approvals return null and keep their existing stale-input behavior. */
 function relationshipState(room, approval) {
   const authored = require('../shared/services/authoredAbility');
-  if (!approval?.spell || !(authored.isAuthored(approval.spell) || authored.isFormula(approval) || authored.isArea(approval))) {return null;}
+  if (!approval?.spell || !(authored.isAuthored(approval.spell) || authored.isFormula(approval) || authored.isArea(approval) || authored.isOutcome(approval))) {return null;}
   const entry = require('./installedAuthoredAbilities').lookup(room, approval.spell);
   const restriction = entry.canonicalDefinition?.targeting?.restriction;
   if (!['ally', 'enemy'].includes(restriction)) {return null;}
@@ -330,12 +405,12 @@ function checkRelationshipRevalidation(room, entry) {
   }
 }
 /** Checks an approval against current authoritative room state. */
-function checkAgainstRoom(room, approval) {
+function checkAgainstRoom(room, approval, stage = 'approval') {
   require('./catalogueP9Gate').check(room, approval);
   p9Definitions.check(room, approval);
   const authored = require('../shared/services/authoredAbility');
-  if (authored.isAuthored(approval.spell) || authored.isFormula(approval) || authored.isArea(approval) || approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`)) {
-    require('./installedAuthoredAbilities').checkApproval(room, approval);
+  if (authored.isAuthored(approval.spell) || authored.isFormula(approval) || authored.isArea(approval) || authored.isHunterFlow(approval) || authored.isOutcome(approval) || approval.spell.definitionHash.startsWith(`${authored.CAPABILITY}/`)) {
+    require('./installedAuthoredAbilities').checkApproval(room, approval, false, stage);
   }
   if (approval.triggerOfferId !== undefined) {require('./committedTriggers').checkOfferApproval(room, approval);}
   actors.assertCanAct(room, approval.source);
@@ -343,7 +418,7 @@ function checkAgainstRoom(room, approval) {
   if (authored.isArea(approval)) {
     const targets = approval.targets.map(tRef => {
       const t = actors.locate(room, tRef);
-      if (t.token?.state?.hiddenFromPlayers === true || t.token?.hiddenFromPlayers === true) fail('actor_not_found');
+      if (t.token?.state?.hiddenFromPlayers === true || t.token?.hiddenFromPlayers === true || t.token?.state?.isHidden === true || t.token?.isHidden === true) fail('actor_not_found');
       validPool(actors.resources(t.token, 'creature').hp);
       return t;
     });
@@ -366,7 +441,11 @@ function checkAgainstRoom(room, approval) {
   if (approval.source.kind === 'creature') { validPool(pools.ap); if (!condition.isCondition(approval)) validPool(actors.resources(target.token, approval.target.kind).hp); }
   else if (hash(approval.source) === hash(approval.target) && !condition.isCondition(approval)) { validPool(actors.resources(target.token, approval.target.kind).hp); }
   if (approval.classPayment) {
-    if (hash(home(source.token)) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) {fail('class_home_required');}
+    const storedHome = home(source.token);
+    const effectiveHome = authored.isHunterFlow(approval) && storedHome === null
+      ? { domain: 'hunterFlow', value: { type: 'hunterFlow', flow: hunterFlow.FLOW_START } }
+      : storedHome;
+    if (hash(effectiveHome) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) {fail('class_home_required');}
   }
   return { source, target };
 }
@@ -443,13 +522,16 @@ function bindCommand(room, player, command, authorization) {
   checkRelationshipRevalidation(room, entry);
   if (condition.isCondition(approval)) return bindCondition(room, player, command, authorization, entry);
   if (effect.isEffect(approval)) return bindEffect(room, player, command, authorization, entry);
+  if (authoredChanneled.isChanneled(approval)) return bindChanneled(room, player, command, authorization, entry);
   if (classEffect.isClassEffect(approval)) return bindClassEffect(room, player, command, authorization, entry);
   const authored = require('../shared/services/authoredAbility');
+  if (authored.isHunterFlow(approval)) return bindHunterFlow(room, player, command, authorization, entry);
+  if (authored.isOutcome(approval)) return bindOutcome(room, player, command, authorization, entry);
   if (authored.isArea(approval)) return bindArea(room, player, command, authorization, entry);
   const authoredImmediate = authored.isAuthored(approval.spell) || authored.isFormula(approval);
   const capability = authored.isDeterministic(approval) ? authored.DETERMINISTIC_CAPABILITY : authored.isHealth(approval) ? authored.HEALTH_CAPABILITY : authored.isFormula(approval) ? authored.FORMULA_CAPABILITY : authoredImmediate ? authored.CAPABILITY : CAPABILITY;
   if (authoredImmediate) {
-    checkAgainstRoom(room, approval);
+    checkAgainstRoom(room, approval, 'commit');
     if (selfState(room, approval) !== (entry.selfState ?? null)) fail('creature_revalidation_required');
     if (approval.source.kind === 'character' && actors.locate(room, approval.source).token.ownerUserId !== approval.source.ownerUid) {fail('forbidden');}
   }
@@ -465,10 +547,24 @@ function bindCommand(room, player, command, authorization) {
   if (!chosen || chosen.capability !== capability || chosen.approvalId !== approval.approvalId || chosen.kind !== approval.spell.kind ||
     chosen.gmConfirmed !== true || hash(chosen.roll) !== hash(approval.roll)) {fail('approval_mismatch');}
   if (authored.isHealth(approval) && hash(chosen.rollHealth) !== hash(approval.rollHealth)) fail('approval_mismatch');
-  const amount = adjudication.finalAmount;
-  if (!int(amount, 0, 100000)) {fail('invalid_final_amount');}
+  const finalAmount = adjudication.finalAmount;
+  if (!int(finalAmount, 0, 100000)) {fail('invalid_final_amount');}
   if (typeof adjudication.adjustmentReason !== 'string' || adjudication.adjustmentReason.length > 2000 ||
-    (amount !== approval.roll.total && !adjudication.adjustmentReason.trim())) {fail('adjustment_reason_required');}
+    (finalAmount !== approval.roll.total && !adjudication.adjustmentReason.trim())) {fail('adjustment_reason_required');}
+  // Direct-damage save: the GM records one owner-approved branch; the final amount is the GM's ruling before the save (mitigation
+  // included). The damage applied is derived here, from the approved terms and the creator's halving rule, never taken from the client.
+  // The recorded branch, terms and applied amount are part of the bound result, so a changed term or branch can never be substituted.
+  const save = approval.saveTerms !== undefined ? approval.saveTerms : null;
+  if (!save && (chosen.save !== undefined || chosen.branch !== undefined || chosen.appliedAmount !== undefined)) fail('approval_mismatch');
+  let amount = finalAmount;
+  if (save) {
+    if (!authoredImmediate || approval.spell.kind !== 'damage') fail('approval_mismatch');
+    if (hash(chosen.save) !== hash(save)) fail('approval_mismatch');
+    if (!directSave.BRANCHES.includes(chosen.branch)) fail('save_branch_unbound', 'Only an outcome the owner approved (saved or failed) can be recorded; nothing was applied.');
+    if (directSave.policyRefusal(save)) fail('direct_save_policy_unanswered', directSave.policyRefusal(save));
+    amount = directSave.appliedAmount(save, chosen.branch, finalAmount);
+    if (chosen.appliedAmount !== amount) fail('approval_mismatch');
+  }
   const { source, target } = { source: actors.locate(room, approval.source), target: actors.locate(room, approval.target) };
   // Revision bumps are CAS refusals (GM re-prepares explicitly), never owner re-approval.
   for (const actor of command.actors) {
@@ -508,14 +604,132 @@ function bindCommand(room, player, command, authorization) {
       hash(actual.finalResources || {}) !== hash(value.finalResources) || hash(actual.classPayment || null) !== hash(value.classPayment || null)) {fail('approval_mismatch');}
   });
   // Component-result provenance (one contract for every family): the authored one-part immediate damage result this binder just pinned.
-  if (authoredImmediate && damagePart && !self) {recordComponentResult(command, entry, 'effect', targetPools.hp, amount, damagePart);}
+  if (authoredImmediate && damagePart && !self) {recordComponentResult(command, entry, 'effect', targetPools.hp, amount, damagePart, save ? { save, branch: chosen.branch, finalAmount } : null);}
+  return entry;
+}
+function bindHunterFlow(room, player, command, authorization, entry) {
+  const { approval } = entry;
+  const authored = require('../shared/services/authoredAbility');
+  validateApproval(approval);
+  checkAgainstRoom(room, approval);
+  if (authorization.authorizerUid !== room.gmId) fail('forbidden');
+  if (approval.source.kind !== 'character' || actors.locate(room, approval.source).token.ownerUserId !== approval.source.ownerUid) fail('forbidden');
+  if (!ownerMember(room, approval.source.ownerUid)) fail('owner_unavailable');
+  if (hash(command.source) !== hash(approval.source) || hash(command.target) !== hash(approval.target)) fail('approval_mismatch');
+  const adjudication = command.adjudication || {};
+  if (adjudication.definitionId !== approval.spell.definitionId || adjudication.definitionVersionOrHash !== approval.spell.definitionHash) fail('approval_mismatch');
+  let chosen;
+  try { chosen = JSON.parse(adjudication.chosenResult); } catch (_) { fail('approval_mismatch'); }
+  if (!chosen || chosen.capability !== authored.FLOW_CAPABILITY || chosen.approvalId !== approval.approvalId || chosen.kind !== 'damage' ||
+      chosen.gmConfirmed !== true || hash(chosen.roll) !== hash(approval.roll) || hash(chosen.flowCheck) !== hash(approval.flowCheck) ||
+      typeof chosen.hit !== 'boolean') {
+    fail('approval_mismatch');
+  }
+  const finalAmount = adjudication.finalAmount;
+  if (!int(finalAmount, 0, 100000)) fail('invalid_final_amount');
+  for (const actor of command.actors) {
+    if (actors.locate(room, actor.ref).contract.revision !== actor.expectedRevision) fail('stale_actor_revision');
+  }
+  const { source, target } = { source: actors.locate(room, approval.source), target: actors.locate(room, approval.target) };
+  const storedHome = home(source.token);
+  const currentFlow = storedHome === null
+    ? { domain: 'hunterFlow', value: { type: 'hunterFlow', flow: hunterFlow.FLOW_START } }
+    : storedHome;
+  if (hash(currentFlow) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) {
+    fail('owner_reapproval_required');
+  }
+  const flowDice = hunterFlow.validateFlowCheckRoll(approval.flowCheck);
+  const outcome = hunterFlow.resolveQuickDrawOutcome({
+    preRollFlow: currentFlow.value.flow,
+    flowDice,
+    hit: chosen.hit,
+    baseRollTotal: approval.roll.total
+  });
+  if (approval.classPayment.after.flow !== outcome.flowResult.postRollFlow || chosen.bonusDamage !== outcome.bonusDamage) {
+    fail('approval_mismatch');
+  }
+  if (!chosen.hit) {
+    if (finalAmount !== 0) fail('approval_mismatch', 'A missed Quick Draw cannot deal damage.');
+  } else if (typeof adjudication.adjustmentReason !== 'string' || adjudication.adjustmentReason.length > 2000 ||
+      (finalAmount !== outcome.expectedDamage && !adjudication.adjustmentReason.trim())) {
+    fail('adjustment_reason_required');
+  }
+  const pools = sourcePools(source.token, 'character');
+  const expectedSource = {};
+  for (const pool of ['ap', 'mana']) {
+    if (approval.price[pool] > 0) expectedSource[pool] = tempFirst(pools[pool].current, pools[pool].temp, approval.price[pool]);
+  }
+  if (!Object.keys(expectedSource).length) expectedSource.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);
+  const targetPools = actors.resources(target.token, 'creature');
+  const hp = directPartResult(targetPools.hp, 'damage', chosen.hit ? finalAmount : 0).final;
+  const expected = [
+    { ref: approval.source, finalResources: expectedSource, classPayment: { mode: 'spell', domain: 'hunterFlow', approvalHash: entry.contentHash } },
+    { ref: approval.target, finalResources: { hp } }
+  ];
+  if (command.actors.length !== expected.length) fail('approval_mismatch');
+  expected.forEach((value, index) => {
+    const actual = command.actors[index];
+    if (actual.equipmentWear !== undefined || actual.blockingDeclaration !== undefined || actual.conditions !== undefined) fail('approval_mismatch');
+    if (hash(actual.ref) !== hash(value.ref) || hash(actual.finalResources || {}) !== hash(value.finalResources) ||
+        hash(actual.classPayment || null) !== hash(value.classPayment || null)) fail('approval_mismatch');
+  });
+  return entry;
+}
+function bindOutcome(room, player, command, authorization, entry) {
+  const { approval } = entry;
+  const authored = require('../shared/services/authoredAbility');
+  validateApproval(approval);
+  checkAgainstRoom(room, approval, 'commit');
+  if (authorization.authorizerUid !== room.gmId) fail('forbidden');
+  if (approval.source.kind !== 'character' || actors.locate(room, approval.source).token.ownerUserId !== approval.source.ownerUid) fail('forbidden');
+  if (!ownerMember(room, approval.source.ownerUid)) fail('owner_unavailable');
+  if (hash(command.source) !== hash(approval.source) || hash(command.target) !== hash(approval.target)) fail('approval_mismatch');
+  const adjudication = command.adjudication || {};
+  if (adjudication.definitionId !== approval.spell.definitionId || adjudication.definitionVersionOrHash !== approval.spell.definitionHash) fail('approval_mismatch');
+  let chosen;
+  try { chosen = JSON.parse(adjudication.chosenResult); } catch (_) { fail('approval_mismatch'); }
+  if (!chosen || chosen.capability !== authored.OUTCOME_CAPABILITY || chosen.approvalId !== approval.approvalId ||
+      chosen.gmConfirmed !== true || hash(chosen.outcome) !== hash(approval.outcome) ||
+      hash(chosen.chosenBranch) !== hash(approval.chosenBranch) || hash(chosen.roll) !== hash(approval.roll) ||
+      chosen.kind !== approval.chosenBranch.effect.kind ||
+      hash(chosen.damageTypes || []) !== hash(approval.chosenBranch.effect.damageTypes || [])) {
+    fail('approval_mismatch');
+  }
+  const finalAmount = adjudication.finalAmount;
+  if (!int(finalAmount, 0, 100000)) fail('invalid_final_amount');
+  if (typeof adjudication.adjustmentReason !== 'string' || adjudication.adjustmentReason.length > 2000 ||
+      (finalAmount !== approval.roll.total && !adjudication.adjustmentReason.trim())) {
+    fail('adjustment_reason_required');
+  }
+  for (const actor of command.actors) {
+    if (actors.locate(room, actor.ref).contract.revision !== actor.expectedRevision) fail('stale_actor_revision');
+  }
+  const source = actors.locate(room, approval.source), target = actors.locate(room, approval.target);
+  const pools = sourcePools(source.token, 'character');
+  const expectedSource = {};
+  for (const pool of ['ap', 'mana']) {
+    if (approval.price[pool] > 0) expectedSource[pool] = tempFirst(pools[pool].current, pools[pool].temp, approval.price[pool]);
+  }
+  if (!Object.keys(expectedSource).length) expectedSource.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);
+  const targetPools = actors.resources(target.token, 'creature');
+  const hp = directPartResult(targetPools.hp, approval.chosenBranch.effect.kind, finalAmount).final;
+  const expected = [
+    { ref: approval.source, finalResources: expectedSource },
+    { ref: approval.target, finalResources: { hp } }
+  ];
+  if (command.actors.length !== expected.length) fail('approval_mismatch');
+  expected.forEach((value, index) => {
+    const actual = command.actors[index];
+    if (actual.equipmentWear !== undefined || actual.blockingDeclaration !== undefined || actual.conditions !== undefined || actual.classPayment !== undefined) fail('approval_mismatch');
+    if (hash(actual.ref) !== hash(value.ref) || hash(actual.finalResources || {}) !== hash(value.finalResources)) fail('approval_mismatch');
+  });
   return entry;
 }
 function bindArea(room, player, command, authorization, entry) {
   const { approval } = entry;
   const authored = require('../shared/services/authoredAbility');
   validateApproval(approval);
-  const { source, targets } = checkAgainstRoom(room, approval);
+  const { source, targets } = checkAgainstRoom(room, approval, 'commit');
   if (authorization.authorizerUid !== room.gmId) fail('forbidden');
   if (entry.ownerUid !== approval.source.ownerUid || source.token.ownerUserId !== approval.source.ownerUid) fail('forbidden');
   if (!ownerMember(room, approval.source.ownerUid)) fail('owner_unavailable');
@@ -531,7 +745,6 @@ function bindArea(room, player, command, authorization, entry) {
     if (actors.locate(room, actor.ref).contract.revision !== actor.expectedRevision) fail('stale_actor_revision');
   }
   if (approval.classPayment && hash(home(source.token)) !== hash({ domain: approval.classPayment.domain, value: approval.classPayment.before })) fail('owner_reapproval_required');
-  require('./installedAuthoredAbilities').checkApproval(room, approval);
   const pools = sourcePools(source.token, 'character');
   const expectedSource = {};
   for (const pool of ['ap', 'mana']) {
@@ -605,13 +818,16 @@ function bindCondition(room, player, command, authorization, entry) {
 const COMPONENT_RESULT_CONTRACT = 'authored-component-result:v1';
 const componentResults = new WeakMap();
 const freezeDeep = value => { if (value && typeof value === 'object') { Object.values(value).forEach(freezeDeep); Object.freeze(value); } return value; };
-function recordComponentResult(command, entry, componentId, before, amount, part) {
+function recordComponentResult(command, entry, componentId, before, amount, part, saveGate = null) {
   const a = entry.approval;
   const result = { contract: COMPONENT_RESULT_CONTRACT, origin: { commandId: command.commandId, approvalId: a.approvalId, approvalHash: entry.contentHash },
     source: JSON.parse(JSON.stringify(a.source)), target: JSON.parse(JSON.stringify(a.target)),
     definition: { definitionId: a.spell.definitionId, definitionHash: a.spell.definitionHash }, componentId, kind: 'damage',
     proposedAmount: a.roll?.total, adjudicatedAmount: amount, tempHpAbsorbed: part.tempHpAbsorbed, baseHpLost: part.baseHpLost,
     before: { current: before.current, temp: before.temp }, final: { current: part.final.current, temp: part.final.temp } };
+  // Direct-damage save: the gate that set this part's amount, from the same arithmetic (adjudicatedAmount is the amount applied after
+  // the recorded save; gmFinalAmount is the GM's ruling before it). Absent for every unsaved part, whose record is unchanged.
+  if (saveGate) result.save = { terms: JSON.parse(JSON.stringify(saveGate.save)), recorded: saveGate.branch, gmFinalAmount: saveGate.finalAmount };
   const prior = componentResults.get(command);
   componentResults.set(command, { entry, results: (prior && prior.entry === entry ? prior.results : []).concat([freezeDeep(result)]) });
 }
@@ -628,12 +844,53 @@ function directPartResult(hp, kind, amount) {
   const final = { current: Math.min(hp.max, hp.current + amount), temp: hp.temp };
   return { final, hpRestored: final.current - hp.current };
 }
+function bindChanneled(room, player, command, authorization, entry) {
+  const a = entry.approval, pc = a.source.kind === 'character';
+  (pc ? validateApproval : validateCreatureApproval)(a);
+  checkAgainstRoom(room, a, 'commit');
+  if (authorization.authorizerUid !== room.gmId) fail('forbidden');
+  if (pc) {
+    if (entry.ownerUid !== a.source.ownerUid || actors.locate(room, a.source).token.ownerUserId !== entry.ownerUid || !ownerMember(room, entry.ownerUid)) fail('forbidden');
+  } else {
+    if (entry.ownerUid !== room.gmId) fail('forbidden');
+    if (selfState(room, a) !== entry.selfState) fail('creature_revalidation_required');
+  }
+  if (hash(command.source) !== hash(a.source) || hash(command.target) !== hash(a.target)) fail('approval_mismatch');
+  const adj = command.adjudication;
+  if (adj?.definitionId !== a.spell.definitionId || adj.definitionVersionOrHash !== a.spell.definitionHash) fail('approval_mismatch');
+  if (adj.finalAmount !== 0 || adj.adjustmentReason !== '') fail('approval_mismatch');
+  let chosen; try { chosen = JSON.parse(adj.chosenResult); } catch (_) { fail('approval_mismatch'); }
+  const resolution = pc ? chosen?.resolution : a.resolution;
+  validateConditionResolution(resolution);
+  if (hash(resolution.timing) !== hash(a.channelTerms.timing)) fail(pc ? 'owner_reapproval_required' : 'approval_mismatch');
+  const target = actors.locate(room, a.target);
+  const casterChannels = require('./installedAuthoredAbilities').findActiveChannelsByCaster(room, a.source);
+  const plan = authoredChanneled.conditionPlan(a, target.token.state?.conditions || [], casterChannels);
+  if (plan.refused) fail(plan.refused.code, plan.refused.message);
+  const removed = (plan.ops || []).filter(op => op.op === 'remove').map(op => op.recordId);
+  if (!require('./sharedEffectLifecycle').schedulable(room, a.target, authoredChanneled.recordFor(a), removed)) {
+    fail('effect_schedule_unavailable', 'Structured caster-turn timing needs active authenticated turn tracking with the caster in the exact roster (and schedule capacity). Nothing was applied or charged.');
+  }
+  if (hash(chosen) !== hash(authoredChanneled.resultFor(a, resolution, plan.combination))) {
+    fail(plan.combination ? 'modifier_combination_changed' : 'approval_mismatch');
+  }
+  const source = actors.locate(room, a.source);
+  const pools = sourcePools(source.token, a.source.kind), payment = {};
+  for (const pool of ['ap', 'mana']) if (a.price[pool] > 0) payment[pool] = tempFirst(pools[pool].current, pools[pool].temp, a.price[pool]);
+  if (!Object.keys(payment).length) payment.ap = tempFirst(pools.ap.current, pools.ap.temp, 0);
+  const expected = [
+    { ref: a.source, expectedRevision: source.contract.revision, finalResources: payment },
+    { ref: a.target, expectedRevision: target.contract.revision, conditions: plan.ops }
+  ];
+  if (hash(command.actors) !== hash(expected)) fail('approval_mismatch');
+  return entry;
+}
 // A10: one GM-confirmed bundle — payment, optional direct HP change and one canonical effect (with any
 // structured C4 schedule, installed by the P7 stage) — or nothing. Terms are bound to the installed definition.
 function bindEffect(room, player, command, authorization, entry) {
   const a = entry.approval, pc = a.source.kind === 'character';
   if (a.classPayment && hash(home(actors.locate(room, a.source).token)) !== hash({ domain: a.classPayment.domain, value: a.classPayment.before })) fail('owner_reapproval_required');
-  (pc ? validateApproval : validateCreatureApproval)(a); checkAgainstRoom(room, a);
+  (pc ? validateApproval : validateCreatureApproval)(a); checkAgainstRoom(room, a, 'commit');
   if (authorization.authorizerUid !== room.gmId) fail('forbidden');
   if (pc) {
     if (entry.ownerUid !== a.source.ownerUid || actors.locate(room, a.source).token.ownerUserId !== entry.ownerUid || !ownerMember(room, entry.ownerUid)) fail('forbidden');
@@ -651,14 +908,14 @@ function bindEffect(room, player, command, authorization, entry) {
   if (hash(resolution.timing) !== hash(a.effectTerms.timing)) fail(pc ? 'owner_reapproval_required' : 'approval_mismatch');
   // Shared GM-recorded save branch: the GM records one of the owner-approved branches; the negated effect installs only on "failed".
   // The VTT never rolls or checks the save. The branch, like everything else in the result, is bound to the approved terms below.
-  const save = effect.saveOf(a.effectTerms), branch = save ? chosen?.branch : undefined;
+  const save = effect.saveOf(a.effectTerms), critGate = effect.critGateOf(a.effectTerms), branch = save ? chosen?.branch : undefined;
+  if (critGate && (a.classPayment || !pc || a.target.kind !== 'creature')) fail('invalid_spell_approval');
   if (save && a.classPayment) fail('unsupported_class_payment_route', 'A typed class payment with a GM-recorded save branch is not a reviewed combination; nothing was registered.');
   if (save && (!pc || a.target.kind !== 'creature')) fail('save_branch_route_unsupported', 'A GM-recorded save branch is supported for a primary owner PC source and one creature target only.');
   if (save && !effect.branchesFor(a.effectTerms).includes(branch)) fail('save_branch_unbound', 'Only an outcome the owner approved (saved or failed) can be recorded; nothing was applied.');
-  // Timed save branch: the owner approved a structured expiry for the rider. Whichever branch the GM records, that approved schedule must be
-  // installable now (live authenticated clock, target in the exact roster, capacity) — checked here with the P7 stage's own rules, before
-  // any combination planning, so "saved" can never commit where "failed" could not. Never downgraded to manual expiry.
-  if (save && effect.TIMINGS[a.effectTerms.timing.expiryPolicy] !== 'manual') {
+  // Timed save / crit-gate branch: the owner approved a structured expiry for the rider. Whichever branch/roll outcome happens,
+  // that approved schedule must be installable now (live authenticated clock, target in the exact roster, capacity).
+  if ((save || critGate) && effect.TIMINGS[a.effectTerms.timing.expiryPolicy] !== 'manual') {
     // Review F1 (timed): computed from the rider's own plan whatever the branch, so a refresh that frees its prior slot counts alike for both.
     const prior = effect.conditionPlan(a, actors.locate(room, a.target).token.state?.conditions || []);
     const removed = (prior.ops || []).filter(op => op.op === 'remove').map(op => op.recordId);
@@ -668,7 +925,7 @@ function bindEffect(room, player, command, authorization, entry) {
   }
   // A11: add / refresh / refuse is derived here from the target's current authoritative conditions,
   // never taken from the client; the P7 stage re-derives it independently before installing anything.
-  const target = actors.locate(room, a.target), applies = effect.conditionApplies(a.effectTerms, branch);
+  const target = actors.locate(room, a.target), applies = effect.conditionApplies(a.effectTerms, branch, a.roll);
   const plan = applies ? effect.conditionPlan(a, target.token.state?.conditions || []) : { ops: null, combination: null };
   if (plan.refused) fail(plan.refused.code, plan.refused.message);
   if (a.target.kind === 'character') {

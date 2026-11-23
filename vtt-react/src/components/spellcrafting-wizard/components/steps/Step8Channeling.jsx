@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, ACTION_TYPES, validateStepCompletion } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,6 +33,41 @@ import {
   faWind
 } from '@fortawesome/free-solid-svg-icons';
 // Pathfinder styles imported via main.css
+
+const SUSTAIN_RESOURCE_TYPES = ['mana', 'rage', 'energy', 'focus', 'health'];
+
+function pickSustainResourceType(resourceCost) {
+  const rv = resourceCost?.resourceValues;
+  if (rv && typeof rv === 'object') {
+    const match = Object.keys(rv).find(k => SUSTAIN_RESOURCE_TYPES.includes(k.toLowerCase()));
+    if (match) return match.toLowerCase();
+  }
+  const primary = resourceCost?.primaryResourceType;
+  if (typeof primary === 'string' && SUSTAIN_RESOURCE_TYPES.includes(primary.toLowerCase())) {
+    return primary.toLowerCase();
+  }
+  return 'mana';
+}
+
+function buildSustainResourceCostPatch(existingResourceCost, config) {
+  const existing = existingResourceCost || {};
+  const costType = config?.costType;
+  if (!costType) return {};
+  const existingTypes = Array.isArray(existing.resourceTypes) ? existing.resourceTypes : [];
+  const existingValues = existing.resourceValues || {};
+  const existingFormulas = existing.useFormulas || {};
+  const hasType = existingTypes.some(t => String(t).toLowerCase() === costType.toLowerCase());
+  const hasValueKey = Object.keys(existingValues).some(k => k.toLowerCase() === costType.toLowerCase());
+  return {
+    resourceTypes: hasType ? existingTypes : [...existingTypes, costType],
+    resourceValues: hasValueKey ? existingValues : { ...existingValues, [costType]: config.costValue },
+    useFormulas: Object.prototype.hasOwnProperty.call(existingFormulas, costType)
+      ? existingFormulas
+      : { ...existingFormulas, [costType]: false },
+    channelingCostTrigger: config.costTrigger,
+    channelingFrequency: config.costTrigger
+  };
+}
 
 const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   const state = useSpellWizardState();
@@ -156,15 +191,14 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   };
 
   // Initialize per-round formulas for channeled effects
-  const initializePerRoundFormulas = () => {
+  const initializePerRoundFormulas = (initialMaxRounds) => {
     const { dotEffects, hotEffects } = getDotHotEffects();
-    const maxRounds = channelingConfig.maxDuration || 3; // Use the configured duration instead of hardcoded value
+    const maxRounds = initialMaxRounds || state.typeConfig?.maxChannelDuration || 3;
     const perRoundFormulas = {};
 
     // Determine if we should scale based on area expansion
     const isAreaExpansion = targetingConfig.targetingType === 'area' ||
-                           (propagation && propagation.method) ||
-                           (targetingConfig.rangeType === 'ranged' && targetingConfig.rangeDistance);
+                           (propagation && propagation.method && propagation.method !== 'none');
 
     // Get area expansion settings
     const areaSettings = getInitialAreaSettings();
@@ -400,45 +434,70 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   // Get DoT and HoT effects
   const { dotEffects, hotEffects } = getDotHotEffects();
   const hasChanneledEffects = dotEffects.length > 0 || hotEffects.length > 0;
+  const isEditingSavedSpell = Boolean(state.editMode || state.editingSpellId);
+  const hasStoredChannelingConfig = Boolean(state.channelingConfig && Object.keys(state.channelingConfig).length > 0);
+  const preserveEmptyUntilEditRef = useRef(isEditingSavedSpell && !hasStoredChannelingConfig);
 
   // Local channeling configuration
   const [channelingConfig, setChannelingConfig] = useState(() => {
-    console.log("Initializing channeling config with state:", state.channelingConfig);
-
-    // If we already have a channeling config in the state, use it directly
-    if (state.channelingConfig) {
+    // If we already have a populated channeling config in the state, use it directly
+    if (hasStoredChannelingConfig) {
       return state.channelingConfig;
     }
 
-    // Otherwise, create a new configuration
-    // Get resource type from previous step
-    let resourceType = 'mana';
+    // Automatically determine the most appropriate channel type based on previous steps
+    let determinedType = '';
 
-    // First check resourceValues (which includes custom resources)
-    if (state.resourceCost?.resourceValues && Object.keys(state.resourceCost.resourceValues).length > 0) {
-      resourceType = Object.keys(state.resourceCost.resourceValues)[0].toLowerCase();
+    // If it has area targeting or non-none propagation, use area expansion
+    if (targetingConfig.targetingType === 'area' ||
+        (propagation && propagation.method && propagation.method !== 'none')) {
+      determinedType = 'area_expand';
     }
-    // Fall back to primaryResourceType if no resourceValues
-    else if (state.resourceCost?.primaryResourceType) {
-      resourceType = state.resourceCost.primaryResourceType.toLowerCase();
+    // If it has buff effects, use defensive
+    else if (effectTypes.includes('buff')) {
+      determinedType = 'defensive';
+    }
+    // Settled single-target channeled spells use plain flat per-turn ticks with upfront cost
+    else if (state.spellType === 'CHANNELED') {
+      determinedType = 'channeled';
+    }
+    else {
+      determinedType = 'power_up';
     }
 
-    // Calculate a reasonable cost value based on the resource type and existing costs
+    const tc = state.typeConfig || {};
+    const authoredDurationUnit = String(tc.durationUnit || 'TURNS').toLowerCase();
+    if (determinedType === 'channeled' && !hasChanneledEffects) {
+      return {
+        type: 'channeled',
+        maxDuration: tc.maxChannelDuration ?? 3,
+        durationUnit: authoredDurationUnit,
+        tickFrequency: tc.tickFrequency || 'END_OF_TURN',
+        concentrationDC: tc.concentrationDC ?? 10,
+        dcType: tc.dcType || 'SPIRIT',
+        interruptible: tc.interruptible !== undefined ? tc.interruptible : true,
+        movementAllowed: tc.movementAllowed !== undefined ? tc.movementAllowed : false,
+        breakEffect: tc.breakEffect || 'none',
+        costValue: 0,
+        costTrigger: 'none'
+      };
+    }
+
+    // Get sustain resource type from previous step for legacy channeling modes without mistaking actionPoints
+    const resourceType = pickSustainResourceType(state.resourceCost);
+
     const getInitialCostValue = () => {
-      // If we already have a resource cost from step 5, use a percentage of it
       if (resourceType === 'mana' && state.resourceCost?.mana) {
-        return Math.max(1, Math.floor(state.resourceCost.mana * 0.3)); // 30% of base mana cost per turn
+        return Math.max(1, Math.floor(state.resourceCost.mana * 0.3));
       } else if (resourceType === 'rage' && state.resourceCost?.classResourceCost) {
-        return Math.max(5, Math.floor(state.resourceCost.classResourceCost * 0.4)); // 40% of rage cost
+        return Math.max(5, Math.floor(state.resourceCost.classResourceCost * 0.4));
       } else if (resourceType === 'energy' && state.resourceCost?.classResourceCost) {
-        return Math.max(10, Math.floor(state.resourceCost.classResourceCost * 0.5)); // 50% of energy cost
+        return Math.max(10, Math.floor(state.resourceCost.classResourceCost * 0.5));
       } else if (resourceType === 'focus' && state.resourceCost?.classResourceCost) {
-        return Math.max(5, Math.floor(state.resourceCost.classResourceCost * 0.3)); // 30% of focus cost
+        return Math.max(5, Math.floor(state.resourceCost.classResourceCost * 0.3));
       } else if (resourceType === 'health' && state.resourceCost?.classResourceCost) {
-        return Math.max(2, Math.floor(state.resourceCost.classResourceCost * 0.2)); // 20% of health cost (lower to be safer)
+        return Math.max(2, Math.floor(state.resourceCost.classResourceCost * 0.2));
       }
-
-      // Default values by resource type if no previous cost exists
       switch (resourceType) {
         case 'mana': return 5;
         case 'rage': return 10;
@@ -449,55 +508,25 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
       }
     };
 
-    // Removed reference to obsolete getInitialPowerUpSettings function
+    const perRoundFormulas = initializePerRoundFormulas(tc.maxChannelDuration);
 
-    // Automatically determine the most appropriate channel type based on previous steps
-    let determinedType = '';
-
-    // If it has area targeting or propagation, use area expansion
-    if (targetingConfig.targetingType === 'area' ||
-        (propagation && propagation.method) ||
-        (targetingConfig.rangeType === 'ranged' && targetingConfig.rangeDistance)) {
-      determinedType = 'area_expand';
-    }
-    // If it has buff effects, use defensive
-    else if (effectTypes.includes('buff')) {
-      determinedType = 'defensive';
-    }
-    // If it has damage or healing, use power up
-    else if (effectTypes.includes('damage') || effectTypes.includes('healing')) {
-      determinedType = 'power_up';
-    }
-    // Default to power up if nothing else matches
-    else {
-      determinedType = 'power_up';
-    }
-
-    // Initialize per-round formulas for channeled effects
-    const perRoundFormulas = initializePerRoundFormulas();
-
-    // Base configuration
-    const baseConfig = {
-      // Use the automatically determined channel type
+    return {
       type: determinedType,
-      maxDuration: 4,
-      durationUnit: 'turns',
-      interruptible: true,
-      movementAllowed: false,
-      costValue: getInitialCostValue(),
+      maxDuration: tc.maxChannelDuration ?? 4,
+      durationUnit: authoredDurationUnit,
+      interruptible: tc.interruptible !== undefined ? tc.interruptible : true,
+      movementAllowed: tc.movementAllowed !== undefined ? tc.movementAllowed : false,
+      ...(tc.tickFrequency ? { tickFrequency: tc.tickFrequency } : {}),
+      ...(tc.concentrationDC !== undefined ? { concentrationDC: tc.concentrationDC } : {}),
+      ...(tc.dcType ? { dcType: tc.dcType } : {}),
+      ...(tc.breakEffect ? { breakEffect: tc.breakEffect } : {}),
+      costValue: isEditingSavedSpell ? 0 : getInitialCostValue(),
       costType: resourceType,
-      costTrigger: 'per_turn',
-      // Removed obsolete power scaling properties
-      // Per-round formulas for channeled effects
+      costTrigger: isEditingSavedSpell ? 'none' : 'per_turn',
       perRoundFormulas: perRoundFormulas,
-
-      // Initialize with intelligent defaults based on previous steps
       ...getInitialAreaSettings(),
-      // Removed reference to obsolete getInitialPowerUpSettings function
       ...getInitialDefensiveSettings(),
       ...getInitialPersistentSettings(),
-
-      // Staged effect defaults
       stages: [
         { threshold: 1, effect: 'Damage', description: 'Base damage' },
         { threshold: 2, effect: 'Stun', description: 'Adds stun effect' },
@@ -505,13 +534,11 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         { threshold: 4, effect: 'Knockback', description: 'Adds knockback effect' }
       ]
     };
-
-    // If there's already a saved configuration, use that instead
-    return state.channelingConfig || baseConfig;
   });
 
   // Effect to update context when configuration changes
   useEffect(() => {
+    if (preserveEmptyUntilEditRef.current) return;
     if (channelingConfig.type) {
       console.log("Updating channeling config:", channelingConfig);
 
@@ -607,61 +634,40 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         }
       }
 
-      // Get resource type from previous step
-      const resourceCost = state.resourceCost || {};
-      if (resourceCost.resourceValues && Object.keys(resourceCost.resourceValues).length > 0) {
-        // Use the first resource type from resourceValues
-        const resourceType = Object.keys(resourceCost.resourceValues)[0].toLowerCase();
-        if (resourceType && resourceType !== 'mana') {
-          updatedConfig.costType = resourceType;
+      // Infer a valid sustain resource type only if missing or invalid (never clobber user choice or pick actionPoints)
+      if (updatedConfig.costTrigger && updatedConfig.costTrigger !== 'none' && updatedConfig.costValue > 0) {
+        if (!updatedConfig.costType || !SUSTAIN_RESOURCE_TYPES.includes(updatedConfig.costType)) {
+          updatedConfig.costType = pickSustainResourceType(state.resourceCost);
         }
-      } else if (resourceCost.primaryResourceType) {
-        updatedConfig.costType = resourceCost.primaryResourceType.toLowerCase();
       }
 
       // Only update if there are actual changes to avoid infinite loops
       if (JSON.stringify(updatedConfig) !== JSON.stringify(state.channelingConfig)) {
-        console.log("Dispatching updated channeling config:", updatedConfig);
         dispatch({
           type: ACTION_TYPES.UPDATE_CHANNELING_CONFIG,
           payload: updatedConfig
         });
 
-        // Also update typeConfig for spell card display
         const typeConfigUpdate = {
           maxChannelDuration: updatedConfig.maxDuration,
-          durationUnit: updatedConfig.durationUnit?.toUpperCase() || 'TURNS',
+          durationUnit: updatedConfig.durationUnit?.toUpperCase() || state.typeConfig?.durationUnit || 'TURNS',
           interruptible: updatedConfig.interruptible,
           movementAllowed: updatedConfig.movementAllowed,
-          costValue: updatedConfig.costValue,
-          costType: updatedConfig.costType,
-          costTrigger: updatedConfig.costTrigger
+          ...(updatedConfig.tickFrequency ? { tickFrequency: updatedConfig.tickFrequency } : {}),
+          ...(updatedConfig.concentrationDC !== undefined ? { concentrationDC: updatedConfig.concentrationDC } : {}),
+          ...(updatedConfig.dcType ? { dcType: updatedConfig.dcType } : {}),
+          ...(updatedConfig.breakEffect ? { breakEffect: updatedConfig.breakEffect } : {})
         };
 
-        console.log("Updating typeConfig for spell card:", typeConfigUpdate);
         dispatch({
           type: ACTION_TYPES.UPDATE_TYPE_CONFIG,
           payload: typeConfigUpdate
         });
 
-        // Also update resourceCost for spell card display
-        if (updatedConfig.costValue > 0 && updatedConfig.costType) {
-          const resourceCostUpdate = {
-            resourceTypes: [updatedConfig.costType],
-            resourceValues: {
-              [updatedConfig.costType]: updatedConfig.costValue
-            },
-            useFormulas: {
-              [updatedConfig.costType]: false
-            },
-            channelingCostTrigger: updatedConfig.costTrigger, // Store trigger info
-            channelingFrequency: updatedConfig.costTrigger // Add frequency for display
-          };
-
-          console.log("Updating resourceCost for channeling:", resourceCostUpdate);
+        if (updatedConfig.costTrigger && updatedConfig.costTrigger !== 'none' && updatedConfig.costValue > 0 && updatedConfig.costType) {
           dispatch({
             type: ACTION_TYPES.UPDATE_RESOURCE_COST,
-            payload: resourceCostUpdate
+            payload: buildSustainResourceCostPatch(state.resourceCost, updatedConfig)
           });
         }
       }
@@ -670,6 +676,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
   // Handle configuration changes
   const handleChannelingConfigChange = (changes) => {
+    preserveEmptyUntilEditRef.current = false;
     console.log("Handling channeling config change:", changes);
     const newConfig = { ...channelingConfig, ...changes };
 
@@ -686,8 +693,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             const baseFormula = perRoundFormulas[effect.id][0]?.formula || effect.formula;
             const areaSettings = getInitialAreaSettings();
             const isAreaExpansion = targetingConfig.targetingType === 'area' ||
-                                   (propagation && propagation.method) ||
-                                   (targetingConfig.rangeType === 'ranged' && targetingConfig.rangeDistance);
+                                   (propagation && propagation.method && propagation.method !== 'none');
 
             // Add new rounds
             for (let i = channelingConfig.maxDuration; i < changes.maxDuration; i++) {
@@ -727,8 +733,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             const baseFormula = perRoundFormulas[effect.id][0]?.formula || effect.formula;
             const areaSettings = getInitialAreaSettings();
             const isAreaExpansion = targetingConfig.targetingType === 'area' ||
-                                   (propagation && propagation.method) ||
-                                   (targetingConfig.rangeType === 'ranged' && targetingConfig.rangeDistance);
+                                   (propagation && propagation.method && propagation.method !== 'none');
 
             // Add new rounds
             for (let i = channelingConfig.maxDuration; i < changes.maxDuration; i++) {
@@ -776,12 +781,13 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
     // Also update typeConfig for spell card display
     const typeConfigUpdate = {
       maxChannelDuration: newConfig.maxDuration,
-      durationUnit: newConfig.durationUnit?.toUpperCase() || 'TURNS',
+      durationUnit: newConfig.durationUnit?.toUpperCase() || state.typeConfig?.durationUnit || 'TURNS',
       interruptible: newConfig.interruptible,
       movementAllowed: newConfig.movementAllowed,
-      costValue: newConfig.costValue,
-      costType: newConfig.costType,
-      costTrigger: newConfig.costTrigger
+      ...(newConfig.tickFrequency ? { tickFrequency: newConfig.tickFrequency } : {}),
+      ...(newConfig.concentrationDC !== undefined ? { concentrationDC: newConfig.concentrationDC } : {}),
+      ...(newConfig.dcType ? { dcType: newConfig.dcType } : {}),
+      ...(newConfig.breakEffect ? { breakEffect: newConfig.breakEffect } : {})
     };
 
     dispatch({
@@ -789,23 +795,14 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
       payload: typeConfigUpdate
     });
 
-    // Also update resourceCost for spell card display
-    if (newConfig.costValue > 0 && newConfig.costType) {
-      const resourceCostUpdate = {
-        resourceTypes: [newConfig.costType],
-        resourceValues: {
-          [newConfig.costType]: newConfig.costValue
-        },
-        useFormulas: {
-          [newConfig.costType]: false
-        },
-        channelingCostTrigger: newConfig.costTrigger, // Store trigger info
-        channelingFrequency: newConfig.costTrigger // Add frequency for display
-      };
-
+    // Only update resourceCost when a per-tick sustain cost is explicitly active
+    if (newConfig.costTrigger && newConfig.costTrigger !== 'none' && newConfig.costValue > 0) {
+      const effectiveCostType = SUSTAIN_RESOURCE_TYPES.includes(newConfig.costType)
+        ? newConfig.costType
+        : pickSustainResourceType(state.resourceCost);
       dispatch({
         type: ACTION_TYPES.UPDATE_RESOURCE_COST,
-        payload: resourceCostUpdate
+        payload: buildSustainResourceCostPatch(state.resourceCost, { ...newConfig, costType: effectiveCostType })
       });
     }
 
@@ -819,6 +816,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
   // Update a per-round formula
   const updatePerRoundFormula = (effectId, roundIndex, field, value) => {
+    preserveEmptyUntilEditRef.current = false;
     // Make sure perRoundFormulas exists
     const perRoundFormulas = { ...channelingConfig.perRoundFormulas } || {};
 
@@ -878,6 +876,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
   // Add a round to a per-round formula
   const addRoundToFormula = (effectId) => {
+    preserveEmptyUntilEditRef.current = false;
     // Make sure perRoundFormulas exists
     const perRoundFormulas = { ...channelingConfig.perRoundFormulas } || {};
 
@@ -942,6 +941,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
   // Remove a round from a per-round formula
   const removeRoundFromFormula = (effectId, roundIndex) => {
+    preserveEmptyUntilEditRef.current = false;
     // Make sure perRoundFormulas exists
     const perRoundFormulas = { ...channelingConfig.perRoundFormulas } || {};
 
@@ -1001,6 +1001,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
   // Handle formula change for a specific round
   const handleFormulaChange = (effectId, roundIndex, newFormula) => {
+    preserveEmptyUntilEditRef.current = false;
     // Create a copy of the current perRoundFormulas
     const updatedFormulas = { ...channelingConfig.perRoundFormulas } || {};
 
@@ -1196,8 +1197,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
               </div>
 
               {(targetingConfig.targetingType === 'area' ||
-                (propagation && propagation.method) ||
-                (targetingConfig.rangeType === 'ranged' && targetingConfig.rangeDistance)) && (
+                (propagation && propagation.method && propagation.method !== 'none')) && (
                 <div className="channeling-summary-section">
                   <h5 className="channeling-section-title area">
                     <FontAwesomeIcon icon={faArrowsAlt} />
@@ -3123,8 +3123,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
               {/* Area Expansion Preview - Shown when appropriate targeting/propagation settings are present */}
               {(targetingConfig.targetingType === 'area' ||
-                (propagation && propagation.method) ||
-                (targetingConfig.rangeType === 'ranged' && targetingConfig.rangeDistance)) && (
+                (propagation && propagation.method && propagation.method !== 'none')) && (
                 <>
                   <div className="effect-preview-detail" style={{
                     display: 'flex',

@@ -580,6 +580,49 @@
   box-shadow: 0 0 0 2px rgba(196, 171, 121, 0.25);
 }
 
+.form-input-group .form-input.form-input-error,
+.password-modal-input.form-input-error {
+  border-color: #8b2a22;
+  background: #fdf6f5;
+  box-shadow: 0 0 0 2px rgba(139, 42, 34, 0.16);
+}
+
+.join-field-error {
+  margin-top: 6px;
+  padding: 6px 9px;
+  background: rgba(139, 42, 34, 0.1);
+  border-left: 3px solid #8b2a22;
+  color: #8b2a22;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.join-field-error i {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.rejoin-room-hint {
+  margin: 0 0 10px 0;
+  padding: 7px 9px;
+  background: rgba(196, 171, 121, 0.16);
+  border-left: 3px solid #8b6d3f;
+  color: #4a3525;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.rejoin-room-hint i {
+  margin-right: 6px;
+  color: #7a483c;
+}
+
 .sidebar-card input:-webkit-autofill,
 .form-input-group input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #fdfbf7 inset !important;
@@ -1352,6 +1395,7 @@
   display: flex;
   gap: 12px;
   justify-content: flex-end;
+  margin-top: 16px;
 }
 
 .password-modal-btn {

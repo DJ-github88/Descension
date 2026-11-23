@@ -1,6 +1,12 @@
 /** Closed P14-C1 profile shared by Node/client. No evaluator, clock or action/payment rule. */
 const data = require('../data/sharedConditionProfiles.json');
 const DEFENDING = Object.freeze(data.defending);
+const DEFEND_ACTION = Object.freeze({
+  definitionId: 'universal_defend',
+  version: 'universal-defend:v1',
+  source: 'action:universal_defend',
+  apCost: 1
+});
 const STUNNED = Object.freeze(data.stunned);
 const MOVEMENT = Object.freeze(data.movementModifier);
 // Shared attribute-modifier family: one flat change to one supported attribute score, authored only.
@@ -20,21 +26,29 @@ const blockingReduction = (face, defending) => face * (defending ? DEFENDING.blo
 const preventsBlockingWear = defending => !!defending && DEFENDING.preventsBlockingWear;
 const expiryLabel = (record, combat) => require('./sharedEffectTiming').label(record, combat) || (structuredBoundary(record)
   // A10: a structured instance without a live schedule (combat ended/retired clock) is manual from then on.
-  ? `${record.authoredDuration} — not tracked by the current turn clock; ${isPeriodicTick(record) ? 'no further ticks are recorded automatically; ' : ''}GM removes this exact instance.` : isStunned(record) || isMovementModifier(record) || isAttributeModifier(record) || isDamageReductionModifier(record) ? record.effectSummary : isDefending(record) && record.target?.kind === 'character' ? DEFENDING.expiryLabel :
+  ? `${record.authoredDuration} — not tracked by the current turn clock; ${isPeriodicTick(record) || isChanneledTick(record) ? 'no further ticks are recorded automatically; ' : ''}GM removes this exact instance.` : isStunned(record) || isMovementModifier(record) || isAttributeModifier(record) || isDamageReductionModifier(record) ? record.effectSummary : isDefending(record) && record.target?.kind === 'character' ? DEFENDING.expiryLabel :
   record?.sharedTiming === 'manual' ? 'GM manages timing.' : null);
 function makeDefendingRecord(target, id, sourceMode = 'manual') {
-  if (target?.kind !== 'character' || !REF_KEYS.every(k => typeof target[k] === 'string' && target[k]) || !uuid(id) || !['manual', 'self-defend'].includes(sourceMode)) throw Error('Exact primary PC, UUID instance and source mode required.');
+  if (target?.kind !== 'character' || !REF_KEYS.every(k => typeof target[k] === 'string' && target[k]) || !uuid(id) || !['manual', 'self-defend', 'defend-action'].includes(sourceMode)) throw Error('Exact primary PC, UUID instance and source mode required.');
   // Keep this Node/client module free of object-spread Babel helper imports (CRA otherwise marks CommonJS as ESM).
   return Object.assign({
     version: 1, id, recordId: id, conditionKey: DEFENDING.conditionKey, originalName: DEFENDING.name, name: DEFENDING.name,
     type: 'buff', kind: 'effect', target: JSON.parse(JSON.stringify(target)), targetId: target.tokenId, targetType: 'character',
-    source: sourceMode === 'self-defend' ? 'manual-result:universal_defend' : 'manual',
+    source: sourceMode === 'defend-action' ? DEFEND_ACTION.source : sourceMode === 'self-defend' ? 'manual-result:universal_defend' : 'manual',
     effectOrigin: DEFENDING.origin, description: DEFENDING.description, effectSummary: DEFENDING.expiryLabel,
     icon: DEFENDING.icon, color: DEFENDING.color, effects: {}, isMagical: false, stackable: false, hasOverTimeEffect: false,
     sharedTiming: 'manual', durationType: 'manual', clockBoundary: DEFENDING.clockBoundary
-  }, sourceMode === 'self-defend' ? { sourceActor: JSON.parse(JSON.stringify(target)), sourceEntityId: target.tokenId } : {});
+  }, sourceMode === 'self-defend' || sourceMode === 'defend-action' ? { sourceActor: JSON.parse(JSON.stringify(target)), sourceEntityId: target.tokenId } : {});
 }
 function validManagedRecord(record, target) {
+  if (record?.effectOrigin === CHANNELED.origin) {
+    try { return canonical(record) === canonical(makeChanneledRecord(target, record.recordId, {
+      sourceOccurrence: record.sourceEntityId, timing: record.clockBoundary, sourceActor: record.sourceActor, authoredDuration: record.authoredDuration,
+      occurrences: record.clockOccurrences, label: record.name, effectDefinition: record.effectDefinition,
+      rangeFeet: record.channelRangeFeet, interruptible: record.channelInterruptible, movementAllowed: record.channelMovementAllowed,
+      breakEffect: record.channelBreakEffect, concentrationDC: record.concentrationDC, dcType: record.dcType,
+      tick: Object.assign({ kind: record.overTimeType, formula: record.overTimeFormula }, record.overTimeType === 'damage' ? { damageType: record.overTimeElement } : {}) })); } catch (_) { return false; }
+  }
   if (record?.effectOrigin === PERIODIC.origin) {
     try { return canonical(record) === canonical(makePeriodicRecord(target, record.recordId, {
       sourceOccurrence: record.sourceEntityId, timing: record.clockBoundary, sourceActor: record.sourceActor, authoredDuration: record.authoredDuration,
@@ -65,7 +79,8 @@ function validManagedRecord(record, target) {
     })); } catch (_) { return false; }
   }
   if (!record || !uuid(record.recordId) || record.effectOrigin !== DEFENDING.origin || record.target?.kind !== 'character' || !sameRef(record.target, target) || !REF_KEYS.every(k => typeof target[k] === 'string' && target[k])) return false;
-  const expected = makeDefendingRecord(target, record.recordId, record.source === 'manual-result:universal_defend' ? 'self-defend' : 'manual');
+  const mode = record.source === DEFEND_ACTION.source ? 'defend-action' : record.source === 'manual-result:universal_defend' ? 'self-defend' : 'manual';
+  const expected = makeDefendingRecord(target, record.recordId, mode);
   return canonical(record) === canonical(expected);
 }
 const validRef = ref => !!ref && ['creature', 'character'].includes(ref.kind) &&
@@ -73,21 +88,27 @@ const validRef = ref => !!ref && ['creature', 'character'].includes(ref.kind) &&
   Object.keys(ref).every(k => (ref.kind === 'character' ? REF_KEYS : REF_KEYS.slice(0, 5)).includes(k));
 // A10: authored-effect occurrences may carry one structured C4 boundary; A7 occurrences stay manual.
 const EFFECT_PREFIX = 'authored-effect:';
-const STRUCTURED_TIMINGS = ['authored-target-next-start', 'authored-target-next-end', 'authored-target-start-count', 'authored-target-end-count'];
-// M2A: explicit counted target-turn boundaries. The first occurrence is the existing strictly-next boundary; a count of N
+const TARGET_STRUCTURED_TIMINGS = ['authored-target-next-start', 'authored-target-next-end', 'authored-target-start-count', 'authored-target-end-count'];
+const CASTER_SINGLE_TIMINGS = ['authored-caster-next-start', 'authored-caster-next-end'];
+const CASTER_COUNTED_TIMINGS = ['authored-caster-start-count', 'authored-caster-end-count'];
+const CASTER_TIMINGS = CASTER_SINGLE_TIMINGS.concat(CASTER_COUNTED_TIMINGS);
+const STRUCTURED_TIMINGS = TARGET_STRUCTURED_TIMINGS.concat(CASTER_TIMINGS);
+// M2A: explicit counted target-turn boundaries (and caster-turn boundaries for authored channels). The first occurrence is the existing strictly-next boundary; a count of N
 // ends the effect at the Nth. The count is 2…MAX (a count of 1 is the existing next-turn timing). A "round" is never inferred.
-const COUNTED_TIMINGS = ['authored-target-start-count', 'authored-target-end-count'];
+const COUNTED_TIMINGS = ['authored-target-start-count', 'authored-target-end-count'].concat(CASTER_COUNTED_TIMINGS);
 const MAX_OCCURRENCES = 10;
 const isCountedTiming = timing => COUNTED_TIMINGS.includes(timing);
+const isCasterAnchored = record => !!(record && CASTER_TIMINGS.includes(record.clockBoundary));
 const validOccurrences = n => Number.isSafeInteger(n) && n >= 2 && n <= MAX_OCCURRENCES;
 const ordinal = n => `${n}${[11, 12, 13].includes(n % 100) ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' })[n % 10] || 'th'}`;
 /** Explicit author/GM wording for a counted boundary: no "round", and the counting rule is stated. */
-const occurrenceText = (boundary, n) => `${boundary === 'start' ? 'start' : 'end'} of the target's ${ordinal(n)} upcoming turn (its next turn counts as the 1st${boundary === 'end' ? '; a turn already in progress is not counted' : ''})`;
+const occurrenceText = (boundary, n, anchor = 'target') => `${boundary === 'start' ? 'start' : 'end'} of the ${anchor === 'caster' ? 'caster' : 'target'}'s ${ordinal(n)} upcoming turn (its next turn counts as the 1st${boundary === 'end' ? '; a turn already in progress is not counted' : ''})`;
 const authoredSummary = (duration, timing, occurrences) => `${duration} — ${timing === 'manual' ? 'GM removes.' : isCountedTiming(timing)
   ? `expires at the ${occurrenceText(timing === 'authored-target-start-count' ? 'start' : 'end', occurrences)}, at the authenticated turn boundary.` : STUNNED.timings[timing]}`;
 // M1: class-effect:v1 occurrences (one class-paid composed effect) are GM-managed only: verbatim authored duration.
 const CLASS_EFFECT_PREFIX = 'class-effect:';
-function checkAuthoredOccurrence(sourceOccurrence, timing, authoredDuration, occurrences) {
+function checkAuthoredOccurrence(sourceOccurrence, timing, authoredDuration, occurrences, { allowCaster = false } = {}) {
+  const allowedStructured = allowCaster ? CASTER_TIMINGS : TARGET_STRUCTURED_TIMINGS;
   if (occurrences !== undefined && (!isCountedTiming(timing) || !validOccurrences(occurrences)) || occurrences === undefined && isCountedTiming(timing))
     throw Error(`A counted boundary needs a whole number of occurrences from 2 to ${MAX_OCCURRENCES}; no other timing carries a count.`);
   if (sourceOccurrence.startsWith(CLASS_EFFECT_PREFIX)) {
@@ -101,7 +122,8 @@ function checkAuthoredOccurrence(sourceOccurrence, timing, authoredDuration, occ
     return false;
   }
   const id = sourceOccurrence.slice(a7 ? 'authored-condition:'.length : EFFECT_PREFIX.length);
-  if (!uuid(id) || (a7 ? timing !== 'manual' : !['manual', ...STRUCTURED_TIMINGS].includes(timing)) ||
+  const allowedTimings = allowCaster ? allowedStructured : ['manual'].concat(allowedStructured);
+  if (!uuid(id) || (a7 ? timing !== 'manual' : !allowedTimings.includes(timing)) ||
       typeof authoredDuration !== 'string' || !authoredDuration.trim() || authoredDuration.length > 700) throw Error('Authored occurrence requires a supported timing and duration.');
   return true;
 }
@@ -339,7 +361,8 @@ const movementRecordsFor = token => (Array.isArray(token?.state?.conditions) ? t
   isMovementModifier(r) && sameRef(r.target, token.state?.actorContract));
 /** Structured C4 boundary requested by an authored-effect record, or null for manual timing. */
 const structuredBoundary = record => record && String(record.sourceEntityId || '').startsWith(EFFECT_PREFIX) && STRUCTURED_TIMINGS.includes(record.clockBoundary) &&
-  (isStunned(record) || isMovementModifier(record) || isAttributeModifier(record) || isDamageReductionModifier(record) || isPeriodicTick(record)) ? (['authored-target-next-start', 'authored-target-start-count'].includes(record.clockBoundary) ? 'start' : 'end') : null;
+  (isStunned(record) || isMovementModifier(record) || isAttributeModifier(record) || isDamageReductionModifier(record) || isPeriodicTick(record) || isChanneledTick(record))
+  ? (['authored-target-next-start', 'authored-target-start-count', 'authored-caster-next-start', 'authored-caster-start-count'].includes(record.clockBoundary) ? 'start' : 'end') : null;
 /** Number of target-turn boundaries a structured record counts: 1 for the existing next-turn timings, 2…10 when counted, null otherwise. */
 const structuredOccurrences = record => structuredBoundary(record) ? (isCountedTiming(record.clockBoundary) ? record.clockOccurrences : 1) : null;
 function isStunned(record) { return record?.effectOrigin === STUNNED.origin && validManagedRecord(record, record.target); }
@@ -369,18 +392,19 @@ function validTick(tick) {
   return tick.kind === 'damage' && Object.keys(tick).sort().join() === 'damageType,formula,kind' && PERIODIC.damageTypes.includes(tick.damageType);
 }
 const tickCount = (timing, occurrences) => isCountedTiming(timing) ? occurrences : 1;
-const tickBoundary = timing => ['authored-target-next-start', 'authored-target-start-count'].includes(timing) ? 'start' : 'end';
+const tickBoundary = timing => ['authored-target-next-start', 'authored-target-start-count', 'authored-caster-next-start', 'authored-caster-start-count'].includes(timing) ? 'start' : 'end';
 /** Plain wording of where the ticks fall: never "round"; the counting rule is stated. */
 function tickScheduleText(timing, occurrences) {
   const n = tickCount(timing, occurrences), boundary = tickBoundary(timing);
-  if (n === 1) return `one tick at the ${boundary} of the target's next turn${boundary === 'end' ? ' (a turn already in progress is not counted)' : ''}`;
-  return `${n} ticks, one at the ${boundary} of each of the target's next ${n} turns (its next turn counts as the 1st${boundary === 'end' ? '; a turn already in progress is not counted' : ''})`;
+  const anchor = CASTER_TIMINGS.includes(timing) ? 'caster' : 'target';
+  if (n === 1) return `one tick at the ${boundary} of the ${anchor}'s next turn${boundary === 'end' ? ' (a turn already in progress is not counted)' : ''}`;
+  return `${n} ticks, one at the ${boundary} of each of the ${anchor}'s next ${n} turns (its next turn counts as the 1st${boundary === 'end' ? '; a turn already in progress is not counted' : ''})`;
 }
 const tickText = tick => `${tick.kind === 'damage' ? `${tick.damageType} damage` : 'healing'} ${tick.formula}`;
 function makePeriodicRecord(target, id, { sourceOccurrence, timing, sourceActor, authoredDuration, occurrences, tick, label, effectDefinition } = {}) {
   if (!validRef(target) || target.kind !== 'creature' || !uuid(id) || typeof sourceOccurrence !== 'string' || !sourceOccurrence.startsWith(EFFECT_PREFIX) || sourceOccurrence.length > 160 ||
       !validRef(sourceActor) || sourceActor.roomId !== target.roomId || typeof effectDefinition !== 'string' || !EFFECT_DEFINITION.test(effectDefinition) ||
-      !STRUCTURED_TIMINGS.includes(timing) || !validTick(tick) ||
+      !TARGET_STRUCTURED_TIMINGS.includes(timing) || !validTick(tick) ||
       typeof label !== 'string' || !label.trim() || label !== label.trim() || label.length > 60) throw Error('Exact creature target and source, UUID, authored occurrence and definition, structured tick boundary, label and NdM tick required.');
   checkAuthoredOccurrence(sourceOccurrence, timing, authoredDuration, occurrences);
   const damage = tick.kind === 'damage';
@@ -414,6 +438,61 @@ function periodicCombination(conditions, record) {
   if (active) return refuseCombination('periodic_combination_unresolved', `${active.name} is already ticking on this target. Whether a second periodic effect stacks, refreshes or is refused is not decided; the GM resolves it manually. Nothing was applied or charged.`);
   return { ok: true, outcome: 'added', replaces: null };
 }
+const CHANNELED = Object.freeze({ conditionKey: 'channeled-tick', origin: 'shared-condition:channeled-tick:v1', definitionId: 'authored-channeled-tick',
+  damageIcon: PERIODIC.damageIcon, healingIcon: PERIODIC.healingIcon, damageColor: PERIODIC.damageColor, healingColor: PERIODIC.healingColor,
+  maxTicks: MAX_OCCURRENCES, maxRangeFeet: 300, damageTypes: PERIODIC.damageTypes,
+  dcTypes: Object.freeze(['CONSTITUTION', 'STRENGTH', 'AGILITY', 'INTELLIGENCE', 'SPIRIT', 'CHARISMA']),
+  breakEffects: Object.freeze(['none']),
+  description: 'Channeled effect. At each listed boundary of the caster\'s turns (while within range, unstunned, and conscious), the authenticated turn clock records one due tick; HP changes only when the GM resolves that tick with its roll.' });
+function makeChanneledRecord(target, id, { sourceOccurrence, timing, sourceActor, authoredDuration, occurrences, tick, label, effectDefinition, rangeFeet, interruptible = true, movementAllowed = false, breakEffect = 'none', concentrationDC, dcType } = {}) {
+  const dcPresent = concentrationDC !== undefined || dcType !== undefined;
+  const dcValid = !dcPresent || (Number.isSafeInteger(concentrationDC) && concentrationDC >= 5 && concentrationDC <= 20 && typeof dcType === 'string' && CHANNELED.dcTypes.includes(dcType));
+  if (!validRef(target) || target.kind !== 'creature' || !uuid(id) || typeof sourceOccurrence !== 'string' || !sourceOccurrence.startsWith(EFFECT_PREFIX) || sourceOccurrence.length > 160 ||
+      !validRef(sourceActor) || sourceActor.roomId !== target.roomId || typeof effectDefinition !== 'string' || !EFFECT_DEFINITION.test(effectDefinition) ||
+      !CASTER_TIMINGS.includes(timing) || !validTick(tick) ||
+      typeof label !== 'string' || !label.trim() || label !== label.trim() || label.length > 60 ||
+      !Number.isSafeInteger(rangeFeet) || rangeFeet < 1 || rangeFeet > CHANNELED.maxRangeFeet ||
+      interruptible !== true || movementAllowed !== false || breakEffect !== 'none' || !dcValid) {
+    throw Error('Exact creature target and source, UUID, authored occurrence and definition, caster tick boundary, range (1..300 ft), break rules, label and NdM tick required.');
+  }
+  checkAuthoredOccurrence(sourceOccurrence, timing, authoredDuration, occurrences, { allowCaster: true });
+  const damage = tick.kind === 'damage';
+  return Object.assign({ version: 1, id, recordId: id, conditionKey: CHANNELED.conditionKey, originalName: label, name: label,
+    type: damage ? 'debuff' : 'buff', kind: 'effect', target: JSON.parse(JSON.stringify(target)), targetId: target.tokenId, targetType: target.kind,
+    source: 'authored-effect:channeled', sourceEntityId: sourceOccurrence, effectOrigin: CHANNELED.origin,
+    description: `${tickText(tick)} per tick (${rangeFeet} ft max range). ${CHANNELED.description}`,
+    effectSummary: `${authoredDuration} — ${tickScheduleText(timing, occurrences)}; stays active up to ${rangeFeet} ft while the caster is not Stunned and conscious; each tick is recorded at the authenticated caster-turn boundary and changes HP only when the GM resolves it. The channel ends with its last tick, out of range, or interruption.`,
+    icon: damage ? CHANNELED.damageIcon : CHANNELED.healingIcon, color: damage ? CHANNELED.damageColor : CHANNELED.healingColor,
+    effects: {}, isMagical: false, stackable: false, hasOverTimeEffect: false, overTimeType: tick.kind, overTimeFormula: tick.formula
+  }, damage ? { overTimeElement: tick.damageType } : {}, {
+    sharedTiming: 'manual', durationType: 'manual', clockBoundary: timing, authoredDuration,
+    sourceActor: JSON.parse(JSON.stringify(sourceActor)), effectDefinition,
+    channelRangeFeet: rangeFeet, channelInterruptible: true, channelMovementAllowed: false, channelBreakEffect: 'none'
+  }, dcPresent ? { concentrationDC, dcType } : {}, occurrences !== undefined ? { clockOccurrences: occurrences } : {});
+}
+function isChanneledTick(record) { return record?.effectOrigin === CHANNELED.origin && validManagedRecord(record, record.target); }
+function channeledOf(record) {
+  if (!isChanneledTick(record)) return null;
+  return { kind: record.overTimeType, formula: record.overTimeFormula, damageType: record.overTimeType === 'damage' ? record.overTimeElement : null, label: record.name,
+    ticks: tickCount(record.clockBoundary, record.clockOccurrences), boundary: tickBoundary(record.clockBoundary), anchor: 'caster',
+    rangeFeet: record.channelRangeFeet, interruptible: record.channelInterruptible, movementAllowed: record.channelMovementAllowed, breakEffect: record.channelBreakEffect,
+    concentrationDC: record.concentrationDC !== undefined ? record.concentrationDC : null, dcType: record.dcType !== undefined ? record.dcType : null };
+}
+const isTickingEffect = record => isPeriodicTick(record) || isChanneledTick(record);
+const tickOf = record => isChanneledTick(record) ? channeledOf(record) : periodicOf(record);
+function channeledCombination(conditions, record, casterChannels) {
+  if (!isChanneledTick(record)) return refuseCombination('modifier_identity_required', 'This channeled effect is not a validated authored instance. Nothing was applied.');
+  const list = Array.isArray(conditions) ? conditions : [];
+  if (list.some(existing => (existing?.recordId || existing?.id) === record.recordId)) return refuseCombination('condition_id_conflict', 'This exact instance is already active.');
+  const crossTarget = (Array.isArray(casterChannels) ? casterChannels : []).filter(active => isChanneledTick(active) && !sameRef(active.target, record.target));
+  if (crossTarget.length > 0) return refuseCombination('caster_already_channeling', `${crossTarget[0].name} is already being channeled on another target. End or break that channel before channeling on a new target. Nothing was applied or charged.`);
+  const activeOnTarget = list.filter(isChanneledTick);
+  const sameSource = activeOnTarget.filter(existing => sameRef(existing.sourceActor, record.sourceActor));
+  const otherSource = activeOnTarget.filter(existing => !sameRef(existing.sourceActor, record.sourceActor));
+  if (otherSource.length > 0 || sameSource.length > 1) return refuseCombination('channeled_combination_unresolved', 'Another channeled effect is already active on this target. How multiple channels combine is not decided; the GM resolves it manually. Nothing was applied or charged.');
+  if (sameSource.length === 1) return { ok: true, outcome: 'replaced', replaces: sameSource[0].recordId };
+  return { ok: true, outcome: 'added', replaces: null };
+}
 const stunnedRecordsFor = token => (Array.isArray(token?.state?.conditions) ? token.state.conditions : []).filter(r =>
   isStunned(r) && sameRef(r.target, token.state?.actorContract));
 const holdsStunned = token => stunnedRecordsFor(token).length > 0;
@@ -424,6 +503,18 @@ exports.makePeriodicRecord = makePeriodicRecord;
 exports.isPeriodicTick = isPeriodicTick;
 exports.periodicOf = periodicOf;
 exports.periodicCombination = periodicCombination;
+exports.CHANNELED = CHANNELED;
+exports.makeChanneledRecord = makeChanneledRecord;
+exports.isChanneledTick = isChanneledTick;
+exports.channeledOf = channeledOf;
+exports.isTickingEffect = isTickingEffect;
+exports.tickOf = tickOf;
+exports.channeledCombination = channeledCombination;
+exports.TARGET_STRUCTURED_TIMINGS = TARGET_STRUCTURED_TIMINGS;
+exports.CASTER_SINGLE_TIMINGS = CASTER_SINGLE_TIMINGS;
+exports.CASTER_COUNTED_TIMINGS = CASTER_COUNTED_TIMINGS;
+exports.CASTER_TIMINGS = CASTER_TIMINGS;
+exports.isCasterAnchored = isCasterAnchored;
 exports.validTick = validTick;
 exports.validTickFormula = validTickFormula;
 exports.tickScheduleText = tickScheduleText;
@@ -477,6 +568,7 @@ exports.stunnedRecordsFor = stunnedRecordsFor;
 exports.holdsStunned = holdsStunned;
 exports.sameStunnedSource = sameStunnedSource;
 exports.DEFENDING = DEFENDING;
+exports.DEFEND_ACTION = DEFEND_ACTION;
 exports.REF_KEYS = REF_KEYS;
 exports.sameRef = sameRef;
 exports.canonical = canonical;

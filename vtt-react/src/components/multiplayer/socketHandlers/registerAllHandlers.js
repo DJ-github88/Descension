@@ -19,6 +19,7 @@ import { registerActorHandlers } from '../../../services/actorConsequenceService
 import { registerSpellConsequenceHandlers } from '../../../services/spellConsequenceService';
 import { registerWeaponStrikeHandlers } from '../../../services/weaponStrikeService';
 import { registerBlockingHandlers } from '../../../services/blockingService';
+import { registerPlacedEffectHandlers } from '../../../services/placedEffectService';
 
 export function registerAllSocketHandlers(ctx) {
   // Wave A (P5/S4): never register handlers on a retired principal's socket.
@@ -32,6 +33,7 @@ export function registerAllSocketHandlers(ctx) {
     registerSpellConsequenceHandlers(ctx),
     registerWeaponStrikeHandlers(ctx),
     registerBlockingHandlers(ctx),
+    registerPlacedEffectHandlers(ctx),
     registerConnectionHandlers(ctx),
     registerRoomLifecycleHandlers(ctx),
     registerChatHandlers(ctx),

@@ -36,6 +36,7 @@ import CompactSpellCard from './CompactSpellCard';
 import { extractPeriodicTiming, getPeriodicTimingPoints, formatAuthoredExpiry } from './spellTimingPresentation';
 import { authoredSaveDisclosure } from './spellSavePresentation';
 import { authoredTriggerDisclosure } from './spellTriggerPresentation';
+import SpellBehaviorFlow from './SpellBehaviorFlow';
 import SpellCardHeader from './SpellCardHeader';
 import RollableTableSummary from './RollableTableSummary';
 import ProphecySummary from './ProphecySummary';
@@ -249,6 +250,7 @@ const UnifiedSpellCard = ({
  className = '',
  rollableTableData = null,
  categories = [],
+ behaviorRecord = null,
  ...props
 }) => {
  // Get library context for proc system spell lookup
@@ -506,7 +508,7 @@ const UnifiedSpellCard = ({
    />
 
    {/* Card Body */}
-   {(showDescription || (showStats && spell?.effectTypes && spell.effectTypes.length > 0) || Boolean(spell?.ancestry?.requires || spell?.requirement)) && (
+   {(showDescription || (showStats && ((spell?.effectTypes && spell.effectTypes.length > 0) || Boolean(spell?.mechanicsConfig?.hunterFlow?.enabled || spell?.specialMechanics?.hunterFlow?.enabled || rollableTableData?.enabled || spell?.rollableTable?.enabled || spell?.mechanicsConfig?.rollableTable?.enabled))) || Boolean(spell?.ancestry?.requires || spell?.requirement)) && (
     <div className="pf-spell-card-body wow-spell-card-body">
      {/* Description - First element in body */}
      {spell?.description && (
@@ -518,7 +520,7 @@ const UnifiedSpellCard = ({
      {/* Global Triggers/Required Conditions - Will wrap effects below */}
 
      {/* Stats (varies by variant) - Only show if step 3 (Effects) has been completed */}
-     {showStats && spell?.effectTypes && spell.effectTypes.length > 0 && (() => {
+     {showStats && ((spell?.effectTypes && spell.effectTypes.length > 0) || Boolean(spell?.mechanicsConfig?.hunterFlow?.enabled || spell?.specialMechanics?.hunterFlow?.enabled || rollableTableData?.enabled || spell?.rollableTable?.enabled || spell?.mechanicsConfig?.rollableTable?.enabled)) && (() => {
       // Check for global triggers or required conditions
       const hasTriggerConfig = spell?.triggerConfig;
       const globalTriggersEnabled = hasTriggerConfig?.global?.enabled !== false;
@@ -722,13 +724,31 @@ const UnifiedSpellCard = ({
       const hasPurification = spell?.effectTypes?.includes('purification') && spell?.purificationConfig;
       const hasRestoration = spell?.effectTypes?.includes('restoration') && spell?.restorationConfig;
 
+      const hasBehaviorRecord = Boolean(
+       spellProp?.authoredDraft ||
+       spellProp?.spellType === 'CHANNELED' ||
+       spellProp?.controlConfig?.authoredCondition ||
+       spellProp?.mechanicsConfig?.hunterFlow?.enabled ||
+       spellProp?.specialMechanics?.hunterFlow?.enabled ||
+       spellProp?.rollableTable?.enabled ||
+       spellProp?.mechanicsConfig?.rollableTable?.enabled ||
+       rollableTableData?.enabled ||
+       (Array.isArray(spellProp?.effectTypes) && spellProp.effectTypes.length > 0 && (spellProp?.damageConfig || spellProp?.healingConfig || spellProp?.triggerConfig || spellProp?.spellType === 'PASSIVE'))
+      );
+
       const hasAnyStatContent = shouldRenderDamage || shouldRenderHealing || hasGlobalTriggerOrRequired || Boolean(triggerPlanBlock) ||
+       hasBehaviorRecord ||
        hasBuffContent || hasDebuffContent || hasDuration || hasUtility || hasControl ||
        hasTerrain || hasSummoning || hasTransformation || hasPurification || hasRestoration ||
        hasProphecy || hasRollableTable || hasStatusEffects;
 
+      const behaviorFlowBlock = hasBehaviorRecord ? (
+       <SpellBehaviorFlow record={behaviorRecord || spellProp} compact />
+      ) : null;
+
       const statContent = (
        <>
+        {behaviorFlowBlock}
         {hasEffectsToWrap ? (
          <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
           <div className="healing-effects-section">
@@ -2408,7 +2428,11 @@ const UnifiedSpellCard = ({
         (spell?.durationConfig?.durationType && spell.durationConfig.durationType !== 'instant') ||
         Boolean(extractPeriodicTiming(spell)) ||
         Boolean(spell?.timing?.durationText) ||
-        Boolean(spell?.controlConfig?.authoredCondition?.durationText)) &&
+        Boolean(spell?.controlConfig?.authoredCondition?.durationText) ||
+        Boolean(formatAuthoredExpiry(
+         spell?.controlConfig?.authoredCondition?.expiryPolicy ?? spell?.timing?.expiryPolicy,
+         spell?.controlConfig?.authoredCondition?.occurrences ?? spell?.timing?.occurrences
+        ))) &&
         (!spell?.spellType || !['CHANNELED', 'ZONE'].includes(spell.spellType)) &&
         (!spell?.effectTypes?.includes('buff') && !spell?.effectTypes?.includes('debuff')) ? (
         <div className="unified-spell-stat duration-stat">
@@ -4742,6 +4766,16 @@ const UnifiedSpellCard = ({
                   targeting: controlTargeting,
                   saveDisclosure: authoredSaveDisclosure(spellProp)
                 });
+              } else if (effectKind === 'damageReduction') {
+                const amt = authored.drAmount ?? authored.damageReduction ?? cond.amount ?? 0;
+                const drText = `+${Math.abs(amt)} DR`;
+                effects.push({
+                  name: `${label} (${drText})`,
+                  description: duration ? `${duration} — flat damage reduction ${drText}; ${expiry || 'GM manages timing'}` : `Flat damage reduction ${drText}; ${expiry || 'GM manages timing'}`,
+                  mechanicsText: `Flat DR ${drText}`,
+                  targeting: controlTargeting,
+                  saveDisclosure: authoredSaveDisclosure(spellProp)
+                });
               }
             }
 
@@ -6359,6 +6393,7 @@ const UnifiedSpellCard = ({
             rollableTableData={tableData}
             variant="compact"
             showExpandButton={true}
+            defaultExpanded={Array.isArray(tableData.entries) && tableData.entries.length > 0 && tableData.entries.length <= 8}
            />
          </div>
         );

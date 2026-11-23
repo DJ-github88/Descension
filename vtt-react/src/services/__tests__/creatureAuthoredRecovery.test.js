@@ -107,3 +107,21 @@ test.each([false, true])('A7 closed condition evidence/history survives the next
   if (prepared) expect(reloaded.attemptHistory[1].approval.resolution).toEqual(resolution);
   expect(reloaded.creature.resolution).toBeUndefined(); expect(reloaded.phase).toBe('draft');
 });
+test('openCreatureAbility never reopens another creature attempt for a twin/replacement, and allows checking them once accepted', async () => {
+  useSpellConsequenceStore.setState({ creatureOpen: false });
+  const twinRef = { ...source, tokenId: 'twin-2', instanceId: 'twin-2-incarnation' };
+  const replacementRef = { ...source, instanceId: 'source-replacement-incarnation' };
+  await prepareCreatureAbility();
+  expect(box.latest.phase).toBe('awaiting');
+
+  // Same creature reopens its own active dialog; a different creature must not inherit or open source's dialog.
+  await expect(openCreatureAbility(twinRef)).rejects.toThrow(/Another creature ability action is still open/);
+  expect(useSpellConsequenceStore.getState().creatureOpen).not.toBe(true);
+  await openCreatureAbility(source);
+  expect(useSpellConsequenceStore.getState().creatureOpen).toBe(true);
+
+  // Once accepted (even if draft.roll were still present or cleared), an unadmitted twin or replacement refuses with admission required.
+  box.latest = { ...box.latest, phase: 'accepted', draft: null };
+  await expect(openCreatureAbility(twinRef)).rejects.toThrow(/Admit this exact placed creature and saved version first/);
+  await expect(openCreatureAbility(replacementRef)).rejects.toThrow(/Admit this exact placed creature and saved version first/);
+});

@@ -36,15 +36,17 @@ function application(room, next, ref, operation) {
 function scheduleItem(lifecycle, combat, ref, record) {
   const order = combat.turnOrder, index = combat.currentTurnIndex;
   if (!profile.validManagedRecord(record, ref)) { return null; }
-  const targetIndex = order.findIndex(entry => profile.sameRef(entry.actorRef, ref));
-  if (targetIndex < 0) { return null; }
-  const defending = ref.kind === 'character' && profile.isDefending(record) && targetIndex === index;
-  const shieldBash = profile.isStunned(record) && bash.namedRecord(record) && record.clockBoundary === bash.TIMING;
-  // A10: authored-effect records name their own structured boundary (start/end of the target's strictly next turn).
+  const casterAnchored = profile.isCasterAnchored(record);
+  const anchorRef = casterAnchored ? record.sourceActor : ref;
+  const anchorIndex = order.findIndex(entry => profile.sameRef(entry.actorRef, anchorRef));
+  if (anchorIndex < 0) { return null; }
+  const defending = !casterAnchored && ref.kind === 'character' && profile.isDefending(record) && anchorIndex === index;
+  const shieldBash = !casterAnchored && profile.isStunned(record) && bash.namedRecord(record) && record.clockBoundary === bash.TIMING;
+  // A10: authored-effect records name their own structured boundary (start/end of the target's or caster's strictly next turn).
   const authored = profile.structuredBoundary(record);
   if (!defending && !shieldBash && !authored) { return null; }
   const endBoundary = shieldBash || authored === 'end';
-  const distance = (targetIndex - index + order.length) % order.length || order.length;
+  const distance = (anchorIndex - index + order.length) % order.length || order.length;
   // M2A: the first occurrence is the existing strictly-next boundary; each further counted occurrence is one roster cycle later.
   const occurrences = profile.structuredOccurrences(record) || 1;
   const dueSequence = lifecycle.sequence + distance + (endBoundary ? 1 : 0) + (occurrences - 1) * order.length;
@@ -52,8 +54,35 @@ function scheduleItem(lifecycle, combat, ref, record) {
       Object.values(lifecycle.schedules).filter(item => item.dueSequence === dueSequence).length >= 32) { return null; } // P7 atomic capacity; extra instances remain visible/manual
   const item = { combatId: lifecycle.id, ref: actors.clone(ref), recordId: record.recordId,
     recordHash: actors.hash(record), recordKey: profile.canonical(record), dueSequence, boundary: endBoundary ? 'end' : 'start' };
+  if (casterAnchored) { item.anchorRef = actors.clone(anchorRef); }
+  if (profile.isChanneledTick(record)) { item.channeled = true; }
   if (occurrences > 1) { Object.assign(item, { occurrences, period: order.length }); }
   return item;
+}
+function evaluateChannelContinuity(room, item, record) {
+  let caster;
+  try {
+    caster = actors.locate(room, record.sourceActor);
+  } catch (_) {
+    return { broken: true, reason: 'caster_unavailable' };
+  }
+  if (profile.holdsStunned(caster.token)) {
+    return { broken: true, reason: 'caster_stunned' };
+  }
+  const casterHp = actors.resources(caster.token, record.sourceActor.kind).hp;
+  if (!casterHp || casterHp.current <= 0) {
+    return { broken: true, reason: 'caster_down' };
+  }
+  const rangeCheck = require('./installedAuthoredAbilities').verifyChannelRange(room, record.sourceActor, item.ref, record.channelRangeFeet);
+  if (!rangeCheck.ok) {
+    return {
+      broken: true,
+      reason: 'target_out_of_range',
+      distanceFeet: Number.isFinite(rangeCheck.distanceFeet) ? rangeCheck.distanceFeet : null,
+      rangeFeet: record.channelRangeFeet
+    };
+  }
+  return { broken: false };
 }
 /**
  * Timed save branch: whether the P7 stage WOULD install an authenticated schedule for this structured record on the live room,
@@ -89,7 +118,7 @@ function stage(room, player, uid, request, confirmedRevision) {
   if (actors.hash(combat) !== request.combatHash) actors.fail('stale_turn_state');
   const current = timing.clock(combat), nextIndex = (combat.currentTurnIndex + 1) % combat.turnOrder.length;
   let staged;
-  const expired = [], counted = [], ticks = [];
+  const expired = [], counted = [], ticks = [], endedChannels = [];
   if (request.mode === 'adopt') {
     if (current) actors.fail('turn_clock_already_active');
     const next = actors.clone(room.gameState);
@@ -104,20 +133,47 @@ function stage(room, player, uid, request, confirmedRevision) {
     const entries = new Map();
     for (const item of Object.values(current.schedules || {})) {
       const hit = item.combatId === current.id ? timing.occurrenceAt(item, sequence) : null;
-      if (!hit) continue;
+      if (!hit && !(item.combatId === current.id && item.channeled)) continue;
       // M2A: a counted schedule is bound to the roster it was made for; any other length means the clock should already have retired.
       if (item.occurrences > 1 && item.period !== combat.turnOrder.length) { actors.fail('stale_effect_schedule'); }
       const resolved = actors.locate(room, item.ref), record = resolved.token.state.conditions?.find(r => r.recordId === item.recordId);
       if (!record || actors.hash(record) !== item.recordHash) actors.fail('stale_effect_schedule');
       if ((profile.structuredOccurrences(record) || 1) !== (item.occurrences || 1)) { actors.fail('stale_effect_schedule'); } // review note C: the schedule must match the record's own count
+      if (profile.isChanneledTick(record)) {
+        const continuity = evaluateChannelContinuity(room, item, record);
+        if (continuity.broken) {
+          const key = actors.hash(item.ref);
+          if (!entries.has(key)) entries.set(key, { ref: item.ref, expectedRevision: resolved.contract.revision, conditions: [] });
+          entries.get(key).conditions.push({ op: 'remove', recordId: item.recordId });
+          expired.push(item.recordId);
+          endedChannels.push(Object.assign({
+            recordId: item.recordId,
+            ref: actors.clone(item.ref),
+            sourceActor: actors.clone(record.sourceActor),
+            reason: continuity.reason,
+            sequence
+          }, continuity.distanceFeet !== undefined ? { distanceFeet: continuity.distanceFeet, rangeFeet: continuity.rangeFeet } : {}));
+          continue;
+        }
+        if (!hit) continue;
+      }
       const boundaryRef = combat.turnOrder[item.boundary === 'start' ? nextIndex : combat.currentTurnIndex].actorRef;
-      if (!profile.sameRef(boundaryRef, item.ref)) actors.fail('stale_turn_occurrence');
-      // M5: every scheduled boundary of a periodic instance — its last one included — records ONE due tick. No HP changes here.
-      if (profile.isPeriodicTick(record)) ticks.push(obligation(item, record, hit, sequence));
+      if (!profile.sameRef(boundaryRef, item.anchorRef || item.ref)) actors.fail('stale_turn_occurrence');
+      // M5 / Channeled: every scheduled boundary — its last one included — records ONE due tick. No HP changes here.
+      if (profile.isTickingEffect(record)) ticks.push(obligation(item, record, hit, sequence));
       if (!hit.final) { counted.push({ recordId: item.recordId, occurrence: hit.occurrence, of: hit.of }); continue; } // counted, still active
       const key = actors.hash(item.ref);
       if (!entries.has(key)) entries.set(key, { ref: item.ref, expectedRevision: resolved.contract.revision, conditions: [] });
       entries.get(key).conditions.push({ op: 'remove', recordId: item.recordId }); expired.push(item.recordId);
+      if (profile.isChanneledTick(record)) {
+        endedChannels.push({
+          recordId: item.recordId,
+          ref: actors.clone(item.ref),
+          sourceActor: actors.clone(record.sourceActor),
+          reason: 'completed',
+          sequence
+        });
+      }
     }
     const list = [...entries.values()];
     if (list.length > 2) actors.fail('turn_expiry_capacity');
@@ -151,10 +207,13 @@ function stage(room, player, uid, request, confirmedRevision) {
   }
   staged.receipt.adjudication = { definitionId: timing.DEFINITION_ID, definitionVersionOrHash: timing.DEFINITION_ID,
     chosenResult: JSON.stringify(Object.assign({ mode: request.mode, combatId: staged.next.combat.effectLifecycle.id, sequence: staged.next.combat.effectLifecycle.sequence, expired }, counted.length ? { counted } : {},
+      endedChannels.length ? { endedChannels } : {},
       ticks.length ? { ticks: ticks.map(t => ({ tickId: t.tickId, recordId: t.recordId, occurrence: t.occurrence, of: t.of, final: t.final })) } : {})),
     adjustmentReason: ticks.length
       ? `Authenticated turn boundary and exact-instance expiry; periodic tick obligations recorded: ${ticks.length} (no HP applied — each waits for GM resolution). No AP restoration, regeneration or payment.`
-      : 'Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects.' };
+      : endedChannels.length
+        ? `Authenticated turn boundary and channeled effect continuity end (${endedChannels.map(e => e.reason).join(', ')}); no extra ticks recorded and no AP restoration, regeneration or payment.`
+        : 'Authenticated turn boundary and exact-instance expiry only; no AP restoration, regeneration, payment or recurring effects.' };
   return staged;
 }
 /**
@@ -172,10 +231,11 @@ function retainOpenTicks(combat) {
 }
 /** M5: one due tick, bound to its exact instance and the authenticated boundary that recorded it (pure function of both). */
 function obligation(item, record, hit, sequence) {
-  const p = profile.periodicOf(record);
-  return { tickId: actors.hash(timing.tickKey(item, sequence)), combatId: item.combatId, sequence, occurrence: hit.occurrence, of: hit.of, final: hit.final,
+  const p = profile.tickOf(record);
+  return Object.assign({ tickId: actors.hash(timing.tickKey(item, sequence)), combatId: item.combatId, sequence, occurrence: hit.occurrence, of: hit.of, final: hit.final,
     ref: actors.clone(item.ref), recordId: item.recordId, recordHash: item.recordHash, effectDefinition: record.effectDefinition, label: p.label,
-    tick: Object.assign({ kind: p.kind, formula: p.formula }, p.kind === 'damage' ? { damageType: p.damageType } : {}), rollPolicy: 'each-tick' };
+    tick: Object.assign({ kind: p.kind, formula: p.formula }, p.kind === 'damage' ? { damageType: p.damageType } : {}), rollPolicy: 'each-tick' },
+  profile.isChanneledTick(record) ? { channeled: true, sourceActor: actors.clone(record.sourceActor) } : {});
 }
 const RESOLVE_KEYS = ['version', 'roomId', 'commandId', 'actionEpoch', 'baseCommitSequence', 'tickId', 'mode', 'expectedRevision', 'roll', 'finalAmount', 'adjustmentReason'];
 function validateResolve(request) {
@@ -271,11 +331,12 @@ function reanchorForRoster(room, nextCombat) {
         !Number.isSafeInteger(item.dueSequence)) {
       actors.fail('stale_effect_schedule');
     }
-    const targetIndex = indexByRef.get(actors.hash(item.ref));
+    const anchorRef = item.anchorRef || item.ref;
+    const targetIndex = indexByRef.get(actors.hash(anchorRef));
     if (targetIndex === undefined) {
       // Only reachable for a pre-existing stale target or the explicit missing repair.
       delete clock.schedules[key];
-      detached.push({ key, recordId: item.recordId, ref: item.ref, reason: 'target_not_in_roster' });
+      detached.push({ key, recordId: item.recordId, ref: item.ref, reason: item.anchorRef ? 'caster_not_in_roster' : 'target_not_in_roster' });
       continue;
     }
     const resolved = actors.locate(room, item.ref);

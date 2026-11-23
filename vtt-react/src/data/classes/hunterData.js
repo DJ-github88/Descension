@@ -118,7 +118,18 @@ const optional = [
     op: 'quarry.strike', args: { rangeFeet: 30, damage: '1d6', requiresWeaponDrawn: false }
   }, 'Draw and fire one light weapon at an enemy within 30 ft for 1d6 stabbing. One damage event; no free second shot.', [
     effect('quarry.strike', { damage: '1d6' }, 'Deal 1d6 stabbing with a quick draw.')
-  ], { damageConfig: damage('1d6') }),
+  ], {
+    damageConfig: damage('1d6'),
+    mechanicsConfig: {
+      hunterFlow: {
+        enabled: true,
+        abilityKind: 'flow_eligible',
+        baseEffectSummary: '1d6 stabbing damage',
+        flowBonusSummary: '+2 stabbing damage on a hit',
+        companionShared: true
+      }
+    }
+  }),
 
   record(2, 'crippling_shot', 'Crippling Shot', 2, enemy(), ['damage', 'control'], {
     op: 'quarry.strike', args: { rangeFeet: 30, damage: '1d6', speedPenaltyFeet: 10, duration: 'end-target-next-turn' }

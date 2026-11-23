@@ -1,0 +1,2307 @@
+{
+  "direct-damage-local-save": {
+    "fixtureOrigin": "Mounted SpellwizardApp -> Step1BasicInfo -> Step3Effects -> DamageEffects -> SavingThrowConfig -> Finalize",
+    "rawDraft": {
+      "editMode": false,
+      "editingSpellId": null,
+      "name": "Ember Bolt (Direct Save)",
+      "description": "Direct ember damage with a damage-local Agility save.",
+      "level": "",
+      "school": "",
+      "icon": "",
+      "spellType": "ACTION",
+      "typeConfig": {
+        "school": "ember",
+        "castTimeType": "IMMEDIATE"
+      },
+      "effectTypes": [
+        "damage"
+      ],
+      "effectsMap": {
+        "damage": true
+      },
+      "damageConfig": {
+        "formula": "1d8+3",
+        "damageType": "direct",
+        "elementType": "ember",
+        "secondaryElementType": null,
+        "canCrit": false,
+        "critMultiplier": 2,
+        "critDiceOnly": false,
+        "dotConfig": {
+          "duration": 3,
+          "tickFrequency": "round",
+          "scalingType": "flat",
+          "dotFormula": "1d4 + INT/2",
+          "dotFormulas": [
+            {
+              "round": 1,
+              "formula": "1d4"
+            }
+          ]
+        },
+        "resolution": "DICE",
+        "hasDotEffect": false,
+        "criticalConfig": {
+          "enabled": false,
+          "critType": "dice",
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "extraDice": "",
+          "explodingDice": false,
+          "explodingDiceType": "reroll_add",
+          "critEffects": [],
+          "cardCritRule": "face_cards",
+          "cardCritResolution": "draw_add",
+          "extraCardDraw": 2,
+          "coinCritRule": "all_heads",
+          "coinCritResolution": "flip_add",
+          "extraCoinFlips": 3,
+          "coinCount": 3,
+          "critSuit": "hearts",
+          "spellEffect": null,
+          "critOnlyEffect": false,
+          "useRollableTable": false
+        },
+        "chanceOnHitConfig": {
+          "enabled": false,
+          "procType": "dice",
+          "procChance": 15,
+          "diceThreshold": 18,
+          "cardProcRule": "face_cards",
+          "coinProcRule": "all_heads",
+          "coinCount": 3,
+          "procSuit": "hearts",
+          "spellEffect": null,
+          "customEffects": [],
+          "useRollableTable": false
+        },
+        "savingThrow": "agility",
+        "difficultyClass": 14,
+        "partialEffect": false,
+        "partialEffectFormula": "damage/2",
+        "savingThrowConfig": {
+          "enabled": true,
+          "savingThrowType": "agility",
+          "difficultyClass": 14,
+          "partialEffect": false,
+          "partialEffectFormula": "damage/2",
+          "directDamageFormula": "damage/2",
+          "dotDamageFormula": "dot_damage/2",
+          "damageFormula": "1d8+3",
+          "dotFormula": "1d4 + INT/2",
+          "damageType": "direct",
+          "hasDotEffect": false
+        }
+      },
+      "healingConfig": null,
+      "buffConfig": null,
+      "debuffConfig": null,
+      "utilityConfig": null,
+      "controlConfig": null,
+      "summoningConfig": null,
+      "transformationConfig": null,
+      "purificationConfig": null,
+      "restorationConfig": null,
+      "rollableTable": null,
+      "effectResolutions": {},
+      "effectMechanicsConfigs": {},
+      "mechanicsAvailableEffects": [],
+      "combinedEffects": [],
+      "mechanicsAvailableCombinedEffects": [],
+      "targetingConfig": {
+        "rangeType": "ranged",
+        "rangeDistance": 5,
+        "targetingType": "single",
+        "maxTargets": 1,
+        "selectionMethod": "manual",
+        "aoeShape": "",
+        "aoeParameters": {},
+        "movementBehavior": "static",
+        "targetSelectionMethod": "manual"
+      },
+      "targetingMode": "unified",
+      "targetingTags": {},
+      "effectTargeting": {},
+      "durationConfig": {},
+      "persistentConfig": {},
+      "propagation": null,
+      "resourceCost": {
+        "components": [],
+        "materialComponents": "",
+        "actionPoints": 1,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "mana"
+        ],
+        "resourceValues": {
+          "mana": 2
+        },
+        "resourceFormulas": {},
+        "useFormulas": {},
+        "primaryResourceType": "mana"
+      },
+      "mechanicsConfig": {
+        "cards": null,
+        "combos": null,
+        "coins": null,
+        "stateRequirements": [],
+        "stateOptions": {
+          "thresholds": []
+        }
+      },
+      "prophecyOptions": null,
+      "cooldownConfig": {},
+      "triggerConfig": {},
+      "trapConfig": {},
+      "channelingConfig": {},
+      "errors": {
+        "durationConfig": "Duration configuration is required"
+      },
+      "warnings": {},
+      "currentStep": 5,
+      "completedSteps": [
+        1,
+        2
+      ],
+      "wizardFlow": [
+        {
+          "id": 1,
+          "name": "Basic Info",
+          "required": true
+        },
+        {
+          "id": 2,
+          "name": "Spell Type",
+          "required": true
+        },
+        {
+          "id": 3,
+          "name": "Effects",
+          "required": true
+        },
+        {
+          "id": "triggers",
+          "name": "Triggers",
+          "required": false
+        },
+        {
+          "id": 4,
+          "name": "Targeting & Propagation",
+          "required": true
+        },
+        {
+          "id": 5,
+          "name": "Resources",
+          "required": true
+        },
+        {
+          "id": 6,
+          "name": "Cooldown",
+          "required": true
+        },
+        {
+          "id": "rollable-table",
+          "name": "Rollable Table",
+          "required": false
+        },
+        {
+          "id": "mechanics",
+          "name": "Mechanics",
+          "required": false
+        },
+        {
+          "id": 10,
+          "name": "Review",
+          "required": true
+        }
+      ],
+      "lastModified": "2026-11-20T19:38:38.149Z",
+      "isValid": false
+    },
+    "savedOuterRecord": {
+      "name": "Ember Bolt (Direct Save)",
+      "description": "Direct ember damage with a damage-local Agility save.",
+      "level": "",
+      "school": "",
+      "icon": "spell_fire_flamebolt",
+      "spellType": "ACTION",
+      "typeConfig": {
+        "school": "ember",
+        "castTimeType": "IMMEDIATE"
+      },
+      "effectTypes": [
+        "damage"
+      ],
+      "effectsMap": {
+        "damage": true
+      },
+      "damageConfig": {
+        "formula": "1d8+3",
+        "damageType": "direct",
+        "elementType": "ember",
+        "secondaryElementType": null,
+        "canCrit": false,
+        "critMultiplier": 2,
+        "critDiceOnly": false,
+        "dotConfig": {
+          "duration": 3,
+          "tickFrequency": "round",
+          "scalingType": "flat",
+          "dotFormula": "1d4 + INT/2",
+          "dotFormulas": [
+            {
+              "round": 1,
+              "formula": "1d4"
+            }
+          ]
+        },
+        "resolution": "DICE",
+        "hasDotEffect": false,
+        "criticalConfig": {
+          "enabled": false,
+          "critType": "dice",
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "extraDice": "",
+          "explodingDice": false,
+          "explodingDiceType": "reroll_add",
+          "critEffects": [],
+          "cardCritRule": "face_cards",
+          "cardCritResolution": "draw_add",
+          "extraCardDraw": 2,
+          "coinCritRule": "all_heads",
+          "coinCritResolution": "flip_add",
+          "extraCoinFlips": 3,
+          "coinCount": 3,
+          "critSuit": "hearts",
+          "spellEffect": null,
+          "critOnlyEffect": false,
+          "useRollableTable": false
+        },
+        "chanceOnHitConfig": {
+          "enabled": false,
+          "procType": "dice",
+          "procChance": 15,
+          "diceThreshold": 18,
+          "cardProcRule": "face_cards",
+          "coinProcRule": "all_heads",
+          "coinCount": 3,
+          "procSuit": "hearts",
+          "spellEffect": null,
+          "customEffects": [],
+          "useRollableTable": false
+        },
+        "savingThrow": "agility",
+        "difficultyClass": 14,
+        "partialEffect": false,
+        "partialEffectFormula": "damage/2",
+        "savingThrowConfig": {
+          "enabled": true,
+          "savingThrowType": "agility",
+          "difficultyClass": 14,
+          "partialEffect": false,
+          "partialEffectFormula": "damage/2",
+          "directDamageFormula": "damage/2",
+          "dotDamageFormula": "dot_damage/2",
+          "damageFormula": "1d8+3",
+          "dotFormula": "1d4 + INT/2",
+          "damageType": "direct",
+          "hasDotEffect": false
+        }
+      },
+      "healingConfig": null,
+      "buffConfig": null,
+      "debuffConfig": null,
+      "utilityConfig": null,
+      "controlConfig": null,
+      "summoningConfig": null,
+      "transformationConfig": null,
+      "purificationConfig": null,
+      "restorationConfig": null,
+      "rollableTable": null,
+      "effectResolutions": {},
+      "effectMechanicsConfigs": {},
+      "mechanicsAvailableEffects": [],
+      "combinedEffects": [],
+      "mechanicsAvailableCombinedEffects": [],
+      "targetingConfig": {
+        "rangeType": "ranged",
+        "rangeDistance": 5,
+        "targetingType": "single",
+        "maxTargets": 1,
+        "selectionMethod": "manual",
+        "aoeShape": "circle",
+        "aoeParameters": {},
+        "movementBehavior": "static",
+        "targetSelectionMethod": "manual",
+        "aoeType": "sphere",
+        "targetRestrictions": [
+          "any"
+        ]
+      },
+      "targetingMode": "unified",
+      "targetingTags": {},
+      "effectTargeting": {},
+      "durationConfig": {},
+      "persistentConfig": {},
+      "propagation": null,
+      "resourceCost": {
+        "components": [],
+        "materialComponents": "",
+        "actionPoints": 1,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "mana"
+        ],
+        "resourceValues": {
+          "mana": 2
+        },
+        "resourceFormulas": {},
+        "useFormulas": {},
+        "primaryResourceType": "mana"
+      },
+      "mechanicsConfig": {
+        "cards": null,
+        "combos": null,
+        "coins": null,
+        "stateRequirements": [],
+        "stateOptions": {
+          "thresholds": []
+        }
+      },
+      "prophecyOptions": null,
+      "cooldownConfig": {},
+      "triggerConfig": {},
+      "trapConfig": {},
+      "channelingConfig": {},
+      "tags": [
+        "damage"
+      ],
+      "effectType": "damage",
+      "damageTypes": [
+        "ember"
+      ],
+      "source": "wizard",
+      "isCustom": true,
+      "id": "ember-bolt-direct-save-mwpdtnvc-u324",
+      "authoredDefinitionId": "17e21968-8852-44ca-bcc4-8bcd843e5766",
+      "categoryIds": [
+        "offensive"
+      ],
+      "categories": [
+        "all"
+      ],
+      "dateCreated": "2026-11-20T19:38:38.231Z",
+      "lastModified": "2026-11-20T19:38:38.234Z",
+      "lastSaved": "2026-11-20T19:38:38.231Z",
+      "authoredDraft": {
+        "name": "Ember Bolt (Direct Save)",
+        "description": "Direct ember damage with a damage-local Agility save.",
+        "level": "",
+        "school": "",
+        "icon": "spell_fire_flamebolt",
+        "spellType": "ACTION",
+        "typeConfig": {
+          "school": "ember",
+          "castTimeType": "IMMEDIATE"
+        },
+        "effectTypes": [
+          "damage"
+        ],
+        "effectsMap": {
+          "damage": true
+        },
+        "damageConfig": {
+          "formula": "1d8+3",
+          "damageType": "direct",
+          "elementType": "ember",
+          "secondaryElementType": null,
+          "canCrit": false,
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "dotConfig": {
+            "duration": 3,
+            "tickFrequency": "round",
+            "scalingType": "flat",
+            "dotFormula": "1d4 + INT/2",
+            "dotFormulas": [
+              {
+                "round": 1,
+                "formula": "1d4"
+              }
+            ]
+          },
+          "resolution": "DICE",
+          "hasDotEffect": false,
+          "criticalConfig": {
+            "enabled": false,
+            "critType": "dice",
+            "critMultiplier": 2,
+            "critDiceOnly": false,
+            "extraDice": "",
+            "explodingDice": false,
+            "explodingDiceType": "reroll_add",
+            "critEffects": [],
+            "cardCritRule": "face_cards",
+            "cardCritResolution": "draw_add",
+            "extraCardDraw": 2,
+            "coinCritRule": "all_heads",
+            "coinCritResolution": "flip_add",
+            "extraCoinFlips": 3,
+            "coinCount": 3,
+            "critSuit": "hearts",
+            "spellEffect": null,
+            "critOnlyEffect": false,
+            "useRollableTable": false
+          },
+          "chanceOnHitConfig": {
+            "enabled": false,
+            "procType": "dice",
+            "procChance": 15,
+            "diceThreshold": 18,
+            "cardProcRule": "face_cards",
+            "coinProcRule": "all_heads",
+            "coinCount": 3,
+            "procSuit": "hearts",
+            "spellEffect": null,
+            "customEffects": [],
+            "useRollableTable": false
+          },
+          "savingThrow": "agility",
+          "difficultyClass": 14,
+          "partialEffect": false,
+          "partialEffectFormula": "damage/2",
+          "savingThrowConfig": {
+            "enabled": true,
+            "savingThrowType": "agility",
+            "difficultyClass": 14,
+            "partialEffect": false,
+            "partialEffectFormula": "damage/2",
+            "directDamageFormula": "damage/2",
+            "dotDamageFormula": "dot_damage/2",
+            "damageFormula": "1d8+3",
+            "dotFormula": "1d4 + INT/2",
+            "damageType": "direct",
+            "hasDotEffect": false
+          }
+        },
+        "healingConfig": null,
+        "buffConfig": null,
+        "debuffConfig": null,
+        "utilityConfig": null,
+        "controlConfig": null,
+        "summoningConfig": null,
+        "transformationConfig": null,
+        "purificationConfig": null,
+        "restorationConfig": null,
+        "rollableTable": null,
+        "effectResolutions": {},
+        "effectMechanicsConfigs": {},
+        "mechanicsAvailableEffects": [],
+        "combinedEffects": [],
+        "mechanicsAvailableCombinedEffects": [],
+        "targetingConfig": {
+          "rangeType": "ranged",
+          "rangeDistance": 5,
+          "targetingType": "single",
+          "maxTargets": 1,
+          "selectionMethod": "manual",
+          "aoeShape": "circle",
+          "aoeParameters": {},
+          "movementBehavior": "static",
+          "targetSelectionMethod": "manual",
+          "aoeType": "sphere",
+          "targetRestrictions": [
+            "any"
+          ]
+        },
+        "targetingMode": "unified",
+        "targetingTags": {},
+        "effectTargeting": {},
+        "durationConfig": {},
+        "persistentConfig": {},
+        "propagation": null,
+        "resourceCost": {
+          "components": [],
+          "materialComponents": "",
+          "actionPoints": 1,
+          "actionPointsSelected": true,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 2
+          },
+          "resourceFormulas": {},
+          "useFormulas": {},
+          "primaryResourceType": "mana"
+        },
+        "mechanicsConfig": {
+          "cards": null,
+          "combos": null,
+          "coins": null,
+          "stateRequirements": [],
+          "stateOptions": {
+            "thresholds": []
+          }
+        },
+        "prophecyOptions": null,
+        "cooldownConfig": {},
+        "triggerConfig": {},
+        "trapConfig": {},
+        "channelingConfig": {},
+        "tags": [
+          "damage"
+        ]
+      },
+      "serializedData": "{\n  \"name\": \"Ember Bolt (Direct Save)\",\n  \"description\": \"Direct ember damage with a damage-local Agility save.\",\n  \"level\": \"\",\n  \"school\": \"\",\n  \"icon\": \"spell_fire_flamebolt\",\n  \"spellType\": \"ACTION\",\n  \"typeConfig\": {\n    \"school\": \"ember\",\n    \"castTimeType\": \"IMMEDIATE\"\n  },\n  \"effectTypes\": [\n    \"damage\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true\n  },\n  \"damageConfig\": {\n    \"formula\": \"1d8+3\",\n    \"damageType\": \"direct\",\n    \"elementType\": \"ember\",\n    \"secondaryElementType\": null,\n    \"canCrit\": false,\n    \"critMultiplier\": 2,\n    \"critDiceOnly\": false,\n    \"dotConfig\": {\n      \"duration\": 3,\n      \"tickFrequency\": \"round\",\n      \"scalingType\": \"flat\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"dotFormulas\": [\n        {\n          \"round\": 1,\n          \"formula\": \"1d4\"\n        }\n      ]\n    },\n    \"resolution\": \"DICE\",\n    \"hasDotEffect\": false,\n    \"criticalConfig\": {\n      \"enabled\": false,\n      \"critType\": \"dice\",\n      \"critMultiplier\": 2,\n      \"critDiceOnly\": false,\n      \"extraDice\": \"\",\n      \"explodingDice\": false,\n      \"explodingDiceType\": \"reroll_add\",\n      \"critEffects\": [],\n      \"cardCritRule\": \"face_cards\",\n      \"cardCritResolution\": \"draw_add\",\n      \"extraCardDraw\": 2,\n      \"coinCritRule\": \"all_heads\",\n      \"coinCritResolution\": \"flip_add\",\n      \"extraCoinFlips\": 3,\n      \"coinCount\": 3,\n      \"critSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"critOnlyEffect\": false,\n      \"useRollableTable\": false\n    },\n    \"chanceOnHitConfig\": {\n      \"enabled\": false,\n      \"procType\": \"dice\",\n      \"procChance\": 15,\n      \"diceThreshold\": 18,\n      \"cardProcRule\": \"face_cards\",\n      \"coinProcRule\": \"all_heads\",\n      \"coinCount\": 3,\n      \"procSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"customEffects\": [],\n      \"useRollableTable\": false\n    },\n    \"savingThrow\": \"agility\",\n    \"difficultyClass\": 14,\n    \"partialEffect\": false,\n    \"partialEffectFormula\": \"damage/2\",\n    \"savingThrowConfig\": {\n      \"enabled\": true,\n      \"savingThrowType\": \"agility\",\n      \"difficultyClass\": 14,\n      \"partialEffect\": false,\n      \"partialEffectFormula\": \"damage/2\",\n      \"directDamageFormula\": \"damage/2\",\n      \"dotDamageFormula\": \"dot_damage/2\",\n      \"damageFormula\": \"1d8+3\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"damageType\": \"direct\",\n      \"hasDotEffect\": false\n    }\n  },\n  \"healingConfig\": null,\n  \"buffConfig\": null,\n  \"debuffConfig\": null,\n  \"utilityConfig\": null,\n  \"controlConfig\": null,\n  \"summoningConfig\": null,\n  \"transformationConfig\": null,\n  \"purificationConfig\": null,\n  \"restorationConfig\": null,\n  \"rollableTable\": null,\n  \"effectResolutions\": {},\n  \"effectMechanicsConfigs\": {},\n  \"mechanicsAvailableEffects\": [],\n  \"combinedEffects\": [],\n  \"mechanicsAvailableCombinedEffects\": [],\n  \"targetingConfig\": {\n    \"rangeType\": \"ranged\",\n    \"rangeDistance\": 5,\n    \"targetingType\": \"single\",\n    \"maxTargets\": 1,\n    \"selectionMethod\": \"manual\",\n    \"aoeShape\": \"circle\",\n    \"aoeParameters\": {},\n    \"movementBehavior\": \"static\",\n    \"targetSelectionMethod\": \"manual\",\n    \"aoeType\": \"sphere\",\n    \"targetRestrictions\": [\n      \"any\"\n    ]\n  },\n  \"targetingMode\": \"unified\",\n  \"targetingTags\": {},\n  \"effectTargeting\": {},\n  \"durationConfig\": {},\n  \"persistentConfig\": {},\n  \"propagation\": null,\n  \"resourceCost\": {\n    \"components\": [],\n    \"materialComponents\": \"\",\n    \"actionPoints\": 1,\n    \"actionPointsSelected\": true,\n    \"resourceTypes\": [\n      \"mana\"\n    ],\n    \"resourceValues\": {\n      \"mana\": 2\n    },\n    \"resourceFormulas\": {},\n    \"useFormulas\": {},\n    \"primaryResourceType\": \"mana\"\n  },\n  \"mechanicsConfig\": {\n    \"cards\": null,\n    \"combos\": null,\n    \"coins\": null,\n    \"stateRequirements\": [],\n    \"stateOptions\": {\n      \"thresholds\": []\n    }\n  },\n  \"prophecyOptions\": null,\n  \"cooldownConfig\": {},\n  \"triggerConfig\": {},\n  \"trapConfig\": {},\n  \"channelingConfig\": {},\n  \"tags\": [\n    \"damage\"\n  ]\n}"
+    },
+    "serializedData": "{\n  \"name\": \"Ember Bolt (Direct Save)\",\n  \"description\": \"Direct ember damage with a damage-local Agility save.\",\n  \"level\": \"\",\n  \"school\": \"\",\n  \"icon\": \"spell_fire_flamebolt\",\n  \"spellType\": \"ACTION\",\n  \"typeConfig\": {\n    \"school\": \"ember\",\n    \"castTimeType\": \"IMMEDIATE\"\n  },\n  \"effectTypes\": [\n    \"damage\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true\n  },\n  \"damageConfig\": {\n    \"formula\": \"1d8+3\",\n    \"damageType\": \"direct\",\n    \"elementType\": \"ember\",\n    \"secondaryElementType\": null,\n    \"canCrit\": false,\n    \"critMultiplier\": 2,\n    \"critDiceOnly\": false,\n    \"dotConfig\": {\n      \"duration\": 3,\n      \"tickFrequency\": \"round\",\n      \"scalingType\": \"flat\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"dotFormulas\": [\n        {\n          \"round\": 1,\n          \"formula\": \"1d4\"\n        }\n      ]\n    },\n    \"resolution\": \"DICE\",\n    \"hasDotEffect\": false,\n    \"criticalConfig\": {\n      \"enabled\": false,\n      \"critType\": \"dice\",\n      \"critMultiplier\": 2,\n      \"critDiceOnly\": false,\n      \"extraDice\": \"\",\n      \"explodingDice\": false,\n      \"explodingDiceType\": \"reroll_add\",\n      \"critEffects\": [],\n      \"cardCritRule\": \"face_cards\",\n      \"cardCritResolution\": \"draw_add\",\n      \"extraCardDraw\": 2,\n      \"coinCritRule\": \"all_heads\",\n      \"coinCritResolution\": \"flip_add\",\n      \"extraCoinFlips\": 3,\n      \"coinCount\": 3,\n      \"critSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"critOnlyEffect\": false,\n      \"useRollableTable\": false\n    },\n    \"chanceOnHitConfig\": {\n      \"enabled\": false,\n      \"procType\": \"dice\",\n      \"procChance\": 15,\n      \"diceThreshold\": 18,\n      \"cardProcRule\": \"face_cards\",\n      \"coinProcRule\": \"all_heads\",\n      \"coinCount\": 3,\n      \"procSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"customEffects\": [],\n      \"useRollableTable\": false\n    },\n    \"savingThrow\": \"agility\",\n    \"difficultyClass\": 14,\n    \"partialEffect\": false,\n    \"partialEffectFormula\": \"damage/2\",\n    \"savingThrowConfig\": {\n      \"enabled\": true,\n      \"savingThrowType\": \"agility\",\n      \"difficultyClass\": 14,\n      \"partialEffect\": false,\n      \"partialEffectFormula\": \"damage/2\",\n      \"directDamageFormula\": \"damage/2\",\n      \"dotDamageFormula\": \"dot_damage/2\",\n      \"damageFormula\": \"1d8+3\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"damageType\": \"direct\",\n      \"hasDotEffect\": false\n    }\n  },\n  \"healingConfig\": null,\n  \"buffConfig\": null,\n  \"debuffConfig\": null,\n  \"utilityConfig\": null,\n  \"controlConfig\": null,\n  \"summoningConfig\": null,\n  \"transformationConfig\": null,\n  \"purificationConfig\": null,\n  \"restorationConfig\": null,\n  \"rollableTable\": null,\n  \"effectResolutions\": {},\n  \"effectMechanicsConfigs\": {},\n  \"mechanicsAvailableEffects\": [],\n  \"combinedEffects\": [],\n  \"mechanicsAvailableCombinedEffects\": [],\n  \"targetingConfig\": {\n    \"rangeType\": \"ranged\",\n    \"rangeDistance\": 5,\n    \"targetingType\": \"single\",\n    \"maxTargets\": 1,\n    \"selectionMethod\": \"manual\",\n    \"aoeShape\": \"circle\",\n    \"aoeParameters\": {},\n    \"movementBehavior\": \"static\",\n    \"targetSelectionMethod\": \"manual\",\n    \"aoeType\": \"sphere\",\n    \"targetRestrictions\": [\n      \"any\"\n    ]\n  },\n  \"targetingMode\": \"unified\",\n  \"targetingTags\": {},\n  \"effectTargeting\": {},\n  \"durationConfig\": {},\n  \"persistentConfig\": {},\n  \"propagation\": null,\n  \"resourceCost\": {\n    \"components\": [],\n    \"materialComponents\": \"\",\n    \"actionPoints\": 1,\n    \"actionPointsSelected\": true,\n    \"resourceTypes\": [\n      \"mana\"\n    ],\n    \"resourceValues\": {\n      \"mana\": 2\n    },\n    \"resourceFormulas\": {},\n    \"useFormulas\": {},\n    \"primaryResourceType\": \"mana\"\n  },\n  \"mechanicsConfig\": {\n    \"cards\": null,\n    \"combos\": null,\n    \"coins\": null,\n    \"stateRequirements\": [],\n    \"stateOptions\": {\n      \"thresholds\": []\n    }\n  },\n  \"prophecyOptions\": null,\n  \"cooldownConfig\": {},\n  \"triggerConfig\": {},\n  \"trapConfig\": {},\n  \"channelingConfig\": {},\n  \"tags\": [\n    \"damage\"\n  ]\n}"
+  },
+  "direct-damage-save-for-half": {
+    "fixtureOrigin": "Mounted SpellwizardApp -> Step1BasicInfo -> Step3Effects -> DamageEffects -> SavingThrowConfig (Partial Effect + Half Damage card) -> Finalize",
+    "rawDraft": {
+      "editMode": false,
+      "editingSpellId": null,
+      "name": "Scorching Ray (Save for Half)",
+      "description": "Direct ember damage with Partial Effect on Successful Save (damage/2).",
+      "level": "",
+      "school": "",
+      "icon": "",
+      "spellType": "ACTION",
+      "typeConfig": {
+        "school": "ember",
+        "castTimeType": "IMMEDIATE"
+      },
+      "effectTypes": [
+        "damage"
+      ],
+      "effectsMap": {
+        "damage": true
+      },
+      "damageConfig": {
+        "formula": "2d6+3",
+        "damageType": "direct",
+        "elementType": "ember",
+        "secondaryElementType": null,
+        "canCrit": false,
+        "critMultiplier": 2,
+        "critDiceOnly": false,
+        "dotConfig": {
+          "duration": 3,
+          "tickFrequency": "round",
+          "scalingType": "flat",
+          "dotFormula": "1d4 + INT/2",
+          "dotFormulas": [
+            {
+              "round": 1,
+              "formula": "1d4"
+            }
+          ]
+        },
+        "resolution": "DICE",
+        "hasDotEffect": false,
+        "criticalConfig": {
+          "enabled": false,
+          "critType": "dice",
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "extraDice": "",
+          "explodingDice": false,
+          "explodingDiceType": "reroll_add",
+          "critEffects": [],
+          "cardCritRule": "face_cards",
+          "cardCritResolution": "draw_add",
+          "extraCardDraw": 2,
+          "coinCritRule": "all_heads",
+          "coinCritResolution": "flip_add",
+          "extraCoinFlips": 3,
+          "coinCount": 3,
+          "critSuit": "hearts",
+          "spellEffect": null,
+          "critOnlyEffect": false,
+          "useRollableTable": false
+        },
+        "chanceOnHitConfig": {
+          "enabled": false,
+          "procType": "dice",
+          "procChance": 15,
+          "diceThreshold": 18,
+          "cardProcRule": "face_cards",
+          "coinProcRule": "all_heads",
+          "coinCount": 3,
+          "procSuit": "hearts",
+          "spellEffect": null,
+          "customEffects": [],
+          "useRollableTable": false
+        },
+        "savingThrow": "agility",
+        "difficultyClass": 15,
+        "partialEffect": true,
+        "partialEffectFormula": "damage/2",
+        "savingThrowConfig": {
+          "enabled": true,
+          "savingThrowType": "agility",
+          "difficultyClass": 15,
+          "partialEffect": true,
+          "partialEffectFormula": "damage/2",
+          "directDamageFormula": "damage/2",
+          "dotDamageFormula": "dot_damage/2",
+          "damageFormula": "2d6+3",
+          "dotFormula": "1d4 + INT/2",
+          "damageType": "direct",
+          "hasDotEffect": false
+        }
+      },
+      "healingConfig": null,
+      "buffConfig": null,
+      "debuffConfig": null,
+      "utilityConfig": null,
+      "controlConfig": null,
+      "summoningConfig": null,
+      "transformationConfig": null,
+      "purificationConfig": null,
+      "restorationConfig": null,
+      "rollableTable": null,
+      "effectResolutions": {},
+      "effectMechanicsConfigs": {},
+      "mechanicsAvailableEffects": [],
+      "combinedEffects": [],
+      "mechanicsAvailableCombinedEffects": [],
+      "targetingConfig": {
+        "rangeType": "ranged",
+        "rangeDistance": 5,
+        "targetingType": "single",
+        "maxTargets": 1,
+        "selectionMethod": "manual",
+        "aoeShape": "",
+        "aoeParameters": {},
+        "movementBehavior": "static",
+        "targetSelectionMethod": "manual"
+      },
+      "targetingMode": "unified",
+      "targetingTags": {},
+      "effectTargeting": {},
+      "durationConfig": {},
+      "persistentConfig": {},
+      "propagation": null,
+      "resourceCost": {
+        "components": [],
+        "materialComponents": "",
+        "actionPoints": 1,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "mana"
+        ],
+        "resourceValues": {
+          "mana": 3
+        },
+        "resourceFormulas": {},
+        "useFormulas": {},
+        "primaryResourceType": "mana"
+      },
+      "mechanicsConfig": {
+        "cards": null,
+        "combos": null,
+        "coins": null,
+        "stateRequirements": [],
+        "stateOptions": {
+          "thresholds": []
+        }
+      },
+      "prophecyOptions": null,
+      "cooldownConfig": {},
+      "triggerConfig": {},
+      "trapConfig": {},
+      "channelingConfig": {},
+      "errors": {
+        "durationConfig": "Duration configuration is required"
+      },
+      "warnings": {},
+      "currentStep": 5,
+      "completedSteps": [
+        1,
+        2
+      ],
+      "wizardFlow": [
+        {
+          "id": 1,
+          "name": "Basic Info",
+          "required": true
+        },
+        {
+          "id": 2,
+          "name": "Spell Type",
+          "required": true
+        },
+        {
+          "id": 3,
+          "name": "Effects",
+          "required": true
+        },
+        {
+          "id": "triggers",
+          "name": "Triggers",
+          "required": false
+        },
+        {
+          "id": 4,
+          "name": "Targeting & Propagation",
+          "required": true
+        },
+        {
+          "id": 5,
+          "name": "Resources",
+          "required": true
+        },
+        {
+          "id": 6,
+          "name": "Cooldown",
+          "required": true
+        },
+        {
+          "id": "rollable-table",
+          "name": "Rollable Table",
+          "required": false
+        },
+        {
+          "id": "mechanics",
+          "name": "Mechanics",
+          "required": false
+        },
+        {
+          "id": 10,
+          "name": "Review",
+          "required": true
+        }
+      ],
+      "lastModified": "2026-11-20T19:38:41.444Z",
+      "isValid": false
+    },
+    "savedOuterRecord": {
+      "name": "Scorching Ray (Save for Half)",
+      "description": "Direct ember damage with Partial Effect on Successful Save (damage/2).",
+      "level": "",
+      "school": "",
+      "icon": "spell_fire_flamebolt",
+      "spellType": "ACTION",
+      "typeConfig": {
+        "school": "ember",
+        "castTimeType": "IMMEDIATE"
+      },
+      "effectTypes": [
+        "damage"
+      ],
+      "effectsMap": {
+        "damage": true
+      },
+      "damageConfig": {
+        "formula": "2d6+3",
+        "damageType": "direct",
+        "elementType": "ember",
+        "secondaryElementType": null,
+        "canCrit": false,
+        "critMultiplier": 2,
+        "critDiceOnly": false,
+        "dotConfig": {
+          "duration": 3,
+          "tickFrequency": "round",
+          "scalingType": "flat",
+          "dotFormula": "1d4 + INT/2",
+          "dotFormulas": [
+            {
+              "round": 1,
+              "formula": "1d4"
+            }
+          ]
+        },
+        "resolution": "DICE",
+        "hasDotEffect": false,
+        "criticalConfig": {
+          "enabled": false,
+          "critType": "dice",
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "extraDice": "",
+          "explodingDice": false,
+          "explodingDiceType": "reroll_add",
+          "critEffects": [],
+          "cardCritRule": "face_cards",
+          "cardCritResolution": "draw_add",
+          "extraCardDraw": 2,
+          "coinCritRule": "all_heads",
+          "coinCritResolution": "flip_add",
+          "extraCoinFlips": 3,
+          "coinCount": 3,
+          "critSuit": "hearts",
+          "spellEffect": null,
+          "critOnlyEffect": false,
+          "useRollableTable": false
+        },
+        "chanceOnHitConfig": {
+          "enabled": false,
+          "procType": "dice",
+          "procChance": 15,
+          "diceThreshold": 18,
+          "cardProcRule": "face_cards",
+          "coinProcRule": "all_heads",
+          "coinCount": 3,
+          "procSuit": "hearts",
+          "spellEffect": null,
+          "customEffects": [],
+          "useRollableTable": false
+        },
+        "savingThrow": "agility",
+        "difficultyClass": 15,
+        "partialEffect": true,
+        "partialEffectFormula": "damage/2",
+        "savingThrowConfig": {
+          "enabled": true,
+          "savingThrowType": "agility",
+          "difficultyClass": 15,
+          "partialEffect": true,
+          "partialEffectFormula": "damage/2",
+          "directDamageFormula": "damage/2",
+          "dotDamageFormula": "dot_damage/2",
+          "damageFormula": "2d6+3",
+          "dotFormula": "1d4 + INT/2",
+          "damageType": "direct",
+          "hasDotEffect": false
+        }
+      },
+      "healingConfig": null,
+      "buffConfig": null,
+      "debuffConfig": null,
+      "utilityConfig": null,
+      "controlConfig": null,
+      "summoningConfig": null,
+      "transformationConfig": null,
+      "purificationConfig": null,
+      "restorationConfig": null,
+      "rollableTable": null,
+      "effectResolutions": {},
+      "effectMechanicsConfigs": {},
+      "mechanicsAvailableEffects": [],
+      "combinedEffects": [],
+      "mechanicsAvailableCombinedEffects": [],
+      "targetingConfig": {
+        "rangeType": "ranged",
+        "rangeDistance": 5,
+        "targetingType": "single",
+        "maxTargets": 1,
+        "selectionMethod": "manual",
+        "aoeShape": "circle",
+        "aoeParameters": {},
+        "movementBehavior": "static",
+        "targetSelectionMethod": "manual",
+        "aoeType": "sphere",
+        "targetRestrictions": [
+          "any"
+        ]
+      },
+      "targetingMode": "unified",
+      "targetingTags": {},
+      "effectTargeting": {},
+      "durationConfig": {},
+      "persistentConfig": {},
+      "propagation": null,
+      "resourceCost": {
+        "components": [],
+        "materialComponents": "",
+        "actionPoints": 1,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "mana"
+        ],
+        "resourceValues": {
+          "mana": 3
+        },
+        "resourceFormulas": {},
+        "useFormulas": {},
+        "primaryResourceType": "mana"
+      },
+      "mechanicsConfig": {
+        "cards": null,
+        "combos": null,
+        "coins": null,
+        "stateRequirements": [],
+        "stateOptions": {
+          "thresholds": []
+        }
+      },
+      "prophecyOptions": null,
+      "cooldownConfig": {},
+      "triggerConfig": {},
+      "trapConfig": {},
+      "channelingConfig": {},
+      "tags": [
+        "damage"
+      ],
+      "effectType": "damage",
+      "damageTypes": [
+        "ember"
+      ],
+      "source": "wizard",
+      "isCustom": true,
+      "id": "scorching-ray-save-for-half-mwpdtqep-u33y",
+      "authoredDefinitionId": "ebab60fc-28c8-424d-9036-d809d2c2680f",
+      "categoryIds": [
+        "offensive"
+      ],
+      "categories": [
+        "all"
+      ],
+      "dateCreated": "2026-11-20T19:38:41.521Z",
+      "lastModified": "2026-11-20T19:38:41.522Z",
+      "lastSaved": "2026-11-20T19:38:41.521Z",
+      "authoredDraft": {
+        "name": "Scorching Ray (Save for Half)",
+        "description": "Direct ember damage with Partial Effect on Successful Save (damage/2).",
+        "level": "",
+        "school": "",
+        "icon": "spell_fire_flamebolt",
+        "spellType": "ACTION",
+        "typeConfig": {
+          "school": "ember",
+          "castTimeType": "IMMEDIATE"
+        },
+        "effectTypes": [
+          "damage"
+        ],
+        "effectsMap": {
+          "damage": true
+        },
+        "damageConfig": {
+          "formula": "2d6+3",
+          "damageType": "direct",
+          "elementType": "ember",
+          "secondaryElementType": null,
+          "canCrit": false,
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "dotConfig": {
+            "duration": 3,
+            "tickFrequency": "round",
+            "scalingType": "flat",
+            "dotFormula": "1d4 + INT/2",
+            "dotFormulas": [
+              {
+                "round": 1,
+                "formula": "1d4"
+              }
+            ]
+          },
+          "resolution": "DICE",
+          "hasDotEffect": false,
+          "criticalConfig": {
+            "enabled": false,
+            "critType": "dice",
+            "critMultiplier": 2,
+            "critDiceOnly": false,
+            "extraDice": "",
+            "explodingDice": false,
+            "explodingDiceType": "reroll_add",
+            "critEffects": [],
+            "cardCritRule": "face_cards",
+            "cardCritResolution": "draw_add",
+            "extraCardDraw": 2,
+            "coinCritRule": "all_heads",
+            "coinCritResolution": "flip_add",
+            "extraCoinFlips": 3,
+            "coinCount": 3,
+            "critSuit": "hearts",
+            "spellEffect": null,
+            "critOnlyEffect": false,
+            "useRollableTable": false
+          },
+          "chanceOnHitConfig": {
+            "enabled": false,
+            "procType": "dice",
+            "procChance": 15,
+            "diceThreshold": 18,
+            "cardProcRule": "face_cards",
+            "coinProcRule": "all_heads",
+            "coinCount": 3,
+            "procSuit": "hearts",
+            "spellEffect": null,
+            "customEffects": [],
+            "useRollableTable": false
+          },
+          "savingThrow": "agility",
+          "difficultyClass": 15,
+          "partialEffect": true,
+          "partialEffectFormula": "damage/2",
+          "savingThrowConfig": {
+            "enabled": true,
+            "savingThrowType": "agility",
+            "difficultyClass": 15,
+            "partialEffect": true,
+            "partialEffectFormula": "damage/2",
+            "directDamageFormula": "damage/2",
+            "dotDamageFormula": "dot_damage/2",
+            "damageFormula": "2d6+3",
+            "dotFormula": "1d4 + INT/2",
+            "damageType": "direct",
+            "hasDotEffect": false
+          }
+        },
+        "healingConfig": null,
+        "buffConfig": null,
+        "debuffConfig": null,
+        "utilityConfig": null,
+        "controlConfig": null,
+        "summoningConfig": null,
+        "transformationConfig": null,
+        "purificationConfig": null,
+        "restorationConfig": null,
+        "rollableTable": null,
+        "effectResolutions": {},
+        "effectMechanicsConfigs": {},
+        "mechanicsAvailableEffects": [],
+        "combinedEffects": [],
+        "mechanicsAvailableCombinedEffects": [],
+        "targetingConfig": {
+          "rangeType": "ranged",
+          "rangeDistance": 5,
+          "targetingType": "single",
+          "maxTargets": 1,
+          "selectionMethod": "manual",
+          "aoeShape": "circle",
+          "aoeParameters": {},
+          "movementBehavior": "static",
+          "targetSelectionMethod": "manual",
+          "aoeType": "sphere",
+          "targetRestrictions": [
+            "any"
+          ]
+        },
+        "targetingMode": "unified",
+        "targetingTags": {},
+        "effectTargeting": {},
+        "durationConfig": {},
+        "persistentConfig": {},
+        "propagation": null,
+        "resourceCost": {
+          "components": [],
+          "materialComponents": "",
+          "actionPoints": 1,
+          "actionPointsSelected": true,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 3
+          },
+          "resourceFormulas": {},
+          "useFormulas": {},
+          "primaryResourceType": "mana"
+        },
+        "mechanicsConfig": {
+          "cards": null,
+          "combos": null,
+          "coins": null,
+          "stateRequirements": [],
+          "stateOptions": {
+            "thresholds": []
+          }
+        },
+        "prophecyOptions": null,
+        "cooldownConfig": {},
+        "triggerConfig": {},
+        "trapConfig": {},
+        "channelingConfig": {},
+        "tags": [
+          "damage"
+        ]
+      },
+      "serializedData": "{\n  \"name\": \"Scorching Ray (Save for Half)\",\n  \"description\": \"Direct ember damage with Partial Effect on Successful Save (damage/2).\",\n  \"level\": \"\",\n  \"school\": \"\",\n  \"icon\": \"spell_fire_flamebolt\",\n  \"spellType\": \"ACTION\",\n  \"typeConfig\": {\n    \"school\": \"ember\",\n    \"castTimeType\": \"IMMEDIATE\"\n  },\n  \"effectTypes\": [\n    \"damage\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true\n  },\n  \"damageConfig\": {\n    \"formula\": \"2d6+3\",\n    \"damageType\": \"direct\",\n    \"elementType\": \"ember\",\n    \"secondaryElementType\": null,\n    \"canCrit\": false,\n    \"critMultiplier\": 2,\n    \"critDiceOnly\": false,\n    \"dotConfig\": {\n      \"duration\": 3,\n      \"tickFrequency\": \"round\",\n      \"scalingType\": \"flat\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"dotFormulas\": [\n        {\n          \"round\": 1,\n          \"formula\": \"1d4\"\n        }\n      ]\n    },\n    \"resolution\": \"DICE\",\n    \"hasDotEffect\": false,\n    \"criticalConfig\": {\n      \"enabled\": false,\n      \"critType\": \"dice\",\n      \"critMultiplier\": 2,\n      \"critDiceOnly\": false,\n      \"extraDice\": \"\",\n      \"explodingDice\": false,\n      \"explodingDiceType\": \"reroll_add\",\n      \"critEffects\": [],\n      \"cardCritRule\": \"face_cards\",\n      \"cardCritResolution\": \"draw_add\",\n      \"extraCardDraw\": 2,\n      \"coinCritRule\": \"all_heads\",\n      \"coinCritResolution\": \"flip_add\",\n      \"extraCoinFlips\": 3,\n      \"coinCount\": 3,\n      \"critSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"critOnlyEffect\": false,\n      \"useRollableTable\": false\n    },\n    \"chanceOnHitConfig\": {\n      \"enabled\": false,\n      \"procType\": \"dice\",\n      \"procChance\": 15,\n      \"diceThreshold\": 18,\n      \"cardProcRule\": \"face_cards\",\n      \"coinProcRule\": \"all_heads\",\n      \"coinCount\": 3,\n      \"procSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"customEffects\": [],\n      \"useRollableTable\": false\n    },\n    \"savingThrow\": \"agility\",\n    \"difficultyClass\": 15,\n    \"partialEffect\": true,\n    \"partialEffectFormula\": \"damage/2\",\n    \"savingThrowConfig\": {\n      \"enabled\": true,\n      \"savingThrowType\": \"agility\",\n      \"difficultyClass\": 15,\n      \"partialEffect\": true,\n      \"partialEffectFormula\": \"damage/2\",\n      \"directDamageFormula\": \"damage/2\",\n      \"dotDamageFormula\": \"dot_damage/2\",\n      \"damageFormula\": \"2d6+3\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"damageType\": \"direct\",\n      \"hasDotEffect\": false\n    }\n  },\n  \"healingConfig\": null,\n  \"buffConfig\": null,\n  \"debuffConfig\": null,\n  \"utilityConfig\": null,\n  \"controlConfig\": null,\n  \"summoningConfig\": null,\n  \"transformationConfig\": null,\n  \"purificationConfig\": null,\n  \"restorationConfig\": null,\n  \"rollableTable\": null,\n  \"effectResolutions\": {},\n  \"effectMechanicsConfigs\": {},\n  \"mechanicsAvailableEffects\": [],\n  \"combinedEffects\": [],\n  \"mechanicsAvailableCombinedEffects\": [],\n  \"targetingConfig\": {\n    \"rangeType\": \"ranged\",\n    \"rangeDistance\": 5,\n    \"targetingType\": \"single\",\n    \"maxTargets\": 1,\n    \"selectionMethod\": \"manual\",\n    \"aoeShape\": \"circle\",\n    \"aoeParameters\": {},\n    \"movementBehavior\": \"static\",\n    \"targetSelectionMethod\": \"manual\",\n    \"aoeType\": \"sphere\",\n    \"targetRestrictions\": [\n      \"any\"\n    ]\n  },\n  \"targetingMode\": \"unified\",\n  \"targetingTags\": {},\n  \"effectTargeting\": {},\n  \"durationConfig\": {},\n  \"persistentConfig\": {},\n  \"propagation\": null,\n  \"resourceCost\": {\n    \"components\": [],\n    \"materialComponents\": \"\",\n    \"actionPoints\": 1,\n    \"actionPointsSelected\": true,\n    \"resourceTypes\": [\n      \"mana\"\n    ],\n    \"resourceValues\": {\n      \"mana\": 3\n    },\n    \"resourceFormulas\": {},\n    \"useFormulas\": {},\n    \"primaryResourceType\": \"mana\"\n  },\n  \"mechanicsConfig\": {\n    \"cards\": null,\n    \"combos\": null,\n    \"coins\": null,\n    \"stateRequirements\": [],\n    \"stateOptions\": {\n      \"thresholds\": []\n    }\n  },\n  \"prophecyOptions\": null,\n  \"cooldownConfig\": {},\n  \"triggerConfig\": {},\n  \"trapConfig\": {},\n  \"channelingConfig\": {},\n  \"tags\": [\n    \"damage\"\n  ]\n}"
+    },
+    "serializedData": "{\n  \"name\": \"Scorching Ray (Save for Half)\",\n  \"description\": \"Direct ember damage with Partial Effect on Successful Save (damage/2).\",\n  \"level\": \"\",\n  \"school\": \"\",\n  \"icon\": \"spell_fire_flamebolt\",\n  \"spellType\": \"ACTION\",\n  \"typeConfig\": {\n    \"school\": \"ember\",\n    \"castTimeType\": \"IMMEDIATE\"\n  },\n  \"effectTypes\": [\n    \"damage\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true\n  },\n  \"damageConfig\": {\n    \"formula\": \"2d6+3\",\n    \"damageType\": \"direct\",\n    \"elementType\": \"ember\",\n    \"secondaryElementType\": null,\n    \"canCrit\": false,\n    \"critMultiplier\": 2,\n    \"critDiceOnly\": false,\n    \"dotConfig\": {\n      \"duration\": 3,\n      \"tickFrequency\": \"round\",\n      \"scalingType\": \"flat\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"dotFormulas\": [\n        {\n          \"round\": 1,\n          \"formula\": \"1d4\"\n        }\n      ]\n    },\n    \"resolution\": \"DICE\",\n    \"hasDotEffect\": false,\n    \"criticalConfig\": {\n      \"enabled\": false,\n      \"critType\": \"dice\",\n      \"critMultiplier\": 2,\n      \"critDiceOnly\": false,\n      \"extraDice\": \"\",\n      \"explodingDice\": false,\n      \"explodingDiceType\": \"reroll_add\",\n      \"critEffects\": [],\n      \"cardCritRule\": \"face_cards\",\n      \"cardCritResolution\": \"draw_add\",\n      \"extraCardDraw\": 2,\n      \"coinCritRule\": \"all_heads\",\n      \"coinCritResolution\": \"flip_add\",\n      \"extraCoinFlips\": 3,\n      \"coinCount\": 3,\n      \"critSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"critOnlyEffect\": false,\n      \"useRollableTable\": false\n    },\n    \"chanceOnHitConfig\": {\n      \"enabled\": false,\n      \"procType\": \"dice\",\n      \"procChance\": 15,\n      \"diceThreshold\": 18,\n      \"cardProcRule\": \"face_cards\",\n      \"coinProcRule\": \"all_heads\",\n      \"coinCount\": 3,\n      \"procSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"customEffects\": [],\n      \"useRollableTable\": false\n    },\n    \"savingThrow\": \"agility\",\n    \"difficultyClass\": 15,\n    \"partialEffect\": true,\n    \"partialEffectFormula\": \"damage/2\",\n    \"savingThrowConfig\": {\n      \"enabled\": true,\n      \"savingThrowType\": \"agility\",\n      \"difficultyClass\": 15,\n      \"partialEffect\": true,\n      \"partialEffectFormula\": \"damage/2\",\n      \"directDamageFormula\": \"damage/2\",\n      \"dotDamageFormula\": \"dot_damage/2\",\n      \"damageFormula\": \"2d6+3\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"damageType\": \"direct\",\n      \"hasDotEffect\": false\n    }\n  },\n  \"healingConfig\": null,\n  \"buffConfig\": null,\n  \"debuffConfig\": null,\n  \"utilityConfig\": null,\n  \"controlConfig\": null,\n  \"summoningConfig\": null,\n  \"transformationConfig\": null,\n  \"purificationConfig\": null,\n  \"restorationConfig\": null,\n  \"rollableTable\": null,\n  \"effectResolutions\": {},\n  \"effectMechanicsConfigs\": {},\n  \"mechanicsAvailableEffects\": [],\n  \"combinedEffects\": [],\n  \"mechanicsAvailableCombinedEffects\": [],\n  \"targetingConfig\": {\n    \"rangeType\": \"ranged\",\n    \"rangeDistance\": 5,\n    \"targetingType\": \"single\",\n    \"maxTargets\": 1,\n    \"selectionMethod\": \"manual\",\n    \"aoeShape\": \"circle\",\n    \"aoeParameters\": {},\n    \"movementBehavior\": \"static\",\n    \"targetSelectionMethod\": \"manual\",\n    \"aoeType\": \"sphere\",\n    \"targetRestrictions\": [\n      \"any\"\n    ]\n  },\n  \"targetingMode\": \"unified\",\n  \"targetingTags\": {},\n  \"effectTargeting\": {},\n  \"durationConfig\": {},\n  \"persistentConfig\": {},\n  \"propagation\": null,\n  \"resourceCost\": {\n    \"components\": [],\n    \"materialComponents\": \"\",\n    \"actionPoints\": 1,\n    \"actionPointsSelected\": true,\n    \"resourceTypes\": [\n      \"mana\"\n    ],\n    \"resourceValues\": {\n      \"mana\": 3\n    },\n    \"resourceFormulas\": {},\n    \"useFormulas\": {},\n    \"primaryResourceType\": \"mana\"\n  },\n  \"mechanicsConfig\": {\n    \"cards\": null,\n    \"combos\": null,\n    \"coins\": null,\n    \"stateRequirements\": [],\n    \"stateOptions\": {\n      \"thresholds\": []\n    }\n  },\n  \"prophecyOptions\": null,\n  \"cooldownConfig\": {},\n  \"triggerConfig\": {},\n  \"trapConfig\": {},\n  \"channelingConfig\": {},\n  \"tags\": [\n    \"damage\"\n  ]\n}"
+  },
+  "rider-local-save-control": {
+    "fixtureOrigin": "Mounted SpellwizardApp -> Step1BasicInfo -> Step3Effects -> DamageEffects + AuthoredConditionFields (movement + save) -> Finalize",
+    "rawDraft": {
+      "editMode": false,
+      "editingSpellId": null,
+      "name": "Rime Snare (Rider Save Control)",
+      "description": "Direct rime damage with a supported rider-local Constitution negates save.",
+      "level": "",
+      "school": "",
+      "icon": "",
+      "spellType": "ACTION",
+      "typeConfig": {
+        "school": "rime",
+        "castTimeType": "IMMEDIATE"
+      },
+      "effectTypes": [
+        "damage",
+        "control"
+      ],
+      "effectsMap": {
+        "damage": true,
+        "control": true
+      },
+      "damageConfig": {
+        "formula": "1d8+3",
+        "damageType": "direct",
+        "elementType": "rime",
+        "secondaryElementType": null,
+        "canCrit": false,
+        "critMultiplier": 2,
+        "critDiceOnly": false,
+        "dotConfig": {
+          "duration": 3,
+          "tickFrequency": "round",
+          "scalingType": "flat",
+          "dotFormula": "1d4 + INT/2",
+          "dotFormulas": [
+            {
+              "round": 1,
+              "formula": "1d4"
+            }
+          ]
+        },
+        "resolution": "DICE",
+        "hasDotEffect": false,
+        "criticalConfig": {
+          "enabled": false,
+          "critType": "dice",
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "extraDice": "",
+          "explodingDice": false,
+          "explodingDiceType": "reroll_add",
+          "critEffects": [],
+          "cardCritRule": "face_cards",
+          "cardCritResolution": "draw_add",
+          "extraCardDraw": 2,
+          "coinCritRule": "all_heads",
+          "coinCritResolution": "flip_add",
+          "extraCoinFlips": 3,
+          "coinCount": 3,
+          "critSuit": "hearts",
+          "spellEffect": null,
+          "critOnlyEffect": false,
+          "useRollableTable": false
+        },
+        "chanceOnHitConfig": {
+          "enabled": false,
+          "procType": "dice",
+          "procChance": 15,
+          "diceThreshold": 18,
+          "cardProcRule": "face_cards",
+          "coinProcRule": "all_heads",
+          "coinCount": 3,
+          "procSuit": "hearts",
+          "spellEffect": null,
+          "customEffects": [],
+          "useRollableTable": false
+        },
+        "savingThrow": null,
+        "difficultyClass": 15,
+        "partialEffect": false,
+        "partialEffectFormula": "damage/2"
+      },
+      "healingConfig": null,
+      "buffConfig": null,
+      "debuffConfig": null,
+      "utilityConfig": null,
+      "controlConfig": {
+        "authoredCondition": {
+          "profile": "authored-effect:v1",
+          "effect": "movement",
+          "expiryPolicy": "gm-manual",
+          "durationText": "for 1 round",
+          "gmNote": "Table resolves the save.",
+          "movementFeet": -10,
+          "label": "Hobbled",
+          "save": {
+            "ability": "constitution",
+            "dc": 12,
+            "outcome": "negates"
+          }
+        }
+      },
+      "summoningConfig": null,
+      "transformationConfig": null,
+      "purificationConfig": null,
+      "restorationConfig": null,
+      "rollableTable": null,
+      "effectResolutions": {},
+      "effectMechanicsConfigs": {},
+      "mechanicsAvailableEffects": [],
+      "combinedEffects": [],
+      "mechanicsAvailableCombinedEffects": [],
+      "targetingConfig": {
+        "rangeType": "ranged",
+        "rangeDistance": 5,
+        "targetingType": "single",
+        "maxTargets": 1,
+        "selectionMethod": "manual",
+        "aoeShape": "",
+        "aoeParameters": {},
+        "movementBehavior": "static",
+        "targetSelectionMethod": "manual"
+      },
+      "targetingMode": "unified",
+      "targetingTags": {},
+      "effectTargeting": {},
+      "durationConfig": {},
+      "persistentConfig": {},
+      "propagation": null,
+      "resourceCost": {
+        "components": [],
+        "materialComponents": "",
+        "actionPoints": 1,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "mana"
+        ],
+        "resourceValues": {
+          "mana": 2
+        },
+        "resourceFormulas": {},
+        "useFormulas": {},
+        "primaryResourceType": "mana"
+      },
+      "mechanicsConfig": {
+        "cards": null,
+        "combos": null,
+        "coins": null,
+        "stateRequirements": [],
+        "stateOptions": {
+          "thresholds": []
+        }
+      },
+      "prophecyOptions": null,
+      "cooldownConfig": {},
+      "triggerConfig": {},
+      "trapConfig": {},
+      "channelingConfig": {},
+      "errors": {},
+      "warnings": {},
+      "currentStep": 5,
+      "completedSteps": [
+        1,
+        2
+      ],
+      "wizardFlow": [
+        {
+          "id": 1,
+          "name": "Basic Info",
+          "required": true
+        },
+        {
+          "id": 2,
+          "name": "Spell Type",
+          "required": true
+        },
+        {
+          "id": 3,
+          "name": "Effects",
+          "required": true
+        },
+        {
+          "id": "triggers",
+          "name": "Triggers",
+          "required": false
+        },
+        {
+          "id": 4,
+          "name": "Targeting & Propagation",
+          "required": true
+        },
+        {
+          "id": 5,
+          "name": "Resources",
+          "required": true
+        },
+        {
+          "id": 6,
+          "name": "Cooldown",
+          "required": true
+        },
+        {
+          "id": "rollable-table",
+          "name": "Rollable Table",
+          "required": false
+        },
+        {
+          "id": "mechanics",
+          "name": "Mechanics",
+          "required": false
+        },
+        {
+          "id": 10,
+          "name": "Review",
+          "required": true
+        }
+      ],
+      "lastModified": "2026-11-20T19:38:44.296Z",
+      "isValid": true
+    },
+    "savedOuterRecord": {
+      "name": "Rime Snare (Rider Save Control)",
+      "description": "Direct rime damage with a supported rider-local Constitution negates save.",
+      "level": "",
+      "school": "",
+      "icon": "spell_fire_flamebolt",
+      "spellType": "ACTION",
+      "typeConfig": {
+        "school": "rime",
+        "castTimeType": "IMMEDIATE"
+      },
+      "effectTypes": [
+        "damage",
+        "control"
+      ],
+      "effectsMap": {
+        "damage": true,
+        "control": true
+      },
+      "damageConfig": {
+        "formula": "1d8+3",
+        "damageType": "direct",
+        "elementType": "rime",
+        "secondaryElementType": null,
+        "canCrit": false,
+        "critMultiplier": 2,
+        "critDiceOnly": false,
+        "dotConfig": {
+          "duration": 3,
+          "tickFrequency": "round",
+          "scalingType": "flat",
+          "dotFormula": "1d4 + INT/2",
+          "dotFormulas": [
+            {
+              "round": 1,
+              "formula": "1d4"
+            }
+          ]
+        },
+        "resolution": "DICE",
+        "hasDotEffect": false,
+        "criticalConfig": {
+          "enabled": false,
+          "critType": "dice",
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "extraDice": "",
+          "explodingDice": false,
+          "explodingDiceType": "reroll_add",
+          "critEffects": [],
+          "cardCritRule": "face_cards",
+          "cardCritResolution": "draw_add",
+          "extraCardDraw": 2,
+          "coinCritRule": "all_heads",
+          "coinCritResolution": "flip_add",
+          "extraCoinFlips": 3,
+          "coinCount": 3,
+          "critSuit": "hearts",
+          "spellEffect": null,
+          "critOnlyEffect": false,
+          "useRollableTable": false
+        },
+        "chanceOnHitConfig": {
+          "enabled": false,
+          "procType": "dice",
+          "procChance": 15,
+          "diceThreshold": 18,
+          "cardProcRule": "face_cards",
+          "coinProcRule": "all_heads",
+          "coinCount": 3,
+          "procSuit": "hearts",
+          "spellEffect": null,
+          "customEffects": [],
+          "useRollableTable": false
+        },
+        "savingThrow": null,
+        "difficultyClass": 15,
+        "partialEffect": false,
+        "partialEffectFormula": "damage/2"
+      },
+      "healingConfig": null,
+      "buffConfig": null,
+      "debuffConfig": null,
+      "utilityConfig": null,
+      "controlConfig": {
+        "authoredCondition": {
+          "profile": "authored-effect:v1",
+          "effect": "movement",
+          "expiryPolicy": "gm-manual",
+          "durationText": "for 1 round",
+          "gmNote": "Table resolves the save.",
+          "movementFeet": -10,
+          "label": "Hobbled",
+          "save": {
+            "ability": "constitution",
+            "dc": 12,
+            "outcome": "negates"
+          }
+        }
+      },
+      "summoningConfig": null,
+      "transformationConfig": null,
+      "purificationConfig": null,
+      "restorationConfig": null,
+      "rollableTable": null,
+      "effectResolutions": {},
+      "effectMechanicsConfigs": {},
+      "mechanicsAvailableEffects": [],
+      "combinedEffects": [],
+      "mechanicsAvailableCombinedEffects": [],
+      "targetingConfig": {
+        "rangeType": "ranged",
+        "rangeDistance": 5,
+        "targetingType": "single",
+        "maxTargets": 1,
+        "selectionMethod": "manual",
+        "aoeShape": "circle",
+        "aoeParameters": {},
+        "movementBehavior": "static",
+        "targetSelectionMethod": "manual",
+        "aoeType": "sphere",
+        "targetRestrictions": [
+          "any"
+        ]
+      },
+      "targetingMode": "unified",
+      "targetingTags": {},
+      "effectTargeting": {},
+      "durationConfig": {},
+      "persistentConfig": {},
+      "propagation": null,
+      "resourceCost": {
+        "components": [],
+        "materialComponents": "",
+        "actionPoints": 1,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "mana"
+        ],
+        "resourceValues": {
+          "mana": 2
+        },
+        "resourceFormulas": {},
+        "useFormulas": {},
+        "primaryResourceType": "mana"
+      },
+      "mechanicsConfig": {
+        "cards": null,
+        "combos": null,
+        "coins": null,
+        "stateRequirements": [],
+        "stateOptions": {
+          "thresholds": []
+        }
+      },
+      "prophecyOptions": null,
+      "cooldownConfig": {},
+      "triggerConfig": {},
+      "trapConfig": {},
+      "channelingConfig": {},
+      "tags": [
+        "damage",
+        "control"
+      ],
+      "effectType": "damage",
+      "damageTypes": [
+        "rime"
+      ],
+      "source": "wizard",
+      "isCustom": true,
+      "id": "rime-snare-rider-save-control-mwpdtslv-s709",
+      "authoredDefinitionId": "2a95d77b-a856-4dd4-8b63-b76e914cc36a",
+      "categoryIds": [
+        "offensive",
+        "utility"
+      ],
+      "categories": [
+        "all"
+      ],
+      "dateCreated": "2026-11-20T19:38:44.371Z",
+      "lastModified": "2026-11-20T19:38:44.371Z",
+      "lastSaved": "2026-11-20T19:38:44.371Z",
+      "authoredDraft": {
+        "name": "Rime Snare (Rider Save Control)",
+        "description": "Direct rime damage with a supported rider-local Constitution negates save.",
+        "level": "",
+        "school": "",
+        "icon": "spell_fire_flamebolt",
+        "spellType": "ACTION",
+        "typeConfig": {
+          "school": "rime",
+          "castTimeType": "IMMEDIATE"
+        },
+        "effectTypes": [
+          "damage",
+          "control"
+        ],
+        "effectsMap": {
+          "damage": true,
+          "control": true
+        },
+        "damageConfig": {
+          "formula": "1d8+3",
+          "damageType": "direct",
+          "elementType": "rime",
+          "secondaryElementType": null,
+          "canCrit": false,
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "dotConfig": {
+            "duration": 3,
+            "tickFrequency": "round",
+            "scalingType": "flat",
+            "dotFormula": "1d4 + INT/2",
+            "dotFormulas": [
+              {
+                "round": 1,
+                "formula": "1d4"
+              }
+            ]
+          },
+          "resolution": "DICE",
+          "hasDotEffect": false,
+          "criticalConfig": {
+            "enabled": false,
+            "critType": "dice",
+            "critMultiplier": 2,
+            "critDiceOnly": false,
+            "extraDice": "",
+            "explodingDice": false,
+            "explodingDiceType": "reroll_add",
+            "critEffects": [],
+            "cardCritRule": "face_cards",
+            "cardCritResolution": "draw_add",
+            "extraCardDraw": 2,
+            "coinCritRule": "all_heads",
+            "coinCritResolution": "flip_add",
+            "extraCoinFlips": 3,
+            "coinCount": 3,
+            "critSuit": "hearts",
+            "spellEffect": null,
+            "critOnlyEffect": false,
+            "useRollableTable": false
+          },
+          "chanceOnHitConfig": {
+            "enabled": false,
+            "procType": "dice",
+            "procChance": 15,
+            "diceThreshold": 18,
+            "cardProcRule": "face_cards",
+            "coinProcRule": "all_heads",
+            "coinCount": 3,
+            "procSuit": "hearts",
+            "spellEffect": null,
+            "customEffects": [],
+            "useRollableTable": false
+          },
+          "savingThrow": null,
+          "difficultyClass": 15,
+          "partialEffect": false,
+          "partialEffectFormula": "damage/2"
+        },
+        "healingConfig": null,
+        "buffConfig": null,
+        "debuffConfig": null,
+        "utilityConfig": null,
+        "controlConfig": {
+          "authoredCondition": {
+            "profile": "authored-effect:v1",
+            "effect": "movement",
+            "expiryPolicy": "gm-manual",
+            "durationText": "for 1 round",
+            "gmNote": "Table resolves the save.",
+            "movementFeet": -10,
+            "label": "Hobbled",
+            "save": {
+              "ability": "constitution",
+              "dc": 12,
+              "outcome": "negates"
+            }
+          }
+        },
+        "summoningConfig": null,
+        "transformationConfig": null,
+        "purificationConfig": null,
+        "restorationConfig": null,
+        "rollableTable": null,
+        "effectResolutions": {},
+        "effectMechanicsConfigs": {},
+        "mechanicsAvailableEffects": [],
+        "combinedEffects": [],
+        "mechanicsAvailableCombinedEffects": [],
+        "targetingConfig": {
+          "rangeType": "ranged",
+          "rangeDistance": 5,
+          "targetingType": "single",
+          "maxTargets": 1,
+          "selectionMethod": "manual",
+          "aoeShape": "circle",
+          "aoeParameters": {},
+          "movementBehavior": "static",
+          "targetSelectionMethod": "manual",
+          "aoeType": "sphere",
+          "targetRestrictions": [
+            "any"
+          ]
+        },
+        "targetingMode": "unified",
+        "targetingTags": {},
+        "effectTargeting": {},
+        "durationConfig": {},
+        "persistentConfig": {},
+        "propagation": null,
+        "resourceCost": {
+          "components": [],
+          "materialComponents": "",
+          "actionPoints": 1,
+          "actionPointsSelected": true,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 2
+          },
+          "resourceFormulas": {},
+          "useFormulas": {},
+          "primaryResourceType": "mana"
+        },
+        "mechanicsConfig": {
+          "cards": null,
+          "combos": null,
+          "coins": null,
+          "stateRequirements": [],
+          "stateOptions": {
+            "thresholds": []
+          }
+        },
+        "prophecyOptions": null,
+        "cooldownConfig": {},
+        "triggerConfig": {},
+        "trapConfig": {},
+        "channelingConfig": {},
+        "tags": [
+          "damage",
+          "control"
+        ]
+      },
+      "serializedData": "{\n  \"name\": \"Rime Snare (Rider Save Control)\",\n  \"description\": \"Direct rime damage with a supported rider-local Constitution negates save.\",\n  \"level\": \"\",\n  \"school\": \"\",\n  \"icon\": \"spell_fire_flamebolt\",\n  \"spellType\": \"ACTION\",\n  \"typeConfig\": {\n    \"school\": \"rime\",\n    \"castTimeType\": \"IMMEDIATE\"\n  },\n  \"effectTypes\": [\n    \"damage\",\n    \"control\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true,\n    \"control\": true\n  },\n  \"damageConfig\": {\n    \"formula\": \"1d8+3\",\n    \"damageType\": \"direct\",\n    \"elementType\": \"rime\",\n    \"secondaryElementType\": null,\n    \"canCrit\": false,\n    \"critMultiplier\": 2,\n    \"critDiceOnly\": false,\n    \"dotConfig\": {\n      \"duration\": 3,\n      \"tickFrequency\": \"round\",\n      \"scalingType\": \"flat\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"dotFormulas\": [\n        {\n          \"round\": 1,\n          \"formula\": \"1d4\"\n        }\n      ]\n    },\n    \"resolution\": \"DICE\",\n    \"hasDotEffect\": false,\n    \"criticalConfig\": {\n      \"enabled\": false,\n      \"critType\": \"dice\",\n      \"critMultiplier\": 2,\n      \"critDiceOnly\": false,\n      \"extraDice\": \"\",\n      \"explodingDice\": false,\n      \"explodingDiceType\": \"reroll_add\",\n      \"critEffects\": [],\n      \"cardCritRule\": \"face_cards\",\n      \"cardCritResolution\": \"draw_add\",\n      \"extraCardDraw\": 2,\n      \"coinCritRule\": \"all_heads\",\n      \"coinCritResolution\": \"flip_add\",\n      \"extraCoinFlips\": 3,\n      \"coinCount\": 3,\n      \"critSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"critOnlyEffect\": false,\n      \"useRollableTable\": false\n    },\n    \"chanceOnHitConfig\": {\n      \"enabled\": false,\n      \"procType\": \"dice\",\n      \"procChance\": 15,\n      \"diceThreshold\": 18,\n      \"cardProcRule\": \"face_cards\",\n      \"coinProcRule\": \"all_heads\",\n      \"coinCount\": 3,\n      \"procSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"customEffects\": [],\n      \"useRollableTable\": false\n    },\n    \"savingThrow\": null,\n    \"difficultyClass\": 15,\n    \"partialEffect\": false,\n    \"partialEffectFormula\": \"damage/2\"\n  },\n  \"healingConfig\": null,\n  \"buffConfig\": null,\n  \"debuffConfig\": null,\n  \"utilityConfig\": null,\n  \"controlConfig\": {\n    \"authoredCondition\": {\n      \"profile\": \"authored-effect:v1\",\n      \"effect\": \"movement\",\n      \"expiryPolicy\": \"gm-manual\",\n      \"durationText\": \"for 1 round\",\n      \"gmNote\": \"Table resolves the save.\",\n      \"movementFeet\": -10,\n      \"label\": \"Hobbled\",\n      \"save\": {\n        \"ability\": \"constitution\",\n        \"dc\": 12,\n        \"outcome\": \"negates\"\n      }\n    }\n  },\n  \"summoningConfig\": null,\n  \"transformationConfig\": null,\n  \"purificationConfig\": null,\n  \"restorationConfig\": null,\n  \"rollableTable\": null,\n  \"effectResolutions\": {},\n  \"effectMechanicsConfigs\": {},\n  \"mechanicsAvailableEffects\": [],\n  \"combinedEffects\": [],\n  \"mechanicsAvailableCombinedEffects\": [],\n  \"targetingConfig\": {\n    \"rangeType\": \"ranged\",\n    \"rangeDistance\": 5,\n    \"targetingType\": \"single\",\n    \"maxTargets\": 1,\n    \"selectionMethod\": \"manual\",\n    \"aoeShape\": \"circle\",\n    \"aoeParameters\": {},\n    \"movementBehavior\": \"static\",\n    \"targetSelectionMethod\": \"manual\",\n    \"aoeType\": \"sphere\",\n    \"targetRestrictions\": [\n      \"any\"\n    ]\n  },\n  \"targetingMode\": \"unified\",\n  \"targetingTags\": {},\n  \"effectTargeting\": {},\n  \"durationConfig\": {},\n  \"persistentConfig\": {},\n  \"propagation\": null,\n  \"resourceCost\": {\n    \"components\": [],\n    \"materialComponents\": \"\",\n    \"actionPoints\": 1,\n    \"actionPointsSelected\": true,\n    \"resourceTypes\": [\n      \"mana\"\n    ],\n    \"resourceValues\": {\n      \"mana\": 2\n    },\n    \"resourceFormulas\": {},\n    \"useFormulas\": {},\n    \"primaryResourceType\": \"mana\"\n  },\n  \"mechanicsConfig\": {\n    \"cards\": null,\n    \"combos\": null,\n    \"coins\": null,\n    \"stateRequirements\": [],\n    \"stateOptions\": {\n      \"thresholds\": []\n    }\n  },\n  \"prophecyOptions\": null,\n  \"cooldownConfig\": {},\n  \"triggerConfig\": {},\n  \"trapConfig\": {},\n  \"channelingConfig\": {},\n  \"tags\": [\n    \"damage\",\n    \"control\"\n  ]\n}"
+    },
+    "serializedData": "{\n  \"name\": \"Rime Snare (Rider Save Control)\",\n  \"description\": \"Direct rime damage with a supported rider-local Constitution negates save.\",\n  \"level\": \"\",\n  \"school\": \"\",\n  \"icon\": \"spell_fire_flamebolt\",\n  \"spellType\": \"ACTION\",\n  \"typeConfig\": {\n    \"school\": \"rime\",\n    \"castTimeType\": \"IMMEDIATE\"\n  },\n  \"effectTypes\": [\n    \"damage\",\n    \"control\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true,\n    \"control\": true\n  },\n  \"damageConfig\": {\n    \"formula\": \"1d8+3\",\n    \"damageType\": \"direct\",\n    \"elementType\": \"rime\",\n    \"secondaryElementType\": null,\n    \"canCrit\": false,\n    \"critMultiplier\": 2,\n    \"critDiceOnly\": false,\n    \"dotConfig\": {\n      \"duration\": 3,\n      \"tickFrequency\": \"round\",\n      \"scalingType\": \"flat\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"dotFormulas\": [\n        {\n          \"round\": 1,\n          \"formula\": \"1d4\"\n        }\n      ]\n    },\n    \"resolution\": \"DICE\",\n    \"hasDotEffect\": false,\n    \"criticalConfig\": {\n      \"enabled\": false,\n      \"critType\": \"dice\",\n      \"critMultiplier\": 2,\n      \"critDiceOnly\": false,\n      \"extraDice\": \"\",\n      \"explodingDice\": false,\n      \"explodingDiceType\": \"reroll_add\",\n      \"critEffects\": [],\n      \"cardCritRule\": \"face_cards\",\n      \"cardCritResolution\": \"draw_add\",\n      \"extraCardDraw\": 2,\n      \"coinCritRule\": \"all_heads\",\n      \"coinCritResolution\": \"flip_add\",\n      \"extraCoinFlips\": 3,\n      \"coinCount\": 3,\n      \"critSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"critOnlyEffect\": false,\n      \"useRollableTable\": false\n    },\n    \"chanceOnHitConfig\": {\n      \"enabled\": false,\n      \"procType\": \"dice\",\n      \"procChance\": 15,\n      \"diceThreshold\": 18,\n      \"cardProcRule\": \"face_cards\",\n      \"coinProcRule\": \"all_heads\",\n      \"coinCount\": 3,\n      \"procSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"customEffects\": [],\n      \"useRollableTable\": false\n    },\n    \"savingThrow\": null,\n    \"difficultyClass\": 15,\n    \"partialEffect\": false,\n    \"partialEffectFormula\": \"damage/2\"\n  },\n  \"healingConfig\": null,\n  \"buffConfig\": null,\n  \"debuffConfig\": null,\n  \"utilityConfig\": null,\n  \"controlConfig\": {\n    \"authoredCondition\": {\n      \"profile\": \"authored-effect:v1\",\n      \"effect\": \"movement\",\n      \"expiryPolicy\": \"gm-manual\",\n      \"durationText\": \"for 1 round\",\n      \"gmNote\": \"Table resolves the save.\",\n      \"movementFeet\": -10,\n      \"label\": \"Hobbled\",\n      \"save\": {\n        \"ability\": \"constitution\",\n        \"dc\": 12,\n        \"outcome\": \"negates\"\n      }\n    }\n  },\n  \"summoningConfig\": null,\n  \"transformationConfig\": null,\n  \"purificationConfig\": null,\n  \"restorationConfig\": null,\n  \"rollableTable\": null,\n  \"effectResolutions\": {},\n  \"effectMechanicsConfigs\": {},\n  \"mechanicsAvailableEffects\": [],\n  \"combinedEffects\": [],\n  \"mechanicsAvailableCombinedEffects\": [],\n  \"targetingConfig\": {\n    \"rangeType\": \"ranged\",\n    \"rangeDistance\": 5,\n    \"targetingType\": \"single\",\n    \"maxTargets\": 1,\n    \"selectionMethod\": \"manual\",\n    \"aoeShape\": \"circle\",\n    \"aoeParameters\": {},\n    \"movementBehavior\": \"static\",\n    \"targetSelectionMethod\": \"manual\",\n    \"aoeType\": \"sphere\",\n    \"targetRestrictions\": [\n      \"any\"\n    ]\n  },\n  \"targetingMode\": \"unified\",\n  \"targetingTags\": {},\n  \"effectTargeting\": {},\n  \"durationConfig\": {},\n  \"persistentConfig\": {},\n  \"propagation\": null,\n  \"resourceCost\": {\n    \"components\": [],\n    \"materialComponents\": \"\",\n    \"actionPoints\": 1,\n    \"actionPointsSelected\": true,\n    \"resourceTypes\": [\n      \"mana\"\n    ],\n    \"resourceValues\": {\n      \"mana\": 2\n    },\n    \"resourceFormulas\": {},\n    \"useFormulas\": {},\n    \"primaryResourceType\": \"mana\"\n  },\n  \"mechanicsConfig\": {\n    \"cards\": null,\n    \"combos\": null,\n    \"coins\": null,\n    \"stateRequirements\": [],\n    \"stateOptions\": {\n      \"thresholds\": []\n    }\n  },\n  \"prophecyOptions\": null,\n  \"cooldownConfig\": {},\n  \"triggerConfig\": {},\n  \"trapConfig\": {},\n  \"channelingConfig\": {},\n  \"tags\": [\n    \"damage\",\n    \"control\"\n  ]\n}"
+  },
+  "unsupported-combination-both-saves": {
+    "fixtureOrigin": "Mounted SpellwizardApp -> Step1BasicInfo -> Step3Effects -> DamageEffects (SavingThrowConfig) + AuthoredConditionFields (rider save) -> Finalize",
+    "rawDraft": {
+      "editMode": false,
+      "editingSpellId": null,
+      "name": "Frostfire Paradox (Unsupported Combo)",
+      "description": "Direct damage with a damage-local save AND a rider-local save.",
+      "level": "",
+      "school": "",
+      "icon": "",
+      "spellType": "ACTION",
+      "typeConfig": {
+        "school": "rime",
+        "castTimeType": "IMMEDIATE"
+      },
+      "effectTypes": [
+        "damage",
+        "control"
+      ],
+      "effectsMap": {
+        "damage": true,
+        "control": true
+      },
+      "damageConfig": {
+        "formula": "1d8+3",
+        "damageType": "direct",
+        "elementType": "rime",
+        "secondaryElementType": null,
+        "canCrit": false,
+        "critMultiplier": 2,
+        "critDiceOnly": false,
+        "dotConfig": {
+          "duration": 3,
+          "tickFrequency": "round",
+          "scalingType": "flat",
+          "dotFormula": "1d4 + INT/2",
+          "dotFormulas": [
+            {
+              "round": 1,
+              "formula": "1d4"
+            }
+          ]
+        },
+        "resolution": "DICE",
+        "hasDotEffect": false,
+        "criticalConfig": {
+          "enabled": false,
+          "critType": "dice",
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "extraDice": "",
+          "explodingDice": false,
+          "explodingDiceType": "reroll_add",
+          "critEffects": [],
+          "cardCritRule": "face_cards",
+          "cardCritResolution": "draw_add",
+          "extraCardDraw": 2,
+          "coinCritRule": "all_heads",
+          "coinCritResolution": "flip_add",
+          "extraCoinFlips": 3,
+          "coinCount": 3,
+          "critSuit": "hearts",
+          "spellEffect": null,
+          "critOnlyEffect": false,
+          "useRollableTable": false
+        },
+        "chanceOnHitConfig": {
+          "enabled": false,
+          "procType": "dice",
+          "procChance": 15,
+          "diceThreshold": 18,
+          "cardProcRule": "face_cards",
+          "coinProcRule": "all_heads",
+          "coinCount": 3,
+          "procSuit": "hearts",
+          "spellEffect": null,
+          "customEffects": [],
+          "useRollableTable": false
+        },
+        "savingThrow": "agility",
+        "difficultyClass": 14,
+        "partialEffect": true,
+        "partialEffectFormula": "damage/2",
+        "savingThrowConfig": {
+          "enabled": true,
+          "savingThrowType": "agility",
+          "difficultyClass": 14,
+          "partialEffect": true,
+          "partialEffectFormula": "damage/2",
+          "directDamageFormula": "damage/2",
+          "dotDamageFormula": "dot_damage/2",
+          "damageFormula": "1d8+3",
+          "dotFormula": "1d4 + INT/2",
+          "damageType": "direct",
+          "hasDotEffect": false
+        }
+      },
+      "healingConfig": null,
+      "buffConfig": null,
+      "debuffConfig": null,
+      "utilityConfig": null,
+      "controlConfig": {
+        "authoredCondition": {
+          "profile": "authored-effect:v1",
+          "effect": "movement",
+          "expiryPolicy": "gm-manual",
+          "durationText": "for 1 round",
+          "gmNote": "Both saves stay manual.",
+          "movementFeet": -10,
+          "label": "Frostbitten",
+          "save": {
+            "ability": "constitution",
+            "dc": 12,
+            "outcome": "negates"
+          }
+        }
+      },
+      "summoningConfig": null,
+      "transformationConfig": null,
+      "purificationConfig": null,
+      "restorationConfig": null,
+      "rollableTable": null,
+      "effectResolutions": {},
+      "effectMechanicsConfigs": {},
+      "mechanicsAvailableEffects": [],
+      "combinedEffects": [],
+      "mechanicsAvailableCombinedEffects": [],
+      "targetingConfig": {
+        "rangeType": "ranged",
+        "rangeDistance": 5,
+        "targetingType": "single",
+        "maxTargets": 1,
+        "selectionMethod": "manual",
+        "aoeShape": "",
+        "aoeParameters": {},
+        "movementBehavior": "static",
+        "targetSelectionMethod": "manual"
+      },
+      "targetingMode": "unified",
+      "targetingTags": {},
+      "effectTargeting": {},
+      "durationConfig": {},
+      "persistentConfig": {},
+      "propagation": null,
+      "resourceCost": {
+        "components": [],
+        "materialComponents": "",
+        "actionPoints": 1,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "mana"
+        ],
+        "resourceValues": {
+          "mana": 2
+        },
+        "resourceFormulas": {},
+        "useFormulas": {},
+        "primaryResourceType": "mana"
+      },
+      "mechanicsConfig": {
+        "cards": null,
+        "combos": null,
+        "coins": null,
+        "stateRequirements": [],
+        "stateOptions": {
+          "thresholds": []
+        }
+      },
+      "prophecyOptions": null,
+      "cooldownConfig": {},
+      "triggerConfig": {},
+      "trapConfig": {},
+      "channelingConfig": {},
+      "errors": {},
+      "warnings": {},
+      "currentStep": 5,
+      "completedSteps": [
+        1,
+        2
+      ],
+      "wizardFlow": [
+        {
+          "id": 1,
+          "name": "Basic Info",
+          "required": true
+        },
+        {
+          "id": 2,
+          "name": "Spell Type",
+          "required": true
+        },
+        {
+          "id": 3,
+          "name": "Effects",
+          "required": true
+        },
+        {
+          "id": "triggers",
+          "name": "Triggers",
+          "required": false
+        },
+        {
+          "id": 4,
+          "name": "Targeting & Propagation",
+          "required": true
+        },
+        {
+          "id": 5,
+          "name": "Resources",
+          "required": true
+        },
+        {
+          "id": 6,
+          "name": "Cooldown",
+          "required": true
+        },
+        {
+          "id": "rollable-table",
+          "name": "Rollable Table",
+          "required": false
+        },
+        {
+          "id": "mechanics",
+          "name": "Mechanics",
+          "required": false
+        },
+        {
+          "id": 10,
+          "name": "Review",
+          "required": true
+        }
+      ],
+      "lastModified": "2026-11-20T19:38:48.072Z",
+      "isValid": true
+    },
+    "savedOuterRecord": {
+      "name": "Frostfire Paradox (Unsupported Combo)",
+      "description": "Direct damage with a damage-local save AND a rider-local save.",
+      "level": "",
+      "school": "",
+      "icon": "spell_fire_flamebolt",
+      "spellType": "ACTION",
+      "typeConfig": {
+        "school": "rime",
+        "castTimeType": "IMMEDIATE"
+      },
+      "effectTypes": [
+        "damage",
+        "control"
+      ],
+      "effectsMap": {
+        "damage": true,
+        "control": true
+      },
+      "damageConfig": {
+        "formula": "1d8+3",
+        "damageType": "direct",
+        "elementType": "rime",
+        "secondaryElementType": null,
+        "canCrit": false,
+        "critMultiplier": 2,
+        "critDiceOnly": false,
+        "dotConfig": {
+          "duration": 3,
+          "tickFrequency": "round",
+          "scalingType": "flat",
+          "dotFormula": "1d4 + INT/2",
+          "dotFormulas": [
+            {
+              "round": 1,
+              "formula": "1d4"
+            }
+          ]
+        },
+        "resolution": "DICE",
+        "hasDotEffect": false,
+        "criticalConfig": {
+          "enabled": false,
+          "critType": "dice",
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "extraDice": "",
+          "explodingDice": false,
+          "explodingDiceType": "reroll_add",
+          "critEffects": [],
+          "cardCritRule": "face_cards",
+          "cardCritResolution": "draw_add",
+          "extraCardDraw": 2,
+          "coinCritRule": "all_heads",
+          "coinCritResolution": "flip_add",
+          "extraCoinFlips": 3,
+          "coinCount": 3,
+          "critSuit": "hearts",
+          "spellEffect": null,
+          "critOnlyEffect": false,
+          "useRollableTable": false
+        },
+        "chanceOnHitConfig": {
+          "enabled": false,
+          "procType": "dice",
+          "procChance": 15,
+          "diceThreshold": 18,
+          "cardProcRule": "face_cards",
+          "coinProcRule": "all_heads",
+          "coinCount": 3,
+          "procSuit": "hearts",
+          "spellEffect": null,
+          "customEffects": [],
+          "useRollableTable": false
+        },
+        "savingThrow": "agility",
+        "difficultyClass": 14,
+        "partialEffect": true,
+        "partialEffectFormula": "damage/2",
+        "savingThrowConfig": {
+          "enabled": true,
+          "savingThrowType": "agility",
+          "difficultyClass": 14,
+          "partialEffect": true,
+          "partialEffectFormula": "damage/2",
+          "directDamageFormula": "damage/2",
+          "dotDamageFormula": "dot_damage/2",
+          "damageFormula": "1d8+3",
+          "dotFormula": "1d4 + INT/2",
+          "damageType": "direct",
+          "hasDotEffect": false
+        }
+      },
+      "healingConfig": null,
+      "buffConfig": null,
+      "debuffConfig": null,
+      "utilityConfig": null,
+      "controlConfig": {
+        "authoredCondition": {
+          "profile": "authored-effect:v1",
+          "effect": "movement",
+          "expiryPolicy": "gm-manual",
+          "durationText": "for 1 round",
+          "gmNote": "Both saves stay manual.",
+          "movementFeet": -10,
+          "label": "Frostbitten",
+          "save": {
+            "ability": "constitution",
+            "dc": 12,
+            "outcome": "negates"
+          }
+        }
+      },
+      "summoningConfig": null,
+      "transformationConfig": null,
+      "purificationConfig": null,
+      "restorationConfig": null,
+      "rollableTable": null,
+      "effectResolutions": {},
+      "effectMechanicsConfigs": {},
+      "mechanicsAvailableEffects": [],
+      "combinedEffects": [],
+      "mechanicsAvailableCombinedEffects": [],
+      "targetingConfig": {
+        "rangeType": "ranged",
+        "rangeDistance": 5,
+        "targetingType": "single",
+        "maxTargets": 1,
+        "selectionMethod": "manual",
+        "aoeShape": "circle",
+        "aoeParameters": {},
+        "movementBehavior": "static",
+        "targetSelectionMethod": "manual",
+        "aoeType": "sphere",
+        "targetRestrictions": [
+          "any"
+        ]
+      },
+      "targetingMode": "unified",
+      "targetingTags": {},
+      "effectTargeting": {},
+      "durationConfig": {},
+      "persistentConfig": {},
+      "propagation": null,
+      "resourceCost": {
+        "components": [],
+        "materialComponents": "",
+        "actionPoints": 1,
+        "actionPointsSelected": true,
+        "resourceTypes": [
+          "mana"
+        ],
+        "resourceValues": {
+          "mana": 2
+        },
+        "resourceFormulas": {},
+        "useFormulas": {},
+        "primaryResourceType": "mana"
+      },
+      "mechanicsConfig": {
+        "cards": null,
+        "combos": null,
+        "coins": null,
+        "stateRequirements": [],
+        "stateOptions": {
+          "thresholds": []
+        }
+      },
+      "prophecyOptions": null,
+      "cooldownConfig": {},
+      "triggerConfig": {},
+      "trapConfig": {},
+      "channelingConfig": {},
+      "tags": [
+        "damage",
+        "control"
+      ],
+      "effectType": "damage",
+      "damageTypes": [
+        "rime"
+      ],
+      "source": "wizard",
+      "isCustom": true,
+      "id": "frostfire-paradox-unsupported-combo-mwpdtvin-mcnq",
+      "authoredDefinitionId": "7ad3f316-f2ac-4213-8ba0-b726e026eb9a",
+      "categoryIds": [
+        "offensive",
+        "utility"
+      ],
+      "categories": [
+        "all"
+      ],
+      "dateCreated": "2026-11-20T19:38:48.143Z",
+      "lastModified": "2026-11-20T19:38:48.143Z",
+      "lastSaved": "2026-11-20T19:38:48.143Z",
+      "authoredDraft": {
+        "name": "Frostfire Paradox (Unsupported Combo)",
+        "description": "Direct damage with a damage-local save AND a rider-local save.",
+        "level": "",
+        "school": "",
+        "icon": "spell_fire_flamebolt",
+        "spellType": "ACTION",
+        "typeConfig": {
+          "school": "rime",
+          "castTimeType": "IMMEDIATE"
+        },
+        "effectTypes": [
+          "damage",
+          "control"
+        ],
+        "effectsMap": {
+          "damage": true,
+          "control": true
+        },
+        "damageConfig": {
+          "formula": "1d8+3",
+          "damageType": "direct",
+          "elementType": "rime",
+          "secondaryElementType": null,
+          "canCrit": false,
+          "critMultiplier": 2,
+          "critDiceOnly": false,
+          "dotConfig": {
+            "duration": 3,
+            "tickFrequency": "round",
+            "scalingType": "flat",
+            "dotFormula": "1d4 + INT/2",
+            "dotFormulas": [
+              {
+                "round": 1,
+                "formula": "1d4"
+              }
+            ]
+          },
+          "resolution": "DICE",
+          "hasDotEffect": false,
+          "criticalConfig": {
+            "enabled": false,
+            "critType": "dice",
+            "critMultiplier": 2,
+            "critDiceOnly": false,
+            "extraDice": "",
+            "explodingDice": false,
+            "explodingDiceType": "reroll_add",
+            "critEffects": [],
+            "cardCritRule": "face_cards",
+            "cardCritResolution": "draw_add",
+            "extraCardDraw": 2,
+            "coinCritRule": "all_heads",
+            "coinCritResolution": "flip_add",
+            "extraCoinFlips": 3,
+            "coinCount": 3,
+            "critSuit": "hearts",
+            "spellEffect": null,
+            "critOnlyEffect": false,
+            "useRollableTable": false
+          },
+          "chanceOnHitConfig": {
+            "enabled": false,
+            "procType": "dice",
+            "procChance": 15,
+            "diceThreshold": 18,
+            "cardProcRule": "face_cards",
+            "coinProcRule": "all_heads",
+            "coinCount": 3,
+            "procSuit": "hearts",
+            "spellEffect": null,
+            "customEffects": [],
+            "useRollableTable": false
+          },
+          "savingThrow": "agility",
+          "difficultyClass": 14,
+          "partialEffect": true,
+          "partialEffectFormula": "damage/2",
+          "savingThrowConfig": {
+            "enabled": true,
+            "savingThrowType": "agility",
+            "difficultyClass": 14,
+            "partialEffect": true,
+            "partialEffectFormula": "damage/2",
+            "directDamageFormula": "damage/2",
+            "dotDamageFormula": "dot_damage/2",
+            "damageFormula": "1d8+3",
+            "dotFormula": "1d4 + INT/2",
+            "damageType": "direct",
+            "hasDotEffect": false
+          }
+        },
+        "healingConfig": null,
+        "buffConfig": null,
+        "debuffConfig": null,
+        "utilityConfig": null,
+        "controlConfig": {
+          "authoredCondition": {
+            "profile": "authored-effect:v1",
+            "effect": "movement",
+            "expiryPolicy": "gm-manual",
+            "durationText": "for 1 round",
+            "gmNote": "Both saves stay manual.",
+            "movementFeet": -10,
+            "label": "Frostbitten",
+            "save": {
+              "ability": "constitution",
+              "dc": 12,
+              "outcome": "negates"
+            }
+          }
+        },
+        "summoningConfig": null,
+        "transformationConfig": null,
+        "purificationConfig": null,
+        "restorationConfig": null,
+        "rollableTable": null,
+        "effectResolutions": {},
+        "effectMechanicsConfigs": {},
+        "mechanicsAvailableEffects": [],
+        "combinedEffects": [],
+        "mechanicsAvailableCombinedEffects": [],
+        "targetingConfig": {
+          "rangeType": "ranged",
+          "rangeDistance": 5,
+          "targetingType": "single",
+          "maxTargets": 1,
+          "selectionMethod": "manual",
+          "aoeShape": "circle",
+          "aoeParameters": {},
+          "movementBehavior": "static",
+          "targetSelectionMethod": "manual",
+          "aoeType": "sphere",
+          "targetRestrictions": [
+            "any"
+          ]
+        },
+        "targetingMode": "unified",
+        "targetingTags": {},
+        "effectTargeting": {},
+        "durationConfig": {},
+        "persistentConfig": {},
+        "propagation": null,
+        "resourceCost": {
+          "components": [],
+          "materialComponents": "",
+          "actionPoints": 1,
+          "actionPointsSelected": true,
+          "resourceTypes": [
+            "mana"
+          ],
+          "resourceValues": {
+            "mana": 2
+          },
+          "resourceFormulas": {},
+          "useFormulas": {},
+          "primaryResourceType": "mana"
+        },
+        "mechanicsConfig": {
+          "cards": null,
+          "combos": null,
+          "coins": null,
+          "stateRequirements": [],
+          "stateOptions": {
+            "thresholds": []
+          }
+        },
+        "prophecyOptions": null,
+        "cooldownConfig": {},
+        "triggerConfig": {},
+        "trapConfig": {},
+        "channelingConfig": {},
+        "tags": [
+          "damage",
+          "control"
+        ]
+      },
+      "serializedData": "{\n  \"name\": \"Frostfire Paradox (Unsupported Combo)\",\n  \"description\": \"Direct damage with a damage-local save AND a rider-local save.\",\n  \"level\": \"\",\n  \"school\": \"\",\n  \"icon\": \"spell_fire_flamebolt\",\n  \"spellType\": \"ACTION\",\n  \"typeConfig\": {\n    \"school\": \"rime\",\n    \"castTimeType\": \"IMMEDIATE\"\n  },\n  \"effectTypes\": [\n    \"damage\",\n    \"control\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true,\n    \"control\": true\n  },\n  \"damageConfig\": {\n    \"formula\": \"1d8+3\",\n    \"damageType\": \"direct\",\n    \"elementType\": \"rime\",\n    \"secondaryElementType\": null,\n    \"canCrit\": false,\n    \"critMultiplier\": 2,\n    \"critDiceOnly\": false,\n    \"dotConfig\": {\n      \"duration\": 3,\n      \"tickFrequency\": \"round\",\n      \"scalingType\": \"flat\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"dotFormulas\": [\n        {\n          \"round\": 1,\n          \"formula\": \"1d4\"\n        }\n      ]\n    },\n    \"resolution\": \"DICE\",\n    \"hasDotEffect\": false,\n    \"criticalConfig\": {\n      \"enabled\": false,\n      \"critType\": \"dice\",\n      \"critMultiplier\": 2,\n      \"critDiceOnly\": false,\n      \"extraDice\": \"\",\n      \"explodingDice\": false,\n      \"explodingDiceType\": \"reroll_add\",\n      \"critEffects\": [],\n      \"cardCritRule\": \"face_cards\",\n      \"cardCritResolution\": \"draw_add\",\n      \"extraCardDraw\": 2,\n      \"coinCritRule\": \"all_heads\",\n      \"coinCritResolution\": \"flip_add\",\n      \"extraCoinFlips\": 3,\n      \"coinCount\": 3,\n      \"critSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"critOnlyEffect\": false,\n      \"useRollableTable\": false\n    },\n    \"chanceOnHitConfig\": {\n      \"enabled\": false,\n      \"procType\": \"dice\",\n      \"procChance\": 15,\n      \"diceThreshold\": 18,\n      \"cardProcRule\": \"face_cards\",\n      \"coinProcRule\": \"all_heads\",\n      \"coinCount\": 3,\n      \"procSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"customEffects\": [],\n      \"useRollableTable\": false\n    },\n    \"savingThrow\": \"agility\",\n    \"difficultyClass\": 14,\n    \"partialEffect\": true,\n    \"partialEffectFormula\": \"damage/2\",\n    \"savingThrowConfig\": {\n      \"enabled\": true,\n      \"savingThrowType\": \"agility\",\n      \"difficultyClass\": 14,\n      \"partialEffect\": true,\n      \"partialEffectFormula\": \"damage/2\",\n      \"directDamageFormula\": \"damage/2\",\n      \"dotDamageFormula\": \"dot_damage/2\",\n      \"damageFormula\": \"1d8+3\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"damageType\": \"direct\",\n      \"hasDotEffect\": false\n    }\n  },\n  \"healingConfig\": null,\n  \"buffConfig\": null,\n  \"debuffConfig\": null,\n  \"utilityConfig\": null,\n  \"controlConfig\": {\n    \"authoredCondition\": {\n      \"profile\": \"authored-effect:v1\",\n      \"effect\": \"movement\",\n      \"expiryPolicy\": \"gm-manual\",\n      \"durationText\": \"for 1 round\",\n      \"gmNote\": \"Both saves stay manual.\",\n      \"movementFeet\": -10,\n      \"label\": \"Frostbitten\",\n      \"save\": {\n        \"ability\": \"constitution\",\n        \"dc\": 12,\n        \"outcome\": \"negates\"\n      }\n    }\n  },\n  \"summoningConfig\": null,\n  \"transformationConfig\": null,\n  \"purificationConfig\": null,\n  \"restorationConfig\": null,\n  \"rollableTable\": null,\n  \"effectResolutions\": {},\n  \"effectMechanicsConfigs\": {},\n  \"mechanicsAvailableEffects\": [],\n  \"combinedEffects\": [],\n  \"mechanicsAvailableCombinedEffects\": [],\n  \"targetingConfig\": {\n    \"rangeType\": \"ranged\",\n    \"rangeDistance\": 5,\n    \"targetingType\": \"single\",\n    \"maxTargets\": 1,\n    \"selectionMethod\": \"manual\",\n    \"aoeShape\": \"circle\",\n    \"aoeParameters\": {},\n    \"movementBehavior\": \"static\",\n    \"targetSelectionMethod\": \"manual\",\n    \"aoeType\": \"sphere\",\n    \"targetRestrictions\": [\n      \"any\"\n    ]\n  },\n  \"targetingMode\": \"unified\",\n  \"targetingTags\": {},\n  \"effectTargeting\": {},\n  \"durationConfig\": {},\n  \"persistentConfig\": {},\n  \"propagation\": null,\n  \"resourceCost\": {\n    \"components\": [],\n    \"materialComponents\": \"\",\n    \"actionPoints\": 1,\n    \"actionPointsSelected\": true,\n    \"resourceTypes\": [\n      \"mana\"\n    ],\n    \"resourceValues\": {\n      \"mana\": 2\n    },\n    \"resourceFormulas\": {},\n    \"useFormulas\": {},\n    \"primaryResourceType\": \"mana\"\n  },\n  \"mechanicsConfig\": {\n    \"cards\": null,\n    \"combos\": null,\n    \"coins\": null,\n    \"stateRequirements\": [],\n    \"stateOptions\": {\n      \"thresholds\": []\n    }\n  },\n  \"prophecyOptions\": null,\n  \"cooldownConfig\": {},\n  \"triggerConfig\": {},\n  \"trapConfig\": {},\n  \"channelingConfig\": {},\n  \"tags\": [\n    \"damage\",\n    \"control\"\n  ]\n}"
+    },
+    "serializedData": "{\n  \"name\": \"Frostfire Paradox (Unsupported Combo)\",\n  \"description\": \"Direct damage with a damage-local save AND a rider-local save.\",\n  \"level\": \"\",\n  \"school\": \"\",\n  \"icon\": \"spell_fire_flamebolt\",\n  \"spellType\": \"ACTION\",\n  \"typeConfig\": {\n    \"school\": \"rime\",\n    \"castTimeType\": \"IMMEDIATE\"\n  },\n  \"effectTypes\": [\n    \"damage\",\n    \"control\"\n  ],\n  \"effectsMap\": {\n    \"damage\": true,\n    \"control\": true\n  },\n  \"damageConfig\": {\n    \"formula\": \"1d8+3\",\n    \"damageType\": \"direct\",\n    \"elementType\": \"rime\",\n    \"secondaryElementType\": null,\n    \"canCrit\": false,\n    \"critMultiplier\": 2,\n    \"critDiceOnly\": false,\n    \"dotConfig\": {\n      \"duration\": 3,\n      \"tickFrequency\": \"round\",\n      \"scalingType\": \"flat\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"dotFormulas\": [\n        {\n          \"round\": 1,\n          \"formula\": \"1d4\"\n        }\n      ]\n    },\n    \"resolution\": \"DICE\",\n    \"hasDotEffect\": false,\n    \"criticalConfig\": {\n      \"enabled\": false,\n      \"critType\": \"dice\",\n      \"critMultiplier\": 2,\n      \"critDiceOnly\": false,\n      \"extraDice\": \"\",\n      \"explodingDice\": false,\n      \"explodingDiceType\": \"reroll_add\",\n      \"critEffects\": [],\n      \"cardCritRule\": \"face_cards\",\n      \"cardCritResolution\": \"draw_add\",\n      \"extraCardDraw\": 2,\n      \"coinCritRule\": \"all_heads\",\n      \"coinCritResolution\": \"flip_add\",\n      \"extraCoinFlips\": 3,\n      \"coinCount\": 3,\n      \"critSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"critOnlyEffect\": false,\n      \"useRollableTable\": false\n    },\n    \"chanceOnHitConfig\": {\n      \"enabled\": false,\n      \"procType\": \"dice\",\n      \"procChance\": 15,\n      \"diceThreshold\": 18,\n      \"cardProcRule\": \"face_cards\",\n      \"coinProcRule\": \"all_heads\",\n      \"coinCount\": 3,\n      \"procSuit\": \"hearts\",\n      \"spellEffect\": null,\n      \"customEffects\": [],\n      \"useRollableTable\": false\n    },\n    \"savingThrow\": \"agility\",\n    \"difficultyClass\": 14,\n    \"partialEffect\": true,\n    \"partialEffectFormula\": \"damage/2\",\n    \"savingThrowConfig\": {\n      \"enabled\": true,\n      \"savingThrowType\": \"agility\",\n      \"difficultyClass\": 14,\n      \"partialEffect\": true,\n      \"partialEffectFormula\": \"damage/2\",\n      \"directDamageFormula\": \"damage/2\",\n      \"dotDamageFormula\": \"dot_damage/2\",\n      \"damageFormula\": \"1d8+3\",\n      \"dotFormula\": \"1d4 + INT/2\",\n      \"damageType\": \"direct\",\n      \"hasDotEffect\": false\n    }\n  },\n  \"healingConfig\": null,\n  \"buffConfig\": null,\n  \"debuffConfig\": null,\n  \"utilityConfig\": null,\n  \"controlConfig\": {\n    \"authoredCondition\": {\n      \"profile\": \"authored-effect:v1\",\n      \"effect\": \"movement\",\n      \"expiryPolicy\": \"gm-manual\",\n      \"durationText\": \"for 1 round\",\n      \"gmNote\": \"Both saves stay manual.\",\n      \"movementFeet\": -10,\n      \"label\": \"Frostbitten\",\n      \"save\": {\n        \"ability\": \"constitution\",\n        \"dc\": 12,\n        \"outcome\": \"negates\"\n      }\n    }\n  },\n  \"summoningConfig\": null,\n  \"transformationConfig\": null,\n  \"purificationConfig\": null,\n  \"restorationConfig\": null,\n  \"rollableTable\": null,\n  \"effectResolutions\": {},\n  \"effectMechanicsConfigs\": {},\n  \"mechanicsAvailableEffects\": [],\n  \"combinedEffects\": [],\n  \"mechanicsAvailableCombinedEffects\": [],\n  \"targetingConfig\": {\n    \"rangeType\": \"ranged\",\n    \"rangeDistance\": 5,\n    \"targetingType\": \"single\",\n    \"maxTargets\": 1,\n    \"selectionMethod\": \"manual\",\n    \"aoeShape\": \"circle\",\n    \"aoeParameters\": {},\n    \"movementBehavior\": \"static\",\n    \"targetSelectionMethod\": \"manual\",\n    \"aoeType\": \"sphere\",\n    \"targetRestrictions\": [\n      \"any\"\n    ]\n  },\n  \"targetingMode\": \"unified\",\n  \"targetingTags\": {},\n  \"effectTargeting\": {},\n  \"durationConfig\": {},\n  \"persistentConfig\": {},\n  \"propagation\": null,\n  \"resourceCost\": {\n    \"components\": [],\n    \"materialComponents\": \"\",\n    \"actionPoints\": 1,\n    \"actionPointsSelected\": true,\n    \"resourceTypes\": [\n      \"mana\"\n    ],\n    \"resourceValues\": {\n      \"mana\": 2\n    },\n    \"resourceFormulas\": {},\n    \"useFormulas\": {},\n    \"primaryResourceType\": \"mana\"\n  },\n  \"mechanicsConfig\": {\n    \"cards\": null,\n    \"combos\": null,\n    \"coins\": null,\n    \"stateRequirements\": [],\n    \"stateOptions\": {\n      \"thresholds\": []\n    }\n  },\n  \"prophecyOptions\": null,\n  \"cooldownConfig\": {},\n  \"triggerConfig\": {},\n  \"trapConfig\": {},\n  \"channelingConfig\": {},\n  \"tags\": [\n    \"damage\",\n    \"control\"\n  ]\n}"
+  }
+}

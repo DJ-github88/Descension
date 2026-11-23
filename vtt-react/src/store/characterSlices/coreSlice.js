@@ -1,5 +1,6 @@
 import { getStore } from '../storeRegistry';
 import { initializeClassResource } from '../../data/classResources';
+import { normalizeFlowResourceRecord, FLOW_RESOURCE_TYPE, FLOW_START } from '../../services/hunterFlow';
 import { getFullRaceData, getRaceData, RACE_DATA } from '../../data/raceData';
 import { getRacialSpells, getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
 import { ALL_CLASSES_DATA } from '../../data/classes';
@@ -578,6 +579,8 @@ export const createCoreSlice = (set, get) => ({
             const newCharacter = {
                 id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                 ...characterData,
+                ...(characterData.class === 'Hunter' && characterData.classResource == null
+                    ? { classResource: normalizeFlowResourceRecord({ type: FLOW_RESOURCE_TYPE, current: FLOW_START }) } : {}),
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
                 // Ensure required fields exist - health/mana will be calculated based on stats

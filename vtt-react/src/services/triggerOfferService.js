@@ -15,7 +15,33 @@ export function followUpPredicateFor(entry) {
 const gameState = () => getStore('gameStore')?.getState() || {};
 const roomId = () => gameState().multiplayerRoom?.id;
 
-export const useTriggerOfferStore = create(() => ({ projection: null, roomId: null, loading: false, error: null, declined: [], message: '' }));
+export const useTriggerOfferStore = create(() => ({ projection: null, roomId: null, loading: false, error: null, declined: [], message: '', setupRequest: null }));
+
+export function openTriggerRegistrationSetup({ mode, definitionRef, spellName = '', componentId } = {}) {
+  if ((mode !== 'follow-up' && mode !== 'component-watch') || !definitionRef?.definitionId) return false;
+  useTriggerOfferStore.setState({
+    setupRequest: {
+      mode,
+      definitionRef,
+      spellName: String(spellName || ''),
+      ...(componentId ? { componentId: String(componentId) } : {}),
+      nonce: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+    }
+  });
+  if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') {
+    window.dispatchEvent(new CustomEvent('mythrill:open-trigger-registration'));
+  }
+  const current = useTriggerOfferStore.getState();
+  const id = roomId();
+  if (id && (!current.projection || current.projection.roomId !== id) && !current.loading) {
+    refreshTriggerLedger();
+  }
+  return true;
+}
+
+export function clearTriggerRegistrationSetup() {
+  useTriggerOfferStore.setState({ setupRequest: null });
+}
 
 const fail = (code, message = '') => {
   useTriggerOfferStore.setState({ loading: false, error: code, message: message || code.replace(/_/g, ' ') });
@@ -27,9 +53,19 @@ export async function refreshTriggerLedger() {
   if (!id) return { success: false, code: 'room_unavailable' };
   useTriggerOfferStore.setState({ loading: true, error: null });
   const result = await requestActorEvent('actor_trigger_list', { roomId: id });
-  if (gameState().multiplayerRoom?.id !== id) return { success: false, code: 'retired_principal' };
+  if (gameState().multiplayerRoom?.id !== id) {
+    useTriggerOfferStore.setState({ setupRequest: null });
+    return { success: false, code: 'retired_principal' };
+  }
   if (!result.success) return fail(result.code || 'trigger_list_refused', result.error);
-  useTriggerOfferStore.setState({ projection: result, roomId: id, loading: false, error: null, message: '' });
+  useTriggerOfferStore.setState(state => ({
+    projection: result,
+    roomId: id,
+    loading: false,
+    error: null,
+    message: '',
+    setupRequest: state.setupRequest?.definitionRef?.roomId && state.setupRequest.definitionRef.roomId !== id ? null : state.setupRequest
+  }));
   return result;
 }
 
@@ -107,7 +143,8 @@ export function isDeclined(obligationId) {
 export function registerTriggerOfferHandlers({ socket }) {
   if (!socket) return () => {};
   const changed = value => {
-    if (value?.roomId !== gameState().multiplayerRoom?.id) return;
+    const eventRoomId = value?.roomId ?? value?.actorSnapshot?.roomId;
+    if (eventRoomId !== gameState().multiplayerRoom?.id) return;
     refreshTriggerLedger();
   };
   socket.on('actor_trigger_changed', changed);

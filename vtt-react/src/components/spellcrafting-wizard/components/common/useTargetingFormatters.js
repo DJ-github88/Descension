@@ -1,5 +1,5 @@
 import { formatAoeShape, formatDurationText } from './spellFormatterUtils';
-import { extractPeriodicTiming, formatPeriodicDuration, formatCombatCooldown } from './spellTimingPresentation';
+import { extractPeriodicTiming, formatPeriodicDuration, formatCombatCooldown, formatAuthoredExpiry } from './spellTimingPresentation';
 
 const useTargetingFormatters = ({ spell }) => {
   const formatCastTime = () => {
@@ -59,6 +59,11 @@ const useTargetingFormatters = ({ spell }) => {
 
     // Handle self-targeting
     if (targetingType === 'self') return 'Self';
+
+    if (targetingType === 'location' || (spell.spellType === 'TRAP' && (spell.trapConfig?.placementRadius || aoeParameters?.radius))) {
+      const radius = aoeParameters?.radius ?? spell.trapConfig?.placementRadius;
+      return radius ? `Location (${radius}ft radius)` : 'Location';
+    }
 
     // Build range string based on range type
     let rangeStr = '';
@@ -455,6 +460,9 @@ const useTargetingFormatters = ({ spell }) => {
         // Don't show "Self" here since it's already shown in the range badge
         // This prevents duplicate "Self" badges
         return '';
+      case 'location':
+        baseText = spell.spellType === 'TRAP' ? 'Placed Trap' : 'Location';
+        break;
       default:
         baseText = '';
     }
@@ -465,7 +473,7 @@ const useTargetingFormatters = ({ spell }) => {
       const method = targetSelectionMethod || selectionMethod;
       switch (method) {
         case 'manual':
-          methodText = 'Manual';
+          methodText = '';
           break;
         case 'random':
           methodText = 'Random';
@@ -685,6 +693,14 @@ const useTargetingFormatters = ({ spell }) => {
       return spell.controlConfig.authoredCondition.durationText;
     }
 
+    const authoredExpiry = formatAuthoredExpiry(
+      spell.controlConfig?.authoredCondition?.expiryPolicy ?? spell.timing?.expiryPolicy,
+      spell.controlConfig?.authoredCondition?.occurrences ?? spell.timing?.occurrences
+    );
+    if (authoredExpiry) {
+      return authoredExpiry;
+    }
+
     // Handle different duration formats
     if (spell.durationType === 'instant') return 'Instant';
     if (spell.durationType === 'permanent') {
@@ -703,6 +719,17 @@ const useTargetingFormatters = ({ spell }) => {
       const zoneDuration = spell.typeConfig.zoneDuration || 60;
       const unit = spell.typeConfig.zoneDurationUnit || 'seconds';
       return `${zoneDuration} ${unit}`;
+    }
+
+    if (spell.spellType === 'TRAP' && spell.trapConfig?.trapDuration) {
+      const td = spell.trapConfig.trapDuration;
+      if (td === 'permanent') return 'Permanent';
+      if (td === 'timed') return `${spell.trapConfig.durationValue || 1} ${spell.trapConfig.durationUnit || 'turns'}`;
+      if (td === 'conditional') {
+        return spell.trapConfig.conditionType
+          ? `Until ${spell.trapConfig.conditionType.replace(/_/g, ' ')}`
+          : 'Conditional';
+      }
     }
 
 
@@ -874,17 +901,35 @@ const useTargetingFormatters = ({ spell }) => {
         break;
 
       case 'TRAP':
-        // Check both typeConfig and trapConfig for trap properties
+        // Check both typeConfig and trapConfig for trap properties (prefer trapConfig edits over Step 2 defaults)
         const trapConfig = spell.trapConfig || {};
+        bullets.push('GM-managed');
+
+        // Show placement radius if configured
+        const trapRadius = trapConfig.placementRadius ?? spell.targetingConfig?.aoeParameters?.radius;
+        if (trapRadius) {
+          bullets.push(`${trapRadius} ft radius`);
+        }
+
+        // Show trap duration if configured
+        if (trapConfig.trapDuration) {
+          if (trapConfig.trapDuration === 'permanent') {
+            bullets.push('permanent');
+          } else if (trapConfig.trapDuration === 'timed') {
+            bullets.push(`${trapConfig.durationValue || 1} ${trapConfig.durationUnit || 'turns'}`);
+          } else if (trapConfig.trapDuration === 'conditional') {
+            bullets.push(trapConfig.conditionType ? `until ${trapConfig.conditionType.replace(/_/g, ' ')}` : 'conditional');
+          }
+        }
 
         // Show placement time if more than 1 turn
-        const placementTime = typeConfig.placementTime || trapConfig.placementTime;
+        const placementTime = trapConfig.placementTime ?? typeConfig.placementTime;
         if (placementTime && placementTime > 1) {
           bullets.push(`${placementTime} turns to place`);
         }
 
-        // Show visibility (default to "visible to all")
-        const visibility = typeConfig.visibility || trapConfig.visibility || 'visible';
+        // Show visibility (prefer trapConfig, default to "visible to all")
+        const visibility = trapConfig.visibility ?? typeConfig.visibility ?? 'visible';
         if (visibility === 'hidden') {
           bullets.push('hidden');
         } else if (visibility === 'magical') {
@@ -894,18 +939,18 @@ const useTargetingFormatters = ({ spell }) => {
         }
 
         // Show cooldown (format 0 as "no cooldown")
-        const cooldown = typeConfig.cooldownAfterTrigger !== undefined ? typeConfig.cooldownAfterTrigger : trapConfig.resetTime;
+        const cooldown = trapConfig.resetTime !== undefined ? trapConfig.resetTime : typeConfig.cooldownAfterTrigger;
         if (cooldown !== undefined) {
           if (cooldown === 0) {
             bullets.push('no cooldown');
           } else {
-            const unit = typeConfig.cooldownUnit || trapConfig.cooldownUnit || 'seconds';
+            const unit = trapConfig.cooldownUnit || typeConfig.cooldownUnit || 'seconds';
             bullets.push(`${cooldown} ${unit} cooldown`);
           }
         }
 
         // Show max triggers (format -1 as "unlimited triggers", 1 as "single use")
-        const maxTriggers = typeConfig.maxTriggers !== undefined ? typeConfig.maxTriggers : trapConfig.maxTriggers;
+        const maxTriggers = trapConfig.maxTriggers !== undefined ? trapConfig.maxTriggers : typeConfig.maxTriggers;
         if (maxTriggers !== undefined) {
           if (maxTriggers === -1) {
             bullets.push('unlimited triggers');

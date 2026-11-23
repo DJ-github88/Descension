@@ -5,8 +5,9 @@ export function registerConnectionHandlers(ctx) {
     socket,
     setIsConnecting, setConnectionQuality, setConnectionStatus,
     setIsJoiningRoom, setPendingRoomData, setIsRoomReady,
-    setError,
+    setError, setJoinFailure,
     isJoiningRoomRef, currentRoomRef, currentPlayerRef,
+    roomPasswordRef, lastAttemptedRoomIdRef,
     autoJoinAttemptedRef, isAutoJoinSequenceRef,
     addNotificationRef, addNotification,
     checkAutoJoin, getActiveCharacter
@@ -89,19 +90,34 @@ export function registerConnectionHandlers(ctx) {
 
     // NEW: Handle specific room errors from server
     socket.on('room_error', (data) => {
-      const errorMessage = typeof data === 'string' ? data : (data.message || 'Unknown room error');
-      
+      const errorMessage = typeof data === 'string'
+        ? data
+        : (data?.error || data?.message || 'Unknown room error');
+      const errorCode = typeof data === 'object' ? (data?.code || null) : null;
+
       setError(errorMessage);
       setConnectionStatus('error');
-      
+
+      if (!currentRoomRef.current && roomPasswordRef) {
+        roomPasswordRef.current = '';
+      }
+
       if (isJoiningRoomRef.current) {
         setIsJoiningRoom(false);
         setPendingRoomData(null);
         setIsRoomReady(false);
+        setJoinFailure?.({
+          roomId: lastAttemptedRoomIdRef?.current || '',
+          code: errorCode,
+          message: errorMessage
+        });
       }
 
       autoJoinAttemptedRef.current = false;
-      
+      if (!currentRoomRef.current) {
+        isAutoJoinSequenceRef.current = false;
+      }
+
       addNotificationRef.current('social', {
         sender: { name: 'System', class: 'system', level: 0 },
         content: `Room Error: ${errorMessage}`,
@@ -115,6 +131,10 @@ export function registerConnectionHandlers(ctx) {
       console.warn('ðŸ›¡ï¸ [auth_error] received, dismissing loading screen:', errorMessage);
       setError(errorMessage);
       setConnectionStatus('error');
+
+      if (!currentRoomRef.current && roomPasswordRef) {
+        roomPasswordRef.current = '';
+      }
 
       // CRITICAL FIX: An auth failure during create_room/join_room means room_joined
       // will never arrive. If we don't reset the loading state here, the overlay climbs

@@ -48,7 +48,8 @@ const TableEntryEditor = ({
     } else if (resolutionType === 'CARDS') {
       return { ...baseEntry, cardPattern: 'Hearts' };
     } else if (resolutionType === 'COINS') {
-      return { ...baseEntry, coinPattern: 'All Heads' };
+      const coinCount = Number(resolutionConfig?.coinCount || 1);
+      return { ...baseEntry, coinPattern: coinCount === 1 ? 'Heads' : 'All Heads' };
     }
     return baseEntry;
   };
@@ -183,16 +184,20 @@ const TableEntryEditor = ({
               </div>
               <div className="entry-actions">
                 <button
+                  type="button"
                   onClick={() => handleEdit(entry, index)}
                   className="entry-action-btn edit"
                   title="Edit"
+                  aria-label={`Edit entry ${entry.name || index + 1}`}
                 >
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
                 <button
+                  type="button"
                   onClick={() => handleRemove(index)}
                   className="entry-action-btn delete"
                   title="Delete"
+                  aria-label={`Delete entry ${entry.name || index + 1}`}
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
@@ -262,24 +267,26 @@ const TableEntryEditor = ({
                   {resolutionType === 'DICE' && (
                     <div className="form-row">
                       <div className="form-group">
-                        <label>Min Roll</label>
+                        <label htmlFor="entry-min-roll">Min Roll</label>
                         <input
+                          id="entry-min-roll"
                           type="number"
                           min="1"
-                          max={resolutionConfig.diceType === 'd100' ? 100 : parseInt(resolutionConfig.diceType?.substring(1) || '20')}
-                          value={editingEntry.range?.min || 1}
-                          onChange={(e) => updateEntry('range', { ...editingEntry.range, min: parseInt(e.target.value) })}
+                          max={resolutionConfig?.diceType === 'd100' ? 100 : parseInt(resolutionConfig?.diceType?.substring(1) || '20', 10)}
+                          value={editingEntry.range?.min ?? 1}
+                          onChange={(e) => updateEntry('range', { ...editingEntry.range, min: parseInt(e.target.value, 10) })}
                           className="wow-settings-input"
                         />
                       </div>
                       <div className="form-group">
-                        <label>Max Roll</label>
+                        <label htmlFor="entry-max-roll">Max Roll</label>
                         <input
+                          id="entry-max-roll"
                           type="number"
                           min="1"
-                          max={resolutionConfig.diceType === 'd100' ? 100 : parseInt(resolutionConfig.diceType?.substring(1) || '20')}
-                          value={editingEntry.range?.max || 1}
-                          onChange={(e) => updateEntry('range', { ...editingEntry.range, max: parseInt(e.target.value) })}
+                          max={resolutionConfig?.diceType === 'd100' ? 100 : parseInt(resolutionConfig?.diceType?.substring(1) || '20', 10)}
+                          value={editingEntry.range?.max ?? 1}
+                          onChange={(e) => updateEntry('range', { ...editingEntry.range, max: parseInt(e.target.value, 10) })}
                           className="wow-settings-input"
                         />
                       </div>
@@ -288,9 +295,10 @@ const TableEntryEditor = ({
 
                   {resolutionType === 'CARDS' && (
                     <div className="form-group">
-                      <label>Card Pattern</label>
+                      <label htmlFor="entry-card-pattern">Card Pattern</label>
                       <select
-                        value={editingEntry.cardPattern}
+                        id="entry-card-pattern"
+                        value={editingEntry.cardPattern || ''}
                         onChange={(e) => updateEntry('cardPattern', e.target.value)}
                         className="wow-settings-input"
                       >
@@ -306,23 +314,38 @@ const TableEntryEditor = ({
                     </div>
                   )}
 
-                  {resolutionType === 'COINS' && (
-                    <div className="form-group">
-                      <label>Coin Pattern</label>
-                      <select
-                        value={editingEntry.coinPattern}
-                        onChange={(e) => updateEntry('coinPattern', e.target.value)}
-                        className="wow-settings-input"
-                      >
-                        <option value="All Heads">All Heads</option>
-                        <option value="All Tails">All Tails</option>
-                        <option value="Majority Heads (3+)">Majority Heads (3+)</option>
-                        <option value="Majority Tails (3+)">Majority Tails (3+)</option>
-                        <option value="Exactly 2 Heads">Exactly 2 Heads</option>
-                        <option value="Exactly 2 Tails">Exactly 2 Tails</option>
-                      </select>
-                    </div>
-                  )}
+                  {resolutionType === 'COINS' && (() => {
+                    const coinCount = Math.max(1, Number(resolutionConfig?.coinCount || 1));
+                    const settledOptions = coinCount === 1
+                      ? ['Heads', 'Tails']
+                      : [
+                          'All Heads',
+                          'All Tails',
+                          'Majority Heads',
+                          'Majority Tails',
+                          ...(coinCount % 2 === 0 ? ['Tie'] : []),
+                          ...Array.from({ length: Math.max(0, coinCount - 1) }, (_, idx) => `Exactly ${idx + 1} ${idx + 1 === 1 ? 'Head' : 'Heads'}`),
+                          ...Array.from({ length: Math.max(0, coinCount - 1) }, (_, idx) => `Exactly ${idx + 1} ${idx + 1 === 1 ? 'Tail' : 'Tails'}`)
+                        ];
+                    const options = editingEntry.coinPattern && !settledOptions.includes(editingEntry.coinPattern)
+                      ? [editingEntry.coinPattern, ...settledOptions]
+                      : settledOptions;
+                    return (
+                      <div className="form-group">
+                        <label htmlFor="entry-coin-pattern">Coin Pattern</label>
+                        <select
+                          id="entry-coin-pattern"
+                          value={editingEntry.coinPattern || options[0]}
+                          onChange={(e) => updateEntry('coinPattern', e.target.value)}
+                          className="wow-settings-input"
+                        >
+                          {options.map((pattern) => (
+                            <option key={pattern} value={pattern}>{pattern}</option>
+                          ))}
+                        </select>
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 {/* Entry Details */}
@@ -331,8 +354,9 @@ const TableEntryEditor = ({
                     <FontAwesomeIcon icon={faMagic} /> Entry Details
                   </h4>
                   <div className="form-group">
-                    <label>Name *</label>
+                    <label htmlFor="entry-name">Name *</label>
                     <input
+                      id="entry-name"
                       type="text"
                       value={editingEntry.name}
                       onChange={(e) => updateEntry('name', e.target.value)}
@@ -341,8 +365,9 @@ const TableEntryEditor = ({
                     />
                   </div>
                   <div className="form-group">
-                    <label>Description</label>
+                    <label htmlFor="entry-description">Description</label>
                     <textarea
+                      id="entry-description"
                       value={editingEntry.description}
                       onChange={(e) => updateEntry('description', e.target.value)}
                       placeholder="Describe what happens when this result occurs..."
@@ -360,8 +385,9 @@ const TableEntryEditor = ({
                     <FontAwesomeIcon icon={faBolt} /> Effect Configuration
                   </h4>
                   <div className="form-group">
-                    <label>Effect Type</label>
+                    <label htmlFor="entry-effect-type">Effect Type</label>
                     <select
+                      id="entry-effect-type"
                       value={editingEntry.effectType}
                       onChange={(e) => updateEntry('effectType', e.target.value)}
                       className="wow-settings-input effect-type-select"
@@ -377,8 +403,9 @@ const TableEntryEditor = ({
                   {editingEntry.effectType === 'damage' && (
                     <div className="effect-config-panel">
                       <div className="form-group">
-                        <label>Damage Formula</label>
+                        <label htmlFor="entry-damage-formula">Damage Formula</label>
                         <input
+                          id="entry-damage-formula"
                           type="text"
                           value={editingEntry.effectConfig?.damageFormula || '2d6'}
                           onChange={(e) => updateEffectConfig('damageFormula', e.target.value)}
@@ -388,8 +415,9 @@ const TableEntryEditor = ({
                         <span className="form-hint">Use dice notation (e.g., 2d6) or formulas (e.g., 3d8+INT)</span>
                       </div>
                       <div className="form-group">
-                        <label>Damage Type</label>
+                        <label htmlFor="entry-damage-type">Damage Type</label>
                         <select
+                          id="entry-damage-type"
                           value={editingEntry.effectConfig?.damageType || 'ember'}
                           onChange={(e) => updateEffectConfig('damageType', e.target.value)}
                           className="wow-settings-input"
@@ -456,8 +484,9 @@ const TableEntryEditor = ({
                   {editingEntry.effectType === 'healing' && (
                     <div className="effect-config-panel">
                       <div className="form-group">
-                        <label>Healing Formula</label>
+                        <label htmlFor="entry-healing-formula">Healing Formula</label>
                         <input
+                          id="entry-healing-formula"
                           type="text"
                           value={editingEntry.effectConfig?.healingFormula || '2d8'}
                           onChange={(e) => updateEffectConfig('healingFormula', e.target.value)}
@@ -767,10 +796,10 @@ const TableEntryEditor = ({
 
           {/* Modal Footer */}
           <div className="entry-editor-footer">
-            <button onClick={handleCancel} className="cancel-btn">
+            <button type="button" onClick={handleCancel} className="cancel-btn">
               Cancel
             </button>
-            <button onClick={handleSave} className="save-btn">
+            <button type="button" onClick={handleSave} className="save-btn">
               <FontAwesomeIcon icon={faSave} /> Save Entry
             </button>
           </div>
@@ -782,7 +811,7 @@ const TableEntryEditor = ({
   return (
     <div className="table-entry-editor">
       <div className="entry-editor-actions">
-        <button onClick={handleAddNew} className="add-entry-btn">
+        <button type="button" onClick={handleAddNew} className="add-entry-btn">
           <FontAwesomeIcon icon={faPlus} /> Add Entry
         </button>
       </div>

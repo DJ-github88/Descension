@@ -55,6 +55,7 @@
         { id: 'enter_area', name: 'Enter Area', description: 'Activates when entering a defined area', params: ['area_type', 'perspective'] },
         { id: 'leave_area', name: 'Leave Area', description: 'Activates when leaving a defined area', params: ['area_type', 'perspective'] },
         { id: 'proximity', name: 'Proximity', description: 'Activates when entities are within a certain range', params: ['distance', 'entity_type'] },
+        { id: 'moves_into_radius', name: 'Moves Into Passive Radius', description: 'While this passive is active, fires when a matching actor moves from outside into its self-centered radius (configured in Targeting). Teleport, forced movement, and re-entry remain unsettled/open.', params: [] },
         { id: 'forced_movement', name: 'Forced Movement', description: 'Activates when pushed, pulled, or otherwise forcibly moved', params: ['perspective'] },
         { id: 'high_ground', name: 'High Ground', description: 'Activates when on elevated terrain', params: ['perspective'] },
         { id: 'falling', name: 'Falling', description: 'Activates when falling from a height', params: ['perspective'] }

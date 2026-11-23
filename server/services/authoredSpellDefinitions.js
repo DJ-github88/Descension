@@ -30,7 +30,7 @@ const RULESET_VERSION = 'cr-a1a-pilot-1';
 const CLASS_IDS = new Set([
   'arcanoneer', 'berserker', 'shaper', 'harbinger', 'chronarch', 'inquisitor', 'revenant',
   'false_prophet', 'gambit', 'apex', 'animist', 'lunarch', 'martyr', 'minstrel', 'plaguebringer',
-  'pyrofiend', 'spellguard', 'toxicologist', 'warden', 'augur', 'crusader'
+  'pyrofiend', 'spellguard', 'toxicologist', 'warden', 'augur', 'crusader', 'hunter'
 ]);
 
 const DAMAGE_TYPES = new Set([

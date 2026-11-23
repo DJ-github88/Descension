@@ -554,11 +554,12 @@ describe('P14 owner-PC self-healing through the unified engine — registered pr
     // Withdraw validApproval so we can test non-self definitions
     assert.equal((await ack(owner, 'actor_spell_withdraw', { roomId: room.id, approvalId: validApproval.approvalId, approval: validApproval })).success, true);
 
-    // Non-self definitions (ally, enemy, range 30 any, damage) reject source === target
+    // Non-self definitions (ally, enemy, range 30 any, range 0 any, damage) reject source === target
     for (const nonSelf of [
       { formula: '1d8 + intelligence * 2', restriction: 'ally', rangeDistance: 30, kind: 'healing' },
       { formula: '1d8 + intelligence * 2', restriction: 'enemy', rangeDistance: 30, kind: 'healing' },
       { formula: '1d8 + intelligence * 2', restriction: 'any', rangeDistance: 30, kind: 'healing' },
+      { formula: '1d8+2', restriction: 'any', rangeDistance: 0, kind: 'healing' },
       { formula: '1d8 + intelligence * 2', restriction: 'any', rangeDistance: 30, kind: 'damage' },
       { formula: '1d8+2', restriction: 'ally', rangeDistance: 30, kind: 'healing' },
     ]) {
@@ -566,6 +567,7 @@ describe('P14 owner-PC self-healing through the unified engine — registered pr
       const selfAttempt = makeApproval(e, { sourceRef: pc, targetRef: pc });
       const res = await ack(owner, 'actor_spell_approve', selfAttempt);
       assert.equal(res.success, false, `Expected self-target refusal for ${JSON.stringify(nonSelf)}`);
+      if (nonSelf.rangeDistance === 0) assert.equal(res.code, 'authored_target_mismatch');
     }
 
     // Existing creature-target route still works on range 30 any

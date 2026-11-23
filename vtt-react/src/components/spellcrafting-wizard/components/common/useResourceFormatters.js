@@ -358,7 +358,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       spell.resourceCost?.resourceValues?.classResource || 
       spell.classResource;
 
-    if (rawClassResource && rawClassResource.type && !(spell.id === 'minstrel_resolving_strike' && spell.musicalCombo?.requires)) {
+    if (rawClassResource && rawClassResource.type && !(spell.id === 'minstrel_resolving_strike' && spell.musicalCombo?.requires) && !(spell.id === 'minstrel_opening_chord' && spell.musicalCombo?.generates)) {
       const classResourceType = rawClassResource.type;
       const classResourceKey = classResourceType.toLowerCase().replace(/[\s_]+/g, '-');
 

@@ -11,6 +11,7 @@
 
 import { ABILITY_NAMES, saveLabel, manualText } from '../../../../services/saveBranch';
 import { definitionFromWizard } from '../../../../services/authoredAbility';
+import { authored as directSaveAuthored, describe as describeDirectSave, ruleText as directSaveRuleText } from '../../../../services/directSave';
 
 const isObject = value => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 
@@ -69,11 +70,34 @@ function recordManualText({ label, raw, authored, directKind, reason }) {
  * `authoredDraft`, or the Review's `draftSubject`). Returns null when the record
  * carries no authored save or no saved draft. The compiler remains the authority.
  */
+/** Direct-damage save (handoff/direct-damage-save/CONTRACT.md): a save authored on the Direct Damage part itself. The compiler
+ * decides; this only words its verdict, naming the one component the save changes. */
+function directSaveDisclosure(record, draft) {
+  const config = draft.damageConfig;
+  const raw = { ability: config.savingThrowConfig?.savingThrowType ?? config.savingThrow, dc: config.savingThrowConfig?.difficultyClass ?? config.difficultyClass };
+  const label = labelFor(null, raw);
+  const result = definitionFromWizard(record, { classId: 'arcanoneer', definitionVersion: 1 });
+  if (result.ok && isObject(result.definition?.save)) {
+    const save = result.definition.save;
+    return { executable: true, status: 'executable', component: 'direct-damage', text: describeDirectSave(save), label: saveLabel(save), save };
+  }
+  const halves = (config.savingThrowConfig?.partialEffect ?? config.partialEffect) === true;
+  const reason = result.ok ? '' : ` Prism stopped at: ${result.reason}`;
+  return {
+    executable: false,
+    status: 'unsupported-shape',
+    component: 'direct-damage',
+    text: `Saving throw on the Direct Damage part${label ? ` (${label})` : ''}: manual only — it would change this damage part (${halves ? directSaveRuleText({ outcome: 'halves' }) : 'no damage'} on a save), but Prism does not run it as authored. Resolve it at the table; the GM records the outcome.${reason}`,
+    label,
+    save: null
+  };
+}
+
 export function saveDisclosureForRecord(record, { riderLabel } = {}) {
   const draft = record?.authoredDraft;
   const authored = draft?.controlConfig?.authoredCondition;
   const raw = authored?.save;
-  if (!isObject(raw)) return null;
+  if (!isObject(raw)) return isObject(draft) && directSaveAuthored(draft.damageConfig) ? directSaveDisclosure(record, draft) : null;
 
   const result = definitionFromWizard(record, { classId: 'arcanoneer', definitionVersion: 1 });
   const label = labelFor(null, raw);

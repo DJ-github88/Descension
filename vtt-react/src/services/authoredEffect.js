@@ -17,14 +17,27 @@ function policyText(policy, occurrences) {
 const isEffect = approval => approval?.spell?.definitionHash?.startsWith(`${CAPABILITY}/`) === true;
 const namedRecord = record => String(record?.sourceEntityId || '').startsWith(profile.EFFECT_PREFIX);
 const occurrence = approvalId => profile.EFFECT_PREFIX + approvalId;
-// Shared save branch: an admitted save (rider-local "negates") is part of the exact terms the owner approves; bundles without one keep their A10 terms byte-for-byte.
+// Shared save branch / crit gate: an admitted save or crit gate is part of the exact terms the owner approves; bundles without either keep their A10 terms byte-for-byte.
 const termsFor = definition => JSON.parse(JSON.stringify(Object.assign({ direct: definition.effects.direct, condition: definition.effects.condition, timing: definition.timing },
-  definition.effects.save !== undefined ? { save: definition.effects.save } : {})));
+  definition.effects.save !== undefined ? { save: definition.effects.save } : {},
+  definition.effects.critGate !== undefined ? { critGate: definition.effects.critGate } : {})));
 const saveOf = terms => terms && terms.save !== undefined ? terms.save : null;
+const critGateOf = terms => terms && terms.critGate !== undefined ? terms.critGate : null;
+/** Published combat law: rolling the maximum face value on a single damage die is a critical hit. */
+function isCriticalRoll(roll) {
+  return !!(roll && Array.isArray(roll.dice) && roll.dice.length === 1 &&
+    Array.isArray(roll.dice[0].faces) && roll.dice[0].faces.length === 1 &&
+    Number.isSafeInteger(roll.dice[0].sides) && roll.dice[0].sides >= 2 &&
+    roll.dice[0].faces[0] === roll.dice[0].sides);
+}
 /** Outcome branches the owner approves for these terms (saved/failed with a GM-recorded save, otherwise none). */
 const branchesFor = terms => saveOf(terms) ? saveBranch.branches(saveOf(terms)) : [];
-/** Whether the canonical effect installs on the recorded branch (always, for a bundle without a save). */
-const conditionApplies = (terms, branch) => !saveOf(terms) || saveBranch.applies(saveOf(terms), branch, 'condition');
+/** Whether the canonical effect installs on the recorded branch/roll (always, for a bundle without save or crit gate). */
+const conditionApplies = (terms, branch, roll) => {
+  if (saveOf(terms) && !saveBranch.applies(saveOf(terms), branch, 'condition')) return false;
+  if (critGateOf(terms)) return isCriticalRoll(roll);
+  return true;
+};
 function conditionLabel(condition) {
   if (condition?.kind === 'stunned') return 'canonical Stunned';
   if (condition?.kind === 'periodic') return `${condition.label} (${profile.tickText(periodicTick(condition))} per tick, rolled when each tick is resolved)`;
@@ -41,6 +54,7 @@ const directText = terms => terms.direct ? `${terms.direct.kind === 'damage' ? `
 const branchLines = terms => saveOf(terms) ? saveBranch.branchLines(saveOf(terms), { direct: directText(terms), effect: conditionLabel(terms.condition), effectName: terms.condition.label || conditionLabel(terms.condition) }) : [];
 function describe(terms) {
   const direct = directText(terms);
+  if (critGateOf(terms)) return `${direct} + on critical hit (max die face): ${conditionLabel(terms.condition)} · ${terms.timing.durationText} — ${policyText(terms.timing.expiryPolicy, terms.timing.occurrences)}`;
   if (saveOf(terms)) return `${direct} + ${conditionLabel(terms.condition)} unless the target saves (${saveBranch.saveLabel(saveOf(terms))}, negates ${terms.condition.label || 'the effect'} only; GM records) · ${terms.timing.durationText} — ${policyText(terms.timing.expiryPolicy, terms.timing.occurrences)}`;
   // M5 composition: the immediate part is rolled and applied at cast; every tick keeps its own later roll.
   if (terms.condition?.kind === 'periodic') return `${direct ? `immediate ${direct} (rolled at cast) + ` : ''}${conditionLabel(terms.condition)} · ${terms.timing.durationText} — ${profile.tickScheduleText(TIMINGS[terms.timing.expiryPolicy], terms.timing.occurrences)}; the GM resolves each tick`;
@@ -96,14 +110,15 @@ function conditionPlan(approval, conditions) {
     combination: { outcome: plan.outcome, replacesInstanceId: plan.replaces } };
 }
 function resultFor(approval, resolution, combination = null, branch) {
-  const terms = approval.effectTerms, save = saveOf(terms);
-  // Shared save branch: the recorded branch is part of the result; on "saved" the negated effect installs nothing.
-  const applied = conditionApplies(terms, branch);
+  const terms = approval.effectTerms, save = saveOf(terms), critGate = critGateOf(terms);
+  // Shared save branch / crit gate: the recorded branch or crit result is part of the result; when negated/untriggered nothing installs.
+  const applied = conditionApplies(terms, branch, approval.roll);
   return Object.assign({ capability: CAPABILITY, approvalId: approval.approvalId, kind: 'effect', gmConfirmed: true, roll: approval.roll,
     direct: terms.direct ? { kind: terms.direct.kind, damageTypes: terms.direct.damageTypes || [] } : null,
     condition: JSON.parse(JSON.stringify(terms.condition)), conditionInstanceId: applied ? approval.approvalId : null, expiryPolicy: terms.timing.expiryPolicy,
     spellName: approval.spell.name, resolution: JSON.parse(JSON.stringify(resolution)) }, terms.timing.occurrences !== undefined ? { occurrences: terms.timing.occurrences } : {},
     save ? { save: JSON.parse(JSON.stringify(save)), branch, conditionApplied: applied } : {},
+    critGate ? { critGate: JSON.parse(JSON.stringify(critGate)), critTriggered: applied, conditionApplied: applied } : {},
     combination ? { combination: JSON.parse(JSON.stringify(combination)) } : {});
 }
 /** Plain-language outcome of an accepted movement combination (narration, panels). */
@@ -126,7 +141,8 @@ const PC_REFUSALS = Object.freeze({
   pc_target_consent_conflict: 'Damage needs the target owner\'s block response while a beneficial effect is voluntary, so one acceptance cannot cover both. Refused whole; run the parts as separate actions or by hand.',
   pc_target_consent_conflict_heal: 'Healing needs the target owner\'s explicit acceptance while a hostile effect is applied under GM authority, so one acceptance cannot cover both. Refused whole; run the parts as separate actions or by hand.',
   pc_target_effect_unsupported: 'Only Stunned, one flat movement change, one flat attribute change or one flat damage-reduction change can accompany a direct part on a player character. Refused whole.',
-  pc_target_save_unsupported: 'A GM-recorded save branch is supported on one creature target only; a player character target (with its block and consent responses) stays manual. Refused whole.'
+  pc_target_save_unsupported: 'A GM-recorded save branch is supported on one creature target only; a player character target (with its block and consent responses) stays manual. Refused whole.',
+  pc_target_crit_gate_unsupported: 'A critical-hit gated follow-up effect is supported on one creature target only; a player character target stays manual. Refused whole.'
 });
 // A9 polarity, reused: a penalty is hostile by default, a bonus is beneficial and needs the target owner's acceptance.
 const hostileRider = condition => condition?.kind === 'stunned' || (condition?.kind === 'movement' && condition.feet < 0) || (condition?.kind === 'attribute' && condition.amount < 0);
@@ -135,6 +151,7 @@ function pcConsent(terms, sourceKind) {
   const refuse = code => ({ ok: false, code, message: PC_REFUSALS[code] });
   const direct = terms?.direct || null, condition = terms?.condition;
   if (!['character', 'creature'].includes(sourceKind)) return refuse('pc_target_effect_unsupported');
+  if (critGateOf(terms)) return refuse('pc_target_crit_gate_unsupported');
   if (saveOf(terms)) return refuse('pc_target_save_unsupported');
   const hostile = hostileRider(condition), beneficial = beneficialRider(condition);
   if (hostile === beneficial) return refuse('pc_target_effect_unsupported');
@@ -157,4 +174,4 @@ function consentText(consent) {
   if (consent.acceptanceRequired) return `The target's owner must explicitly accept ${part}this beneficial effect; silence or a GM proxy never accepts.`;
   return 'Hostile by default: the GM\'s confirmation applies it. The GM may instead ask the target\'s owner for explicit acceptance.';
 }
-module.exports = { saveOf, branchesFor, conditionApplies, branchLines, directText, isPeriodic, periodicTick, CAPABILITY, TIMINGS, POLICY_TEXT, policyText, isEffect, namedRecord, occurrence, termsFor, conditionLabel, describe, recordFor, conditionPlan, resultFor, combinationText, pcConsent, directKindOf, consentText, PC_REFUSALS };
+module.exports = { saveOf, critGateOf, isCriticalRoll, branchesFor, conditionApplies, branchLines, directText, isPeriodic, periodicTick, CAPABILITY, TIMINGS, POLICY_TEXT, policyText, isEffect, namedRecord, occurrence, termsFor, conditionLabel, describe, recordFor, conditionPlan, resultFor, combinationText, pcConsent, directKindOf, consentText, PC_REFUSALS };

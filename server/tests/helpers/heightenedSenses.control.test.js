@@ -35,15 +35,19 @@ describe('First playable passive - CONTROLS (live production stack)', function()
   this.timeout(30000);
   let h;
   beforeEach(async() => {
-    testPolicy.setApprovedForTest(false);
+    if (testPolicy.isPolicySwapLoaderActive()) { testPolicy.setApprovedForTest(false); }
     h = await createPassiveHarness();
   });
   afterEach(async() => {
-    testPolicy.resetPolicyForTest();
+    if (testPolicy.isPolicySwapLoaderActive()) { testPolicy.resetPolicyForTest(); }
     await h.stop();
   });
 
-  it('CONTROL: the real Heightened Senses record can be stored on the sheet, yet storage alone changes no initiative', async() => {
+  it('CONTROL: the real Heightened Senses record can be stored on the sheet, yet storage alone changes no initiative', async function() {
+    testPolicy.requirePolicySwapLoader(
+      this,
+      'Requires test-only policy-swap loader (--require tests/helpers/passiveActivationTestLoader.cjs) to simulate unapproved policy'
+    );
     const spells = h.storeRecord(HEIGHTENED_SENSES);
     assert.equal(spells[0].id, 'skill_perception_heightened_senses');
 
@@ -92,7 +96,11 @@ describe('First playable passive - CONTROLS (live production stack)', function()
     assert.equal(h.stored(), undefined, 'no trigger ledger was created');
   });
 
-  it('CONTROL: combat start does not read an active passive because no activation exists; the server has no passive reader', async() => {
+  it('CONTROL: combat start does not read an active passive because no activation exists; the server has no passive reader', async function() {
+    testPolicy.requirePolicySwapLoader(
+      this,
+      'Requires test-only policy-swap loader (--require tests/helpers/passiveActivationTestLoader.cjs) to simulate unapproved policy'
+    );
     h.storeRecord(HEIGHTENED_SENSES);
     const baseModifier = h.token(h.pc).character.stats.initiativeMod;
     const entry = await h.startCombat({ pc: 10, foe: 8 });

@@ -75,8 +75,20 @@ export async function saveUserSpell(userId, spellData) {
 
     // Save to user_spells collection
     const spellRef = doc(db, COLLECTIONS.USER_SPELLS, spellId);
-    const spellDoc = await getDoc(spellRef);
-    const exists = spellDoc.exists();
+    let spellDoc = null;
+    let exists = false;
+    try {
+      spellDoc = await getDoc(spellRef);
+      exists = spellDoc.exists();
+    } catch (readError) {
+      // Security rules deny reading a non-existent user_spells doc when resource is null.
+      if (readError?.code === 'permission-denied') {
+        exists = false;
+        spellDoc = null;
+      } else {
+        throw readError;
+      }
+    }
 
     // Sanitize spell document to remove undefined values
     const sanitizedSpell = sanitizeForFirestore(spellDocument);
@@ -103,27 +115,13 @@ export async function saveUserSpell(userId, spellData) {
 
     await setDoc(spellRef, sanitizedSpell);
 
-    // Track size delta
-    const oldSize = exists ? storageLimitService.estimateDataSize(spellDoc.data()) : 0;
+    // Track size delta (best effort: rules or quota telemetry must not discard saved spell)
+    const oldSize = exists && spellDoc ? storageLimitService.estimateDataSize(spellDoc.data()) : 0;
     const delta = newSize - oldSize;
-    await storageLimitService.updateStorageUsage(userId, 'spells', delta);
-
-    // Update user's spell list
-    const userRef = doc(db, COLLECTIONS.USERS, userId);
-    const userDoc = await getDoc(userRef);
-
-    if (userDoc.exists()) {
-      await updateDoc(userRef, {
-        customSpells: arrayUnion(spellId),
-        updatedAt: serverTimestamp()
-      });
-    } else {
-      // Create user document if it doesn't exist
-      await setDoc(userRef, {
-        customSpells: [spellId],
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      });
+    try {
+      await storageLimitService.updateStorageUsage(userId, 'spells', delta);
+    } catch (usageError) {
+      console.warn('Warning updating spell storage usage:', usageError);
     }
 
     return { success: true, spellId, localOnly: false };
@@ -251,15 +249,12 @@ export async function deleteUserSpell(userId, spellId) {
     // Delete the spell
     await deleteDoc(spellRef);
 
-    // Remove from user's spell list
-    const userRef = doc(db, COLLECTIONS.USERS, userId);
-    await updateDoc(userRef, {
-      customSpells: arrayRemove(spellId),
-      updatedAt: serverTimestamp()
-    });
-
-    // Update storage usage
-    await storageLimitService.updateStorageUsage(userId, 'spells', -spellSize);
+    // Update storage usage (best effort)
+    try {
+      await storageLimitService.updateStorageUsage(userId, 'spells', -spellSize);
+    } catch (usageError) {
+      console.warn('Warning decrementing spell storage usage:', usageError);
+    }
 
     return { success: true, localOnly: false };
 
@@ -630,7 +625,7 @@ export async function shareSpellToCommunity(userId, spellId) {
     // Import community service to add spell
     const { uploadSpell } = await import('./communitySpellService');
 
-    // Prepare spell for community (remove folder references, add community metadata)
+    // Prepare spell for community (remove user-specific references, add community metadata)
     const communitySpell = {
       ...spellData,
       originalSpellId: spellId, // Reference back to user's spell
@@ -641,15 +636,30 @@ export async function shareSpellToCommunity(userId, spellId) {
     };
 
     // Remove user-specific fields
+    delete communitySpell.id;
+    delete communitySpell.userId;
     delete communitySpell.folderId;
     delete communitySpell.isCustom;
+    delete communitySpell.sharedSpellId;
+    delete communitySpell.sharedAt;
 
-    // Copy private art to the shared prefix so other users can view it.
-    const { shareEntityImages } = await import('./uploadService');
-    const communitySpellShared = await shareEntityImages(
-      userId, communitySpell, 'spells',
-      ['image', 'icon']
-    );
+    // Copy private storage art to the shared prefix; preserve built-in relative icon keys.
+    const shareableFields = ['image', 'icon'].filter((field) => {
+      const value = communitySpell[field];
+      return typeof value === 'string' && (
+        /^https?:\/\//i.test(value) ||
+        /^(users|media|avatars|audio|shared)\//.test(value) ||
+        value.startsWith('data:')
+      );
+    });
+    let communitySpellShared = communitySpell;
+    if (shareableFields.length > 0) {
+      const { shareEntityImages } = await import('./uploadService');
+      communitySpellShared = await shareEntityImages(
+        userId, communitySpell, 'spells',
+        shareableFields
+      );
+    }
 
     // Upload to community
     const sharedSpell = await uploadSpell(communitySpellShared, userId);

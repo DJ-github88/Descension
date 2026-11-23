@@ -122,6 +122,10 @@ function registerMapHandlers(ctx) {
         sequence: getNextEventSequence()
       });
 
+      if (data.gridSettings !== undefined && room.gameState?.placedEffectLedger?.placements?.length > 0) {
+        io.to(room.id).emit('actor_placed_effect_changed', { roomId: room.id });
+      }
+
       firebaseBatchWriter.queueWrite(room.id, room.gameState);
 
     } catch (error) {
@@ -220,6 +224,9 @@ function registerMapHandlers(ctx) {
           reassignedTo: fallbackMapId,
           deletedBy: socket.id
         });
+        if (room.gameState?.placedEffectLedger?.placements?.length > 0) {
+          io.to(room.id).emit('actor_placed_effect_changed', { roomId: room.id });
+        }
       } else if (data.mapUpdates && data.targetMapId) {
         if (!player.isGM) {
           logger.warn('[map_update] Non-GM attempted terrain sync');
@@ -352,6 +359,9 @@ function registerMapHandlers(ctx) {
         }
 
         logger.debug(`[map_update] Terrain sync on ${targetMapId} by GM ${player.name}: ${Object.keys(mapUpdates).join(', ')} → ${broadcastCount} players`);
+        if (mapUpdates.gridSettings !== undefined && room.gameState?.placedEffectLedger?.placements?.length > 0) {
+          io.to(room.id).emit('actor_placed_effect_changed', { roomId: room.id });
+        }
       }
 
       firebaseBatchWriter.queueWrite(room.id, room.gameState);

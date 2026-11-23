@@ -74,7 +74,16 @@ export const ACCOUNT_REQUIRED_BODY =
   'Creating or joining an online campaign room requires you to sign in or register. ' +
   'Your local guest characters and drafts stay on this device; signing in does not delete them.';
 
-const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onShowLogin }) => {
+const RoomLobby = ({
+  socket,
+  onJoinRoom,
+  onReturnToLanding,
+  onJoinAttempt,
+  onShowLogin,
+  initialRoomId = '',
+  initialJoinError = null,
+  onClearJoinError
+}) => {
   const isLocalGuest = useAuthStore((state) => !!state.user?.isGuest);
   // CRITICAL FIX: Get navigate function for room code URL routing
   const navigate = useNavigate();
@@ -86,8 +95,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
   const [roomName, setRoomName] = useState('');
   const [roomDescription, setRoomDescription] = useState('');
   const [roomPassword, setRoomPassword] = useState('');
-  const [roomId, setRoomId] = useState('');
+  const [roomId, setRoomId] = useState(initialRoomId || '');
   const [joinPassword, setJoinPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [availableRooms, setAvailableRooms] = useState([]);
   const [userRooms, setUserRooms] = useState([]);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -149,6 +159,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
   const roomPasswordRef = useRef(roomPassword);
   const joinPasswordRef = useRef(joinPassword);
   const colorInputRef = useRef(null);
+  const joinPasswordInputRef = useRef(null);
+  const modalPasswordInputRef = useRef(null);
+  const showPasswordModalRef = useRef(false);
+  const lastSubmittedPasswordRef = useRef('');
+  const autoFocusedInitialRoomRef = useRef('');
 
 
   useEffect(() => {
@@ -166,6 +181,42 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
   useEffect(() => {
     joinPasswordRef.current = joinPassword;
   }, [joinPassword]);
+
+  // Pre-fill Room ID from route/previous failed auto-join without storing passwords
+  useEffect(() => {
+    if (!initialRoomId) return;
+    setRoomId((prev) => prev || initialRoomId);
+  }, [initialRoomId]);
+
+  useEffect(() => {
+    if (!initialJoinError) return;
+    if (initialJoinError.roomId) {
+      setRoomId(initialJoinError.roomId);
+    }
+    setActiveTab('join');
+    const errMsg = initialJoinError.message || '';
+    const isPwErr =
+      initialJoinError.code === 'invalid_password' ||
+      /invalid password|wrong password|password required/i.test(errMsg);
+    if (isPwErr) {
+      setError('');
+      setPasswordError(
+        lastSubmittedPasswordRef.current
+          ? 'Incorrect password. Please check the password and try again.'
+          : 'This room requires a password. Enter the room password and try again.'
+      );
+      requestAnimationFrame(() => {
+        joinPasswordInputRef.current?.focus();
+      });
+    } else {
+      setPasswordError('');
+      setError(errMsg || translateErrorToFantasy(''));
+    }
+    setIsConnecting(false);
+    setIsJoiningRoom(false);
+    setIsCreatingRoom(false);
+    onClearJoinError?.();
+  }, [initialJoinError, onClearJoinError]);
 
   // Set room name based on active character when component mounts or tab changes to create
   useEffect(() => {
@@ -406,6 +457,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
         delete socket._joinTimeout;
       }
       setIsConnecting(false);
+      setShowPasswordModal(false);
+      showPasswordModalRef.current = false;
+      setSelectedRoom(null);
+      setPasswordInput('');
+      setPasswordError('');
       // NOTE: Don't set isJoiningRoom to false here - let MultiplayerApp handle the loading screen transition
 
       // CRITICAL FIX: Update URL with room code for shareable links
@@ -419,9 +475,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
         localStorage.setItem('roomDataChanged', 'true');
         localStorage.setItem('lastJoinedRoom', data.room.persistentRoomId);
 
-        // For guest users, save the joined room to localStorage
+        // For guest users, save the joined room metadata (never passwords) to localStorage
         try {
-          const { user } = useAuthStore.getState();
           const guestRoomsJson = localStorage.getItem('mythrill-guest-joined-rooms') || '[]';
           let guestRooms = [];
           try {
@@ -435,7 +490,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
             id: data.room.persistentRoomId,
             name: data.room.name,
             description: data.room.description || '',
-            password: data.room.password || '',
             createdAt: new Date().toISOString(),
             lastActivity: new Date().toISOString(),
             userRole: 'player',
@@ -455,12 +509,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
         }
       }
 
-      // Store password in localStorage for MultiplayerApp's room_joined handler
-      const usedPassword = joinPasswordRef.current || roomPasswordRef.current || '';
-      if (usedPassword) {
-        sessionStorage.setItem('selectedRoomPassword', usedPassword);
-      }
-
       // NOTE: Don't call onJoinRoom directly here - let MultiplayerApp's room_joined handler
       // manage the transition through the loading screen with the Continue button
       console.log('✅ [RoomLobby] Room joined - letting MultiplayerApp handle the loading screen transition');
@@ -474,15 +522,42 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
         delete socket._joinTimeout;
       }
 
-      const errorCode = data?.code;
+      const errorCode = typeof data === 'object' ? data?.code : undefined;
       const errorMsg =
         (typeof data === 'string' ? data : null) ||
-        data?.message ||
         data?.error ||
+        data?.message ||
         'An unknown error occurred';
 
+      const isPasswordError =
+        errorCode === 'invalid_password' ||
+        /invalid password|wrong password|password required/i.test(errorMsg);
+
+      if (isPasswordError) {
+        setError('');
+        setPasswordError(
+          lastSubmittedPasswordRef.current
+            ? 'Incorrect password. Please check the password and try again.'
+            : 'This room requires a password. Enter the room password and try again.'
+        );
+        setIsConnecting(false);
+        setIsCreatingRoom(false);
+        setIsJoiningRoom(false);
+        requestAnimationFrame(() => {
+          const targetInput = showPasswordModalRef.current
+            ? modalPasswordInputRef.current
+            : joinPasswordInputRef.current;
+          targetInput?.focus();
+          targetInput?.select?.();
+        });
+        return;
+      }
+
+      setPasswordError('');
       if (errorCode === 'PERSISTENCE_UNAVAILABLE') {
         setError(PERSISTENCE_UNAVAILABLE_FANTASY_MESSAGE);
+      } else if (errorCode && errorMsg) {
+        setError(errorMsg);
       } else {
         setError(translateErrorToFantasy(errorMsg));
       }
@@ -882,7 +957,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
 
       // Also trigger join attempt flag in parent for loading UI
       if (onJoinAttempt) {
-        onJoinAttempt(room.id);
+        onJoinAttempt(room.id, room.password || '');
       }
     } else {
       // Regular player joining a live session
@@ -902,7 +977,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
       socket.emit('join_room', joinData);
 
       if (onJoinAttempt) {
-        onJoinAttempt(room.id);
+        onJoinAttempt(room.id, room.password || '');
       }
     }
   };
@@ -984,14 +1059,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
       })) : [] // Include party members (excluding current player who is the GM)
     };
 
-    // Save password to localStorage so MultiplayerApp can pick it up
-    if (roomPasswordRef.current.trim()) {
-      sessionStorage.setItem('selectedRoomPassword', roomPasswordRef.current.trim());
-    }
-
-    // Trigger loading screen in parent
+    // Keep room password in memory via parent ref; never persist it to browser storage
     if (onJoinAttempt) {
-      onJoinAttempt(null);
+      onJoinAttempt(null, roomPasswordRef.current.trim());
     }
 
     if (!isConsumerContextCurrent(conversion.context)) return;
@@ -1001,7 +1071,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
   const handleJoinRoom = async (targetRoomId = null, targetPassword = null) => {
     if (isLocalGuest) { setError(ACCOUNT_REQUIRED_TITLE + '.'); return; }
     const finalRoomId = targetRoomId || roomId;
-    const finalPassword = targetPassword || joinPassword;
+    const finalPassword = typeof targetPassword === 'string' ? targetPassword : joinPassword;
 
     // Check if user is using mock development bypass (without real Firebase auth)
     // Users with Firebase Anonymous Auth (isAnonymous: true) can still join rooms
@@ -1067,20 +1137,25 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
       return;
     }
 
+    const trimmedRoomId = finalRoomId.trim();
+    const submittedPassword = (isTestRoom && isLocalhost) ? 'test123' : finalPassword.trim();
+    lastSubmittedPasswordRef.current = submittedPassword;
+
     setIsConnecting(true);
     setIsJoiningRoom(true);
     setError('');
+    setPasswordError('');
 
-    // Trigger global loading screen in parent if provided
+    // Record in-memory join attempt metadata without closing the form or storing passwords
     if (onJoinAttempt) {
-      onJoinAttempt(finalRoomId);
+      onJoinAttempt(trimmedRoomId, submittedPassword);
     }
 
     // Include full character data in join request to avoid race conditions
     const joinData = {
-      roomId: finalRoomId.trim(),
+      roomId: trimmedRoomId,
       playerName: finalPlayerName,
-      password: (isTestRoom && isLocalhost) ? 'test123' : finalPassword.trim(),
+      password: submittedPassword,
       playerColor: playerColor,
       character: (activeCharacter) ? {
         id: activeCharacter.id || 'guest-char',
@@ -1110,7 +1185,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
     console.log('🎮 Joining room with character:', {
       characterName: activeCharacter?.name,
       playerName: finalPlayerName,
-      roomId: finalRoomId,
+      roomId: trimmedRoomId,
       hasCharacterData: !!activeCharacter,
       isGuest: isGuest,
       socketConnected: socket.connected,
@@ -1122,7 +1197,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
       console.error('❌ Room join timeout - no response from server', {
         socketConnected: socket.connected,
         socketId: socket.id,
-        roomId: finalRoomId,
+        roomId: trimmedRoomId,
         playerName: finalPlayerName,
         socketReadyState: socket.readyState,
         socketDisconnected: socket.disconnected
@@ -1140,64 +1215,54 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
     // Store timeout reference to clear it when join succeeds
     socket._joinTimeout = joinTimeout;
 
-    // Save room ID and password to localStorage so MultiplayerApp can pick them up
-    // This is required for the loading screen flow which is handled by MultiplayerApp
-    localStorage.setItem('selectedRoomId', finalRoomId);
-    if (finalPassword) {
-      sessionStorage.setItem('selectedRoomPassword', finalPassword);
-    }
-
     console.log('📤 Sending join_room event to server:', joinData);
     socket.emit('join_room', joinData);
 
-    // Add a pong listener for our test
-    socket.once('pong', (data) => {
-      console.log('🏓 Socket pong received:', data);
-    });
-
-    // Add temporary error listener for this join attempt
-    const handleJoinError = (error) => {
-      console.error('❌ Server error during room join:', error);
-      if (socket._joinTimeout) {
-        clearTimeout(socket._joinTimeout);
-        delete socket._joinTimeout;
-      }
-
-      const errorCode = error?.code;
-      const errorMsg =
-        (typeof error === 'string' ? error : null) ||
-        error?.message ||
-        error?.error ||
-        'Unknown error';
-
-      if (errorCode === 'PERSISTENCE_UNAVAILABLE') {
-        setError(PERSISTENCE_UNAVAILABLE_FANTASY_MESSAGE);
-      } else {
-        setError(`Server error: ${errorMsg}`);
-      }
-
-      setIsConnecting(false);
-      setIsJoiningRoom(false);
-      socket.off('error', handleJoinError);
-    };
-    socket.once('error', handleJoinError);
+    if (typeof socket.once === 'function') {
+      socket.once('pong', (data) => {
+        console.log('🏓 Socket pong received:', data);
+      });
+    }
 
     // Test basic socket connectivity
-    socket.emit('test_connectivity', { test: true, roomId: finalRoomId });
-    socket.once('connectivity_test', (response) => {
+    socket.emit('test_connectivity', { test: true, roomId: trimmedRoomId });
+    if (typeof socket.once === 'function') {
+      socket.once('connectivity_test', (response) => {
       console.log('� -  Socket connectivity test successful:', response);
-    });
+      });
+    }
   };
 
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [passwordInput, setPasswordInput] = useState('');
 
+  useEffect(() => {
+    showPasswordModalRef.current = showPasswordModal;
+  }, [showPasswordModal]);
+
+  useEffect(() => {
+    if (
+      initialRoomId &&
+      activeTab === 'join' &&
+      !isLocalGuest &&
+      !showPasswordModal &&
+      autoFocusedInitialRoomRef.current !== initialRoomId
+    ) {
+      autoFocusedInitialRoomRef.current = initialRoomId;
+      const frameId = requestAnimationFrame(() => {
+        joinPasswordInputRef.current?.focus();
+      });
+      return () => cancelAnimationFrame(frameId);
+    }
+  }, [initialRoomId, activeTab, isLocalGuest, showPasswordModal]);
+
   const handleQuickJoin = (room) => {
     // If room has no password, join directly without showing modal
     if (!room.hasPassword) {
       setRoomId(room.id);
       setJoinPassword('');
+      setPasswordError('');
       handleJoinRoom(room.id, '');
       return;
     }
@@ -1205,6 +1270,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
     // Show password modal for password-protected rooms
     setSelectedRoom(room);
     setPasswordInput('');
+    setPasswordError('');
+    showPasswordModalRef.current = true;
     setShowPasswordModal(true);
   };
 
@@ -1212,17 +1279,20 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
     if (selectedRoom && passwordInput !== null) {
       setRoomId(selectedRoom.id);
       setJoinPassword(passwordInput);
+      setPasswordError('');
+      // Keep the modal open until room_joined arrives so wrong-password errors render inline
       handleJoinRoom(selectedRoom.id, passwordInput);
-      setShowPasswordModal(false);
-      setSelectedRoom(null);
-      setPasswordInput('');
     }
   };
 
   const handlePasswordCancel = () => {
     setShowPasswordModal(false);
+    showPasswordModalRef.current = false;
     setSelectedRoom(null);
     setPasswordInput('');
+    setPasswordError('');
+    setIsConnecting(false);
+    setIsJoiningRoom(false);
   };
 
   const lobbyMapUrl = useMemo(() => {
@@ -1495,6 +1565,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
                 <h4 className="sidebar-card-title">
                   <i className="fas fa-key"></i> Direct Portal Join
                 </h4>
+                {initialRoomId && roomId === initialRoomId && (
+                  <p className="rejoin-room-hint">
+                    <i className="fas fa-history" aria-hidden="true"></i>
+                    Room ID restored from your current link. Enter the password if required, then click Enter Portal.
+                  </p>
+                )}
                 <form className="manual-join" onSubmit={(e) => { e.preventDefault(); handleJoinRoom(); }}>
                   <div className="form-input-group">
                     <label htmlFor="roomId">Room ID:</label>
@@ -1502,7 +1578,10 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
                       id="roomId"
                       type="text"
                       value={roomId}
-                      onChange={(e) => setRoomId(e.target.value)}
+                      onChange={(e) => {
+                        setRoomId(e.target.value);
+                        if (passwordError) setPasswordError('');
+                      }}
                       placeholder="Enter room ID or code"
                       autoComplete="off"
                       disabled={isConnecting}
@@ -1513,20 +1592,32 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
                   <div className="form-input-group">
                     <label htmlFor="joinPassword">Password (Optional):</label>
                     <input
+                      ref={joinPasswordInputRef}
                       id="joinPassword"
                       type="password"
                       value={joinPassword}
-                      onChange={(e) => setJoinPassword(e.target.value)}
+                      onChange={(e) => {
+                        setJoinPassword(e.target.value);
+                        if (passwordError) setPasswordError('');
+                      }}
                       placeholder="Password if protected"
                       autoComplete="current-password"
                       disabled={isConnecting}
-                      className="form-input"
+                      aria-invalid={passwordError ? 'true' : 'false'}
+                      aria-describedby={passwordError ? 'joinPasswordError' : undefined}
+                      className={`form-input${passwordError ? ' form-input-error' : ''}`}
                     />
+                    {passwordError && !showPasswordModal && (
+                      <div id="joinPasswordError" className="join-field-error" role="alert">
+                        <i className="fas fa-exclamation-circle" aria-hidden="true"></i>
+                        <span>{passwordError}</span>
+                      </div>
+                    )}
                   </div>
 
                   <button
                     type="submit"
-                    disabled={isConnecting || !playerNameRef.current.trim() || !roomId.trim()}
+                    disabled={isConnecting || !(playerName || playerNameRef.current).trim() || !roomId.trim()}
                     className="join-realm-button"
                   >
                     <i className={isConnecting ? 'fas fa-spinner fa-spin' : 'fas fa-door-open'}></i>
@@ -1888,14 +1979,26 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt, onSho
             </div>
             <form onSubmit={(e) => { e.preventDefault(); handlePasswordSubmit(); }}>
               <input
+                ref={modalPasswordInputRef}
                 type="password"
-                className="password-modal-input"
+                className={`password-modal-input${passwordError ? ' form-input-error' : ''}`}
                 placeholder="Enter room password (leave empty if none)"
                 value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  if (passwordError) setPasswordError('');
+                }}
+                aria-invalid={passwordError ? 'true' : 'false'}
+                aria-describedby={passwordError ? 'modalPasswordError' : undefined}
                 autoComplete="current-password"
                 autoFocus
               />
+              {passwordError && (
+                <div id="modalPasswordError" className="join-field-error" role="alert">
+                  <i className="fas fa-exclamation-circle" aria-hidden="true"></i>
+                  <span>{passwordError}</span>
+                </div>
+              )}
               <div className="password-modal-actions">
                 <button
                   type="button"

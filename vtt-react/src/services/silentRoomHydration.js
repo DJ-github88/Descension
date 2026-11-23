@@ -317,8 +317,17 @@ const applyCombat = (combat, options = {}) => {
         combatConfig: { ...DEFAULT_COMBAT_CONFIG },
         currentTurnStartTime: null,
         effectLifecycle: null,
+        retiredPeriodicTicks: null,
         ...RESET_COMBAT_TRANSIENT
       });
+    }
+    if (!ownsDomain) {
+      try {
+        const { useSharedConditionStore } = require('./sharedConditionService');
+        if (useSharedConditionStore.getState().principal && (full || combat !== undefined)) {
+          useSharedConditionStore.setState({ combat: null });
+        }
+      } catch (_) {}
     }
     return;
   }
@@ -334,6 +343,7 @@ const applyCombat = (combat, options = {}) => {
 
   const patch = {};
   patch.effectLifecycle = isPlainRecord(record.effectLifecycle) ? record.effectLifecycle : null;
+  patch.retiredPeriodicTicks = isPlainRecord(record.retiredPeriodicTicks) ? record.retiredPeriodicTicks : null;
   if (current.isInCombat !== active) { patch.isInCombat = active; }
   if (!sameJson(current.turnOrder, turnOrder)) { patch.turnOrder = turnOrder; }
   if (current.currentTurnIndex !== safeIndex) { patch.currentTurnIndex = safeIndex; }
@@ -347,6 +357,14 @@ const applyCombat = (combat, options = {}) => {
   patch.currentTurnStartTime = Number.isFinite(record.currentTurnStartTime) ? record.currentTurnStartTime : null;
 
   store.setState({ ...patch, ...RESET_COMBAT_TRANSIENT });
+  if (!ownsDomain) {
+    try {
+      const { useSharedConditionStore } = require('./sharedConditionService');
+      if (useSharedConditionStore.getState().principal) {
+        useSharedConditionStore.setState({ combat: JSON.parse(JSON.stringify(record)) });
+      }
+    } catch (_) {}
+  }
 };
 // The same silent owner for correlated P7 combat reads; no gameplay callbacks or outbound sync.
 export const hydrateCombatSnapshot = combat => applyCombat(combat, { ownsDomain: true });

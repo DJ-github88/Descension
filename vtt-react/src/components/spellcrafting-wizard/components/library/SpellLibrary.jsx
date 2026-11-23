@@ -890,7 +890,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    // Resource costs
    resourceConfig: spell.resourceConfig || null,
    resourceCost: spell.resourceCost || null,
-   manaCost: spell.resourceConfig?.resourceAmount || spell.manaCost || 25,
+   manaCost: (() => { const authored = [spell.resourceCost?.resourceValues?.mana, spell.resourceCost?.mana, spell.resourceConfig?.resourceAmount, spell.manaCost].find(v => v !== undefined && v !== null && v !== ''); return authored !== undefined ? authored : 25; })(),
 
    // Rarity
    rarity: spell.rarity || 'uncommon',
@@ -2715,6 +2715,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
      >
       <UnifiedSpellCard
        spell={mapSpellToUnifiedFormat(selectedSpell)}
+       behaviorRecord={selectedSpell}
        variant="wizard"
        showActions={false}
        showDescription={true}

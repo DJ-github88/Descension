@@ -1253,6 +1253,7 @@ class MovementDebouncer {
       }
 
       const existingToken = moveToken || room.gameState.tokens[move.tokenId];
+      const _prevPos = existingToken?.position && Number.isFinite(existingToken.position.x) && Number.isFinite(existingToken.position.y) ? { x: existingToken.position.x, y: existingToken.position.y } : null;
       if (existingToken) {
         const movedToken = {
           ...existingToken,
@@ -1292,6 +1293,30 @@ class MovementDebouncer {
             timestamp: Date.now()
           });
         }
+
+        const currentMovedToken = room.gameState.maps?.[mapId]?.[moveField]?.[move.tokenId] || movedToken;
+        require('./passiveMovementTrigger').evaluateMovement(room, {
+          moverToken: currentMovedToken,
+          mapId,
+          fromPosition: _prevPos,
+          toPosition: move.position,
+          actionId: move.actionId,
+          movementKind: move.movementKind,
+          isTeleport: move.isTeleport,
+          forcedMovement: move.forcedMovement
+        }, { io, players, rooms, firebaseBatchWriter: this.firebaseBatchWriter });
+
+        const postPassiveToken = room.gameState.maps?.[mapId]?.[moveField]?.[move.tokenId] || currentMovedToken;
+        require('./placedMovementTrigger').evaluateMovement(room, {
+          moverToken: postPassiveToken,
+          mapId,
+          fromPosition: _prevPos,
+          toPosition: move.position,
+          actionId: move.actionId,
+          movementKind: move.movementKind,
+          isTeleport: move.isTeleport,
+          forcedMovement: move.forcedMovement
+        }, { io, players, rooms, firebaseBatchWriter: this.firebaseBatchWriter });
 
         recordAffectedRoom(move, room);
       }

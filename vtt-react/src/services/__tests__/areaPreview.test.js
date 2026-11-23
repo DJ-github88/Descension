@@ -1,5 +1,5 @@
 import { MARTYR_DATA } from '../../data/classes/martyrData';
-import { radiantPreviewProfile, circleCellOverlap, occupiedPreviewCells, visibleAreaCandidates } from '../areaPreview';
+import { radiantPreviewProfile, circleCellOverlap, lineCellOverlap, occupiedPreviewCells, visibleAreaCandidates } from '../areaPreview';
 
 const original = () => JSON.parse(JSON.stringify(MARTYR_DATA.spells.find(s => s.id === 'martyr_radiant_burst')));
 test('only the exact original circle/channel is modeled; no defaults for missing, malformed or changed data', () => {
@@ -50,4 +50,26 @@ test('Large overlap counts once, not centre membership; visibility precedes name
   expect(visibleAreaCandidates([large, large, hidden], opts)).toEqual(expected);
   expect(visibleAreaCandidates([large], { ...opts, visible: () => false })).toEqual([]);
   expect(visibleAreaCandidates([large], { ...opts, mapId: 'other' })).toEqual([]);
+});
+
+test('lineCellOverlap: G3/G3a positive-area SAT overlap, edge contact exclusion, rotation, scale and offset invariance', () => {
+  // Horizontal line: origin (25,25), aim east (125,25), length 100 (reaches x=125), width 50 (y=[0,50])
+  expect(lineCellOverlap({ x: 25, y: 25 }, { x: 125, y: 25 }, 100, 50, { x: 1, y: 0 }, 50)).toBe('candidate');
+  expect(lineCellOverlap({ x: 25, y: 25 }, { x: 125, y: 25 }, 100, 50, { x: 1, y: 1 }, 50)).toBe('edge'); // tangent y=50
+  expect(lineCellOverlap({ x: 25, y: 25 }, { x: 125, y: 25 }, 100, 50, { x: 1, y: 2 }, 50)).toBe('outside');
+  expect(lineCellOverlap({ x: 50, y: 25 }, { x: 150, y: 25 }, 100, 50, { x: 0, y: 0 }, 50)).toBe('edge'); // behind origin touching x=50
+  // Rotated 30 deg line and scale/offset invariance:
+  for (const scale of [0.25, 1, 10]) {
+    expect(lineCellOverlap(
+      { x: 12 + 25 * scale, y: -7 + 25 * scale },
+      { x: 12 + (25 + Math.cos(Math.PI / 6) * 50) * scale, y: -7 + (25 + Math.sin(Math.PI / 6) * 50) * scale },
+      150 * scale,
+      50 * scale,
+      { x: 1, y: 1 },
+      50 * scale,
+      12,
+      -7
+    )).toBe('candidate');
+  }
+  expect(lineCellOverlap({ x: 25, y: 25 }, { x: 25, y: 25 }, 100, 50, { x: 0, y: 0 }, 50)).toBe('manual');
 });

@@ -71,7 +71,9 @@ export function draftContext(kind, fields) {
 export const sameDraftContext = (a, b) => !!a && !!b && JSON.stringify(a) === JSON.stringify(b);
 export const describeDraft = draft => {
   if (!draft?.context) return '';
-  const rolls = [draft.roll && `[${(draft.roll.faces || draft.roll.dice?.flatMap(group => group.faces) || []).join(', ')}]`,
+  const rolls = [draft.outcome && draft.outcome.summary,
+    draft.chosenBranch && draft.chosenBranch.label,
+    draft.roll && `[${(draft.roll.faces || draft.roll.dice?.flatMap(group => group.faces) || []).join(', ')}]`,
     draft.proficiencyRoll && `proficiency [${draft.proficiencyRoll.faces.join(', ')}]`].filter(Boolean).join(' · ');
   const action = draft.context.kind === 'strike' ? `${draft.label || draft.context.actionId} (${draft.context.weaponType || 'weapon'} d${draft.context.die})` : (draft.label || draft.context.spellId);
   return `${action}: ${rolls}`;

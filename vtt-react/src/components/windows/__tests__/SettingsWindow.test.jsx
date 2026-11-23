@@ -205,4 +205,28 @@ describe('SettingsWindow Component - Calm TTRPG Theme', () => {
     fireEvent.click(xpBtn);
     expect(mockCharacterStoreState.awardExperience).toHaveBeenCalledWith(300);
   });
+
+  it('sends the GM grid scale once when the slider settles, not on every step, and flushes a pending value on close', () => {
+    jest.useFakeTimers();
+    const emit = jest.fn();
+    Object.assign(mockGameStoreState, { isInMultiplayer: true, multiplayerRoom: { id: 'r1' }, multiplayerSocket: { connected: true, emit } });
+    try {
+      const view = render(<SettingsWindow activeTab="gameplay" />);
+      const slider = document.querySelector('.settings-slider-row input[type="range"][max="20"]');
+      for (const v of [6, 7, 8, 9, 10]) fireEvent.change(slider, { target: { value: String(v) } });
+      expect(mockSettingsStoreState.setFeetPerTile).toHaveBeenLastCalledWith(10);
+      expect(mockGameStoreState.setFeetPerTile).toHaveBeenLastCalledWith(10);
+      expect(emit).not.toHaveBeenCalled();
+      jest.advanceTimersByTime(260);
+      expect(emit.mock.calls).toEqual([['sync_gameplay_settings', { feetPerTile: 10, roomId: 'r1' }]]);
+
+      fireEvent.change(slider, { target: { value: '12' } });
+      view.unmount(); // closing the window before the pause still sends the last value
+      expect(emit.mock.calls.at(-1)).toEqual(['sync_gameplay_settings', { feetPerTile: 12, roomId: 'r1' }]);
+      expect(emit).toHaveBeenCalledTimes(2);
+    } finally {
+      Object.assign(mockGameStoreState, { isInMultiplayer: false, multiplayerRoom: null, multiplayerSocket: null });
+      jest.useRealTimers();
+    }
+  });
 });

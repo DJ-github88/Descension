@@ -13,12 +13,22 @@
 
 const roomAccess = require('../services/roomAccessService');
 const tokenAuthority = require('./tokenHandlers');
+const preDragPositions = new WeakMap();
+function dragPosMap(room) {
+  let map = preDragPositions.get(room);
+  if (!map) {
+    map = new Map();
+    preDragPositions.set(room, map);
+  }
+  return map;
+}
 
 function registerCharacterHandlers(ctx) {
   const {
     io,
     socket,
     rooms,
+    players,
     logger,
     validateRoomMembership,
     firebaseBatchWriter
@@ -32,6 +42,7 @@ function registerCharacterHandlers(ctx) {
       const { room, player } = validation;
       const uid = socket.data && socket.data.userId ? socket.data.userId : null;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
+      let pendingPassiveEval = null;
 
       // Bound PC movement must name the attachment. Legacy character/name relay cannot evade Stunned.
       const actors = require('../services/actorConsequences');
@@ -70,9 +81,24 @@ function registerCharacterHandlers(ctx) {
           actors.assertCanMove(record, player);
           if (record.state?.actorContract) {
             if (recordMapId !== mapId) actors.fail('actor_binding_conflict');
-            record.position = data.position;
-            room.gameState.characterTokens = require('../services/roomCheckpoint').deriveRootMirrors(room.gameState.maps).characterTokens;
-            firebaseBatchWriter.queueWrite(room.id, room.gameState);
+            const prevPos = record.position && Number.isFinite(record.position.x) && Number.isFinite(record.position.y)
+              ? { x: record.position.x, y: record.position.y }
+              : null;
+            const dragKey = `${recordMapId}:${data.tokenId}`;
+            const dragMap = dragPosMap(room);
+            if (data.isDragging === true) {
+              if (!dragMap.has(dragKey) && prevPos) dragMap.set(dragKey, prevPos);
+              record.position = data.position;
+              room.gameState.characterTokens = require('../services/roomCheckpoint').deriveRootMirrors(room.gameState.maps).characterTokens;
+              firebaseBatchWriter.queueWrite(room.id, room.gameState);
+            } else {
+              const originPos = dragMap.has(dragKey) ? dragMap.get(dragKey) : prevPos;
+              dragMap.delete(dragKey);
+              record.position = data.position;
+              room.gameState.characterTokens = require('../services/roomCheckpoint').deriveRootMirrors(room.gameState.maps).characterTokens;
+              firebaseBatchWriter.queueWrite(room.id, room.gameState);
+              pendingPassiveEval = { record, recordMapId, prevPos: originPos };
+            }
           }
         }
       }
@@ -95,6 +121,30 @@ function registerCharacterHandlers(ctx) {
         timestamp: Date.now()
       });
 
+      if (pendingPassiveEval && pendingPassiveEval.record?.state?.actorContract) {
+        require('../services/passiveMovementTrigger').evaluateMovement(room, {
+          moverToken: pendingPassiveEval.record,
+          mapId: pendingPassiveEval.recordMapId,
+          fromPosition: pendingPassiveEval.prevPos,
+          toPosition: data.position,
+          actionId: data.actionId,
+          movementKind: player.isGM ? data.movementKind : undefined,
+          isTeleport: player.isGM ? data.isTeleport : undefined,
+          forcedMovement: player.isGM ? data.forcedMovement : undefined
+        }, { io, players, rooms, firebaseBatchWriter });
+
+        const postPassiveCharToken = room.gameState.maps?.[pendingPassiveEval.recordMapId]?.characterTokens?.[data.tokenId] || pendingPassiveEval.record;
+        require('../services/placedMovementTrigger').evaluateMovement(room, {
+          moverToken: postPassiveCharToken,
+          mapId: pendingPassiveEval.recordMapId,
+          fromPosition: pendingPassiveEval.prevPos,
+          toPosition: data.position,
+          actionId: data.actionId,
+          movementKind: player.isGM ? data.movementKind : undefined,
+          isTeleport: player.isGM ? data.isTeleport : undefined,
+          forcedMovement: player.isGM ? data.forcedMovement : undefined
+        }, { io, players, rooms, firebaseBatchWriter });
+      }
     } catch (error) {
       logger.error('[character_moved] Error:', { error: error.message });
       socket.emit('room_error', { code: error.code || 'movement_refused', event: 'character_moved', message: error.message });
@@ -156,6 +206,19 @@ function registerCharacterHandlers(ctx) {
 
       const { room, player } = validation;
       logger.debug('character_updated validated', { playerId: player.id, roomId: room.id });
+
+      // Hunter Flow: a generic update never decides the Flow a sheet shows (server record wins; start value only before one exists).
+      if (data.character && Object.prototype.hasOwnProperty.call(data.character, 'classResource')) {
+        const judged = require('../services/hunterFlowSheets').judgeClassResource(room, {
+          ownerUid: socket.data.userId, characterId: data.character.id || data.characterId,
+          existing: player.character?.classResource, incoming: data.character.classResource
+        });
+        if (judged.action !== 'pass') {
+          const nextCharacter = { ...data.character };
+          if (judged.action === 'replace') {nextCharacter.classResource = judged.value;} else {delete nextCharacter.classResource;}
+          data = { ...data, character: nextCharacter };
+        }
+      }
 
       const actors = require('../services/actorConsequences');
       actors.validateBuildEnvelope('character_updated', data);
@@ -332,6 +395,25 @@ function registerCharacterHandlers(ctx) {
         return;
       }
 
+      let broadcastClassResource = data.classResource;
+      if (data.resource === 'classResource') {
+        // Hunter Flow: committed by the server only. A generic write is refused whole (nothing stored, nothing relayed).
+        const judged = require('../services/hunterFlowSheets').judgeClassResource(room, {
+          ownerUid: targetPlayer.userId, characterId: targetPlayer.character?.id,
+          existing: targetPlayer.character?.classResource, incoming: data.classResource
+        });
+        if (judged.action === 'ignore') {
+          socket.emit('room_error', { code: 'flow_authority_required', event: 'character_resource_updated',
+            message: 'Hunter Flow is set by committed combat actions only' });
+          if (typeof ack === 'function') {ack({ success: false, code: 'flow_authority_required' });}
+          return;
+        }
+        if (judged.action === 'replace') {
+          data = { ...data, classResource: judged.mirror, current: judged.mirror.current, max: judged.mirror.max };
+          broadcastClassResource = judged.mirror;
+        }
+      }
+
       if (!targetPlayer.character) {
         targetPlayer.character = {};
       }
@@ -383,7 +465,7 @@ function registerCharacterHandlers(ctx) {
         max: data.max,
         temp: data.temp,
         adjustment: data.adjustment,
-        classResource: data.classResource,
+        classResource: broadcastClassResource,
         updatedBy: socket.id,
         senderSocketId: data.senderSocketId,
         isGM: isGMUpdate

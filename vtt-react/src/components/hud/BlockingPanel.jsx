@@ -8,6 +8,8 @@ import { refOf } from '../../services/actorConsequenceService';
 import { ownerSource } from '../../services/spellConsequenceService';
 import { isEffect, directKindOf, describe as describeBundle, pcConsent, consentText } from '../../services/authoredEffect';
 import { DAMAGE_TYPES, MANUAL, MANUAL_LABELS, requiredManual, firstAvailable, SIZES } from '../../services/equipmentBlocking';
+import { recordsFor, expiryLabel } from '../../services/sharedConditionProfile';
+import { useSharedConditionStore, conditionKey, performDefendAction, checkConditionCommand } from '../../services/sharedConditionService';
 import { findEntry, pendingUnequips } from '../../services/blockingCustody';
 import { useBlockingStore, refreshOwnBlocking, refreshBlockLists, ownEligiblePieces, submitDeclaration, checkDeclaration, resolveOwnConflict, settleUnequip,
   approveBlock, checkBlockApproval, withdrawBlock, rejectCreatureOffer, loadBlockingCustody, gmOfferBlock, gmPlanBlock, gmAcceptBlock, gmCheckBlockCommand, gmDeclineBlock, gmCancelOffer } from '../../services/blockingService';
@@ -91,6 +93,27 @@ function ClosedAttacks() {
   return <details className="p12b-closed"><summary>Closed attacks ({shown.length})</summary><ul>{shown.map(c => <li key={c.commandId}>
     {c.ability?.name}: attack [{(c.attackRoll?.faces || []).join(', ')}] · {c.outcome}{c.block ? ` · block face ${c.block.face} on ${c.block.slot} ${c.block.die}` : ''} — {CLOSED_WORDS[c.code] || c.code}. Cannot be rolled again.</li>)}</ul></details>;
 }
+function DefendActionSection({ source }) {
+  const sharedState = useSharedConditionStore();
+  const { busy, error, perform } = usePerform();
+  const defendRecords = source.token ? recordsFor(source.token) : [];
+  const active = defendRecords.length > 0;
+  const key = source.ref ? conditionKey(source.ref) : null;
+  const entry = key ? sharedState.saved?.entries?.[key] : null;
+  const unknown = Boolean(entry?.command && !['accepted', 'failed'].includes(entry.phase));
+  const view = key ? sharedState.views?.[key] : null;
+  const ap = source.token?.character?.actionPoints;
+  const tempAp = source.token?.character?.tempActionPoints || 0;
+  return <section className="p12b-defend" aria-label="Defend action">
+    <h4>Defend (1 AP)</h4>
+    <p className="p12-meta">On your turn (1 AP): double equipment DR and no equipment wear until your next turn.</p>
+    <p role="status">Defending: {active ? `Active — ${expiryLabel(defendRecords[0], sharedState.combat)}` : 'Inactive.'}{ap ? ` · AP ${ap.current}/${ap.max}${tempAp > 0 ? ` (+${tempAp} temp)` : ''}` : ''}</p>
+    <button type="button" disabled={busy || active || unknown} onClick={() => perform(() => performDefendAction(source.ref))}>Defend (1 AP)</button>
+    {unknown && <button type="button" disabled={busy} onClick={() => perform(() => checkConditionCommand(source.ref))}>Check same Defend command</button>}
+    {view?.outcome && <p role="status">{view.outcome}</p>}
+    {error && <p role="alert">{error}</p>}
+  </section>;
+}
 function OwnerDialog({ onClose }) {
   const view = useBlockingStore(s => s.ownView), offers = useBlockingStore(s => s.offers), status = useBlockingStore(s => s.ownerStatus), notice = useBlockingStore(s => s.notice);
   const custody = useCharacterStore(s => s.roomEquipmentCustody);
@@ -107,6 +130,7 @@ function OwnerDialog({ onClose }) {
     {source.error ? <p role="alert">{source.error}</p> : <>
       <p>Room declaration: <strong>{describe(view?.declaration)}</strong>{view?.declaration ? ` · revision ${view.declaration.revision}` : ''}</p>
       {view?.declaration?.mode === 'block' && <ul aria-label="Room blocking order">{view.declaration.pieces.map(p => <li key={p.slot}>{p.name} · {p.kind} · {p.broken ? 'broken' : p.currentDie}</li>)}</ul>}
+      <DefendActionSection source={source} />
       {Object.values(offers).map(offer => <OfferCard key={offer.commandId} offer={offer} piece={piece} />)}
       {!!entry?.conflicts?.length && <section className="p12b-conflicts" aria-label="Equipment conflicts">
         <h4>Competing values — your choice</h4>

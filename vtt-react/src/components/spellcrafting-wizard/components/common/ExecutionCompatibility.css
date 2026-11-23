@@ -13,4 +13,13 @@ html body .exec-compat-executable .exec-compat-title { color: #2f5a34; }
 html body .exec-compat-partial .exec-compat-title { color: #7a5313; }
 html body .exec-compat-blocked .exec-compat-title { color: #5a4a7a; }
 html body .exec-compat-unsupported .exec-compat-title { color: #8a2f25; }
+html body .exec-compat-blocker-action { margin: 6px 0 8px; }
+html body .exec-compat-jump-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; font: inherit; font-weight: 600; color: #2b2116; background: #efe4cc; border: 1px solid #8a6d45; border-radius: 4px; cursor: pointer; }
+html body .exec-compat-jump-btn:hover { background: #e5d6b6; }
 html body .exec-compat :focus-visible { outline: 2px solid #34588f; outline-offset: 2px; }
+html body .exec-compat-inline { margin: 10px 0 6px; padding: 8px 12px; font-size: 13px; }
+html body .exec-compat-inline .exec-compat-inline-reason,
+html body .exec-compat-inline .exec-compat-inline-alternative { margin: 4px 0; }
+html body .exec-compat-inline .exec-compat-inline-manual { margin-top: 6px; padding-top: 4px; border-top: 1px solid rgba(138, 109, 69, 0.3); }
+html body .exec-compat-inline .exec-compat-head { margin-top: 2px; font-style: italic; font-weight: 600; }
+html body .exec-compat-inline ul { margin: 2px 0 2px; }

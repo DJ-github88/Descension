@@ -15,6 +15,42 @@ if (!window.recentTokenMovements) {
 // Echo Prevention Window - standardized across all stores
 const ECHO_PREVENTION_WINDOW_MS = 200;
 
+const PROTECTED_RESOURCE_KEYS = new Set([
+ 'health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'
+]);
+const SECONDARY_COSMETIC_KEYS = new Set([
+ 'id', 'name', 'race', 'raceDisplayName', 'class', 'lore', 'tokenSettings'
+]);
+const serializeRacialTraits = (traits) => {
+ if (!Array.isArray(traits)) return [];
+ return traits
+  .map(trait => {
+   if (typeof trait === 'string' || typeof trait === 'number' || typeof trait === 'boolean') return trait;
+   if (trait && typeof trait === 'object') {
+    if (typeof trait.id === 'string' && trait.id.length > 0) return trait.id;
+    if (typeof trait.name === 'string' && trait.name.length > 0) return trait.name;
+   }
+   return null;
+  })
+  .filter(value => value !== null && value !== undefined && value !== '');
+};
+const pickCharacterKeys = (obj, predicate) => Object.fromEntries(
+ Object.entries(obj).filter(([key]) => predicate(key))
+);
+const handleCharacterTokenUpdateAck = (useGameStore, result) => {
+ if (!result || result.success !== false) return;
+ useGameStore.setState({
+  actorConsequenceStatus: {
+   success: false,
+   code: result.code || 'character_token_update_refused',
+   error: result.error || result.message || 'Character token update refused'
+  }
+ });
+ import('../services/actorConsequenceService').then(({ refreshActorSnapshot }) => {
+  if (typeof refreshActorSnapshot === 'function') refreshActorSnapshot().catch(() => {});
+ }).catch(() => {});
+};
+
 // Use character token store
 const useCharacterTokenStore = create(
  persist(
@@ -322,7 +358,7 @@ const useCharacterTokenStore = create(
          roomId: gameStore.multiplayerRoom?.id,
          tokenId,
          stateUpdates
-        });
+        }, (result) => handleCharacterTokenUpdateAck(useGameStore, result));
        }
       }).catch(error => {
        console.error('Failed to import gameStore for character token state update:', error);
@@ -364,7 +400,7 @@ const useCharacterTokenStore = create(
        movementSpeed: s.racialSpeed || s.movementSpeed || 30,
        resistances: s.resistances || {},
        immunities: s.immunities || [],
-       racialTraits: s.racialTraits || [],
+       racialTraits: serializeRacialTraits(s.racialTraits),
        lore: s.lore,
        tokenSettings: s.tokenSettings
       };
@@ -378,32 +414,43 @@ const useCharacterTokenStore = create(
        (socketId && t.playerId === socketId) ||
        (t.playerId && ownNames.has(t.playerId));
 
-      const changedIds = [];
+      const emitEntries = [];
       set(state => ({
        characterTokens: state.characterTokens.map(t => {
         if (!isOwnToken(t)) return t;
-        changedIds.push(t.id);
-         const presentation = t.state?.actorContract ? Object.fromEntries(Object.entries(fresh).filter(([key]) => !['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].includes(key))) : fresh;
-         return { ...t, character: { ...t.character, ...presentation }, name: fresh.name || t.name };
+        const contract = t.state?.actorContract;
+        const isSecondaryBound = !!(contract && !contract.primary);
+        const presentation = isSecondaryBound
+         ? pickCharacterKeys(fresh, key => SECONDARY_COSMETIC_KEYS.has(key))
+         : contract
+          ? pickCharacterKeys(fresh, key => !PROTECTED_RESOURCE_KEYS.has(key))
+          : fresh;
+        const characterPayload = isSecondaryBound
+         ? pickCharacterKeys(fresh, key => SECONDARY_COSMETIC_KEYS.has(key))
+         : {
+           ...pickCharacterKeys(fresh, key => !PROTECTED_RESOURCE_KEYS.has(key)),
+           ...(fresh.health?.max !== undefined ? { health: { max: fresh.health.max } } : {}),
+           ...(fresh.mana?.max !== undefined ? { mana: { max: fresh.mana.max } } : {}),
+           ...(fresh.actionPoints?.max !== undefined ? { actionPoints: { max: fresh.actionPoints.max } } : {})
+          };
+        emitEntries.push({ tokenId: t.id, characterPayload });
+        return { ...t, character: { ...t.character, ...presentation }, name: fresh.name || t.name };
        })
       }));
 
-      if (changedIds.length > 0) {
+      if (emitEntries.length > 0) {
        const gameStore = useGameStore.getState();
        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
         const mapStore = getStore('mapStore');
         const currentMapId = mapStore?.getState?.()?.currentMapId || 'default';
-        changedIds.forEach(tokenId => {
+        emitEntries.forEach(({ tokenId, characterPayload }) => {
          gameStore.multiplayerSocket.emit('character_token_updated', {
           roomId: gameStore.multiplayerRoom?.id,
           mapId: currentMapId,
           tokenId,
-           character: {
-            ...Object.fromEntries(Object.entries(fresh).filter(([key]) => !['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].includes(key))),
-            health: { max: fresh.health.max }, mana: { max: fresh.mana.max }, actionPoints: { max: fresh.actionPoints.max }
-           },
+          character: characterPayload,
           name: fresh.name
-         });
+         }, (result) => handleCharacterTokenUpdateAck(useGameStore, result));
         });
        }
       }

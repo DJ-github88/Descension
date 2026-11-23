@@ -13,9 +13,10 @@ const RollableTableSummary = ({
   rollableTableData,
   variant = 'compact', // 'compact', 'detailed', 'inline'
   showExpandButton = true,
+  defaultExpanded = false,
   className = ''
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(Boolean(defaultExpanded));
   const [currentPage, setCurrentPage] = useState(1);
   const [isRolling, setIsRolling] = useState(false);
   const [rollingIndex, setRollingIndex] = useState(null);
@@ -86,14 +87,9 @@ const RollableTableSummary = ({
 
   // Helper function to extract text from effect/description
   const getEffectText = (entry) => {
-    if (entry.effect && typeof entry.effect === 'string' && entry.effect.length > 20) {
+    if (entry.effect && typeof entry.effect === 'string' && entry.effect.length > 20 && !entry.effectType) {
       const name = entry.name || entry.customName || '';
       return { name, effect: entry.effect, needsFormatting: true };
-    }
-    
-    if (entry.description && typeof entry.description === 'string' && entry.description.length > 20) {
-      const name = entry.name || entry.customName || '';
-      return { name, effect: entry.description, needsFormatting: true };
     }
 
     if (entry.name || entry.effectType) {
@@ -103,7 +99,7 @@ const RollableTableSummary = ({
         const config = entry.effectConfig;
         switch (entry.effectType) {
           case 'damage':
-            text += ` (${config.damageFormula || '2d6'} ${config.damageType || 'arcane'})`;
+            text += ` (${config.damageFormula || '2d6'} ${config.damageType || 'arcane'} damage)`;
             break;
           case 'healing':
             text += ` (${config.healingFormula || '2d8'} healing)`;
@@ -155,17 +151,17 @@ const RollableTableSummary = ({
   const formatResolutionMethod = () => {
     switch (resolutionType) {
       case 'DICE':
-        return diceFormula || rollableTableData.diceFormula || resolutionConfig.diceType || (entryCount ? `d${entryCount}` : 'd100');
+        return resolutionConfig.diceType || diceFormula || rollableTableData.diceFormula || (entryCount ? `d${entryCount}` : 'd100');
       case 'CARDS':
-        const cardCount = resolutionConfig.cardCount || 3;
+        const cardCount = resolutionConfig.cardCount ?? 1;
         const deckType = resolutionConfig.deckType || 'standard';
         const deckLabel = deckType === 'tarot' ? 'Tarot' : 'Standard';
-        return `${cardCount} ${deckLabel} cards`;
+        return `${cardCount} ${deckLabel} card${cardCount === 1 ? '' : 's'}`;
       case 'COINS':
-        const coinCount = resolutionConfig.coinCount || 5;
+        const coinCount = resolutionConfig.coinCount ?? 1;
         const coinType = resolutionConfig.coinType || 'standard';
         const coinLabel = coinType === 'weighted' ? 'Weighted' : 'Standard';
-        return `${coinCount} ${coinLabel} coins`;
+        return `${coinCount} ${coinLabel} coin${coinCount === 1 ? '' : 's'}`;
       default:
         return 'Random';
     }

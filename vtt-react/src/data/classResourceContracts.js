@@ -18,6 +18,12 @@ import { normalizeLunarchResource, updateLunarchResource, getLunarchSpellResourc
 import { normalizeToxicologistResource, updateToxicologistResource, getToxicologistSpellResourcePlan, getToxicologistPoolValue } from './toxicologistResourceContract';
 import { normalizeWardenResource, updateWardenResource, getWardenSpellResourcePlan } from './wardenResourceContract';
 import { validateRehearsalState } from './classes/chaosWeaverRules';
+import {
+  isFlowResourceRecord,
+  normalizeFlowResourceRecord,
+  migrateHunterResourceRecord,
+  rollbackHunterResourceMigration
+} from '../services/hunterFlow';
 import { validateGamblerState } from './classes/gamblerData';
 import { validateFateWeaverState } from './classes/fateWeaverData';
 import { validateDeathcallerState } from './classes/deathcallerData';
@@ -202,6 +208,7 @@ export function normalizeManagedClassResource(resource, className) {
       transitionMax: 3, stateValid: check.valid, validationErrors: check.errors };
   }
   if (id === 'hunter-evidence') {
+    if (isFlowResourceRecord(resource)) return normalizeFlowResourceRecord(resource);
     if (resource.type && !['hunter-evidence', 'hunter_evidence'].includes(resource.type)) return resource;
     const state = resource.state ?? null;
     const check = state ? validateHunterState(state) : { valid: true, errors: [] };
@@ -478,3 +485,8 @@ export function getManagedSpellResourcePlan(spell, resource, className) {
     label: id === 'quarryMarksCompanion' ? 'Quarry Marks' : id === 'devotionGauge' ? 'Devotion levels' : ['karmic_debt', 'karmicDebt', 'debt', 'risk'].includes(resourceKey) ? 'Karmic Debt' : 'Fortune'
   };
 }
+
+export {
+  migrateHunterResourceRecord,
+  rollbackHunterResourceMigration
+};

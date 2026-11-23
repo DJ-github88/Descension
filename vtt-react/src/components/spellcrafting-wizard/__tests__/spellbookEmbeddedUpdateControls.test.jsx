@@ -491,7 +491,9 @@ describe('Spellbook Embedded Update & Cancel Controls (Regression)', () => {
     });
 
     expect(mockPersisted.data.spells[0].name).toBe('Brand New Preview Spell');
-    expect(mockPersisted.data.spells[0].id).toMatch(/custom-/);
+    expect(mockPersisted.data.spells[0].id).toMatch(/brand-new-preview-spell/);
+    expect(mockPersisted.data.spells[0].authoredDraft?.name).toBe('Brand New Preview Spell');
+    expect(JSON.parse(mockPersisted.data.spells[0].serializedData).name).toBe('Brand New Preview Spell');
   });
 
   test('Review-step completion (Step10Review) updates existing record during editing (identity preserved, count = 1)', async () => {

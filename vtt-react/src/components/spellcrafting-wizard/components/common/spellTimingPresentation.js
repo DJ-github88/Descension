@@ -23,7 +23,7 @@ export { COMBAT_COOLDOWN_TYPE };
 
 const TARGET_TURN_POLICIES = ['target-next-start', 'target-next-end', 'target-start-count', 'target-end-count'];
 /**
- * Wording for a structured target-turn expiry of an authored Stunned / movement / attribute effect (the installed policy text),
+ * Wording for a structured target-turn expiry of an authored Stunned / movement / attribute / damageReduction effect (the installed policy text),
  * or null when the effect is manual (`gm-manual`), unknown, or a counted policy without a valid count. Callers keep their
  * existing manual wording for null. Accepts the Wizard policy key or the compiled `authored-` timing key.
  */

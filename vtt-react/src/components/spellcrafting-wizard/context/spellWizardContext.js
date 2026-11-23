@@ -403,6 +403,9 @@ function validateStepCompletion(step, state) {
   return !!state.trapConfig && Object.keys(state.trapConfig).length > 0;
 
  case 3: // Effects
+  if (state.rollableTable?.enabled && (!state.effectTypes || state.effectTypes.length === 0)) {
+  return true;
+  }
   return state.effectTypes && state.effectTypes.length > 0 && validateEffectConfigurations(state);
 
  case 4: // Targeting & Propagation
@@ -424,9 +427,11 @@ function validateStepCompletion(step, state) {
   return !!state.channelingConfig && Object.keys(state.channelingConfig).length > 0;
 
  case 'rollable-table': // Rollable Table
-  // If rollable table is enabled, validate it has entries
+  // If rollable table is enabled, require a name and at least two outcome branches
   if (state.rollableTable && state.rollableTable.enabled) {
-  return state.rollableTable.entries && state.rollableTable.entries.length > 0;
+  return Boolean(state.rollableTable.name && state.rollableTable.name.trim()) &&
+   Array.isArray(state.rollableTable.entries) &&
+   state.rollableTable.entries.length >= 2;
   }
   // If not enabled, the step is considered complete
   return true;
@@ -520,8 +525,8 @@ function validateState(state) {
  }
 
  // Validate effect types
- if (state.effectTypes.length === 0) {
- errors.effectTypes = 'At least one effect type is required';
+ if (state.effectTypes.length === 0 && !state.rollableTable?.enabled) {
+ errors.effectTypes = 'At least one effect type (or an enabled Rollable Table) is required';
  }
 
  // Validate effect configurations based on selected effect types
@@ -672,8 +677,8 @@ function spellWizardReducer(state, action) {
    tags: state.typeConfig?.tags
    // Other type-specific configs will be reset and reconfigured for the new type
   },
-  // Reset trigger config if changing from REACTION/PASSIVE/STATE to other
-  triggerConfig: (action.payload !== 'REACTION' && action.payload !== 'PASSIVE' && action.payload !== 'STATE')
+  // Reset trigger config if changing from REACTION/PASSIVE/TRAP/STATE to other
+  triggerConfig: (action.payload !== 'REACTION' && action.payload !== 'PASSIVE' && action.payload !== 'TRAP' && action.payload !== 'STATE')
    ? {}
    : state.triggerConfig,
   // Reset channeling config if changing from CHANNELED to other
@@ -1274,16 +1279,22 @@ function spellWizardReducer(state, action) {
  case ACTION_TYPES.RESET_STATE:
   return {
   ...initialState,
+  wizardFlow: determineWizardFlow(initialState),
   lastModified: new Date()
   };
 
- case ACTION_TYPES.LOAD_SPELL:
-  return {
+ case ACTION_TYPES.LOAD_SPELL: {
+  const loaded = {
   ...action.payload,
   editMode: action.payload?.editMode !== undefined ? Boolean(action.payload.editMode) : false,
   editingSpellId: action.payload?.editingSpellId !== undefined ? action.payload.editingSpellId : null,
   lastModified: new Date()
   };
+  return {
+  ...loaded,
+  wizardFlow: determineWizardFlow(loaded)
+  };
+ }
 
  case ACTION_TYPES.SET_EDIT_MODE:
   return {
@@ -1300,7 +1311,14 @@ function spellWizardReducer(state, action) {
 
 // Provider component
 function SpellWizardProvider({ children }) {
- const [state, dispatch] = useReducer(spellWizardReducer, initialState);
+ const [state, dispatch] = useReducer(
+  spellWizardReducer,
+  initialState,
+  (base) => ({
+   ...base,
+   wizardFlow: base.wizardFlow && base.wizardFlow.length > 0 ? base.wizardFlow : determineWizardFlow(base)
+  })
+ );
 
  // Add a useEffect to listen for direct update events
  useEffect(() => {

@@ -7,9 +7,9 @@ import useGameStore from '../../store/gameStore';
 import useCreatureStore from '../../store/creatureStore';
 import { getBootstrapGateState, isPrivateProjectionIsolated, subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import { findActor, refOf } from '../../services/actorConsequenceService';
-import { DEFENDING, STUNNED, ATTRIBUTE, DAMAGE_REDUCTION, STRUCTURED_TIMINGS, EFFECT_PREFIX, isPeriodicTick, periodicOf, canonical, recordsFor, stunnedRecordsFor, movementRecordsFor, attributeRecordsFor, attributeModifierOf, attributeName, attributeModifierTotals, damageReductionRecordsFor, damageReductionModifierOf, damageReductionTotal, expiryLabel, sameRef } from '../../services/sharedConditionProfile';
+import { DEFENDING, STUNNED, ATTRIBUTE, DAMAGE_REDUCTION, STRUCTURED_TIMINGS, EFFECT_PREFIX, isPeriodicTick, isChanneledTick, isTickingEffect, periodicOf, tickOf, canonical, recordsFor, stunnedRecordsFor, movementRecordsFor, attributeRecordsFor, attributeModifierOf, attributeName, attributeModifierTotals, damageReductionRecordsFor, damageReductionModifierOf, damageReductionTotal, expiryLabel, sameRef } from '../../services/sharedConditionProfile';
 import { useSharedConditionStore, conditionPrincipal, conditionKey, resolveConditionActor, refreshConditionActor,
-  editDefending, editSharedCondition, checkConditionCommand, bindSharedConditions, refreshEffectLifecycle, submitTurnBoundary, checkTurnBoundary,
+  performDefendAction, editDefending, editSharedCondition, checkConditionCommand, bindSharedConditions, refreshEffectLifecycle, submitTurnBoundary, checkTurnBoundary,
   resolvePeriodicTick, checkPeriodicTick, tickRef, retainedTickCommands, clearRetainedPeriodicTick, clearConfirmedPeriodicHistory } from '../../services/sharedConditionService';
 import { clock as effectClock, dueTicks, tickLabel } from '../../services/sharedEffectTiming';
 import { readFormula } from '../../services/authoredAbility';
@@ -36,7 +36,7 @@ export function SharedDefendingEditor({ targetRef, identity }) {
   }
   const view = state.views[key], ready = view?.phase === 'ready';
   const records = ready ? recordsFor(findActor(ref)) : [], stuns = ready ? stunnedRecordsFor(findActor(ref)) : [], moves = ready ? movementRecordsFor(findActor(ref)) : [], attrs = ready ? attributeRecordsFor(findActor(ref)) : [], drs = ready ? damageReductionRecordsFor(findActor(ref)) : [];
-  const ticking = ready ? (findActor(ref)?.state?.conditions || []).filter(r => isPeriodicTick(r) && (r.targetId === ref.tokenId || sameRef(r.target, ref))) : [];
+  const ticking = ready ? (findActor(ref)?.state?.conditions || []).filter(r => isTickingEffect(r) && (r.targetId === ref.tokenId || sameRef(r.target, ref))) : [];
   const targetTicks = ready && state.combat ? dueTicks(state.combat).filter(t => sameRef(t.ref, ref)) : [];
   const entry = state.saved?.entries?.[key], unknown = entry?.command && !['accepted', 'failed'].includes(entry.phase);
   const perform = async fn => { setBusy(true); setError(''); try { await fn(); } catch (e) { setError(e.message); } finally { setBusy(false); } };
@@ -44,15 +44,18 @@ export function SharedDefendingEditor({ targetRef, identity }) {
     {ref.kind === 'character' && <><h3>{DEFENDING.name} · PC blocking</h3>
     <p>Exact target: {ref.mapId}/{ref.tokenId} · character {ref.characterId}</p>
     <p>{DEFENDING.description}</p><p>Until your next turn. The exact automatic schedule or GM-managed instruction is shown on each instance below.</p>
-    <p>Manual state correction only. This does not execute Defend, spend or verify its 1 AP, or run an expiry lifecycle.</p>
     <p role="status">{!ready ? `Current room state: ${view?.phase || 'loading'}. Active state not confirmed.` :
       records.length ? 'Current room state: Active — accepted Defending.' : 'Current room state: Inactive.'}</p>
     {entry && <p>Last command: {entry.phase}{entry.phase === 'unknown' ? ' — not confirmed; check the same retained command.' : ''}</p>}
     {view?.outcome && <p role="status">{view.outcome}</p>}{error && <p role="alert">{error}</p>}
-    <label>Source attribution<select value={sourceMode} onChange={e => setSourceMode(e.target.value)} disabled={busy || unknown}>
-      <option value="manual">Manual correction — no acting source claimed</option><option value="self-defend">Resolved self Defend — source is this exact PC</option>
-    </select></label>
-    <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editDefending(ref, 'add', { sourceMode }))}>Apply PC Defending</button>
+    <button type="button" disabled={busy || unknown || !ready || records.length > 0} onClick={() => perform(() => performDefendAction(ref))}>Defend (1 AP)</button>
+    <div role="group" aria-label="Manual PC Defending correction">
+      <p>Manual state correction only. Apply PC Defending below does not execute Defend, spend or verify its 1 AP, or run an expiry lifecycle.</p>
+      <label>Source attribution<select value={sourceMode} onChange={e => setSourceMode(e.target.value)} disabled={busy || unknown}>
+        <option value="manual">Manual correction — no acting source claimed</option><option value="self-defend">Resolved self Defend — source is this exact PC</option>
+      </select></label>
+      <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editDefending(ref, 'add', { sourceMode }))}>Apply PC Defending</button>
+    </div>
     {records.map((record, index) => <div key={record.recordId || record.id || index}><p>Condition instance: {record.recordId || record.id || 'missing ID — reconcile manually'}</p><p className="sc-expiry">{expiryLabel(record, state.combat)}</p>
       <button type="button" disabled={busy || unknown || (!record.recordId && !record.id)} onClick={() => perform(() => editDefending(ref, 'remove', { recordId: record.recordId || record.id }))}>Remove Defending instance {record.recordId || record.id}</button></div>)}</>}
     <section aria-label="Shared Stunned">
@@ -136,11 +139,12 @@ export function SharedDefendingEditor({ targetRef, identity }) {
         return <p role="status" className="sc-expired-note">Periodic effect record absent. Due tick awaiting GM resolution:</p>;
       })()}
       {ticking.map(record => {
-        const p = periodicOf(record);
+        const p = tickOf(record);
+        const channeled = isChanneledTick(record);
         const effectTicks = targetTicks.filter(t => t.recordId === record.recordId);
-        return <div key={record.recordId}><p>{record.name} · {p.kind === 'damage' ? `${p.damageType} damage` : 'healing'} {p.formula} per tick · instance {record.recordId}</p><p className="sc-expiry">{expiryLabel(record, state.combat)}</p>
-          <p role="status">{effectTicks.length > 0 ? (effectTicks.some(t => t.live) ? 'Periodic tick awaiting GM resolution.' : 'Retired tick awaiting manual GM resolution.') : 'Active — no tick currently awaiting resolution.'}</p>
-          {gm && <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editSharedCondition(ref, 'remove', { recordId: record.recordId, profile: 'periodic' }))}>Remove {record.name} instance {record.recordId}</button>}
+        return <div key={record.recordId}><p>{record.name}{channeled ? ` · Channeled (${p.rangeFeet} ft)` : ''} · {p.kind === 'damage' ? `${p.damageType} damage` : 'healing'} {p.formula} per tick · instance {record.recordId}</p><p className="sc-expiry">{expiryLabel(record, state.combat)}</p>
+          <p role="status">{effectTicks.length > 0 ? (effectTicks.some(t => t.live) ? (channeled ? 'Channeled tick awaiting GM resolution.' : 'Periodic tick awaiting GM resolution.') : 'Retired tick awaiting manual GM resolution.') : 'Active — no tick currently awaiting resolution.'}</p>
+          {gm && <button type="button" disabled={busy || unknown || !ready} onClick={() => perform(() => editSharedCondition(ref, 'remove', { recordId: record.recordId, profile: channeled ? 'channeled' : 'periodic' }))}>{channeled ? `Interrupt / Remove ${record.name} instance ${record.recordId}` : `Remove ${record.name} instance ${record.recordId}`}</button>}
         </div>;
       })}
       {targetTicks.length > 0 && <div className="sc-target-ticks">

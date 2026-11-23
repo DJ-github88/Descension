@@ -1,0 +1,669 @@
+{
+  "schemaVersion": 1,
+  "snapshotVersion": "2026-11-17-direct-damage-save-combined-reconciled",
+  "previousSnapshot": "server/tests/fixtures/snapshots/capabilityMap.20261116-secondary-refresh-reconciled.json",
+  "title": "Mythrill VTT — Spell Wizard vs. Installed Engine Capability Map",
+  "rules": {
+    "noCompletionPercentageOrDate": true,
+    "keepCandidateInstalledAppVerifiedSeparate": true,
+    "unsupportedRowsAreNotPassingGameplayTests": true,
+    "heightenedSensesIsNotGenericPassives": true,
+    "doNotInferCombinationsFromParts": true
+  },
+  "sourceIdentities": {
+    "vtt-react/src/services/authoredAbility.js": "5e2743b1d07f5eafb122efc325b32568bcab0c6cc56073cf7b78ea17b1dadc70",
+    "server/shared/services/authoredAbility.js": "5e2743b1d07f5eafb122efc325b32568bcab0c6cc56073cf7b78ea17b1dadc70",
+    "vtt-react/src/services/executionPlan.js": "12354bfbba30445a03521ba332250b92eaa2db87a2c650ddfffbe33ceb6331ef",
+    "server/shared/services/executionPlan.js": "12354bfbba30445a03521ba332250b92eaa2db87a2c650ddfffbe33ceb6331ef",
+    "vtt-react/src/services/directSave.js": "729305b2fa59d8c472180da53017afa5665df9f0a82f96a88d58d17aeb1fd304",
+    "server/shared/services/directSave.js": "729305b2fa59d8c472180da53017afa5665df9f0a82f96a88d58d17aeb1fd304",
+    "vtt-react/src/services/directSavePolicy.js": "d8193a586f1ccf8f7ff95db8b74cc1922d0a5b5af57f4f0753a39dcbf529571c",
+    "server/shared/services/directSavePolicy.js": "d8193a586f1ccf8f7ff95db8b74cc1922d0a5b5af57f4f0753a39dcbf529571c",
+    "server/services/installedDefinitionRegistry.js": "59ff413aec514026f2a12273fc4322a6ffda2f2249d814e7ba7fa892b882aa7e",
+    "server/services/installedAuthoredAbilities.js": "4faf3223596a54784279cafd3176a8f08b5872fbc6b47624183849203e0e8bc0",
+    "server/services/actorConsequences.js": "94d2113b257625a0fab77a539532aba62166718a618297497234eb714dc298ff",
+    "server/handlers/actorConsequenceHandlers.js": "3467d9de189ebdb9",
+    "server/services/committedTriggers.js": "1d38ec4dba1f2e0c776ddc3339178b19ca7dd0ff49e7f4890c2d51c642b25766",
+    "server/services/passiveActivation.js": "7cedff4ce616f3cc",
+    "server/services/companionPlacement.js": "725f82446e947f57",
+    "vtt-react/src/components/spellcrafting-wizard/utils/executionCompatibility.js": "88510528bbfc1ff0836cc229642233f4a08da6fb007105a7984f1c15fcb5b490",
+    "vtt-react/src/components/hud/TriggerOfferPanel.jsx": "2cde2a0f45bf14331d58614ff9f0badb7a61f46016d2aeb6b2f23b4365a51ab1"
+  },
+  "stagedCandidatesNotInstalled": [],
+  "families": [
+    {
+      "id": "targeting-single",
+      "family": "Targeting / Area",
+      "subCapability": "Single-target (self, ally, enemy, any; 0-300 ft; relationship-enforced picker)",
+      "status": "app-verified",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "immediate damage/healing",
+        "M4/M4A/M4C/M4D formulas",
+        "authored-effect:v1 riders",
+        "negates rider save",
+        "structured/counted expiry",
+        "authenticated_caster_start cooldown",
+        "whole-spell follow-up triggers",
+        "component-watch damage trigger"
+      ],
+      "evidenceLevel": "ordinary-app",
+      "evidenceProvenance": "handoff/relationship-aware-spell-target-picker-release-20261114/APP_VERIFIED.md; handoff/wizard-review-save-admission-consistency-release-20261114/APP_VERIFIED.md",
+      "exactUnsupportedBoundary": "maxTargets > 1 in single/multi mode, non-manual selectionMethod, self-targeting for damage/riders/cooldowns/missing-health (self is immediate healing at range 0 only); creature sources cannot use formula/save/periodic/cooldown/trigger routes.",
+      "nextStepOwner": "relationship-aware-spell-target-picker / authoredAbility",
+      "fixtureChecks": [
+        "supported-immediate-damage",
+        "supported-self-healing"
+      ]
+    },
+    {
+      "id": "targeting-area-m6a",
+      "family": "Targeting / Area",
+      "subCapability": "Bounded Ranged Circle AoE (authored-area:v1, 1-300 ft ranged, 5-60 ft step 5 radius, static, 1-8 creature targets, shared owner roll)",
+      "status": "installed",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "immediate damage or healing (plain/formula)",
+        "whole-spell follow-up triggers (damage/healing)",
+        "AP + mana cost (or pinned catalogue class payment)"
+      ],
+      "evidenceLevel": "real-handler",
+      "evidenceProvenance": "docs/MYTHRILL_M6A_ACTIVATION_BRIEF.md (creator-approval-20261110-m6a-shared-roll); server/tests/p14m6aAreaExecution.production.test.js; qualified 2026-11-03 App witness (pre-approval)",
+      "exactUnsupportedBoundary": "cone, line, square, cube, sphere, cylinder, wall, trail, targetingType: multi, movable/follows_caster, PC area targets, area effect/rider bundles, component-watch triggers on area, creature-source area, and independent per-target rolls.",
+      "nextStepOwner": "M6A / Area lane (handoff/m6a-activation/)",
+      "fixtureChecks": [
+        "supported-area-circle",
+        "refused-area-cone",
+        "refused-area-component-watch"
+      ]
+    },
+    {
+      "id": "damage-formulas",
+      "family": "Damage / Formulas",
+      "subCapability": "Immediate direct damage (plain NdM+/-K, M4A integer-scaled attributes, M4C caster_missing_health, M4D deterministic zero-dice)",
+      "status": "app-verified",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "single-target creature (all 4 formula versions)",
+        "M6A area (plain/formula)",
+        "authored-effect:v1 riders (plain; M4A scaled only with movement/stunned)",
+        "authenticated_caster_start cooldown",
+        "component-watch damage trigger (all 4 immediate damage versions)"
+      ],
+      "evidenceLevel": "ordinary-app",
+      "evidenceProvenance": "handoff/component-trigger-family-expansion-release/APP_SUPPLEMENTARY_VERIFIED.md; server/tests/p14m4Formula.production.test.js; p14m4cMissingHealth.production.test.js; p14m4dDeterministic.production.test.js",
+      "exactUnsupportedBoundary": "Critical hits (canCrit/criticalConfig), chanceOnHitConfig, secondaryElementType, dotConfig/hasDotEffect, shorthand attribute abbreviations (INT/STR/WIS/DEX), target-stat formulas, missing-health/deterministic inside authored-effect:v1 bundles, and creature-source scaled/deterministic/missing-health formulas.",
+      "nextStepOwner": "M4 Formula / Component-trigger lanes",
+      "fixtureChecks": [
+        "supported-attribute-formula",
+        "supported-deterministic-formula",
+        "supported-missing-health-formula",
+        "refused-creature-formula",
+        "refused-crit-damage"
+      ]
+    },
+    {
+      "id": "healing-immediate-and-self",
+      "family": "Healing",
+      "subCapability": "Immediate direct healing (distinct creature/ally target; explicit owner-PC self-healing at range 0; periodic healing ticks)",
+      "status": "app-verified",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "single-target creature/ally (plain/M4A/M4C/M4D)",
+        "explicit self at range 0 (plain/M4A/M4D without readsHealth or cooldown)",
+        "authored-effect:v1 riders & periodic healing ticks (same-kind)",
+        "authenticated_caster_start cooldown (non-self)",
+        "whole-spell follow-up after damage or healing"
+      ],
+      "evidenceLevel": "ordinary-app",
+      "evidenceProvenance": "handoff/owner-pc-self-healing/HANDOFF.md (App A PASS); server/tests/p14OwnerPcSelfHeal.production.test.js; server/tests/p14m5Periodic.production.test.js",
+      "exactUnsupportedBoundary": "hasHotEffect/hotFormula, hasShieldEffect/shieldFormula/shields, specialEffects, self-healing with cooldowns or caster_missing_health, watching a healing part for component-watch triggers, and mixed damage+healing bundles.",
+      "nextStepOwner": "Owner-PC self-healing / M5 / Healing follow-up lanes",
+      "fixtureChecks": [
+        "supported-self-healing",
+        "refused-shield-healing"
+      ]
+    },
+    {
+      "id": "riders-modifiers",
+      "family": "Riders / Modifiers",
+      "subCapability": "authored-effect:v1 single canonical rider (stunned, movementFeet -60..+60, signed attribute modifier, positive flat DR +1..+20)",
+      "status": "app-verified",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "optional direct damage or healing (M4A scaled only with movement/stunned)",
+        "negates save (movement/stunned with direct part only)",
+        "structured/counted expiry",
+        "authenticated_caster_start cooldown",
+        "component-watch on direct damage part (movement/stunned/attribute/flat-DR)"
+      ],
+      "evidenceLevel": "ordinary-app",
+      "evidenceProvenance": "handoff/component-trigger-family-expansion-release/APP_VERIFIED.md (attribute rider); APP_SUPPLEMENTARY_VERIFIED.md; server/tests/p14FlatDamageReduction.production.test.js; server/tests/p14RiderFormula.production.test.js",
+      "exactUnsupportedBoundary": "Generic Wizard buffConfig, debuffConfig, utilityConfig, purificationConfig, restorationConfig, transformationConfig, statusEffectsConfig, combinedEffects, negative flat DR, multi-attribute changes, stacking two attribute/DR/periodic effects on one target, and Stunned/flat-DR combined App witness (server + mounted UI only).",
+      "nextStepOwner": "A10 / Attribute / Flat-DR lanes",
+      "fixtureChecks": [
+        "supported-movement-rider-save-cooldown",
+        "refused-generic-buff"
+      ]
+    },
+    {
+      "id": "saves",
+      "family": "Saves",
+      "subCapability": "GM-recorded rider-local 'negates' save (movement/stunned + direct) & single-part Direct Damage save (halves final-round-down D-SV1 / negates paid-at-cast D-SV3)",
+      "status": "app-verified",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "movement or stunned rider + direct damage/healing (plain or M4A scaled)",
+        "manual or structured/counted expiry (rider-local save)",
+        "authenticated_caster_start cooldown (rider-local save only)",
+        "single-part Direct Damage (plain NdM+/-K dice): halves (floor(final/2), D-SV1 rec. 1) or negates (0 damage, paid-at-cast D-SV3 rec. 3); temp HP first; optional component-watch trigger on Direct Damage"
+      ],
+      "evidenceLevel": "ordinary-app",
+      "evidenceProvenance": "handoff/direct-damage-save-combined-20261117/RELEASE.md & app-verified/direct-save/result.json (9/9 PASS); server/tests/directDamageSave.production.test.js; server/tests/p14SaveBranch.production.test.js; p14TimedSaveBranch.production.test.js; p14FormulaRiderSave.production.test.js; p14FormulaRiderSaveCooldown.production.test.js",
+      "exactUnsupportedBoundary": "Automated VTT save rolling; D-SV2/D-SV4 unapproved exclusions on direct-damage save (bundles/riders, area spells, healing, scaled/deterministic/missing-health formulas, cooldowns, self targets, creature sources); incomplete Saving Throw Configuration; rider-only saves without direct part; saves on periodic or flat-DR effects; and creature-source saves.",
+      "nextStepOwner": "Save-branch & Direct-save lanes (server/shared/services/saveBranch.js, server/shared/services/directSave.js)",
+      "fixtureChecks": [
+        "supported-movement-rider-save-cooldown",
+        "supported-direct-save-halves",
+        "supported-direct-save-negates",
+        "refused-partial-save",
+        "refused-direct-save",
+        "refused-direct-save-combination"
+      ]
+    },
+    {
+      "id": "durations-ticks-expiry",
+      "family": "Durations / Ticks / Expiry",
+      "subCapability": "Structured target-turn expiry (next-start/end, counted 2-10) & M5 periodic damage/healing ticks (each-tick roll)",
+      "status": "app-verified",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "authored-effect:v1 conditions (gm-manual or target-turn boundaries)",
+        "periodic ticks + same-kind immediate part (M4A scaled allowed)",
+        "authenticated_caster_start cooldown",
+        "Ongoing-effects CombatTimeline display (App-verified 2026-11-15)"
+      ],
+      "evidenceLevel": "ordinary-app",
+      "evidenceProvenance": "MYTHRILL_CROSS_TRACK_COORDINATION.md (Ongoing-effects display in CombatTimeline App witness 2026-11-15); server/tests/p14m2aDurations.production.test.js; p14m5Periodic.production.test.js; p14m5Composition.production.test.js",
+      "exactUnsupportedBoundary": "Wizard Step durationConfig (rounds/minutes/hours/concentration/permanent), persistentConfig, roll-once-at-cast periodic, periodic ticks on PC targets, saves on periodic ticks, component-watch next to periodic ticks, and creature-source immediate+periodic.",
+      "nextStepOwner": "M2A / M5 Periodic lanes",
+      "fixtureChecks": [
+        "supported-periodic-composition",
+        "refused-wizard-duration-rounds",
+        "refused-periodic-pc-target"
+      ]
+    },
+    {
+      "id": "cooldowns",
+      "family": "Cooldowns",
+      "subCapability": "authenticated_caster_start (1-10 strictly upcoming caster-turn starts on primary owner PC)",
+      "status": "installed",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "single-target immediate damage/healing",
+        "standalone or immediate+periodic",
+        "movement, stunned, attribute, or flat-DR rider (save only on movement/stunned)",
+        "component-watch on direct damage"
+      ],
+      "evidenceLevel": "real-handler",
+      "evidenceProvenance": "server/tests/p14WizardCooldown.production.test.js; p14EffectCooldown.production.test.js; p14FlatDrCooldown.production.test.js; p14RiderFormulaCooldown.production.test.js; p14FormulaRiderSaveCooldown.production.test.js",
+      "exactUnsupportedBoundary": "Legacy Wizard cooldowns (turn_based, short_rest, long_rest, charge_based, dice_based, conditional, real_time, encounter), area-spell cooldowns, self-healing cooldowns, and creature-source cooldowns.",
+      "nextStepOwner": "Wizard cooldowns lane (server/shared/services/authoredCooldown.js)",
+      "fixtureChecks": [
+        "supported-movement-rider-save-cooldown",
+        "refused-legacy-turn-cooldown",
+        "refused-creature-cooldown"
+      ]
+    },
+    {
+      "id": "triggers-whole-and-component",
+      "family": "Triggers",
+      "subCapability": "Whole-spell follow-up (follow_up_after_damage, follow_up_after_healing) & single-part Damage component watch (authored-component-watch-trigger:v1)",
+      "status": "app-verified",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "whole-spell damage follow-up: single-target or M6A area",
+        "whole-spell healing follow-up: single-target or M6A area (installed, real-handler verified; App witness prepared/gated)",
+        "component watch: single-target immediate damage (all 4 versions) or direct damage + movement/stunned/attribute/flat-DR"
+      ],
+      "evidenceLevel": "ordinary-app",
+      "evidenceProvenance": "handoff/component-trigger-family-expansion-release/APP_VERIFIED.md & APP_SUPPLEMENTARY_VERIFIED.md; handoff/wizard-review-save-admission-consistency-release-20261114/APP_VERIFIED.md; healing-followup App witness prepared/not executed",
+      "exactUnsupportedBoundary": "All other triggerData categories/IDs, multiple global triggers, effectTriggers on non-direct-damage parts or with periodic ticks or on area spells, conditionalEffects, buffDebuffTriggers, requiredConditions, non-CONDITIONAL triggerRole, chaining follow-ups, and creature sources. (TriggerOfferPanel projection hardening, Spellbook-to-trigger-registration UX, and trigger-dispatch-selectivity are now installed.)",
+      "nextStepOwner": "Component-trigger / TriggerOfferPanel / Spellbook-trigger-registration / Trigger-dispatch-selectivity lanes",
+      "fixtureChecks": [
+        "supported-whole-trigger",
+        "supported-component-watch",
+        "refused-combined-whole-and-component-trigger"
+      ]
+    },
+    {
+      "id": "passives-heightened-senses-only",
+      "family": "Passives",
+      "subCapability": "Heightened Senses single-descriptor lifecycle ONLY (perception NOVICE +2 initiative); generic Wizard PASSIVE spells refused",
+      "status": "app-verified",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": false,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "primary owner PC with Perception NOVICE skillRank (exact descriptor hash 1c14d3d5...)",
+        "does NOT combine with authoredAbility compiler or generic passive buffs"
+      ],
+      "evidenceLevel": "ordinary-app",
+      "evidenceProvenance": "handoff/first-playable-passive-lifecycle-release-20261115/RELEASE.md (reused 2026-11-14 client build + live server; 2026-11-15 1-hunk delta unreviewed); server/tests/firstPlayablePassiveLifecycle.production.test.js",
+      "exactUnsupportedBoundary": "Every other Wizard PASSIVE spell (spellType: 'PASSIVE') is refused by authoredAbility.js and executionPlan.js ('passive_activation_unapproved'). There is no generic passive activation, toggle cost, stacking rule, or passive trigger engine.",
+      "nextStepOwner": "First-playable passive lifecycle lane (server/services/passiveActivation.js)",
+      "fixtureChecks": [
+        "supported-heightened-senses-passive",
+        "refused-generic-passive-no-trigger"
+      ]
+    },
+    {
+      "id": "summoning-vs-companion-placement",
+      "family": "Summoning / Companions",
+      "subCapability": "Persistent Companion Placement (placed token recruitment/recall/re-place outside combat) vs. Spell-Driven Summoning (unsupported)",
+      "status": "installed",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": false,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "companion placement: out-of-combat room state, actorRecruitment & companionRoster (NOT spells)",
+        "spell-driven summoning: combines with NOTHING (refused whole)"
+      ],
+      "evidenceLevel": "real-handler",
+      "evidenceProvenance": "server/services/companionPlacement.js & companionRoster.js (companion-recruitment-placement-integration); authoredAbility.js line 232 refuses summoningConfig",
+      "exactUnsupportedBoundary": "Spell-driven summoning (Wizard summoningConfig / effectTypes: ['summoning']) cannot compile, admit, or execute. Companion placement only places/recalls already-recruited persistent companions outside combat and refuses in-combat placement (actor_in_combat).",
+      "nextStepOwner": "Companion placement lane (existing) / Summoning unowned (awaiting design)",
+      "fixtureChecks": [
+        "refused-spell-summoning"
+      ]
+    },
+    {
+      "id": "resource-terms",
+      "family": "Resource Terms",
+      "subCapability": "Explicit AP (0-20) + Mana (0-10000) temp-first atomic payment; pinned catalogue typed class payments (Arcanoneer spheres, Minstrel notes, Martyr devotion)",
+      "status": "app-verified",
+      "canAuthorSaveReopen": true,
+      "canCompileAdmit": true,
+      "canExecuteOrdinaryControls": true,
+      "combinesWith": [
+        "AP + mana: all admitted Wizard definitions",
+        "typed class payments: pinned catalogueSource profiles only (M4B / M1 / P9)"
+      ],
+      "evidenceLevel": "ordinary-app",
+      "evidenceProvenance": "handoff/spell-payment-summary-20261115/RELEASE.md (App witness 5/5); handoff/p9-definition-authority-successor-20261113/; server/tests/p14ComposedClassPayment.production.test.js",
+      "exactUnsupportedBoundary": "Arbitrary Wizard-authored class resources (rage, energy, focus, ki, etc.), resourceFormulas, useFormulas: true, materialComponents, and unpinned class payments (refused as catalogue_provenance_untrusted / Explicit AP price / components / formulas).",
+      "nextStepOwner": "P9 / Catalogue class-payment lanes",
+      "fixtureChecks": [
+        "refused-arbitrary-resource-formula",
+        "refused-unpinned-class-payment"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "supported-immediate-damage",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:immediate-damage",
+      "expectOutcome": "executable",
+      "expectCapability": "authored-immediate:v1"
+    },
+    {
+      "id": "supported-self-healing",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:owner-self-healing",
+      "expectOutcome": "executable",
+      "expectCapability": "authored-immediate:v2"
+    },
+    {
+      "id": "supported-attribute-formula",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:attribute-formula",
+      "expectOutcome": "executable",
+      "expectCapability": "authored-immediate:v2"
+    },
+    {
+      "id": "supported-deterministic-formula",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:deterministic-formula",
+      "expectOutcome": "executable",
+      "expectCapability": "authored-immediate:v4"
+    },
+    {
+      "id": "supported-missing-health-formula",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:missing-health-reapproval",
+      "expectOutcome": "executable",
+      "expectCapability": "authored-immediate:v3"
+    },
+    {
+      "id": "supported-movement-rider-save-cooldown",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:direct-save-timed-rider",
+      "expectOutcome": "executable",
+      "expectCapability": "authored-effect:v1"
+    },
+    {
+      "id": "supported-periodic-composition",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:immediate-periodic-cooldown",
+      "expectOutcome": "executable",
+      "expectCapability": "authored-effect:v1"
+    },
+    {
+      "id": "supported-area-circle",
+      "kind": "real-handler",
+      "fixtureSource": "m6a-ranged-circle-damage",
+      "expectOutcome": "executable",
+      "expectCapability": "authored-area:v1"
+    },
+    {
+      "id": "supported-whole-trigger",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "supported.json+follow_up_after_damage",
+      "expectCompiled": true,
+      "expectExecutableClaim": true,
+      "expectSubscriptionId": "follow-up-after-damage"
+    },
+    {
+      "id": "supported-component-watch",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "supported.json+component_watch",
+      "expectCompiled": true,
+      "expectExecutableClaim": true,
+      "expectWatchComponentId": "effects:direct"
+    },
+    {
+      "id": "refused-whole-trigger-predicate",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "vtt-react/src/components/spellcrafting-wizard/__tests__/fixtures/whole-spell-trigger.json",
+      "expectCompiled": false,
+      "expectReasonIncludes": "triggers"
+    },
+    {
+      "id": "refused-effect-attached-trigger",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "vtt-react/src/components/spellcrafting-wizard/__tests__/fixtures/component-attached-trigger.json",
+      "expectCompiled": false,
+      "expectReasonIncludes": "triggers"
+    },
+    {
+      "id": "supported-heightened-senses-passive",
+      "kind": "passive-descriptor",
+      "fixtureSource": "server/tests/helpers/fixtures/heightened-senses.record.json",
+      "expectPolicyApproved": true,
+      "expectCompilerRefused": true
+    },
+    {
+      "id": "refused-generic-passive-no-trigger",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "server/tests/helpers/fixtures/p0-no-trigger.record.json",
+      "expectCompiled": false,
+      "expectReasonIncludes": "Immediate ACTION required",
+      "expectPlanRefusalCode": "passive_activation_unapproved"
+    },
+    {
+      "id": "refused-combined-whole-and-component-trigger",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "vtt-react/src/components/spellcrafting-wizard/__tests__/fixtures/combined-whole-and-component-trigger.json",
+      "expectCompiled": false,
+      "expectReasonIncludes": "triggers"
+    },
+    {
+      "id": "refused-area-cone",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:area-cone",
+      "expectCompiled": false,
+      "expectReasonIncludes": "circle required"
+    },
+    {
+      "id": "refused-area-component-watch",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:area-component-watch",
+      "expectCompiled": false,
+      "expectReasonIncludes": "watched part on an area spell is not supported"
+    },
+    {
+      "id": "refused-crit-damage",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:crit-damage",
+      "expectCompiled": false,
+      "expectReasonIncludes": "resolution / critical / save"
+    },
+    {
+      "id": "refused-shield-healing",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:shield-healing",
+      "expectCompiled": false,
+      "expectReasonIncludes": "hasShieldEffect"
+    },
+    {
+      "id": "refused-generic-buff",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:generic-buff",
+      "expectCompiled": false,
+      "expectReasonIncludes": "Exactly one damage or healing effect required"
+    },
+    {
+      "id": "refused-partial-save",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:partial-save",
+      "expectCompiled": false,
+      "expectReasonIncludes": "halves/partial outcomes await a creator decision"
+    },
+    {
+      "id": "refused-direct-save",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:direct-save",
+      "expectCompiled": false,
+      "expectReasonIncludes": "save on the direct damage part: the Saving Throw Configuration is incomplete"
+    },
+    {
+      "id": "supported-direct-save-halves",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "directDamageSaveFixtures.json:direct-damage-save-for-half",
+      "expectCompiled": true,
+      "expectWholeExecutable": true,
+      "expectExecutableClaim": false,
+      "expectSave": {
+        "scope": "direct",
+        "ability": "agility",
+        "dc": 15,
+        "outcome": "halves"
+      }
+    },
+    {
+      "id": "supported-direct-save-negates",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "directDamageSaveFixtures.json:direct-damage-local-save",
+      "expectCompiled": true,
+      "expectWholeExecutable": true,
+      "expectExecutableClaim": false,
+      "expectSave": {
+        "scope": "direct",
+        "ability": "agility",
+        "dc": 14,
+        "outcome": "negates"
+      }
+    },
+    {
+      "id": "refused-direct-save-combination",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "directDamageSaveFixtures.json:unsupported-combination-both-saves",
+      "expectCompiled": false,
+      "expectReasonIncludes": "only a damage-only single-target immediate spell reads it"
+    },
+    {
+      "id": "refused-wizard-duration-rounds",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:duration-rounds",
+      "expectCompiled": false,
+      "expectReasonIncludes": "durationConfig"
+    },
+    {
+      "id": "refused-legacy-turn-cooldown",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:legacy-turn-cooldown",
+      "expectCompiled": false,
+      "expectReasonIncludes": "legacy turns/rounds/rests/charges"
+    },
+    {
+      "id": "refused-spell-summoning",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:spell-summoning",
+      "expectCompiled": false,
+      "expectReasonIncludes": "Exactly one damage or healing effect required"
+    },
+    {
+      "id": "refused-arbitrary-resource-formula",
+      "kind": "compiler-and-plan",
+      "fixtureSource": "boundary:resource-formula",
+      "expectCompiled": false,
+      "expectReasonIncludes": "Explicit AP price / components / formulas"
+    },
+    {
+      "id": "refused-creature-formula",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:attribute-formula",
+      "route": "gm-creature-to-creature",
+      "expectOutcome": "structurally-valid-route-unsupported",
+      "expectCode": "unsupported_source_route"
+    },
+    {
+      "id": "refused-periodic-pc-target",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:standalone-periodic",
+      "route": "owner-pc-to-other-pc",
+      "expectOutcome": "structurally-valid-route-unsupported",
+      "expectCode": "pc_target_effect_unsupported"
+    },
+    {
+      "id": "refused-creature-cooldown",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:movement-rider-cooldown",
+      "route": "gm-creature-to-creature",
+      "expectOutcome": "structurally-valid-route-unsupported",
+      "expectCode": "unsupported_source_route"
+    },
+    {
+      "id": "refused-unpinned-class-payment",
+      "kind": "real-handler",
+      "fixtureSource": "componentCompatibilityRecords.cjs:typed-class-payment-pinned",
+      "route": "owner-pc-to-creature-unpinned",
+      "expectOutcome": "authority-forbidden",
+      "expectCode": "catalogue_provenance_untrusted"
+    }
+  ],
+  "reconciledReleases": [
+    {
+      "reconciledAt": "2026-11-16T18:41:48.082Z",
+      "packet": "handoff/secondary-attachment-refresh-repair-20261115/",
+      "installedAt": "2026-11-15T21:48:03.017Z",
+      "reviewVerdict": "ACCEPT",
+      "changes": [
+        {
+          "file": "server/services/actorConsequences.js",
+          "from": "1513c55b1c5b8939",
+          "to": "94d2113b257625a0fab77a539532aba62166718a618297497234eb714dc298ff"
+        }
+      ]
+    },
+    {
+      "reconciledAt": "2026-11-17T19:40:00.000Z",
+      "packet": "handoff/trigger-ui-release-20261116/",
+      "installedAt": "2026-11-16T19:00:02.420Z",
+      "reviewVerdict": "ACCEPT",
+      "note": "TriggerOfferPanel projection hardening (8f81c70d->4638566d) and Spellbook-to-trigger-registration workflow (4638566d->20538624) installed and App-verified.",
+      "changes": [
+        {
+          "file": "vtt-react/src/components/hud/TriggerOfferPanel.jsx",
+          "from": "8f81c70d938bce8a",
+          "to": "20538624898ae0e2d406d837e89f99c6fb59c21e89042710f9a3aa4c6bf314c5"
+        }
+      ]
+    },
+    {
+      "reconciledAt": "2026-11-17T19:40:00.000Z",
+      "packet": "handoff/trigger-dispatch-selectivity/",
+      "reviewVerdict": "ACCEPT",
+      "note": "Dispatch selectivity installed into committedTriggers.js (d3b7eb94->8608b6fe) prior to direct-damage-save-combined-20261117.",
+      "changes": [
+        {
+          "file": "server/services/committedTriggers.js",
+          "from": "d3b7eb94c431ce7a",
+          "to": "8608b6fe7d54f2ff68785d7e5c4b517a69cbca902f99c42ad702396a5966944b"
+        }
+      ]
+    },
+    {
+      "reconciledAt": "2026-11-17T19:40:00.000Z",
+      "packet": "handoff/direct-damage-save-combined-20261117/",
+      "installedAt": "2026-11-17T18:21:24.841Z",
+      "reviewVerdict": "ACCEPT",
+      "changes": [
+        {
+          "file": "vtt-react/src/services/authoredAbility.js",
+          "from": "a77440c8826279d05f199d4f0e6789b6eaab4c5b7cf2bfea5f6e64290f405284",
+          "to": "5e2743b1d07f5eafb122efc325b32568bcab0c6cc56073cf7b78ea17b1dadc70"
+        },
+        {
+          "file": "server/shared/services/authoredAbility.js",
+          "from": "a77440c8826279d05f199d4f0e6789b6eaab4c5b7cf2bfea5f6e64290f405284",
+          "to": "5e2743b1d07f5eafb122efc325b32568bcab0c6cc56073cf7b78ea17b1dadc70"
+        },
+        {
+          "file": "vtt-react/src/services/executionPlan.js",
+          "from": "2ce35561bba2ef1b22b4d8654e8886501085a32535f6250209ba22dfdb030e8e",
+          "to": "12354bfbba30445a03521ba332250b92eaa2db87a2c650ddfffbe33ceb6331ef"
+        },
+        {
+          "file": "server/shared/services/executionPlan.js",
+          "from": "2ce35561bba2ef1b22b4d8654e8886501085a32535f6250209ba22dfdb030e8e",
+          "to": "12354bfbba30445a03521ba332250b92eaa2db87a2c650ddfffbe33ceb6331ef"
+        },
+        {
+          "file": "server/services/installedDefinitionRegistry.js",
+          "from": "050720eab410f5e7",
+          "to": "59ff413aec514026f2a12273fc4322a6ffda2f2249d814e7ba7fa892b882aa7e"
+        },
+        {
+          "file": "server/services/installedAuthoredAbilities.js",
+          "from": "3ff91ee3bdd1348c",
+          "to": "4faf3223596a54784279cafd3176a8f08b5872fbc6b47624183849203e0e8bc0"
+        },
+        {
+          "file": "server/services/committedTriggers.js",
+          "from": "8608b6fe7d54f2ff68785d7e5c4b517a69cbca902f99c42ad702396a5966944b",
+          "to": "1d38ec4dba1f2e0c776ddc3339178b19ca7dd0ff49e7f4890c2d51c642b25766"
+        },
+        {
+          "file": "vtt-react/src/components/spellcrafting-wizard/utils/executionCompatibility.js",
+          "from": "44008845cbf3e5f8",
+          "to": "88510528bbfc1ff0836cc229642233f4a08da6fb007105a7984f1c15fcb5b490"
+        },
+        {
+          "file": "vtt-react/src/components/hud/TriggerOfferPanel.jsx",
+          "from": "20538624898ae0e2d406d837e89f99c6fb59c21e89042710f9a3aa4c6bf314c5",
+          "to": "2cde2a0f45bf14331d58614ff9f0badb7a61f46016d2aeb6b2f23b4365a51ab1"
+        }
+      ]
+    }
+  ]
+}

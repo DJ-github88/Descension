@@ -674,4 +674,88 @@ describe('Spell Timing and Periodic Presentation', () => {
       expect(extractPeriodicTiming(normalizedTwice)).toEqual(extractPeriodicTiming(draft));
     });
   });
+
+  describe('Authored flat damage-reduction and structured expiry card presentation', () => {
+    test('renders damageReduction rider details and structured expiry in both card body and header stat', () => {
+      const drSpell = {
+        id: 'authored-dr-iron-ward',
+        name: 'Iron Ward',
+        spellType: 'ACTION',
+        typeConfig: { school: 'abjuration', castTimeType: 'IMMEDIATE' },
+        effectTypes: ['control'],
+        controlConfig: {
+          authoredCondition: {
+            profile: 'authored-effect:v1',
+            effect: 'damageReduction',
+            drAmount: 4,
+            expiryPolicy: 'target-end-count',
+            occurrences: 3,
+            label: 'Iron Ward'
+          }
+        },
+        durationConfig: { durationType: 'instant', durationValue: 0 },
+        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+        resourceCost: { actionPoints: 1, mana: 2 }
+      };
+
+      const { container } = render(
+        <UnifiedSpellCard
+          spell={drSpell}
+          variant="wizard"
+          showDescription={true}
+          showStats={true}
+        />
+      );
+
+      expect(screen.getByText('Iron Ward (+4 DR)')).toBeInTheDocument();
+      expect(screen.getByText('Flat DR +4 DR')).toBeInTheDocument();
+      expect(screen.queryByText(/\+0 DR/)).not.toBeInTheDocument();
+      expect(screen.getAllByText(/expires at the end of the target's 3rd upcoming turn/i).length).toBeGreaterThanOrEqual(2);
+      expect(screen.queryByText('Control Effect')).not.toBeInTheDocument();
+      expect(screen.queryByText(/Provides control over targets/)).not.toBeInTheDocument();
+
+      const durationStat = container.querySelector('.unified-spell-stat.duration-stat');
+      expect(durationStat).not.toBeNull();
+      expect(durationStat.textContent).toContain("expires at the end of the target's 3rd upcoming turn");
+      expect(durationStat.textContent).not.toContain('Instant');
+    });
+
+    test('renders gm-manual damageReduction rider with GM timing note and without structured turn-count text', () => {
+      const manualDrSpell = {
+        id: 'authored-dr-manual',
+        name: 'Stone Skin',
+        spellType: 'ACTION',
+        typeConfig: { school: 'abjuration', castTimeType: 'IMMEDIATE' },
+        effectTypes: ['control'],
+        controlConfig: {
+          authoredCondition: {
+            profile: 'authored-effect:v1',
+            effect: 'damageReduction',
+            drAmount: 4,
+            expiryPolicy: 'gm-manual',
+            label: 'Iron Ward'
+          }
+        },
+        durationConfig: { durationType: 'instant', durationValue: 0 },
+        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+        resourceCost: { actionPoints: 1, mana: 2 }
+      };
+
+      const { container } = render(
+        <UnifiedSpellCard
+          spell={manualDrSpell}
+          variant="wizard"
+          showDescription={true}
+          showStats={true}
+        />
+      );
+
+      expect(screen.getByText('Iron Ward (+4 DR)')).toBeInTheDocument();
+      expect(screen.getByText('Flat DR +4 DR')).toBeInTheDocument();
+      expect(screen.queryByText(/\+0 DR/)).not.toBeInTheDocument();
+      expect(screen.getByText(/Flat damage reduction \+4 DR; GM manages timing/)).toBeInTheDocument();
+      expect(screen.queryByText(/upcoming turn/i)).not.toBeInTheDocument();
+      expect(container.querySelector('.unified-spell-stat.duration-stat')).toBeNull();
+    });
+  });
 });

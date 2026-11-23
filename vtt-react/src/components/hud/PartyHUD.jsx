@@ -18,6 +18,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useMapStore from '../../store/mapStore';
 import { getTokensForClass, getTokensForRace, resolveClassId } from '../../data/summonableTokens';
 import ClassResourceBar from './ClassResourceBar';
+import RoomHunterResource from './RoomHunterResource';
 import SummonTokenBar from './SummonTokenBar';
 import StatVial from './StatVial';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
@@ -234,6 +235,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const apBarRef = useRef(null);
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const isGMMode = useGameStore(state => state.isGMMode);
+    const roomHunter = useGameStore(state => state.isInMultiplayer) && member.character?.class === 'Hunter';
     const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
     const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
     const updatePartyMember = usePartyStore(state => state.updatePartyMember);
@@ -1523,9 +1525,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
                 {/* Class resource: the width of the card under a hairline rule,
                     sitting between the two bottom vials */}
-                {member.character?.class && member.character?.class !== 'Unknown' && member.character?.classResource && (
+                {member.character?.class && member.character?.class !== 'Unknown' && (member.character?.classResource || roomHunter) && (
                     <div className="resource-bars-container hud-sheet-resource">
-                        <ClassResourceBar
+                        {roomHunter ? <RoomHunterResource self={isCurrentPlayer} ownerUid={member.userId} characterId={member.character.id} /> : <ClassResourceBar
                             key={`classResource-${member.id}`}
                             characterClass={member.character.class}
                             classResource={member.character.classResource}
@@ -1537,7 +1539,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             } : null}
                             size="small"
                             context="party"
-                        />
+                        />}
                     </div>
                 )}
 

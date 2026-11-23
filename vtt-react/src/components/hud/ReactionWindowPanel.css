@@ -17,3 +17,14 @@
 .rw-card { margin-top: 12px; padding-top: 8px; border-top: 1px solid #8a6d45; }
 .rw-boundary { font-weight: bold; }
 .rw-panel pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; }
+.rw-post-hit-guide { margin: 8px 0 10px; padding: 8px 10px; border: 1px solid #8a6d45; border-left: 4px solid #8a2a1b; border-radius: 4px; background: #fbf6ea; }
+.rw-post-hit-guide.is-followup-ready { border-left-color: #2f5d34; background: #f2f6ee; }
+.rw-post-hit-guide.is-closed-none { border-left-color: #68533e; background: #efe8d8; }
+.rw-choice-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 6px !important; }
+.rw-choice-pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: bold; line-height: 1.35; border: 1px solid #8a6d45; background: #efe3c8; color: #2b2116; }
+.rw-choice-pill.is-urgent { background: #8a2a1b; border-color: #6b1e12; color: #fbf6ea; }
+.rw-choice-pill.is-followup { background: #2f5d34; border-color: #214425; color: #f6fbf3; }
+.rw-choice-pill.is-closed { background: #e5dfd3; border-color: #8a6d45; color: #473726; }
+.rw-choice-pill.is-none { background: #efe8d8; border-color: #b5a186; color: #5d4b33; }
+.rw-instruction { margin: 0 !important; font-weight: 600; color: #2b2116; }
+.rw-followup-jump { margin-top: 8px !important; font-weight: bold; }

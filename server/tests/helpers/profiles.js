@@ -5,6 +5,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const shippedPolicy = require('../../shared/services/passiveActivationPolicy');
 
 const value = (name, fallback) => (process.env[name] === undefined || process.env[name] === '' ? fallback : process.env[name]);
 const readFixture = name => JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', name), 'utf8'));
@@ -23,8 +24,12 @@ const STACKING_OPTIONS = Object.freeze({
   'both-copies': { label: 'Two active copies of the same passive both apply (+4)', recommended: false }
 });
 
+const APPROVED = process.env.PASSIVE_APPROVED === '1'
+  ? true
+  : (process.env.PASSIVE_APPROVED === '0' ? false : shippedPolicy.approved() === true);
+
 const profile = {
-  APPROVED: process.env.PASSIVE_APPROVED === '1',
+  APPROVED,
   ACTIVATION: value('PASSIVE_ACTIVATION', 'gm-explicit'),
   CONFIRM: value('PASSIVE_CONFIRM', 'automatic'),
   STACKING: value('PASSIVE_STACKING', 'one-copy-additive'),

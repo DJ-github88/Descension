@@ -16,6 +16,7 @@ export const STRIKE = 'p12a-strike:v1/basic-weapon-strike';
 export const BLOCK = 'p12b-block:v1/creature-attack-block';
 export const FEATHER = 'feather-slash:v1/abilities:1.4.0';
 export const SPELL_PREFIX = 'p9-spell:v1/';
+export const TURN_BOUNDARY = 'shared-turn-boundary:v1';
 export const FLOAT_KINDS = ['hp']; // F1 open: later slices may add 'ap', 'mana', 'wear' parts.
 export const MAX_GROUPS = 3;
 const KEY_LIMIT = 256;
@@ -52,7 +53,20 @@ export function projectionOf(token, kind, creatures = []) {
   }
   const name = kind === 'character' ? (token?.character?.name || token?.name)
     : (token?.state?.customName || token?.customName || token?.name || creatures.find(c => c.id === token?.creatureId)?.name);
-  return { revision, pools, name: typeof name === 'string' && name.trim() ? name.trim().slice(0, 60) : null };
+  const conditionNames = {};
+  for (const cond of token?.state?.conditions || []) {
+    const cid = cond?.recordId || cond?.id;
+    const cname = cond?.name || cond?.originalName;
+    if (typeof cid === 'string' && typeof cname === 'string' && cname.trim()) {
+      conditionNames[cid] = cname.trim().slice(0, 80);
+    }
+  }
+  return {
+    revision,
+    pools,
+    name: typeof name === 'string' && name.trim() ? name.trim().slice(0, 60) : null,
+    ...(Object.keys(conditionNames).length ? { conditionNames } : {})
+  };
 }
 /** Exact deltas, or null when the projection is not at exactly beforeRevision (never inferred). */
 export function exactDeltas(before, actor) {
@@ -78,6 +92,7 @@ export function capabilityOf(receipt) {
   if (hashId === RIPOSTE) return { kind: 'riposte', label: 'Riposte', outcome: chosen.rollOutcome, damage: chosen.rollOutcome !== 'miss' };
   if (hashId === BLOCK) return { kind: 'block', label: chosen.attack?.ability?.name, blockName: chosen.block?.name, reduction: chosen.block?.reduction, damage: (chosen.attack?.authored?.direct || chosen.attack?.authored?.kind || chosen.attack?.authored?.attempt?.spell?.kind) !== 'healing' };
   if (hashId === FEATHER) return { kind: 'feather', label: 'Feather Slash', damage: true };
+  if (hashId === 'universal-defend:v1') return { kind: 'defend', label: 'Defend', damage: false };
   if (hashId.startsWith('authored-condition:v1/')) return { kind: 'condition', label: chosen.spellName, damage: false };
   // A10: one line for the whole bundle (direct part, canonical effect and its expiry policy).
   // M1: one line naming the recorded branch and that the record is only partially automated.
@@ -87,8 +102,13 @@ export function capabilityOf(receipt) {
     effect: conditionLabel(chosen.condition), expiry: (POLICY_TEXT[chosen.expiryPolicy] && policyText(chosen.expiryPolicy, chosen.occurrences)) || 'GM removes', refreshed: chosen.combination?.outcome === 'refreshed',
     // Shared GM-recorded save branch: the recorded branch decides whether the effect was applied (never inferred client-side).
     ...(chosen.save ? { branch: chosen.branch, saveText: `${saveLabel(chosen.save)}, GM recorded`, conditionApplied: chosen.conditionApplied === true } : {}) };
+  if (hashId.startsWith('authored-passive-entry:v1/')) return { kind: 'passive-entry', label: chosen.passiveName, radiusFeet: chosen.radiusFeet, restriction: chosen.restriction, effect: conditionLabel(chosen.condition), damage: false };
+  if (hashId.startsWith('authored-passive-turn:v1/')) return { kind: 'passive-turn', label: chosen.passiveName, trigger: chosen.trigger, whoseTurn: chosen.whoseTurn, effect: conditionLabel(chosen.condition), damage: false };
   if (hashId.startsWith('authored-area:v1/')) return { kind: 'area-spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
   if (hashId.startsWith(SPELL_PREFIX) || /^authored-immediate:v[1234]\//.test(hashId)) return { kind: 'spell', label: chosen.spellName, damage: chosen.kind === 'damage' };
+  if (hashId === TURN_BOUNDARY && Array.isArray(chosen.endedChannels) && chosen.endedChannels.length > 0) {
+    return { kind: 'channel-ended', endedChannels: chosen.endedChannels, damage: false };
+  }
   return { kind: 'none' };
 }
 /** HP float parts. "absorbed" only when the accepted consequence establishes damage absorption (§2). */
@@ -111,6 +131,28 @@ function actorWords(delta, establishesAbsorption, wear, miss) {
   }
   if (wear && typeof wear.name === 'string' && wear.beforeDie !== wear.afterDie) words.push(`${wear.name} ${wear.beforeDie} → ${wear.broken ? 'broken' : wear.afterDie}`);
   return words;
+}
+function channelEndReasonText(entry) {
+  switch (entry?.reason) {
+    case 'target_out_of_range':
+      if (Number.isFinite(entry.distanceFeet) && Number.isFinite(entry.rangeFeet)) {
+        return `target moved out of range (${entry.distanceFeet} ft > ${entry.rangeFeet} ft)`;
+      }
+      if (Number.isFinite(entry.rangeFeet)) {
+        return `target moved out of range (beyond ${entry.rangeFeet} ft)`;
+      }
+      return 'target moved out of range';
+    case 'caster_stunned':
+      return 'caster is Stunned';
+    case 'caster_down':
+      return 'caster is down (0 HP)';
+    case 'caster_unavailable':
+      return 'caster is unavailable';
+    default:
+      return typeof entry?.reason === 'string' && entry.reason.trim()
+        ? entry.reason.trim().replace(/_/g, ' ')
+        : 'channel interrupted';
+  }
 }
 /**
  * Builds floats and one narration event for an accepted result.
@@ -138,20 +180,48 @@ export function buildFeed({ result, before = {}, viewer, live }) {
   }
   if (!reportableCount) return { floats: [], narration: null };
   // Review 10: read-only or ref-less actors count as not reportable; source/target(s) must be shown actors.
-  const allReportable = reportableCount === receipt.actors.length && (!receipt.source || lines.some(l => sameRef(l.ref, receipt.source))) &&
+  const allReportable = reportableCount === receipt.actors.length && (!receipt.source || capability.kind === 'passive-entry' || capability.kind === 'passive-turn' || lines.some(l => sameRef(l.ref, receipt.source))) &&
     (!receipt.target || lines.some(l => sameRef(l.ref, receipt.target))) &&
     (!Array.isArray(receipt.targets) || receipt.targets.every(t => lines.some(l => sameRef(l.ref, t))));
   // Review 5: the outcome word belongs to the capability; it is shown only when every actor is reportable.
   for (const line of lines) line.words = actorWords(line.delta, line.absorbs, line.wear, allReportable && line.missTarget);
   const nameOf = ref => lines.find(line => sameRef(line.ref, ref))?.name;
   const body = lines.map(line => `${line.name}${line.words.length ? ` ${line.words.join(', ')}` : ' updated'}`).join('; ');
-  let text = body, arithmetic = '';
-  if (allReportable && capability.kind !== 'none') {
+  let text = body, arithmetic = '', channelEndLine = null;
+  if (capability.kind === 'channel-ended') {
+    const endedLines = [];
+    for (const entry of capability.endedChannels) {
+      if (!entry?.ref || !viewer.reportable(entry.ref)) continue;
+      if (entry.sourceActor && !viewer.reportable(entry.sourceActor)) continue;
+      const targetPrior = before[actorKey(entry.ref)];
+      const sourcePrior = entry.sourceActor ? before[actorKey(entry.sourceActor)] : null;
+      const spellName = targetPrior?.conditionNames?.[entry.recordId]
+        || (typeof entry.spellName === 'string' && entry.spellName.trim() ? entry.spellName.trim().slice(0, 80) : null)
+        || 'Channeled spell';
+      const targetName = nameOf(entry.ref) || targetPrior?.name || (entry.ref.kind === 'character' ? 'A character' : 'A creature');
+      const sourceName = entry.sourceActor
+        ? (nameOf(entry.sourceActor) || sourcePrior?.name || (entry.sourceActor.kind === 'character' ? 'A character' : 'A creature'))
+        : null;
+      const reasonText = channelEndReasonText(entry);
+      endedLines.push(sourceName
+        ? `${spellName} (${sourceName} → ${targetName}) ended: ${reasonText}`
+        : `${spellName} on ${targetName} ended: ${reasonText}`);
+    }
+    if (endedLines.length > 0) {
+      channelEndLine = `${endedLines.join('; ')}.`;
+      text = channelEndLine;
+    } else {
+      text = `${body}.`;
+    }
+  } else if (allReportable && capability.kind !== 'none') {
     const src = nameOf(receipt.source) || 'Someone', tgt = nameOf(receipt.target) || 'someone', label = typeof capability.label === 'string' ? capability.label.slice(0, 80) : 'an action';
     const lead = capability.kind === 'strike' ? `${src} ${capability.outcome === 'miss' ? 'misses' : 'strikes'} ${tgt} with ${label}${capability.outcome === 'critical' ? ' (critical)' : ''}`
       : capability.kind === 'riposte' ? `${src} ${capability.outcome === 'miss' ? 'misses' : 'counter-attacks'} ${tgt} with Riposte`
         : capability.kind === 'block' ? `${src}’s ${label} ${capability.damage ? 'hits' : 'heals'} ${tgt}${capability.blockName ? `; ${capability.blockName} blocks ${capability.reduction}` : ''}`
+         : capability.kind === 'defend' ? `${src} takes Defend (2× equipment DR, no wear until next turn)`
          : capability.kind === 'condition' ? `${src} applies Stunned to ${tgt} with ${label}`
+         : capability.kind === 'passive-entry' ? `Passive ${label} (${capability.radiusFeet} ft) fires on ${tgt}, applying ${capability.effect} (GM removes)`
+         : capability.kind === 'passive-turn' ? `Passive ${label} (${capability.whoseTurn} ${capability.trigger === 'turn_start' ? 'turn start' : 'turn end'}) fires on ${tgt}, applying ${capability.effect} (GM removes)`
          : capability.kind === 'class-effect' ? `${src} uses ${label} on ${tgt}; ${capability.branch === 'saved' ? `${tgt} saves (GM recorded): no new ${capability.effect}`
            : `${capability.branch === 'failed' ? `${tgt} fails the save (GM recorded): ` : ''}${capability.refreshed ? `refreshing ${capability.effect}, value not stacked` : `applying ${capability.effect}`} (GM removes)`}. Partially automated — the GM applies the rest`
          : capability.kind === 'effect' && capability.branch === 'saved' ? `${src} uses ${label} on ${tgt}; ${tgt} saves (${capability.saveText}): no ${capability.effect}`
@@ -166,7 +236,11 @@ export function buildFeed({ result, before = {}, viewer, live }) {
   } else {
     text = `${body}.`;
   }
-  return { floats, narration: { id: `p13a:${receipt.roomId}:${receipt.commandId}`, phase: 'outcome', accepted: true, important: true, text, arithmetic } };
+  return {
+    floats,
+    narration: { id: `p13a:${receipt.roomId}:${receipt.commandId}`, phase: 'outcome', accepted: true, important: true, text, arithmetic },
+    ...(channelEndLine ? { channelEndLine } : {})
+  };
 }
 
 // ── Runtime glue ──────────────────────────────────────────────────────────────────────────────────────
@@ -177,13 +251,23 @@ const store = key => getStore(key)?.getState?.() || {};
 /** The viewer's own projections of every receipt actor, read before the receipt is applied. */
 export function captureBefore(receipt) {
   const out = {};
-  if (!Array.isArray(receipt?.actors)) return out;
+  if (!receipt || typeof receipt !== 'object') return out;
+  const capability = capabilityOf(receipt);
   const creatures = store('creatureStore').creatures || [];
   const tokens = [...(store('creatureStore').creatureTokens || []).map(token => ['creature', token]), ...(store('characterTokenStore').characterTokens || []).map(token => ['character', token])];
-  for (const actor of receipt.actors) {
-    if (!actor?.ref) continue;
-    const found = tokens.find(([kind, token]) => kind === actor.ref.kind && sameRef(refOf(token), actor.ref));
-    if (found) out[actorKey(actor.ref)] = projectionOf(found[1], found[0], creatures);
+  const captureRef = ref => {
+    if (!ref) return;
+    const key = actorKey(ref);
+    if (!key || out[key]) return;
+    const found = tokens.find(([kind, token]) => kind === ref.kind && sameRef(refOf(token), ref));
+    if (found) out[key] = projectionOf(found[1], found[0], creatures);
+  };
+  for (const actor of Array.isArray(receipt.actors) ? receipt.actors : []) captureRef(actor?.ref);
+  if (capability.kind === 'channel-ended') {
+    for (const entry of capability.endedChannels) {
+      captureRef(entry?.ref);
+      captureRef(entry?.sourceActor);
+    }
   }
   return out;
 }
@@ -226,6 +310,20 @@ export function publishAcceptedResult({ result, before, live }) {
     published.push(id); if (published.length > KEY_LIMIT) published.shift();
     feed.floats.forEach(pushFloat);
     useCombatFeedStore.setState(s => ({ narration: narrationReducer(s.narration, { type: 'publish', events: [feed.narration] }) }));
+    if (feed.channelEndLine) {
+      const chat = getStore('chatStore');
+      const noteId = `c4:${receipt.roomId}:${receipt.commandId}`;
+      const existing = chat?.getState?.()?.notifications?.combat;
+      if (chat?.getState?.()?.addNotification && !(Array.isArray(existing) && existing.some(note => note.id === noteId))) {
+        chat.getState().addNotification('combat', {
+          id: noteId,
+          type: 'combat',
+          receiptId: noteId,
+          timestamp: Number.isFinite(receipt.acceptedAt) ? new Date(receipt.acceptedAt).toISOString() : new Date().toISOString(),
+          content: `${feed.channelEndLine} Accepted receipt ${receipt.commandId}.`
+        });
+      }
+    }
   } else {
     useCombatFeedStore.setState(s => ({ narration: narrationReducer(s.narration, { type: 'history', events: [feed.narration] }) }));
   }

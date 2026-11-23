@@ -27,6 +27,82 @@ import MythrillWindow from '../../../windows/MythrillWindow';
 import { getCommunitySpellById } from '../../../../services/firebase/communitySpellService';
 import './CommunitySpellsTab.css';
 
+const COMMUNITY_ONLY_SPELL_FIELDS = new Set([
+  'authorId',
+  'isPublic',
+  'isFeatured',
+  'rating',
+  'ratingCount',
+  'downloadCount',
+  'upvotes',
+  'downvotes',
+  'originalUserId',
+  'originalSpellId',
+  'originalId',
+  'sharedSpellId',
+  'sharedAt',
+  'rarity',
+  'categoryId',
+  'userId',
+  'isShared',
+  'folderId',
+  'author',
+  'authorName',
+  'isCommunity',
+  'communityId'
+]);
+
+const normalizeFirestoreTimestamps = (value) => {
+  if (value === null || value === undefined || typeof value !== 'object') {
+    return value;
+  }
+  if (typeof value.toDate === 'function') {
+    const dt = value.toDate();
+    return Number.isNaN(dt?.getTime?.()) ? new Date().toISOString() : dt.toISOString();
+  }
+  if (
+    Object.prototype.hasOwnProperty.call(value, 'seconds') &&
+    Object.prototype.hasOwnProperty.call(value, 'nanoseconds') &&
+    Object.keys(value).length === 2
+  ) {
+    const ms = value.seconds * 1000 + Math.floor(value.nanoseconds / 1e6);
+    return new Date(ms).toISOString();
+  }
+  if (Array.isArray(value)) {
+    return value.map(normalizeFirestoreTimestamps);
+  }
+  const out = {};
+  for (const [k, v] of Object.entries(value)) {
+    out[k] = normalizeFirestoreTimestamps(v);
+  }
+  return out;
+};
+
+/** Build a clean local Spell Library record from a downloaded Community spell document. */
+export const buildDownloadedLibrarySpell = (
+  downloadedSpell,
+  communityDocId,
+  nowIso = new Date().toISOString()
+) => {
+  const normalized = normalizeFirestoreTimestamps(downloadedSpell || {});
+  const cleaned = {};
+  for (const [key, val] of Object.entries(normalized)) {
+    if (!COMMUNITY_ONLY_SPELL_FIELDS.has(key)) {
+      cleaned[key] = val;
+    }
+  }
+  const uniqueSuffix = Math.random().toString(36).slice(2, 8);
+  return {
+    ...cleaned,
+    id: `community-${communityDocId}-${Date.now()}-${uniqueSuffix}`,
+    dateCreated: nowIso,
+    lastModified: nowIso,
+    source: 'community',
+    isCustom: true,
+    isShared: false
+  };
+};
+
 // Session cache of full spell documents hydrated from summary rows.
 const spellHydrationCache = new Map();
 
@@ -161,9 +237,11 @@ const CommunitySpellsTab = () => {
   // Check if spell exists in local library
   const isInLibrary = useCallback((spell) => {
     if (!library?.spells || !spell) return false;
+    const communityPrefix = `community-${spell.id}-`;
     return library.spells.some(s =>
-      s.originalId === spell.id ||
       s.id === spell.id ||
+      (typeof s.id === 'string' && s.id.startsWith(communityPrefix)) ||
+      s.originalId === spell.id ||
       (s.name && spell.name && s.name.trim().toLowerCase() === spell.name.trim().toLowerCase())
     );
   }, [library?.spells]);
@@ -273,68 +351,57 @@ const CommunitySpellsTab = () => {
     });
   }, []);
 
+  const downloadIntoLibrary = useCallback(async (communityId) => {
+    try {
+      setDownloadingSpells(prev => new Set([...prev, communityId]));
+      const downloadedSpell = await downloadCommunitySpell(communityId);
+      const localSpell = buildDownloadedLibrarySpell(downloadedSpell, downloadedSpell?.id || communityId);
+
+      libraryDispatch(libraryActionCreators.addSpell(localSpell));
+      if (user?.uid && !user.isGuest) {
+        import('../../../../services/firebase/userSpellService')
+          .then(({ saveUserSpell }) => saveUserSpell(user.uid, localSpell))
+          .catch(() => {});
+      }
+      return localSpell;
+    } finally {
+      setDownloadingSpells(prev => {
+        const next = new Set(prev);
+        next.delete(communityId);
+        return next;
+      });
+    }
+  }, [downloadCommunitySpell, libraryDispatch, user]);
+
   // Download spell to local library
   const handleDownloadSpell = async (spell, e) => {
     if (e) e.stopPropagation();
     try {
-      setDownloadingSpells(prev => new Set([...prev, spell.id]));
-      
-      const downloadedSpell = await downloadCommunitySpell(spell.id);
-      
-      const localSpell = {
-        ...downloadedSpell,
-        id: `community-${downloadedSpell.id}-${Date.now()}`,
-        dateCreated: new Date().toISOString(),
-        lastModified: new Date().toISOString(),
-        source: 'community',
-        originalId: downloadedSpell.id
-      };
-      
-      libraryDispatch(libraryActionCreators.addSpell(localSpell));
+      await downloadIntoLibrary(spell.id);
       showToast(`Added "${spell.name}" to your spell library!`, 'success');
     } catch (err) {
       showToast(`Failed to download: ${err.message}`, 'error');
-    } finally {
-      setDownloadingSpells(prev => {
-        const next = new Set(prev);
-        next.delete(spell.id);
-        return next;
-      });
     }
   };
 
   // Add spell to collection
   const handleAddToCollection = async (spellId, collectionId) => {
-    let spell = library.spells.find(s => s.id === spellId || s.originalId === spellId);
-    
+    const communityPrefix = `community-${spellId}-`;
+    let spell = library.spells.find(s =>
+      s.id === spellId ||
+      (typeof s.id === 'string' && s.id.startsWith(communityPrefix)) ||
+      s.originalId === spellId
+    );
+
     if (!spell) {
       try {
-        setDownloadingSpells(prev => new Set([...prev, spellId]));
-        const downloadedSpell = await downloadCommunitySpell(spellId);
-        
-        const localSpell = {
-          ...downloadedSpell,
-          id: `community-${downloadedSpell.id}-${Date.now()}`,
-          dateCreated: new Date().toISOString(),
-          lastModified: new Date().toISOString(),
-          source: 'community',
-          originalId: downloadedSpell.id
-        };
-        
-        libraryDispatch(libraryActionCreators.addSpell(localSpell));
-        spell = localSpell;
+        spell = await downloadIntoLibrary(spellId);
       } catch (err) {
         showToast(`Download error: ${err.message}`, 'error');
         return;
-      } finally {
-        setDownloadingSpells(prev => {
-          const next = new Set(prev);
-          next.delete(spellId);
-          return next;
-        });
       }
     }
-    
+
     libraryDispatch(libraryActionCreators.addSpellToCollection(spell.id, collectionId));
     showToast(`Added "${spell.name}" to collection!`, 'success');
   };

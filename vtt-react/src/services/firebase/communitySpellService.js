@@ -419,8 +419,8 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
 
       const snapshot = await getDocs(q);
       const rawSpells = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
+        ...doc.data(),
+        id: doc.id
       }));
 
       backfillCommunitySummaries(SUMMARY_KINDS.SPELL, rawSpells);
@@ -445,8 +445,8 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
 
       const snapshot = await getDocs(q);
       const rawSpells = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
+        ...doc.data(),
+        id: doc.id
       }));
 
       backfillCommunitySummaries(SUMMARY_KINDS.SPELL, rawSpells);
@@ -498,8 +498,8 @@ export async function searchSpells(searchTerm, pageSize = 20) {
 
     const snapshot = await getDocs(q);
     const rawSpells = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
+      ...doc.data(),
+      id: doc.id
     }));
 
     return deduplicateSpellList(rawSpells);
@@ -535,8 +535,8 @@ export async function getFeaturedSpells(pageSize = 10) {
 
     const snapshot = await getDocs(q);
     const rawSpells = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
+      ...doc.data(),
+      id: doc.id
     }));
 
     return deduplicateSpellList(rawSpells);
@@ -559,6 +559,7 @@ export async function uploadSpell(spellData, userId) {
 
     // Sanitize spellData to remove undefined values (Firestore doesn't accept them)
     const sanitizedSpellData = sanitizeForFirestore(spellData);
+    delete sanitizedSpellData.id;
 
     const communitySpell = {
       ...sanitizedSpellData,
@@ -576,10 +577,10 @@ export async function uploadSpell(spellData, userId) {
 
     // Keep the shallow feed summary in sync (best effort, never blocks upload).
     const uploadedSpell = {
-      id: docRef.id,
-      ...communitySpell
+      ...communitySpell,
+      id: docRef.id
     };
-    upsertCommunitySummary(SUMMARY_KINDS.SPELL, docRef.id, uploadedSpell).catch(() => {});
+    await upsertCommunitySummary(SUMMARY_KINDS.SPELL, docRef.id, uploadedSpell).catch(() => {});
 
     return uploadedSpell;
   } catch (error) {
@@ -599,7 +600,7 @@ export async function getCommunitySpellById(spellId) {
     }
     const spellDoc = await getDoc(doc(db, COLLECTIONS.SPELLS, spellId));
     if (!spellDoc.exists()) return null;
-    return { id: spellDoc.id, ...spellDoc.data() };
+    return { ...spellDoc.data(), id: spellDoc.id };
   } catch (error) {
     console.error('Error fetching spell by id:', error);
     return null;
@@ -633,8 +634,8 @@ export async function downloadSpell(spellId) {
     });
 
     const fullSpell = {
-      id: spellDoc.id,
       ...spellDoc.data(),
+      id: spellDoc.id,
       downloadCount: (spellDoc.data().downloadCount || 0) + 1
     };
 
@@ -781,8 +782,8 @@ export async function getUserFavorites(userId, pageSize = 20) {
       const spellDoc = await getDoc(spellRef);
       if (spellDoc.exists()) {
         spells.push({
-          id: spellDoc.id,
-          ...spellDoc.data()
+          ...spellDoc.data(),
+          id: spellDoc.id
         });
       }
     }
@@ -816,8 +817,8 @@ export async function getUserSpells(userId, pageSize = 20) {
     const snapshot = await getDocs(q);
 
     const rawSpells = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
+      ...doc.data(),
+      id: doc.id
     }));
     return deduplicateSpellList(rawSpells);
   } catch (error) {

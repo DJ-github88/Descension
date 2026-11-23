@@ -291,6 +291,20 @@ describe('M6A client authoring, geometry, multi-target command planning & observ
       approvalId: '11111111-2222-4333-8444-555555555555'
     })).toThrow(/Choose an exact bound room actor on the current map/);
 
+    // Missing areaOrigin for Circle refuses before building approval
+    expect(() => buildApproval({
+      support,
+      tokens,
+      sourceRef,
+      targetRefs: [foe1Ref, foe2Ref],
+      roomId,
+      mapId,
+      actionEpoch: 'ep-1',
+      baseCommitSequence: 1,
+      roll,
+      approvalId: '11111111-2222-4333-8444-555555555555'
+    })).toThrow(/Place the circle on the map before approving/);
+
     const approval = buildApproval({
       support,
       tokens,
@@ -413,5 +427,47 @@ describe('M6A client authoring, geometry, multi-target command planning & observ
       live: false
     });
     expect(recoveryFeed.floats).toEqual([]);
+  });
+
+  test('4. Circle 5 ft vs 10 ft per square parity on handoff grid (10-ft radius, placed away from caster)', () => {
+    const mkFoe = (id, x, y) => ({
+      token: {
+        id,
+        mapId,
+        position: { x, y },
+        state: { actorContract: { version: 1, kind: 'creature', roomId, mapId, tokenId: id, instanceId: `i-${id}`, revision: 0 } }
+      },
+      name: () => id,
+      footprint: () => ({ width: 1, height: 1 })
+    });
+    const sourceRef = { kind: 'character', roomId, mapId, tokenId: 'pc', instanceId: 'i-pc', ownerUid: 'u1', characterId: 'c1' };
+    const handoffEntries = [
+      mkFoe('A', 175, 125),
+      mkFoe('B', 275, 125),
+      mkFoe('C', 375, 125)
+    ];
+    // 5 ft per square: 10-ft radius = 100 px around (325,125) (20 ft East) -> hits B and C; A is outside
+    const at5 = classifyAreaTokens(handoffEntries, {
+      visible: () => true,
+      aoeShape: 'circle',
+      origin: { x: 325, y: 125 },
+      radius: (10 / 5) * 50,
+      gridSize: 50,
+      mapId,
+      sourceRef
+    });
+    expect(at5.filter(item => item.status === 'candidate').map(item => item.ref.tokenId)).toEqual(['B', 'C']);
+
+    // 10 ft per square: 10-ft radius = 50 px around (275,125) (30 ft East) -> hits B only
+    const at10 = classifyAreaTokens(handoffEntries, {
+      visible: () => true,
+      aoeShape: 'circle',
+      origin: { x: 275, y: 125 },
+      radius: (10 / 10) * 50,
+      gridSize: 50,
+      mapId,
+      sourceRef
+    });
+    expect(at10.filter(item => item.status === 'candidate').map(item => item.ref.tokenId)).toEqual(['B']);
   });
 });
