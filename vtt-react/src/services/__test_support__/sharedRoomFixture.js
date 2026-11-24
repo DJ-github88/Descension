@@ -31,7 +31,7 @@ export function createRoom() {
       actorSnapshot: room.snapshot() };
   };
   room.socket = () => ({ connected: true, id: 'sock', emit: (event, payload, ack) => { room.emitted.push({ event, payload });
-    if (typeof ack === 'function') ack(room.respond(event, payload)); } });
+    if (typeof ack === 'function') ack(/^actor_/.test(event) ? room.respond(event, payload) : { success: true }); } });
   room.actorEvents = () => room.emitted.filter(e => /^actor_/.test(e.event));  // other emits are the existing sheet resource syncs
   room.commands = () => room.emitted.filter(e => e.event === 'actor_consequence');
   return room;

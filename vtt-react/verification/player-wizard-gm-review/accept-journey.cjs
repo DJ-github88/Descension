@@ -552,9 +552,10 @@ async function authorRecipeInWizard(page, uid, spec) {
 }
 
 async function openGmQueue(gm) {
-  const details = gm.locator('details.p9-review-requests');
+  const details = gm.locator('details.p9-review-requests').first();
+  const summary = gm.locator('details.p9-review-requests > summary').first();
   await details.waitFor({ state: 'attached', timeout: 15000 });
-  if (!(await details.evaluate((el) => el.open))) await details.locator('summary').click();
+  if (!(await details.evaluate((el) => el.open))) await summary.click();
   return gmQueue(gm);
 }
 
@@ -564,8 +565,9 @@ async function openAdmittedAbility(page, spellName) {
     await ownerDialog(page).waitFor({ state: 'detached' }).catch(() => {});
   }
   const details = page.locator('details.p9-admitted').filter({ hasText: 'Admitted abilities' }).first();
+  const summary = page.locator('details.p9-admitted > summary').filter({ hasText: 'Admitted abilities' }).first();
   const isOpen = await details.evaluate((el) => el.open).catch(() => false);
-  if (!isOpen) await details.locator('summary').click();
+  if (!isOpen) await summary.click();
   const admittedRegion = page.getByRole('region', { name: 'Admitted abilities', exact: true });
   await admittedRegion.getByRole('button', { name: 'Refresh admitted abilities', exact: true }).click();
   const row = admittedRegion.locator('.p9-admitted-row').filter({ hasText: spellName }).first();
@@ -953,7 +955,8 @@ async function main() {
         const before = host.snapshot();
         // Verify Admitted abilities is empty.
         const details = pages.playerB.locator('details.p9-admitted').filter({ hasText: 'Admitted abilities' }).first();
-        if (!(await details.evaluate((el) => el.open).catch(() => false))) await details.locator('summary').click();
+        const admittedSummary = pages.playerB.locator('details.p9-admitted > summary').filter({ hasText: 'Admitted abilities' }).first();
+        if (!(await details.evaluate((el) => el.open).catch(() => false))) await admittedSummary.click();
         const admittedRegion = pages.playerB.getByRole('region', { name: 'Admitted abilities', exact: true });
         await admittedRegion.getByRole('button', { name: 'Refresh admitted abilities', exact: true }).click();
         await admittedRegion.getByText('No admitted ability has been loaded for this room.').waitFor({ timeout: 10000 });
@@ -1000,7 +1003,7 @@ async function main() {
         assert.equal(forgedRider.success, false);
         assert.equal(forgedRider.code, 'definition_not_admitted');
 
-        await details.locator('summary').click();
+        await admittedSummary.click();
         const after = host.snapshot();
         assert.equal(after.admittedCount, 0);
         assert.equal(after.totalReceipts, before.totalReceipts);
@@ -1039,6 +1042,12 @@ async function main() {
         const gmCardRid = queue.locator(`article[aria-label="Review request for ${RECIPES.rider.name}"][data-review-status="pending"]`).first();
         await gmCardImm.waitFor({ state: 'visible', timeout: 10000 });
         await gmCardRid.waitFor({ state: 'visible', timeout: 10000 });
+        for (const card of [gmCardImm, gmCardRid]) {
+          const subDetails = card.locator('details.p9-tech-disclosure').first();
+          if (await subDetails.count() && !(await subDetails.evaluate((el) => el.open))) {
+            await card.locator('details.p9-tech-disclosure > summary').first().click();
+          }
+        }
         gmImmediateCardTextBeforeEdit = await gmCardImm.innerText();
         gmRiderCardTextBeforeEdit = await gmCardRid.innerText();
 
@@ -1157,8 +1166,16 @@ async function main() {
         }
 
         const queue = await openGmQueue(pages.gm);
-        const gmImmText2 = await queue.locator(`article[data-review-request-id="${submittedImmediateReq.requestId}"]`).innerText();
-        const gmRidText2 = await queue.locator(`article[data-review-request-id="${submittedRiderReq.requestId}"]`).innerText();
+        const gmCardImm2 = queue.locator(`article[data-review-request-id="${submittedImmediateReq.requestId}"]`).first();
+        const gmCardRid2 = queue.locator(`article[data-review-request-id="${submittedRiderReq.requestId}"]`).first();
+        for (const card of [gmCardImm2, gmCardRid2]) {
+          const subDetails = card.locator('details.p9-tech-disclosure').first();
+          if (await subDetails.count() && !(await subDetails.evaluate((el) => el.open))) {
+            await card.locator('details.p9-tech-disclosure > summary').first().click();
+          }
+        }
+        const gmImmText2 = await gmCardImm2.innerText();
+        const gmRidText2 = await gmCardRid2.innerText();
         assert.equal(gmImmText2, gmImmediateCardTextBeforeEdit);
         assert.equal(gmRidText2, gmRiderCardTextBeforeEdit);
         assert.doesNotMatch(gmImmText2, /4d6|4 mana/);
@@ -1334,7 +1351,7 @@ async function main() {
         }
 
         const { dialog: od, rowText } = await openAdmittedAbility(pages.playerB, RECIPES.rider.name);
-        assert.match(rowText, /1 AP \/ 2 mana/);
+        assert.match(rowText, /1 AP[, \/]\s*2 mana/);
         assert.doesNotMatch(rowText, /5 mana/);
         const dialogText = await od.innerText();
         assert.match(dialogText, /1d8\+2/);
@@ -1464,7 +1481,7 @@ async function main() {
       async () => {
         const before = host.snapshot();
         const { dialog: od, rowText } = await openAdmittedAbility(pages.playerB, RECIPES.immediate.name);
-        assert.match(rowText, /1 AP \/ 0 mana/);
+        assert.match(rowText, /1 AP[, \/]\s*0 mana/);
         assert.doesNotMatch(rowText, /4 mana/);
         const dialogText = await od.innerText();
         assert.match(dialogText, /2d6\+1/);

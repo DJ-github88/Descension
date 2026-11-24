@@ -65,7 +65,7 @@ const potion = (stats = { intelligence: { value: 2 } }, extra = {}) => ({ id: 'i
 const hookOf = state => { const h = sel => (sel ? sel(state) : state); h.getState = () => state; h.setState = () => {}; h.subscribe = () => () => {}; return h; };
 
 let emitted, notices, respond;
-const socket = () => ({ connected: true, id: 'sock', emit: (event, payload, ack) => { emitted.push({ event, payload }); if (typeof ack === 'function') ack(respond(event, payload)); } });
+const socket = () => ({ connected: true, id: 'sock', emit: (event, payload, ack) => { emitted.push({ event, payload }); if (typeof ack === 'function') ack(/^actor_/.test(event) ? respond(event, payload) : { success: true }); } });
 const actorEvents = () => emitted.filter(e => /^actor_/.test(e.event));  // other emits are the existing sheet resource syncs
 const flush = async () => { for (let i = 0; i < 8; i++) await act(async () => { await new Promise(r => setTimeout(r, 0)); }); };
 const click = async container => { await act(async () => { container.querySelectorAll('.action-slot')[0].dispatchEvent(new MouseEvent('click', { bubbles: true, button: 0 })); }); await flush(); };
@@ -220,7 +220,9 @@ describe('duplicate clicks and a late confirmation (shared room)', () => {
     const acks = [];
     const sock = useGameStore.getState().multiplayerSocket;
     useGameStore.setState({ multiplayerSocket: { ...sock, emit: (event, payload, ack) => { emitted.push({ event, payload });
-      if (event === 'actor_snapshot') ack(snapshot()); else acks.push(() => ack(acceptedFor(payload))); } } });
+      if (event === 'actor_snapshot') ack(snapshot());
+      else if (event === 'actor_consequence') acks.push(() => ack(acceptedFor(payload)));
+      else if (typeof ack === 'function') ack({ success: true }); } } });
     const { container } = render(<ActionBar />);
     await act(async () => { const el = container.querySelectorAll('.action-slot')[0]; el.dispatchEvent(new MouseEvent('click', { bubbles: true, button: 0 })); el.dispatchEvent(new MouseEvent('click', { bubbles: true, button: 0 })); });
     await flush();

@@ -115,6 +115,8 @@ jest.mock('../../store/gameStore', () => {
     multiplayerRoom: null,
     isGMMode: false,
     currentPlayer: null,
+    feetPerTile: 5,
+    setFeetPerTile: jest.fn((value) => { state.feetPerTile = value; }),
     setGMMode: jest.fn(),
     setMultiplayerState: jest.fn()
   };

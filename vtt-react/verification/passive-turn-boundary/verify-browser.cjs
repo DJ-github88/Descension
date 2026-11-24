@@ -507,19 +507,22 @@ async function main() {
     const admitSection = gm.getByRole('region', { name: 'Room admission for Dawnstride Stance', exact: true });
     await admitSection.waitFor({ timeout: 10000 });
     assert.equal(await admitSection.locator('[data-trigger-setup-action]').count(), 0, 'Turn passive must not offer Set up follow-up');
+    const classBinding = admitSection.getByRole('combobox', { name: 'Existing class binding', exact: true });
+    await classBinding.waitFor({ state: 'visible', timeout: 10000 });
+    await classBinding.selectOption('arcanoneer');
     await admitSection.getByRole('button', { name: 'Admit this saved version', exact: true }).click();
     await admitSection.getByText(/^Admitted for /).first().waitFor({ timeout: 15000 });
     save('03-admitted-v1.aria.yml', await admitSection.ariaSnapshot());
     await detail.getByRole('button', { name: 'Close', exact: true }).first().click().catch(() => gm.keyboard.press('Escape'));
     await closeBook(gm);
 
-    const ownerAdmittedToggle = owner.locator('details.p9-admitted summary').first();
+    const ownerAdmittedToggle = owner.locator('details.p9-admitted > summary').filter({ hasText: 'Admitted abilities' }).first();
     await ownerAdmittedToggle.waitFor({ timeout: 10000 });
-    if (!(await owner.locator('details.p9-admitted').evaluate(el => el.open))) await ownerAdmittedToggle.click();
+    if (!(await owner.locator('details.p9-admitted').filter({ hasText: 'Admitted abilities' }).first().evaluate(el => el.open))) await ownerAdmittedToggle.click();
     const ownerLibRegion = owner.getByRole('region', { name: 'Admitted abilities', exact: true });
     await ownerLibRegion.getByRole('button', { name: 'Refresh admitted abilities', exact: true }).click();
     const ownerRow = ownerLibRegion.locator('.p9-admitted-row', { hasText: 'Dawnstride Stance' });
-    await ownerRow.getByText(/Passive \(Turn Start, self\)/).waitFor({ timeout: 10000 });
+    await ownerRow.getByText(/While active · self turn start/i).waitFor({ timeout: 10000 });
     await ownerRow.getByText(/Admitted passive turn-boundary trigger/).waitFor({ timeout: 10000 });
     assert.equal(await ownerRow.getByRole('button', { name: 'Use admitted ability' }).count(), 0);
 

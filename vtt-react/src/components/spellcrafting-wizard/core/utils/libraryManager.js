@@ -61,7 +61,7 @@ export function saveLibraryToStorage(library) {
   }
 }
 
-function validatePreservingExplicitCategories(data) {
+export function validatePreservingExplicitCategories(data) {
   const rawSpells = Array.isArray(data?.spells) ? data.spells : [];
   const validCategoryIds = new Set(createDefaultCategories().map(cat => cat.id));
   const preservedCategoriesByIndex = rawSpells.map(spell => (
@@ -233,8 +233,11 @@ export function searchSpells(library, query) {
 /**
  * Apply filters to the spell library
  */
-export function filterSpells(library, filters) {
-  let filteredSpells = [...library.spells];
+export function filterSpells(library, filters = {}) {
+  let filteredSpells = Array.isArray(library?.spells) ? [...library.spells] : [];
+  if (!filters || typeof filters !== 'object') {
+    return filteredSpells;
+  }
 
   // Apply text search filter
   if (filters.query) {
@@ -290,7 +293,7 @@ export function filterSpells(library, filters) {
  * Sort spells based on the given criteria
  */
 export function sortSpells(spells, sortOrder) {
-  const { field, direction } = sortOrder;
+  const { field, direction } = sortOrder || { field: 'lastModified', direction: 'desc' };
 
   return [...spells].sort((a, b) => {
     let comparison = 0;

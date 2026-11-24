@@ -207,6 +207,8 @@ beforeEach(() => {
     if (event === 'actor_spell_list') return { success: true, pending: [], targetProposals: [] };
     if (event === 'actor_authored_list') return { success: true, entries: [], revision: 0 };
     if (event === 'actor_trigger_list') return { success: true, offers: [], ledgerRevision: 0 };
+    if (event === 'actor_passive_list') return { success: true, activations: [], revision: 0 };
+    if (event === 'actor_placed_effect_list') return { success: true, placements: [], revision: 0 };
     return { success: false, code: 'awaiting_gm', contentHash: 'hash-1' };
   });
   refreshActorSnapshot.mockResolvedValue({ success: true, roomId: 'room-1', actionEpoch: 'epoch-1', commitSequence: 1 });
@@ -462,6 +464,8 @@ test('reconnect reconciles missed terminal closure via actor_spell_list without 
       };
     }
     if (event === 'actor_authored_list') return { success: true, entries: [], revision: 0 };
+    if (event === 'actor_trigger_list') return { success: true, obligations: [], listeners: [], revision: 0 };
+    if (event === 'actor_placed_effect_list') return { success: true, placements: [], revision: 0 };
     throw new Error(`Unexpected automatic event: ${event}`);
   });
 
@@ -490,6 +494,8 @@ test('outcome_unknown retains exact-command recovery across reconnect when serve
     if (event === 'actor_spell_list') return { success: true, pending: [], targetProposals: [] };
     if (event === 'actor_authored_list') return { success: true, entries: [], revision: 0 };
     if (event === 'actor_trigger_list') return { success: true, offers: [], ledgerRevision: 0 };
+    if (event === 'actor_passive_list') return { success: true, activations: [], revision: 0 };
+    if (event === 'actor_placed_effect_list') return { success: true, placements: [], revision: 0 };
     return { success: false, code: 'awaiting_gm', contentHash: 'hash-1' };
   });
   useSpellConsequenceStore.setState({ owner: { spellId: 'ember-bolt', origin: {} } });
@@ -506,6 +512,9 @@ test('outcome_unknown retains exact-command recovery across reconnect when serve
   requestActorEvent.mockImplementation(async event => {
     if (event === 'actor_spell_list') return { success: true, pending: [], targetProposals: [] };
     if (event === 'actor_authored_list') return { success: true, entries: [], revision: 0 };
+    if (event === 'actor_trigger_list') return { success: true, obligations: [], listeners: [], revision: 0 };
+    if (event === 'actor_passive_list') return { success: true, activations: [], revision: 0 };
+    if (event === 'actor_placed_effect_list') return { success: true, placements: [], revision: 0 };
     return { success: false, code: 'awaiting_gm', contentHash: 'hash-1' };
   });
 

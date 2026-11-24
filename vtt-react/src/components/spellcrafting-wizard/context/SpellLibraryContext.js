@@ -4,6 +4,7 @@ import {
   saveLibraryToStorage,
   loadLibraryFromStorage,
   generateUniqueId,
+  validatePreservingExplicitCategories,
   createDefaultCategories,
   categorizeSpell,
   getDefaultLibrary
@@ -452,7 +453,7 @@ const hydrationKeyOf = (gate) => {
 
 const loadHydrated = () => {
   const storedLibrary = loadLibraryFromStorage();
-  return storedLibrary || initialState;
+  return storedLibrary ? validatePreservingExplicitCategories(storedLibrary) : initialState;
 };
 
 // State is `{ key, library }`: the library is only ever the library of `key`. Actions carry the key they were dispatched for, so

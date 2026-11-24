@@ -12,9 +12,9 @@ const ack = (s, event, data) => new Promise((resolve, reject) => { const t = set
 const once = (s, event) => new Promise(resolve => s.once(event, resolve));
 
 // Shape mirrors normal Review output; the independent App witness must use the actual Wizard producer.
-function record(kind = 'damage', name = 'Ink Lance', ap = 1, mana = 3, range = 30) {
+function record(kind = 'damage', name = 'Ink Lance', ap = 1, mana = 3, range = 30, restriction = 'any') {
   const d = { name, description: 'A newly authored bounded ability.', spellType: 'ACTION', typeConfig: { castTimeType: 'IMMEDIATE', school: 'arcane' }, effectTypes: [kind],
-    targetingMode: 'unified', targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: range, maxTargets: 1, targetRestrictions: ['any'] },
+    targetingMode: 'unified', targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: range, maxTargets: 1, targetRestrictions: [restriction] },
     resourceCost: { actionPoints: ap, resourceTypes: ['mana'], resourceValues: { mana } },
     [kind === 'damage' ? 'damageConfig' : 'healingConfig']: kind === 'damage' ? { damageType: 'direct', elementType: 'arcane', formula: '1d6+2', resolution: 'DICE' } : { healingType: 'direct', formula: '1d8+1', resolution: 'DICE' } };
   return { ...actors.clone(d), authoredDefinitionId: uuid(), authoredDraft: actors.clone(d) };
@@ -63,10 +63,10 @@ describe('P14-A1 Wizard admitted ability production stack', function() {
     if (!self && !Object.keys(pay).length) pay.ap = { current: source.ap.current, temp: source.ap.temp };
     return { version: 1, roomId: room.id, commandId: uuid(), actionEpoch: actors.epoch(room), baseCommitSequence: actors.ledger(room).commitSequence, source: pc, target: a.target,
       approval: { approvalId: a.approvalId, contentHash }, actors: [{ ref: pc, expectedRevision: token(pc).state.actorContract.revision, finalResources: self ? { ...pay, hp } : pay }, ...self ? [] : [{ ref: a.target, expectedRevision: token(a.target).state.actorContract.revision, finalResources: { hp } }]],
-      adjudication: { definitionId: a.spell.definitionId, definitionVersionOrHash: a.spell.definitionHash, chosenResult: JSON.stringify({ capability: pure.CAPABILITY, approvalId: a.approvalId, kind: a.spell.kind, roll: a.roll, gmConfirmed: true }), finalAmount: amount, adjustmentReason: amount === a.roll.total ? '' : 'GM mitigation' } };
+      adjudication: { definitionId: a.spell.definitionId, definitionVersionOrHash: a.spell.definitionHash, chosenResult: JSON.stringify({ capability: pure.CAPABILITY, approvalId: a.approvalId, kind: a.spell.kind, roll: a.roll, gmConfirmed: true, ...(self && a.spell.kind === 'healing' ? { actualHealing: hp.current - target.hp.current } : {}) }), finalAmount: amount, adjustmentReason: amount === a.roll.total ? '' : 'GM mitigation' } };
   }
   it('two distinct authored definitions share approvals/P7; zero AP/range and exact physical/digital faces, temp-first payment, healing caps and no pre-spend', async() => {
-    const d = await admit(), h = await admit(record('healing', 'Quiet Mending', 0, 0, 0));
+    const d = await admit(), h = await admit(record('healing', 'Quiet Mending', 0, 0, 0, 'self'));
     const a = approval(d.ref), before = actors.clone(room.gameState.maps); const hash = await approve(a);
     assert.deepEqual(room.gameState.maps, before);
     const c = command(a, hash), result = await ack(gm, 'actor_consequence', c); assert.equal(result.success, true, JSON.stringify(result));
@@ -77,7 +77,8 @@ describe('P14-A1 Wizard admitted ability production stack', function() {
     const heal = approval(h.ref, pc, 'digital'), healHash = await approve(heal), healed = await ack(gm, 'actor_consequence', command(heal, healHash, 100));
     assert.equal(healed.success, true, JSON.stringify(healed)); assert.equal(token(pc).character.health.current, 30); assert.equal(token(pc).character.actionPoints.current, 4);
     assert.equal(installed.lookup(room, heal.spell).descriptor.targeting.rangeFeet, 0);
-    const remoteFree = approval(h.ref, foe), free = await ack(gm, 'actor_consequence', command(remoteFree, await approve(remoteFree)));
+    const remote = await admit(record('healing', 'Quiet Mending Remote', 0, 0, 0, 'any'));
+    const remoteFree = approval(remote.ref, foe), free = await ack(gm, 'actor_consequence', command(remoteFree, await approve(remoteFree)));
     assert.equal(free.success, true, JSON.stringify(free)); assert.equal(token(foe).state.currentHp, 21); assert.equal(token(pc).character.actionPoints.current, 4);
   });
   it('unsupported/missing/null/zero/conflicting draft values remain unchanged/manual and never install a partial definition', async() => {

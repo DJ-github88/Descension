@@ -15,9 +15,9 @@ const once = (s, event) => new Promise(resolve => s.once(event, resolve));
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // Disposable Wizard-shaped records; different names prove nothing is keyed to a spell name.
-function record(kind = 'damage', name = 'Ink Lance', ap = 1, mana = 3, range = 30) {
+function record(kind = 'damage', name = 'Ink Lance', ap = 1, mana = 3, range = 30, restriction = 'any') {
   const d = { name, description: 'Disposable trigger-foundation fixture.', spellType: 'ACTION', typeConfig: { castTimeType: 'IMMEDIATE', school: 'arcane' }, effectTypes: [kind],
-    targetingMode: 'unified', targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: range, maxTargets: 1, targetRestrictions: ['any'] },
+    targetingMode: 'unified', targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: range, maxTargets: 1, targetRestrictions: [restriction] },
     resourceCost: { actionPoints: ap, resourceTypes: ['mana'], resourceValues: { mana } },
     [kind === 'damage' ? 'damageConfig' : 'healingConfig']: kind === 'damage' ? { damageType: 'direct', elementType: 'arcane', formula: '1d6+2', resolution: 'DICE' } : { healingType: 'direct', formula: '1d8+1', resolution: 'DICE' } };
   return { ...actors.clone(d), authoredDefinitionId: uuid(), authoredDraft: actors.clone(d) };
@@ -136,14 +136,15 @@ describe('Shared trigger foundation v1 — diagnostic committed-occurrence oblig
   });
 
   it('healing reads the capped amount; a self-heal payment is never evidence; a GM pool correction is not an occurrence', async() => {
+    const selfHeal = await admit(record('healing', 'Quiet Mending', 1, 2, 0, 'self'));
     const restored = await listener({ occurrence: 'immediate-healing', role: 'target', evidence: 'hpRestored' }, damage);
     await listener({ occurrence: 'immediate-damage', role: 'target', evidence: 'baseHpLost' }, damage);
     token(pc).character.health.current = 29;
-    await cast(heal, { target: pc, amount: 8, face: 7 }); // 29/30: restores 1; pays 1 AP + 2 mana in the same actor entry
+    await cast(selfHeal, { target: pc, amount: 8, face: 7 }); // 29/30: restores 1; pays 1 AP + 2 mana in the same actor entry
     assert.equal(open().length, 1);
     assert.deepEqual(open()[0].occurrence.evidence, { proposedTotal: 8, adjudicatedAmount: 8, hpRestored: 1 });
     assert.equal(open()[0].listener.listenerId, restored.listenerId);
-    await cast(heal, { target: pc, amount: 8, face: 7 }); // already full: committed, restores 0
+    await cast(selfHeal, { target: pc, amount: 8, face: 7 }); // already full: committed, restores 0
     assert.equal(open().length, 1, 'zero actual healing does not satisfy hpRestored');
     const correction = { ...base(), actors: [{ ref: pc, expectedRevision: token(pc).state.actorContract.revision, finalResources: { hp: { current: 4, temp: 0 } } }],
       adjudication: { definitionId: 'gm-correction', definitionVersionOrHash: 'gm-correction', finalAmount: 26, adjustmentReason: 'manual', chosenResult: 'GM correction' } };

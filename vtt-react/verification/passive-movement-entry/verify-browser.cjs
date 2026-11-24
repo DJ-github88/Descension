@@ -490,8 +490,19 @@ async function main() {
     await detail.waitFor({ timeout: 10000 });
     const admitSection = gm.getByRole('region', { name: 'Room admission for Frost Ward Aura', exact: true });
     await admitSection.waitFor({ timeout: 10000 });
-    await admitSection.getByText(/Teleport, forced movement, and re-entry remain unsettled\/open/).first().waitFor({ timeout: 5000 });
+    const behaviorDetails = admitSection.locator('details.spell-behavior-details-disclosure').first();
+    if (await behaviorDetails.count() && !(await behaviorDetails.evaluate(el => el.open))) {
+      await admitSection.locator('details.spell-behavior-details-disclosure > summary').first().click();
+    }
+    const techDetails = admitSection.locator('details.p9-tech-disclosure').first();
+    if (await techDetails.count() && !(await techDetails.evaluate(el => el.open))) {
+      await admitSection.locator('details.p9-tech-disclosure > summary').first().click();
+    }
+    await admitSection.getByText(/Teleport, forced movement, and re-entry remain unsettled\/open/).first().waitFor({ state: 'visible', timeout: 5000 });
     assert.equal(await admitSection.locator('[data-trigger-setup-action]').count(), 0, 'Passive must not offer Set up follow-up');
+    const classBinding = admitSection.getByRole('combobox', { name: 'Existing class binding', exact: true });
+    await classBinding.waitFor({ state: 'visible', timeout: 10000 });
+    await classBinding.selectOption('arcanoneer');
     await admitSection.getByRole('button', { name: 'Admit this saved version', exact: true }).click();
     await admitSection.getByText(/^Admitted for /).first().waitFor({ timeout: 15000 });
     save('02-admitted-v1.aria.yml', await admitSection.ariaSnapshot());
@@ -499,12 +510,12 @@ async function main() {
     await closeBook(gm);
 
     // Verify Owner Admitted abilities section renders passive entry without crashing
-    const ownerAdmittedToggle = owner.locator('details.p9-admitted summary').first();
+    const ownerAdmittedToggle = owner.locator('details.p9-admitted > summary').filter({ hasText: 'Admitted abilities' }).first();
     await ownerAdmittedToggle.waitFor({ timeout: 10000 });
-    if (!(await owner.locator('details.p9-admitted').evaluate(el => el.open))) await ownerAdmittedToggle.click();
+    if (!(await owner.locator('details.p9-admitted').filter({ hasText: 'Admitted abilities' }).first().evaluate(el => el.open))) await ownerAdmittedToggle.click();
     const ownerLibRegion = owner.getByRole('region', { name: 'Admitted abilities', exact: true });
     await ownerLibRegion.getByRole('button', { name: 'Refresh admitted abilities', exact: true }).click();
-    await ownerLibRegion.locator('.p9-admitted-row', { hasText: 'Frost Ward Aura' }).getByText(/Passive · 10 ft enemy radius/).waitFor({ timeout: 10000 });
+    await ownerLibRegion.locator('.p9-admitted-row', { hasText: 'Frost Ward Aura' }).getByText(/While active · enemy enters 10 ft radius/i).waitFor({ timeout: 10000 });
     assert.equal(await ownerLibRegion.locator('.p9-admitted-row', { hasText: 'Frost Ward Aura' }).getByRole('button', { name: 'Use admitted ability' }).count(), 0);
 
     // GM activates Frost Ward Aura on Ilse in HUD PassiveActivationPanel
@@ -611,6 +622,10 @@ async function main() {
     await book(gm).getByText('Frost Ward Aura', { exact: true }).first().click();
     const admitV2Section = gm.getByRole('region', { name: 'Room admission for Frost Ward Aura', exact: true });
     await admitV2Section.waitFor({ timeout: 10000 });
+    const classBindingV2 = admitV2Section.getByRole('combobox', { name: 'Existing class binding', exact: true });
+    if (await classBindingV2.count() && !(await classBindingV2.inputValue())) {
+      await classBindingV2.selectOption('arcanoneer');
+    }
     await admitV2Section.getByRole('button', { name: 'Admit this saved version', exact: true }).click();
     await admitV2Section.getByText(/^Admitted for .*version 2/).first().waitFor({ timeout: 15000 });
     await detail.getByRole('button', { name: 'Close', exact: true }).first().click().catch(() => gm.keyboard.press('Escape'));
